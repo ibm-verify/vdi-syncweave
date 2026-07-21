@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<adapter:Adapter xmlns:adapter="http://www.eclipse.org/hyades/schema/Adapter.xsd" xmlns:cc="http://www.eclipse.org/hyades/schema/ComponentConfiguration.xsd" xmlns:hga="http://www.eclipse.org/hyades/schema/Context.xsd" xmlns:op="http://www.eclipse.org/hyades/schema/Outputter.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" xmlns:sensor="http://www.eclipse.org/hyades/schema/Sensor.xsd">
+  <hga:Contexts>
+    <hga:Context description="Context Instance for the current component" executableClass="org.eclipse.hyades.logging.adapter.impl.BasicContext" implementationCreationDate="2003-10-01T12:00:00" implementationVersion="1.0.0" loggingLevel="60" name="Basic Context Implementation" role="context" roleCreationDate="2003-10-01T12:00:00" roleVersion="1.0.0" uniqueID="StaticParserContextID1">
+      <hga:Component description="Static Parser Sensor" executableClass="org.eclipse.hyades.logging.adapter.config.sensors.StaticParserSensor" implementationCreationDate="2003-10-01T12:00:00" implementationVersion="1.0.0" loggingLevel="60" name="Static Parser Sensor" role="sensor" roleCreationDate="2003-10-01T12:00:00" roleVersion="1.0.0" uniqueID="sensorID1"/>
+      <hga:Component description="This outputter will send CBE objects to the GLAConnector from SDI." executableClass="com.ibm.di.connector.gla.TDIOutputter" implementationCreationDate="2006-08-28T17:46:16" implementationVersion="1.0" loggingLevel="30" name="TDIOutputter" role="outputter" roleCreationDate="2006-08-28T17:46:16" roleVersion="1.0.0" uniqueID="N332114806A311DB8000FCFA9F196845"/>
+    </hga:Context>
+  </hga:Contexts>
+  <cc:Configuration description="The component level configurations for this Adapter" uniqueID="StaticParserConfigurationID1">
+    <cc:ContextInstance charset="" continuousOperation="false" description="Context Instance for the current component" isoCountryCode="US" isoLanguageCode="en" maximumIdleTime="20000" pauseInterval="10" uniqueID="StaticParserContextID1">
+      <cc:Sensor description="A static parser sensor" uniqueID="sensorID1" maximumBlocking="30" type="StaticParserSensor">
+        <pu:Property propertyName="directory" propertyValue=".\examples\GLAConnector\"/>
+        <pu:Property propertyName="fileName" propertyValue="example.log"/>
+        <pu:Property propertyName="parserClassName" propertyValue="com.ibm.etools.logging.parsers.DB2JDBCLogParser"/>
+        <pu:Property propertyName="db2version" propertyValue=""/>
+        <sensor:StaticParserSensor directory=".\MyProjects\GLA\Example\" fileName="example.log" parserClassName="com.ibm.etools.logging.parsers.DB2JDBCLogParser">
+          <sensor:SensorProperty propertyName="db2version" propertyValue=""/>
+        </sensor:StaticParserSensor>
+      </cc:Sensor>
+      <cc:Outputter description="TDIOutputter" uniqueID="N332114806A311DB8000FCFA9F196845" type="undeclared">
+        <pu:Property propertyName="tdi_correlation_id" propertyValue="unique_correlation_ID"/>
+      </cc:Outputter>
+    </cc:ContextInstance>
+  </cc:Configuration>
+</adapter:Adapter>

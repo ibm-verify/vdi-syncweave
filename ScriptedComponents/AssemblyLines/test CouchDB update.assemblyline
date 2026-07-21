@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="38" UUID="f0060b95-bd53-49d2-929e-054f0bf9e8eb" created="Sun Jun 01 21:58:14 CEST 2014" createdBy="Administrator" main="testCouchDBConnector update" modified="Tue Jun 24 12:56:27 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="testCouchDBConnector update">
+        <ModTime>1403607384907</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="make key" state="Enabled"/>
+                <Component name="CouchDB update" state="Simulated"/>
+                <Component name="FormEntryConnector" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1401702647241</ModTime>
+            <Connector name="FormEntryConnector">
+                <InheritFrom>system:/Connectors/ibmdi.FormEntryConnector</InheritFrom>
+                <ModTime>1401702647241</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>first</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>last</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>first</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>last</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1403607384907</ModTime>
+            <Script name="make key">
+                <ModTime>1403523419291</ModTime>
+                <parameter name="script">work.keyval = work.first + "_" + work.last;</parameter>
+            </Script>
+            <Connector name="CouchDB update">
+                <InheritFrom>/Connectors/0CouchDB test</InheritFrom>
+                <ModTime>1403607384907</ModTime>
+                <ConnectorMode>Update</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="returnas">Hierarchical Entry</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1403004258092</ModTime>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>_id</Name>
+                        <Type>simple</Type>
+                        <Simple>_id</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>foo</Name>
+                        <Type>advanced</Type>
+                        <Script>"bar"</Script>
+                        <Simple>foo</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>now</Name>
+                        <Type>advanced</Type>
+                        <Script><![CDATA[now = new java.util.Date();
+
+return system.formatDate(now, "yyyyMMdd_HHmm_ss_SSSS")]]></Script>
+                        <Simple>now</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$doc</Name>
+                        <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>$doc_count</Name>
+                        <Syntax>java.lang.Integer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>_id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>_rev</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>item</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>prices</Name>
+                        <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1403523428757</ModTime>
+                    <MatchAny>false</MatchAny>
+                    <LinkCriteriaItem>
+                        <Key>1465c20f4d7</Key>
+                        <Attribute>_id</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>$keyval</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1403000506849</ModTime>
+                    <Hook name="after_lookup">
+                        <Name>after_lookup</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_add">
+                        <Name>before_add</Name>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="before_lookup">
+                        <Name>before_lookup</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_modify">
+                        <Name>before_modify</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="modify_apply">
+                        <Name>modify_apply</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="modify_nochange">
+                        <Name>modify_nochange</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_add">
+                        <Name>override_add</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

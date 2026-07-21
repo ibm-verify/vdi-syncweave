@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="26" UUID="2828051b-4022-4913-aba6-f42da90f5694" created="Wed Jun 04 09:27:05 CEST 2014" createdBy="Administrator" main="SL_Permission" modified="Wed Jun 04 11:34:12 CEST 2014" modifiedBy="Administrator" project="SoftLayer" version="7.1.1">
+    <Script name="SL_Permission">
+        <ModTime>1401874450292</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/**
+ * Functions to manipulate permission on account users.
+ * 
+ * For a given account, there are a number of users. These users (apart from the master user) has permission sets
+ * that define what services are avaiable to them.
+ */
+
+function SL_Permissions(account, apiKey) {
+	this.account = account;
+	this.apiKey = apiKey;
+	this.externalAccess = true;
+	this.format = "json";
+
+	/*
+	 * getBaseURL - returns the base URL for the SoftLayer REST API
+	 */
+	this.getBaseURL = function() {
+		/*
+  		if(this.externalAccess) {
+			return "https://" + this.account + ":" + this.apiKey + "@api.softlayer.com/rest/v3";
+		}
+		return "https://" + this.account + ":" + this.apiKey + "@api.service.softlayer.com/rest/v3";
+		 */
+		if(this.externalAccess) {
+			return "https://api.softlayer.com/rest/v3";
+		}
+		return "https://api.service.softlayer.com/rest/v3";
+	}
+	
+	/*
+	 * getAllPossiblePermissions
+	 */
+	this.getAllPossiblePermissions = function() {
+
+		// The REST API to return all defined permissions for the portal
+		return {
+			url:this.getBaseURL() + "/SoftLayer_User_Customer_CustomerPermission_Permission/getAllObjects.json",
+			method:"GET"
+		};
+	}
+	
+	/*
+	 * getPermissions(userid)
+	 * 
+	 * @param userid	The numeric user id
+	 * 
+	 * Returns an array of permission objects currently active for a user.
+	 * The 
+	 */
+	this.getPermissions = function(userid) {
+		var url = this.getBaseURL() + "/SoftLayer_Account/Users/" + userid + "/Permissions." + this.format;
+		return {
+			url:url,
+			method:"GET"
+		}
+	}
+	
+	/*
+	 * addPermissions - Adds one or more permissions to the specified userid
+ 	 * 
+ 	 * The permissions array should contain objects of the same type as returned by getPermissions
+ 	 * Test case:
+	 * 
+	 * To add ticket search permission the payload should look like this (note the parameter array contains one array of objects):
+	   {
+		"parameters":[
+				[ 
+					{"key" : "T_2", "keyName" : "TICKET_SEARCH"}
+				]
+			]
+		}
+	 * 
+	 */
+	this.addPermissions = function(userid, permissions) {
+		var url = this.getBaseURL() + "/SoftLayer_User_Customer/" + userid + "/addBulkPortalPermission.json";
+		var pd = {
+			parameters:[]
+		};
+		pd.parameters.push(permissions);
+		var postData = toJson(pd);
+		
+		return {
+			url:url,
+			contentType:"application/json",
+			postdata:postData,
+			method:"POST"
+		};
+	}
+
+	this.removePermissions = function(userid, permissions) {
+		var param = this.addPermissions(userid, permissions);
+		param.url.replace("addBulkPortalPermission", "removeBuldPortalPermission");
+		return param;
+	}
+	
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

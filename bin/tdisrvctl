@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# IBM_PROLOG_BEGIN_TAG
+#
+# %I%, %G%
+#
+# Licensed Materials - Property of IBM
+#
+# Restricted Materials of IBM
+#
+# (C) COPYRIGHT International Business Machines Corp. 2006, 2010
+# All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# IBM_PROLOG_END_TAG
+
+#################################################################
+# command line utility for start/stop/status/tombstone/shutdown/report
+# of remote TDI server
+#################################################################
+
+# Function to source in the TDI setupCmdLine.sh script
+setupTDIEnv ()
+{
+. "$TEMP_BIN_DIR/setupCmdLine.sh"
+}
+
+#
+# CMDFINDER holds the command which is used to find other commands
+# depending on the platform.
+#
+CMDFINDER=which
+
+UNAME_OS=`uname`
+
+if [ "$UNAME_OS" = "OS/390" -o "$UNAME_OS" = "OS400" ] ; then
+	CMDFINDER=whence
+fi
+
+TEMP_BIN_DIR=`$CMDFINDER $0`
+TEMP_BIN_DIR=`dirname $TEMP_BIN_DIR`
+
+SKIP_ISCDIR_SETUP=1
+setupTDIEnv "$TEMP_BIN_DIR"
+
+PATH="$TDI_JAVA_BIN_DIR:$TDI_LIB_DIR:$PATH"
+export PATH
+
+# JAR FILE PATH
+COMMON_JARS_PATH="$TDI_HOME_DIR/jars/common"
+THRD_IBM_JAR_PATH="$TDI_HOME_DIR/jars/3rdparty/IBM"
+THRD_OTHERS_JAR_PATH="$TDI_HOME_DIR/jars/3rdparty/others"
+JAR_FILES="$COMMON_JARS_PATH/cli.jar:$COMMON_JARS_PATH/diserverapi.jar:$COMMON_JARS_PATH/diserverapirmi.jar:$COMMON_JARS_PATH/miconfig.jar:$COMMON_JARS_PATH/miserver.jar:$COMMON_JARS_PATH/mmconfig.jar:$THRD_OTHERS_JAR_PATH/log4j-1.2-api-2.25.4.jar:$THRD_OTHERS_JAR_PATH/log4j-api-2.25.4.jar:$THRD_OTHERS_JAR_PATH/log4j-core-2.25.4.jar:$THRD_IBM_JAR_PATH/icu4j-51_1.jar:$THRD_IBM_JAR_PATH/ITLMToolkit.jar:$TDI_HOME_DIR/jars/common/tdiresource.jar:$THRD_IBM_JAR_PATH/jlog.jar:$THRD_OTHERS_JAR_PATH/mail.jar:$THRD_OTHERS_JAR_PATH/activation.jar"
+
+
+# Take the supported env variables and pass them to Java program
+
+if [ -n "$TDI_RSRV" ]; then
+	SRV="-DTDI_RSRV=$TDI_RSRV"
+fi
+
+if [ -n "$TDI_RPORT" ]; then
+	PORT="-DTDI_RPORT=$TDI_RPORT"
+fi
+
+# the first and the second arguments could set different solution directory that overrides the default one
+if [ "$1" = "-s" ]; then
+    TDI_SOLDIR="$2";
+    SHIFTED=1;
+fi
+
+# If the solution directory log4j file exists, use it.
+if [ -r "$TDI_SOLDIR/etc/tdisrvctl-log4j.properties" ] ; then
+	LOG_4J="-Dlog4j.configuration=file://$TDI_SOLDIR/etc/tdisrvctl-log4j.properties"
+
+	if [ ! -d "$TDI_SOLDIR/logs" ]; then
+		mkdir "$TDI_SOLDIR/logs";
+	fi
+
+else
+	LOG_4J="-Dlog4j.configuration=file://$TDI_HOME_DIR/etc/tdisrvctl-log4j.properties"
+fi
+
+# Move to the Solution Directory
+if [ -d "$TDI_SOLDIR" ] ; then 
+    cd $TDI_SOLDIR	
+fi
+
+"$TDI_JAVA_PROGRAM" $TDI_MIXEDMODE_FLAG -cp "$JAR_FILES" $SRV $PORT "$LOG_4J" com.ibm.di.cli.RemoteServerCommand "$@"
+RC=$?
+
+exit $RC

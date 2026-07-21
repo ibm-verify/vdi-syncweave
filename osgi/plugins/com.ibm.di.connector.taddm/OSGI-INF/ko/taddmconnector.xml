@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="taddmconnector" tmsVersion="1.0" xml:lang="ko">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJN051I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.INITIALIZED" varFormat="Java">   
+   매개변수 &apos;<Variable formatSpec="{0}">param name</Variable>&apos;을(를) 값: &apos;<Variable formatSpec="{1}">value</Variable>&apos;(으)로 초기화했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN052E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   &apos;<Variable formatSpec="{0}">param name</Variable>&apos; 매개변수가 제공되지 않았습니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM 커넥터에서 지정된 매개변수를 필요로 하므로 이를 제공해야 합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   이 매개변수에 값을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN053E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NEGATIVE.INTEGER.PARAMETER" varFormat="Java">
+   매개변수 &apos;<Variable formatSpec="{0}">param name</Variable>&apos;은(는) 양의 정수 값만 채택합니다.   
+   </MsgText>
+   <Explanation><p>
+   이 매개변수는 양의 정수 값만 지원합니다. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   이 매개변수에 양의 정수 값을 제공하거나 공백으로 두십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN054I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.COLLATION.HOME.SET" varFormat="Java">   
+   정렬 홈 디렉토리가 &apos;<Variable formatSpec="{0}">directory</Variable>&apos;(으)로 설정되었습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN055I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CONNECTING" varFormat="Java">   
+   TADDM에 연결 중입니다...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN056I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.ID" varFormat="Java">   
+   제공된 세션 ID로 세션을 여는 중입니다. &apos;<Variable formatSpec="{0}">session id</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN057I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.CREDENTIALS" varFormat="Java">   
+   제공된 신임 정보로 세션을 여는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN058E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.SESSION.ID" varFormat="Java">
+   제공 문자열 &apos;<Variable formatSpec="{0}">id</Variable>&apos;이(가) 올바른 세션 ID가 아닙니다.   
+   </MsgText>
+   <Explanation><p>
+   long 숫자만 TADDM 세션 ID로 사용할 수 있습니다. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   세션 ID에 올바른 long 숫자를 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN059I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.TADDM" varFormat="Java">   
+   MQL 조회를 사용하여 TADDM을 조회하는 중입니다. <Variable formatSpec="{0}">query</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN060I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.ALL.ITEMS" varFormat="Java">   
+   모든 TADDM 항목을 조회합니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN061E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.ENTRY.PROVIDED" varFormat="Java">
+   항목이 제공되지 않았습니다.
+   </MsgText>
+   <Explanation><p>
+   올바른 항목이 필요합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   올바른 항목을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN062E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.GUID.IN.ENTRY" varFormat="Java">
+   제공된 항목에서 Guid를 찾을 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM에서 모델 오브젝트를 삭제하려면 해당 GUID를 알아야 합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   제공된 속성에 GUID 시스템 속성이 있는지 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN063I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.ALL.OBJECTS.DELETED" varFormat="Java">   
+   <Variable formatSpec="{1}">expected count</Variable> 중 <Variable formatSpec="{0}">actual count</Variable>만 삭제되었습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN064E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.QUERYING.TADDM" varFormat="Java">
+   TADDM을 조회하는 중에 오류가 발생했습니다. 사용된 MQL은 <Variable formatSpec="{0}">query</Variable>입니다.
+   </MsgText>
+   <Explanation><p>
+   이 조작을 수행하는 동안 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN065E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.FAILED" varFormat="Java">
+   삭제 조작이 실패했습니다.
+   </MsgText>
+   <Explanation><p>
+   제공된 모델 오브젝트를 삭제하는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN066I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.OBJECTS" varFormat="Java">   
+   <Variable formatSpec="{0}">count</Variable> Guid를 삭제하는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN067E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.GUID" varFormat="Java">
+   제공된 Guid &apos;<Variable formatSpec="{0}">guid</Variable>&apos;이(가) 올바르지 않습니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM GUID에 대해 제공된 GUID 문자열을 구문 분석하는 중에 오류가 발생했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   제공된 Guid를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN068E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.FAILED" varFormat="Java">
+   추가 조작에 실패했습니다.
+   </MsgText>
+   <Explanation><p>
+   제공된 모델 오브젝트를 추가하는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN069I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION" varFormat="Java">   
+   새 항목을 TADDM에 추가하는 중입니다...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN070I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION.SUCCESS" varFormat="Java">   
+   항목을 추가했습니다. 해당 Guid는 <Variable formatSpec="{0}">guid</Variable>입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN071E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERY.FAILED" varFormat="Java">
+   클래스 유형 및 깊이 매개변수에 값을 제공하십시오.
+   </MsgText>
+   <Explanation><p>
+   조회 스키마 기능을 사용하려면 커넥터의 구성에 이러한 매개변수를 제공해야 합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   필수 매개변수를 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN072E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.NO.CLASS.TYPE" varFormat="Java">
+   제공된 MQL 조회에서 CDM 클래스 유형을 찾을 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   개별 TADDM MQL 조회는 하나 이상의 항목 유형으로 경로가 지정되어야 합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   조회에 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN073E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.INVALID.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   내재적 속성 이름에서 관련 항목 유형을 찾을 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   IdML 호환 속성 이름은 관계 유형 및 관련 클래스 유형으로부터 구성됩니다 .
+   </p></Explanation>
+   <OperatorResponse><p>
+   조회에 관련 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN074I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 도메인 속성을 가져오는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN075I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 도메인 속성을 가져올 수 없습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN076I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>에 대한 도메인 속성을 찾을 수 없습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN077I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>에 대한 MSS 속성을 가져오는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN078I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>에 대한 MSS 속성을 가져올 수 없습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN079I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MSS.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>에 대한 MSS 속성을 찾을 수 없습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN080I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLIC.ATTRIBUTE.DETECTED" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">type</Variable>(으)로 인해 순환이 발생했습니다. 따라서 해당 Guid <Variable formatSpec="{1}">guid</Variable>만 <Variable formatSpec="{2}">attribute name</Variable>(으)로 추가되었습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN081I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADDING.ATTRIBUTES.RECURSIVELY" varFormat="Java">   
+   <Variable formatSpec="{0}">type</Variable> 유형의 속성을 반복적으로 추가합니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN082I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIPPING.ATTRIBUTE" varFormat="Java">   
+   해당 이름 지정 규칙과 일치하지 않아서 Guid가 <Variable formatSpec="{1}">guid</Variable>인 <Variable formatSpec="{0}">type</Variable> 유형의 항목을 건너뜁니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN083I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 확장된 속성을 가져오는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN084I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 확장된 속성을 찾을 수 없습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN085I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 확장된 속성을 가져오지 못했습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN086I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXPLICITRELN.ATTRIBUTES" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 명시적 관계를 가져오는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN087I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.FORWARD.EXPLICIT.RELNS" varFormat="Java">   
+   <Variable formatSpec="{1}">guid</Variable> 항목에서 <Variable formatSpec="{0}">count</Variable>개의 전방향 명시적 관계를 발견했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN088I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.BACKWARD.EXPLICIT.RELNS" varFormat="Java">   
+   항목 <Variable formatSpec="{1}">guid</Variable>에 대한 <Variable formatSpec="{0}">count</Variable>개의 역방향 명시적 관계를 발견했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN089I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXPLICIT.RELNS" varFormat="Java">   
+   항목 <Variable formatSpec="{0}">guid</Variable>의 명시적 관계를 가져오지 못했습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{0}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN090I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ALREADY.ADDED" varFormat="Java">   
+   항목 <Variable formatSpec="{2}">guid</Variable>이(가) 있는 명시적 관계 <Variable formatSpec="{0}">reln type</Variable>(Guid <Variable formatSpec="{1}">reln guid</Variable>)이(가) 이미 추가되었습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN091I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ADDED.SUCCESSFULLY" varFormat="Java">   
+   항목 <Variable formatSpec="{2}">guid</Variable>이(가) 있는 명시적 관계 <Variable formatSpec="{0}">reln type</Variable>(Guid <Variable formatSpec="{1}">reln guid</Variable>)이(가) 추가되었습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN092I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.RELATED.ITEM" varFormat="Java">   
+   관련 항목 <Variable formatSpec="{0}">guid</Variable>에 대한 세부사항을 가져올 수 없습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN093I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTE.METADATA" varFormat="Java">   
+   클래스 <Variable formatSpec="{0}">guid</Variable>의 확장된 속성에 대한 메타데이터를 가져올 수 없습니다. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN094E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.TADDM.CLASS.TYPE" varFormat="Java">
+   알 수 없는 TADDM 클래스 유형: &apos;<Variable formatSpec="{0}">type</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   TADDM이 선택한 클래스 유형을 지원하지 않습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN095E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   &apos;<Variable formatSpec="{1}">class type</Variable>&apos; 클래스에서 속성 &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;의 IdML 준수 이름을 가져올 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   이 속성의 IdML 준수 이름을 가져오는 데 필요한 메타데이터가 부족합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   이 속성은 IdML 모드에서 지원되지 않습니다.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN096E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTES" varFormat="Java">
+   클래스 &apos;<Variable formatSpec="{0}">class type</Variable>&apos;의 속성을 검사하는 동안 오류가 발생했습니다.
+   </MsgText>
+   <Explanation><p>
+   클래스 속성을 점검하는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN097E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CDM.CLASS.TYPE" varFormat="Java">
+   알 수 없는 CDM 클래스 유형: &apos;<Variable formatSpec="{0}">type</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   TADDM이 선택한 클래스 유형을 지원하지 않습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN098E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.ATTRIBUTE.NAME" varFormat="Java">
+   클래스 &apos;<Variable formatSpec="{1}">class type</Variable>&apos;에 지원되지 않는 속성 &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;입니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM이 선택한 속성을 지원하지 않습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 속성을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN099E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IDML.ATTRIBUTE.NAME" varFormat="Java">
+   속성 &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;은(는) IdML 모드에서 지원되지 않습니다.
+   </MsgText>
+   <Explanation><p>
+   이 속성은 IdML 모드에서 사용할 수 없습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 속성을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN100E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IMPLICIT.ATTRIBUTE.NAME" varFormat="Java">
+   제공된 기준과 일치하는 내재적 속성을 찾을 수 없습니다. 항목 유형 &apos;<Variable formatSpec="{1}">type1</Variable>&apos;에서 항목 유형 &apos;<Variable formatSpec="{2}">type2</Variable>&apos; 사이의 &apos;<Variable formatSpec="{0}">reln type</Variable>&apos; 관계에 해당해야 합니다.
+   </MsgText>
+   <Explanation><p>
+   이 속성은 기본 TADDM 모드에서는 사용할 수 없습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 속성을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN101I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">   
+   값이 &apos;<Variable formatSpec="{0}">value</Variable>&apos;인 &apos;cycle&apos; 시스템 속성을 제공했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN102I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CLASS.TYPE.OVERWRITTEN" varFormat="Java">   
+   모델 오브젝트 클래스 유형을 &apos;<Variable formatSpec="{0}">type1</Variable>&apos;에서 &apos;<Variable formatSpec="{1}">type2</Variable>&apos;(으)로 겹쳐썼습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN103E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">
+   &apos;<Variable formatSpec="{0}">name</Variable>&apos; 요소에서 알 수 없는 &apos;cycle&apos; 속성을 발견했습니다.
+   </MsgText>
+   <Explanation><p>
+   제공된 주기 ID가 계층 구조에서 이 항목에 대한 경로에 있는 다른 항목과 일치하지 않습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   올바른 주기 속성을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN104E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MODEL.OBJECT.WITH.GUID.FOUND" varFormat="Java">
+   클래스 &apos;<Variable formatSpec="{0}">class type</Variable>&apos;(ID &apos;<Variable formatSpec="{1}">guid</Variable>&apos;)에서 모델 오브젝트를 찾을 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   항목을 해당 ID로만 제공했습니다. 따라서 커넥터가 해당 항목에 대한 세부사항을 찾기 위해 TADDM을 조회하려 했습니다. 그러나 모델 오브젝트가 리턴되지 않았습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   제공된 ID가 올바른지 확인하십시오. 또는 ID만 제공하지 말고 해당 항목의 이름 지정 속성을 제공해 보십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN105E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.ATTRIBUTE.TYPE" varFormat="Java">
+   클래스 &apos;<Variable formatSpec="{1}">class type</Variable>&apos;에서 속성 &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;의 유형을 찾을 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM SDK의 JAR을 사용하여 이 속성의 유형을 판별할 수 없습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 속성을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN106E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.INTEGER.PARAMETER" varFormat="Java">
+   매개변수 &apos;<Variable formatSpec="{0}">param name</Variable>&apos;이(가) 올바른 정수 값이 아닙니다.   
+   </MsgText>
+   <Explanation><p>
+   이 매개변수는 정수 값이어야 합니다. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   이 매개변수에 정수 값을 제공하거나 공백으로 두십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN107E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.VALID.RELATIONSHIP" varFormat="Java">
+   클래스 유형 &apos;<Variable formatSpec="{0}">class type</Variable>&apos;이(가) 올바른 관계가 아닙니다.
+   </MsgText>
+   <Explanation><p>
+   지정된 클래스 유형이 지원되는 CDM 관계가 아닙니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   다른 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN108E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.CLASS.TYPE" varFormat="Java">
+   클래스 유형이 제공되지 않았습니다.  
+   </MsgText>
+   <Explanation><p>
+   커넥터의 UI 또는 해당 출력 맵에 클래스 유형이 제공되지 않았습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   커넥터의 UI에 또는 출력 맵의 $classType 속성을 통해 클래스 유형을 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN109I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.GUID.IN.CRITERIA" varFormat="Java">   
+   검색 기준에서 Guid &apos;<Variable formatSpec="{0}">guid</Variable>&apos;을(를) 발견했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN110E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.FAILED" varFormat="Java">
+   업데이트 조작에 실패했습니다.
+   </MsgText>
+   <Explanation><p>
+   제공된 모델 오브젝트를 업데이트하는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN111I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION" varFormat="Java">   
+   TADDM에서 기존 항목을 업데이트하는 중입니다...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN112I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION.SUCCESS" varFormat="Java">   
+   항목이 업데이트되었습니다. 해당 Guid는 <Variable formatSpec="{0}">guid</Variable>입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN113E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.FIND.MODEL.OBJECT" varFormat="Java">
+   GUID의 TADDM을 조회하는 중에 오류가 발생했습니다. <Variable formatSpec="{0}">guid</Variable>. 다음 예외가 발생했습니다. <Variable formatSpec="{1}">exception message</Variable>.
+   </MsgText>
+   <Explanation><p>
+   제공된 Guid가 있는 모델 오브젝트를 검색하는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN114I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIP.READONLY.ATTRIBUTE" varFormat="Java">   
+   모델 오브젝트로 설정할 수 없으므로 속성 <Variable formatSpec="{0}">attribute</Variable>을(를) 건너뜁니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN115I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.REVERSE.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   클래스 &apos;<Variable formatSpec="{2}">checked class type</Variable>&apos;에 있는 클래스 &apos;<Variable formatSpec="{1}">class type</Variable>&apos;의 속성 &apos;<Variable formatSpec="{0}">attr name</Variable>&apos;에 대한 역(reverse)을 찾을 수 없습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN151E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.FINDING.CHANGE" varFormat="Java">   
+ &apos;<Variable formatSpec="{1}">taddm query</Variable> 조회로 &apos;<Variable formatSpec="{0}">change type</Variable>&apos; 유형의 변경사항에 대해 TADDM을 조회하는 동안 오류가 발생했습니다.
+   </MsgText>
+   <Explanation><p>
+   이 조작을 수행하는 동안 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   세부사항은 제공된 TADDM 예외를 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN152E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.UNSUPPORTED.DATE.FORMAT" varFormat="Java">   
+   날짜 &apos;<Variable formatSpec="{0}">date string</Variable>&apos;이(가) 필수 형식 &apos;dd/MM/yyyy HH:mm:ss&apos;에 일치하지 않습니다.
+   </MsgText>
+   <Explanation><p>
+   제공된 값이 예상 형식과 일치하지 않습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   날짜 값을 올바른 형식으로 제공하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN153I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.QUERYING.TADDM.FOR.CHANGES" varFormat="Java">
+   &apos;<Variable formatSpec="{2}">taddm query</Variable>&apos; 조회로 &apos;<Variable formatSpec="{0}">from date</Variable>&apos;에서 &apos;<Variable formatSpec="{1}">to date</Variable>&apos;(으)로의 간격 변경에 대해 TADDM을 조회하는 중입니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN154I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.CHANGES.FOUND" varFormat="Java">   
+   총 <Variable formatSpec="{0}">count</Variable>개의 변경사항을 발견했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN155I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGES.FOUND" varFormat="Java">   
+   변경사항을 발견하지 못했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN156I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.WAITING" varFormat="Java">   
+   변경사항에 대해 다시 TADDM을 폴링하기 전에 커넥터가 <Variable formatSpec="{0}">seconds count</Variable>초 동안 대기합니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN157E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGE.TYPE.SELECTED" varFormat="Java">   
+   커넥터의 구성에서 변경 유형이 선택되지 않았습니다. 작성, 업데이트 또는 삭제 중 하나의 유형이 선택되어야 합니다.
+   </MsgText>
+   <Explanation><p>
+   커넥터가 올바르게 작동하려면 한 개 이상의 변경 유형을 감지하도록 커넥터를 구성해야 합니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   커넥터의 고급 섹션에서 하나 이상의 변경 유형을 선택하십시오.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN158I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.STATE.FOUND" varFormat="Java">
+   특성 저장소에서 반복자 시작 날짜 &apos;<Variable formatSpec="{0}">date</Variable>&apos;을(를) 복원했습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN159I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.STATE.FOUND" varFormat="Java">   
+   특성 저장소에서 반복자 시작 날짜를 찾을 수 없습니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN160I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.START.DATE" varFormat="Java">   
+   &apos;<Variable formatSpec="{0}">date</Variable>&apos;부터 변경사항을 감지합니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN161I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.SKIPPING.CHANGE" varFormat="Java">
+   이름 지정 규칙과 일치하지 않아서 변경 이벤트를 건너뜁니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN162I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.TIMEOUT.EXPIRED" varFormat="Java">
+   구성된 제한시간이 만료되었습니다. 커넥터가 신속하게 종료됩니다.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN163E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.GETTING.SERVER.TIME" varFormat="Java">   
+   TADDM 서버의 로컬 시간을 가져올 수 없습니다.
+   </MsgText>
+   <Explanation><p>
+   TADDM 서버에서 로컬 시간을 가져오는 중에 TADDM API가 오류를 리턴했습니다.
+   </p></Explanation>
+   <OperatorResponse><p>
+   모든 연결 매개변수가 올바른지 확인한 다음 제공된 TADDM 예외에서 세부사항을 확인하십시오.
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

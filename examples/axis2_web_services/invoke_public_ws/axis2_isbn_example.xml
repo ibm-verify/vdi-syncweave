@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-12-14" created="Fri Mar 12 15:46:21 EET 2010" createdBy="deyan.popov" modified="Fri Mar 12 15:46:21 EET 2010" modifiedBy="deyan.popov" version="7.0">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="axis2wsclient">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="CalculateISBNLength" state="Enabled"/>
+                    <Component name="ISBN10" state="Enabled"/>
+                    <Component name="SetRequestParameter" state="Enabled"/>
+                    <Component name="Axis2WebServiceClientFunctionComponent_10" state="Simulated"/>
+                    <Component name="PrintResponse" state="Enabled"/>
+                    <Component name="ISBN13" state="Enabled"/>
+                    <Component name="SetRequestParameter" state="Enabled"/>
+                    <Component name="Axis2WebServiceClientFunctionComponent_13" state="Simulated"/>
+                    <Component name="PrintResponse" state="Enabled"/>
+                    <Component name="IncorrectSymbolCount" state="Enabled"/>
+                    <Component name="PrintErrorMessage" state="Enabled"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\axis2_web_services\invoke_public_ws\\IBM_booklist.csv</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ISBN</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.ISBN</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Author</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ISBN</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Author</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ISBN</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="CalculateISBNLength">
+                    <parameter name="includeFiles"/>
+                    <parameter name="script"><![CDATA[// checks the count of digits in the ISBN. if they are 10 or 13 a separate
+// ws client will be used, otherwise an error message will be displayed (no ws call)
+
+var temp = work.ISBN.getValue().replaceAll("[^0-9]", "");
+var length = temp.length();
+if(length == 9 && work.ISBN.getValue().length() == 10 && work.ISBN.getValue().endsWith("X")) {
+	length++;
+}
+work.ISBNlength = length;]]></parameter>
+                </Script>
+                <Branch name="ISBN10">
+                    <Script name="SetRequestParameter">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// assembles the ISBN(10) element that will be sent for validation 
+
+var levelOne = work.createElementNS("http://webservices.daehosting.com/ISBN", "trgnamespace:IsValidISBN10");
+var levelTwo = work.createElementNS("http://webservices.daehosting.com/ISBN", "trgnamespace:sISBN");
+levelTwo.appendChild(work.createTextNode(work.ISBN));
+levelOne.appendChild(levelTwo);
+work.appendChild(levelOne);]]></parameter>
+                    </Script>
+                    <Function name="Axis2WebServiceClientFunctionComponent_10">
+                        <InheritFrom>system:/Functions/ibmdi.Axis2WSClientFC</InheritFrom>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$soapHeader</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>IsValidISBN10Response</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>http.content-length</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>http.content-type</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$soapHeader</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>IsValidISBN10</Name>
+                            </SchemaItem>
+                        </Schema>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <Configuration>
+                            <UserComment/>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="endpoint">ISBNServiceSoap</parameter>
+                            <parameter name="operation">IsValidISBN10</parameter>
+                            <parameter name="service">ISBNService</parameter>
+                            <parameter name="userComment"/>
+                            <parameter name="wsdlUrl">http://webservices.daehosting.com/services/isbnservice.wso?WSDL</parameter>
+                        </Configuration>
+                        <SandboxConfig/>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>IsValidISBN10Response</Name>
+                                <Type>advanced</Type>
+                                <Enabled>true</Enabled>
+                                <Script>conn.IsValidISBN10Response</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>IsValidISBN10</Name>
+                                <Type>advanced</Type>
+                                <Enabled>true</Enabled>
+                                <Script>work.IsValidISBN10;</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                    </Function>
+                    <Script name="PrintResponse">
+                        <parameter name="enabled">true</parameter>
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not. 
+// also displays the actual ISBN and the digit count  
+
+var result = work.IsValidISBN10Response.getChildNodes().item(1);
+if("true".equals(result)) {
+	task.logmsg("CORRECT ISBN");
+} else {
+	task.logmsg("INCORRECT ISBN");
+}
+task.logmsg("<< ISBN: " + work.ISBN + " | Digit count: " + work.ISBNlength + " >>");
+task.logmsg("");]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ISBNlength</LeftHand>
+                            <Operator>startsWith</Operator>
+                            <RightHand>10</RightHand>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="ISBN13">
+                    <Script name="SetRequestParameter">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// assembles the ISBN(13) element that will be sent for validation
+
+var levelOne = work.createElementNS("http://webservices.daehosting.com/ISBN", "trgnamespace:IsValidISBN13");
+var levelTwo = work.createElementNS("http://webservices.daehosting.com/ISBN", "trgnamespace:sISBN");
+levelTwo.appendChild(work.createTextNode(work.ISBN));
+levelOne.appendChild(levelTwo);
+work.appendChild(levelOne);]]></parameter>
+                    </Script>
+                    <Function name="Axis2WebServiceClientFunctionComponent_13">
+                        <InheritFrom>system:/Functions/ibmdi.Axis2WSClientFC</InheritFrom>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$soapHeader</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>IsValidISBN13Response</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>http.content-length</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>http.content-type</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$soapHeader</Name>
+                                <Syntax>String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>IsValidISBN13</Name>
+                            </SchemaItem>
+                        </Schema>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <Configuration>
+                            <UserComment/>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="endpoint">ISBNServiceSoap</parameter>
+                            <parameter name="operation">IsValidISBN13</parameter>
+                            <parameter name="service">ISBNService</parameter>
+                            <parameter name="userComment"/>
+                            <parameter name="wsdlUrl">http://webservices.daehosting.com/services/isbnservice.wso?WSDL</parameter>
+                        </Configuration>
+                        <SandboxConfig/>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>IsValidISBN13Response</Name>
+                                <Type>advanced</Type>
+                                <Script>conn.IsValidISBN13Response</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>IsValidISBN13</Name>
+                                <Type>advanced</Type>
+                                <Script>work.IsValidISBN13</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                    </Function>
+                    <Script name="PrintResponse">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not. 
+// also displays the actual ISBN and the digit count  
+
+var result = work.IsValidISBN13Response.getChildNodes().item(1);
+if("true".equals(result)) {
+	task.logmsg("CORRECT ISBN");
+} else {
+	task.logmsg("INCORRECT ISBN");
+}
+task.logmsg("<< ISBN: " + work.ISBN + " | Digit count: " + work.ISBNlength + " >>");
+task.logmsg("");]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ISBNlength</LeftHand>
+                            <Operator>startsWith</Operator>
+                            <RightHand>13</RightHand>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="IncorrectSymbolCount">
+                    <Script name="PrintErrorMessage">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// prints an error message if the digits in the ISBN are neither 10 nor 13
+
+task.logmsg("Incorrect symbol count (" + work.ISBNlength + ")");
+task.logmsg("<< Nether 10 not 13 digits/symbols >>");
+task.logmsg("");]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ISBNlength</LeftHand>
+                            <Operator>startsWith</Operator>
+                            <RightHand>10</RightHand>
+                            <Negate>true</Negate>
+                        </BranchCondition>
+                        <BranchCondition>
+                            <LeftHand>ISBNlength</LeftHand>
+                            <Operator>startsWith</Operator>
+                            <RightHand>13</RightHand>
+                            <Negate>true</Negate>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>isbn_final</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="axis2_isbn_example">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/axis2_isbn_example.properties</parameter>
+                    <parameter name="collectionType">axis2_isbn_example</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/axis2_isbn_example.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

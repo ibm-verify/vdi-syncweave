@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   Legal Disclaimer
+	
+   Copyright Notice
+	
+   (c) Copyright Computer Associates International, Inc., 
+       Fujitsu Limited, Hewlett-Packard Development Company, 
+       International Business Machines Corporation and 
+       The University of Chicago 2003, 2004. All Rights Reserved. 
+-->
+
+<xsd:schema 
+  xmlns="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:wsrl=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceLifetime" 
+  targetNamespace=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceLifetime">
+
+<!-- =============== Resource Property Related  =================== -->
+<!-- ==== Resource Properties for ScheduledResourceTermination ==== -->
+               
+  <xsd:element name="CurrentTime" type="xsd:dateTime"/> 
+   
+  <xsd:element name="TerminationTime" nillable="true"
+               type="xsd:dateTime" />
+               
+<!-- ============= Notification Message Related  ================== -->
+  <xsd:element name="TerminationNotification">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="TerminationTime" type="xsd:dateTime"
+                     minOccurs="1" maxOccurs="1" />
+        <xsd:element name="TerminationReason" type="xsd:anyType"             
+                     minOccurs="0" maxOccurs="1" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+              
+</xsd:schema>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-06-10" created="Thu Jul 02 16:20:02 EEST 2009" createdBy="krasimir.baylov" modified="Thu Jul 02 16:20:02 EEST 2009" modifiedBy="krasimir.baylov" version="7.0">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="Custom_Notifications">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="SendCustomNotification" state="Enabled"/>
+                    <Component name="UpdatePage" state="Enabled"/>
+                    <Component name="CustomNotificationsServer" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="CustomNotificationsServer">
+                    <InheritFrom>system:/Connectors/ibmdi.HTTPServer</InheritFrom>
+                    <ConnectorMode>Server</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="tcpPort">80</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>http.body</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = str;</Script>
+                            <Simple>http.body</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>http.*</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.Authorization</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.base</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.body</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-length</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-type</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.method</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.qs.*</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.remote_pass</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.remote_user</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.url</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.inputstream</Name>
+                            <Syntax>InputStream</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.localHost</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.localIP</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.localPort</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.outputstream</Name>
+                            <Syntax>OutputStream</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.remoteHost</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.remoteIP</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.remotePort</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>tcp.socket</Name>
+                            <Syntax>Socket</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>http.body</Name>
+                            <Syntax>String|File|InputStream</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-type</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.redirect</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Optional</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.status</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="SendCustomNotification">
+                    <parameter name="script"><![CDATA[//get the type, ID and user data for the custom notification
+var msgType = work.getAttribute("http.qs.MessageType");
+var msgID = work.getAttribute("http.qs.MessageID");
+var usrData = work.getAttribute("http.qs.UserData");
+
+var isNotificationSent = false;
+
+
+//send custom notification if the type is not null
+if(msgType != null && msgType.getValue().toString().length() > 0){
+	session.sendCustomNotification(msgType, msgID, usrData);
+	isNotificationSent = true;
+}]]></parameter>
+                </Script>
+                <Script name="UpdatePage">
+                    <parameter name="script"><![CDATA[//prepare the HTML string for the response
+
+var str = "";
+
+str += "<html>\n";
+str += "<body>\n";
+
+str += "<form name=\"input\" action=\"http://localhost:80/\" method=\"get\">\n";
+str += "Enter Message Type: \n";
+str += "<input type=\"text\" name=\"MessageType\" value=\"\" size=\"20\">";
+str += "<br>";
+str += "Enter MessageID: \n";
+str += "<input type=\"text\" name=\"MessageID\" size=\"20\">\n";
+str += "<br>\n";
+str += "Enter User Data: ";
+str += "<input type=\"text\" name=\"UserData\" size=\"20\">";
+str += "<br>";
+str += "<input type=\"submit\" value=\"Send\">\n";
+str += "</form>\n";
+str += "<p>\n";
+str += "Click the \"Send\" button to send a custom notification.\n";
+str += "</p>\n";
+str += "<p>\n";
+	if(isNotificationSent){
+		str += "You sent custom notification of type \""+ msgType +"\" with message ID: \"" + msgID + "\"";
+		str += " and user data: \"" + usrData + "\"";
+	} else{
+		str += "No custom notification was send because no type was entered!"
+	}
+str += "</p>\n";
+
+str += "</body>\n";
+str += "</html>";]]></parameter>
+                </Script>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>Custom_Notifications</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/myPrj.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

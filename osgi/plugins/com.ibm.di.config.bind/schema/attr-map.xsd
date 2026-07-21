@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+	
+	<complexType name="NullBinding">
+		<annotation>
+			<documentation>
+				Contains the configuration of how to recognize "null"
+				values and how to treat them when found.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="behavior" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="behaviorValue" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="definition" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="definitionValue" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="AttributeMapBinding">
+		<annotation>
+			<documentation>
+				Represents the configuration data required to perform
+				mapping between one set of attributes to another.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:SimpleComponentBinding">
+
+				<sequence>
+                    <element name="null" type="tns:NullBinding" maxOccurs="1" minOccurs="0">
+					</element>
+                    <element name="item" type="tns:AttributeMapItemBinding" maxOccurs="unbounded" minOccurs="0">
+					</element>
+                </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="AttributeMapItemBinding">
+		<annotation>
+			<documentation>
+				Represents the configuration data required to map a
+				single attribute to another
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="mapsTo" type="string" maxOccurs="1"
+						minOccurs="1">
+					</element>
+					<element name="null" type="tns:NullBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="type" use="optional"
+					default="simple" type="tns:AttributeMapItemTypeEnum">
+				</attribute>
+				<attribute name="enabled" type="boolean" use="optional"
+					default="true">
+				</attribute>
+				<attribute name="add" type="boolean" use="optional"
+					default="true">
+				</attribute>
+				<attribute name="modify" type="boolean" use="optional"
+					default="true">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
+
+
+
+
+	<element name="map" type="tns:AttributeMapBinding"
+		substitutionGroup="tns:simpleConfig">
+	</element>
+	<simpleType name="AttributeMapItemTypeEnum">
+		<restriction base="string">
+			<enumeration value="Simple"></enumeration>
+			<enumeration value="Advanced"></enumeration>
+			<enumeration value="Substitution"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>

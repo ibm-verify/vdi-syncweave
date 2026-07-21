@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="53" UUID="796cd2d4-4ee6-4bb0-849e-f44c34adb587" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="checkForEntryOutOfScope" modified="Tue May 12 11:05:33 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="checkForEntryOutOfScope">
+        <ModTime>1431421533026</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (typeof(deBug) != "undefined" && deBug) {
+	logmsg("--@@@->> targetLDAPDN: " + work.getString("$targetLDAPDN"))
+	logmsg("--@@@->> translatedDN: " + work.getString("$translatedDN"))
+	logmsg("--@@@->>     sourceDN: " + sourceDN)
+	logmsg("--@@@->>  newSuperior: " + newSuperior)
+}
+
+oosMsg = resource.getString("LDAPSYNC.MOVED.OUT.OF.SCOPE");
+if (newSuperior !== null && !useDN(newSuperior)) {
+	logmsg("----->> " + oosMsg + ": (containersToMigrate, containersToSkip)");
+	deltaOperationTag = "delete";
+}
+
+// time to check group and attribute filters for person Entries
+skipThisEntry = false;
+
+if ("person".equals(typeOfEntry)
+	&& filterOnGroups 
+	&& !"delete".equals(deltaOperationTag)
+	&& (sourceLDAP !== null || "AD".equalsIgnoreCase(changeDetType))
+	&& !groupFiltersSatisfied(sourceLDAP, sourceDN, changeDetType, work)) {
+	if (foundInTarget && !simulate) {
+		logmsg("----->> " + oosMsg + ": " + resource.getString("LDAPSYNC.GROUP.FILTER")
+				+ " - " + sourceDN);
+		deltaOperationTag = "delete";
+	} else {
+		skipThisEntry = true;
+		work["$writeStatus"] = "ignored";
+	}
+}
+
+if (!skipThisEntry 
+	&& filterOnAttributes
+	&& "person".equals(typeOfEntry) 
+	&& !"delete".equals(deltaOperationTag)
+	&& !attributeFiltersSatisfied(work)) {
+	if (foundInTarget) {
+		logmsg("----->> " + oosMsg + ": " + resource.getString("LDAPSYNC.ATTRIBUTE.FILTER") 
+				+ " - " + sourceDN);
+		deltaOperationTag = "delete";
+	} else {
+		skipThisEntry = true;
+		work["$writeStatus"] = "ignored";
+	}	
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

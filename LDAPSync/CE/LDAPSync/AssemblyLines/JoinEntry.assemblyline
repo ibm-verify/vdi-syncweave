@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="13" UUID="ac5e296c-98b1-4e33-8f20-2555095b00a1" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="JoinEntry" modified="Thu Mar 27 12:52:45 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="JoinEntry">
+        <ModTime>1395920763826</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="onfailure">
+                <Name>onfailure</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog</Name>
+                <Script><![CDATA[typeOfError = "WARN"
+if (ifJoinFails.startsWith("abort")) {
+	typeOfError = "FATAL"
+}
+
+joining = true]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>/Scripts/libPrologHook</InheritFrom>
+                <Name>prolog0</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="Initialize cycle" state="Enabled"/>
+                <Component name="JoinEntry" state="Enabled"/>
+                <Component name="DumpWorkEntry" state="Enabled"/>
+                <Component name="FormEntryConnector" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <Connector name="FormEntryConnector">
+                <InheritFrom>system:/Connectors/ibmdi.FormEntryConnector</InheritFrom>
+                <ModTime>1373290230531</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="isLoop">true</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1395920763826</ModTime>
+            <Script name="Initialize cycle">
+                <ModTime>1392896420223</ModTime>
+                <parameter name="script"><![CDATA[typeOfEntry = opEntry.getString("$typeOfEntry")
+
+if (ifJoinFails.startsWith("abort")) {
+	typeOfError = "ERROR"
+} else {
+	typeOfError = "WARN"
+}]]></parameter>
+            </Script>
+            <Connector name="JoinEntry">
+                <InheritFrom>/Connectors/SourceEntries</InheritFrom>
+                <ModTime>1395920763826</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1392896464016</ModTime>
+                    <Enabled>false</Enabled>
+                    <UniqueAttribute>defkey</UniqueAttribute>
+                    <FilePath><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT"
+opEntry = task.getOpEntry()
+return opEntry.getString("$deltaStore")}]]></FilePath>
+                    <ReadDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></ReadDeleted>
+                    <RemoveDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></RemoveDeleted>
+                    <AllowDuplicateDeltaKeys>true</AllowDuplicateDeltaKeys>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>REPEATABLE_READ</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1395920763826</ModTime>
+                    <Hook name="before_execute">
+                        <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                        <Name>before_execute</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>default_fail</Name>
+                        <Script><![CDATA[defaultErrorHandling(typeOfError, false)
+
+throw where() + " : " + error.exception + " - " + error.message]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="end_of_data">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>end_of_data</Name>
+                        <Script>initialized = false</Script>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>initialize_fail</Name>
+                        <Script>throw where() + " : ** internal error ** - " + error.exception + " - " + error.message</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_getnext">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <ModTime>1395920763826</ModTime>
+                        <Name>override_getnext</Name>
+                        <Script><![CDATA[function prepareLinkCriteria(entry) {
+	var scriptFilter = getProperty("join.search.filter")
+	var attrName = getProperty("join.search.attribute")
+	var operatorStr = getProperty("join.search.operator")
+	var valStr = getProperty("join.search.value")
+	var negateStr = getProperty("join.search.negate")
+	var unaryStr = getProperty("join.search.combine")
+	var searchCrit
+	
+	if (scriptFilter != null) {
+		if (scriptFilter.toLowerCase().indexOf("ret.filter") < 0) {
+			scriptFilter = "ret.filter=" + scriptFilter
+		}
+		
+		if (deBug) logmsg("--@@@-> Join LinkCriteria (scripted): " + scriptFilter)
+		
+//		searchCrit = new com.ibm.di.server.SearchCriteria(scriptFilter, task.getScriptEngine())
+		searchCrit = new com.ibm.di.server.SearchCriteria(scriptFilter, new com.ibm.di.script.ScriptEngine(null, main))
+		searchCrit.buildCriteriaScript(entry);
+	} else {
+		searchCrit = new com.ibm.di.server.SearchCriteria(unaryValue(unaryStr));
+		
+		if (entry[valStr] !== null) {
+			valStr = "$" + valStr;
+		}
+		
+		searchCrit.addTemplate(attrName, operationValue(operatorStr), valStr)
+		
+		searchCrit.buildCriteria(entry)
+		
+		searchCrit.getCriteria(0).negate = negateValue(negateStr)
+		
+		if (deBug) logmsg("--@@@-> Join LinkCriteria: "
+							+ (searchCrit.getCriteria(0).negate ? "NOT " : " ")
+							+ searchCrit.getCriteria(0).name + " "
+							+ searchCrit.getCriteria(0).match + " "
+							+ searchCrit.getCriteria(0).value)
+	}
+	
+	return searchCrit
+}
+
+function unaryValue(unaryStr) {
+	if (unaryStr == null)
+		unaryStr = "and"
+	else
+		unaryStr = unaryString.toLowerCase().trim()
+		
+	if (unaryStr == "and" || unaryStr == "&&" || unaryStr == "&" || unaryStr == "true" || unaryStr == "yes")
+		return com.ibm.di.server.SearchCriteria.SEARCH_AND
+	else
+		return com.ibm.di.server.SearchCriteria.SEARCH_OR
+}
+
+function negateValue(negateStr) {
+	if (negateStr == null)
+		negateStr = ""
+	else
+		negateStr = negateStr.toLowerCase().trim()
+		
+	if (negateStr == "not" || negateStr == "!" || negateStr == "true" || negateStr == "yes")
+		return true
+	else
+		return false
+}
+
+function operationValue(opStr) {
+  if (opStr == null)
+  	return com.ibm.di.server.SearchCriteria.EXACT
+  	
+  switch (opStr.toLowerCase()) {
+  		case "equals" : 
+  		case "equal" : 
+  		case "=" :
+  		case "==" : return com.ibm.di.server.SearchCriteria.EXACT
+  		case "less than" : 
+  		case "lessthan" :
+  		case "lt" : 
+  		case "<" : return com.ibm.di.server.SearchCriteria.LESS_THAN
+  		case "less than or equal" :
+  		case "lessthanorequal" :
+  		case "le" : 
+  		case "<=" :
+  		case "=<" : return com.ibm.di.server.SearchCriteria.LESS_THAN_OR_EQUAL
+  		case "greater than" : 
+  		case "greaterthan" :
+  		case "gt" :
+  		case ">" : return com.ibm.di.server.SearchCriteria.GREATER_THAN
+  		case "greater than or equal" :
+  		case "greaterthanorequal" :
+  		case "ge" :
+  		case ">=" :
+  		case "=<" : return com.ibm.di.server.SearchCriteria.GREATER_THAN_OR_EQUAL
+  		case "contain" :
+  		case "contains" : return com.ibm.di.server.SearchCriteria.SUBSTRING
+  		case "^" :
+  		case "sw" :
+  		case "starts" :
+  		case "startswith" :
+  		case "starts with" : return com.ibm.di.server.SearchCriteria.INITIAL_STRING
+  		case "$" :
+  		case "ew" :
+  		case "endswith" :
+  		case "ends with" :
+  		case "endwith" :
+  		case "end with" :  return com.ibm.di.server.SearchCriteria.FINAL_STRING
+  		case "not equals" : 
+  		case "not equal" : 
+  		case "ne" :
+  		case "!=" :
+  		case "=!" :
+  		case "=!=" : return com.ibm.di.server.SearchCriteria.NOT_STRING
+  		default : return com.ibm.di.server.SearchCriteria.EXACT 
+  	}	
+}
+
+function setParameters(obj, type) {
+	var searchStr = "join." + type + ".parameter."
+	var searchStrLen = searchStr.length
+	params = opEntry.getAttributeNames()
+	java.util.Arrays.sort(params)
+	
+	for (var param in params) {
+		var p = param.indexOf(searchStr)
+		if (p >= 0) {
+			var pval = getProperty(param)
+			var pname = param.substring(p + searchStrLen)
+			if (pval != null) {
+				obj.setParam(pname, pval)
+			}	
+		}
+	}
+}
+
+if (typeof(initialized) == "undefined" || !initialized) {
+	// must initialize this connector
+	initialized = true
+
+	//
+	// This Connector uses properties to set up the CI, and if necessary Parser.
+	//
+	var ctrName
+	var parserName
+	var ctr = null
+	var parser = null
+	var useRDN = "CN"
+	var typeOfEntry = "*unknown*"
+	
+	typeOfEntry = alTCB.getString("$typeOfEntry")
+
+	ctrName = getProperty("join.connector.name")
+	ctr = system.getConnector(ctrName)
+	if (ctr == null) {
+		errormsg = resource.getString("LDAPSYNC.CONNECTOR.NOT.FOUND") + ": " + ctrName
+		throw errormsg
+	}
+	
+	setParameters(ctr,"connector")
+
+	try {
+		ctr.terminate()
+	} catch (ex) {
+		// do nothing
+	}
+		
+	try {
+		ctr.initialize(null)
+	} catch (ex) {
+		setException(ex, "fatal")
+		throw resource.getString("LDAPSYNC.ERROR.INITIALIZING.JOIN.CONNECTOR") + ": " + ex
+	}	
+}
+
+var entry = null
+try {
+	passedEntry = work;
+	searchCrit = prepareLinkCriteria(passedEntry)
+
+	work.removeAllAttributes();
+
+	entry = ctr.findEntry(searchCrit)
+} catch (ex) {
+//	setException(ex, "fatal")
+	errorMsg = resource.getString("LDAPSYNC.ERROR.JOINING.DATA") + ": " + ex
+	logmsg(typeOfError, errorMsg)
+
+	addToStats(flowKey, typeOfError, typeOfError)
+	if (typeof(typeOfEntry) != "undefined") {
+		addToStats(flowKey, typeOfEntry, typeOfError)
+	}
+
+	error.exception = ex
+	error.message = errorMsg
+	error.status = "failed"
+	
+	throw errorMsg
+}	
+
+if (entry != null) {
+	work["$skipEntry"] = false;
+	
+ 	var e = thisConnector.mapEntry(work, entry);
+ 	work.merge(e);
+} else {
+	if (ctr.getFindEntryCount() > 0) {
+		errorMsg = resource.getString("LDAPSYNC.MULTIPLE.MATCHES.FOUND.BY.JOIN")
+	} else {
+		errorMsg = resource.getString("LDAPSYNC.NO.MATCH.FOUND.BY.JOIN")
+	}
+
+ 	if (ifJoinFails.startsWith("skip")) {
+		logmsg("WARN", errorMsg)
+		work["$skipEntry"] = true
+		addToStats(flowKey, "warn", "warn")
+		if (typeof(typeOfEntry) != "undefined") {
+			addToStats(flowKey, typeOfEntry, "warn")
+		}
+/*		
+		addToStats(flowKey, "skipping", "skipping")
+		if (typeof(typeOfEntry) != "undefined") {
+			addToStats(flowKey, typeOfEntry, "skipping")
+		}
+ * 
+ */
+	}
+	
+	if (ifJoinFails.startsWith("abort")) {
+		work["$skipEntry"] = true
+		throw errorMsg
+	}
+}
+
+if (error.exception != null) {
+	work["$error"] = error
+}	
+
+if (deBug && entry != null) logmsg("---@@-> Joining entry: " + jsonStr(work))]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Script name="DumpWorkEntry">
+                <ModTime>1373361826906</ModTime>
+                <parameter name="enabled">true</parameter>
+                <parameter name="script"><![CDATA[// Dump the work entry
+task.dumpEntry(work);
+]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>entryType</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>opEntry</Name>
+                    <NativeSyntax>String</NativeSyntax>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

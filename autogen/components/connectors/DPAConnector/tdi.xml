@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DeployedAssetsConnector">
+                        <SupportedModes>Iterator,Lookup,Delete,AddOnly</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.dpa.DeployedAssetsConnector</parameter>
+				<parameter name="parserOption">false</parameter>
+				<parameter name="assetType">ALL</parameter>
+				<parameter name="loadReferences">true</parameter>
+				<parameter name="jdbcUrl"/>
+				<parameter name="jdbcDriver">com.ibm.db2.jcc.DB2Driver</parameter>
+				<parameter name="dbUsername"/>
+				<parameter name="dbPassword"/>				
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.dpa.DeployedAssetsConnector">
+			<TranslationFile>NLS/idi_conn_da</TranslationFile>
+			<parameter name="title">DPA_CONNECTOR_TITLE</parameter>
+			<parameter name="description">CONN_DESC</parameter>
+			<parameter name="formevents"><![CDATA[
+				function 	update_controls() {
+					var co = form.getConfigObject();
+					if ( co == null ) {
+						return;
+					} 
+					
+					var cmode = co.getParent().getMode();
+					if ( cmode.equalsIgnoreCase("AddOnly") || 
+                cmode.equalsIgnoreCase("Delete")) {
+						form.getControl("loadReferences").setEnabled(false);						
+					} 
+				}
+				update_controls();
+			]]></parameter> 			
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>assetType</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>          	
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+			  <FormSectionNames>
+			   	<ListItem>loadReferences</ListItem>
+			  </FormSectionNames>					
+			</FormSection>
+			<FormItemNames>
+					<ListItem>assetType</ListItem>
+					<ListItem>loadReferences</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="assetType">
+				<Values>
+				  <ListItem>ALL</ListItem>
+					<ListItem>COMPUTERS</ListItem>
+					<ListItem>NETWORK_DEVICES</ListItem>
+					<ListItem>NETWORK_PRINTERS</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>ALL</Key>
+						<Value>DPA_ALL</Value>
+					</Item>				
+					<Item>
+						<Key>COMPUTERS</Key>
+						<Value>DPA_COMPUTERS</Value>
+					</Item>
+					<Item>
+						<Key>NETWORK_DEVICES</Key>
+						<Value>DPA_NETWORK_DEVICES</Value>
+					</Item>
+					<Item>
+						<Key>NETWORK_PRINTERS</Key>
+						<Value>DPA_NETWORK_PRINTERS</Value>
+					</Item>					
+				</LocalizedValues>
+				<parameter name="description">DPA_CONN_ASSETTYPE_DESC</parameter>
+				<parameter name="label">DPA_CONN_ASSETTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="loadReferences">
+				<parameter name="description">DPA_CONN_LOADREF_DESC</parameter>
+				<parameter name="label">DPA_CONN_LOADREF_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>			
+			<FormItem name="jdbcUrl">
+				<parameter name="description">DPA_CONN_JDBCURL_DESC</parameter>
+				<parameter name="label">DPA_CONN_JDBCURL_LABEL</parameter>
+				<parameter name="script">checkConnection</parameter>
+				<parameter name="scriptLabel">DPA_CONN_QUERYDB_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">DPA_CONN_QUERYDB_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">DPA_CONN_JDBCDRIVER_DESC</parameter>
+				<parameter name="label">DPA_CONN_JDBCDRIVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbUsername">
+				<parameter name="description">DPA_CONN_DBUSERNAME_DESC</parameter>
+				<parameter name="label">DPA_CONN_DBUSERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbPassword">
+				<parameter name="description">DPA_CONN_DBPASSWORD_DESC</parameter>
+				<parameter name="label">DPA_CONN_DBPASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+// tests if a connection to a remote system can be established by a Connector
+function checkConnection() {
+	var conn = form.loadConnector();
+	
+	conn.initialize (null);
+	var exceptionText = null;
+
+	exceptionText = conn.checkDbConnection();
+	var jdbcParams = "";
+	jdbcParams += conn.getJdbcUrl() + ", ";
+	jdbcParams += conn.getJdbcDriver() + ", ";
+	jdbcParams += conn.getDbUsername() ;
+	conn.terminate();
+	
+	if (exceptionText == null) {
+		form.alert(Messages.getMessage("ASForms.Connection.Success", jdbcParams));
+	} else {
+		// log the values of the jdbc parameters used in the connecion attempt
+		form.alert(Messages.getMessage("ASForms.Connection.Failure", jdbcParams, exceptionText));
+	}	
+}           
+]]></parameter>						
+		</Form>
+	</Folder>
+</MetamergeConfig>

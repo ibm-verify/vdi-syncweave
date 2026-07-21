@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:complexType name="domain-type">
+     	<xsd:complexContent>
+            <xsd:extension base="tns:server-resource"> 
+        		<xsd:sequence>
+        		</xsd:sequence>
+       		</xsd:extension>
+     	</xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="domain" type="tns:domain-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Service Domain</scmp:display>
+                <scmp:summary>Service Domain</scmp:summary>
+                <scmp:description>
+                    A Service Domain is an organizational entity in the enterprise that
+                    provides a scope within which services are made available and consumed. 
+                    It contains a collection of available IT assets, like ESB node(s) and 
+                    service registry.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

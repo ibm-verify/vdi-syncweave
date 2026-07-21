@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api">
+
+	<include schemaLocation="assembly-line.xsd"></include>
+	<complexType name="Tombstone">
+		<sequence>
+			<element name="errorDescription" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element ref="tns:tsData" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		<attribute name="guid" type="string" use="required"></attribute>
+        <attribute name="createdOn" type="dateTime"></attribute>
+        <attribute name="exitCode" type="int"></attribute>
+	</complexType>
+
+
+
+	<complexType name="ALTombstoneData">
+		<complexContent>
+			<extension base="tns:TombstoneData">
+				<sequence>
+					<element name="statistics" type="tns:TaskStatistics"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="userMessage" type="string" maxOccurs="1" minOccurs="0"></element>
+				</sequence>
+				<attribute name="alName" type="string"></attribute>
+				<attribute name="configInstanceId" type="string"></attribute>
+				<attribute name="startedOn" type="dateTime"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="alData" type="tns:ALTombstoneData" substitutionGroup="tns:tsData"></element>
+
+	<complexType name="CITombstoneData">
+		<complexContent>
+			<extension base="tns:TombstoneData">
+				<attribute name="configInstanceId" type="string"></attribute>
+				<attribute name="startedOn" type="dateTime"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="ciData" type="tns:CITombstoneData" substitutionGroup="tns:tsData"></element>
+
+    <complexType name="TombstoneData" abstract="true"></complexType>
+
+    <element name="tsData" type="tns:TombstoneData"></element>
+</schema>

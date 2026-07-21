@@ -1,0 +1,264 @@
+<project name="Build specific targets and properties" default="noDefault">
+
+<!--
+  IBM Confidential 
+  PID 5724-K74
+  
+  Copyright IBM Corp. 2023
+-->
+
+
+	<!-- ===================================================================== -->
+	<!-- Run a given ${target} on all elements being built -->
+	<!-- Add on <ant> task for each top level element being built. -->
+	<!-- ===================================================================== -->
+	<available property="allElementsFile" file="${builder}/allElements.xml" value="${builder}/allElements.xml"/>
+	<property name="allElementsFile" location="${eclipse.pdebuild.templates}/headless-build/allElements.xml"/>
+
+	<!-- We need some TDI project specific references -->
+	<import file="${builder}/../../rules_mk/project_setup.xml"/>
+	
+	<import file="${allElementsFile}" />
+	<target name="allElements">
+		<antcall target="allElementsDelegator" />
+	</target>
+	
+	<!-- ===================================================================== -->
+	<!-- ===================================================================== -->
+	<target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
+	</target>
+
+	<target name="checkLocalBase">
+		<available file="${base}" property="skipBase" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Check out map files from correct repository -->
+	<!-- Replace values for mapsCheckoutTag as desired. -->
+	<!-- ===================================================================== -->
+	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
+	</target>
+
+	<target name="checkLocalMaps">
+	</target>
+
+	<target name="tagMapFiles" if="tagMaps">
+	</target>
+
+	<!-- ===================================================================== -->
+
+	<target name="clean" unless="noclean">
+	</target>
+
+	<target name="gatherLogs">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before setup -->
+	<!-- ===================================================================== -->
+	<target name="preSetup">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after setup but before starting the build proper -->
+	<!-- ===================================================================== -->
+	<target name="postSetup">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before fetching the build elements -->
+	<!-- ===================================================================== -->
+	<target name="preFetch">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after fetching the build elements -->
+	<!-- ===================================================================== -->
+	<target name="postFetch">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the repositories are being processed -->
+	<!-- ===================================================================== -->
+	<target name="preProcessRepos">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the repositories have been processed -->
+	<!-- ===================================================================== -->
+	<target name="postProcessRepos">
+	</target>
+	
+	<!-- ===================================================================== -->
+	<!-- Steps to do before generating the build scripts. -->
+	<!-- ===================================================================== -->
+	<target name="preGenerate">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after generating the build scripts. -->
+	<!-- ===================================================================== -->
+	<target name="postGenerate">
+		<antcall target="clean" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running the build.xmls for the elements being built. -->
+	<!-- ===================================================================== -->
+
+	<target name="preProcess">
+            <!-- 
+              There is an issue with the generated build.xml file in that it
+              always specifies the bootclasspath option to the javac command,
+              but this option is not supported in Java-11.  The only fix which
+              I could come up with is to manually remove the option from the
+              generated build.xml file prior to performing the build.
+            -->
+            <replace file="${project.root.ce_rcp.loader.plugin}/build.xml" token="bootclasspath=&quot;${bundleBootClasspath}&quot;" value=""/>
+            <replace file="${project.root.ce_rcp.base.plugin}/build.xml" token="bootclasspath=&quot;${bundleBootClasspath}&quot;" value=""/>
+
+            <!--
+             There is an issue with the generated MacOSX build in that the
+             Contents directory is in the miadmin.app sub-directory.  We 
+             manually fix this issue here.
+             -->
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|/Contents/MacOS/|/miadmin.app/Contents/MacOS/|g"/>
+                <arg value="${buildDirectory}/assemble.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|/Contents/MacOS/|/miadmin.app/Contents/MacOS/|g"/>
+                <arg value="${buildDirectory}/assemble.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
+            </exec>
+
+            <!--
+              I can't explain why, but when the package XML file is generated
+              it expects the junit jar file to be extracted when it isn't.  So,
+              to fix this problem we massage the generated XML file.
+             -->
+
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
+            </exec>
+
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
+            </exec>
+
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
+            </exec>
+
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
+            </exec>
+            <exec executable="sed" failonerror="false">
+                <arg value="-i"/>
+                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
+            </exec>
+
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after running the build.xmls for the elements being built. -->
+	<!-- ===================================================================== -->
+	<target name="postProcess">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running assemble. -->
+	<!-- ===================================================================== -->
+	<target name="preAssemble">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after  running assemble. -->
+	<!-- ===================================================================== -->
+	<target name="postAssemble">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running package. -->
+	<!-- ===================================================================== -->
+	<target name="prePackage">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after  running package. -->
+	<!-- ===================================================================== -->
+	<target name="postPackage">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the build is done. -->
+	<!-- ===================================================================== -->
+	<target name="postBuild">
+		<antcall target="gatherLogs" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do to test the build results -->
+	<!-- ===================================================================== -->
+	<target name="test">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do to publish the build results -->
+	<!-- ===================================================================== -->
+	<target name="publish">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Default target                                                        -->
+	<!-- ===================================================================== -->
+	<target name="noDefault">
+		<echo message="You must specify a target when invoking this file" />
+	</target>
+
+</project>

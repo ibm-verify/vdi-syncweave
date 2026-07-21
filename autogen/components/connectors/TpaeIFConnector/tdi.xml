@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Jul 16 15:00:10 SGT 2010" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TpaeIFConnector">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.maximo.TpaeIFConnector</parameter>
+				<parameter name="class">com.ibm.di.connector.maximo.TpaeIFConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="supportsSkipLookup">true</parameter>
+				<parameter name="maximoBaseURL">http://localhost</parameter>
+				<parameter name="errorOnExcedentSize">true</parameter>
+				<parameter name="pageSize">100</parameter>
+				<parameter name="xmlCharacterValidation">false</parameter>
+				<parameter name="transLanguage">EN</parameter>
+				<parameter name="timeout">0</parameter>
+				<parameter name="replaceOnUpdate">false</parameter>
+				<parameter name="maxobjObjectStructure">MXOBJECTCFG</parameter>
+				<parameter name="maxobjEnterpriseService">MXMaxObjectQuery</parameter>
+                                <parameter name="maximoServiceBase">meaweb</parameter>                  
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.maximo.TpaeIFConnector">
+			<TranslationFile>NLS/idi_conn_tpaeif</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+				<ListItem>EntServ</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>maximoBaseURL</ListItem>
+					<ListItem>userId</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>objectStructure</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>queryCriteria</ListItem>
+					<ListItem>pageSize</ListItem>
+					<ListItem>errorOnExcedentSize</ListItem>
+					<ListItem>xmlCharacterValidation</ListItem>
+					<ListItem>transLanguage</ListItem>
+					<ListItem>timeout</ListItem>
+					<ListItem>replaceOnUpdate</ListItem>
+                                        <ListItem>maximoServiceBase</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="EntServ">
+				<parameter name="initiallyExpanded">false</parameter>
+				<parameter name="title">entServ_section</parameter>
+				<FormSectionNames>
+					<ListItem>externalSystem</ListItem>
+					<ListItem>maxobjObjectStructure</ListItem>
+					<ListItem>maxobjEnterpriseService</ListItem>
+					<ListItem>enterpriseServiceQuery</ListItem>
+					<ListItem>enterpriseServiceSync</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>maximoBaseURL</ListItem>
+				<ListItem>userId</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>objectStructure</ListItem>
+				<ListItem>queryCriteria</ListItem>
+				<ListItem>pageSize</ListItem>
+				<ListItem>errorOnExcedentSize</ListItem>
+				<ListItem>xmlCharacterValidation</ListItem>
+				<ListItem>transLanguage</ListItem>
+				<ListItem>timeout</ListItem>
+				<ListItem>replaceOnUpdate</ListItem>
+				<ListItem>externalSystem</ListItem>
+				<ListItem>maxobjObjectStructure</ListItem>
+				<ListItem>maxobjEnterpriseService</ListItem>
+				<ListItem>enterpriseServiceQuery</ListItem>
+				<ListItem>enterpriseServiceSync</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="maximoServiceBase">
+				<parameter name="description">servicebase_desc</parameter>
+				<parameter name="label">servicebase_label</parameter>
+			</FormItem>
+			<FormItem name="maximoBaseURL">
+				<parameter name="description">baseURLs_desc</parameter>
+				<parameter name="label">baseURLs_label</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="userId">
+				<parameter name="description">user_desc</parameter>
+				<parameter name="label">user_label</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="objectStructure">
+				<parameter name="description">os_desc</parameter>
+				<parameter name="label">os_label</parameter>
+				<parameter name="script">clearSchemaCache</parameter>
+				<parameter name="scriptLabel">script_label</parameter>
+				<parameter name="scripthelp">script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="queryCriteria">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">crit_desc</parameter>
+				<parameter name="label">crit_label</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+			</FormItem>
+			<FormItem name="pageSize">
+				<parameter name="modes">Lookup,Iterator</parameter>
+				<parameter name="description">page_desc</parameter>
+				<parameter name="label">page_label</parameter>
+				<parameter name="syntax">INTEGER</parameter>
+				<parameter name="minValue">1</parameter>
+				<parameter name="maxValue">999999</parameter>
+			</FormItem>
+			<FormItem name="errorOnExcedentSize">
+				<parameter name="modes">-Iterator</parameter>
+				<parameter name="description">error_desc</parameter>
+				<parameter name="label">error_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="xmlCharacterValidation">
+				<parameter name="description">valid_desc</parameter>
+				<parameter name="label">valid_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="transLanguage">
+				<parameter name="description">lang_desc</parameter>
+				<parameter name="label">lang_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<Values>
+					<ListItem>DE</ListItem>
+					<ListItem>EN</ListItem>
+					<ListItem>ES</ListItem>
+					<ListItem>FR</ListItem>
+					<ListItem>IT</ListItem>
+					<ListItem>JA</ListItem>
+					<ListItem>KO</ListItem>
+					<ListItem>PT</ListItem>
+					<ListItem>ZH</ListItem>
+				</Values>
+			</FormItem>
+			<FormItem name="timeout">
+				<parameter name="description">timeout_desc</parameter>
+				<parameter name="label">timeout_label</parameter>
+				<parameter name="syntax">INTEGER</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="maxValue">999999</parameter>
+			</FormItem>
+			<FormItem name="replaceOnUpdate">
+			<parameter name="modes">Update</parameter>
+				<parameter name="description">replace_desc</parameter>
+				<parameter name="label">replace_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="externalSystem">
+				<parameter name="description">exts_desc</parameter>
+				<parameter name="label">exts_label</parameter>
+			</FormItem>
+			<FormItem name="maxobjObjectStructure">
+				<parameter name="description">maxos_desc</parameter>
+				<parameter name="label">maxos_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="maxobjEnterpriseService">
+				<parameter name="description">maxes_desc</parameter>
+				<parameter name="label">maxes_label</parameter>
+			</FormItem>
+			<FormItem name="enterpriseServiceQuery">
+				<parameter name="modes">Lookup,Iterator,AddOnly,Update,Delete</parameter>
+				<parameter name="description">esquery_desc</parameter>
+				<parameter name="label">esquery_label</parameter>
+			</FormItem>
+			<FormItem name="enterpriseServiceSync">
+				<parameter name="modes">AddOnly,Update,Delete</parameter>
+				<parameter name="description">essync_desc</parameter>
+				<parameter name="label">essync_label</parameter>
+			</FormItem>
+			<parameter name="formevents">
+				<![CDATA[
+function enabled (param, value){
+	if(form.getControl(param) != null)
+		form.getControl(param).setEnabled(value);
+}
+
+function clearSchemaCache () { 
+	conn = form.loadConnector(); 
+	conn.initialize(null); 
+	
+	try { 
+		conn.clearSchemaCache(); 
+		form.alert(conn.getResHash().getString("MXCONN.SCHEMA.CACHE.CLEARED")); 
+	} catch (e) { 
+		conn.terminate(); 
+		throw e;
+	} 
+	conn.terminate(); 
+}
+
+function externalSystem_changed() {
+	var es = form.getConfig ("externalSystem");
+	var isEnabled = false;
+	
+	if ( es != null && es.trim().length() > 0 )
+		isEnabled = true;
+	
+	enabled("maxobjEnterpriseService", isEnabled);
+	enabled("enterpriseServiceSync", isEnabled);
+	enabled("enterpriseServiceQuery", isEnabled);
+}
+
+externalSystem_changed();
+]]>
+			</parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

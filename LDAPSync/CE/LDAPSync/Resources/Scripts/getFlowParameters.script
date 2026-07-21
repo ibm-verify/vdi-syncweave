@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="143" UUID="9bec7e29-69af-4eed-894a-7a02ed9a26dd" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="getFlowParameters" modified="Tue Apr 14 10:30:39 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="getFlowParameters">
+        <ModTime>1429000237680</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+ * This function returns all parameters from a Flow_XXX assemblyline as an Entry object.
+ * 
+ * The following two are identical:
+ * 		getFlowParameters("SE_DefaultFDS", "AD2");
+ * 		getFlowParameters("SE_DefaultFDS", "Flow_AD2");
+ * 
+ * @param config The configuration identifer (e.g. SE_DefaultFDS)
+ * @param flowname The flow name with or without the "Flow_" prefix
+ * @param target [optional] The target entry to which properties are written.
+ * @param prefix [optional] A string prefixed to all property/attribute names
+ * 
+ */
+function getFlowParameters(config, flowname, target, failOnCImissing) {
+	var recursiveOneLevel = 5;
+	var general = main.getConfiguration(config + ":/Connectors/GeneralSettings");
+	var flow = flowname;
+	var initParams = target ? target : system.newEntry();
+	failOnCImissing = typeof failOnCImissing !== "undefined" ? failOnCImissing : true;
+
+	if (flowname.toLowerCase().startsWith("flow_")) {
+		prefix = flow + ".";
+	} else {
+		prefix = "";
+	}
+	
+	var retry = 1;
+	do {
+		var CIok = CIsetup(config, failOnCImissing, config);
+		if (!CIok) {
+			if (--retry <= 0) {
+				if (failOnCImissing) {
+					throw resource.getString("LDAPSYNC.CANNOT.LOAD.CONFIG") + ": " + config;	
+				} else {
+					return initParams;
+				}	
+			}
+		}
+	} while (!CIok);
+	
+	//
+	// -- Write flow params to LDAPSync property store
+	//
+	// var ps = server.getMetamergeConfig().getTDIProperties().getPropertyStore("LDAPSync");
+	
+	
+	//
+	// -- Map general settings 
+	//
+	initParams.setAttribute(prefix + "config_" + config, "true");
+		
+	var gs = main.getConnector(config + ":/Connectors/GeneralSettings");
+	if (gs) {
+		gs = gs.getConnectionConfig();
+	}
+	if (gs) {
+		for(key in gs.getKeys(recursiveOneLevel)) {
+			if (!"$form$".equalsIgnoreCase(key)
+				&& !"script".equalsIgnoreCase(key)) {
+				initParams.setAttribute(prefix + key, gs.getParameter(key));		
+			}	
+		}
+	}	
+	
+	// Save target.ldap.searchBase for later
+	targetSearchBase = initParams.getString(prefix + "target.ldap.searchBase");
+
+	// Get flow parameters for the current flow AL (if found)
+	var alConfig = null;
+	try {
+		var ALs = main.getMetamergeConfig().lookup(config+":/AssemblyLines").getNames();
+		for (var AL in ALs) {
+			if (AL.equalsIgnoreCase(flow)) {
+				alConfig = main.getMetamergeConfig().lookup(config+":/AssemblyLines/" + AL);
+				break;	
+			}
+		}
+	} catch (ex) {
+		alConfig = null;
+	}	
+	
+	if (alConfig !== null) {
+		//
+		// -- Map SDS flow parameters to flow property names
+		//
+		var out = alConfig.getComponent("Output");
+		if (out) {
+			for(key in out.getConnectionConfig().getKeys(recursiveOneLevel)) {
+				if(key != "$form$") {
+					initParams.setAttribute(prefix + key, out.getConnectionConfig().getParameter(key));
+				}	
+			}
+		}	
+		
+		//
+		// -- Map PostOp properties - i.e. Hooks ALs
+		//
+		var postOpComps = [ { hookName: "hook.postoperation.singleal", 	formItem: "PostOp_single" },
+							{ hookName: "hook.beforewrite", 			formItem: "PostOp_before" },
+							{ hookName: "hook.prolog", 					formItem: "PostOp_init" },
+							{ hookName: "hook.postoperation.user", 		formItem: "PostOp_user" },
+							{ hookName: "hook.postoperation.group",		formItem: "PostOp_group" },
+							{ hookName: "hook.epilog",					formItem: "PostOp_finish" },
+							{ hookName: "hook.error",					formItem: "PostOp_error" }
+		];
+		
+		for(var i = 0; i < postOpComps.length; i++) {
+			var comp = alConfig.getComponent(postOpComps[i].formItem);
+			if(comp) {
+				initParams.setAttribute(prefix + postOpComps[i].hookName + ".map", comp.getAttributeMap(false));
+				postOp = comp.getFunctionConfig();
+				for(key in postOp.getKeys(recursiveOneLevel)) {
+					if(key.startsWith("hook.")) {
+						initParams.setAttribute(prefix + postOpComps[i].hookName + key.substring(4), postOp.getParameter(key));
+					} else
+					if (key.startsWith("$initialize.")) {
+						initParams.setAttribute(prefix + postOpComps[i].hookName + ".parameter" + key.substring(11), postOp.getParameter(key));
+					}
+				}
+			}	
+		}
+		
+		//
+		// -- Map Join connector parameters to flow property names
+		//
+		
+		// 
+		var formMap = {
+			"Form_JDBC": "ibmdi.JDBC",
+			"Form_SUN": "ibmdi.LDAP",
+			"Form_LDAP": "ibmdi.LDAP",
+			"Form_TDS": "ibmdi.LDAP",
+			"Form_AD": "ibmdi.LDAP"
+		};
+		
+		var ldapProps = {
+			"source.ldap.url":"ldapUrl",
+			"source.ldap.user":"ldapUsername",
+			"source.ldap.password":"ldapPassword",
+			"source.ldap.searchBase":"ldapSearchBase",
+			"target.ldap.url":"ldapUrl",
+			"target.ldap.user":"ldapUsername",
+			"target.ldap.password":"ldapPassword",
+			"target.ldap.searchBase":"ldapSearchBase"
+		};
+		
+		var join = alConfig.getComponent("Join");
+		if(join !== null && join.getConnectionConfig().getBooleanParameter("join.perform", false) == true) {
+			join  = join.getConnectionConfig();
+			
+			// Determine connector type based on source.form
+			var formName = join.getParameter("source.form");
+			var connType = formMap[formName];
+			initParams.setAttribute(prefix + "join.connector.name", connType);
+			
+			// Provide all join parameters and translate Join connector parameters
+			// for LDAP. LDAP uses "source.ldap.url" whereas the Join connector
+			// expects "join.connector.parameter.<internalName>".
+			for(key in join.getKeys(recursiveOneLevel)) {
+		
+				// syncengine will often only check for null value
+				var value = join.getParameter(key);
+				if(value == "") {
+					value = null;
+				}	
+			
+				if(key != "$form$") {
+					if(ldapProps[key] != null) {
+						initParams.setAttribute(prefix + "join.connector.parameter." + ldapProps[key], value);
+					} else {
+						// ldap could have "native" param
+						var rewrite = key.replace("source.ldap.", "join.connector.parameter.");
+						// otherwise just change source. to join.
+						rewrite = rewrite.replace("source.", "join.");
+						initParams.setAttribute(prefix + rewrite, value);
+					}
+				}	
+			}
+		}
+		
+		//
+		// Read the Writeback settings
+		//
+		var writeback = alConfig.getComponent("WriteBack");
+		if(writeback !== null && writeback.getConnectionConfig().getBooleanParameter("writeback.perform", false) == true) {
+			var wbconfig  = writeback.getConnectionConfig();
+			
+			// Provide all writeback parameters
+			for(key in wbconfig.getKeys(recursiveOneLevel)) {
+		
+				// syncengine will often only check for null value
+				var value = wbconfig.getParameter(key);
+				if(value == "") {
+					value = null;
+				}	
+			
+				if(key != "$form$") {
+					if (!key.startsWith("writeback.")) {
+						initParams.setAttribute(prefix + "writeback." + key, value);
+					} else {
+						initParams.setAttribute(prefix + key, value);
+					}	
+				}	
+			}
+		}
+		
+		//
+		// -- Map connector parameters to flow property names
+		//
+		var inp = alConfig.getComponent("Input");
+		if (inp) {
+			var inpConfig = inp.getConnectionConfig();
+			var inheritsFrom = inp.getInheritsFromRef();
+			var endpoint = inheritsFrom.substring(inheritsFrom.indexOf("Source_") + 7);
+			initParams.setAttribute(prefix + "endpoint", endpoint);
+			for(key in inpConfig.getKeys(recursiveOneLevel)) {
+				if(key != "$form$") {
+					var value = inpConfig.getParameter(key);
+					if(value == "")
+						value = null;
+					initParams.setAttribute(prefix + key, value);		
+				}
+			}
+		
+			//
+			// -- Map parser parameter to flow property names
+			//
+			if(typeof inpConfig.getParserOption !== "undefined" && inpConfig.getParserOption !== null && inpConfig.getParserOption() != 2) {
+				var pc = inp.getInheritsFrom().getParserConfig();
+				var name = pc.getInheritsFromRef();
+				var ix = name.lastIndexOf("/");
+				if(ix != -1) {
+					name = name.substring(ix+1);
+				}
+				initParams.setAttribute(prefix + "source.parser.name", name);
+				
+				for(key in pc.getKeys(recursiveOneLevel)) {
+					var value = pc.getParameter(key);
+					if(value == "")
+						value = null;
+					initParams.setAttribute(prefix + "source.parser.parameter." + key, value);		
+				}
+			}
+		}
+	}	
+		
+	mirrorHierarchy = "true".equalsIgnoreCase(initParams.getString(prefix + "global.preserveSourceContainers"));
+	if (!mirrorHierarchy && targetSearchBase !== null) {
+		initParams.setAttribute(prefix + "target.ldap.searchBase", targetSearchBase);
+	//	java.lang.System.out.println("==> Setting target.ldap.searchBase to " + targetSearchBase);
+	}
+	
+	var pnames = initParams.getAttributeNames();
+	for (pname in pnames) {
+		if (pname.endsWith("$form$") || pname.endsWith("script")) {
+			initParams.removeAttribute(pname);
+		}
+	}
+	
+	return initParams;
+}
+
+function isConfigInstalled(config) {
+	for(var f in session.listAllConfigurations()) {
+		if (f.toLowerCase().endsWith(".xml")) {
+			f = f.substring(0, f.length-4);
+		}
+		if(f == config)
+			return true;
+	}
+	return false;
+}
+
+function CIsetup(ALname, failOnCImissing, configName) {
+	failOnCImissing = typeof failOnCImissing !== "undefined" ? failOnCImissing : true;
+	
+	var p = ALname.indexOf(":/")
+	var ci = null
+	var errorMsg
+	if (p > 0) {
+		ciname = ALname.substring(0,p);
+	} else {
+		if (typeof configName === "undefined") {
+			return true; // it means the current config - which is already loaded
+		} else {
+			ciname = configName;
+		}	
+	}
+	
+	try {
+		var cis = session.getConfigInstancesIDs()
+		for (var i = 0; i < cis.length && ci == null; i++) {
+			if (ciname.equalsIgnoreCase(cis[i])) {
+				ci = session.getConfigInstance(cis[i])
+				ciname = cis[i]
+			}	
+		}	
+
+		if (ci == null) {
+//			if (deBug) { java.lang.System.out.println("--@--> Starting CI " + ciname); } 
+			if (isConfigInstalled(ciname)) {
+				ci = session.startConfigInstance(ciname);
+				system.sleep(2); // give it time to load
+			}	
+		}	
+	} catch (ex) {
+		if (ex.toString().indexOf("CTGDIS197E") >= 0) {
+			// this means the CI is already running
+			return true;
+		}
+		
+		if (failOnCImissing) {
+			throw ex;
+		} else {
+			return false
+		}	
+	}
+	
+	return true
+}
+
+function getAllFlowParameters(initParams, flowKey) {
+	initParams = getFlowParameters("LDAPSync", flowKey, initParams);
+	initParams = getFlowParameters("FDS_Target", flowKey, initParams, false); // don't fail if config not found
+	initParams = getFlowParameters("SE_DefaultFDS", flowKey, initParams);
+	return initParams;
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="dominochangedetectionconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- Message ID="CTGDJE001E" deleted for static code fix - we do not need the password pop-up anymore. Feature 9729 -->
+
+<Message ID="CTGDJE002E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.THREADDOWN.EXCEP" varFormat="Java">
+   The Notes Thread not alive. Domino Change Detection Connector cannot execute
+   the needed command against the Domino Server without an active Notes Thread.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.FATAL.EXCEP" varFormat="Java">
+   Fatal Error while executing command against Domino Server:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the message returned from the Domino Server to see how to respond.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE004I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.RESTARTING.INFO" varFormat="Java">
+   Domino Change Detection Connector is restarting.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.RESTARTINGSUPPORT.INFO" varFormat="Java">
+   Checkpoint/restart is only supported in &apos;After read&apos; and &apos;End of cycle&apos; mode.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE006E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NODOCUMENTS1.EXCEP" varFormat="Java">
+   No documents in the list of UnIDs, or the list is null.
+   </MsgText>
+   <Explanation> <p>
+   The method getCurrentDocumentUnID fail3e trying to get the UnID of the current document
+   from the document info returned by the native layer.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE007E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NODOCUMENTS2.EXCEP" varFormat="Java">
+   No documents in the list of UnIDs, or the list is null.
+   </MsgText>
+   <Explanation> <p>
+   The method getCurrentDocumentNoteID failed trying to get the NoteID
+   of the current document from the document info returned by the native layer.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE008E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NODOCUMENTS3.EXCEP" varFormat="Java">
+   No documents in the list of UnIDs, or the list is null.
+   </MsgText>
+   <Explanation> <p>
+   The method getCurrentDocumentState failed trying to get the state
+   (normal or deleted) of the current document from the document info
+   returned by the native layer. This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE009E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.THREADACTIVE.EXCEP" varFormat="Java">
+   Connector already initialized. You must terminate it before initializing again.
+   </MsgText>
+   <Explanation> <p>
+   An attempt was made to initialize the Domino Change Detection Connector after
+   it was already initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector is terminated before attempting to initialize the
+   Connector again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NOSESSION.EXCEP" varFormat="Java">
+   Connector was unable to initialize local Notes session to Domino Server. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a local Notes session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE011I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.BADBOOL.INFO" varFormat="Java">
+   Enabling SSL flag since &apos;iiopSSL&apos; was not set to true or false.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE012E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SESSION.EXCEPTION" varFormat="Java">
+   NotesException encountered trying to create a session with the Domino Server:
+   Class Name=&apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;,
+   Exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector encountered an exception while trying to create
+   a session with the Domino Server and was unable to continue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Domino Server being queried is still running and that
+   the connection information in the Domino Change Detection Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE013I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.CONNECTED.INFO" varFormat="Java">
+   Successfully connected to Domino Server:
+   Name=&apos;&apos;<Variable formatSpec="{0}">server name</Variable>&apos;&apos;,
+   Version=&apos;&apos;<Variable formatSpec="{1}">version number</Variable>&apos;&apos;,
+   Platform=&apos;&apos;<Variable formatSpec="{2}">operating system</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.DATABASE.EXCEPTION" varFormat="Java">
+   Domino Change Detection Connector unable to open database 
+   &apos;&apos;<Variable formatSpec="{0}">database name</Variable>&apos;&apos; on server
+   &apos;&apos;<Variable formatSpec="{1}">server name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector was unable to connect to the specified database
+   on the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the correct database name was specified for the Domino Change Detection Connector
+   and that the connection information in the Domino Change Detection Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE015E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.DATABASE.EXCEPTION.2" varFormat="Java">
+   Domino Change Detection Connector unable to open database 
+   &apos;&apos;<Variable formatSpec="{0}">database name</Variable>&apos;&apos; on server
+   &apos;&apos;<Variable formatSpec="{1}">server name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector was unable to connect to the specified database
+   on the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the correct database name was specified for the Domino Change Detection Connector
+   and that the connection information in the Domino Change Detection Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE016E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NOINIT.EXCEPTION" varFormat="Java">
+   Could not initialize the Domino Change Detection Connector. Exception
+   occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to initialize the Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception in message for information on how to respond.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE017W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.STOPSESSION.WARNING" varFormat="Java">
+   Domino Change Detection Connector could not terminate the local Notes session.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE018W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.IIOP.WARNING" varFormat="Java">
+   Domino Change Detection Connector could not close the IIOP objects.
+   Exception occurred: id=<Variable formatSpec="{0}">id</Variable>
+   exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- The message CTGDJE019E has been changed to a warning message (CTGDIE092W) since 
+the iterator state key is not mandatory -->
+
+<Message ID="CTGDJE020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.DOMINOSERVERIP.EXCEPTION" varFormat="Java">
+   The &apos;dominoServerIP&apos; parameter must be set to use
+   the Domino Change Detection Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter dominoServerIP was not specified in the
+   Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the dominoServerIP parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE021E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.USERNAME.EXCEPTION" varFormat="Java">
+   The &apos;userName&apos; parameter must be set to use
+   the Domino Change Detection Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter userName was not specified in the
+   Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the userName parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE022E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.DATABASE.EXCEPTION.3" varFormat="Java">
+   The &apos;database&apos; parameter must be set to use
+   the Domino Change Detection Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter database was not specified in the
+   Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the database parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE024E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.BADDELIVERYMODE.EXCEPTION" varFormat="Java">
+   The &apos;deliveryMode&apos; parameter was set to an invalid value:
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter deliveryMode was specified in the
+   Domino Change Detection Connector but the value was not valid
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid value for the deliveryMode parameter in
+   the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE025E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SYSTEMSTOREKEY.EXCEPTION" varFormat="Java">
+   The &apos;systemStoreKey&apos; parameter must be set to use
+   the Domino Change Detection Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter systemStoreKey was not specified in the
+   Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the systemStoreKey parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE026W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SLEEPINT.WARN" varFormat="Java">
+   The &apos;sleepInterval&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.  The default
+   value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos; will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid sleepInterval parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE027W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TIMEOUT.WARN" varFormat="Java">
+   The &apos;timeout&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.  The default
+   value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos; will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid timeout parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE028E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NOSYNCSYSSTORE.EXCEPTION" varFormat="Java">
+   Could not read synchronization state from System Store. Exception
+   occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The method selectEntries failed trying to read the start synchronization state.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE029E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NOSRETRIEVESYSSTORE.EXCEPTION" varFormat="Java">
+   Could not retrieve state from persistent store. Exception
+   occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE030E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SYSTEM.STORE.KEY.NOT.FOUND.AND" varFormat="Java">
+   The System Store key not found and &apos;Start At&apos; parameter not specified.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid &apos;Start At&apos; parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE031I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.START.AT.START.OF.DATA.WILL.PERFORM" varFormat="Java">
+   Start at start of data. Will perform full synchronization.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE032I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.START.AT.END.OF.DATA.WILL.LISTEN" varFormat="Java">
+   Start at end of data. Will listen for new changes only.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE033I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.START.AT.SPECIFIC.DATE.WILL.USE.START.DATE" varFormat="Java">
+   Start at specific date. Will use start date: <Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE034E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.INVALID.START.AT.VALUE" varFormat="Java">
+   Invalid Start At value: <Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid &apos;Start At&apos; parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE035E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SYSTEM.STORE.ENTRY.DOES.NOT.CONTAIN.THE.ATTR" varFormat="Java">
+   The System Store Entry does not contain the
+   &apos;SYNC_TIME&apos; attribute.
+   </MsgText>
+   <Explanation> <p>
+   Either the System Store database is corrupted or an internal error occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the System Store database is not corrupted, before contacting IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE036E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.INVALID.VALUE.OF.THE.ATTR" varFormat="Java">
+   Invalid value of the &apos;&apos;<Variable formatSpec="{0}">PROP_SYNC_TIME</Variable>&apos;&apos; System Store
+   Entry attribute: <Variable formatSpec="{1}">attrValue</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE037E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SYSTEM.STORE.ENTRY.ATTRIBUTE.IS.UNKNOWN" varFormat="Java">
+   The System Store Entry attribute &apos;SYNC_TIME&apos; is
+   of unknown type: <Variable formatSpec="{1}">class name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE038I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.GETSYNCHRONIZATIONSTATE.START.DATE" varFormat="Java">
+   Start date for synchronization: <Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE039I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.WILL.CHECK.IF.REPORTED.UNIDS.ARE" varFormat="Java">
+   Verify reported UnIDs are processed on previous runs.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE040I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TIMEOUT.WAITING.FOR.NEXT.CHANGED" varFormat="Java">
+   Timeout waiting for next changed entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE041E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.UNID.LIST.IS.NULL" varFormat="Java">
+   UnID list is null.
+   </MsgText>
+   <Explanation> <p>
+   Connector tries to retrieves the next
+   valid document from the list of changed document UnIDs, the list is null. This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE042E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.RETRIEVE.DOCUMENT.WITH.UNID" varFormat="Java">
+   Could not retrieve document with UnID &apos;&apos;<Variable formatSpec="{0}">unID</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Domino Change Detection Connector could not retrieve document with specific UnID.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check database permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE043I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.CHECK.DATABASE.PERMISSIONS" varFormat="Java">
+   Check database permissions.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE044I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.IF.THE.DOCUMENT.IS.ALREADY" varFormat="Java">
+   If the document is already deleted, it will be reported on the next poll.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE045E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.READ.DOCUMENT.LAST.MODIFICATION.DATE" varFormat="Java">
+   Could not read document&apos;s last modification date. Exception occurred:
+   id=<Variable formatSpec="{0}">id</Variable>: exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to verify whether the document
+   passed has not been processed on previous Connector&apos;s runs.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE046E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.INVALID.END.DATE.VALUE" varFormat="Java">
+   Invalid end date value: <Variable formatSpec="{0}">time stamp</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The &apos;UnID&apos; parameter read from the Property Store has an invalid value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the Property Store is not corrupted, before contacting IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE047E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.CLEARPROPERTYSTORE.ERROR.ON.CLOSING.THE.STORE" varFormat="Java">
+   Error on closing the store: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to delete all stored document UnIDs
+   from the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the error message for more detailed information on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE048E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.ERROR.COULD.NOT.CLEAR.PROPERTY.STORE.TABLE" varFormat="Java">
+   Could not clear Property Store table:.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to delete all stored document UnIDs
+   from the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE049I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.STORESYNCHRONIZATION.STATE.START.DATE.IS" varFormat="Java">
+   Stores the synchronization state in the System Store. Start date is 
+   &apos;&apos;<Variable formatSpec="{0}">date</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE050I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.STORESYNCHRONIZATION.STATE.CHECK.DOCS.IS" varFormat="Java">
+   Check docs is set to &apos;&apos;<Variable formatSpec="{0}">UnIDs</Variable>&apos;&apos; UnID.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE051E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.STORE.THE.SYNCHRONIZATION.STATE.IN.THE.SYSTEM.STORE" varFormat="Java">
+   Could not store the synchronization state in the System Store.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to store the synchronization
+   state in the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE052E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TERMINATE.COULD.NOT.TERMINATE.THE.IIOP.SEESION" varFormat="Java">
+   Could not terminate the IIOP seesion.
+   Exception occurred: id=<Variable formatSpec="{0}">ID</Variable>, exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to terminate the IIOP Notes sessions.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE053E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TERMINATE.COULD.NOT.TERMINATE.THE.LOCAL.NOTES.SESSION" varFormat="Java">
+   Could not terminate the local Notes session.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to terminate the local Notes sessions.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE054E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TERMINATE.ERROR.ON.STOPPING.INTERNAL.THREAD" varFormat="Java">
+   Error on stopping internal thread.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The method terminate failed trying to stop the internal thread.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE055E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.TERMINATE.ERROR.ON.CLOSING.THE.SYSTEM.STORE.TABLE" varFormat="Java">
+   Exception while closing the System Store table: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to close the connection to the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE056E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.RETRIEVE.CREATED.DATE.FOR.DOCUMENT" varFormat="Java">
+   Could not retrieve created date for the document
+   &apos;&apos;<Variable formatSpec="{0}">document ID</Variable>&apos;&apos;.
+   Exception occurred:
+   id=<Variable formatSpec="{1}">ID</Variable>, exception=<Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to set the creation date attribute.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE057I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.WILL.ASSIGN.VALUE.OF.NULL.TO.ATTRIBUTE" varFormat="Java">
+   Will assign a value of NULL to attribute &apos;$$DateCreated&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE058E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.RETRIEVE.LAST.MODIFIED.DATE.FOR.DOCUMENT" varFormat="Java">
+   Could not retrieve last modified date for document &apos;&apos;<Variable formatSpec="{0}">document ID</Variable>&apos;&apos;.
+   Exception occurred: id=<Variable formatSpec="{1}">ID</Variable>,
+   exception=<Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Failed to set the modification date attribute.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE059I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.WILL.ASSIGN.A.VALUE.OF.NULL.TO.ATTRIBUTE" varFormat="Java">
+   Will assign a value of NULL to attribute &apos;$$DateModified&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE060I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.ADD.ITEM.TO.ENTRY" varFormat="Java">
+   The item &apos;&apos;<Variable formatSpec="{0}">item name</Variable>&apos;&apos; is of type
+   ATTACHMENT and will not be added to the Entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE061I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NEW.ATTRIBUTE" varFormat="Java">
+   Added a new attribute to the entry: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE062I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.ITEM.TYPE" varFormat="Java">
+   The item type is <Variable formatSpec="{0}">item type</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE063E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.RETRIEVE.ITEM.VALUES" varFormat="Java">
+   Could not retrieve item values.
+   Exception occurred: id=<Variable formatSpec="{0}">ID</Variable>,
+   exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Notes API could not recognize the item value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE064I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.VALUE.FOR.ATTRIBUTE.SKIPPED" varFormat="Java">
+   Value(s) for attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; will be skipped.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE065I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.THE.DATA.IS" varFormat="Java">
+    The data is: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE066E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.CONVERT.NOTES.DATE.TO.JAVA.DATE" varFormat="Java">
+   Could not convert Notes date to Java date. Exception occurred:
+   id=<Variable formatSpec="{0}">ID</Variable>, exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Connector failed to convert Domino dates to Java dates.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE067I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.DATE.VALUE.FOR.ATTRIBUTE" varFormat="Java">
+   Date value for attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; will be skipped.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE068E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.DETERMINE.CHANGE.TYPE.FOR.DOCUMENT.WITH.UNID" varFormat="Java">
+   Could not determine change type for document with
+   UNID &apos;&apos;<Variable formatSpec="{0}">document ID</Variable>&apos;&apos;.
+   Exception occurred: id=<Variable formatSpec="{1}">ID</Variable>,
+   exception=<Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Connector cannot determine the type of the added document.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE069I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.WILL.ASSIGN.CHANGE.TYPE" varFormat="Java">
+   Will assign change type &apos;unknown&apos; to
+   document &apos;&apos;<Variable formatSpec="{0}">document ID</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE070E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NATIVE.CALL.ERROR" varFormat="Java">
+   Native call to getModifiedNotes method returned NULL.
+   </MsgText>
+   <Explanation> <p>
+   Connector failed to retrieve the UnIDs of all changed Domino documents.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE071E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.COULD.NOT.PARSE.END.DATE.VALUE" varFormat="Java">
+   Could not parse end date value: <Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE072E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.STRING.TO.DATE" varFormat="Java">
+   Invalid string date format passed: <Variable formatSpec="{0}">date string</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE073E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.ERROR.ON.RETRIEVING.DOCUMENT.WITH.UNID" varFormat="Java">
+   Exception occurred while retrieving document with UnID &apos;&apos;<Variable formatSpec="{0}">unID</Variable>&apos;&apos;:
+   id=<Variable formatSpec="{1}">ID</Variable>, exception=<Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE074I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.LOCAL.CLIENT.SESSION.CREATED" varFormat="Java">
+   Local Client Session successfully created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE075E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.LOCAL.CLIENT.SESSION.EXCEP" varFormat="Java">
+   Connector unable to create Local Client Session. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   <Variable formatSpec="{1}">detail message string</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a Local Client session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE076I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.IOR.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. The specified IOR string is used. SSL is turned on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE077E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.IOR.INVALID.SSL.ON.SESSION.NOTCREATED.EXCEP" varFormat="Java">
+   Connector unable to create IIOP Session with the configured IOR string. SSL is turned on. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   <Variable formatSpec="{1}">detail message string</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a IIOP Session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE078I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.PORT.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. SSL is turned on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE079E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.PORT.USED.SSL.ON.SESSION.NOTCREATED.EXCEP" varFormat="Java">
+   Connector unable to create IIOP Session with SSL turned on. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   <Variable formatSpec="{1}">detail message string</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a IIOP Session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE080I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.CONFIGURED.IOR.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. SSL is turned off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE081E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.CONFIGURED.IOR.INVALID.SSL.OFF.EXCEP" varFormat="Java">
+   Connector unable to create IIOP Session with the configured IOR string. SSL is turned off. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   <Variable formatSpec="{1}">detail message string</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a IIOP Session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE082I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.PORT.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. SSL is turned off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE083E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.PORT.USED.SSL.OFF.SESSION.NOTCREATED.EXCEP" varFormat="Java">
+   Connector unable to create IIOP Session. SSL is turned off. Exception encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   <Variable formatSpec="{1}">detail message string</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Change Detection Connector could not create a IIOP Session to the
+   Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Connector parameters are configured correctly and that the Domino
+   Server is running.  Also, review the exception in the message for further information
+   on why the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE084W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SYSTEMSTOREKEY.WARN" varFormat="Java">
+   The &apos;systemStoreKey&apos; parameter was not specified in the
+   Domino Change Detection Connector. The Connector will not persist state.
+   </MsgText>
+   <Explanation> <p>
+   The parameter systemStoreKey was not specified in the
+   Domino Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the systemStoreKey parameter in the Connector to enable state persitence.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE085W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.ITEM.TYPE.NOT.HANDLED" varFormat="Java">
+   The Document item <Variable formatSpec="{0}">name of document item</Variable> of type 
+   <Variable formatSpec="{1}">type of document item</Variable> was not handled.
+   </MsgText>
+   <Explanation> <p>
+   The Notes API failed to process this document item&apos;s values.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE086I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.NOTESEXCEPTION.ID.AND.TEXT" varFormat="Java">
+   Notes API exception ID: <Variable formatSpec="{0}">ID of Notes API exception </Variable>
+   Notes API exception text: <Variable formatSpec="{1}">text of Notes API exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE087E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.THREADCLASS.EXCEP" varFormat="Java">
+   The following exception occurred during Connector&apos;s initialization:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Needed jar file, that is Notes.jar or NCSO.jar is not added to the 
+   classpath of IBM Security Verify Directory Integrator.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the needed jar file to the classpath of IBM Security Verify Directory Integrator.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE088E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.THREADCLASS.TERM.EXCEP" varFormat="Java">
+   The following exception occurred during Connector&apos;s termination: 
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Needed jar file, that is Notes.jar or NCSO.jar is not added to the 
+   classpath of IBM Security Verify Directory Integrator.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the needed jar file to the classpath of IBM Security Verify Directory Integrator.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE089E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.UNPARSEABLE" varFormat="Java">
+   Failed to convert the port parameter value to a numeric type: <Variable formatSpec="{0}">parameter value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The specified value for the parameter does not have the appropriate format.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify value with appropriate format for the httpPort parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJE090I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.OLD.CONFIG.DELIVERY.MODE" varFormat="Java">
+   The Delivery Mode parameter is removed since IBM Security Verify Directory Integrator 6.1.1.
+   Refer to the IBM Security Verify Directory Integrator documentation for more information.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJE091I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.SORTING" varFormat="Java">
+   Sorting changed documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE092W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOCHGDETECT.MISSING.SYSTEMSTOREKEY.WARN" varFormat="Java">
+   The iterator state key is not specified. No state will be stored. The Start At parameter&apos;s value will be used.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iterator state key if you want the state of the changelog connector to be saved.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

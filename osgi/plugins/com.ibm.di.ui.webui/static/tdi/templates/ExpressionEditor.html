@@ -1,0 +1,39 @@
+<div>
+	<div style='margin:0; padding:0; width:100%' data-dojo-attach-point="_control"></div>
+	
+	<div data-dojo-type="dijit/Menu" data-dojo-attach-point="_contextMenu" style="display:none">
+		<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_onEditExpression">Open parameter substitution editor...</div>
+		<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_onResetValue"
+		     data-dojo-attach-point="_browseMenu">Reset value</div>
+	</div>
+	
+	<div data-dojo-type="idx/widget/Dialog" data-dojo-attach-point="_editor" title="Expression Editor" style='width:500px'>
+		<select data-dojo-attach-point="_type" 
+			data-dojo-type="idx/form/RadioButtonSet"
+			labelAlignment='vertical' 
+			groupAlignment='vertical'
+			label="${nls.ParameterSubstitutionUI_ChooseMethod}"
+			data-dojo-attach-event="onChange:_selectEditor"
+			>
+			<option value="property">${nls.ParameterSubstitutionUI_Property}</option>
+			<option value="javascript">JavaScript</option>
+			<option value="initparam">Assemblyline parameter</option>
+			<option selected value="reset">${nls.ParameterSubstitutionUI_Reset}</option>
+		</select>
+		<p></p>
+		<div data-dojo-type="dijit/form/TextBox" style="width:100%" data-dojo-attach-point="_property"></div>
+		<div data-dojo-type="dijit/form/Textarea" data-dojo-attach-point="_javascript" style="display:none"></div>
+		<div data-dojo-attach-point="_initparamDiv">
+			<table width="100%">
+			<tr>
+			<td width="80%">
+			<div data-dojo-type="dijit/form/Select" style="width:100%" data-dojo-attach-point="_initparam"></div>
+			</td>
+			<td>
+			<div data-dojo-type="dijit/form/Button" label="..." data-dojo-attach-event="onClick:_editInitParams"></div>
+			</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>

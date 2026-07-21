@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="10" UUID="f5c0a313-cb0d-4540-b64c-2e86a68d0133" created="Fri Aug 22 12:35:05 CEST 2008" createdBy="NO010196" main="CreatePhoneDB" modified="Fri Aug 22 13:43:10 CEST 2008" modifiedBy="NO010196" project="Tutorial" version="7.0">
+    
+
+
+
+
+<AssemblyLine name="CreatePhoneDB">
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="Create table" state="Enabled"/>
+                <Component name="ConnectorLoop" state="Enabled"/>
+                <Component name="PhoneDB" state="Simulated"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <Script name="Create table">
+                <parameter name="includeFiles"/>
+                <parameter name="script"><![CDATA[// Set up the DDL
+//
+var createSQL = "CREATE TABLE PHONEDB" +
+		       " (" +
+				" NAME VARCHAR(100) NOT NULL," +
+				" PHONE VARCHAR(250) NOT NULL," +
+				" CONSTRAINT pk_NAMENUMBER PRIMARY KEY (NAME, PHONE)" +
+			   ")";
+
+// Delete table if it already exists
+//
+task.logmsg("...dropping table...");
+res = PhoneDB.connector.execSQL( "DROP TABLE PHONEDB" );
+
+// Who cares if this fails :) Now try to re-create it
+
+task.logmsg("...creating table...");
+task.logmsg("...SQL: " + createSQL);
+
+// Call CI method for JDBC Connector: execSQL()
+//
+res = PhoneDB.connector.execSQL( createSQL );
+
+// Check result for any errors again
+//
+if (res.length() > 0) {
+	task.logmsg("Error creating table: " + res);
+	task.shutdown(); // Stop the AL
+}
+
+// Now to create the index
+//
+task.logmsg("...Creating Index...");
+res = PhoneDB.connector.execSQL( "CREATE INDEX TNAME ON PHONEDB(NAME)" );
+
+// Check result for any errors again
+//
+if (res.length() > 0) {
+	task.logmsg("Error creating table: " + res);
+	task.shutdown(); // Stop the AL
+}]]></parameter>
+            </Script>
+            <Loop name="ConnectorLoop">
+                <LoopType>1</LoopType>
+                <Connector name="ConnectorLoop">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">Tutorial\PhoneNumbers.xml</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="isnamespaceaware">false</parameter>
+                        <parameter name="isvalidating">false</parameter>
+                        <parameter name="omitxmldeclaration">false</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>User</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.User</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>telephoneNo</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.telephoneNo</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output"/>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>User</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>telephoneNo</Name>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>User</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>telephoneNo</Name>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria/>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                    <BranchType>0</BranchType>
+                    <ChildComponents/>
+                </Connector>
+                <Branch name="ConnectorLoop">
+                    <Connector name="PhoneDB">
+                        <InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+                        <ConnectorMode>AddOnly</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <UserComment/>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="jdbcDriver">org.apache.derby.jdbc.ClientDriver</parameter>
+                            <parameter name="jdbcLogin">APP</parameter>
+                            <parameter name="jdbcPassword">APP</parameter>
+                            <parameter name="jdbcSource">jdbc:derby://localhost:1527/TutorialDB;create=true</parameter>
+                            <parameter name="jdbcTable">PhoneDB</parameter>
+                            <parameter name="userComment"/>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>NAME</Name>
+                                <Type>advanced</Type>
+                                <Script>work.User</Script>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>PHONE</Name>
+                                <Type>advanced</Type>
+                                <Script>work.telephoneNo</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>NAME</Name>
+                                <NativeSyntax>VARCHAR</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>PHONE</Name>
+                                <NativeSyntax>VARCHAR</NativeSyntax>
+                            </SchemaItem>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <LinkCriteriaItem>
+                                <Key>11bea27eb21</Key>
+                                <Attribute>NAME</Attribute>
+                                <Operator>equals</Operator>
+                                <Value>$User</Value>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="initreconnect">false</parameter>
+                            <parameter name="numberOfRetries">1</parameter>
+                            <parameter name="retryDelay">10</parameter>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                        <BranchType>0</BranchType>
+                        <ChildComponents/>
+                    </Connector>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </Loop>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

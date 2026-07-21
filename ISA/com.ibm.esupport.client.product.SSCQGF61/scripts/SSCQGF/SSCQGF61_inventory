@@ -1,0 +1,165 @@
+! filename: SSCQF61_inventory                                                                   !
+! DESCRIPTION:																					   !
+!      Collector Service Tool Inventory for IBM WebSphere Adapter for Email					   !
+!																								   !
+!--------------------------------------------------------------------------------------------------!
+! Options                                                                                          !
+!--------------------------------------------------------------------------------------------------!
+
+! The following three macros are automatically passed from the Collector and should be included  !
+! in all Support Assistant inventory files                                                       !
+
+Macro  InstallDir  { }
+Macro  OutputDir  { } 
+Macro  TempDir  { }
+
+Macro  ProductSetting_3 { }
+Macro  SolDir $(ProductSetting_3)
+
+
+!--------------------------------------------------------------------------------------------------!
+[ Windows NT, Windows 2000, Windows XP, Windows 2003 ]                                   ! Windows !
+!--------------------------------------------------------------------------------------------------!
+
+!-------------------------------------------------------------------------------------!
+! Collect TDI Server log files  if the TDI Server Installation Directory is specified !                                  !
+!-------------------------------------------------------------------------------------!
+Exec SCRATCH QUIET echo  
+	if $(InstallDir) defined
+		GetFiles  $(InstallDir)\ibmditk.bat
+		GetFiles  $(InstallDir)\ibmdisrv.bat
+		GetFiles  $(InstallDir)\derby.log
+		GetFiles  $(InstallDir)\win32_service\ibmdiservice.props
+   		GetFiles  $(InstallDir)\logs\*.log
+   		GetFiles  $(InstallDir)\etc\*.properties
+   	   	GetFiles  $(InstallDir)\etc\global.properties.v61
+   		GetFiles  $(InstallDir)\etc\*.xml
+   		GetFiles  $(InstallDir)\etc\reconnect.rules
+   		GetFiles-r  $(InstallDir)\system_logs\*.log		
+   		ListDir-R IncludedJarFiles.txt $(InstallDir)\jars
+   		Exec  TDIComponentVersion.txt   QUIET echo. ,
+		                            "$(InstallDir)\ibmdisrv.bat" "-v",                 
+		                    QUIET echo. ,
+		                    QUIET echo.
+			  
+	endif
+	
+	if $(SolDir) defined
+	   	GetFiles  $(SolDir)\logs\*.log
+	   	GetFiles  $(SolDir)\etc\*.properties
+	   	GetFiles  $(SolDir)\etc\*.xml
+	   	GetFiles  $(SolDir)\derby.log
+	   	GetFiles  $(SolDir)\etc\reconnect.rules
+	   	GetFiles  $(SolDir)\solution.properties
+	   	GetFiles-r $(SolDir)\system_logs\*.log		
+	endif
+	
+	Exec  System\system.txt  QUIET echo. ,
+                            date /t,                                 ! Date
+                 QUIET echo. ,
+                            hostname,                                ! Host name
+                 QUIET echo. ,
+                            mem,                                     ! Memory  
+                 QUIET echo. ,
+                            net start,                               ! Started services
+                 QUIET echo. ,
+                 QUIET echo.
+
+!--------------------------------------------------------------------------------------------------!
+[ AIX, Solaris, SunOS, Sun OS, HP-UX, Linux ]                                   ! Unix !
+!--------------------------------------------------------------------------------------------------!
+
+!----------------------------------------------------------------------!
+! Collect AMC  log and trace files                                     !
+!----------------------------------------------------------------------!
+Exec SCRATCH QUIET echo  
+
+Exec SCRATCH QUIET echo  
+	if $(InstallDir) defined
+		GetFiles  $(InstallDir)/ibmditk.sh
+		GetFiles  $(InstallDir)/ibmdisrv.sh
+		GetFiles  $(InstallDir)/derby.log
+	   	GetFiles  $(InstallDir)/logs/*.log
+	   	GetFiles  $(InstallDir)/etc/*.properties
+	   	GetFiles  $(InstallDir)/etc/global.properties.v61
+	   	GetFiles  $(InstallDir)/etc/*.xml
+	   	GetFiles  $(InstallDir)/etc/reconnect.rules
+	   	GetFiles-r $(InstallDir)/system_logs/*.log		
+	   	ListDir-R IncludedJarFiles.txt $(InstallDir)/jars
+	   	Exec  TDIComponentVersion.txt   QUIET echo. ,
+				             "$(InstallDir)/ibmdisrv.bat" "-v",                 
+				    QUIET echo. ,
+		                    QUIET echo.
+		
+	endif
+	
+
+	if $(SolDir) defined
+		   	GetFiles  $(SolDir)/logs/*.log
+		   	GetFiles  $(SolDir)/etc/*.properties
+		   	GetFiles  $(SolDir)/etc/*.xml
+		   	GetFiles  $(SolDir)/etc/reconnect.rules
+		   	GetFiles  $(SolDir)/solution.properties
+		   	GetFiles  $(SolDir)/derby.log
+		   	GetFiles-r  $(SolDir)/system_logs/*.log		
+		   	
+	endif
+
+Exec  System/system.txt  QUIET echo. ,
+                            date ,                                 ! Date
+                 QUIET echo. ,
+                            hostname,                                ! Host name
+                 QUIET echo. ,
+                            mem,                                     ! Memory  
+                 QUIET echo. ,
+                            net start,                               ! Started services
+                 QUIET echo. ,
+                 QUIET echo.
+
+
+!--------------------------------------------------------------------------------------------------!
+[ Windows NT, Windows 2000, Windows XP, Windows 2003 ]                                   ! Windows !
+!--------------------------------------------------------------------------------------------------!
+
+!-------------------------------------------------------------------------------------!
+! Collect AMC log files                                                               !                   
+!-------------------------------------------------------------------------------------!
+Exec SCRATCH QUIET echo  
+
+	if $(InstallDir) defined
+   		GetFiles $(InstallDir)\AppServer\profiles\amcprofile\auiml\logs\*.*
+   		GetFiles $(InstallDir)\bin\ActionManager\*.properties
+   		GetFiles $(InstallDir)\bin\ActionManager\logs\*.*
+   		GetFiles $(InstallDir)\AppServer\profiles\amcprofile\installedApps\DefaultNode\tdiamc.war.ear\tdiamc.war\amc.properties
+   	endif
+
+!--------------------------------------------------------------------------------------------------!
+[ AIX, Solaris, SunOS, Sun OS, HP-UX, Linux ]                                   ! Unix !
+!--------------------------------------------------------------------------------------------------!
+
+!----------------------------------------------------------------------!
+! Collect AMC log files                                                !
+!----------------------------------------------------------------------!
+
+
+Exec SCRATCH QUIET echo  
+	if $(InstallDir) defined
+		GetFiles $(InstallDir)/AppServer/profiles/amcprofile/auiml/logs/AMC.log.*
+   		GetFiles $(InstallDir)/bin/ActionManager/*.properties
+   		GetFiles $(InstallDir)/bin/ActionManager/logs/*.*
+   		GetFiles $(InstallDir)/AppServer/profiles/amcprofile/installedApps/DefaultNode/tdiamc.war.ear/tdiamc.war/amc.properties
+		
+	endif
+
+
+!--------------------------------------------------------------------------------------------------!
+[]                                                                                           ! All !
+!--------------------------------------------------------------------------------------------------!
+
+
+!--------------------------------------------------------------------------------------------------!
+[]                                                                                           ! All !
+!--------------------------------------------------------------------------------------------------!
+
+Exec SCRATCH QUIET echo  
+!--------------------------------------------------------------------------------------------------!

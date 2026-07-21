@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="04377f98-21aa-4272-8e85-8cb74349f76c" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="AD_getAllGroupMembers" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="AD_getAllGroupMembers">
+        <ModTime>1388405024325</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[//if ("AD".equals(changeDetectionType) && work.objectClass != null && work.objectClass.hasValueIC("group")) {
+if (work.getString("objectGUID") != null && work.objectClass != null && work.objectClass.hasValueIC("group")) {
+	e = work
+	dn = work.getString("$dn")
+	member = system.newAttribute("member")
+	
+	addGroupMembersToAttribute(work, member)
+	saveReturnAtts = input.getParam("ldapReturnAttributes")
+	
+	do {
+		nextRange = parseMemberRange(e)
+		
+		if (nextRange != "" && input != null) {
+		 	input.setParam("ldapReturnAttributes", nextRange)
+		 	try {
+		 		if (deBug) logmsg("-@@-->> " + resource.getString("LDAPSYNC.ACCUMULATING.MEMBERSHIP") + ": " + nextRange)
+		 		e = input.findEntry("$dn",dn)
+		 		addGroupMembersToAttribute(e, member)
+		 	} catch (ex) {
+		 		logmsg("WARN",resource.getString("LDAPSYNC.UNABLE.TO.FIND.MEMBER.ENTRY.IN.SOURCE.LDAP") + ": " + dn)
+		 	}	
+	 	}	
+	} while (nextRange != "")
+	
+	// task.logmsg("Total members: " + member.size())
+	
+	work.member = member
+	
+	input.setParam("ldapReturnAttributes", saveReturnAtts)
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

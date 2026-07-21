@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="176" UUID="6b8d0585-e1e1-448b-a31c-d95c98c13725" created="Sun Feb 02 17:39:28 CET 2014" createdBy="Administrator" main="Monitor" modified="Tue Mar 25 14:19:27 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Monitor">
+        <ModTime>1395753561750</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+var Monitor_vrs = "20140218 1443" // started on monitoring
+var Monitor_vrs = "20140321 1406" // adding monitoring events
+var Monitor_vrs = "20140322 1250" // monitor AL params in place for QRadar and SNMP
+var Monitor_vrs = "7.2 SSE 20140324 1147" // Finishing off monitoring hooks
+var Monitor_vrs = "7.2 SSE 20140324 1359" // Corrected passing error info to error monitor hooks
+var Monitor_vrs = "7.2 SSE 20140324 1445" // Added QRadar and SNMP monitoring ALs
+ *  *  *  *  * */
+var Monitor_vrs = "7.2 SSE 20140325 1418" // Calling custom monitor before any other Hook
+
+task.logmsg("Monitor vrs. " + Monitor_vrs);
+
+function monitor(eventType, passEntry) {
+	if (typeof eventType === "undefined") {
+		throw "monitor() must be called with the event type: 'security' or 'error'";
+	}
+	
+	var msg = resource.getString("LDAPSYNC.ERROR.EMITTING.MONITORING.EVENT");
+	
+	var monitorEntry = system.newEntry();
+	if (typeof passEntry !== "undefined" && passEntry !== null) {
+		monitorEntry.merge(passEntry);
+	}
+	
+	if (typeof work !== "undefined" && work !== null) {
+		monitorEntry.merge(work);
+	}
+	
+	var eventType = eventType.toLowerCase().trim();
+	monitorEntry["$eventType"] = eventType;
+	
+	msg += " (" + eventType + ")";
+	
+	if ("error".equals(eventType)) {
+		invokeHook("snmp", monitorEntry, msg + " [SNMP]", true);
+	} else
+	if ("security".equals(eventType)) {
+		invokeHook("qradar", monitorEntry, msg + " [QRadar]", true);
+	} else {
+		throw "monitor() must be called with the event type equal 'security' or 'error' - passed: " + eventType;
+	}
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

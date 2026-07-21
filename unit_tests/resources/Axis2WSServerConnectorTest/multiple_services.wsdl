@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/multiple_services/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="multiple_services" targetNamespace="http://www.example.org/multiple_services/">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/multiple_services/">
+    
+      <xsd:element name="getAge">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:name" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="getAgeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:age" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="second_getAge">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="second_getAgeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="age" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+	  <xsd:element name="name" type="xsd:string"/>
+	  <xsd:element name="age" type="xsd:int"/>
+      
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="getAgeRequest">
+    <wsdl:part element="tns:getAge" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAgeResponse">
+    <wsdl:part element="tns:getAgeResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="second_getAgeRequest">
+    <wsdl:part element="tns:second_getAge" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="second_getAgeResponse">
+    <wsdl:part element="tns:second_getAgeResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="first_interface">
+    <wsdl:operation name="getAge">
+      <wsdl:input message="tns:getAgeRequest"/>
+      <wsdl:output message="tns:getAgeResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="second_interface">
+    <wsdl:operation name="second_getAge">
+      <wsdl:input message="tns:second_getAgeRequest"/>
+      <wsdl:output message="tns:second_getAgeResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="first_binding" type="tns:first_interface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAge">
+      <soap:operation soapAction="http://www.example.org/multiple_services/getAge"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="second_binding" type="tns:second_interface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="second_getAge">
+      <soap:operation soapAction="http://www.example.org/multiple_services/getAge"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="first_service">
+    <wsdl:port binding="tns:first_binding" name="multiple_servicesSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="second_service">
+    <wsdl:port binding="tns:second_binding" name="multiple_servicesSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

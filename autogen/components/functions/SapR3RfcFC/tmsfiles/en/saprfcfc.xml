@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="saprfcfc" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIK201E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0001" varFormat="Java">
+   Must call the initialize method first!
+   </MsgText>
+   <Explanation> <p>
+   An attempt to use an uninitialized Function Component has been detected.  This
+   error may occur if the initialize method has not be successfully called before calling
+   other Function Component methods.  This may also occur if a Function Component method
+   has been called after calling terminate.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the calling code so that initialize method has been successfully called before
+   calling other Function Component methods.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK202E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0002" varFormat="Java">
+   Entry Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   missing value.
+   </MsgText>
+   <Explanation> <p>
+   A mandatory attribute is missing or is missing a value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the AssemblyLine mapping or client code so that the named attribute
+   has a value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK203E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0003" varFormat="Java">
+   Entry Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   missing value or value does not match expected type. Expected type:
+   &apos;&apos;<Variable formatSpec="{1}">document type</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   A mandatory attribute is missing or is missing a value of the correct type.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the AssemblyLine mapping or client code so that the named attribute
+   has a value and its type is as expected.  See Users Guide for details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK204E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0004" varFormat="Java">
+   Entry attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   must be one of &apos;xmlDomDocument&apos;, &apos;xmlString&apos;, or &apos;multiValuedAttributes&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the AssemblyLine mapping or client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK205E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0005" varFormat="Java">
+   Entry object expected.
+   </MsgText>
+   <Explanation> <p>
+   The object type passed the Function Components perform method was not a
+   IBM Security Verify Directory Integrator Entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK206E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0006" varFormat="Java">
+   Must call initialize() first.
+   </MsgText>
+   <Explanation> <p>
+   An attempt has been made to use an uninitialized Function Component.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the client code.  Ensure the initialize method is called before using the
+   Function Component.  Ensure the Function Component is not use after calling its
+   terminate method.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK207E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0007" varFormat="Java">
+   Function cannot be reused once terminate() has been called.
+   </MsgText>
+   <Explanation> <p>
+   An attempt has been made to use the Function Component after its terminate method
+   has been called.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the client code.  Ensure the initialize method is called before using the
+   Function Component.  Ensure the Function Component is not use after calling its
+   terminate method.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK208E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0008" varFormat="Java">
+   &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos; !=
+   &apos;&apos;<Variable formatSpec="{1}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The classname does not match the expected classname.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the AssemblyLine attribute mapping or client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK209E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0009" varFormat="Java">
+   Mandatory RFC parameter named
+   &apos;&apos;<Variable formatSpec="{0}">field name</Variable>&apos;&apos;
+   has not been supplied.
+   </MsgText>
+   <Explanation> <p>
+   RFC modules in SAP often define mandatory import and table parameters.  The parameters
+   must be present when calling the RFC.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   For the RFC being called, use transaction SE37 in the target SAP system to determine
+   the mandatory RFC parameters.  Correct the AssemblyLine attribute mapping or
+   client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK210E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0010" varFormat="Java">
+   Length of supplied value for field 
+   &apos;&apos;<Variable formatSpec="{0}">field name</Variable>&apos;&apos;
+   exceeds maximum length &apos;&apos;<Variable formatSpec="{1}">field length</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The length of the value supplied for the named RFC parameters or table parameter field
+   exceeds the maximum length defined by the RFC in the target SAP system.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   For the RFC being called, use transaction SE37 in the target SAP system to determine
+   the length of the given RFC parameter or table parameter field.  Correct the 
+   AssemblyLine attribute mapping or client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK211E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0011" varFormat="Java">
+   &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos; does not equal
+   &apos;&apos;<Variable formatSpec="{1}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The classname does not match the expected classname.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the AssemblyLine attribute mapping or client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK212E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0012" varFormat="Java">
+   Mandatory RFC parameter named
+   &apos;&apos;<Variable formatSpec="{0}">field name</Variable>&apos;&apos;
+   has not been supplied.
+   </MsgText>
+   <Explanation> <p>
+   RFC modules in SAP often define mandatory import and table parameters.  The parameters
+   must be present when calling the RFC.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   For the RFC being called, use transaction SE37 in the target SAP system to determine
+   the mandatory RFC parameters.  Correct the AssemblyLine attribute mapping or
+   client code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK213E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0013" varFormat="Java">
+   No such function named
+   &apos;&apos;<Variable formatSpec="{0}">function name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The entry attributes and values represent an RFC request for an RFC module that
+   does not exist in the target SAP system, or has not been released.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the RFC exists on the target SAP system.  Ensure the RFC name is correctly
+   specified in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK214E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0014" varFormat="Java">
+   The remove method is not implemented.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the Users Guide.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK215E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0015" varFormat="Java">
+   The Function Component detected an exception while attempting to disconnect.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the network between the Function Component and SAP is available.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK216E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0016" varFormat="Java">
+   Connection pool &apos;&apos;<Variable formatSpec="{0}">pool name</Variable>&apos;&apos; already exists.
+   The message is: &apos;&apos;<Variable formatSpec="{1}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Restart the AssemblyLine.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK217E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0017" varFormat="Java">
+   No more connections available in &apos;&apos;<Variable formatSpec="{0}">pool name</Variable>&apos;&apos;.
+   The message is: &apos;&apos;<Variable formatSpec="{1}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Restart the AssemblyLine.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK218E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0018" varFormat="Java">
+   Unable to establish a connection using &apos;&apos;<Variable formatSpec="{0}">pool name</Variable>&apos;&apos;.
+   The message is: &apos;&apos;<Variable formatSpec="{1}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the network is available.  Ensure the target SAP system is available.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK219E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0019" varFormat="Java">
+   Unable to execute RFC &apos;&apos;<Variable formatSpec="{0}">function name</Variable>&apos;&apos;.
+   The message is: &apos;&apos;<Variable formatSpec="{1}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the RFC on the target SAP system is functioning correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK220E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0020" varFormat="Java">
+   Communication error with SAP ABAP Application Server.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the network is available.  Ensure the target SAP system is available.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK221W" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0021" varFormat="Java">
+   Trouble invoking &apos;&apos;<Variable formatSpec="{0}">function name</Variable>&apos;&apos;.
+   The function has been retried <Variable formatSpec="{1}">number of retries</Variable> times.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the network is available.  Ensure the target SAP system is available.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK222E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0022" varFormat="Java">
+   Trouble invoking &apos;&apos;<Variable formatSpec="{0}">function name</Variable>&apos;&apos;.
+   The function has been retried <Variable formatSpec="{1}">number of retries</Variable> times.
+   The message is: &apos;&apos;<Variable formatSpec="{2}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the network is available.  Ensure the target SAP system is available.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK223E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0023" varFormat="Java">
+   Unable to create DOM parser.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure IBM Security Verify Directory Integrator has been correctly installed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK224E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0024" varFormat="Java">
+   Unable to parse DOM parser.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure IBM Security Verify Directory Integrator has been correctly installed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK225E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0025" varFormat="Java">
+   Unable to read DOM parser.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure Security Verify Directory Integrator has been correctly installed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK226E" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0026" varFormat="Java">
+   Failed to prepare parameters for RFC.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the AssemblyLine attribute mapping or client code has correctly initialized
+   the entry for the Function Component.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK227I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0027" varFormat="Java">
+   Executing function for XSL file:: &apos;&apos;<Variable formatSpec="{0}">file</Variable>&apos;&apos;.
+   Multiple elements with name &apos;&apos;<Variable formatSpec="{0}">element name</Variable>&apos;&apos;
+   are present in the structure type.  Using the element in first position following the preorder traversal.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK228I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0028" varFormat="Java">
+   DOM: Connecting to SAP ABAP Application Server...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK229I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0029" varFormat="Java">
+   DOM: Connecting to SAP ABAP Application Server...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK230I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0030" varFormat="Java">
+   DOM: Getting the dynamic proxy.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK231I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0031" varFormat="Java">
+   DOM: Getting the importer.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK232I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0032" varFormat="Java">
+   DOM: Populating the request with data values.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK233I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0033" varFormat="Java">
+   DOM: Executing RFC: &apos;&apos;<Variable formatSpec="{0}">function name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK234I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0034" varFormat="Java">
+   DOM: Exporting RFC results.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK235I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0035" varFormat="Java">
+   DOM: Disconnecting...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK236I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0036" varFormat="Java">
+   XSchema: Connecting to the SAP system.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK237I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0037" varFormat="Java">
+   XSchema: Getting the dynamic proxy.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK238I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0038" varFormat="Java">
+   XSchema: Creating the importer.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK239I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0039" varFormat="Java">
+   XSchema: Populating the request with data values.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK240I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0040" varFormat="Java">
+   XSchema: Disconnecting...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK241I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0041" varFormat="Java">
+   XSchema: Getting the importer.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK242I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0042" varFormat="Java">
+   Entry: Connecting to SAP system...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK243I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0043" varFormat="Java">
+   Entry: Getting the dynamic proxy.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK244I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0044" varFormat="Java">
+   Entry: Disconnecting...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK245I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0045" varFormat="Java">
+   The input entry is: &apos;&apos;<Variable formatSpec="{0}">entry</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK246I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0046" varFormat="Java">
+   Obtaining RFC request from DOM Document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK247I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0047" varFormat="Java">
+   Invoking RFC from DOM Document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK249I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0048" varFormat="Java">
+   Invoking RFC from XML string.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK250I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0050" varFormat="Java">
+   Invoking RFC using MVA parameter.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK251I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0051" varFormat="Java">
+   Using JCo config option
+   &apos;&apos;<Variable formatSpec="{0}">option name</Variable>&apos;&apos;:
+   &apos;&apos;<Variable formatSpec="{1}">option value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK252I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_RfcXmlInvoker_USAGE" varFormat="Java">
+   The supplied options are not supported or were incomplete.<br/><br/>
+   Usage: java -cp (SAP_JCO_HOME)/sapjaco.jar;(TDI_HOME)/jars/functions/SapR3RfcFC.jar -Djava.library.path=(SAP_JCO_HOME) com.ibm.di.fc.sapr3rfc.RfcXmlInvoker-f [input XML file] -o [output XML file] -p [JCO Connection properties file]<br/>
+   <pre>    -f The name of the file containing the input RFC request as XML.</pre><br/>
+   <pre>    -o The name of the file to be produced containing RFC response as XML.</pre><br/>
+   <pre>    -p The JCO Connection properties file.</pre><br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK253I" prefix="yes">
+   <MsgText pgmKey="SAPR3_RFCFC_0053" varFormat="Java">
+   Input entry value: &apos;&apos;<Variable formatSpec="{0}">entry value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

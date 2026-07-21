@@ -1,0 +1,42 @@
+# Copyright IBM Corp. 2025, 2025
+
+# Add a pre-commit hook which will be used to detect secrets in the committed
+# files.
+repos:
+- repo: https://github.com/ibm/detect-secrets
+  rev: 0.13.1+ibm.61.dss
+  hooks:
+    - id: detect-secrets # pragma: whitelist secret
+      # You can run `detect-secrets-hook --help` to list out all possible
+      # options.  You may also run `pre-commit run detect-secrets` to preview
+      # the scan result.
+      args: [--baseline, .secrets.baseline, --use-all-plugins ]
+      stages: [pre-commit]
+
+# Add a pre-commit hook to ensure that the copyright message has been updated
+# correctly for all checked in files.
+- repo: local
+  hooks:
+    - id: check-copyright
+      name: Check the copyright
+      description: >
+        Ensures that the copyright notice on checked in files has been updated
+        correctly.
+      entry: ./hooks/check-copyright
+      language: script
+      stages: [pre-commit]
+
+# Add a commit-msg hook to ensure that the commit message is prefixed with a
+# Jira work item identifier.
+- repo: local
+  hooks:
+    - id: jira-commit-msg
+      name: Jira commit message
+      description: >
+        Ensures a Jira work item identifier is within the first line of every
+        commit message.
+      entry: ./hooks/commit-msg
+      language: script
+      stages: [commit-msg]
+
+default_install_hook_types: [pre-commit, commit-msg]

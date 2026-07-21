@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Square_SimpleWebService_definitionName" targetNamespace="ns:Square_SimpleWebService_thisNamespace" xmlns:tns="ns:Square_SimpleWebService_thisNamespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <message name="Square_SimpleWebServiceRequest" xmlns:test="http://www.test.com" >
+    <part name="number" type="xsd:int"/>
+  </message>
+  <message name="Square_SimpleWebServiceResponse">
+    <part name="square" type="xsd:int"/>
+  </message>
+  <portType name="Square_SimpleWebService_definitionNamePortType">
+    <operation name="Square_SimpleWebService">
+      <input message="tns:Square_SimpleWebServiceRequest"/>
+      <output message="tns:Square_SimpleWebServiceResponse"/>
+    </operation>
+  </portType>
+  <binding name="Square_SimpleWebService_definitionNameBinding" type="tns:Square_SimpleWebService_definitionNamePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Square_SimpleWebService">
+      <soap:operation soapAction="ns:Square_SimpleWebService_thisNamespace#Square_SimpleWebService" style="rpc"/>
+      <input>
+        <soap:body use="literal" namespace="ns:Square_SimpleWebService_thisNamespace"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="ns:Square_SimpleWebService_thisNamespace"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Square_SimpleWebService_definitionNameService">
+    <port name="Square_SimpleWebService_definitionNamePort" binding="tns:Square_SimpleWebService_definitionNameBinding">
+      <soap:address location="http://localhost:9998/"/>
+    </port>
+  </service>
+</definitions>

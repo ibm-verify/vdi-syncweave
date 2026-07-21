@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpserver" tmsVersion="1.0" xml:lang="fr">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB101E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.READ.ERROR" varFormat="Java">
+	Impossible de lire l'objet depuis le stockage. L'erreur est : <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Il s'agit d'une erreur interne. Une erreur s'est produite lors de la lecture d'un objet du stockage.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB102E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.WRITE.ERROR" varFormat="Java">
+	Impossible d'écrire l'objet <q/><Variable formatSpec="{0}">objet_Java</Variable><q/> dans le stockage. L'erreur est : <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Il s'agit d'une erreur interne. Une erreur s'est produite lors de l'écriture d'un objet dans le stockage.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur. Contactez le support IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB103E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.DOES.NOT.EXIST" varFormat="Java">
+	L'emplacement de stockage <q/><Variable formatSpec="{0}">nom_dossier</Variable><q/> n'existe pas et n'a pas pu être créé.
+   </MsgText>
+   <Explanation> <p>
+	Le dossier de stockage configuré n'existe pas. La tentative de création a échoué.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que la configuration est correcte.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB104E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.NOT.FOLDER" varFormat="Java">
+	L'emplacement de stockage <q/><Variable formatSpec="{0}">nom_fichier</Variable><q/> existe mais n'est pas un dossier.
+   </MsgText>
+   <Explanation> <p>
+	L'emplacement de stockage doit être un dossier.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que la configuration est correcte.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB105E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.READ.CONTENT.FILE" varFormat="Java">
+   Impossible de lire la valeur pour la clé <q/><Variable formatSpec="{0}">nom_clé</Variable><q/> du fichier <q/><Variable formatSpec="{1}">nom_fichier</Variable><q/>. L'erreur est : <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Le fichier de stockage qui contient la valeur de la clé spécifiée n'a pas pu être lu.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur. Vérifiez les droits du système de fichiers.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB106E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.MKDIRS" varFormat="Java">
+   Impossible de créer des dossiers pour le chemin <q/><Variable formatSpec="{0}">chemin_fichier</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage n'a pas pu créer la structure de répertoire du système de fichiers.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez les droits du système de fichiers.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB107E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.NOT.FOLDER" varFormat="Java">
+   <q/><Variable formatSpec="{0}">nom_fichier</Variable><q/> existe déjà et n'est pas un dossier.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage s'attend à ce que le fichier spécifié soit un dossier.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB108E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.WRITE.CONTENT.FILE" varFormat="Java">
+   Impossible d'écrire dans le fichier <q/><Variable formatSpec="{0}">nom_fichier</Variable><q/>. L'erreur est : <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage n'a pas pu écrire les données dans le fichier spécifié.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB109E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.EMPTY" varFormat="Java">
+   La clé ne doit pas être vide.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne peut pas fonctionner avec des clés vides.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB110E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.SINGLE.SLASH" varFormat="Java">
+   La clé ne doit pas être une barre oblique simple.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage n'autorise pas une barre oblique simple comme clé. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB111E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CONSECUTIVE.SLASHES" varFormat="Java">
+   La clé ne doit pas contenir des barres obliques consécutives : <q/><Variable formatSpec="{0}">nom_clé</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne permet pas la présence de plusieurs barres obliques consécutives dans une clé.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB112E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.BACK.SLASHES" varFormat="Java">
+   La clé ne doit pas contenir de barres obliques inversées : <q/><Variable formatSpec="{0}">nom_clé</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne permet pas la présence de barres obliques inversées dans une clé.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB113E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CURLY.BRACKETS" varFormat="Java">
+   La clé ne doit pas contenir d'accolades : <q/><Variable formatSpec="{0}">nom_clé</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne permet pas la présence d'accolades dans une clé.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB114E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.SINGLE.DOT" varFormat="Java">
+   Une clé ne doit pas contenir de point simple : <q/><Variable formatSpec="{0}">composant_clé</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne permet pas la présence d'un point simple dans une clé.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB115E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.DOUBLE.DOTS" varFormat="Java">
+   Une clé ne peut pas contenir deux points : <q/><Variable formatSpec="{0}">composant_clé</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage ne permet pas la présence de deux points dans une clé.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB116E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.CANNOT.DELETE.FILE" varFormat="Java">
+   Impossible de supprimer le fichier <q/><Variable formatSpec="{0}">nom_fichier</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le mécanisme de stockage n'a pas réussi à supprimer le fichier spécifié.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez les droits du système de fichiers.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB117W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.MISSING.LOCAL.API" varFormat="Java">
+   Aucune API de serveur local détectée.
+   </MsgText>
+   <Explanation> <p>
+	Un fournisseur de point tactile a été configuré pour utiliser l'API locale, qui n'est pas
+	présente dans l'exécution en cours.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Configurez le serveur de point tactile de manière à ce qu'il utilise l'API du serveur distant.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB118E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.IVALID.HOST.OR.PORT" varFormat="Java">
+   Valeur de l'hôte (<q/><Variable formatSpec="{0}">hôte_réel_fourni</Variable><q/>)
+   ou du port (<q/><Variable formatSpec="{1}">port_réel_fourni</Variable><q/>) non valide.
+   </MsgText>
+   <Explanation> <p>
+	Consultez le message d'erreur.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Indiquez des valeurs correctes afin de pouvoir vous connecter au serveur distant.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB119E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.ERROR.CONNECTING.TO.SERVER" varFormat="Java">
+   Erreur lors de la connexion au serveur : <q/><Variable formatSpec="{0}">nom_serveur</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	La connexion au serveur distant n'a pas pu être établie.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le fournisseur du point tactile distant est en cours d'exécution.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB120E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.PARAMETER" varFormat="Java">
+   Valeur de paramètre manquante : <q/><Variable formatSpec="{0}">nom_paramètre</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Il manque un paramètre requis dans la configuration du serveur de point tactile.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Indiquer la valeur de paramètre manquante.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB121E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.CREATING.SESSION" varFormat="Java">
+   Impossible de créer la session vers le serveur distant : <q/><Variable formatSpec="{0}">nom_serveur</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Voir le message d'exception.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le serveur distant est en cours d'exécution et que les configurations du serveur du point tactile
+	sont toutes correctes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB122E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.IN.COMMUNICATION" varFormat="Java">
+   Une erreur est survenue au cours de la communication avec le serveur distant :
+   <q/><Variable formatSpec="{0}">nom_serveur</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Voir le message d'exception.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration du serveur de point tactile.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB123W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.ERROR.READING.STASH" varFormat="Java">
+   Impossible de lire le fichier de dissimulation. Raison : <q/><Variable formatSpec="{0}">message_d'implémentation_sous-jacent</Variable><q/> 
+   </MsgText>
+   <Explanation> <p>
+	Voir le message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Aucune action nécessaire.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB124I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.STASH.FILE.AREADY.READ" varFormat="Java">
+   Le fichier de dissimulation a déjà été lu. Utilisation des paramètres de chiffrement depuis le fichier solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB125I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.ENCRYPTION.SETTINGS" varFormat="Java">
+   Il manque des paramètres de chiffrement dans la configuration du serveur de point tactile. Utilisation des paramètres de chiffrement depuis le fichier solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB126E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.DEFAULT.ENCRYPTION.SETTINGS" varFormat="Java">
+   Aucun paramètre de chiffrement spécifié dans solution.properties.
+   </MsgText>
+   <Explanation> <p>
+	Il manque les paramètres de chiffrement requis par le serveur de point tactile dans solution.properties.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Entrez les paramètres de chiffrement pour que le chiffrement des mots de passe fonctionne.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB127E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.CONNECTOR.FROM.TOUCHPOINT.TEMPLATE" varFormat="Java">
+   Le connecteur manquant <q/><Variable formatSpec="{0}">nom_connecteur</Variable><q/> n'a pas été trouvé dans
+   le modèle <q/><Variable formatSpec="{1}">chemin_vers_fichier_modèle</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Le modèle de point tactile fourni ne contient pas le connecteur obligatoire.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le modèle de point tactile et vérifiez que le connecteur s'y trouve.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB128E" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.ERROR.SERIALIZING.ELEMENT" varFormat="Java">
+   Impossible de créer l'élément XML : {<Variable formatSpec="{0}">espace_de_nom_élément</Variable>}<Variable formatSpec="{1}">nom_local_élément</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Voir le message d'exception fourni.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur. Contactez le support IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB129W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.COULD.NOT.READ.FILE" varFormat="Java">
+   Impossible de lire le fichier de configuration du point tactile (<q/><Variable formatSpec="{0}">nom_fichier</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Voir le message d'exception fourni.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le fichier de configuration spécifié est lisible.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB130W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.NOT.SPECIFIED" varFormat="Java">
+   Propriété manquante : <q/>tp.server.config<q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le chemin vers le fichier de configuration du serveur de point tactile n'est pas spécifié.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Indiquez le chemin vers le fichier de configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB131W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.ERROR.RESTORING.STATE" varFormat="Java">
+   Impossible de restaurer l'état conservé.
+   </MsgText>
+   <Explanation> <p>
+	Voir le message d'exception fourni.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le stockage de persistance est lisible/inscriptible par l'application serveur du point tactile.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB132W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.ENTRY.STATE" varFormat="Java">
+   Etat manquant pour la ressource d'entrée : <q/><Variable formatSpec="{0}">url_ressource_entrée</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	L'état des ressources d'entrée doit être disponible dans le stockage de persistance.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le stockage de persistance est lisible/inscriptible par l'application serveur du point tactile.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB133W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.FEED.STATE" varFormat="Java">
+   Etat manquant pour la ressource de flux : <q/><Variable formatSpec="{0}">url_ressource_flux</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	L'état des ressources de flux doit être disponible dans le stockage de persistance.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le stockage de persistance est lisible/inscriptible par l'application serveur du point tactile.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB134I" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.DISABLED" varFormat="Java">
+   Le stockage de persistance du serveur de point tactile est désactivé.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB135E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.ERROR.CREATING.NODE" varFormat="Java">
+   Erreur lors de la création de la ressource d'entrée du fournisseur de point tactile (<q/><Variable formatSpec="{0}">nom_serveur</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Le serveur de point tactile n'est pas disponible pour créer une ressource basée sur la configuration fournie.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez la configuration particulière du fournisseur de point tactile.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB136E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.FACING.CONFIG" varFormat="Java">
+   Données de configuration manquantes pour la ressource Client d'instance de point tactile/Entrée de service.
+   </MsgText>
+   <Explanation> <p>
+	L'utilisateur n'a pas fourni la configuration requise lors de la création de la ressource Entrée Client/Service(-facing).
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Fournissez les données de configuration requises.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB137E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.ENTRY.CATEGORY" varFormat="Java">
+   La ressource d'entrée (<q/><Variable formatSpec="{0}">url_ressource_entrée</Variable><q/>) ne contient pas la catégorie de type de point tactile requise.
+   </MsgText>
+   <Explanation> <p>
+	La ressource d'entrée conservée doit contenir une catégorie spécifique de type de point tactile.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur. Contactez le support IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB138E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.TYPE.IS.NOT.ON.SERVER" varFormat="Java">
+   Le type de point tactile (<q/><Variable formatSpec="{0}">nom_catégorie</Variable><q/>) n'a pas été trouvé sur le
+   serveur <q/><Variable formatSpec="{1}">nom_serveur</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	Le type de point tactile requis est manquant sur le serveur.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que le type existe sur le serveur.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB139E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.INSTANCE.CONFIG" varFormat="Java">
+   Données de configuration manquantes pour la ressource Entrée d'instance de point tactile.
+   </MsgText>
+   <Explanation> <p>
+	L'utilisateur n'a pas fourni la configuration requise lors de la création d'une ressource Entrée d'instance de point tactile.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Fournissez les données de configuration requises.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB140E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.INSTANCE.ID.ALREADY.EXISTS" varFormat="Java">
+   Une instance de point tactile portant l'ID <q/><Variable formatSpec="{0}">ID instance</Variable><q/> est déjà présente sur le serveur.
+   </MsgText>
+   <Explanation> <p>
+	Le serveur de point tactile n'a pas pu restaurer les ressources avec des ID en double.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consultez le message d'erreur. Contactez le support IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB141E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.FACING.ENTRY.ALREADY.EXISTS" varFormat="Java">
+   Une ressource Entrée de Service d'instance de point tactile/Client (<q/><Variable formatSpec="{0}">URL relative de la ressource</Variable><q/>) existe déjà.
+   </MsgText>
+   <Explanation> <p>
+	Le serveur de point tactile n'a pas pu créer de ressources car il en existe déjà une.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Vérifiez que la ressource n'existe pas avant de la créer.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,105 @@
+#!/bin/sh
+
+# IBM_PROLOG_BEGIN_TAG
+#
+# %I%, %G%
+#
+# Licensed Materials - Property of IBM
+#
+# Restricted Materials of IBM
+#
+# (C) COPYRIGHT International Business Machines Corp. 2003, 2010
+# All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# IBM_PROLOG_END_TAG
+
+#################################################################
+# start up script for IBM Security Verify Directory Integrator for Unix platforms
+#################################################################
+
+# Function to source in the SDI setupCmdLine.sh script
+setupTDIEnv ()
+{
+. "$TEMP_BIN_DIR/setupCmdLine.sh"
+}
+
+#
+# CMDFINDER holds the command which is used to find other commands
+# depending on the platform.
+#
+CMDFINDER=which
+
+UNAME_OS=`uname`
+
+if [ "$UNAME_OS" = "OS/390" -o "$UNAME_OS" = "OS400" ] ; then
+	CMDFINDER=whence
+fi
+
+TEMP_BIN_DIR=`$CMDFINDER $0`
+TEMP_BIN_DIR=`dirname $TEMP_BIN_DIR`
+TEMP_BIN_DIR="$TEMP_BIN_DIR/bin"
+
+SKIP_ISCDIR_SETUP=1
+setupTDIEnv "$TEMP_BIN_DIR"
+
+PATH="$TDI_HOME_DIR:$TDI_JAVA_BIN_DIR:$PATH"
+export PATH
+
+#
+# -s overrides TDI_SOLDIR env
+#
+nosplash=""
+solnext=0
+for s
+do
+	case $s in
+		-s)  solnext=1;;
+		-s*) TDI_SOLDIR="`echo $s | cut -c3-`";;
+		-tdishutdown) nosplash="-noSplash"; solnext=0;;
+		-*)  solnext=0;;
+		*)   if [ $solnext -eq 1 ]; then
+			   TDI_SOLDIR=$s
+			   solnext=0
+			 fi;;
+	esac
+done
+
+# Create the solution directory if it does not exist
+if [ ! -d "$TDI_SOLDIR" ]; then
+	mkdir "$TDI_SOLDIR";
+fi
+
+# Move to the Solution Directory
+cd "$TDI_SOLDIR"
+
+# Create the logs directory if it does not exist
+if [ ! -d "logs" ]; then
+	mkdir logs;
+fi
+
+# Set the library path so all shared libraries are found.
+if [ $UNAME_OS = "Linux" -o $UNAME_OS = "SunOS" ] ; then
+	LD_LIBRARY_PATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$LD_LIBRARY_PATH"
+	export LD_LIBRARY_PATH
+elif [ $UNAME_OS = "HP-UX" ] ; then
+	SHLIB_PATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$SHLIB_PATH"
+	export SHLIB_PATH
+elif [ $UNAME_OS = "Darwin" ] ; then
+	DYLD_LIBRARY_PATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$DYLD_LIBRARY_PATH"
+	export DYLD_LIBRARY_PATH
+else
+	LIBPATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$LIBPATH"
+	export LIBPATH
+fi
+
+if [ $UNAME_OS = "Darwin" ] ; then
+    miadmin="$TDI_HOME_DIR/ce/eclipsece/miadmin.app/Contents/MacOS/miadmin"
+else
+    miadmin="$TDI_HOME_DIR/ce/eclipsece/miadmin"
+fi
+
+"$miadmin" "$@" $nosplash -vm "$TDI_JAVAW_PROGRAM" -vmargs -Dcom.ibm.di.loader.IDILoader.path="$TDI_HOME_DIR" 
+

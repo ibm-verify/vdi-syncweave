@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api">
+    <complexType name="logfile">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="size" type="long"></element>
+    		<element name="modified" type="long"></element>
+    		<element name="path" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="logfiles">
+    	<sequence>
+	    	<element name="config" type="string"></element>
+    		<element name="assemblyline" type="string"></element>
+    		<element name="items" type="tns:logfile" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="loglocation">
+    	<sequence>
+    		<element name="start" type="long"></element>
+    		<element name="count" type="long"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="logsearchresult">
+    	<sequence>
+    		<element name="msgno" type="long"></element>
+    		<element name="line" type="long"></element>
+    		<element name="endline" type="long"></element>
+    		<element name="content" type="string"></element>
+    		<element name="text" type="string"></element>
+    		<element name="type" type="string"></element>
+    		<element name="date" type="string"></element>
+    		<element name="time" type="string"></element>
+    		<element name="source" type="string"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="logqualifiers">
+    	<sequence>
+    		<element name="info" type="boolean"></element>
+    		<element name="warn" type="boolean"></element>
+    		<element name="error" type="boolean"></element>
+    		<element name="debug" type="boolean"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="logsearch">
+    	<sequence>
+	    	<element name="config" type="string"></element>
+    		<element name="assemblyline" type="string"></element>
+    		<element name="logfile" type="string"></element>
+    		<element name="regex" type="string"></element>
+    		<element name="source" type="string"></element>
+    		<element name="qualifiers" type="tns:logqualifiers"></element>
+    		<element name="location" type="tns:loglocation"></element>
+    		<element name="excludesource" type="string"></element>
+    		<element name="result" type="tns:logsearchresult" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+    <element name="logfiles" type="tns:logfiles"></element>
+    <element name="logsearch" type="tns:logsearch"></element>
+
+</schema>

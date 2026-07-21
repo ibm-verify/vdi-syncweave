@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="A_times_B_FlexibleWebService_definitionName" targetNamespace="ns:A_times_B_FlexibleWebService_thisNamespace" xmlns:tns="ns:A_times_B_FlexibleWebService_thisNamespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <message name="A_times_B_FlexibleWebServiceResponse">
+    <part name="a_times_b" type="xsd:double"/>
+    <part name="a_plus_b" type="xsd:double"/>
+  </message>
+  <message name="A_times_B_FlexibleWebServiceRequest">
+    <part name="a" type="xsd:double"/>
+    <part name="b" type="xsd:double"/>
+  </message>
+  <portType name="A_times_B_FlexibleWebService_definitionNamePortType">
+    <operation name="A_times_B_FlexibleWebService">
+      <input message="tns:A_times_B_FlexibleWebServiceRequest"/>
+      <output message="tns:A_times_B_FlexibleWebServiceResponse"/>
+    </operation>
+  </portType>
+  <binding name="A_times_B_FlexibleWebService_definitionNameBinding" type="tns:A_times_B_FlexibleWebService_definitionNamePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="A_times_B_FlexibleWebService">
+      <soap:operation soapAction="ns:A_times_B_FlexibleWebService_thisNamespace#A_times_B_FlexibleWebService" style="rpc"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="ns:A_times_B_FlexibleWebService_thisNamespace"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="ns:A_times_B_FlexibleWebService_thisNamespace"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="A_times_B_FlexibleWebService_definitionNameService">
+    <port name="tns:A_times_B_FlexibleWebService_definitionNamePort" binding="tns:A_times_B_FlexibleWebService_definitionNameBinding">
+      <soap:address location="https://localhost:9998/"/>
+    </port>
+  </service>
+</definitions>

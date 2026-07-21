@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.zOSCommandLineFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.zOSTSOCommandLine</parameter>
+				<parameter name="destLuName">BASELU</parameter>
+				<parameter name="modeName">#BATCH</parameter>
+				<parameter name="partnerTP">TDICMD</parameter>
+				<parameter name="srcLuName">BASELU</parameter>
+				<parameter name="userID"/>
+				<parameter name="userPSW"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>appcReturnCode</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>commandOutput</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tsoCommandReturnCode</Name>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>command</Name>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.zOSTSOCommandLine">
+			<TranslationFile>NLS/idi_fc_zos_tso_command_line</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>partnerTP</ListItem>
+					<ListItem>destLuName</ListItem>
+					<ListItem>srcLuName</ListItem>
+					<ListItem>modeName</ListItem>
+					<ListItem>userID</ListItem>
+					<ListItem>userPSW</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>partnerTP</ListItem>
+				<ListItem>destLuName</ListItem>
+				<ListItem>srcLuName</ListItem>
+				<ListItem>modeName</ListItem>
+				<ListItem>userID</ListItem>
+				<ListItem>userPSW</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="destLuName">
+				<Values>
+					<ListItem>BASELU</ListItem>
+				</Values>
+				<parameter name="description">DLU_DESC</parameter>
+				<parameter name="label">DLU_LBL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="modeName">
+				<Values>
+					<ListItem>#BATCH</ListItem>
+				</Values>
+				<parameter name="description">MOD_DESC</parameter>
+				<parameter name="label">MOD_LBL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="partnerTP">
+				<parameter name="description">WU_DESC</parameter>
+				<parameter name="label">WU_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="srcLuName">
+				<Values>
+					<ListItem>BASELU</ListItem>
+				</Values>
+				<parameter name="description">SLU_DESC</parameter>
+				<parameter name="label">SLU_LBL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="userID">
+				<parameter name="description">UID_DESC</parameter>
+				<parameter name="label">UID_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="userPSW">
+				<parameter name="description">UPW_DESC</parameter>
+				<parameter name="label">UPW_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

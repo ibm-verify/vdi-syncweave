@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="9911480b-1b71-4773-967a-5d64d3e5c409" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="ChangesLost" modified="Mon Dec 30 13:03:45 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="ChangesLost">
+        <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+        <ModTime>1388405025136</ModTime>
+        <ConnectorMode>AddOnly</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="filePath"/>
+        </Configuration>
+        <Parser>
+            <InheritFrom>system:/Parsers/ibmdi.LDIF</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>*</Name>
+                <Type>simple</Type>
+                <Simple>*</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <DeltaSettings/>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

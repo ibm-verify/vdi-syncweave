@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="dsmlv2connector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIN001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.MISSING.REQUIRED.PARAMURL.ERROR" varFormat="Java">
+   The &apos;url&apos; parameter must be set to use
+   the DSML v2 SOAP Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter url was not specified in the
+   DSML v2 SOAP Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the url parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN002I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.USESOAP.BINDING.INFO" varFormat="Java">
+   Connector will use SOAP binding.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.UNSUPPORTED.PROTOCOL.ERROR" varFormat="Java">
+   Unable to initialize DSML v2 SOAP Connector because an unsupported protocol
+   &apos;&apos;<Variable formatSpec="{0}">protocol name</Variable>&apos;&apos;
+   was specified.
+   </MsgText>
+   <Explanation> <p>
+   The specified protocol is not correct.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the appropriate protocol.
+   This is set in the URL specified in the URL parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN004E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NODNATTRIB.PUTENTRY.ERROR" varFormat="Java">
+   The putEntry method was called without the required &apos;$dn&apos; Attribute in Entry.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory $dn attribute is not specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the $dn attribute in the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.PUTENTRY.DN.INFO" varFormat="Java">
+   The putEntry method called with &apos;$dn&apos; attribute set to
+   &apos;&apos;<Variable formatSpec="{0}">attribute value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN006I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.SELECTENTRIES.BASEFILTER.INFO" varFormat="Java">
+   Selecting entries with search base of &apos;&apos;<Variable formatSpec="{0}">DN</Variable>&apos;&apos;
+   and filter of &apos;&apos;<Variable formatSpec="{1}">filter</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.FINDENTRY.CALLED.DN.INFO" varFormat="Java">
+   Searching for entry where &apos;&apos;<Variable formatSpec="{0}">naming DN</Variable>&apos;&apos;
+   equals &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN008I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.FINDENTRY.FILTER.INFO" varFormat="Java">
+   Searching for entry using filter
+   &apos;&apos;<Variable formatSpec="{0}">filter</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.FINDENTRY.NOENTRIES.INFO" varFormat="Java">
+   No entries found while searching for entry in DSML v2 SOAP Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.FINDENTRY.SINGLE.INFO" varFormat="Java">
+   Single entry found while searching for entry in DSML v2 SOAP Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0011I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.FINDENTRY.MULTIPLE.INFO" varFormat="Java">
+   Multiple entries found while searching for entry in DSML v2 SOAP Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0012E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NOUPDATEENTRY.MODENTRY.ERROR" varFormat="Java">
+   The modify entry operation failed because the operation was invoked without an
+   update entry being specified.
+   </MsgText>
+   <Explanation> <p>
+   No update entry applied for modify entry operation because no update entry was
+   specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the update entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN0013E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NODNAPPLIED.MODENTRY.ERROR" varFormat="Java">
+   The modify entry operation failed because it was a delta modify and no
+   &apos;$dn&apos; attribute was provided in either the conn entry or the link criteria.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the $dn attribute in conn entry or link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN0014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NODN.EXISTINGENTRY.MODENTRY.ERROR" varFormat="Java">
+   The modify entry operation failed because no distinguished name was found in existing entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Provide required distinguished name in the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN0015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.MODDN.MODENTRY.INFO" varFormat="Java">
+   The modify entry for the modify operation is
+   &apos;&apos;<Variable formatSpec="{0}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0016I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.MODDN.RENENTRY.INFO" varFormat="Java">
+   The modify operation will rename entry
+   &apos;&apos;<Variable formatSpec="{0}">old DN</Variable>&apos;&apos; to
+   &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0017E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.DELENTRY.NODN.ERROR" varFormat="Java">
+   The deleteEntry method was called with no &apos;$dn&apos; attribute or link-criteria.
+   </MsgText>
+   <Explanation> <p>
+   No specified $dn attribute or link-criteria.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set $dn attribute or link-criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN0018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.DELENTRY.DN.INFO" varFormat="Java">
+   The deleteEntry method was called with &apos;$dn&apos; attribute equal to
+   &apos;&apos;<Variable formatSpec="{0}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0019I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NORESPONSE.RETURNED.INFO" varFormat="Java">
+   No DSML response returned from server.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0020I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NOMESSAGEBODY.RETURNED.INFO" varFormat="Java">
+   No message body returned from server.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NORDSMLESPONSE.RETURNED.INFO" varFormat="Java">
+   No response returned from DSML server.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0022E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.RESPONSE.OPERRMESS.ERROR" varFormat="Java">
+   Received a error DSML response Entry. Entry attribute information:
+   dsml.operation attribute:<Variable formatSpec="{0}">attribute value</Variable>,
+   dsml.errorType attribute:<Variable formatSpec="{1}">attribute value</Variable>,
+   dsml.message attribute:<Variable formatSpec="{2}">attribute value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   errorResponse accepted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN0023I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.SEARCH.RESPONSE.INFO" varFormat="Java">
+   Received a search DSML response Entry. Entry attribute information:
+   dsml.operation attribute:<Variable formatSpec="{0}">attribute value</Variable>,
+   dsml.resultcode attribute:<Variable formatSpec="{1}">attribute value</Variable>,
+   resultDescr:<Variable formatSpec="{2}">attribute valuer</Variable>,
+   dsml.error attribute:<Variable formatSpec="{3}">attribute value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIN0024E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.SEARCH.RESPONSE.ERROR" varFormat="Java">
+   Received a search DSML response Entry. Entry attribute information:
+   dsml.operation attribute=<Variable formatSpec="{0}">attribute value</Variable>,
+   dsml.resultcode attribute:<Variable formatSpec="{1}">attribute value</Variable>,
+   dsml.resultdescr attribute:<Variable formatSpec="{2}">attribute value</Variable>,
+   dsml.error attribute:<Variable formatSpec="{3}">attribute value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIN025I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DSML.NOUSESOAP.BINDING.INFO" varFormat="Java">
+   Connector will not use SOAP binding.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

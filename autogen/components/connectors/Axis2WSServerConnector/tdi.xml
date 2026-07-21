@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Axis2WSServerConnector">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.axis2.Axis2WSServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="wsdlUrl"/>
+				<parameter name="service"/>
+				<parameter name="tcpPort">80</parameter>
+				<parameter name="backlog"/>
+				<parameter name="httpAuth">false</parameter>
+				<parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+				<parameter name="useSSL">false</parameter>
+				<parameter name="needClientAuth">false</parameter>
+				<parameter name="webServiceLocation"/>
+				<parameter name="wsdlToGenFileName"/>
+				<parameter name="wsdlVersion">1.1</parameter>
+			</Configuration>
+			<OperationCarrier>$operation</OperationCarrier>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$soapHeader</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.Authorization</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+ 				<SchemaItem>
+					<Name>http.body</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.base</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-length</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+ 				<SchemaItem>
+					<Name>http.content-type</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.host</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.method</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.SOAPAction</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.url</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.remote_user</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.remote_pass</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$soapHeader</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$authResult</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultCode</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultCodeNamespaceURI</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultCodeNamespacePrefix</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultReason</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultNode</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultRole</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$faultDetail</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.body</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.axis2.Axis2WSServerConnector">
+			<TranslationFile>NLS/idi_conn_axis2wsserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>wsdlToGenFileName</ListItem>
+					<ListItem>webServiceLocation</ListItem>
+					<ListItem>wsdlVersion</ListItem>
+					<ListItem>runGenWsdlScriptButton</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>service</ListItem>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>backlog</ListItem>
+					<ListItem>httpAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>needClientAuth</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>service</ListItem>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>backlog</ListItem>
+					<ListItem>httpAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>needClientAuth</ListItem>
+					<ListItem>wsdlToGenFileName</ListItem>
+					<ListItem>webServiceLocation</ListItem>
+					<ListItem>wsdlVersion</ListItem>
+					<ListItem>runGenWsdlScriptButton</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="wsdlUrl">
+				<parameter name="description">WSDL_DESC</parameter>
+				<parameter name="label">WSDL_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="service">
+				<parameter name="description">SERVICE_DESC</parameter>
+				<parameter name="label">SERVICE_LABEL</parameter>
+				<parameter name="script">getServicesFromWSDL</parameter>
+				<parameter name="scriptLabel">SERVICE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">SERVICE_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">false</parameter>
+			</FormItem>
+			<FormItem name="tcpPort">
+				<parameter name="Required">true</parameter>
+				<parameter name="description">TCP_PORT_DESC</parameter>
+				<parameter name="label">TCP_PORT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="httpAuth">
+				<parameter name="description">HTTP_AUTH_DESC</parameter>
+				<parameter name="label">HTTP_AUTH_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="authRealm">
+				<parameter name="description">AUTH_REALM_DESC</parameter>
+				<parameter name="label">AUTH_REALM_LBL</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="needClientAuth">
+				<parameter name="description">CLIENT_AUTH_DESC</parameter>
+				<parameter name="label">CLIENT_AUTH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="wsdlToGenFileName">
+				<parameter name="description">WTGFN_DESC</parameter>
+				<parameter name="label">WTGFN_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="webServiceLocation">
+				<parameter name="description">WSL_DESC</parameter>
+				<parameter name="label">WSL_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="runGenWsdlScriptButton">
+				<parameter name="script">genWsdl</parameter>
+				<parameter name="scriptLabel">RGWSB_SCRLBL</parameter>
+				<parameter name="scripthelp">RGWSB_SCRHLP</parameter>
+				<parameter name="syntax">static</parameter>
+			</FormItem>
+			<FormItem name="wsdlVersion">
+				<Values>
+					<ListItem>1.1</ListItem>
+					<ListItem>2.0</ListItem>
+				</Values>
+				<parameter name="description">WSDL_VERSION_DESC</parameter>
+				<parameter name="label">WSDL_VERSION_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			
+			<parameter name="formscript">
+			<![CDATA[
+				function genWsdl () {
+				
+					var wsdlToGenFileName = form.getConfigValue("wsdlToGenFileName");
+					var webServiceLocation = form.getConfigValue("webServiceLocation");
+					var wsdlVersion = form.getConfigValue("wsdlVersion");
+					
+					Packages.com.ibm.di.connector.axis2.util.SchemaUtils.generateWsdl(config, wsdlToGenFileName, webServiceLocation, wsdlVersion);
+					var wsdlGeneratedMsg = Packages.com.ibm.di.connector.axis2.Axis2WSServerConnector.getResHash().getString("CONNECTOR.AXIS2WSSERVER.SCRIPT.WSDL.GENERATED");
+					form.alert(wsdlGeneratedMsg); 
+				}
+			]]>
+			</parameter>
+			
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="2301c3c5-32fa-4d0f-9ce6-bd2997dbec78" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="SourceLDAP" modified="Thu Sep 11 12:04:05 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="SourceLDAP">
+        <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+        <ModTime>1410429814683</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1410429814683</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" created="Tue May 21 14:00:58 CEST 2013" createdBy="Administrator" main="Form" modified="Tue May 21 14:01:06 CEST 2013" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1369137666015</ModTime>
+        <FormItemNames>
+            <ListItem>ldapUrl</ListItem>
+            <ListItem>ldapUsername</ListItem>
+            <ListItem>ldapPassword</ListItem>
+            <ListItem>ldapSearchBase</ListItem>
+            <ListItem>ldapSearchFilter</ListItem>
+            <ListItem>ldapSearchScope</ListItem>
+            <ListItem>ldapTimeLimit</ListItem>
+            <ListItem>ldapSizeLimit</ListItem>
+            <ListItem>ldapPageSize</ListItem>
+            <ListItem>$GLOBAL.userComment</ListItem>
+            <ListItem>ldapAuthenticationMethod</ListItem>
+            <ListItem>ldapUseSSL</ListItem>
+            <ListItem>ldapReferrals</ListItem>
+            <ListItem>$GLOBAL.connectorFlags</ListItem>
+            <ListItem>jndiExtraProviderParams</ListItem>
+            <ListItem>ldapReturnAttributes</ListItem>
+            <ListItem>ldapBinaryAttributes</ListItem>
+            <ListItem>automapADPassword</ListItem>
+            <ListItem>ldapBERTrace</ListItem>
+            <ListItem>ldapSortAttribute</ListItem>
+            <ListItem>ldapVLVPageSize</ListItem>
+            <ListItem>simulateRename</ListItem>
+            <ListItem>ldapAddAttr</ListItem>
+            <ListItem>setOprAttributes</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="automapADPassword">
+            <parameter name="description">AD_PW_DESC</parameter>
+            <parameter name="label">AD_PW_LABEL</parameter>
+            <parameter name="modes">-Lookup,-Iterator,-Delete</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jndiExtraProviderParams">
+            <parameter name="description">JNDI_XTRA_PROVIDER_DESC</parameter>
+            <parameter name="label">JNDI_XTRA_PROVIDER_LABEL</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="ldapAddAttr">
+            <parameter name="description">LDAP_ADD_ATTR_DESC</parameter>
+            <parameter name="label">LDAP_ADD_ATTR_LABEL</parameter>
+            <parameter name="modes">-Lookup,-Iterator,-Delete</parameter>
+            <parameter name="syntax">BOOLEAN</parameter>
+        </FormItem>
+        <FormItem name="ldapAuthenticationMethod">
+            <Values>
+                <ListItem>Anonymous</ListItem>
+                <ListItem>Simple</ListItem>
+                <ListItem>CRAM-MD5</ListItem>
+                <ListItem>SASL</ListItem>
+            </Values>
+            <LocalizedValues>
+                <Item>
+                    <Key>Anonymous</Key>
+                    <Value>Localized.Anonymous</Value>
+                </Item>
+                <Item>
+                    <Key>CRAM-MD5</Key>
+                    <Value>Localized.CRAM-MD5</Value>
+                </Item>
+                <Item>
+                    <Key>SASL</Key>
+                    <Value>Localized.SASL</Value>
+                </Item>
+                <Item>
+                    <Key>Simple</Key>
+                    <Value>Localized.Simple</Value>
+                </Item>
+            </LocalizedValues>
+            <parameter name="description">LDAP_AUTH_DESC</parameter>
+            <parameter name="label">LDAP_AUTH_LABEL</parameter>
+            <parameter name="syntax">DROPLIST</parameter>
+        </FormItem>
+        <FormItem name="ldapBERTrace">
+            <parameter name="description">BER_TRACE_DESC</parameter>
+            <parameter name="label">BER_TRACE_LABEL</parameter>
+        </FormItem>
+        <FormItem name="ldapBinaryAttributes">
+            <parameter name="description">BIN_ATTRIB_DESC</parameter>
+            <parameter name="label">BIN_ATTRIB_LABEL</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="ldapPageSize">
+            <parameter name="description">PAGE_SIZE_DESC</parameter>
+            <parameter name="label">PAGE_SIZE_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="script">checkLDAPPageSize</parameter>
+            <parameter name="scriptLabel">PAGE_SIZE_SCRPT_LABEL</parameter>
+        </FormItem>
+        <FormItem name="ldapPassword">
+            <parameter name="description">PW_DESC</parameter>
+            <parameter name="label">PW_LABEL</parameter>
+            <parameter name="syntax">PASSWORD</parameter>
+        </FormItem>
+        <FormItem name="ldapReferrals">
+            <Values>
+                <ListItem>follow</ListItem>
+                <ListItem>ignore</ListItem>
+                <ListItem>throw</ListItem>
+            </Values>
+            <LocalizedValues>
+                <Item>
+                    <Key>follow</Key>
+                    <Value>Localized.follow</Value>
+                </Item>
+                <Item>
+                    <Key>ignore</Key>
+                    <Value>Localized.ignore</Value>
+                </Item>
+                <Item>
+                    <Key>throw</Key>
+                    <Value>Localized.throw</Value>
+                </Item>
+            </LocalizedValues>
+            <parameter name="description">REFERRAL_DESC</parameter>
+            <parameter name="label">REFERRAL_LABEL</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="ldapReturnAttributes">
+            <parameter name="description">RETURN_ATTRIB_DESC</parameter>
+            <parameter name="label">RETURN_ATTRIB_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="ldapScriptTest">
+            <Values>
+                <ListItem>@execScript:mytest</ListItem>
+            </Values>
+            <parameter name="label">SCRPT_TEST_LABEL</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchBase">
+            <parameter name="description">SEARCH_BASE_DESC</parameter>
+            <parameter name="label">SEARCH_BASE_LABEL</parameter>
+            <parameter name="script">selectLDAPSearchBase</parameter>
+            <parameter name="scriptLabel">SEARCH_BASE_SCRPT_LABEL</parameter>
+            <parameter name="scripthelp">SEARCH_BASE_SCRPT_HELP</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchFilter">
+            <parameter name="description">SEARCH_FILTER_DESC</parameter>
+            <parameter name="label">SEARCH_FILTER_LABEL</parameter>
+            <parameter name="script">selectLDAPSearchFilter</parameter>
+            <parameter name="scriptLabel">...</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchScope">
+            <Values>
+                <ListItem>subtree</ListItem>
+                <ListItem>onelevel</ListItem>
+                <ListItem>baselevel</ListItem>
+            </Values>
+            <LocalizedValues>
+                <Item>
+                    <Key>baselevel</Key>
+                    <Value>Localized.baselevel</Value>
+                </Item>
+                <Item>
+                    <Key>onelevel</Key>
+                    <Value>Localized.onelevel</Value>
+                </Item>
+                <Item>
+                    <Key>subtree</Key>
+                    <Value>Localized.subtree</Value>
+                </Item>
+            </LocalizedValues>
+            <parameter name="description">SEARCH_SCOPE_DESC</parameter>
+            <parameter name="label">SEARCH_SCOPE_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="ldapSizeLimit">
+            <parameter name="description">SIZE_LIMIT_DESC</parameter>
+            <parameter name="label">SIZE_LIMIT_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSortAttribute">
+            <parameter name="description">SORT_ATTRIBUTE_DESC</parameter>
+            <parameter name="label">SORT_ATTRIBUTE_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+        </FormItem>
+        <FormItem name="ldapTimeLimit">
+            <parameter name="description">TIME_LIMIT_DESC</parameter>
+            <parameter name="label">TIME_LIMIT_LABEL</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapUrl">
+            <parameter name="Required">true</parameter>
+            <parameter name="description">URL_DESC</parameter>
+            <parameter name="label">URL_LABEL</parameter>
+            <parameter name="panel"><![CDATA[
+
+<Panel layout="Fill">
+	<Group text="" layout="Grid" columns="4" onchange="updateURL">
+		<Label name="url_label" text="ldap_url_host"/>
+		<Text name="hostname" required="true" linklabel="url_label" tooltip="URL_DESC" size="15"/>
+		<Label text="ldap_url_port" />
+		<Text name="port" size="3" tooltip="URL_DESC" />
+		<Button name="ssl" type="checkbox" tooltip="USE_SSL_DESC" text="ldap_url_ssl" binding="ldapUseSSL">
+			<LayoutData horizontalSpan="4"/>
+		</Button>
+	</Group>
+	<Script>
+		function on_load() {
+			ldapUrl = config.getStringParameter("ldapUrl");
+			if(ldapUrl == null || ldapUrl.equals("")) {
+				if(config.getBooleanParameter("ldapUseSSL", false))
+					ldapUrl = "ldap://localhost:389";
+				else
+					ldapUrl = "ldaps://localhost:389";
+			}
+
+			try {
+				// just to fool URL to accept our url string
+				if (ldapUrl.startsWith("ldaps:")) {
+					panel.setChecked("ssl", true);
+					url = new java.net.URL(ldapUrl.replaceAll("ldaps:", "https:"));
+				} else {
+					panel.setChecked("ssl", false);
+					url = new java.net.URL(ldapUrl.replaceAll("ldap:", "http:"));
+				}
+				if(url.getHost() != null)
+					panel.setText("hostname", url.getHost());
+				else
+					panel.setText("hostname", "");
+				if(url.getPort() != -1)
+					panel.setText("port", url.getPort());
+				else
+					panel.setText("port", "" );
+			} catch(err) {
+				form.logProblem("ldapUrl", err);
+				panel.setText("hostname", ldapUrl);
+				panel.setText("port", "" );
+			}
+		}
+		function updateURL() {
+			prot = panel.isChecked("ssl") ? "ldaps" : "ldap";
+			value = prot + "://" + panel.getText("hostname");
+			port = panel.getText("port");
+			if (port.length() > 0) 
+				value += ":" + port;
+			form.setConfig("ldapUrl",  value);
+		}
+	</Script>
+</Panel>]]]]><![CDATA[></parameter>
+            <parameter name="syntax">panel</parameter>
+        </FormItem>
+        <FormItem name="ldapUseSSL">
+            <parameter name="description">USE_SSL_DESC</parameter>
+            <parameter name="label">USE_SSL_LABEL</parameter>
+            <parameter name="syntax">BOOLEAN</parameter>
+        </FormItem>
+        <FormItem name="ldapUsername">
+            <parameter name="description">USER_NAME_DESC</parameter>
+            <parameter name="label">USER_NAME_LABEL</parameter>
+            <parameter name="syntax">DN</parameter>
+        </FormItem>
+        <FormItem name="ldapVLVPageSize">
+            <parameter name="description">VLV_PAGE_SIZE_DESC</parameter>
+            <parameter name="label">VLV_PAGE_SIZE_LABEL</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+        </FormItem>
+        <FormItem name="setOprAttributes">
+            <parameter name="description">SET_OPR_ATTR_DESC</parameter>
+            <parameter name="label">SET_OPR_ATTR_LABEL</parameter>
+            <parameter name="modes">AddOnly,Update,Delta</parameter>
+            <parameter name="syntax">BOOLEAN</parameter>
+        </FormItem>
+        <FormItem name="simulateRename">
+            <parameter name="description">RENAME_DESC</parameter>
+            <parameter name="label">RENAME_LABEL</parameter>
+            <parameter name="modes">Update,Delta</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>ldapTimeLimit</ListItem>
+                <ListItem>ldapSizeLimit</ListItem>
+                <ListItem>ldapPageSize</ListItem>
+                <ListItem>ldapAuthenticationMethod</ListItem>
+                <ListItem>ldapReferrals</ListItem>
+                <ListItem>$GLOBAL.connectorFlags</ListItem>
+                <ListItem>jndiExtraProviderParams</ListItem>
+                <ListItem>ldapReturnAttributes</ListItem>
+                <ListItem>ldapBinaryAttributes</ListItem>
+                <ListItem>automapADPassword</ListItem>
+                <ListItem>ldapBERTrace</ListItem>
+                <ListItem>ldapSortAttribute</ListItem>
+                <ListItem>ldapVLVPageSize</ListItem>
+                <ListItem>simulateRename</ListItem>
+                <ListItem>ldapAddAttr</ListItem>
+                <ListItem>setOprAttributes</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>ldapUrl</ListItem>
+                <ListItem>ldapUsername</ListItem>
+                <ListItem>ldapPassword</ListItem>
+                <ListItem>ldapSearchBase</ListItem>
+                <ListItem>ldapSearchFilter</ListItem>
+                <ListItem>ldapSearchScope</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+                <ListItem>$GLOBAL.debug</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[
+function ldapAuthenticationMethod_changed () {
+	var key = "ldapAuthenticationMethod";
+	var val = form.getConfig ( key );
+	var enable = true;
+	if ( val != null && val.equalsIgnoreCase ("Anonymous") )
+		enable = false;
+	form.getControl ("ldapUsername").setEnabled (enable);
+	form.getControl ("ldapPassword").setEnabled (enable);
+}
+]]]]><![CDATA[></parameter>
+        <parameter name="title">LDAP Connector</parameter>
+        <TranslationFile>NLS/idi_conn_ldap</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="ldapBinaryAttributes"><![CDATA[@SUBSTITUTE{javascript pname = "source.ldap.binaryAttributes"
+param = getProperty(pname,null)
+	
+if (param === null)
+	return ""
+	
+if (param.indexOf(",") > 0)
+	atts = system.splitString(param,",")
+else
+if (param.indexOf("\n") > 0)
+	atts = system.splitString(param,"\n")
+else
+	atts = system.splitString(param," ")
+pstr = ""
+for (a in atts)
+	if (!a.toLowerCase().equals("objectsid"))
+		pstr += a + "\n"
+return pstr}]]></parameter>
+            <parameter name="ldapPageSize">@SUBSTITUTE{javascript return connectorParam("source.ldap.pageSize", 0)}</parameter>
+            <parameter name="ldapPassword">@SUBSTITUTE{javascript return connectorParam("source.ldap.password", null)}</parameter>
+            <parameter name="ldapReturnAttributes"><![CDATA[*
+nsAccountLock
+ibm-pwdAccountLocked]]></parameter>
+            <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return connectorParam("source.ldap.searchBase")}</parameter>
+            <parameter name="ldapUrl">@SUBSTITUTE{javascript return connectorParam("source.ldap.url")}</parameter>
+            <parameter name="ldapUsername">@SUBSTITUTE{javascript return connectorParam("source.ldap.user",null)}</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>$dn</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>cn</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>facsimileTelephoneNumber</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>givenName</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>l</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>mail</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>objectClass</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ou</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>roomNumber</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>sn</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>telephoneNumber</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>uid</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1409215683002</ModTime>
+            <Hook name="after_getnext">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>after_getnext</Name>
+                <Script>work.setAttribute("$sourceLDAP", thisConnector.connector);</Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="before_initialize">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>before_initialize</Name>
+                <Script><![CDATA[// set up to retrieve all membership attribute available
+if (typeof filterOnGroups !== "undefined" && filterOnGroups) {
+	thisConnector.connector.setParam("ldapReturnAttributes", "*\nibm-allGroups\nmemberOf\ngroupMembership");
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="default_fail">
+                <InheritFrom>/Scripts/libDefaultOnError</InheritFrom>
+                <Name>default_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="initialize_fail">
+                <InheritFrom>/Scripts/libInitError</InheritFrom>
+                <Name>initialize_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="autoreconnect">true</parameter>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

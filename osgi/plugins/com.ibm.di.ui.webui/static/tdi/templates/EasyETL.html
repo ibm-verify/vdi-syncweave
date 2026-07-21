@@ -1,0 +1,33 @@
+<div class="tdiAssemblyLine" style="margin:0; padding:0; height:100%; width:100%; border-style:solid; border-color:red; border-width:0px">
+	
+		<table dojoAttachPoint="HeaderTable" width="100%" style="xborder-style:solid; xborder-width:1px">
+			<tr>
+				<td colspan="3">
+					<div style="padding-left:10px; padding-right:10px; padding-top:5px; padding-bottom:5px">
+						<small>
+						${nls.ETLEditor_info}
+						</small>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="stack" style="width:100%; height:100%; margin:0; padding:0">
+			
+			<div dojoType="dijit.layout.BorderContainer" dojoAttachPoint="BorderContainer" style="width:100%" gutters="false">
+				<div dojoType="dijit.layout.ContentPane" region="top" splitter="false">
+						<div style="padding:0px" dojoType="dijit.Toolbar" dojoAttachPoint="Toolbar">
+							<div dojoAttachPoint="btnRead" dojoAttachEvent="onClick:readNextEntry" dojoType="dijit.form.Button">${nls.WebCE_readNext}</div>
+							<div dojoAttachPoint="btnRun" dojoAttachEvent="onClick:autoGetNextEntry" dojoType="dijit.form.Button" iconClass="tdiRunIcon">${nls.WebCE_run}</div>
+							<div dojoAttachPoint="btnStop" dojoAttachEvent="onClick:terminateAL" disabled="true" dojoType="dijit.form.Button">${nls.WebCE_stop}</div>
+							<div dojoAttachPoint="btnSchedule" dojoType="dijit.form.DropDownButton" label="${nls.WebCE_schedule}"></div>
+						</div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center">
+						<div dojoAttachPoint="scene" dojoType="dijit.layout.ContentPane" style="position:relative; height:100%; padding:0px;overflow:auto">
+							<div dojoAttachPoint="Transformation" dojoType="tdi.AttributeMapGFX3" style="overflow:auto; height:100%"></div>
+						</div>
+				</div>
+			</div>
+		</div>
+</div>

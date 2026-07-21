@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<element name="config" type="tns:NamedBinding"></element>
+
+
+	<complexType name="ParametersBinding">
+		<annotation>
+			<documentation>Represents a list of config parameters.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="parameter" type="tns:ParameterBinding"
+						maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ParameterBinding">
+		<annotation>
+			<documentation>This represents a single config parameter.
+			</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="string">
+				<attribute name="name" type="string" use="required"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="ContainerBinding">
+		<annotation>
+			<documentation>This is a named config object which is allowed to have
+				more named config objects as children.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:NamedBinding">
+
+				<sequence>
+					<element ref="tns:config" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="NamedBinding">
+		<annotation>
+			<documentation>This represents a configuration object which name is a
+				mandatory attribute.</documentation>
+		</annotation>
+		<attribute name="name" type="string" use="optional"></attribute>
+	</complexType>
+
+	<!-- complexType name="ParametersInheritingBinding">
+		<annotation>
+			<documentation>Represents a list of config parameters which is also
+				allowed to have a reference to another config object whose
+				parameters will be inherited.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:ParametersBinding">
+				<attribute name="inheritFrom" type="anyURI" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType -->
+
+
+
+
+
+	<element name="container" type="tns:ContainerBinding"
+		substitutionGroup="tns:config">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+	</element>
+
+	<complexType name="InheritingBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+				<attribute name="inheritFrom" type="anyURI"
+					use="optional">
+				</attribute>
+
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="JavaClassBinding">
+		<complexContent>
+			<extension base="tns:ParametersBinding">
+				<attribute name="className" type="tns:JavaClassConstraint" use="required"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="JavaClassConstraint">
+		<restriction base="string">
+
+			<pattern
+				value="^(\p{L}[\p{L}\p{Nd}_]*)+(\.(\p{L}[\p{L}\p{Nd}_]*)+)*$">
+			</pattern>
+		</restriction>
+	</simpleType>
+</schema>

@@ -1,0 +1,91 @@
+#
+# Copyright IBM Corp. 2025
+
+# Documentation on available configuration
+# https://cloud.ibm.com/docs/devsecops?topic=devsecops-cd-devsecops-apps-byoa
+# https://cloud.ibm.com/docs/devsecops?topic=devsecops-custom-scripts
+
+version: '2'
+tasks:
+  code-checks:
+    include:
+      - dind
+    steps:         
+      - name: detect-secrets
+        include:
+          - docker-socket
+
+      - name: compliance-checks
+        include:
+          - docker-socket
+
+      # Static scan step
+      - name: static-scan
+        image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.64
+        script: |
+          #!/usr/bin/env bash
+
+          echo "No static-scan required."
+
+  code-build:
+    displayName: build
+    include:
+      - dind
+      - podman
+    steps:
+      - name: setup
+        when: false
+        
+      # Even though no unit testing is available at this point, we still
+      # need to add in an 'empty' unit test phase, and collect some
+      # evidence, otherwise the code-ci-finish stage fails.
+      - name: unit-test
+        image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.64
+        include:
+          - docker-socket
+        script: |
+          #!/usr/bin/env bash
+          set -e
+
+          collect-evidence --asset-type "repo" --asset-key "app-repo" --status "success" --tool-type "misc" --evidence-type "com.ibm.unit_tests"
+        
+      # Build artifacts step
+      - name: build-artifact
+        image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.78
+        onError: stopAndFail
+        include:
+          - docker-socket
+          - rootful-podman
+        script: |
+          #!/usr/bin/env bash
+          set -e
+          
+          cd "$WORKSPACE/$(load_repo app-repo path)"
+          git lfs install
+          git lfs fetch
+          git lfs checkout
+          
+          # Create the directory which will be used to house the build artifacts
+          artifact_dir=$WORKSPACE/artifacts
+          mkdir -p $artifact_dir
+          
+
+          # Perform the build.
+          source $WORKSPACE/$PIPELINE_CONFIG_REPO_PATH/build-scripts/build.sh $artifact_dir
+
+          # We also publish the build artifacts to GitHub in this step.
+          source $WORKSPACE/$PIPELINE_CONFIG_REPO_PATH/build-scripts/publish.sh $artifact_dir
+
+      # Sign artifact step (disabled)
+      - name: sign-artifact
+        when: false
+        
+      # Scan artifact step (disabled)
+      - name: scan-artifact
+        when: false
+
+  deploy-checks:
+    when: false
+
+  deploy-release:
+    when: false

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="isamconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIH401I" prefix="yes">
+   <MsgText pgmKey="ISAM.VERSION" varFormat="Java">
+   ISAM v2 Connector version <Variable formatSpec="{0}">version</Variable> .
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH402I" prefix="yes">
+   <MsgText pgmKey="ISAM.INIT.SUCCESS" varFormat="Java">
+   ISAM Initialization is successful.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH403E" prefix="yes">
+   <MsgText pgmKey="ISAM.INIT.FAIL" varFormat="Java">
+   ISAM Initialization failed: <Variable formatSpec="{0}">exception</Variable> 
+   </MsgText>
+  <Explanation> <p>
+   The ISAM Connector was not able to complete initialization.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Use the logged exception to understand what caused the problem, and correct it.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH404E" prefix="yes">
+   <MsgText pgmKey="ISAM.USER.DOES.NOT.EXIST" varFormat="Java">
+   The specified Distinguished Name (secDN) does not exist: <Variable formatSpec="{0}">dn</Variable> 
+   </MsgText>
+  <Explanation> <p>
+   The import of the specified user failed, because the user could not be found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Distinguished Name (DN) references an existing user.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH405I" prefix="yes">
+   <MsgText pgmKey="ISAM.USER.IMPORT.SUCCESS" varFormat="Java">
+   User <Variable formatSpec="{0}">name</Variable> import is successful.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH406E" prefix="yes">
+   <MsgText pgmKey="ISAM.GROUP.DOES.NOT.EXIST" varFormat="Java">
+   An invalid group identification or Distinguished Name was specified: <Variable formatSpec="{0}">dn</Variable> 
+   </MsgText>
+  <Explanation> <p>
+   The import of the specified group failed, because the group could not be found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the group identification or Distinguished Name (DN) references an existing group.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH407I" prefix="yes">
+   <MsgText pgmKey="ISAM.GROUP.IMPORT.SUCCESS" varFormat="Java">
+   Group <Variable formatSpec="{0}">name</Variable> import is successful.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH408E" prefix="yes">
+   <MsgText pgmKey="ISAM.NO.CONFIG.FILE" varFormat="Java">
+   The ISAM API configuration file must be defined.
+   </MsgText>
+  <Explanation> <p>
+   The parameter ISAM API configuration file must have a value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the parameter ISAM API configuration file to a correct file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH409W" prefix="yes">
+   <MsgText pgmKey="ISAM.PROBLEM.REMOVING.USER" varFormat="Java">
+   Error removing user <Variable formatSpec="{0}">userId</Variable> from the group <Variable formatSpec="{1}">groupName</Variable>: <Variable formatSpec="{2}">exception</Variable>.
+   </MsgText>
+  <Explanation> <p>
+    An exception occurred when removing the user from the group.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception for more information about the problem that occurred. Determine if further action is needed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH410E" prefix="yes">
+   <MsgText pgmKey="ISAM.GROUP.NOT.FOUND" varFormat="Java">
+   Group <Variable formatSpec="{0}">groupName</Variable> was not found.
+   </MsgText>
+  <Explanation> <p>
+   The group could not be found when trying to add or delete a member from the named group.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the group name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH411W" prefix="yes">
+   <MsgText pgmKey="ISAM.USER.NOT.ADDED.GROUP" varFormat="Java">
+   Unable to add user <Variable formatSpec="{0}">userId</Variable> to group <Variable formatSpec="{1}">groupName</Variable>: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH412W" prefix="yes">
+   <MsgText pgmKey="ISAM.USER.NOT.DELETED.GROUP" varFormat="Java">
+   Unable to delete user <Variable formatSpec="{0}">userId</Variable> from group <Variable formatSpec="{1}">groupName</Variable>: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH413E" prefix="yes">
+   <MsgText pgmKey="ISAM.ATTRIBUTE.MISSING" varFormat="Java">
+   Mandatory attribute <Variable formatSpec="{0}">name</Variable>  missing from Output Map.
+   </MsgText>
+  <Explanation> <p>
+    The specified mandatory attribute could not be found in the entry that was provided to the connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Provide the mandatory attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH414E" prefix="yes">
+   <MsgText pgmKey="ISAM.NO.ENTRY.MODIFY" varFormat="Java">
+   No entry found to modify.
+   </MsgText>
+  <Explanation> <p>
+   When trying to modify an entry, the current entry was not found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the modify operation is called only when there is an entry to modify.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH415E" prefix="yes">
+   <MsgText pgmKey="ISAM.NO.ENTRY.DELETE" varFormat="Java">
+   No entry found to delete.
+   </MsgText>
+  <Explanation> <p>
+   When trying to delete an entry, the current entry was not found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the delete operation is called only when there is an entry to delete.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH416E" prefix="yes">
+   <MsgText pgmKey="ISAM.NO.ENTRY.DELETE.NAME" varFormat="Java">
+    Unable to delete an entry because the naming attribute <Variable formatSpec="{0}">name</Variable> not found in entry.
+   </MsgText>
+  <Explanation> <p>
+   When trying to delete an entry, the mandatory naming attribute was missing, and therefore the entry could not be deleted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the entry contains the naming attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH417E" prefix="yes">
+   <MsgText pgmKey="ISAM.UNSUPPORTED.SEARCH.OP" varFormat="Java">
+   This connector only supports the following operators: Equals, Contains, starts With and ends With
+   </MsgText>
+  <Explanation> <p>
+  The link criteria contains an unsupported operator. The connector was unable to do the search. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+    Use one of the supported operators.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH418E" prefix="yes">
+   <MsgText pgmKey="ISAM.UNSUPPORTED.NEGATE" varFormat="Java">
+   Negate not supported for Link Criteria.
+   </MsgText>
+  <Explanation> <p>
+   The connector was unable to do the search because the link criteria contained a negated operation.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+    Try to write the Link Criteria without using negate.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH419E" prefix="yes">
+   <MsgText pgmKey="ISAM.ONLY.SEARCH.NAME" varFormat="Java">
+   This connector only supports searching for the naming attribute (<Variable formatSpec="{0}">name</Variable>).
+   </MsgText>
+  <Explanation> <p>
+  The connector is only able to use the naming attribute for searching.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+    Only use the naming attribute for searching.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH420" prefix="yes">
+   <MsgText pgmKey="ISAM.NO.LINK.CRITERIA" varFormat="Java">
+   No Link Criteria defined.
+   </MsgText>
+  <Explanation> <p>
+  The link criteria list was empty.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Please provide at least one link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>
+

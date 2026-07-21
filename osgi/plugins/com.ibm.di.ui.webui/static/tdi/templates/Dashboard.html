@@ -1,0 +1,51 @@
+
+<div>
+
+	<div dojoAttachPoint="BorderMain" dojoType="dijit.layout.BorderContainer" gutters="false" liveSplitters="true" 
+			style="width:100%; height:100%; padding:0; margin:0">
+
+		<!-- IBM Banner at the top -->		
+		<div dojoType="dijit.layout.ContentPane" splitter="false" region="top" style="padding:0; margin:0">
+			<div id="ibm-banner">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr valign="middle">
+						<td height="35" id="ibm-banner-main"><img
+							src="banner/img/tivoli-bbm_white.gif" alt="TIVOLI" width="44" height="24" />
+							<span class="ibm-banner-product-name" style="font-size:16px;vertical-align:middle">
+								Directory Integrator
+							</span>
+						</td>
+						<td id="ibm-banner-logout">
+							<span onclick="window.location.replace('/dashboard/static/logout.html')" style="cursor:pointer; text-decoration:underline; color:white">Logout</span>
+						</td>
+						<td id="ibm-banner-logo" width="49">
+							<img src="banner/img/ibm_w_tr.gif" width="41" height="15" alt="IBM logo" />
+						</td>
+					</tr>
+				</table>
+				<br>
+				<br>
+			</div>
+		</div>
+	
+		<!-- Navigation area to the left  -->
+		<div dojoType="dijit.layout.ContentPane" splitter="true"
+			region="leading" style="width: 27%; margin:0; padding: 0">
+			
+			<div dojoType="dijit.layout.BorderContainer" gutters="false">
+				<div dojoType="dijit.layout.ContentPane" splitter="true" region="center" style="height:80%; margin:0; padding:0">
+					<div dojoAttachPoint="Projects" dojoType="tdi.ServerProjects"
+						loadedSolutions="true" installedSolutions="true" installedTemplates="false" selectionMode="single"></div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" splitter="true" region="bottom" style="height:20%">
+					<div dojoAttachPoint="VMInfo" dojoType="tdi.ServerInfoSmall"></div>
+				</div>
+			</div>
+				
+		</div>
+		
+		<!-- Tab container for the editor area -->
+		<div dojoType="dijit.layout.TabContainer" region="center" dojoAttachPoint="TabContainer" />
+		
+	</div>
+</div>

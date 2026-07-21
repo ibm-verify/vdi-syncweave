@@ -1,0 +1,2446 @@
+<?xml version="1.0"?>
+
+<!--
+  ===========================================================================
+     File:  install\build.xml
+
+    Purpose:  IBM Tivoli Directory Integrator v7.1 install build file
+
+    To get a list of primary targets issue ant -f build61.xml -p
+
+    Make sure JAVA_HOME is not set to something evil - get VerifyErrors bringing up IDE
+
+    then run ant -f biuld61.xml <target>
+
+  ===========================================================================
+  Change history:
+
+  Defect   Date     Who  Description
+  ......    .........  ...  ..................................................
+   nnnnn    ddMMMyyyy  www
+   xxxxx    03292005   BRL  Initial script for ITDI v6.1
+   xxxxx    06209005   BRL  Major mods to add new components
+
+   ===========================================================================
+-->
+
+<project name="itdi" default="main" basedir=".">
+
+	<!--
+      =========================================================================
+        Properties
+      =========================================================================
+    -->
+
+	<!-- Define the property file name. -->
+	<property name="propfile" value="${ant.project.name}-ant.properties" />
+
+	<!-- Import the project setup properties and macros -->
+	<import file="${basedir}/../rules_mk/project_setup.xml" />
+
+	<!-- Import the zip file macros. -->
+	<import file="${basedir}/../rules_mk/install_zip_rules.xml" />
+
+	<description>
+
+    * Miscellaneous root location property settings:
+
+    </description>
+
+	<property name="IA_HOME" location="${root.ia_src}" />
+	<property name="img.base" location="${project.root.install}/IA/project/itdiMain" />
+	<property name="install.project.name" location="${img.base}/itdiMain.iap_xml" />
+
+	<!-- The name of the build context(one per platform). -->
+	<property name="img.bldcontext.win.x86" value="${project.root.install}/utils/ia_win_build.properties" />
+	<property name="img.bldcontext.win.x86_64" value="${project.root.install}/utils/ia_win64_build.properties" />
+	<property name="img.bldcontext.lnx.x86" value="${project.root.install}/utils/ia_linux_build.properties" />
+	<property name="img.bldcontext.lnx.x86_64" value="${project.root.install}/utils/ia_linux64_build.properties" />
+	<property name="img.bldcontext.lnx.pseries" value="${project.root.install}/utils/ia_linux_ppc_build.properties" />
+	<property name="img.bldcontext.lnx.zseries" value="${project.root.install}/utils/ia_zlinux_build.properties" />
+	<property name="img.bldcontext.aix.ppc" value="${project.root.install}/utils/ia_aix_build.properties" />
+	<property name="img.bldcontext.aix.ppc_64" value="${project.root.install}/utils/ia_aix64_build.properties" />
+	<property name="img.bldcontext.solaris.sparc" value="${project.root.install}/utils/ia_sparc_build.properties" />
+	<property name="img.bldcontext.solaris.x86_64" value="${project.root.install}/utils/ia_solaris_amd64_build.properties" />
+	<!--     <property name="img.bldcontext.hp.parisc"       value="${project.root.install}/utils/ia_hp_build.properties"/> -->
+	<property name="img.bldcontext.hp.ia64" value="${project.root.install}/utils/ia_hp_ia64_build.properties" />
+	<property name="img.bldcontext.i5os" value="${project.root.install}/utils/ia_i5os_build.properties" />
+
+	<!-- The location where the installer is output during the build. -->
+	<property name="img.base.win.x86" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Windows/VM" />
+	<property name="img.base.lnx.x86" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Linux/VM" />
+	<property name="img.base.lnx.zseries" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/zLinux/VM" />
+	<property name="img.base.lnx.pseries" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/LinuxPPC/VM" />
+	<property name="img.base.aix.ppc" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/AIX/VM" />
+	<property name="img.base.solaris.sparc" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Sparc/VM" />
+	<!--     <property name="img.base.hp.parisc"       location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/HPUX/VM"/> -->
+	<property name="img.base.hp.ia64" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/HPUX64/VM" />
+	<property name="img.base.win.x86_64" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Windows64/VM" />
+	<property name="img.base.lnx.x86_64" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Linux64/VM" />
+	<property name="img.base.i5os" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/i5os" />
+	<property name="img.base.solaris.x86_64" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/Solaris64/VM" />
+	<property name="img.base.aix.ppc_64" location="${img.base}/itdiMain_Build_Output/ALL/Web_Installers/InstData/AIX64/VM" />
+
+	<!-- The name of the log files per platform. -->
+	<property name="img.log.name.win.x86" value="build_itdimain_windows_project.log" />
+	<property name="img.log.name.lnx.x86" value="build_itdimain_linux_project.log" />
+	<property name="img.log.name.lnx.zseries" value="build_itdimain_zlinux_project.log" />
+	<property name="img.log.name.lnx.pseries" value="build_itdimain_ppclinux_project.log" />
+	<property name="img.log.name.aix.ppc" value="build_itdimain_aix_project.log" />
+	<property name="img.log.name.solaris.sparc" value="build_itdimain_solaris_project.log" />
+	<!--     <property name="img.log.name.hp.parisc"       value="build_itdimain_hpux_project.log"/> -->
+	<property name="img.log.name.hp.ia64" value="build_itdimain_hpux_ia64_project.log" />
+	<property name="img.log.name.win.x86_64" value="build_itdimain_win_x86_64_project.log" />
+	<property name="img.log.name.lnx.x86_64" value="build_itdimain_lnx_x86_64_project.log" />
+	<property name="img.log.name.i5os" value="build_itdimain_i5os_project.log" />
+	<property name="img.log.name.solaris.x86_64" value="build_itdimain_solaris_x86_64_project.log" />
+	<property name="img.log.name.aix.ppc_64" value="build_itdimain_aix_ppc_64_project.log" />
+
+	<!-- The location of where the general purpose edition images go per platform/disk. -->
+	<property name="img.cdimage.general.ed.base" location="${project.root.general.ed.img.base}/disk1" />
+	<property name="img.cdimage.general.ed.win.x86" location="${img.cdimage.general.ed.base}/windows_x86" />
+	<property name="img.cdimage.general.ed.win.x86_64" location="${img.cdimage.general.ed.base}/windows_x86_64" />
+	<property name="img.cdimage.general.ed.aix.ppc" location="${img.cdimage.general.ed.base}/aix_ppc" />
+	<property name="img.cdimage.general.ed.aix.ppc_64" location="${img.cdimage.general.ed.base}/aix_ppc_64" />
+	<property name="img.cdimage.general.ed.lnx.x86" location="${img.cdimage.general.ed.base}/linux_x86" />
+	<property name="img.cdimage.general.ed.lnx.x86_64" location="${img.cdimage.general.ed.base}/linux_x86_64" />
+	<property name="img.cdimage.general.ed.lnx.zseries" location="${img.cdimage.general.ed.base}/linux_s390x" />
+	<property name="img.cdimage.general.ed.lnx.pseries" location="${img.cdimage.general.ed.base}/linux_ppc" />
+	<property name="img.cdimage.general.ed.solaris.sparc" location="${img.cdimage.general.ed.base}/solaris_sparc" />
+	<property name="img.cdimage.general.ed.solaris.x86_64" location="${img.cdimage.general.ed.base}/solaris_x86_64" />
+	<!--     <property name="img.cdimage.general.ed.hp.parisc"       location="${img.cdimage.general.ed.base}/hpux_parisc"/> -->
+	<property name="img.cdimage.general.ed.hp.ia64" location="${img.cdimage.general.ed.base}/hpux_ia64" />
+	<property name="img.cdimage.general.ed.i5os" location="${project.root.general.ed.img.base}/DISK2" />
+
+	<!-- The location of where the identity edition images go per platform. -->
+	<property name="img.cdimage.identity.ed.base" location="${project.root.identity.ed.img.base}/disk1" />
+	<property name="img.cdimage.identity.ed.win.x86" location="${img.cdimage.identity.ed.base}/windows_x86" />
+	<property name="img.cdimage.identity.ed.win.x86_64" location="${img.cdimage.identity.ed.base}/windows_x86_64" />
+	<property name="img.cdimage.identity.ed.aix.ppc" location="${img.cdimage.identity.ed.base}/aix_ppc" />
+	<property name="img.cdimage.identity.ed.aix.ppc_64" location="${img.cdimage.identity.ed.base}/aix_ppc_64" />
+	<property name="img.cdimage.identity.ed.lnx.x86" location="${img.cdimage.identity.ed.base}/linux_x86" />
+	<property name="img.cdimage.identity.ed.lnx.x86_64" location="${img.cdimage.identity.ed.base}/linux_x86_64" />
+	<property name="img.cdimage.identity.ed.lnx.zseries" location="${img.cdimage.identity.ed.base}/linux_s390x" />
+	<property name="img.cdimage.identity.ed.lnx.pseries" location="${img.cdimage.identity.ed.base}/linux_ppc" />
+	<property name="img.cdimage.identity.ed.solaris.sparc" location="${img.cdimage.identity.ed.base}/solaris_sparc" />
+	<property name="img.cdimage.identity.ed.solaris.x86_64" location="${img.cdimage.identity.ed.base}/solaris_x86_64" />
+	<!--     <property name="img.cdimage.identity.ed.hp.parisc"       location="${img.cdimage.identity.ed.base}/hpux_parisc"/> -->
+	<property name="img.cdimage.identity.ed.hp.ia64" location="${img.cdimage.identity.ed.base}/hpux_ia64" />
+	<property name="img.cdimage.identity.ed.i5os" location="${project.root.identity.ed.img.base}/DISK2" />
+
+	<!-- The location of where the trial edition images go per platform. -->
+	<property name="img.cdimage.trial.identity.ed.base" location="${project.root.identity.ed.img.base}/trial" />
+	<property name="img.cdimage.trial.identity.ed.win.x86" location="${img.cdimage.trial.identity.ed.base}/windows_x86" />
+	<property name="img.cdimage.trial.identity.ed.lnx.x86" location="${img.cdimage.trial.identity.ed.base}/linux_x86" />
+	<property name="img.cdimage.trial.identity.ed.win.x86_64" location="${img.cdimage.trial.identity.ed.base}/windows_x86_64" />
+	<property name="img.cdimage.trial.identity.ed.lnx.x86_64" location="${img.cdimage.trial.identity.ed.base}/linux_x86_64" />
+	<property name="img.cdimage.trial.identity.ed.aix.ppc" location="${img.cdimage.trial.identity.ed.base}/aix_ppc" />
+	
+	<property name="img.cdimage.trial.general.ed.base" location="${project.root.general.ed.img.base}/trial" />
+	<property name="img.cdimage.trial.general.ed.win.x86" location="${img.cdimage.trial.general.ed.base}/windows_x86" />
+	<property name="img.cdimage.trial.general.ed.aix.ppc" location="${img.cdimage.trial.general.ed.base}/aix_ppc" />
+	<property name="img.cdimage.trial.general.ed.lnx.x86" location="${img.cdimage.trial.general.ed.base}/linux_x86" />
+
+	<!-- The name of the license directory for a given image. -->
+	<property name="img.cdimage.license.dir.name" value="license" />
+	<property name="img.cdimage.license.i5os.dir.name" value="LICENSE" />
+
+	<!-- The name of the tdi_installer directory for a given image on i5/OS. -->
+	<property name="img.cdimage.installer.i5os.dir.name" value="TDI_INST" />
+
+	<!-- The name of the launchpad directory for a given image. -->
+	<property name="img.cdimage.launchpad.dir.name" value="launchpad" />
+
+	<!-- The name of the installer image setup jar file. -->
+	<property name="img.installer.setup.jar.name.i5os.after" value="SDIV${project.tdi.version.installer}.JAR" />
+	<property name="img.installer.setup.jar.name.i5os.before" value="sdiv${project.tdi.version.installer}_installer.JAR" />
+
+	<!-- The name of the actual installer executable on each platform before we copy. -->
+	<property name="img.installer.exec.name.win.x86.before" value="sdiv${project.tdi.version.installer}_installer.exe" />
+	<property name="img.installer.exec.name.win.x86_64.before" value="sdiv${project.tdi.version.installer}_installer.exe" />
+	<property name="img.installer.exec.name.aix.ppc.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.aix.ppc_64.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.lnx.x86.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.lnx.x86_64.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.lnx.zseries.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.lnx.pseries.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.solaris.sparc.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<property name="img.installer.exec.name.solaris.x86_64.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+	<!--     <property name="img.installer.exec.name.hp.parisc.before"       value="sdiv${project.tdi.version.installer}_installer.bin"/> -->
+	<property name="img.installer.exec.name.hp.ia64.before" value="sdiv${project.tdi.version.installer}_installer.bin" />
+
+	<!-- The name of the actual installer executable on each platform. -->
+	<property name="img.installer.exec.name.win.x86" value="install_sdiv${project.tdi.version.installer}_win_x86.exe" />
+	<property name="img.installer.exec.name.win.x86_64" value="install_sdiv${project.tdi.version.installer}_win_x86_64.exe" />
+	<property name="img.installer.exec.name.aix.ppc" value="install_sdiv${project.tdi.version.installer}_aix_ppc.bin" />
+	<property name="img.installer.exec.name.aix.ppc_64" value="install_sdiv${project.tdi.version.installer}_aix_ppc_64.bin" />
+	<property name="img.installer.exec.name.lnx.x86" value="install_sdiv${project.tdi.version.installer}_linux_x86.bin" />
+	<property name="img.installer.exec.name.lnx.x86_64" value="install_sdiv${project.tdi.version.installer}_linux_x86_64.bin" />
+	<property name="img.installer.exec.name.lnx.zseries" value="install_sdiv${project.tdi.version.installer}_zlinux.bin" />
+	<property name="img.installer.exec.name.lnx.pseries" value="install_sdiv${project.tdi.version.installer}_ppclinux.bin" />
+	<property name="img.installer.exec.name.solaris.sparc" value="install_sdiv${project.tdi.version.installer}_solaris_sparc.bin" />
+	<property name="img.installer.exec.name.solaris.x86_64" value="install_sdiv${project.tdi.version.installer}_solaris_x86_64.bin" />
+	<!--     <property name="img.installer.exec.name.hp.parisc"       value="install_sdiv${project.tdi.version.installer}_hpux_parisc.bin"/> -->
+	<property name="img.installer.exec.name.hp.ia64" value="install_sdiv${project.tdi.version.installer}_hpux_ia64.bin" />
+	<property name="img.installer.exec.name.i5os" value="install_tdi_i5os.sh" />
+	<property name="img.installer.exec.name.i5os.after" value="INST_SDI.SH" />
+
+	<!-- The name of the Windows console installers -->
+	<!-- Not sure about this concept in IA -->
+	<property name="img.console.installer.exec.name.win.x86" value="install_sdiv${project.tdi.version.installer}_win_x86_console.exe" />
+	<property name="img.console.installer.exec.name.win.x86_64" value="install_sdiv${project.tdi.version.installer}_win_x86_64_console.exe" />
+
+	<!-- set up wizard action compile information -->
+	<property name="work.install" location="${project.root.export.install}/work" />
+	<property name="work.install.actions" location="${work.install}/com/ibm/tdi_ia/install/actions" />
+	<property name="work.install.panels" location="${work.install}/com/ibm/tdi_ia/install/panels" />
+	<property name="work.install.plugins" location="${work.install}/com/ibm/tdi_ia/install/plugins" />
+	<property name="work.install.props" location="${work.install}/com/ibm/tdi_ia/install/properties" />
+	<property name="work.install.rules" location="${work.install}/com/ibm/tdi_ia/install/rules" />
+	<property name="work.install.utils" location="${work.install}/com/ibm/tdi_ia/install/utils" />
+	<property name="work.install.tmp.img" location="${project.root.export.install}/work/tmp_image" />
+
+	<!-- IA jar name -->
+	<property name="plugin.jar" location="${project.root.export.install.lib}/TDITools.jar" />
+
+	<!-- Set up common copyright compile information -->
+	<property name="install.src.common" location="${project.root.install}/src/com/ibm/di/install" />
+
+	<!-- set up custom code compile information -->
+	<property name="install.src" location="${project.root.install}/src/com/ibm/tdi_ia" />
+	<property name="install.src.actions" location="${install.src}/install/actions" />
+	<property name="install.src.panels" location="${install.src}/install/panels" />
+	<property name="install.src.plugins" location="${install.src}/install/plugins" />
+	<property name="install.src.props" location="${install.src}/install/properties" />
+	<property name="install.src.rules" location="${install.src}/install/rules" />
+	<property name="install.src.utils" location="${install.src}/install/utils" />
+	<property name="install.src.resources" location="${install.src}/install/resources" />
+
+	<!-- Names of the various zip files that are created.. -->
+	<property name="ServerZip" location="${project.root.export.zips_bundles}/${ServerZip_Name}" />
+	<property name="ServerZipIdentity" location="${project.root.export.zips_bundles}/${ServerZipIdentity_Name}" />
+	<property name="ServerZipWin" location="${project.root.export.zips_bundles}/${ServerZipWin_Name}" />
+	<property name="ServerZipUnix" location="${project.root.export.zips_bundles}/${ServerZipUnix_Name}" />
+	<property name="ServerZipI5OS" location="${project.root.export.zips_bundles}/${ServerZipI5OS_Name}" />
+	<property name="ServerZipWinX86" location="${project.root.export.zips_bundles}/${ServerZipWinX86_Name}" />
+	<property name="ServerZipWinX86_64" location="${project.root.export.zips_bundles}/${ServerZipWinX86_64_Name}" />
+	<property name="ServerZipLinuxX86" location="${project.root.export.zips_bundles}/${ServerZipLinuxX86_Name}" />
+	<property name="ServerZipLinuxX86_64" location="${project.root.export.zips_bundles}/${ServerZipLinuxX86_64_Name}" />
+	<property name="ServerZipAixPPC" location="${project.root.export.zips_bundles}/${ServerZipAixPPC_Name}" />
+	<property name="CeZipWin" location="${project.root.export.zips_bundles}/${CeZipWin_Name}" />
+	<property name="CeZipUNIX" location="${project.root.export.zips_bundles}/${CeZipUNIX_Name}" />
+	<property name="CeUpdateSite" location="${project.root.export.zips_bundles}/${CeUpdateSite_Name}" />
+	<property name="DocsZip" location="${project.root.export.zips_bundles}/${DocsZip_Name}" />
+	<property name="ExamplesZip" location="${project.root.export.zips_bundles}/${ExamplesZip_Name}" />
+	<property name="ExamplesZipUnix" location="${project.root.export.zips_bundles}/${ExamplesZipUnix_Name}" />
+	<property name="ExamplesZipIdentity" location="${project.root.export.zips_bundles}/${ExamplesZipIdentity_Name}" />
+	<property name="ExamplesZipUnixIdentity" location="${project.root.export.zips_bundles}/${ExamplesZipUnixIdentity_Name}" />
+	<!-- <property name="LicenseZip"               location="${project.root.export.zips_bundles}/${LicenseZip_Name}"/>  -->
+	<property name="BaseZip" location="${project.root.export.zips_bundles}/${BaseZip_Name}" />
+	<property name="BaseZipWin" location="${project.root.export.zips_bundles}/${BaseZipWin_Name}" />
+	<property name="BaseZipUnix" location="${project.root.export.zips_bundles}/${BaseZipUnix_Name}" />
+	<property name="BaseZipI5OS" location="${project.root.export.zips_bundles}/${BaseZipI5OS_Name}" />
+	<property name="PluginsZip_base" location="${project.root.export.zips_bundles}/${PluginsZip_base_Name}" />
+	<property name="PluginsZip_base_win" location="${project.root.export.zips_bundles}/${PluginsZip_base_win_Name}" />
+	<property name="PluginsZip_base_unix" location="${project.root.export.zips_bundles}/${PluginsZip_base_unix_Name}" />
+	<property name="PluginsZip_win_x86" location="${project.root.export.zips_bundles}/${PluginsZip_win_x86_Name}" />
+	<property name="PluginsZip_win_x86_64" location="${project.root.export.zips_bundles}/${PluginsZip_win_x86_64_Name}" />
+	<property name="PluginsZip_linux_86" location="${project.root.export.zips_bundles}/${PluginsZip_linux_86_Name}" />
+	<property name="PluginsZip_linux_86_64" location="${project.root.export.zips_bundles}/${PluginsZip_linux_86_64_Name}" />
+	<property name="PluginsZip_aix_ppc" location="${project.root.export.zips_bundles}/${PluginsZip_aix_ppc_Name}" />
+	<property name="PluginsZip_solaris_sparc" location="${project.root.export.zips_bundles}/${PluginsZip_solaris_sparc_Name}" />
+	<property name="PluginsZip_hp_parisc" location="${project.root.export.zips_bundles}/${PluginsZip_hp_parisc_Name}" />
+	<property name="EditionZip" location="${project.root.export.zips_bundles}/${EditionZip_Name}" />
+	<property name="LUMZip" location="${project.root.export.zips_bundles}/${LUMZip_Name}" />
+	<property name="LUMTrialZip" location="${project.root.export.zips_bundles}/${LUMTrialZip_Name}" />
+	<property name="LUMFullZip" location="${project.root.export.zips_bundles}/${LUMFullZip_Name}" />
+	<property name="LUMEmptyZip" location="${project.root.export.zips_bundles}/${LUMEmptyZip_Name}" />
+	<property name="LUMUpgradeZip" location="${project.root.export.zips_bundles}/${LUMUpgradeZip_Name}" />
+	<property name="CE_RCP_ZIP_UpdateSite" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_UpdateSite_Name}" />
+	<property name="CE_RCP_ZIP_win_x86" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_win_x86_Name}" />
+	<property name="CE_RCP_ZIP_win_x86_64" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_win_x86_64_Name}" />
+	<property name="CE_RCP_ZIP_linux_86" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_linux_86_Name}" />
+	<property name="CE_RCP_ZIP_linux_86_64" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_linux_86_64_Name}" />
+	<property name="CE_RCP_ZIP_aix" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_aix_Name}" />
+	<property name="CE_RCP_ZIP_solaris_sparc" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_solaris_sparc_Name}" />
+	<property name="ITRegistryDbScriptZip" location="${root.it_registry_src}/${ITRegistryDbScriptZip_Name}" />
+	<property name="CDMWebsiteZip" location="${root.cdm_src}/${CDMWebsiteZip_Name}" />
+
+	<property name="ServerZipWin_Backup" location="${project.root.export.zips_bundles}/${ServerZipWin_Name_Backup}" />
+	<property name="ServerZipUnix_Backup" location="${project.root.export.zips_bundles}/${ServerZipUnix_Name_Backup}" />
+	<property name="ServerZipI5OS_Backup" location="${project.root.export.zips_bundles}/${ServerZipI5OS_Name_Backup}" />
+	<property name="ServerZipWinX86_Backup" location="${project.root.export.zips_bundles}/${ServerZipWinX86_Name_Backup}" />
+	<property name="ServerZipWinX86_64_Backup" location="${project.root.export.zips_bundles}/${ServerZipWinX86_64_Name_Backup}" />
+	<property name="ServerZipLinuxX86_Backup" location="${project.root.export.zips_bundles}/${ServerZipLinuxX86_Name_Backup}" />
+	<property name="ServerZipLinuxX86_64_Backup" location="${project.root.export.zips_bundles}/${ServerZipLinuxX86_64_Name_Backup}" />
+	<property name="ServerZipAixPPC_Backup" location="${project.root.export.zips_bundles}/${ServerZipAixPPC_Name_Backup}" />
+	<property name="CeZipWin_Backup" location="${project.root.export.zips_bundles}/${CeZipWin_Name_Backup}" />
+	<property name="CeZipUNIX_Backup" location="${project.root.export.zips_bundles}/${CeZipUNIX_Name_Backup}" />
+	<property name="ExamplesZip_Backup" location="${project.root.export.zips_bundles}/${ExamplesZip_Name_Backup}" />
+	<property name="ExamplesZipUnix_Backup" location="${project.root.export.zips_bundles}/${ExamplesZipUnix_Name_Backup}" />
+	<property name="ExamplesZipIdentity_Backup" location="${project.root.export.zips_bundles}/${ExamplesZipIdentity_Name_Backup}" />
+	<property name="ExamplesZipUnixIdentity_Backup" location="${project.root.export.zips_bundles}/${ExamplesZipUnixIdentity_Name_Backup}" />
+	<property name="BaseZipWin_Backup" location="${project.root.export.zips_bundles}/${BaseZipWin_Name_Backup}" />
+	<property name="BaseZipUnix_Backup" location="${project.root.export.zips_bundles}/${BaseZipUnix_Name_Backup}" />
+	<property name="BaseZipI5OS_Backup" location="${project.root.export.zips_bundles}/${BaseZipI5OS_Name_Backup}" />
+	<property name="PluginsZip_base_win_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_base_win_Name_Backup}" />
+	<property name="PluginsZip_base_unix_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_base_unix_Name_Backup}" />
+	<property name="PluginsZip_win_x86_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_win_x86_Name_Backup}" />
+	<property name="PluginsZip_win_x86_64_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_win_x86_64_Name_Backup}" />
+	<property name="PluginsZip_linux_86_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_linux_86_Name_Backup}" />
+	<property name="PluginsZip_linux_86_64_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_linux_86_64_Name_Backup}" />
+	<property name="PluginsZip_aix_ppc_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_aix_ppc_Name_Backup}" />
+	<property name="PluginsZip_solaris_sparc_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_solaris_sparc_Name_Backup}" />
+	<property name="PluginsZip_hp_parisc_Backup" location="${project.root.export.zips_bundles}/${PluginsZip_hp_parisc_Name_Backup}" />
+	<property name="CE_RCP_ZIP_UpdateSite_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_UpdateSite_Name_Backup}" />
+	<property name="CE_RCP_ZIP_win_x86_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_win_x86_Name_Backup}" />
+	<property name="CE_RCP_ZIP_win_x86_64_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_win_x86_64_Name_Backup}" />
+	<property name="CE_RCP_ZIP_linux_86_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_linux_86_Name_Backup}" />
+	<property name="CE_RCP_ZIP_linux_86_64_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_linux_86_64_Name_Backup}" />
+	<property name="CE_RCP_ZIP_aix_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_aix_Name_Backup}" />
+	<property name="CE_RCP_ZIP_solaris_sparc_Backup" location="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_solaris_sparc_Name_Backup}" />
+	<property name="IEHSZip" location="${project.root.export.zips_bundles}/${IEHSZipName}" />
+	<property name="TDI_EMPTY_ZIP" location="${project.root.export.zips_bundles}/TDI_EMPTY.zip" />
+
+	<!--
+      =========================================================================
+        Classpaths
+      =========================================================================
+    -->
+	<description>
+    * ISI classpath:
+    </description>
+
+	<path id="itdi.classpath">
+
+		<!-- XXX PIT files will need to change to IA-->
+		<fileset dir="${root.pit_src}/InstallShieldCustomBeans">
+			<include name="InstallShieldCustomBeans.jar" />
+		</fileset>
+		<!-- XXX PIT files will need to change to IA-->
+		<fileset dir="${root.pit_src}/InstallShieldCustomBeans/SystemUtilities">
+			<include name="*.jar" />
+		</fileset>
+
+		<fileset dir="${root.jtopen_src}">
+			<include name="jt400.jar" />
+		</fileset>
+
+		<fileset dir="${project.root.export.install.lib}">
+			<include name="${plugin.jar}" />
+		</fileset>
+
+		<fileset dir="${root.de_src}">
+			<include name="sisetup.jar" />
+			<include name="si.jar" />
+		</fileset>
+
+		<pathelement location="${project.root.export}" />
+
+		<pathelement location="${IA_HOME}/IAClasses.zip" />
+		<pathelement location="${IA_HOME}/resource/services/services.jar" />
+
+	</path>
+
+	<description>
+      =========================================================================
+        Macro:  mkdirsForDiskImagei5os
+
+        Purpose:  The Macro takes a directory as input and uses it to create all
+                  of the directories that the image will need for i5os.
+      =========================================================================
+    </description>
+	<macrodef name="mkdirsForDiskImagei5os">
+		<!-- The directory to create all of the directories in. -->
+		<attribute name="output.image.dir" />
+
+		<sequential>
+			<!-- Create the base disk directory itself. -->
+			<mkdir dir="@{output.image.dir}" />
+			<!-- Create the disk license directory. -->
+			<mkdir dir="@{output.image.dir}/${img.cdimage.license.i5os.dir.name}" />
+			<!-- Create the disk TDI_INST directory. -->
+			<mkdir dir="@{output.image.dir}/${img.cdimage.installer.i5os.dir.name}" />
+		</sequential>
+	</macrodef>
+
+	<description>
+      =========================================================================
+        Macro:  copyInstallImage
+
+        Purpose:  The Macro takes a directory as input copies over all of the
+                  built install image file to the directory.
+      =========================================================================
+    </description>
+	<macrodef name="copyInstallImage">
+		<!-- The directory to copy the files from. -->
+		<attribute name="input.image.dir" />
+		<!-- The directory to copy all of the files into. -->
+		<attribute name="output.image.dir" />
+		<!-- The name of the installer executable to copy. -->
+		<attribute name="input.exec.name" />
+		<!-- The final name of the installer executable. -->
+		<attribute name="output.exec.name" />
+
+		<sequential>
+			<!-- Create the needed directory. -->
+			<mkdir dir="@{output.image.dir}" />
+
+			<!-- Copy over the executable -->
+			<move file="@{input.image.dir}/@{input.exec.name}" tofile="@{output.image.dir}/@{output.exec.name}" />
+
+		</sequential>
+	</macrodef>
+
+	<description>
+      =========================================================================
+        Macro:  copyInstallImageWindows
+
+        Purpose:  The Macro takes a directory as input copies over all of the
+                  built install image file to the directory.
+      =========================================================================
+    </description>
+	<macrodef name="copyInstallImageWindows">
+		<!-- The directory to copy the files from. -->
+		<attribute name="input.image.dir" />
+		<!-- The directory to copy all of the files into. -->
+		<attribute name="output.image.dir" />
+		<!-- The name of the installer executable to copy. -->
+		<attribute name="input.exec.name" />
+		<!-- The final name of the installer executable. -->
+		<attribute name="output.exec.name" />
+		<!-- The name of the console installer -->
+		<attribute name="input.console.exec.name" />
+		<!-- The final name of the console installer -->
+		<attribute name="output.console.exec.name" />
+
+		<sequential>
+			<!-- Create the needed directory. -->
+			<mkdir dir="@{output.image.dir}" />
+
+			<!-- Copy over the executable and the setup jar file. -->
+			<echo message="inputdir=@{input.image.dir}" />
+			<echo message="outputdir=@{output.image.dir}" />
+
+			<!-- prob dont need the console installer....
+       <move file="@{input.image.dir}/@{input.console.exec.name}" tofile="@{output.image.dir}/@{output.console.exec.name}"/>
+ -->
+			<move file="@{input.image.dir}/@{input.exec.name}" tofile="@{output.image.dir}/@{output.exec.name}" />
+
+		</sequential>
+	</macrodef>
+
+	<description>
+      =========================================================================
+        Macro:  copyInstallImagei5os
+
+        Purpose:  The Macro takes a directory as input copies over all of the
+                  built install image file to the directory.  Also, copies
+                  the needed launchpad files and the needed license files.
+      =========================================================================
+    </description>
+	<macrodef name="copyInstallImagei5os">
+		<!-- The directory to copy the files from. -->
+		<attribute name="input.image.dir" />
+		<!-- The directory to copy all of the files into. -->
+		<attribute name="output.image.dir" />
+		<!-- The name of the installer executable to copy. -->
+		<attribute name="input.exec.name" />
+		<!-- The name of the installer executable after the copy. -->
+		<attribute name="output.exec.name" />
+		<!-- The name of the prefix from which license files need to copy. -->
+		<attribute name="dir.prefix" />
+
+		<sequential>
+			<!-- Create the needed directories. -->
+			<mkdirsForDiskImagei5os output.image.dir="@{output.image.dir}" />
+
+			<!-- Copy over the executable and the setup jar file. -->
+			<move file="@{input.image.dir}/${img.installer.setup.jar.name.i5os.before}" tofile="@{output.image.dir}/${img.cdimage.installer.i5os.dir.name}/${img.installer.setup.jar.name.i5os.after}" />
+
+			<copy file="${project.root.install}/utils/@{input.exec.name}" tofile="@{output.image.dir}/${img.cdimage.installer.i5os.dir.name}/@{output.exec.name}" />
+
+			<!-- Copy over the license files. -->
+			<copyMadeLicenseFilesi5os output.dir="@{output.image.dir}/${img.cdimage.license.i5os.dir.name}" dir.prefix="@{dir.prefix}" />
+		</sequential>
+
+	</macrodef>
+
+	<description>
+      =========================================================================
+        Macro:  buildTDIInstallImages
+
+        Purpose:  The Macro will make the ant calls to build the images for
+                  the various platforms.
+      =========================================================================
+    </description>
+	<macrodef name="buildTDIInstallImages">
+		<attribute name="build.type" />
+		<attribute name="dir.prefix" />
+
+		<sequential>
+			<pathconvert property="ia.compile.classpath" dirsep="/" refid="itdi.classpath" />
+
+			<!--Make the LUM Full zips -->
+			<antcall target="tdi_lum_full_zip" />
+
+			<!-- setup zips for win32 -->
+			<antcall target="tdi_empty_zips_win32" />
+
+			<echo message="Build the Windows Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.win.x86}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.win.x86}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.win.x86}" />
+			</antcall>
+			<copyInstallImageWindows input.image.dir="${img.base.win.x86}" output.image.dir="${img.cdimage.@{build.type}.ed.win.x86}" input.exec.name="${img.installer.exec.name.win.x86.before}" output.exec.name="${img.installer.exec.name.win.x86}" input.console.exec.name="${img.console.installer.exec.name.win.x86}" output.console.exec.name="${img.console.installer.exec.name.win.x86}" />
+
+			<!-- setup zips for lin32 -->
+			<antcall target="tdi_empty_zips_lin32" />
+
+			<echo message="Build the Linux Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.x86}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.x86}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.x86}" output.image.dir="${img.cdimage.@{build.type}.ed.lnx.x86}" input.exec.name="${img.installer.exec.name.lnx.x86.before}" output.exec.name="${img.installer.exec.name.lnx.x86}" />
+
+			<!-- setup zips for aix32 -->
+			<antcall target="tdi_empty_zips_aix32" />
+
+			<echo message="Build the AIX Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.aix.ppc}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.aix.ppc}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.aix.ppc}" output.image.dir="${img.cdimage.@{build.type}.ed.aix.ppc}" input.exec.name="${img.installer.exec.name.aix.ppc.before}" output.exec.name="${img.installer.exec.name.aix.ppc}" />
+
+			<!-- setup zips for win64 -->
+			<antcall target="tdi_empty_zips_win64" />
+
+			<echo message="Build the Windows AMD64 Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.win.x86_64}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.win.x86_64}" />
+			</antcall>
+			<copyInstallImageWindows input.image.dir="${img.base.win.x86_64}" output.image.dir="${img.cdimage.@{build.type}.ed.win.x86_64}" input.exec.name="${img.installer.exec.name.win.x86_64.before}" output.exec.name="${img.installer.exec.name.win.x86_64}" input.console.exec.name="${img.console.installer.exec.name.win.x86_64}" output.console.exec.name="${img.console.installer.exec.name.win.x86_64}" />
+
+			<!-- setup zips for lin64 -->
+			<antcall target="tdi_empty_zips_lin64" />
+
+			<echo message="Build the Linux AMD64 Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.x86_64}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.x86_64}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.x86_64}" output.image.dir="${img.cdimage.@{build.type}.ed.lnx.x86_64}" input.exec.name="${img.installer.exec.name.lnx.x86_64.before}" output.exec.name="${img.installer.exec.name.lnx.x86_64}" />
+
+			<!-- The rest of these do not use LUM -->
+			<antcall target="tdi_lum_empty_zip" />
+
+			<!-- setup zips for lin_390 -->
+			<antcall target="tdi_empty_zips_lin_390" />
+
+			<echo message="Build the zLinux Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.zseries}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.zseries}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.zseries}" output.image.dir="${img.cdimage.@{build.type}.ed.lnx.zseries}" input.exec.name="${img.installer.exec.name.lnx.zseries.before}" output.exec.name="${img.installer.exec.name.lnx.zseries}" />
+
+			<!-- setup zips for lin_ppc -->
+			<antcall target="tdi_empty_zips_lin_ppc" />
+
+			<echo message="Build the ppcLinux Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.pseries}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.pseries}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.pseries}" output.image.dir="${img.cdimage.@{build.type}.ed.lnx.pseries}" input.exec.name="${img.installer.exec.name.lnx.pseries.before}" output.exec.name="${img.installer.exec.name.lnx.pseries}" />
+
+			<!-- setup zips for sol_sparc -->
+			<antcall target="tdi_empty_zips_sol_sparc" />
+
+			<echo message="Build the Solaris Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.solaris.sparc}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.solaris.sparc}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.solaris.sparc}" output.image.dir="${img.cdimage.@{build.type}.ed.solaris.sparc}" input.exec.name="${img.installer.exec.name.solaris.sparc.before}" output.exec.name="${img.installer.exec.name.solaris.sparc}" />
+
+			<!-- setup zips for sol_x86_64 -->
+			<!-- Not build sol_x86_64 anymore-->
+			<!--
+		        <antcall target="tdi_empty_zips_sol_x86" />
+		        <installer_locale_files/>
+			-->
+
+			<!-- Solaris x86 platform no longer supported-->
+			<!--
+	        <echo message="Build the Solaris AMD64 Configuration"/>
+	        <antcall target="build.project" inheritRefs="true">
+	          <param name="build.configuration" value="${img.bldcontext.solaris.x86_64}"/>
+	          <param name="log" value="${project.root.export.logs}/${img.log.name.solaris.x86_64}"/>
+	        </antcall>
+	        <copyInstallImage input.image.dir="${img.base.solaris.x86_64}" output.image.dir="${img.cdimage.@{build.type}.ed.solaris.x86_64}"
+	                          input.exec.name="${img.installer.exec.name.solaris.x86_64.before}" output.exec.name="${img.installer.exec.name.solaris.x86_64}"/>
+			-->
+			<!-- setup zips for hp_itanium -->
+			<!-- Not build HP IA  anymore-->
+			<!--
+		        <antcall target="tdi_empty_zips_hp_itanium" />
+			    <installer_locale_files/>
+			-->
+			<!-- HPUX IA64 platform no longer supported-->
+			<!--
+	        <echo message="Build the HPUX IA64 Configuration"/>
+	        <antcall target="build.project" inheritRefs="true">
+	          <param name="build.configuration" value="${img.bldcontext.hp.ia64}"/>
+	          <param name="log" value="${project.root.export.logs}/${img.log.name.hp.ia64}"/>
+	        </antcall>
+	        <copyInstallImage input.image.dir="${img.base.hp.ia64}" output.image.dir="${img.cdimage.@{build.type}.ed.hp.ia64}"
+	                          input.exec.name="${img.installer.exec.name.hp.ia64.before}" output.exec.name="${img.installer.exec.name.hp.ia64}"/>
+	
+			-->
+
+			<!-- setup zips for i5os -->
+			<!-- Not build i5OS anymore-->
+			<!--
+		        <antcall target="tdi_empty_zips_i5os" />
+		        <installer_locale_files/>
+			-->
+			<!-- Solaris i5OS platform no longer supported-->
+			<!--
+	        <echo message="Build the i5os Configuration"/>
+	        <antcall target="build.project" inheritRefs="true">
+	          <param name="build.configuration" value="${img.bldcontext.i5os}"/>
+	          <param name="log" value="${project.root.export.logs}/${img.log.name.i5os}"/>
+	        </antcall>
+	        <copyInstallImagei5os dir.prefix="@{dir.prefix}" input.image.dir="${img.base.i5os}" output.image.dir="${img.cdimage.@{build.type}.ed.i5os}"
+	                              input.exec.name="${img.installer.exec.name.i5os}" output.exec.name="${img.installer.exec.name.i5os.after}"/>
+	         -->
+			<!-- setup zips for aix64 -->
+			<antcall target="tdi_empty_zips_aix64" />
+
+			<echo message="Build the AIX Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.aix.ppc_64}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.aix.ppc_64}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.aix.ppc_64}" output.image.dir="${img.cdimage.@{build.type}.ed.aix.ppc_64}" input.exec.name="${img.installer.exec.name.aix.ppc_64.before}" output.exec.name="${img.installer.exec.name.aix.ppc_64}" />
+
+		</sequential>
+
+	</macrodef>
+
+	<description>
+      =========================================================================
+        Macro:  buildTrialTDIInstallImages
+
+        Purpose:  The Macro will make the ant calls to build the images for
+                  the various trial platforms.
+      =========================================================================
+    </description>
+	<macrodef name="buildTrialTDIInstallImages">
+		<attribute name="build.type" />
+
+		<sequential>
+			<pathconvert property="ia.compile.classpath" dirsep="/" refid="itdi.classpath" />
+
+			<antcall target="tdi_lum_trial_zip" />
+
+			<!-- setup zips for win32 -->
+			<antcall target="tdi_empty_zips_win32" />
+
+			<echo message="Build the Windows Trial Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.win.x86}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.win.x86}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.win.x86}" output.image.dir="${img.cdimage.trial.@{build.type}.ed.win.x86}" input.exec.name="${img.installer.exec.name.win.x86.before}" output.exec.name="${img.installer.exec.name.win.x86}" />
+
+			<!-- setup zips for win64 -->
+			<antcall target="tdi_empty_zips_win64" />
+
+			<echo message="Build the Windows AMD64 Trial Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.win.x86_64}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.win.x86_64}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.win.x86_64}" output.image.dir="${img.cdimage.trial.@{build.type}.ed.win.x86_64}" input.exec.name="${img.installer.exec.name.win.x86_64.before}" output.exec.name="${img.installer.exec.name.win.x86_64}" />
+
+			<!-- setup zips for lin32 -->
+			<antcall target="tdi_empty_zips_lin32" />
+
+			<echo message="Build the Linux Trial Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.x86}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.x86}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.x86}" output.image.dir="${img.cdimage.trial.@{build.type}.ed.lnx.x86}" input.exec.name="${img.installer.exec.name.lnx.x86.before}" output.exec.name="${img.installer.exec.name.lnx.x86}" />
+
+			<!-- setup zips for lin64 -->
+			<antcall target="tdi_empty_zips_lin64" />
+
+			<echo message="Build the Linux AMD64 Trial Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.lnx.x86_64}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.lnx.x86_64}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.lnx.x86_64}" output.image.dir="${img.cdimage.trial.@{build.type}.ed.lnx.x86_64}" input.exec.name="${img.installer.exec.name.lnx.x86_64.before}" output.exec.name="${img.installer.exec.name.lnx.x86_64}" />
+
+			<!-- setup zips for aix32 -->
+			<antcall target="tdi_empty_zips_aix32" />
+
+			<echo message="Build the AIX Trial Configuration" />
+			<antcall target="build.project" inheritRefs="true">
+				<param name="build.configuration" value="${img.bldcontext.aix.ppc}" />
+				<param name="log" value="${project.root.export.logs}/${img.log.name.aix.ppc}" />
+			</antcall>
+			<copyInstallImage input.image.dir="${img.base.aix.ppc}" output.image.dir="${img.cdimage.trial.@{build.type}.ed.aix.ppc}" input.exec.name="${img.installer.exec.name.aix.ppc.before}" output.exec.name="${img.installer.exec.name.aix.ppc}" />
+
+		</sequential>
+
+	</macrodef>
+
+	<!--
+      =========================================================================
+         Target:  init
+
+        Purpose:  Initialize the build environment.
+      =========================================================================
+    -->
+	<target name="init" description="Initialize the build environment.">
+
+		<!-- Create any base export directories, incase they do not already exist. -->
+		<mkdir dir="${project.root.export}" />
+		<mkdir dir="${project.root.export.logs}" />
+		<mkdir dir="${project.root.export.install}" />
+		<mkdir dir="${project.root.export.install.lib}" />
+		<mkdir dir="${project.root.export.zips_bundles}" />
+		<mkdir dir="${project.root.launchpad.export}" />
+
+		<!-- Create any base export directories, incase they do not already exist. -->
+		<mkdir dir="${project.root.ship}" />
+		<mkdir dir="${project.root.img.cdimage}" />
+		<mkdir dir="${project.root.general.ed.img.base}" />
+		<mkdir dir="${project.root.identity.ed.img.base}" />
+		<mkdir dir="${project.root.img.zips_bundles}" />
+
+		<!-- Copy over the splashscreen gif so installer can use it -->
+		<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/en/splashscreen.jpg" tofile="${project.root.export.install.lib}/splashscreen.jpg" />
+
+		<!-- Ensure the files we need are exported and in the right format -->
+		<setupEtcBinMiscFiles />
+
+		<!-- Ensure the tag files are created -->
+		<create_tag_files />
+
+		<tstamp>
+			<format property="build.time" pattern="'Build: 'yyyy/MM/dd HH:mm:ss" />
+		</tstamp>
+	</target>
+
+	<!--
+      =========================================================================
+         Target: install_utils_compile
+
+        Purpose:  compile install utilities (like wizard actions)
+      =========================================================================
+    -->
+	<target name="install_utils_compile" description="compile install utilities.">
+
+		<echo message="Compiling the custom code." />
+
+		<property name="cp" refid="itdi.classpath" />
+		<echo message="Classpath is ${cp}" />
+
+		<!-- Make sure the work directory exists -->
+		<mkdir dir="${work.install}" />
+
+		<javac destdir="${work.install}" classpathref="itdi.classpath" debug="on">
+			<src path="${install.src.common}" />
+			<src path="${install.src.actions}" />
+			<src path="${install.src.panels}" />
+			<src path="${install.src.rules}" />
+			<src path="${install.src.utils}" />
+		</javac>
+
+		<copy todir="${work.install.props}" overwrite="true">
+			<fileset dir="${install.src.props}" includes="**/*" />
+		</copy>
+
+		<!-- Create the TDI jar file -->
+		<jar basedir="${work.install}" jarfile="${plugin.jar}" compress="true">
+			<include name="com/ibm/di/install/*.class" />
+			<include name="com/ibm/tdi_ia/install/actions/*.class" />
+			<include name="com/ibm/tdi_ia/install/panels/*.class" />
+			<include name="com/ibm/tdi_ia/install/rules/*.class" />
+			<include name="com/ibm/tdi_ia/install/utils/*.class" />
+			<include name="com/ibm/tdi_ia/install/properties/*" />
+		</jar>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  create_plugins
+
+        Purpose:  Builds the ISA Windows Assembly
+      =========================================================================
+    -->
+	<target name="create_plugins" description="Create IA plugins and move to IA home dir." depends="install_utils_compile">
+		<antcall inheritAll="true" target="create.preinstallexpandarchive.plugin" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  create.preinstallexpandarchive.plugin
+
+        Purpose:  Builds the PreInstall Expand Archive
+      =========================================================================
+    -->
+	<target name="create.preinstallexpandarchive.plugin" description="Create IA PreInstall Expand Archive">
+
+		<echo message="Creating PreInstall Expand Archive." />
+
+		<delete file="${work.install.plugins}/PreInstallExpandArchive.jar" />
+		<delete file="${work.install.props}/PreInstallExpandArchive.properties" />
+		<delete file="${work.install.props}/PreInstallExpandArchive.htm" />
+
+		<mkdir dir="${work.install.plugins}" />
+
+		<jar basedir="${work.install}" jarfile="${work.install.plugins}/PreInstallExpandArchive.jar" compress="true">
+			<include name="**/PreInstallExpandArchive.class" />
+		</jar>
+
+		<copy file="${install.src.props}/PreInstallExpandArchive.properties" tofile="${work.install.props}/customcode.properties" />
+		<copy file="${install.src.props}/PreInstallExpandArchive.properties" tofile="${work.install.props}/help.htm" />
+
+		<jar basedir="${work.install.props}" jarfile="${work.install.plugins}/PreInstallExpandArchive.jar" update="true" compress="true">
+			<include name="customcode.properties" />
+			<include name="help.htm" />
+		</jar>
+
+		<!-- We need this line so it appears in the plugins list in IA.  After it's been added, this line can be removed -->
+		<copy file="${work.install.plugins}/PreInstallExpandArchive.jar" tofile="${project.root.export.install.lib}/PreInstallExpandArchive.jar" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  create_license
+
+        Purpose:  create the final license files
+      =========================================================================
+    -->
+	<target name="create_license" description="Creates the final license files.">
+
+		<!-- Create license files for IE edition -->
+		<createTDILicenseFiles dir.prefix="/IE" />
+
+		<!-- Create license files for IE trial edition -->
+		<createTDILicenseFiles dir.prefix="/IE_trial" />
+
+	</target>
+
+	<!--
+    =========================================================================
+    Target: zip_server
+
+    Purpose:  Create a zip of the Server Component files
+    =========================================================================
+    -->
+	<target name="zip_server" description="Create a zip of the Server Component files">
+
+		<zipTDIServerPackage output.name.base="${ServerZip}" output.name.identity="${ServerZipIdentity}" output.name.win="${ServerZipWin}" output.name.unix="${ServerZipUnix}" output.name.i5os="${ServerZipI5OS}" output.name.win.x86="${ServerZipWinX86}" output.name.linux.x86="${ServerZipLinuxX86}" output.name.linux.x86.64="${ServerZipLinuxX86_64}" output.name.aix.ppc="${ServerZipAixPPC}" output.name.win.x86.64="${ServerZipWinX86_64}" />
+
+	</target>
+
+	<!--
+    =========================================================================
+    Target: zip_base
+
+    Purpose:  Create a zip of the Base Component files
+    =========================================================================
+    -->
+	<target name="zip_base" description="Create a zip of the Base Component files">
+
+		<zipTDIBasePackage output.name="${BaseZip}" output.name.win="${BaseZipWin}" output.name.unix="${BaseZipUnix}" output.name.i5os="${BaseZipI5OS}" />
+	</target>
+
+	<!--
+    =========================================================================
+    Target: zip_lum
+
+    Purpose:  Create zips of the LUM files
+    =========================================================================
+    -->
+	<target name="zip_lum" description="Create a zip of the LUM files">
+
+		<zipTDILUMPackages output.name.trial="${LUMTrialZip}" output.name.full="${LUMFullZip}" output.name.empty="${LUMEmptyZip}" output.name.upgrade="${LUMUpgradeZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target: zip_ce
+
+        Purpose:  Create a zip of the CE Component files
+      =========================================================================
+    -->
+	<target name="zip_ce" description="Create a zip of the CE Component files">
+
+		<zipTDICEPackage output.name.win="${CeZipWin}" output.name.unix="${CeZipUNIX}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: zip_docs
+
+        Purpose:  Create a zip of the Docs Component files
+      =========================================================================
+    -->
+	<target name="zip_docs" description="Create a zip of the Docs Component files">
+
+		<!-- Create the zip package -->
+		<zipTDIJavaDocsPackage output.name="${DocsZip}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: zip_examples
+
+        Purpose:  Create a zip of the Examples Component files
+      =========================================================================
+    -->
+	<target name="zip_examples" description="Create a zip of the Examples Component files">
+
+		<zipTDIExamplesPackage output.name="${ExamplesZip}" output.name.identity.ed="${ExamplesZipIdentity}" eol="dos" />
+		<zipTDIExamplesPackage output.name="${ExamplesZipUnix}" output.name.identity.ed="${ExamplesZipUnixIdentity}" eol="unix" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: zip_plugins
+
+        Purpose:  Create a zip of the Plugins Component files
+      =========================================================================
+    -->
+	<target name="zip_plugins" description="Create a zip of the Plugins Component files">
+
+		<zipTDIPwdPluginsPackage output.name.plugins.base="${PluginsZip_base}" output.name.plugins.base.win="${PluginsZip_base_win}" output.name.plugins.base.unix="${PluginsZip_base_unix}" output.name.win.x86="${PluginsZip_win_x86}" output.name.win.x86.64="${PluginsZip_win_x86_64}" output.name.linux.x86="${PluginsZip_linux_86}" output.name.linux.x86.64="${PluginsZip_linux_86_64}" output.name.aix.ppc="${PluginsZip_aix_ppc}" output.name.solaris.sparc="${PluginsZip_solaris_sparc}" output.name.hp.parisc="${PluginsZip_hp_parisc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: zip_files
+
+        Purpose:  Creates all of the zip files
+                  Put all zips in the ship tree as a backup incase the installer does not work.
+      =========================================================================
+    -->
+	<target name="zip_files" description="Create all of the zip files" depends="zip_plugins,zip_server,zip_ce,zip_docs,zip_examples,
+	           zip_base">
+
+		<!-- Make zipfile that can be used as a backup for the installer.-->
+		<mkdir dir="${project.root.img.zips_bundles}" />
+		<copy todir="${project.root.img.zips_bundles}">
+			<fileset dir="${project.root.export.zips_bundles}">
+				<exclude name="${EditionZip_Name}" />
+				<exclude name="${LUMEmptyZip_Name}" />
+				<exclude name="${LUMZip_Name}" />
+			</fileset>
+		</copy>
+		<copy todir="${project.root.img.zips_bundles}">
+			<fileset dir="${project.root.export.ce_eclipse}">
+				<exclude name="*.zip" />
+			</fileset>
+		</copy>
+		<copy file="${ITRegistryDbScriptZip}" todir="${project.root.img.zips_bundles}" />
+		<copy file="${CDMWebsiteZip}" todir="${project.root.img.zips_bundles}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_edition_zip
+
+        Purpose:  Builds the ITDI Edition zip file with Identity in it
+       =========================================================================
+    -->
+
+	<target name="tdi_edition_zip" description="Create the edition zip file">
+
+		<!-- Build file and zip it so that it will be used the installer to determine its the Identity Edition. -->
+		<delete file="${EditionZip}" />
+		<delete file="${project.root.export.install}/${EditionFileName}" />
+		<echo file="${project.root.export.install}/${EditionFileName}">Identity Edition</echo>
+
+		<zip zipfile="${EditionZip}">
+			<zipfileset dir="${project.root.export.install}">
+				<include name="${EditionFileName}" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_lum_trial_zip
+
+        Purpose:  Builds the TDI LUM zip file with appropriate files in it
+       =========================================================================
+    -->
+
+	<target name="tdi_lum_trial_zip" description="Copy over the full LUM zip file">
+
+		<!-- Build file and zip it so that it will be used the installer -->
+		<delete file="${LUMZip}" />
+		<copy file="${LUMTrialZip}" tofile="${LUMZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_lum_full_zip
+
+        Purpose:  Builds the TDI LUM zip file with appropriate files in it
+       =========================================================================
+    -->
+	<target name="tdi_lum_full_zip" description="Copy over the trial LUM zip file">
+
+		<!-- Build file and zip it so that it will be used the installer -->
+		<delete file="${LUMZip}" />
+		<copy file="${LUMFullZip}" tofile="${LUMZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_lum_empty_zip
+
+        Purpose:  Builds the TDI LUM zip file with appropriate files in it
+       =========================================================================
+    -->
+	<target name="tdi_lum_empty_zip" description="Copy over the empty LUM zip file">
+
+		<!-- Build file and zip it so that it will be used the installer -->
+		<delete file="${LUMZip}" />
+		<copy file="${LUMEmptyZip}" tofile="${LUMZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  delete_backup_zips
+
+        Purpose:  Backups up the zips we need to make empty for the installer
+                  depending on the platforms.
+       =========================================================================
+    -->
+	<target name="delete_backup_zips" description="Delete backup zip files that may be empty depending on the installer">
+
+		<!-- Build file and zip it so that it will be used the installer -->
+		<delete file="${ServerZipWin_Backup}" />
+		<delete file="${ServerZipUnix_Backup}" />
+		<delete file="${ServerZipI5OS_Backup}" />
+		<delete file="${ServerZipWinX86_Backup}" />
+		<delete file="${ServerZipWinX86_64_Backup}" />
+		<delete file="${ServerZipLinuxX86_Backup}" />
+		<delete file="${ServerZipLinuxX86_64_Backup}" />
+		<delete file="${ServerZipAixPPC_Backup}" />
+		<delete file="${CeZipWin_Backup}" />
+		<delete file="${CeZipUNIX_Backup}" />
+		<delete file="${ExamplesZip_Backup}" />
+		<delete file="${ExamplesZipUnix_Backup}" />
+		<delete file="${ExamplesZipIdentity_Backup}" />
+		<delete file="${ExamplesZipUnixIdentity_Backup}" />
+		<delete file="${BaseZipWin_Backup}" />
+		<delete file="${BaseZipUnix_Backup}" />
+		<delete file="${BaseZipI5OS_Backup}" />
+		<delete file="${PluginsZip_base_win_Backup}" />
+		<delete file="${PluginsZip_base_unix_Backup}" />
+		<delete file="${PluginsZip_win_x86_Backup}" />
+		<delete file="${PluginsZip_win_x86_64_Backup}" />
+		<delete file="${PluginsZip_linux_86_Backup}" />
+		<delete file="${PluginsZip_linux_86_64_Backup}" />
+		<delete file="${PluginsZip_aix_ppc_Backup}" />
+		<delete file="${PluginsZip_solaris_sparc_Backup}" />
+		<delete file="${PluginsZip_hp_parisc_Backup}" />
+		<delete file="${CE_RCP_ZIP_UpdateSite_Backup}" />
+		<delete file="${CE_RCP_ZIP_win_x86_Backup}" />
+		<delete file="${CE_RCP_ZIP_win_x86_64_Backup}" />
+		<delete file="${CE_RCP_ZIP_linux_86_Backup}" />
+		<delete file="${CE_RCP_ZIP_linux_86_64_Backup}" />
+		<delete file="${CE_RCP_ZIP_aix_Backup}" />
+		<delete file="${CE_RCP_ZIP_solaris_sparc_Backup}" />
+		<delete file="${IEHSZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  delete_orig_zips
+
+        Purpose:  Delet tmp orig up the zips we need to make empty for the installer
+                  depending on the platforms.
+       =========================================================================
+    -->
+	<target name="delete_orig_zips" description="Delete tmp orig zip files that may be empty depending on the installer">
+
+		<!-- Delet these tmp orig files. -->
+		<delete file="${ServerZipWin}" />
+		<delete file="${ServerZipUnix}" />
+		<delete file="${ServerZipI5OS}" />
+		<delete file="${ServerZipWinX86}" />
+		<delete file="${ServerZipWinX86_64}" />
+		<delete file="${ServerZipLinuxX86}" />
+		<delete file="${ServerZipLinuxX86_64}" />
+		<delete file="${ServerZipAixPPC}" />
+		<delete file="${CeZipWin}" />
+		<delete file="${CeZipUNIX}" />
+		<delete file="${ExamplesZip}" />
+		<delete file="${ExamplesZipUnix}" />
+		<delete file="${ExamplesZipIdentity}" />
+		<delete file="${ExamplesZipUnixIdentity}" />
+		<delete file="${BaseZipWin}" />
+		<delete file="${BaseZipUnix}" />
+		<delete file="${BaseZipI5OS}" />
+		<delete file="${PluginsZip_base_win}" />
+		<delete file="${PluginsZip_base_unix}" />
+		<delete file="${PluginsZip_win_x86}" />
+		<delete file="${PluginsZip_win_x86_64}" />
+		<delete file="${PluginsZip_linux_86}" />
+		<delete file="${PluginsZip_linux_86_64}" />
+		<delete file="${PluginsZip_aix_ppc}" />
+		<delete file="${PluginsZip_solaris_sparc}" />
+		<delete file="${PluginsZip_hp_parisc}" />
+		<delete file="${CE_RCP_ZIP_UpdateSite}" />
+		<delete file="${CE_RCP_ZIP_win_x86}" />
+		<delete file="${CE_RCP_ZIP_win_x86_64}" />
+		<delete file="${CE_RCP_ZIP_linux_86}" />
+		<delete file="${CE_RCP_ZIP_linux_86_64}" />
+		<delete file="${CE_RCP_ZIP_aix}" />
+		<delete file="${CE_RCP_ZIP_solaris_sparc}" />
+		<delete file="${IEHSZip}" />
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_backup_zips
+
+        Purpose:  Backups up the zips we need to make empty for the installer
+                  depending on the platforms.
+       =========================================================================
+    -->
+	<target name="tdi_backup_zips" description="Backup zip files that may be empty depending on the installer">
+
+		<!-- create the empty zip -->
+		<zip zipfile="${TDI_EMPTY_ZIP}">
+			<zipfileset dir="${project.root.lum}">
+				<include name="${LUMEmptyName}" />
+			</zipfileset>
+		</zip>
+
+		<!-- Delete the backup zips -->
+		<antcall target="delete_backup_zips" />
+
+		<!-- Now, make the backups -->
+		<move file="${ServerZipWin}" tofile="${ServerZipWin_Backup}" />
+		<move file="${ServerZipUnix}" tofile="${ServerZipUnix_Backup}" />
+		<move file="${ServerZipI5OS}" tofile="${ServerZipI5OS_Backup}" />
+		<move file="${ServerZipWinX86}" tofile="${ServerZipWinX86_Backup}" />
+		<move file="${ServerZipWinX86_64}" tofile="${ServerZipWinX86_64_Backup}" />
+		<move file="${ServerZipLinuxX86}" tofile="${ServerZipLinuxX86_Backup}" />
+		<move file="${ServerZipLinuxX86_64}" tofile="${ServerZipLinuxX86_64_Backup}" />
+		<move file="${ServerZipAixPPC}" tofile="${ServerZipAixPPC_Backup}" />
+		<move file="${CeZipWin}" tofile="${CeZipWin_Backup}" />
+		<move file="${CeZipUNIX}" tofile="${CeZipUNIX_Backup}" />
+		<move file="${ExamplesZip}" tofile="${ExamplesZip_Backup}" />
+		<move file="${ExamplesZipUnix}" tofile="${ExamplesZipUnix_Backup}" />
+		<move file="${ExamplesZipIdentity}" tofile="${ExamplesZipIdentity_Backup}" />
+		<move file="${ExamplesZipUnixIdentity}" tofile="${ExamplesZipUnixIdentity_Backup}" />
+		<move file="${BaseZipWin}" tofile="${BaseZipWin_Backup}" />
+		<move file="${BaseZipUnix}" tofile="${BaseZipUnix_Backup}" />
+		<move file="${BaseZipI5OS}" tofile="${BaseZipI5OS_Backup}" />
+		<move file="${PluginsZip_base_win}" tofile="${PluginsZip_base_win_Backup}" />
+		<move file="${PluginsZip_base_unix}" tofile="${PluginsZip_base_unix_Backup}" />
+		<move file="${PluginsZip_win_x86}" tofile="${PluginsZip_win_x86_Backup}" />
+		<move file="${PluginsZip_win_x86_64}" tofile="${PluginsZip_win_x86_64_Backup}" />
+		<move file="${PluginsZip_linux_86}" tofile="${PluginsZip_linux_86_Backup}" />
+		<move file="${PluginsZip_linux_86_64}" tofile="${PluginsZip_linux_86_64_Backup}" />
+		<move file="${PluginsZip_aix_ppc}" tofile="${PluginsZip_aix_ppc_Backup}" />
+		<move file="${PluginsZip_solaris_sparc}" tofile="${PluginsZip_solaris_sparc_Backup}" />
+		<move file="${PluginsZip_hp_parisc}" tofile="${PluginsZip_hp_parisc_Backup}" />
+		<move file="${CE_RCP_ZIP_UpdateSite}" tofile="${CE_RCP_ZIP_UpdateSite_Backup}" />
+		<move file="${CE_RCP_ZIP_win_x86}" tofile="${CE_RCP_ZIP_win_x86_Backup}" />
+		<move file="${CE_RCP_ZIP_win_x86_64}" tofile="${CE_RCP_ZIP_win_x86_64_Backup}" />
+		<move file="${CE_RCP_ZIP_linux_86}" tofile="${CE_RCP_ZIP_linux_86_Backup}" />
+		<move file="${CE_RCP_ZIP_linux_86_64}" tofile="${CE_RCP_ZIP_linux_86_64_Backup}" />
+		<move file="${CE_RCP_ZIP_aix}" tofile="${CE_RCP_ZIP_aix_Backup}" />
+		<move file="${CE_RCP_ZIP_solaris_sparc}" tofile="${CE_RCP_ZIP_solaris_sparc_Backup}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_restore_zips
+
+        Purpose:  Restores the zips we need to make empty for the installer
+                  depending on the platforms.
+       =========================================================================
+    -->
+	<target name="tdi_restore_zips" description="Restores zip files that may be empty depending on the installer">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<move file="${ServerZipWin_Backup}" tofile="${ServerZipWin}" />
+		<move file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<move file="${ServerZipI5OS_Backup}" tofile="${ServerZipI5OS}" />
+		<move file="${ServerZipWinX86_Backup}" tofile="${ServerZipWinX86}" />
+		<move file="${ServerZipLinuxX86_Backup}" tofile="${ServerZipLinuxX86}" />
+		<move file="${ServerZipLinuxX86_64_Backup}" tofile="${ServerZipLinuxX86_64}" />
+		<move file="${ServerZipWinX86_64_Backup}" tofile="${ServerZipWinX86_64}" />
+		<move file="${ServerZipAixPPC_Backup}" tofile="${ServerZipAixPPC}" />
+		<move file="${CeZipWin_Backup}" tofile="${CeZipWin}" />
+		<move file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<move file="${ExamplesZip_Backup}" tofile="${ExamplesZip}" />
+		<move file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<move file="${ExamplesZipIdentity_Backup}" tofile="${ExamplesZipIdentity}" />
+		<move file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<move file="${BaseZipWin_Backup}" tofile="${BaseZipWin}" />
+		<move file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<move file="${BaseZipI5OS_Backup}" tofile="${BaseZipI5OS}" />
+		<move file="${PluginsZip_base_win_Backup}" tofile="${PluginsZip_base_win}" />
+		<move file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<move file="${PluginsZip_win_x86_Backup}" tofile="${PluginsZip_win_x86}" />
+		<move file="${PluginsZip_win_x86_64_Backup}" tofile="${PluginsZip_win_x86_64}" />
+		<move file="${PluginsZip_linux_86_Backup}" tofile="${PluginsZip_linux_86}" />
+		<move file="${PluginsZip_linux_86_64_Backup}" tofile="${PluginsZip_linux_86_64}" />
+		<move file="${PluginsZip_aix_ppc_Backup}" tofile="${PluginsZip_aix_ppc}" />
+		<move file="${PluginsZip_solaris_sparc_Backup}" tofile="${PluginsZip_solaris_sparc}" />
+		<move file="${PluginsZip_hp_parisc_Backup}" tofile="${PluginsZip_hp_parisc}" />
+		<move file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<move file="${CE_RCP_ZIP_win_x86_Backup}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<move file="${CE_RCP_ZIP_win_x86_64_Backup}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<move file="${CE_RCP_ZIP_linux_86_Backup}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<move file="${CE_RCP_ZIP_linux_86_64_Backup}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<move file="${CE_RCP_ZIP_aix_Backup}" tofile="${CE_RCP_ZIP_aix}" />
+		<move file="${CE_RCP_ZIP_solaris_sparc_Backup}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_win32
+
+        Purpose:  Make all zips empty that the win32 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_win32" description="Make all zips empty that the win32 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${ServerZipWin_Backup}" tofile="${ServerZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${ServerZipWinX86_Backup}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${CeZipWin_Backup}" tofile="${CeZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipUNIX}" />
+		<copy file="${ExamplesZip_Backup}" tofile="${ExamplesZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipUnix}" />
+		<copy file="${ExamplesZipIdentity_Backup}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${BaseZipWin_Backup}" tofile="${BaseZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${PluginsZip_base_win_Backup}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${PluginsZip_win_x86_Backup}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_win32}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${CE_RCP_ZIP_win_x86_Backup}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_lin32
+
+        Purpose:  Make all zips empty that the linux 32 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_lin32" description="Make all zips empty that the lin32 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${ServerZipLinuxX86_Backup}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${ServerZipLinuxX86_64_Backup}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${PluginsZip_linux_86_Backup}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_lin32}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${CE_RCP_ZIP_linux_86_Backup}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_win64
+
+        Purpose:  Make all zips empty that the win64 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_win64" description="Make all zips empty that the win64 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${ServerZipWin_Backup}" tofile="${ServerZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${ServerZipWinX86_64_Backup}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${CeZipWin_Backup}" tofile="${CeZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipUNIX}" />
+		<copy file="${ExamplesZip_Backup}" tofile="${ExamplesZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipUnix}" />
+		<copy file="${ExamplesZipIdentity_Backup}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${BaseZipWin_Backup}" tofile="${BaseZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${PluginsZip_base_win_Backup}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${PluginsZip_win_x86_64_Backup}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_win32}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${CE_RCP_ZIP_win_x86_64_Backup}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_lin64
+
+        Purpose:  Make all zips empty that the lin64 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_lin64" description="Make all zips empty that the lin64 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${ServerZipLinuxX86_64_Backup}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${PluginsZip_linux_86_64_Backup}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_lin32}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${CE_RCP_ZIP_linux_86_64_Backup}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_aix32
+
+        Purpose:  Make all zips empty that the aix 32 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_aix32" description="Make all zips empty that the aix installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${ServerZipAixPPC_Backup}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${PluginsZip_aix_ppc_Backup}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_aix}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${CE_RCP_ZIP_aix_Backup}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_aix64
+
+        Purpose:  Make all zips empty that the aix 64 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_aix64" description="Make all zips empty that the aix installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<!-- <copy file="${ServerZipAixX86_64_Backup}" tofile="${ServerZipAixX86_64}" />-->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${PluginsZip_aix_ppc_Backup}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${IEHSZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_sol_sparc
+
+        Purpose:  Make all zips empty that the sol_sparc installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_sol_sparc" description="Make all zips empty that the sol_sparc installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${PluginsZip_base_unix_Backup}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${PluginsZip_solaris_sparc_Backup}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_sol_sparc}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${CE_RCP_ZIP_solaris_sparc_Backup}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_lin_ppc
+
+        Purpose:  Make all zips empty that the lin_ppc installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_lin_ppc" description="Make all zips empty that the lin_ppc installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_lin_ppc}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_lin_390
+
+        Purpose:  Make all zips empty that the lin_390 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_lin_390" description="Make all zips empty that the lin_390 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_lin_390}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_sol_x86
+
+        Purpose:  Make all zips empty that the sol_x86 installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_sol_x86" description="Make all zips empty that the sol_x86 installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_sol_sparc}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_hp_itanium
+
+        Purpose:  Make all zips empty that the hp_itanium installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_hp_itanium" description="Make all zips empty that the hp_itanium installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${ServerZipUnix_Backup}" tofile="${ServerZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${BaseZipUnix_Backup}" tofile="${BaseZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_hp_parisc}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${CE_RCP_ZIP_UpdateSite_Backup}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdi_empty_zips_i5os
+
+        Purpose:  Make all zips empty that the i5os installer does not need.
+       =========================================================================
+    -->
+	<target name="tdi_empty_zips_i5os" description="Make all zips empty that the i5os installer does not need">
+
+		<!-- Delete the tmp zips -->
+		<antcall target="delete_orig_zips" />
+
+		<!-- Now restore all of the files we backed up -->
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipUnix}" />
+		<copy file="${ServerZipI5OS_Backup}" tofile="${ServerZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipWinX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipLinuxX86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ServerZipAixPPC}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CeZipWin}" />
+		<copy file="${CeZipUNIX_Backup}" tofile="${CeZipUNIX}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZip}" />
+		<copy file="${ExamplesZipUnix_Backup}" tofile="${ExamplesZipUnix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${ExamplesZipIdentity}" />
+		<copy file="${ExamplesZipUnixIdentity_Backup}" tofile="${ExamplesZipUnixIdentity}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipWin}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${BaseZipUnix}" />
+		<copy file="${BaseZipI5OS_Backup}" tofile="${BaseZipI5OS}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_win}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_base_unix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_aix_ppc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_solaris_sparc}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${PluginsZip_hp_parisc}" />
+		<copy file="${root.iehs_i5os}/${IEHSZipName}" tofile="${IEHSZip}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_UpdateSite}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_win_x86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_linux_86_64}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_aix}" />
+		<copy file="${TDI_EMPTY_ZIP}" tofile="${CE_RCP_ZIP_solaris_sparc}" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_full_build
+
+        Purpose:  Builds the ITDI Main Project for All platforms
+      =========================================================================
+    -->
+	<target name="tdimain_full_build" description="Build the ITDI Main Project for All Platforms" depends="init,create_plugins,install_utils_compile, zip_files, buildTDILaunchpad">
+
+		<!-- Make sure the work directory exists -->
+		<mkdir dir="${work.install.tmp.img}" />
+
+		<!-- Backup the zips -->
+		<antcall target="tdi_backup_zips" />
+
+		<!-- Build file and zip it so that it will be used the installer to determine its the Identity Edition. -->
+		<delete file="${EditionZip}" />
+		<delete file="${project.root.export.install}/${EditionFileName}" />
+		<echo file="${project.root.export.install}/${EditionFileName}">Identity Edition</echo>
+		<zip zipfile="${EditionZip}">
+			<zipfileset dir="${project.root.export.install}">
+				<include name="${EditionFileName}" />
+			</zipfileset>
+		</zip>
+
+		<!-- Copy License files for Identity Edition to the location where IA expects them -->
+		<copyTDILicenseFilesForIA dir.prefix="/IE" />
+
+		<!-- Call the macro that will build the installers for all platforms for the Identity Edition. -->
+		<echo message="Building all the installers for all platforms (Identity Edition)." />
+		<buildTDIInstallImages build.type="identity" dir.prefix="/IE" />
+
+		<!-- Create the needed directories. -->
+		<mkdir dir="${img.cdimage.identity.ed.base}" />
+		<mkdir dir="${img.cdimage.identity.ed.base}/${img.cdimage.license.dir.name}" />
+		<mkdir dir="${img.cdimage.identity.ed.base}/${img.cdimage.launchpad.dir.name}" />
+
+		<!-- Copy over the launchpad files. -->
+		<copy todir="${img.cdimage.identity.ed.base}">
+			<fileset dir="${project.root.launchpad.export}" />
+		</copy>
+
+		<!-- Copy over the license files. -->
+		<copyMadeLicenseFiles output.dir="${img.cdimage.identity.ed.base}/${img.cdimage.license.dir.name}" dir.prefix="/IE" />
+
+		<!-- Trial -->
+		<!-- Copy License files for Trial Identity Edition to the location where IA expects them -->
+		<copyTDILicenseFilesForIA dir.prefix="/IE_trial" />
+
+		<buildTrialTDIInstallImages build.type="identity" />
+
+		<!-- Create the needed directories. -->
+		<mkdir dir="${img.cdimage.trial.identity.ed.base}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.win.x86}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.lnx.x86}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.win.x86_64}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.lnx.x86_64}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.aix.ppc}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.base}/${img.cdimage.license.dir.name}" />
+		<mkdir dir="${img.cdimage.trial.identity.ed.base}/${img.cdimage.launchpad.dir.name}" />
+
+		<!-- Copy over the launchpad files. -->
+		<copy todir="${img.cdimage.trial.identity.ed.base}">
+			<fileset dir="${project.root.launchpad.export}" />
+		</copy>
+
+		<!-- Copy over the license files. -->
+		<copyMadeLicenseFiles output.dir="${img.cdimage.trial.identity.ed.base}/${img.cdimage.license.dir.name}" dir.prefix="/IE_trial" />
+
+		<!-- Restore the zips -->
+		<antcall target="tdi_restore_zips" />
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  build.project
+
+        Purpose:  Builds a project
+      =========================================================================
+    -->
+	<target name="build.project">
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${log}" failonerror="true">
+
+			<arg line="${install.project.name} -p ${build.configuration}" />
+			<!-- Copied from user home to IA home, then pointed this to IA_HOME on the build machine-->
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target: idiMain_images
+
+        Purpose:  Creates the install images via its dependency on the
+                  tdimain_full_build target.
+      =========================================================================
+    -->
+	<target name="idiMain_images" description="Copy the IDI Main images to DVD image directory." depends="tdimain_full_build">
+
+		<echo message="Completed generating installer images and generating DVD layout...." />
+
+	</target>
+
+	<target name="buildTDILaunchpad" description="Copy original launchpad files needed." depends="init">
+
+		<!-- Copy over the original files -->
+		<unzip src="${root.launchpad_src}/launchpad.zip" dest="${project.root.launchpad.export}">
+			<patternset>
+				<include name="launchpad.exe" />
+				<include name="launchpad64.exe" />
+				<include name="launchpad.sh" />
+				<include name="launchpad.ini" />
+				<include name="launchpad64.ini" />
+				<include name="launchpad/**/*" />
+				<exclude name="autorun.inf" />
+				<exclude name="sampleProduct/**/*" />
+				<exclude name="launchpad/en/noBrowser.html" />
+				<exclude name="launchpad/en/codepages/437/noBrowser.txt" />
+				<exclude name="launchpad/en/noJRE.html" />
+				<exclude name="launchpad/content/navigation.properties" />
+				<exclude name="launchpad/content/preload.properties" />
+				<exclude name="launchpad/content/global.properties" />
+				<exclude name="launchpad/content/navigation.properties" />
+				<exclude name="launchpad/content/prodInstall.html" />
+				<exclude name="launchpad/content/welcome.html" />
+				<exclude name="launchpad/content/migration.html" />
+				<exclude name="launchpad/content/releaseInfo.html" />
+				<exclude name="launchpad/content/instScenarios.html" />
+				<exclude name="launchpad/content/prereq.html" />
+				<exclude name="launchpad/content/instScenarios.html" />
+				<exclude name="launchpad/content/en/navigation.properties" />
+				<exclude name="launchpad/content/en/banner.properties" />
+				<exclude name="launchpad/content/en/prodInstall.properties" />
+				<exclude name="launchpad/content/en/welcome.properties" />
+				<exclude name="launchpad/content/en/migration.properties" />
+				<exclude name="launchpad/content/en/releaseInfo.properties" />
+				<exclude name="launchpad/content/en/instScenarios.properties" />
+				<exclude name="launchpad/content/en/incorrectDisk.properties" />
+				<exclude name="launchpad/content/en/global.properties" />
+				<exclude name="launchpad/content/en/prereq.properties" />
+			</patternset>
+		</unzip>
+		<copy todir="${project.root.launchpad.export}">
+			<fileset dir="${project.root.launchpad}">
+				<exclude name="launchpad/content/de/*" />
+				<exclude name="launchpad/content/es/*" />
+				<exclude name="launchpad/content/fr/*" />
+				<exclude name="launchpad/content/it/*" />
+				<exclude name="launchpad/content/ja/*" />
+				<exclude name="launchpad/content/ko/*" />
+				<exclude name="launchpad/content/pt_BR/*" />
+				<exclude name="launchpad/content/zh_CN/*" />
+				<exclude name="launchpad/content/zh_TW/*" />
+			</fileset>
+		</copy>
+
+		<!-- Take care of some special file process. -->
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/de" dest="${launchpadtmp}" includes="banner_de.properties navigation_de.properties global_de.properties migration_de.properties prereq_de.properties prodInstall_de.properties releaseInfo_de.properties welcome_de.properties incorrectDisk_de.properties instScenarios_de.properties" />
+		<copy file="${launchpadtmp}/banner_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/navigation.properties" />
+		<copy file="${launchpadtmp}/global_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_de.properties" tofile="${project.root.launchpad.export}/launchpad/content/de/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/es" dest="${launchpadtmp}" includes="banner_es.properties navigation_es.properties global_es.properties migration_es.properties prereq_es.properties prodInstall_es.properties releaseInfo_es.properties welcome_es.properties incorrectDisk_es.properties instScenarios_es.properties" />
+		<copy file="${launchpadtmp}/banner_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/navigation.properties" />
+		<copy file="${launchpadtmp}/global_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_es.properties" tofile="${project.root.launchpad.export}/launchpad/content/es/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/fr" dest="${launchpadtmp}" includes="banner_fr.properties navigation_fr.properties global_fr.properties migration_fr.properties prereq_fr.properties prodInstall_fr.properties releaseInfo_fr.properties welcome_fr.properties incorrectDisk_fr.properties instScenarios_fr.properties" />
+		<copy file="${launchpadtmp}/banner_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/navigation.properties" />
+		<copy file="${launchpadtmp}/global_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_fr.properties" tofile="${project.root.launchpad.export}/launchpad/content/fr/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/it" dest="${launchpadtmp}" includes="banner_it.properties navigation_it.properties global_it.properties migration_it.properties prereq_it.properties prodInstall_it.properties releaseInfo_it.properties welcome_it.properties incorrectDisk_it.properties instScenarios_it.properties" />
+		<copy file="${launchpadtmp}/banner_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/navigation.properties" />
+		<copy file="${launchpadtmp}/global_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_it.properties" tofile="${project.root.launchpad.export}/launchpad/content/it/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/ja" dest="${launchpadtmp}" includes="banner_ja.properties navigation_ja.properties global_ja.properties migration_ja.properties prereq_ja.properties prodInstall_ja.properties releaseInfo_ja.properties welcome_ja.properties incorrectDisk_ja.properties instScenarios_ja.properties" />
+		<copy file="${launchpadtmp}/banner_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/navigation.properties" />
+		<copy file="${launchpadtmp}/global_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_ja.properties" tofile="${project.root.launchpad.export}/launchpad/content/ja/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/ko" dest="${launchpadtmp}" includes="banner_ko.properties navigation_ko.properties global_ko.properties migration_ko.properties prereq_ko.properties prodInstall_ko.properties releaseInfo_ko.properties welcome_ko.properties incorrectDisk_ko.properties instScenarios_ko.properties" />
+		<copy file="${launchpadtmp}/banner_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/navigation.properties" />
+		<copy file="${launchpadtmp}/global_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_ko.properties" tofile="${project.root.launchpad.export}/launchpad/content/ko/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/pt_BR" dest="${launchpadtmp}" includes="banner_pt_BR.properties navigation_pt_BR.properties global_pt_BR.properties migration_pt_BR.properties prereq_pt_BR.properties prodInstall_pt_BR.properties releaseInfo_pt_BR.properties welcome_pt_BR.properties incorrectDisk_pt_BR.properties instScenarios_pt_BR.properties" />
+		<copy file="${launchpadtmp}/banner_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/navigation.properties" />
+		<copy file="${launchpadtmp}/global_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_pt_BR.properties" tofile="${project.root.launchpad.export}/launchpad/content/pt_BR/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/zh_CN" dest="${launchpadtmp}" includes="banner_zh_CN.properties navigation_zh_CN.properties global_zh_CN.properties migration_zh_CN.properties prereq_zh_CN.properties prodInstall_zh_CN.properties releaseInfo_zh_CN.properties welcome_zh_CN.properties incorrectDisk_zh_CN.properties instScenarios_zh_CN.properties" />
+		<copy file="${launchpadtmp}/banner_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/navigation.properties" />
+		<copy file="${launchpadtmp}/global_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_zh_CN.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_CN/prereq.properties" />
+		<native2ascii encoding="UTF8" reverse="true" src="${project.root.launchpad}/launchpad/content/zh_TW" dest="${launchpadtmp}" includes="banner_zh_TW.properties navigation_zh_TW.properties global_zh_TW.properties migration_zh_TW.properties prereq_zh_TW.properties prodInstall_zh_TW.properties releaseInfo_zh_TW.properties welcome_zh_TW.properties incorrectDisk_zh_TW.properties instScenarios_zh_TW.properties" />
+		<copy file="${launchpadtmp}/banner_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/banner.properties" />
+		<copy file="${launchpadtmp}/navigation_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/navigation.properties" />
+		<copy file="${launchpadtmp}/global_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/global.properties" />
+		<copy file="${launchpadtmp}/prodInstall_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/prodInstall.properties" />
+		<copy file="${launchpadtmp}/incorrectDisk_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/incorrectDisk.properties" />
+		<copy file="${launchpadtmp}/welcome_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/welcome.properties" />
+		<copy file="${launchpadtmp}/migration_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/migration.properties" />
+		<copy file="${launchpadtmp}/releaseInfo_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/releaseInfo.properties" />
+		<copy file="${launchpadtmp}/instScenarios_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/instScenarios.properties" />
+		<copy file="${launchpadtmp}/prereq_zh_TW.properties" tofile="${project.root.launchpad.export}/launchpad/content/zh_TW/prereq.properties" />
+
+		<!-- make an extra zh dir -->
+		<copy todir="${project.root.launchpad.export}/launchpad/content/zh">
+			<fileset dir="${project.root.launchpad.export}/launchpad/content/zh_CN">
+				<include name="*" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: create_images
+
+        Purpose:  Copies License and Documentation files
+      =========================================================================
+    -->
+	<target name="create_images" description="Collect and assemble the license and Doc files." depends="idiMain_images">
+
+	</target>
+
+	<!--
+      =========================================================================
+         Target: installer_locale_files
+
+        Purpose:  delete and copy latest IA locale files
+      =========================================================================
+    -->
+	<target name="installer_locale_files" description="delete and copy IA locale files.">
+
+		<!-- Delete existing locale files -->
+		<echo message="Deleting IA locale files..." />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_en" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_de" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_es" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_fr" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_it" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_ja" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_ko" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_pt_BR" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_zh_CN" />
+		<delete file="${img.base}/itdiMainlocales_ALL/custom_zh_TW" />
+
+		<!-- Copy over the installer's locale files with a name which IA expects, so that IA can use it during the build -->
+		<echo message="Copying IA locale files." />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_en" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_de.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_de" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_es.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_es" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_fr.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_fr" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_it.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_it" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_ja.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_ja" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_ko.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_ko" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_pt_BR.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_pt_BR" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_zh_CN.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_zh_CN" />
+		<copy file="${img.base}/itdiMainlocales_ALL/custom_zh_TW.properties" tofile="${img.base}/itdiMainlocales_ALL/custom_zh_TW" />
+
+		<copy file="${install.src.resources}/TDIInstallGUIStrings.properties" tofile="${install.src.resources}/TDIInstallGUIStrings_en.properties" />
+	</target>
+
+	<!-- The following targets can be used for individual builds when you dont want to build all the installers -->
+	<!--
+      =========================================================================
+         Target:  tdimain_win_build
+
+        Purpose:  Builds the ITDI Main Project for Windows only
+      =========================================================================
+    -->
+	<target name="tdimain_win_build" description="Build the ITDI Main Project for Windows only" depends="create_plugins">
+
+		<echo message="Build the Windows Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_win32_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_win_build.properties" />
+			<!-- Copied from user home to IA home, then pointed this to IA_HOME on the build machine-->
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_win64_build
+
+        Purpose:  Builds the ITDI Main Project for Windows 64 only
+      =========================================================================
+    -->
+	<target name="tdimain_win64_build" description="Build the ITDI Main Project for Windows 64 only" depends="create_plugins">
+
+		<echo message="Build the Windows 64 Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_win64_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_win64_build.properties" />
+			<!-- Copied from user home to IA home, then pointed this to IA_HOME on the build machine-->
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_linux_build
+
+        Purpose:  Builds the ITDI Main Project for Linux only
+      =========================================================================
+    -->
+	<target name="tdimain_linux_build" description="Build the ITDI Main Project for Linux only">
+
+		<echo message="Build the Linux Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_linux32_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_linux_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_linux64_build
+
+        Purpose:  Builds the ITDI Main Project for Linux only
+      =========================================================================
+    -->
+	<target name="tdimain_linux64_build" description="Build the ITDI Main Project for Linux 64 bit only">
+
+		<echo message="Build the Linux 64 Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_linux64_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_linux64_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_linuxPPC_build
+
+        Purpose:  Builds the ITDI Main Project for Linux PPC only
+      =========================================================================
+    -->
+	<target name="tdimain_linuxPPC_build" description="Build the ITDI Main Project for Linux PPC bit only">
+
+		<echo message="Build the Linux PPC Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_linuxppc_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_linux_ppc_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_zlinux_build
+
+        Purpose:  Builds the ITDI Main Project for zLinux only
+      =========================================================================
+    -->
+	<target name="tdimain_zlinux_build" description="Build the ITDI Main Project for zLinux bit only">
+
+		<echo message="Build the zLinux Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_zlinux_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_zlinux_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_aix32_build
+
+        Purpose:  Builds the ITDI Main Project for AIX only
+      =========================================================================
+    -->
+	<target name="tdimain_aix32_build" description="Build the ITDI Main Project for AIX 32 bit only">
+
+		<echo message="Build the AIX 32 bit Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_aix32_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_aix_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_aix64_build
+
+        Purpose:  Builds the ITDI Main Project for AIX only
+      =========================================================================
+    -->
+	<target name="tdimain_aix64_build" description="Build the ITDI Main Project for AIX 64 bit only">
+
+		<echo message="Build the AIX 64 bit Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_aix64_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_aix64_build.properties" />
+
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_hpux64_build
+
+        Purpose:  Builds the ITDI Main Project for HPUX 64 only
+      =========================================================================
+    -->
+	<target name="tdimain_hpux64_build" description="Build the ITDI Main Project for HPUX 64 bit only">
+
+		<echo message="Build the HPUX 64 Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_hpux64_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_hp_ia64_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_solaris_build
+
+        Purpose:  Builds the ITDI Main Project for Solaris only
+      =========================================================================
+    -->
+	<target name="tdimain_solaris_build" description="Build the ITDI Main Project for Solaris 64 bit only">
+
+		<echo message="Build the Solaris Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_solaris_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_solaris_amd64_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_sparc_build
+
+        Purpose:  Builds the ITDI Main Project for Sparc only
+      =========================================================================
+    -->
+	<target name="tdimain_sparc_build" description="Build the ITDI Main Project for Sparc only">
+
+		<echo message="Build the Sparc Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_sparc_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_sparc_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  tdimain_i5os_build
+
+        Purpose:  Builds the ITDI Main Project for i5os only
+      =========================================================================
+    -->
+	<target name="tdimain_i5os_build" description="Build the ITDI Main Project for i5os only">
+
+		<echo message="Build the i5os Configuration" />
+
+		<exec dir="${IA_HOME}" executable="${IA_HOME}/build.exe" output="${project.root.install}/tdi_i5os_output.log" failonerror="true">
+
+			<arg line="${install.project.name} -p ${project.root.install}/utils/ia_i5os_build.properties" />
+			<env key="_JAVA_OPTIONS" value="-Duser.home=&quot;${IA_HOME}&quot;" />
+			<env key="IA_PATH_TDI_ZIPS" value="${project.root.export.zips_bundles}" />
+			<env key="IA_PATH_TDI_HOME" value="${project.root}" />
+			<env key="IA_PATH_TDI_ADKS" value="${project.adks_home}" />
+		</exec>
+	</target>
+
+	<!--
+      =========================================================================
+         Target:  main
+
+        Purpose:  Runs the default install build processing.
+      =========================================================================
+    -->
+	<target name="main" description="Perform the default build action.">
+		<echo message="Beginning default build" />
+		<echo message="  Project:  ${ant.project.name}" />
+		<echo message="   Script:  ${ant.file}" />
+		<echo message="   Target:  ${project.root.img.cdimage}" />
+
+		<antcall inheritAll="false" target="create_images">
+			<param name="user.home" value="${user.home}" />
+		</antcall>
+	</target>
+
+	<!--
+    =========================================================================
+         Target:  test
+
+        Purpose:  Test Stuff.
+      =========================================================================
+    -->
+	<target name="test">
+
+		<echo message="user.home = ${user.home}" />
+		<echo message="IAClasses Path: ${IA_HOME}/IAClasses.zip" />
+		<echo message="Services Path:  ${IA_HOME}/resource/services/services.jar" />
+		<echo message="Export Path:    ${project.root.export}" />
+		<echo message="IA Home:        ${IA_HOME}" />
+		<echo message="ant proj name:  ${ant.project.name}" />
+
+	</target>
+
+</project>

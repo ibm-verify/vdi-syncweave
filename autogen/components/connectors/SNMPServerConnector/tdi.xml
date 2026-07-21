@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SNMPServerConnector">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.SNMPServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="snmp.community">public</parameter>
+				<parameter name="udp.port">161</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>snmp.PDU</Name>
+					<Syntax>com.tivoli.snmp.SnmpPDU</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.community</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.errorcode</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.errorindex</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.oid</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.oidvalue</Name>
+					<Syntax>Object</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.oidvalue.raw</Name>
+					<Syntax>Object</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.operation</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.remoteip</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>snmp.request-id</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.SNMPServerConnector">
+			<TranslationFile>NLS/idi_conn_snmpserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>udp.port</ListItem>
+					<ListItem>snmp.community</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<!-- parameter name="title">Advanced</parameter -->
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>udp.port</ListItem>
+				<ListItem>snmp.community</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="snmp.community">
+				<parameter name="description">SNMP_COMMUNITY_DESC</parameter>
+				<parameter name="label">SNMP_COMMUNITY_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="udp.port">
+				<parameter name="description">SNMP_PORT_DESC</parameter>
+				<parameter name="label">SNMP_PORT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

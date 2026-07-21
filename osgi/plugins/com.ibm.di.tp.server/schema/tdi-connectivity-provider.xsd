@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema targetNamespace="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:redefine schemaLocation="connectivity-provider.xsd">
+		<xsd:simpleType name="enum_ProviderTDIExtType">
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="tdi">
+					<xsd:annotation>
+						<xsd:appinfo>
+							<scmp:display>Security Verify Directory Integrator</scmp:display>
+							<scmp:description>Security Verify Directory Integrator</scmp:description>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:enumeration>
+			</xsd:restriction>
+		</xsd:simpleType>
+
+		<xsd:simpleType name="enum_ProviderTDI_Union">
+			<xsd:union memberTypes="tns:enum_ProviderTDIExtType tns:enum_ProviderType" />
+		</xsd:simpleType>
+
+		<!-- extend the connectivity-provider-type to use the new union type -->
+		<xsd:complexType name="connectivity-provider-type">
+			<xsd:complexContent>
+				<xsd:extension base="tns:connectivity-provider-type">
+					<xsd:sequence>
+						<xsd:element name="type" type="tns:enum_ProviderTDI_Union"
+							minOccurs="1" maxOccurs="1">
+							<xsd:annotation>
+								<xsd:appinfo>
+									<scmp:display>Type</scmp:display>
+									<scmp:summary>Connectivity Provider Type</scmp:summary>
+									<scmp:description>The type of the Connectivity Provider.
+									</scmp:description>
+								</xsd:appinfo>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:redefine>
+
+</xsd:schema>

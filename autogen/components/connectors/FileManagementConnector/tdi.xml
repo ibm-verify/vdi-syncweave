@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Jun 30 14:31:10 SGT 2010" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.FileManagementConnector">
+                        <SupportedModes>Iterator,AddOnly,Update,Lookup,Delete</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.filemanagement.FileManagementConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="filePath"/>
+				<parameter name="fileOnly"/>
+				<parameter name="depth"/>
+				<parameter name="filter"/>
+				<parameter name="regexFilter"/>
+				<parameter name="followSymbolicLinks">true</parameter>
+				<parameter name="forceDelete"/>
+				<parameter name="keepOriginal"/>
+				<parameter name="createFile">true</parameter>
+			</Configuration>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>fullPath</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>parent</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>name</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>isDirectory</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>isReadOnly</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>content</Name>
+					<Syntax>java.lang.Object</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>charSet</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.filemanagement.FileManagementConnector">
+			<TranslationFile>NLS/idi_conn_filemanagement</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>startDirectory</ListItem>	
+					<ListItem>filter</ListItem>
+					<ListItem>regexFilter</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>depth</ListItem>
+					<ListItem>followSymbolicLinks</ListItem>
+					<ListItem>fileOnly</ListItem>
+					<ListItem>keepOriginal</ListItem>
+					<ListItem>forceDelete</ListItem>
+					<ListItem>createFile</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>startDirectory</ListItem>
+				<ListItem>fileOnly</ListItem>
+				<ListItem>depth</ListItem>
+				<ListItem>filter</ListItem>
+				<ListItem>regexFilter</ListItem>
+				<ListItem>followSymbolicLinks</ListItem>
+				<ListItem>forceDelete</ListItem>
+				<ListItem>keepOriginal</ListItem>
+				<ListItem>createFile</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="startDirectory">
+				<parameter name="description">path_desc</parameter>
+				<parameter name="label">path_label</parameter>
+				<parameter name="script">selectDirectory</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="depth">
+				<parameter name="modes">Iterator,Lookup,Delete,Update</parameter>
+				<parameter name="description">depth_desc</parameter>
+				<parameter name="label">depth_label</parameter>
+			</FormItem>
+			<FormItem name="filter">
+				<parameter name="modes">Iterator,Lookup,Delete,Update</parameter>
+				<parameter name="description">filter_desc</parameter>
+				<parameter name="label">filter_label</parameter>
+			</FormItem>
+			<FormItem name="regexFilter">
+				<parameter name="modes">Iterator,Lookup,Delete,Update</parameter>
+				<parameter name="description">regexfilter_desc</parameter>
+				<parameter name="label">regexfilter_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="followSymbolicLinks">
+				<parameter name="modes">Iterator,Lookup,Delete,Update</parameter>
+				<parameter name="description">followsymboliclinks_desc</parameter>
+				<parameter name="label">followsymboliclinks_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="fileOnly">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">fileonly_desc</parameter>
+				<parameter name="label">fileonly_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="forceDelete">
+				<parameter name="modes">Delete</parameter>
+				<parameter name="description">forcedelete_desc</parameter>
+				<parameter name="label">forcedelete_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="keepOriginal">
+				<parameter name="modes">Update</parameter>
+				<parameter name="description">keeporiginal_desc</parameter>
+				<parameter name="label">keeporiginal_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="createFile">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">createfile_desc</parameter>
+				<parameter name="label">createfile_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

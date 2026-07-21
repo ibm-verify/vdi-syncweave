@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpserver" tmsVersion="1.0" xml:lang="es">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB101E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.READ.ERROR" varFormat="Java">
+	No se ha podido leer el objeto desde el almacén. El error es: <Variable formatSpec="{0}">excepción</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Se trata de un error interno. Se ha producido un error al leer un objeto desde el almacén.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB102E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.WRITE.ERROR" varFormat="Java">
+	No se ha podido grabar el objeto <q/><Variable formatSpec="{0}">objeto
+Java</Variable><q/> en el almacén. El error es: <Variable formatSpec="{0}">excepción</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Se trata de un error interno. Se ha producido un error al grabar un objeto en el almacén.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error. Póngase en contacto con el servicio de soporte de IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB103E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.DOES.NOT.EXIST" varFormat="Java">
+	La ubicación de almacenamiento <q/><Variable formatSpec="{0}">nombre de
+carpeta</Variable><q/> no existe y no se ha podido crear.
+   </MsgText>
+   <Explanation> <p>
+	La carpeta de almacenamiento configurada no existe. Se ha intentado crear, pero se ha
+producido un error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique que la configuración sea correcta.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB104E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.NOT.FOLDER" varFormat="Java">
+	La ubicación de almacenamiento <q/><Variable formatSpec="{0}">nombre de
+archivo</Variable><q/> existe pero no es una carpeta.
+   </MsgText>
+   <Explanation> <p>
+	La ubicación de almacenamiento debe ser una carpeta.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique que la configuración sea correcta.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB105E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.READ.CONTENT.FILE" varFormat="Java">
+   No se ha podido leer el valor de la clave <q/><Variable formatSpec="{0}">nombre de
+clave</Variable><q/> desde el archivo <q/><Variable formatSpec="{1}">nombre de archivo</Variable><q/>. El error es: <Variable formatSpec="{2}">excepción</Variable>
+   </MsgText>
+   <Explanation> <p>
+	No se ha podido leer el archivo de almacenamiento que contiene el valor de la clave
+especificada.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error. Compruebe los permisos sobre el sistema de archivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB106E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.MKDIRS" varFormat="Java">
+   No se han podido crear carpetas para la vía de acceso
+<q/><Variable formatSpec="{0}">vía de acceso a carpeta</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no ha podido crear la estructura de directorios del
+sistema de archivos.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe los permisos sobre el sistema de archivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB107E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.NOT.FOLDER" varFormat="Java">
+   <q/><Variable formatSpec="{0}">nombre de archivo</Variable><q/> ya existe y no es una
+carpeta.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento espera que el archivo especificado sea una carpeta.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB108E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.WRITE.CONTENT.FILE" varFormat="Java">
+   No se ha podido grabar en el archivo <q/><Variable formatSpec="{0}">nombre de
+archivo</Variable><q/>. El error es: <Variable formatSpec="{1}">excepción</Variable>
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no ha podido grabar los datos en el archivo especificado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB109E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.EMPTY" varFormat="Java">
+   La clave no debe estar vacía.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no puede trabajar con claves vacías.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB110E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.SINGLE.SLASH" varFormat="Java">
+   La clave no debe ser una sola barra inclinada.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que la clave sea una sola barra inclinada. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB111E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CONSECUTIVE.SLASHES" varFormat="Java">
+   La clave no debe contener barras inclinadas consecutivas:
+<q/><Variable formatSpec="{0}">nombre de clave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que la clave contenga barras inclinadas
+consecutivas.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB112E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.BACK.SLASHES" varFormat="Java">
+   La clave no debe contener barras inclinadas invertidas:
+<q/><Variable formatSpec="{0}">nombre de clave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que la clave contenga barras inclinadas
+invertidas.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB113E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CURLY.BRACKETS" varFormat="Java">
+   La clave no debe contener llaves: <q/><Variable formatSpec="{0}">nombre de clave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que la clave contenga llaves.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB114E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.SINGLE.DOT" varFormat="Java">
+   El componente de una clave no debe ser un solo punto:
+<q/><Variable formatSpec="{0}">componente de clave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que el componente de una clave sea un solo
+punto.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB115E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.DOUBLE.DOTS" varFormat="Java">
+   El componente de una clave no debe ser puntos dobles:
+<q/><Variable formatSpec="{0}">componente de clave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no permite que el componente de una clave sea puntos
+dobles.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB116E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.CANNOT.DELETE.FILE" varFormat="Java">
+   No se ha podido suprimir el archivo <q/><Variable formatSpec="{0}">nombre de
+archivo</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	El mecanismo de almacenamiento no ha podido suprimir el archivo especificado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe los permisos sobre el sistema de archivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB117W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.MISSING.LOCAL.API" varFormat="Java">
+   No se ha detectado la API de servidor local.
+   </MsgText>
+   <Explanation> <p>
+	Se ha configurado un proveedor Touchpoint de modo que utilice la API local, que no está
+presente en el tiempo de ejecución actual.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Configure el servidor de punto táctil para utilizar la API del servidor remoto en su lugar.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB118E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.IVALID.HOST.OR.PORT" varFormat="Java">
+   Valor no válido de sistema principal (<q/><Variable formatSpec="{0}">sistema principal
+real proporcionado</Variable><q/>) o puerto (<q/><Variable formatSpec="{1}">puerto
+real proporcionado</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione los valores correctos para poder conectarse con el servidor remoto.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB119E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.ERROR.CONNECTING.TO.SERVER" varFormat="Java">
+   Error al conectarse con el servidor: <q/><Variable formatSpec="{0}">nombre de
+servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	No se ha podido establecer una conexión con el servidor remoto.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el proveedor Touchpoint remoto está activo y en ejecución.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB120E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.PARAMETER" varFormat="Java">
+   Falta un valor de parámetro: <q/><Variable formatSpec="{0}">nombre de
+parámetro</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	A la configuración de Touchpoint Server le falta un parámetro obligatorio.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione el valor del parámetro que falta.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB121E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.CREATING.SESSION" varFormat="Java">
+   No se ha podido crear una sesión en el servidor remoto:
+<q/><Variable formatSpec="{0}">nombre de servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de la excepción.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el servidor remoto esté activo y en ejecución y que todas las
+configuraciones necesarias de Touchpoint Server se hayan establecido correctamente.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB122E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.IN.COMMUNICATION" varFormat="Java">
+   Se ha producido un error durante la comunicación con el servidor remoto:
+<q/><Variable formatSpec="{0}">nombre de servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de la excepción.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración de Touchpoint Server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB123W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.ERROR.READING.STASH" varFormat="Java">
+   No se puede leer el archivo stash. Motivo:
+<q/><Variable formatSpec="{0}">mensaje de implementación subyacente</Variable><q/> 
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No se requiere ninguna acción.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB124I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.STASH.FILE.AREADY.READ" varFormat="Java">
+   Ya se ha leído el archivo stash. Se utilizan los valores de cifrado del archivo
+solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB125I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.ENCRYPTION.SETTINGS" varFormat="Java">
+   A la configuración de Touchpoint Server le faltan valores de cifrado. Se utilizan los valores de cifrado del archivo
+solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB126E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.DEFAULT.ENCRYPTION.SETTINGS" varFormat="Java">
+   No se ha especificado ningún valor de cifrado en solution.properties.
+   </MsgText>
+   <Explanation> <p>
+	Al archivo solution.properties le faltan los valores de cifrado que Touchpoint Server
+necesita.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione los valores de cifrado para que funcione el cifrado de contraseñas.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB127E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.CONNECTOR.FROM.TOUCHPOINT.TEMPLATE" varFormat="Java">
+   Falta un conector <q/><Variable formatSpec="{0}">nombre de conector</Variable><q/> en
+la plantilla <q/><Variable formatSpec="{1}">vía de acceso al archivo de plantilla</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	A la plantilla de Touchpoint proporcionada le falta el conector obligatorio.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Abra la plantilla de Touchpoint y compruebe si está el conector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB128E" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.ERROR.SERIALIZING.ELEMENT" varFormat="Java">
+   No puede crear el elemento xml: {<Variable formatSpec="{0}">espacio de nombres
+del elemento</Variable>}<Variable formatSpec="{1}">nombre local del elemento</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de la excepción proporcionado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error. Póngase en contacto con el servicio de soporte de IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB129W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.COULD.NOT.READ.FILE" varFormat="Java">
+   No se ha podido leer el archivo de configuración de Touchpoint Server
+(<q/><Variable formatSpec="{0}">nombre de archivo</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de la excepción proporcionado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe si el archivo de configuración especificado se puede leer.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB130W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.NOT.SPECIFIED" varFormat="Java">
+   Falta la propiedad: <q/>tp.server.config<q/>.
+   </MsgText>
+   <Explanation> <p>
+	No se ha especificado la vía de acceso al archivo de configuración de Touchpoint Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione la vía de acceso al archivo de configuración.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB131W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.ERROR.RESTORING.STATE" varFormat="Java">
+   No se ha podido restaurar el estado persistido.
+   </MsgText>
+   <Explanation> <p>
+	Consulte el mensaje de la excepción proporcionado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el almacén de persistencia se puede leer/grabar mediante la aplicación
+Touchpoint Server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB132W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.ENTRY.STATE" varFormat="Java">
+   Falta un estado del recurso de entrada: <q/><Variable formatSpec="{0}">dirección url
+de recurso de entrada</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Se esperaba que un estado de recurso de entrada estuviera disponible en el almacén de
+persistencia.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el almacén de persistencia se puede leer/grabar mediante la aplicación
+Touchpoint Server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB133W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.FEED.STATE" varFormat="Java">
+   Falta un estado de recurso de canal de información:
+<q/><Variable formatSpec="{0}">dirección url de recurso de canal de
+información</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Se esperaba que un estado de recurso de canal de información estuviera disponible en el
+almacén de persistencia.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el almacén de persistencia se puede leer/grabar mediante la aplicación
+Touchpoint Server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB134I" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.DISABLED" varFormat="Java">
+   El almacén de persistencia de Touchpoint Server está inhabilitado.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB135E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.ERROR.CREATING.NODE" varFormat="Java">
+   Error al crear el recurso de entrada del proveedor Touchpoint
+(<q/><Variable formatSpec="{0}">nombre servidor</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Touchpoint Server no ha podido crear un recurso con la configuración proporcionada.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe la configuración del proveedor Touchpoint.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB136E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.FACING.CONFIG" varFormat="Java">
+   Faltan los datos de configuración del recurso de entrada del cliente/servicio de la instancia de Touchpoint.
+   </MsgText>
+   <Explanation> <p>
+	El usuario no ha proporcionado la configuración requerida al crear el recurso de entrada relativo al cliente/servicio.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione los datos de configuración requeridos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB137E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.ENTRY.CATEGORY" varFormat="Java">
+   Falta la categoría de tipo de Touchpoint obligatoria en el recurso de entrada
+(<q/><Variable formatSpec="{0}">dirección url del recurso de entrada</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	El recurso de entrada persistida debe contener una categoría específica de tipo de
+Touchpoint.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error. Póngase en contacto con el servicio de soporte de IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB138E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.TYPE.IS.NOT.ON.SERVER" varFormat="Java">
+   No se ha encontrado el tipo de Touchpoint (<q/><Variable formatSpec="{0}">nombre de
+categoría</Variable><q/>) en el servidor <q/><Variable formatSpec="{1}">nombre de
+servidor</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	En el servidor falta el tipo de Touchpoint obligatorio.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Compruebe que el tipo exista en el servidor.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB139E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.INSTANCE.CONFIG" varFormat="Java">
+   Faltan los datos de configuración de recurso de entrada de instancia de Touchpoint.
+   </MsgText>
+   <Explanation> <p>
+	El usuario no ha proporcionado la configuración requerida al crear el recurso de entrada de instancia de Touchpoint.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Proporcione los datos de configuración requeridos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB140E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.INSTANCE.ID.ALREADY.EXISTS" varFormat="Java">
+   Una instancia de Touchpoint con el ID <q/><Variable formatSpec="{0}">id de instancia</Variable><q/> ya está presente en el servidor.
+   </MsgText>
+   <Explanation> <p>
+	El servidor de Touchpoint no ha podido restaurar los recursos con ID duplicados.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte el mensaje de error. Póngase en contacto con el servicio de soporte de IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB141E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.FACING.ENTRY.ALREADY.EXISTS" varFormat="Java">
+   Ya existe una entrada de servicio/cliente de instancia de Touchpoint (<q/><Variable formatSpec="{0}">resource relative url</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	El servidor de Touchpoint no ha podido crear recursos porque ya existe uno.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Asegúrese de que el recurso no existe antes de crearlo.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

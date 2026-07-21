@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="propertiesconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIR101I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.PROPERTIES.NOPATH.INFO" varFormat="Java">
+   The properties file &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   does not exist and will be ignored.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR102E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SCRIPT.MODENTRY.EXCEPTION" varFormat="Java">
+   Unable to modify entry because no key value was provided.
+   </MsgText>
+   <Explanation> <p>
+   The modify entry operation in the Properties Connector failed because
+   no key value was specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a key value in the configuration of the Properties Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR103W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FNF" varFormat="Java">
+   The properties file &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   for <Variable formatSpec="{1}">property store name</Variable> was not found, and will be created if anything is written to it.
+   </MsgText>
+   <Explanation> <p>
+   The named file was not found. The Create flag was set in the configuration for this Properties Connector, so the file will be created if needed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the Create flag was erroneously set, the non-existing file may indicate a problem. Verify that the Properties Connector does not need the file to exist, and if necessary, uncheck the Create flag in the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR104E" prefix="yes">
+   <MsgText pgmKey="cannot.create.crypto" varFormat="Java">
+   The Certificate &apos;&apos;<Variable formatSpec="{0}">certificate name</Variable>&apos;&apos;
+   for property file <Variable formatSpec="{1}">file name</Variable> was not found.
+   </MsgText>
+   <Explanation> <p>
+   The named Certificate was not found in the server keystore, or could not be used to create a Crypto Object. Therefore properties in this file cannot be decrypted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the named Certificate exists in the keystore.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR105E" prefix="yes">
+   <MsgText pgmKey="no.password.specified" varFormat="Java">
+   No Password or Property Key specified for encrypted
+   property file <Variable formatSpec="{0}">file name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   There was no Password or Property Key specified for the encrypted property file. Therefore properties in this file cannot be decrypted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a password or Property Key.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:16:40 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:16:40 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="JMS Receiver">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="maxread">2</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="JMSInput">
+<InheritFrom>system:/Connectors/ibmdi.JMS</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jms.autoAcknowledge">true</parameter>
+<parameter name="jms.autoAcknowlegde">true</parameter>
+<parameter name="jms.broker">localhost:1414</parameter>
+<parameter name="jms.connectionID">jms_receiver</parameter>
+<parameter name="jms.connectionType">Queue</parameter>
+<parameter name="jms.driver">IBMMQ</parameter>
+<parameter name="jms.durable">false</parameter>
+<parameter name="jms.getnextTimeout">-1</parameter>
+<parameter name="jms.headersAsAttributes">false</parameter>
+<parameter name="jms.lookupConsumesMessage">false</parameter>
+<parameter name="jms.lookupRetries">10</parameter>
+<parameter name="jms.lookupTimeout">1000</parameter>
+<parameter name="jms.password"></parameter>
+<parameter name="jms.propertiesAsAttributes">false</parameter>
+<parameter name="jms.topic">default</parameter>
+<parameter name="jms.username"></parameter>
+<parameter name="jms.usetextmessages">true</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/jms/output.txt</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="JMS Sender">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/jms/input.txt</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="JMSOutput">
+<InheritFrom>system:/Connectors/ibmdi.JMS</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jms.autoAcknowledge">true</parameter>
+<parameter name="jms.autoAcknowlegde">true</parameter>
+<parameter name="jms.broker">localhost:1414</parameter>
+<parameter name="jms.connectionID">jms_sender</parameter>
+<parameter name="jms.connectionType">Queue</parameter>
+<parameter name="jms.driver">IBMMQ</parameter>
+<parameter name="jms.durable">false</parameter>
+<parameter name="jms.getnextTimeout">-1</parameter>
+<parameter name="jms.headersAsAttributes">false</parameter>
+<parameter name="jms.lookupConsumesMessage">false</parameter>
+<parameter name="jms.lookupRetries">10</parameter>
+<parameter name="jms.lookupTimeout">1000</parameter>
+<parameter name="jms.password"></parameter>
+<parameter name="jms.propertiesAsAttributes">false</parameter>
+<parameter name="jms.topic">default</parameter>
+<parameter name="jms.username"></parameter>
+<parameter name="jms.usetextmessages">true</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

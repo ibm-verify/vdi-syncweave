@@ -1,0 +1,198 @@
+/*
+ * Copyright IBM Corp. 2025
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+package com.ibm.di.ui.webui.internal.handler.etl;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import com.ibm.di.api.APIEngine;
+import com.ibm.di.api.remote.Session;
+import com.ibm.di.config.interfaces.AssemblyLineConfig;
+import com.ibm.di.config.interfaces.ConnectorConfig;
+import com.ibm.di.config.interfaces.MetamergeConfig;
+import com.ibm.di.ui.webui.bind.Solution;
+import com.ibm.di.ui.webui.bind.Solutions;
+import com.ibm.di.ui.webui.internal.SessionUtils;
+
+/**
+ * 
+ * <br>
+ * <br>
+ * <b>Note:</b> This class is for internal usage only. Any dependency from the
+ * end-user will not be supported. Changes to this class will happen without a
+ * warning.
+ * 
+ * @since 7.2
+ */
+@Path("/")
+public class ConfigHandler {
+	/**
+	 * Copyright.
+	 */
+	@SuppressWarnings("unused")
+	private static final String COPYRIGHT = com.ibm.di.CopyRight.OBJECT_CODE;
+
+	@GET
+	public Response defaultPage() throws Exception {
+		return Response.seeOther(new URI("/static/index.html")).build();
+	}
+
+	@GET
+	@Path("create/{name}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String createConfig(@Context HttpServletRequest req, @PathParam("name") String name) throws Exception {
+		String path = name + ".xml";
+		Session sess = SessionUtils.getServerApiSession(req);
+		MetamergeConfig mc = sess.createNewConfiguration(path, false);
+		mc.getSolutionInterface().setInstanceID(name);
+		try {
+			AssemblyLineConfig alc = mc.newInstanceOf(AssemblyLineConfig.class);
+			alc.init();
+			alc.setName(name);
+			mc.bind(MetamergeConfig.DEFAULT_ASSEMBLYLINE_FOLDER + "/" + name, alc);
+			
+			ConnectorConfig input = mc.newInstanceOf(ConnectorConfig.class);
+			input.init();
+			input.setName("Input");
+			input.setMode(ConnectorConfig.ITERATOR_MODE);
+			alc.getEntryFeedComponents().addConfig(input);
+			
+			ConnectorConfig output = mc.newInstanceOf(ConnectorConfig.class);
+			output.init();
+			output.setName("Output");
+			output.setMode(ConnectorConfig.ADDONLY_MODE);
+			alc.getDataFlowComponents().addConfig(output);
+			
+			sess.checkInConfiguration(mc, path);
+		} catch (Exception e) {
+			sess.undoCheckOut(path);
+			sess.deleteConfiguration(path);
+			throw e;
+		}
+		
+		return name;
+	}
+	
+	@GET
+	@Path("config")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listConfigurations(@Context HttpServletRequest req) throws Exception {
+		Solutions solutions = new Solutions();
+		solutions.setIdentifer("id");
+		solutions.setLabel("name");
+		Session session = SessionUtils.getServerApiSession(req);
+		File root = new File(session.getConfigFolderPath());
+		addFiles(root, root, solutions.getItems());
+		return Response.ok(solutions).build();
+	}
+	
+	@GET
+	@Path("config/{id: .*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getConfiguration(@Context HttpServletRequest req, @PathParam("id") String id) throws Exception {
+		System.out.println("webui:112:string param id="+id);
+		Session session = SessionUtils.getServerApiSession(req);
+		File root = new File(session.getConfigFolderPath());
+		File f = new File(root, id);
+		System.out.println("webui:116:folder="+session.getConfigFolderPath());
+		if (!f.getCanonicalPath().equals(f.getAbsolutePath())) {
+			System.out.println("webui:118:in if");
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		System.out.println("webui:121");
+		Solution sol = new Solution();
+		sol.setFiletype(f.isDirectory() ? "directory" : "file");
+		System.out.println("webui:124:id="+id);
+		sol.setId(URLEncoder.encode(id));
+		System.out.println("webui:126:id="+id);
+		try {
+			System.out.println("webui:128");
+			sol.setLabel(APIEngine.getConfigurationRegistry().getSolutionName(f));
+			System.out.println("webui:130");
+		} catch (Exception e) {
+			System.out.println("webui:131");
+			sol.setDescription(e.toString());
+		}
+		if(sol.getLabel() == null)
+		{
+			System.out.println("webui:getLabel is null");
+			sol.setLabel(URLEncoder.encode(f.getName()));
+		}
+		else {
+			System.out.println("webui:getLabel is not null");
+			System.out.println("webui:sol.getLabel()="+sol.getLabel());
+		}		
+		return Response.ok(sol).build();
+	}
+	
+	@DELETE
+	@Path("config/{id: .*}")
+	public Response deleteConfig(@Context HttpServletRequest req, @PathParam("id") String id) throws Exception {
+		Session session = SessionUtils.getServerApiSession(req);
+		session.deleteConfiguration(id);
+		return Response.noContent().build();
+	}
+
+//	@PUT
+//	@Path("config/{id}")
+//	public Response createConfig(@Context HttpServletRequest req, String data) throws Exception {
+//		Session session = SessionUtils.getServerApiSession(req);
+//		session.deleteConfiguration(id);
+//		return Response.ok().build();
+//	}
+//	
+	private void addFiles(File root, File dir, List<Solution> items) throws IOException {
+		System.out.println("webui:add files:164");
+		for(File f : dir.listFiles()) {
+			
+			Solution sol = new Solution();
+			sol.setFiletype(f.isDirectory() ? "directory" : "file");
+			String relPath = f.getCanonicalPath().substring(root.getCanonicalPath().length()+1);
+			System.out.println("webui:170:relPath="+relPath);
+			sol.setId(relPath);
+			items.add(sol);
+			
+			if(f.isDirectory()) {
+				addFiles(root, f, sol.getItems());
+			} else {
+				try {
+					sol.setLabel(APIEngine.getConfigurationRegistry().getSolutionName(f));
+					System.out.println("webui:179:label="+sol.getLabel());
+				} catch (Exception e) {
+					System.out.println("webui:catch block");
+					sol.setDescription(e.toString());
+				}
+			}
+			
+			if(sol.getLabel() == null) {
+				System.out.println("webui:Label is null");
+				if(f.isDirectory()) {
+					sol.setLabel("[" + f.getName() + "]");
+					System.out.println("webui:190");
+				}
+				else {
+					sol.setLabel(f.getName());
+					System.out.println("webui:194");
+				}
+			}
+		}
+	}
+
+}

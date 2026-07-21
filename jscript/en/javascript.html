@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>JavaScript in SDI</title></head><body>
+<table style="text-align: left; height: 204px; width: 1518px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td colspan="3" rowspan="1" style="vertical-align: top; width: 479px;">
+      <h2><big><big>JavaScript in Security Verify Directory Integrator</big></big></h2>
+
+      This page provides snippets of JavaScript that you can learn from and
+cut/paste into your solution. There are a number of JavaScript
+resources on the Internet, so this page is only intended as quick
+introduction to what you can do with JavaScript.<br>
+      <br>
+JavaScript is used in attribute maps (AM), hooks, scripts, conditional
+branches, and parameter substitution. In AMs the Javascript needs to
+return a new value to an attribute. The left column show a few variations on how that's done.<br>
+      <br>
+The most practical tool to learn is that you can press the Control-space key combination to get a list of the valid attributes and function at any time while scripting. Also, whenever you type a period ".", the editor will display the valid choices at that stage.<br>
+      <br>
+The JavaScript specification is called ECMAscript, the most recent version is documented here: <a href="http://www.ecmascript.org/docs/tc39-2009-043.pdf">www.ecmascript.org/docs/tc39-2009-043.pdf</a><br>
+<br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center; background-color: rgb(204, 204, 204); width: 502px;">
+      <h3><big><big>JavaScript <br>
+      </big>
+      </big></h3>
+</td>
+      <td style="vertical-align: top; background-color: rgb(204, 204, 204); width: 479px;">
+      <h3><big><big style="font-weight: bold;">SDI objects</big><big style="font-weight: bold;"><br>
+      </big>
+      </big></h3>
+</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 509px;">
+      <h3>Changing a value in an Attribute Map</h3>
+The most simple example is where you return a fixed value such as<br>
+      <span style="color: rgb(51, 102, 255);">1 (</span>for a integer value) or <span style="color: rgb(51, 102, 255);">"yes"</span> (for a string value)<br>
+      <br>
+When you want to modify the contents of an attribute and use its existing <br>
+value as part of the new value, you have to prefix the attribute name <br>
+with "<span style="color: rgb(51, 102, 255);">conn.</span>" For example: <br>
+      <span style="color: rgb(51, 102, 255);">conn.attributeName + " adds this text to the value"</span><br>
+or<br>
+      <span style="color: rgb(51, 102, 255);">"(" + conn.attribute1 + ", " + conn.attribute2 + ")"</span><br>
+      <br>
+there are a large number of functions available, such as turning a string to uppercase:<span style="color: rgb(51, 102, 255);"><br>
+conn.myAttribute.getValue().toUpperCase()</span><br style="color: rgb(51, 102, 255);">
+      <br>
+Try the options by watching the options you get at each stage, such as<br>
+  after typing:<br>
+      <span style="color: rgb(51, 102, 255);">conn.<br>
+conn.yourAttribute.<br>
+conn. yourAttribute.getValue().</span><br>
+      
+      <h3>Create a Java Date object from string</h3>
+For example. "2009-11-30"<br>
+      <pre style="color: rgb(51, 102, 255);">jdate = system.parseDate(work.StringDateAttribute, <br>"YYYY-MM-DD");</pre>
+for more information on the date mask see:<br>
+http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html<br>
+NOTE: system.formatDate() can be used to turn a Java Date into a string representation.<br>
+      
+      <h3>Uppercasing all Attribute values in work</h3>
+
+      <span style="color: rgb(51, 102, 255);">attnames = work.getAttributeNames();
+      </span><br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">for (aname in attnames) {
+      </span><br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; valobj = work.getString(aname);
+      </span><br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; if (valobj != null )
+      </span><br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; work.setAttribute(aname,valobj.toUpperCase());
+      </span><br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">}</span><br style="color: rgb(51, 102, 255);">
+
+      <br style="color: rgb(51, 102, 255);">
+<br>
+      </td>
+      <td style="vertical-align: top; width: 502px;">
+      <h3>Dynamic attribute mapping</h3>
+The below code checks if one attribute equals 1 and another one
+contains the string "yes" (you might want to uppercase the string so
+that you can handle all versions of case in the attribute).<br>
+Then it returns either the text Yes or No.<br>
+      <br>
+      <span style="color: rgb(51, 102, 255);">str = conn.yourAttribute.getValue().toUpperCase();</span><br>
+      <span style="color: rgb(51, 102, 255);">if (conn.yourOtherAttribute == 1 || str.indexOf("YES") &gt;= 0 {</span><br>
+      <span style="color: rgb(51, 102, 255);">
+&nbsp;return "Yes"</span><br>
+      <span style="color: rgb(51, 102, 255);">
+} else {</span><br>
+      <span style="color: rgb(51, 102, 255);">
+&nbsp;return "No"</span><br>
+      <span style="color: rgb(51, 102, 255);">
+}</span>
+      <h3>Start another AssemblyLine and wait for it to complete</h3>
+// start a new AL <br>
+      <span style="color: rgb(51, 102, 255);">al = main.startAL("MyAL"); </span><br>
+// wait for it to complete <br>
+      <span style="color: rgb(51, 102, 255);">al.join(); </span><br>
+// optionally get the Work Entry as it was at end of the&nbsp; called AL <br>
+      <span style="color: rgb(51, 102, 255);">resWork = al.getResult(); </span><br>
+// optionally get stats object (numGet(), numAdd(), numLookup(), ...) <br>
+      <span style="color: rgb(51, 102, 255);">resStats = al.getStats(); </span><br>
+// get exception from called AL (== null if no error) <br>
+      <span style="color: rgb(51, 102, 255);">resError = stats.getError(); </span><br>
+      <h3>Calling and using a Connector from script</h3>
+There are several ways to script against a Connector. If you have a
+connector called myLDAP in your Assemblyline you could for example:<br>
+      <br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; ldap = myLDAP.getConnector(); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; ldap.setParam("ldapSearchFilter", "(&amp;(cn=GRP-*..."); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; ldap.terminate(); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; ldap.initialize();&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp; // or myLDAP.reconnect(); <br>
+      <br>
+at this stage you can retrieve the records like this:<br>
+      <br style="color: rgb(51, 102, 255);">
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; ldap.selectEntries(); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; e = ldap.getNextEntry(); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; while (e != null) { </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // do something with it <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 102, 255);">e = ldap.getNextEntry(); </span><br>
+      <span style="color: rgb(51, 102, 255);">&nbsp;&nbsp;&nbsp; } </span><br>
+<br>
+<br>
+      </td>
+      <td style="vertical-align: top; width: 479px;">
+      <h3>Your really want to get to know these well</h3>
+"work" contains all of the attributes read in from connectors. You access them as:<br>
+<br><span style="color: rgb(51, 102, 255);">
+work.attributeName</span><br style="color: rgb(51, 102, 255);">
+      <br>
+Similarly, the objects "conn" and "error" contain information that you
+can access through script. "conn" contains attributes related to the
+specific connector that you are working with<br>
+<br>"main", "task", and "system" provide many functions that are described in the "javadocs" that you will find Help menu.<br>
+      <br>
+Try them out by typing their name and ".", help will pop up and give you an aidea of their capabilities<br>
+      <pre style="color: rgb(51, 102, 255);">main.</pre>
+      <pre style="color: rgb(51, 102, 255);">task.</pre>
+      <pre style="color: rgb(51, 102, 255);">system.</pre>
+
+      <br>
+Examples are:<br>
+      <pre><span style="color: rgb(51, 102, 255);">task.logmsg( "The value of email is: " + work.email )<br><br>system.exitBranch()<br><br>system.getTDIProperty("PropertyName")  </span></pre>
+      <br>
+&nbsp;&nbsp; <br>
+      <br>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+</body></html>

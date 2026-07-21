@@ -1,0 +1,59 @@
+<!--
+  ===========================================================================
+     File:  build.xml
+
+  Purpose:  IBMDI build file
+
+ This build file is for the support packaging builds that are SI based.
+ Add or change additional files to call the build_packaging.xml files.
+
+  ===========================================================================
+  Change history:
+
+  Defect   Date        Who            Description
+  ??????   2005.12.30  jtodoroff      Initial creation
+  ===========================================================================
+-->
+
+<project name="IBM Tivoli Directory Integrator Support Packaging Startup" default="main" basedir=".">
+
+  <!--
+    =========================================================================
+      Properties
+    =========================================================================
+  -->
+
+  <!-- Define the property file name. -->
+  <property name="propfile" value="${ant.project.name}-ant.properties"/>
+
+  <!-- Import the project setup properties and macros -->
+  <import file="${basedir}/../rules_mk/project_setup.xml"/>
+
+  <description>
+    =========================================================================
+       Target:  build_packaging
+      Purpose:  Runs through all of the packaging builds requested.
+    =========================================================================
+  </description>
+  <target name="build_packaging" >
+
+    <!-- Call build_package.xml with the correct properties file for each support package need. -->
+    <ant dir="${project.root.support}" antfile="build_support_packaging.xml" inheritAll="false" >
+      <property name="package.overide.rules" value="${project.root.support}/72_FP0010.xml"/>
+    </ant>
+
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  main
+      Purpose:  Runs the default build processing.
+    =========================================================================
+  </description>
+  <target name="main"
+          depends="build_packaging"
+          description="Will run the build support packaging on the specified files.">
+    <echo message="Calling packaging build_packaging.xml file..."/>
+  </target>
+
+</project>

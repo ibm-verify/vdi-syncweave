@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Thu Oct 31 14:37:40 EST 2002" createdBy="borrelli" modified="Thu Oct 31 14:37:40 EST 2002" modifiedBy="borrelli" version="1.0">
+<Folder name="AssemblyLines">
+<AssemblyLine name="SimpleScriptConnector Input">
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<IOSettings>
+<InputParameters/>
+<OutputParameters/>
+</IOSettings>
+<Connectors>
+<Connector name="Input">
+<InheritFrom>/Connectors/SimpleScriptConnector</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>age</Name>
+<Type>advanced</Type>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("age");</Script>
+<Simple/>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("name");</Script>
+<Simple/>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+<Connector name="XMLOutput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/script_connector/output.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>age</Name>
+<Type>advanced</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("age");</Script>
+<Simple/>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("name");</Script>
+<Simple/>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+</Connectors>
+</AssemblyLine>
+<AssemblyLine name="SimpleScriptConnector Output">
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<IOSettings>
+<InputParameters/>
+<OutputParameters/>
+</IOSettings>
+<Connectors>
+<Connector name="XMLInput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/script_connector/input.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>age</Name>
+<Type>advanced</Type>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("age");</Script>
+<Simple/>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("name");</Script>
+<Simple/>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+<Connector name="Output">
+<InheritFrom>/Connectors/SimpleScriptConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="script"><![CDATA[// Sample connector
+// Place intialiazation code before function declarations.
+//
+
+var fileName = "examples/script_connector/output.txt";
+var input;
+var output;
+
+
+// Attempts to read an Entry from the file.
+// Returns the Entry object if successfuly read, null otherwise.
+function readEntry ()
+{
+	var line;
+	var aEntry = system.newEntry ();
+	do {
+		line = input.readLine ();
+		if ( line == null ) {
+			break;
+		}
+
+		if ( ! line.equals(".") ) {
+			parseAttributeValue ( String ( line ), aEntry );
+		}
+	}
+	while ( ! line.equals(".") );
+
+	if ( line == null ) {
+		return null;
+	} 
+	else {
+		return aEntry;
+	}
+}
+
+// Parses an AttributeValue and adds it to the aEntry parameter
+function parseAttributeValue ( line, aEntry )
+{
+	var indOfColon = line.indexOf ( ":" );
+	var attrName = line.substr ( 0, indOfColon );
+	var attrValue = line.substr ( indOfColon + 1, line.length - indOfColon - 1 );
+
+	aEntry.addAttributeValue ( attrName, attrValue );
+}
+
+
+function selectEntries ()
+{
+	input = system.openFileForInput(fileName);
+}
+
+
+function getNextEntry ()
+{
+	var aEntry = readEntry ();
+
+	if ( aEntry != null ) {
+		entry.merge ( aEntry );
+	}
+	else {
+		input.close ();		
+		result.setStatus ( 0 );
+		result.setMessage ( "End of input" );
+	} 
+}
+
+
+function putEntry ()
+{
+	output = system.openFileForAppend ( fileName );
+
+	var names = entry.getAttributeNames ();
+    for( var i = 0; i < names.length; i++ ) {
+    	var attribute = entry.getAttribute ( names[i] );
+        for ( var j = 0; j < attribute.size(); j++ ) {
+           	output.write ( attribute.getName () + ":" + attribute.getValue ( j ) );
+			output.newLine ();
+		}
+    }
+	output.write ( "." );
+	output.newLine ();
+
+	output.close ();
+}
+
+
+function findEntry ()
+{
+	input = system.openFileForInput ( fileName );
+
+	var isFound = false;
+	do {
+		var match = true;
+		var aEntry = readEntry ();
+
+		if (aEntry != null) {
+			for ( var i = 0; i < search.size (); i++ ) {
+				var sc = search.getCriteria ( i );
+				var attrValue = aEntry.getAttribute ( sc.name ).getValue ();
+
+				if ( ( sc.match != 61 ) || (! attrValue.equals( sc.value ) ) ) {  // 61 is the code of the '=' symbol
+					match = false;
+					break;
+				}				
+			}
+			isFound = match;
+		}
+	}
+	while ( ( aEntry != null ) && ( isFound == false ) );
+
+	if ( isFound == true ) {
+		entry.merge ( aEntry );
+		result.setStatus ( 1 );
+	}
+	else {
+		result.setStatus ( 0 );
+	}
+
+	input.close ();
+}
+
+
+function modEntry ()
+{
+}
+
+
+function deleteEntry ()
+{
+}
+]]></parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>age</Name>
+<Type>advanced</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("age");</Script>
+<Simple/>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("name");</Script>
+<Simple/>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+</Connectors>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors">
+<Connector name="SimpleScriptConnector">
+<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="includeFiles"/>
+<parameter name="script"><![CDATA[// Sample connector
+// Place intialiazation code before function declarations.
+//
+
+var fileName = "examples/script_connector/input.txt";
+var input;
+var output;
+
+
+// Attempts to read an Entry from the file.
+// Returns the Entry object if successfuly read, null otherwise.
+function readEntry ()
+{
+	var line;
+	var aEntry = system.newEntry ();
+	do {
+		line = input.readLine ();
+		if ( line == null ) {
+			break;
+		}
+
+		if ( ! line.equals(".") ) {
+			parseAttributeValue ( String ( line ), aEntry );
+		}
+	}
+	while ( ! line.equals(".") );
+
+	if ( line == null ) {
+		return null;
+	} 
+	else {
+		return aEntry;
+	}
+}
+
+// Parses an AttributeValue and adds it to the aEntry parameter
+function parseAttributeValue ( line, aEntry )
+{
+	var indOfColon = line.indexOf ( ":" );
+	var attrName = line.substr ( 0, indOfColon );
+	var attrValue = line.substr ( indOfColon + 1, line.length - indOfColon - 1 );
+
+	aEntry.addAttributeValue ( attrName, attrValue );
+}
+
+
+function selectEntries ()
+{
+	input = system.openFileForInput(fileName);
+}
+
+
+function getNextEntry ()
+{
+	var aEntry = readEntry ();
+
+	if ( aEntry != null ) {
+		entry.merge ( aEntry );
+	}
+	else {
+		input.close ();		
+		result.setStatus ( 0 );
+		result.setMessage ( "End of input" );
+	} 
+}
+
+
+function putEntry ()
+{
+	output = system.openFileForAppend ( fileName );
+
+	var names = entry.getAttributeNames ();
+    for( var i = 0; i < names.length; i++ ) {
+    	var attribute = entry.getAttribute ( names[i] );
+        for ( var j = 0; j < attribute.size(); j++ ) {
+           	output.write ( attribute.getName () + ":" + attribute.getValue ( j ) );
+			output.newLine ();
+		}
+    }
+	output.write ( "." );
+	output.newLine ();
+
+	output.close ();
+}
+
+
+function findEntry ()
+{
+	input = system.openFileForInput ( fileName );
+
+	var isFound = false;
+	do {
+		var match = true;
+		var aEntry = readEntry ();
+
+		if (aEntry != null) {
+			for ( var i = 0; i < search.size (); i++ ) {
+				var sc = search.getCriteria ( i );
+				var attrValue = aEntry.getAttribute ( sc.name ).getValue ();
+
+				if ( ( sc.match != 61 ) || (! attrValue.equals( sc.value ) ) ) {  // 61 is the code of the '=' symbol
+					match = false;
+					break;
+				}				
+			}
+			isFound = match;
+		}
+	}
+	while ( ( aEntry != null ) && ( isFound == false ) );
+
+	if ( isFound == true ) {
+		entry.merge ( aEntry );
+		result.setStatus ( 1 );
+	}
+	else {
+		result.setStatus ( 0 );
+	}
+
+	input.close ();
+}
+
+
+function modEntry ()
+{
+}
+
+
+function deleteEntry ()
+{
+}
+]]></parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>after_initialize</Name>
+<Script/>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>before_initialize</Name>
+<Script/>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+</Connector>
+</Folder>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<ExternalProperties>
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</MetamergeConfig>

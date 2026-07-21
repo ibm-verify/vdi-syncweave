@@ -1,0 +1,79 @@
+<div style="width:100%; height:100%">
+	<div dojoType="dijit.layout.BorderContainer" dojoAttachPoint="_borderContainer" style="width:100%; height:100%" gutters="false" liveSplitters="true" design="sidebar">
+	
+		<div dojoType="dijit.layout.ContentPane" region="top">
+			<div dojoAttachPoint="_toolbar" dojoType="dijit.Toolbar" style="width:98%">
+			
+				<div dojoType="dijit.form.ComboButton" dojoAttachPoint="_filesbutton" dojoAttachEvent="onClick:_showDetails">
+				    <span>
+				        ${nls.WebCE_logfile}
+				    </span>
+				    <div dojoType="dijit.Menu" dojoAttachPoint="_files"></div>
+				</div>
+			
+				<div dojoType="dijit.form.TextBox" dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_text" placeholder="${nls.SelectComponentPage_search_placeholder}" style="width:200px"></div>
+				
+				<div dojoType="dijit.form.Button" dojoAttachPoint="_btnTop" dojoAttachEvent="onClick:_pageTop"  iconClass="tdiMoveTopIcon" showLabel="false"></div> 
+				<div dojoType="dijit.form.Button" dojoAttachPoint="_btnPrv" dojoAttachEvent="onClick:_pagePrev" iconClass="tdiMoveUpIcon" showLabel="false"></div> 
+				<div dojoType="dijit.form.Button" dojoAttachPoint="_btnNxt" dojoAttachEvent="onClick:_pageNext" iconClass="tdiMoveDownIcon" showLabel="false"></div> 
+				<div dojoType="dijit.form.Button" dojoAttachPoint="_btnBot" dojoAttachEvent="onClick:_pageTail" iconClass="tdiMoveBottomIcon" showLabel="false"></div>
+				
+				<div dojoType="dijit.form.DropDownButton">
+				    <span>
+				        ${nls.WebCE_displayOptions}...
+				    </span>
+				    <div dojoType="dijit.TooltipDialog">
+				    	<br/>
+				    	
+				    	<label>
+				    		${nls.WebCE_pageSize}: <div dojoType="dijit.form.NumberTextBox" min="0" max="10000" value="100" dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_pageSize"></div>
+				    	</label>
+				    	<p></p>
+				    	
+				    	<b>${nls.WebCE_messageTypes}</b>
+				    	<hr></hr>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_info"></div>
+							INFO
+						</label>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_warn"></div>
+							WARN
+						</label>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_error"></div>
+							ERROR
+						</label>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_debug"></div>
+							DEBUG
+						</label>
+						<p></p>
+						<b>${nls.WebCE_displayOptions}</b>
+				    	<hr></hr>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_showDate"></div>
+							${nls.WebCE_showDate}
+						</label>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_showTime"></div>
+							${nls.WebCE_showTime}
+						</label>
+						<label>
+							<div dojoType="dijit.form.CheckBox" checked=true dojoAttachEvent="onChange:_updateFilter" dojoAttachPoint="_showSource"></div>
+							${nls.WebCE_includeSource}
+						</label>
+				    </div>
+				</div>
+			</div>
+			
+			<div dojoAttachPoint="_progress" dojoType="dijit.form.HorizontalSlider" style="width:100%"></div>				
+			
+		</div>
+	
+		<div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+			<div style="height:90%; width:100%" dojoAttachPoint="Log"></div>
+		</div>
+		
+	</div>
+</div>

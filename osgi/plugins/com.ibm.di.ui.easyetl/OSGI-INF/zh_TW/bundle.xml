@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpserver" tmsVersion="1.0" xml:lang="zh-TW">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB101E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.READ.ERROR" varFormat="Java">
+	無法從儲存體讀取物件。錯誤為：<Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	這是內部錯誤。從儲存體讀取物件時發生錯誤。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB102E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.WRITE.ERROR" varFormat="Java">
+	無法將物件 <q/><Variable formatSpec="{0}">Java object</Variable><q/> 寫入儲存體。錯誤為：<Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	這是內部錯誤。將物件寫入儲存體時發生錯誤。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+請聯絡 IBM 支援中心。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB103E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.DOES.NOT.EXIST" varFormat="Java">
+	儲存體位置 <q/><Variable formatSpec="{0}">folder name</Variable><q/> 不存在，而且無法建立它。
+   </MsgText>
+   <Explanation> <p>
+	配置的儲存體資料夾不存在。嘗試建立它，但失敗。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請驗證配置是否正確。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB104E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.NOT.FOLDER" varFormat="Java">
+	儲存體位置 <q/><Variable formatSpec="{0}">file name</Variable><q/> 存在但不是資料夾。
+   </MsgText>
+   <Explanation> <p>
+	儲存體位置必須是資料夾。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請驗證配置是否正確。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB105E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.READ.CONTENT.FILE" varFormat="Java">
+   無法從檔案 <q/><Variable formatSpec="{1}">file name</Variable><q/> 讀取索引鍵 <q/><Variable formatSpec="{0}">key name</Variable><q/> 的值。錯誤為：<Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	無法讀取可保留指定索引鍵之值的儲存檔案。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+請檢查檔案系統許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB106E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.MKDIRS" varFormat="Java">
+   無法建立路徑 <q/><Variable formatSpec="{0}">folder path</Variable><q/> 的資料夾。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制無法建立檔案系統目錄結構。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查檔案系統許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB107E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.NOT.FOLDER" varFormat="Java">
+   <q/><Variable formatSpec="{0}">file name</Variable><q/> 已經存在而且不是資料夾。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制會預期指定的檔案是資料夾。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB108E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.WRITE.CONTENT.FILE" varFormat="Java">
+   無法寫入到檔案 <q/><Variable formatSpec="{0}">file name</Variable><q/>。錯誤為：<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	儲存機制無法將資料寫入指定的檔案。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB109E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.EMPTY" varFormat="Java">
+   索引鍵不可以空白。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制無法使用空白索引鍵。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB110E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.SINGLE.SLASH" varFormat="Java">
+   索引鍵不可以是單斜線。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵是單斜線。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB111E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CONSECUTIVE.SLASHES" varFormat="Java">
+   索引鍵不可包含連續的斜線：<q/><Variable formatSpec="{0}">key name</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵中包含連續的斜線。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB112E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.BACK.SLASHES" varFormat="Java">
+   索引鍵不可包含反斜線：<q/><Variable formatSpec="{0}">key name</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵中包含反斜線。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB113E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CURLY.BRACKETS" varFormat="Java">
+   索引鍵不可包含大括弧：<q/><Variable formatSpec="{0}">key name</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵中包含大括弧。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB114E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.SINGLE.DOT" varFormat="Java">
+   索引鍵的元件不可以是單一點：<q/><Variable formatSpec="{0}">key component</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵的元件是單一點。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB115E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.DOUBLE.DOTS" varFormat="Java">
+   索引鍵的元件不可以是雙點：<q/><Variable formatSpec="{0}">key component</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制不容許索引鍵的元件是雙點。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查配置。   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB116E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.CANNOT.DELETE.FILE" varFormat="Java">
+   無法刪除檔案 <q/><Variable formatSpec="{0}">file name</Variable><q/>。
+   </MsgText>
+   <Explanation> <p>
+	儲存機制無法刪除指定的檔案。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查檔案系統許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB117W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.MISSING.LOCAL.API" varFormat="Java">
+   未偵測到任何本端伺服器 API。
+   </MsgText>
+   <Explanation> <p>
+	已將「Touchpoint 提供者」配置成使用「本端 API」，但它未出現在現行執行時期中。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	將「Touchpoint 伺服器」配置成改用「遠端伺服器 API」。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB118E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.IVALID.HOST.OR.PORT" varFormat="Java">
+   無效的主機 (<q/><Variable formatSpec="{0}">actual host provided</Variable><q/>) 或埠 (<q/><Variable formatSpec="{1}">actual port provided</Variable><q/>) 值。
+   </MsgText>
+   <Explanation> <p>
+	請參閱錯誤訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請提供正確的值以便能夠連接到遠端伺服器。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB119E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.ERROR.CONNECTING.TO.SERVER" varFormat="Java">
+   連接到 <q/><Variable formatSpec="{0}">server name</Variable><q/> 伺服器時發生錯誤
+   </MsgText>
+   <Explanation> <p>
+	無法建立連至遠端伺服器的連線。   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查遠端「Touchpoint 提供者」已啟動且在執行中。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB120E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.PARAMETER" varFormat="Java">
+   遺漏參數值：<q/><Variable formatSpec="{0}">parameter name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	「Touchpoint 伺服器」配置遺漏必要的參數。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請提供遺漏的參數值。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB121E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.CREATING.SESSION" varFormat="Java">
+   無法建立到遠端伺服器的階段作業：<q/><Variable formatSpec="{0}">server name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	請參閱異常狀況訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查遠端伺服器已啟動且在執行中，而且「Touchpoint 伺服器」已正確設定所有必要的配置。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB122E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.IN.COMMUNICATION" varFormat="Java">
+   與遠端伺服器通訊時發生錯誤：<q/><Variable formatSpec="{0}">server name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	請參閱異常狀況訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查「Touchpoint 伺服器」配置。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB123W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.ERROR.READING.STASH" varFormat="Java">
+   無法讀取隱藏檔。原因：<q/><Variable formatSpec="{0}">underlying implementation message</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	請參閱訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	不需要採取動作。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB124I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.STASH.FILE.AREADY.READ" varFormat="Java">
+   已經讀取隱藏檔。請使用來自 solution.properties 檔的加密設定。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB125I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.ENCRYPTION.SETTINGS" varFormat="Java">
+   「Touchpoint 伺服器」配置遺漏加密設定。請使用來自 solution.properties 檔的加密設定。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB126E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.DEFAULT.ENCRYPTION.SETTINGS" varFormat="Java">
+   在 solution.properties 中未指定任何加密設定。
+   </MsgText>
+   <Explanation> <p>
+	solution.properties 中遺漏「Touchpoint 伺服器」所需要的加密設定。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請提供加密設定以便密碼的加密能運作。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB127E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.CONNECTOR.FROM.TOUCHPOINT.TEMPLATE" varFormat="Java">
+   在範本 <q/><Variable formatSpec="{1}">path to template file</Variable><q/> 中找不到遺漏的連接器 <q/><Variable formatSpec="{0}">connector name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	所提供的「Touchpoint 範本」遺漏所需的連接器。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查「Touchpoint 範本」並確定連接器存在。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB128E" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.ERROR.SERIALIZING.ELEMENT" varFormat="Java">
+   無法建立 XML 元素：{<Variable formatSpec="{0}">element namespace</Variable>}<Variable formatSpec="{1}">element local name</Variable>
+   </MsgText>
+   <Explanation> <p>
+	請參閱提供的異常狀況訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+請聯絡 IBM 支援中心。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB129W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.COULD.NOT.READ.FILE" varFormat="Java">
+   無法讀取「Touchpoint 伺服器」配置檔 (<q/><Variable formatSpec="{0}">file name</Variable><q/>)。
+   </MsgText>
+   <Explanation> <p>
+	請參閱提供的異常狀況訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查指定的配置檔是否可以讀取。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB130W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.NOT.SPECIFIED" varFormat="Java">
+   遺漏內容：<q/>tp.server.config<q/>。
+   </MsgText>
+   <Explanation> <p>
+	未指定「Touchpoint 伺服器」配置檔的路徑。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請提供配置檔的路徑。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB131W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.ERROR.RESTORING.STATE" varFormat="Java">
+   無法還原持續的狀態。
+   </MsgText>
+   <Explanation> <p>
+	請參閱提供的異常狀況訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請確定「Touchpoint 伺服器」應用程式可以讀取/寫入持續性儲存庫。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB132W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.ENTRY.STATE" varFormat="Java">
+   遺漏「項目」資源的狀態：<q/><Variable formatSpec="{0}">entry resource url</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	預期在持續性儲存庫中可以使用「項目」資源狀態。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請確定「Touchpoint 伺服器」應用程式可以讀取/寫入持續性儲存庫。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB133W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.FEED.STATE" varFormat="Java">
+   遺漏「資訊來源」資源的狀態：<q/><Variable formatSpec="{0}">feed resource url</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	預期在持續性儲存庫中可以使用「資訊來源」資源狀態。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請確定「Touchpoint 伺服器」應用程式可以讀取/寫入持續性儲存庫。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB134I" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.DISABLED" varFormat="Java">
+   已停用「Touchpoint 伺服器」持續性儲存庫。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB135E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.ERROR.CREATING.NODE" varFormat="Java">
+   建立「Touchpoint 提供者 (<q/><Variable formatSpec="{0}">server name</Variable><q/>) 項目」資源時發生錯誤。
+   </MsgText>
+   <Explanation> <p>
+	「Touchpoint 伺服器」無法根據提供的配置來建立資源。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查特定的「Touchpoint 提供者」配置。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB136E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.FACING.CONFIG" varFormat="Java">
+   遺漏接觸點用戶端/服務實例項目資源配置資料。
+   </MsgText>
+   <Explanation> <p>
+在建立「（面向）用戶端/服務項目」資源時，使用者未提供必要的配置。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+ 請提供必要的配置資料。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB137E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.ENTRY.CATEGORY" varFormat="Java">
+   項目資源 (<q/><Variable formatSpec="{0}">entry resource url</Variable><q/>) 遺漏所需的「Touchpoint 類型」種類。
+   </MsgText>
+   <Explanation> <p>
+	持續的「項目」資源中必須包含「Touchpoint 類型」特定的種類。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+請聯絡 IBM 支援中心。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB138E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.TYPE.IS.NOT.ON.SERVER" varFormat="Java">
+   在伺服器 <q/><Variable formatSpec="{1}">server name</Variable><q/> 上找不到「Touchpoint 類型」(<q/><Variable formatSpec="{0}">category name</Variable><q/>)。
+   </MsgText>
+   <Explanation> <p>
+	伺服器中遺漏所需的「Touchpoint 類型」。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查此類型存在於伺服器上。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB139E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.INSTANCE.CONFIG" varFormat="Java">
+   遺漏接觸點實例項目資源配置資料。
+   </MsgText>
+   <Explanation> <p>
+在建立「接觸點實例項目」資源時，使用者未提供必要的配置。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+ 請提供必要的配置資料。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB140E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.INSTANCE.ID.ALREADY.EXISTS" varFormat="Java">
+   伺服器上已存在 ID 為 <q/><Variable formatSpec="{0}">instance id</Variable><q/> 的接觸點實例。
+   </MsgText>
+   <Explanation> <p>
+接觸點伺服器無法還原 ID 重複的資源。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請參閱錯誤訊息。
+請聯絡 IBM 支援中心。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB141E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.FACING.ENTRY.ALREADY.EXISTS" varFormat="Java">
+   接觸點實例服務/用戶端項目 (<q/><Variable formatSpec="{0}">resource relative url</Variable><q/>) 已存在。
+   </MsgText>
+   <Explanation> <p>
+接觸點伺服器無法建立資源，因為伺資源已存在。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+請先確保資源不存在，然後再予以建立。
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

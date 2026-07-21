@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+
+<project name="doc_rules" basedir="." >
+
+  <!-- Directory where many common ide files are at. -->
+  <property name="base.common_ide_files"  location="${project.root.doc}/common_ide_files"/>
+  <property name="pdf.props.file"  location="${base.common_ide_files}/props.val"/>
+  <property name="plugins.props.file"  location="${base.common_ide_files}/ecprops.val"/>
+
+  <!-- Directory where many common plugin files are at. -->
+  <property name="base.common_plugin_files"  location="${project.root.doc}/common_plugin_files"/>
+
+  <!-- Directory where many dita files are at. -->
+  <property name="base.common_dita_files"  location="${project.root.doc}/common_dita_files"/>
+
+  <!-- Name of the workbench style sheet. -->
+  <property name="wb.stylesheet"  value="ibmidwb.css"/>
+  <property name="wbdita.stylesheet"  value="ibmdita.css"/>
+  
+  <!-- Name of the common help plugin. -->
+  <property name="ibmhelp.plugin.name"  value="com.ibm.help.doc"/>
+
+  <property name="default.sch"  value="default.sch"/>
+  <property name="default.dsh"  value="default.dsh"/>
+
+  <!-- common parameters to use for pdf conversion. -->
+  <property name="pdf.commom.params"  value="/DCL:IBMIDDOC /WL:ERROR  /STYLE:DEFAULT  /FONT:NONSTD /GRAPHICS:STORE /IMAGETYPES:EPS  /PRCLVL:PROD  /PDFLINK:Blue  /PDF:Any  /NOPS /H"/>
+
+  <!-- common dita parameters to use for pdf conversion. -->
+  <property name="pdf.dita.commom.params"  value="/WL:ERROR  /STYLE:IBM8X11  /FONT:NONSTD /GRAPHICS:STORE /IMAGETYPES:EPS  /PDFLINK:Blue  /PDF:Any  /H"/>
+
+  <!-- common parameters to use for plugins conversion. -->
+  <property name="plugins.commom.params"  value="/DCL:IBMIDDOC /WL:ERROR /COPYART /ATP:gif /LCASE:LOWER /OUTEXT:htm /HDR:header.htm /TOCLINK /FRAMES:frames.frm /CHKL:*2 /XHLVL:1  /CP:Default  /CSS:swg_info_common.css /CSSPATH:../${ibmhelp.plugin.name} /TITLEFMT:HEAD /H /IDMAP /Eclipse"/>
+  <property name="plugins.dita.commom.params"  value="/WL:ERROR /COPYART /OUTEXT:htm /HDR:header_dita.htm /CSS:swg_info_common.css /CSSPATH:../${ibmhelp.plugin.name} /NAVTYPE:Eclipse /H /OUTDIRSCOPE:Adjust"/>
+  <property name="plugins.footer"  value="/FTR:footer.html"/>
+  <property name="plugins.footer.from61"  value="/FTR:footer_2006.html"/>
+  <property name="plugins_dita.footer"  value="/FTR:footer_dita.html"/>
+
+  <!-- load in the properties for all of the titles of the message guide .ide files. -->
+<!--
+  <loadproperties srcFile="${base.common_ide_files}/guidestrings.properties" encoding="UTF8" />
+ -->
+
+  <!-- Some property setups for the splitter tool. -->
+  <property name="A_JAR1"          value="${root.auiml_src}/auibase.jar"/>
+  <property name="A_JAR2"          value="${root.auiml_src}/auii18n.jar"/>
+  <property name="Split_Tool"      value="com.ibm.ui.tools.HelpDocSplitter"/>
+  <property name="Split_Classpath" value="${A_JAR1}:${A_JAR2}"/>
+
+  <description>
+    =========================================================================
+      Macro:  convertToPDF
+
+      Purpose:  Runs transform to convert a ide file to a PDF file.
+    =========================================================================
+  </description>
+  <macrodef name="convertToPDF">
+    <!-- Name and location of the input IDE file. -->
+    <attribute name="iddfile.loc"/>
+    <!-- Name and location of the output PDF file. -->
+    <attribute name="pdffile.loc"/>
+    <!-- Location of the temporary directory of the files during pdf generation. -->
+    <attribute name="pdf.exp.dir"/>
+    <!-- The location of the default.sch file for the guide. -->
+    <attribute name="plugin.default.sch"/>
+    <!-- The title of the guide. -->
+    <attribute name="guide.title"/>
+    <!-- name and location of the temporary internet file. -->
+    <attribute name="pdffile.output.pdf.loc"/>
+    <!-- where the outdir will be. -->
+    <attribute name="pdf.output.dir"/>
+
+    <sequential>
+      <echo>Building @{guide.title}...</echo>
+      
+      <!-- process the .idd file to get a .pdf file -->
+      <exec executable="cmd.exe" failonerror="yes" dir="@{pdf.exp.dir}"> 
+        <arg line='/c call iiddfpsl "@{iddfile.loc}" /V:"${pdf.props.file}" /S:"@{plugin.default.sch}" /OUTDIR:"@{pdf.output.dir}" ${pdf.commom.params}'/> 
+      </exec>
+      
+      <!-- Rename the generated file. -->
+      <copy file="@{pdffile.output.pdf.loc}" tofile="@{pdf.output.dir}/tmp1.pdf"/>
+      <move file="@{pdf.output.dir}/tmp1.pdf" tofile="@{pdffile.loc}"/>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  convertDitaToPDF
+
+      Purpose:  Runs transform to convert dita files to a PDF file.
+    =========================================================================
+  </description>
+  <macrodef name="convertDitaToPDF">
+    <!-- Name and location of the input dita map file. -->
+    <attribute name="ditamapfile.loc"/>
+    <!-- Location of the temporary directory of the files during pdf generation. -->
+    <attribute name="pdf.exp.dir"/>
+    <!-- The location of the default.sch file for the guide. -->
+    <attribute name="plugin.default.dsh"/>
+    <!-- The title of the guide. -->
+    <attribute name="guide.title"/>
+    <!-- name and location of the temporary internet file. -->
+    <attribute name="pdffile.output.pdf.loc"/>
+    <!-- where the outdir will be. -->
+    <attribute name="pdf.output.dir"/>
+    <!-- Name and location of the dita control style file for this Guide.. -->
+    <attribute name="ditcontrolstyle.loc"/>
+
+    <sequential>
+      <echo>Building @{guide.title}...</echo>
+      
+      <!-- process the .idd file to get a .pdf file -->
+      <exec executable="cmd.exe" failonerror="yes" dir="@{pdf.exp.dir}"> 
+        <arg line='/c call map2pdf "@{ditamapfile.loc}" /DSH:"@{plugin.default.dsh}" /OUTDIR:"@{pdf.output.dir}" /DITAControl:"@{ditcontrolstyle.loc}" ${pdf.dita.commom.params}'/> 
+      </exec>
+      
+      <!-- Move the generated idd file to the export dir incase we need to look at it. -->
+      <move todir="@{pdf.exp.dir}">
+        <fileset dir="@{pdf.output.dir}">
+           <include name="*.idd"/>
+        </fileset>
+     </move>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  convertTMSXMLToIDE
+
+      Purpose:  Runs transform to convert a TMS XML file into an ide file.
+    =========================================================================
+  </description>
+  <macrodef name="convertTMSXMLToIDE">
+    <!-- The location and name of the input xml file. -->
+    <attribute name="tmsxmlfile.loc"/>
+    <!-- The location and name of the ide file to generate. -->
+    <attribute name="idefile.loc"/>
+    <!-- The location and name of the ide file to generate log in. -->
+    <attribute name="logfile.log"/>
+    <!-- The title to give to the ide file. -->
+    <attribute name="idetitle"/>
+
+    <sequential>
+       <echo>TMSXML FILE to IDE FILE started: @{tmsxmlfile.loc}</echo>
+       <exec executable="java" failonerror="yes" error="@{logfile.log}" output="@{idefile.loc}"> 
+         <arg line=' -classpath "${root.tms_sgml_jars}" "${root.XML_TO_SGML_PROG}" -makeidefile -singleColumn -dtd_dir "${root.XSL_SPEC_SOURCE}" -xsl "${root.XSL_TO_SGML_MSG_SOURCE}" @{tmsxmlfile.loc}'/> 
+       </exec>
+       <!-- Set the title in the .ide file generated.. -->
+       <replaceregexp file="@{idefile.loc}"
+                      match="[\p{Blank}]*&lt;titleblk&gt;[^\000]*&lt;/titleblk&gt;[\p{Blank}]*"
+                      replace="&lt;titleblk&gt;&lt;title&gt;@{idetitle}&lt;/title&gt;&lt;/titleblk&gt;"
+                      flags="gm"
+                      byline="false"
+                      encoding="UTF8" />
+       <echo>TMSXML FILE to IDE FILE successful: @{idefile.loc}</echo>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  convertOSGiTMSXMLToIDE
+
+      Purpose:  Runs transform to convert a TMS XML file within an OSGi project 
+                          into an ide file.
+    =========================================================================
+  </description>
+  <macrodef name="convertOSGiTMSXMLToIDE">
+    <!-- The full path to the bundle.xml file without the ".xml" extension -->
+    <attribute name="bundle.l10n"/>
+    <!-- The location and name of the ide file to generate. -->
+    <attribute name="idefile.loc"/>
+    <!-- The location and name of the ide file to generate log in. -->
+    <attribute name="logfile.log"/>
+    <!-- The title to give to the ide file. -->
+    <attribute name="idetitle"/>
+    <!-- The locale of the bundle.xml to use in procession -->
+    <attribute name="locale"/>
+
+    <sequential>
+	 <local name="loc" />
+       <condition property="loc" value="" else="_@{locale}" >
+	   <equals arg1="@{locale}" arg2="en" />
+       </condition>
+	   
+    <convertTMSXMLToIDE tmsxmlfile.loc="@{bundle.l10n}${loc}.xml" idefile.loc="@{idefile.loc}" logfile.log="@{logfile.log}" idetitle="@{idetitle}" />
+	</sequential>
+
+	</macrodef>
+	
+  <description>
+    =========================================================================
+      Macro:  convertTMSXMLToProperties
+
+      Purpose:  Runs transform to convert a TMS XML file into an properties file.
+    =========================================================================
+  </description>
+
+  <macrodef name="convertTMSXMLToProperties">
+    <!-- The location and name of the input xml file. -->
+    <attribute name="tmsxmlfile.loc"/>
+    <!-- The location and name of the properties file to generate. -->
+    <attribute name="propsfile.loc"/>
+    <!-- The location and name of the ide file to generate log in. -->
+    <attribute name="logfile.log"/>
+
+    <sequential xmlns:if="ant:if" xmlns:unless="ant:unless">
+     <condition property="onLinux">
+       <os family="unix"  name="Linux"/>
+     </condition>
+       <echo>TMSXML FILE to PROPERTIES FILE: @{tmsxmlfile.loc}</echo>
+
+       <exec executable="${project.tmsxml}/tmsxml_to_properties" failonerror="yes" output="@{logfile.log}" if:set="onLinux"> 
+         <arg line='"@{tmsxmlfile.loc}" "${project.tmsxml}/xsl/propertiesResourceBundle.xsl" "@{propsfile.loc}"'/>
+       </exec>
+       <exec executable="java" failonerror="yes" output="@{logfile.log}" unless:set="onLinux"> 
+         <arg line='-classpath "${root.tms_props_jars}" -DDTD_DIR="${root.XSL_SPEC_SOURCE}" -Xbootclasspath/a:"${root.tms_jars_}" "${root.XML_TO_MSG_PROG}" -in file:"@{tmsxmlfile.loc}" -xsl file:"${root.XSL_MSG_SOURCE}" -out "@{propsfile.loc}" -entityresolver DTDDirResolver -param preformat true -param doubleapos true -param varonly true '/> 
+       </exec>
+
+       <local name="dst.dir"/>
+       <dirname property="dst.dir" file="@{tmsxmlfile.loc}"/>
+       <copy file="@{propsfile.loc}" todir="${dst.dir}"/>
+
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  buildDocsEclipsePlugin
+
+      Purpose:  Runs transform to create a guide eclispe help plugin.  Include
+                creating the xhtml, toc, and copying all other needed files.
+    =========================================================================
+  </description>
+  <macrodef name="buildDocsEclipsePlugin">
+    <!-- The title of the guide. -->
+    <attribute name="guide.title"/>
+    <!-- The export plugin dir. -->
+    <attribute name="plugin.exp.dir"/>
+    <!-- The ship plugin dir. -->
+    <attribute name="plugin.ship.dir"/>
+    <!-- The base export plugin dir. -->
+    <attribute name="plugin.base.exp.loc"/>
+    <!-- The location of the guide .idd file. -->
+    <attribute name="guide.loc"/>
+    <!-- The location of the default.sch file for the guide. -->
+    <attribute name="plugin.default.sch"/>
+    <!-- The location of the plugin toc file in the exp dir. -->
+    <attribute name="plugin.toc.exp"/>
+    <!-- The location of the plugin toc file in the ship dir. -->
+    <attribute name="plugin.toc.ship"/>
+    <!-- Name base to give each html file in the plugin. -->
+    <attribute name="plugin.base.html"/>
+    <!-- Name base where the .idde and other plucing files reside. -->
+    <attribute name="guide.base.loc"/>
+    <!-- The pdf name of the guide. -->
+    <attribute name="guide.pdf.name"/>
+    <!-- The location of the pdf guide that was generated. -->
+    <attribute name="guide.pdf.loc.name"/>
+    <!-- The location of the guides css file for copying. -->
+    <attribute name="guide.wb.css.file.exp"/>
+    <!-- The location in the ship dir to copy the guides css file. -->
+    <attribute name="guide.wb.css.file.ship"/>
+    <!-- The footer file to use for this guide. -->
+    <attribute name="guide.footer"/>
+
+    <sequential>
+    <!-- Specify which guide plugin we are building  -->
+    <echo>Building @{guide.title} Eclipse Help Plugin..</echo>
+
+    <!-- Delete the old plugin directories  -->
+    <delete dir="@{plugin.exp.dir}"/>
+    <mkdir dir="@{plugin.exp.dir}"/>
+    <delete dir="@{plugin.ship.dir}"/>
+    <mkdir dir="@{plugin.ship.dir}"/>
+
+    <!-- process the .idd file to get xhtml files for the plugins  -->
+    <exec executable="cmd.exe" failonerror="yes" dir="@{plugin.base.exp.loc}"> 
+      <arg line='/c call iiddxhtm "@{guide.loc}" /V:"${plugins.props.file}" /S:"@{plugin.default.sch}" /OUTDIR:"@{plugin.exp.dir}" ${plugins.commom.params} @{guide.footer}'/> 
+    </exec>
+
+    <!-- Make some corrections to the toc file generated. -->
+    <replaceregexp file="@{plugin.toc.exp}"
+                         match="topic=&quot;@{plugin.base.html}&quot;&gt;"
+                         replace="topic=&quot;@{plugin.base.html}&quot;&gt; &#32;&lt;topic href=&quot;@{guide.pdf.name}&quot; label=&quot;${pdfTitle}&quot; /&gt;"
+                         byline="true" encoding="UTF8"/>
+
+    <!-- put things in the ship tree -->
+    <!-- Copy of the to toc file. -->
+    <copy file="@{plugin.toc.exp}" tofile="@{plugin.toc.ship}"/>
+    <!-- Copy over all of the htm and gif files-->
+    <copy todir="@{plugin.ship.dir}">
+       <fileset dir="@{plugin.exp.dir}">
+          <include name="*.htm"/>
+          <include name="*.gif"/>
+          <exclude name="eserver.gif"/>
+       </fileset>
+    </copy>
+    <!-- Copy over the plugin.xml file -->
+    <copy file="@{guide.base.loc}/plugin.xml" tofile="@{plugin.ship.dir}/plugin.xml"/>
+    <!-- Copy over the pdf file -->
+    <copy file="@{guide.pdf.loc.name}" tofile="@{plugin.ship.dir}/@{guide.pdf.name}"/>
+    <!-- Copy over the needed style sheet file -->
+    <copy file="@{guide.wb.css.file.exp}" tofile="@{guide.wb.css.file.ship}"/>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  buildDocsEclipsePluginFromDita
+
+      Purpose:  Runs transform to create a guide eclispe help plugin.  Include
+                creating the xhtml, toc, and copying all other needed files.
+                This version targets dita files as the source.
+    =========================================================================
+  </description>
+  <macrodef name="buildDocsEclipsePluginFromDita">
+    <!-- The title of the guide. -->
+    <attribute name="guide.title"/>
+    <!-- The export plugin dir. -->
+    <attribute name="plugin.exp.dir"/>
+    <!-- The ship plugin dir. -->
+    <attribute name="plugin.ship.dir"/>
+    <!-- The base export plugin dir. -->
+    <attribute name="plugin.base.exp.loc"/>
+    <!-- The location of the guide .idd file. -->
+    <attribute name="guide.loc"/>
+    <!-- The location of the plugin toc file in the exp dir. -->
+    <attribute name="plugin.toc.exp"/>
+    <!-- The location of the plugin toc file in the ship dir. -->
+    <attribute name="plugin.toc.ship"/>
+    <!-- Name base to give each html file in the plugin. -->
+    <attribute name="plugin.base.html"/>
+    <!-- Name base where the .idde and other plucing files reside. -->
+    <attribute name="guide.base.loc"/>
+    <!-- The pdf name of the guide. -->
+    <attribute name="guide.pdf.name"/>
+    <!-- The location of the pdf guide that was generated. -->
+    <attribute name="guide.pdf.loc.name"/>
+    <!-- The location of the guides css file for copying. -->
+    <attribute name="guide.wb.css.file.exp"/>
+    <!-- The location in the ship dir to copy the guides css file. -->
+    <attribute name="guide.wb.css.file.ship"/>
+    <!-- The footer file to use for this guide. -->
+    <attribute name="guide.footer"/>
+    <!-- The location of the default.sch file for the guide. -->
+    <attribute name="plugin.default.dsh"/>
+    <!-- Name and location of the dita control style file for this Guide.. -->
+    <attribute name="ditcontrolstyle.loc"/>
+
+    <sequential>
+    <!-- Specify which guide plugin we are building  -->
+    <echo>Building @{guide.title} Eclipse Help Plugin..</echo>
+
+    <!-- Delete the old plugin directories  -->
+    <delete dir="@{plugin.exp.dir}"/>
+    <mkdir dir="@{plugin.exp.dir}"/>
+    <delete dir="@{plugin.ship.dir}"/>
+    <mkdir dir="@{plugin.ship.dir}"/>
+
+    <!-- process the .idd file to get xhtml files for the plugins  -->
+    <exec executable="cmd.exe" failonerror="yes" dir="@{plugin.base.exp.loc}"> 
+      <arg line='/c call map2xhtml "@{guide.loc}" /DSH:"@{plugin.default.dsh}" /DITAControl:"@{ditcontrolstyle.loc}" /OUTDIR:"@{plugin.exp.dir}" ${plugins.dita.commom.params} @{guide.footer}'/> 
+    </exec>
+
+    <!-- Make some corrections to the toc file generated. -->
+    <replaceregexp file="@{plugin.toc.exp}"
+                         match="topic=&quot;@{plugin.base.html}&quot;&gt;"
+                         replace="topic=&quot;@{plugin.base.html}&quot;&gt; &#32;&lt;topic href=&quot;@{guide.pdf.name}&quot; label=&quot;${pdfTitle}&quot; /&gt;"
+                         byline="true" encoding="UTF8"/>
+
+    <!-- put things in the ship tree -->
+    <!-- Copy of the to toc file. -->
+    <copy file="@{plugin.toc.exp}" tofile="@{plugin.toc.ship}"/>
+    <!-- Copy over all of the htm and gif files-->
+    <copy todir="@{plugin.ship.dir}">
+       <fileset dir="@{plugin.exp.dir}">
+          <include name="*.htm"/>
+          <include name="*.gif"/>
+          <include name="**/*.gif"/>
+          <exclude name="eserver.gif"/>
+       </fileset>
+    </copy>
+    <!-- Copy over the plugin.xml file -->
+    <copy file="@{guide.base.loc}/plugin.xml" tofile="@{plugin.ship.dir}/plugin.xml"/>
+    <!-- Copy over the pdf file -->
+    <copy file="@{guide.pdf.loc.name}" tofile="@{plugin.ship.dir}/@{guide.pdf.name}"/>
+    <!-- Copy over the needed style sheet file -->
+    <copy file="@{guide.wb.css.file.exp}" tofile="@{guide.wb.css.file.ship}"/>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  buildDefaultSCH
+
+      Purpose:  Builds a default.sch file.
+    =========================================================================
+  </description>
+  <macrodef name="buildDefaultSCH">
+    <!-- Name and location to produce the default.sch file. -->
+    <attribute name="plugin.default.sch"/>
+    <!-- The title of the guide for the default.sch file. -->
+    <attribute name="guide.title"/>
+    <!-- The location of the directory where the guide specific files are located. -->
+    <attribute name="guide.base.loc"/>
+    <!-- The location of the directory where the guide specific files are located. -->
+    <attribute name="guide.base.exp.loc"/>
+    <!-- The language directory to look in. -->
+    <attribute name="guide.lang"/>
+
+    <sequential>
+      <echo>Building @{guide.title} default.sch file...</echo>
+
+      <!-- create a default.sch file. -->
+      <echo file="@{plugin.default.sch}" append="false">PROJ:
+      FILE:@{guide.base.loc}
+      FILE:${base.common_ide_files}
+      FILE:${base.common_plugin_files}/common
+      FILE:${base.common_ide_files}/@{guide.lang}
+      FILE:${base.common_plugin_files}/@{guide.lang}
+      FILE:${base.common_dita_files}/@{guide.lang}
+      FILE:@{guide.base.exp.loc}</echo>
+      
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  buildDefaultDSH
+
+      Purpose:  Builds a default.dsh file.
+    =========================================================================
+  </description>
+  <macrodef name="buildDefaultDSH">
+    <!-- Name and location to produce the default.dsh file. -->
+    <attribute name="plugin.default.dsh"/>
+    <!-- The title of the guide for the default.sch file. -->
+    <attribute name="guide.title"/>
+    <!-- The location of the directory where the guide specific files are located. -->
+    <attribute name="guide.base.loc"/>
+    <!-- The location of the directory where the guide specific files are located. -->
+    <attribute name="guide.base.exp.loc"/>
+    <!-- The language directory to look in. -->
+    <attribute name="guide.lang"/>
+
+    <sequential>
+      <echo>Building @{guide.title} default.dsh file...</echo>
+
+      <!-- create a default.sch file. -->
+      <echo file="@{plugin.default.dsh}" append="false">
+      DIR:@{guide.base.loc}
+      DIR:${base.common_dita_files}/@{guide.lang}
+      DIR:${base.common_plugin_files}/@{guide.lang}
+      DIR:${base.common_plugin_files}/common
+      DIR:@{guide.base.exp.loc}</echo>
+      
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  zipGuide
+
+      Purpose:  Adds a guides plugin files to a zip file.
+    =========================================================================
+  </description>
+  <macrodef name="zipGuide">
+    <!-- Name and location of the zip file being produced. -->
+    <attribute name="plugin.zip"/>
+    <!-- The location of the directory with all of the files to zip up. -->
+    <attribute name="plugin.input.dir"/>
+
+    <sequential>
+      <zip zipfile="@{plugin.zip}" update="true">
+           <zipfileset dir="@{plugin.input.dir}" >
+               <include name="*.htm"/>
+               <include name="*.gif"/>
+               <include name="*.pdf"/>
+               <include name="**/*.gif"/>
+               <exclude name="nl/**"/>
+           </zipfileset>
+      </zip>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  splitAUIMLHelpFile
+
+      Purpose:  Runs splitter program to convert one html help file into several
+                for an eclipse plugin.
+    =========================================================================
+  </description>
+  <macrodef name="splitAUIMLHelpFile">
+    <!-- The location and name of the input html file. -->
+    <attribute name="auimlhtmlfile.loc"/>
+    <!-- The to send the split html files. -->
+    <attribute name="htmloutput.dir"/>
+    <attribute name="codepage"/>
+
+    <sequential>
+        <echo>AUIML SPLITER TOOL started: @{auimlhtmlfile.loc}</echo>
+        <exec executable="java" failonerror="yes" error="${project.root.auiml.splitter.log}"> 
+        <arg line=' -classpath "${Split_Classpath}" -Dfile.encoding=@{codepage} ${Split_Tool} "@{auimlhtmlfile.loc}" "@{htmloutput.dir}" '/> 
+        </exec>
+        <echo>AUIML SPLITER TOOL successful: @{auimlhtmlfile.loc}</echo>
+    </sequential>
+
+  </macrodef>
+
+</project>

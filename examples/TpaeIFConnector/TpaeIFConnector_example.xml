@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by TDI7.1.1 - 2011-12-07" created="Tue Dec 20 16:51:57 IST 2011" createdBy="Administrator" modified="Tue Dec 20 16:51:57 IST 2011" modifiedBy="Administrator" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="addonly">
+            <ModTime>1324379997234</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="TpaeIFConnector" state="Simulated"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="filePath">examples\TpaeIFConnector\assets.txt</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSETNUM</Name>
+                            <Type>simple</Type>
+                            <Simple>ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>SITEID</Name>
+                            <Type>simple</Type>
+                            <Simple>SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="TpaeIFConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.TpaeIFConnector</InheritFrom>
+                    <ModTime>1324379997234</ModTime>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="enterpriseServiceQuery">@SUBSTITUTE{property.TpaeIFConnector_example:queryEnterpriseService}</parameter>
+                        <parameter name="enterpriseServiceSync">@SUBSTITUTE{property.TpaeIFConnector_example:syncEnterpriseService}</parameter>
+                        <parameter name="externalSystem">@SUBSTITUTE{property.TpaeIFConnector_example:externalSystem}</parameter>
+                        <parameter name="maximoBaseURL">@SUBSTITUTE{property.TpaeIFConnector_example:baseURLs}</parameter>
+                        <parameter name="objectStructure">@SUBSTITUTE{property.TpaeIFConnector_example:objectStructure}</parameter>
+                        <parameter name="password">@SUBSTITUTE{property.TpaeIFConnector_example:password}</parameter>
+                        <parameter name="userId">@SUBSTITUTE{property.TpaeIFConnector_example:userid}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSET</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>ASSET</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETNUM</Name>
+                            <Type>advanced</Type>
+                            <Script>work.ASSETNUM</Script>
+                            <Simple>ASSET.ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.BUDGETCOST</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.BUDGETCOST"]</Script>
+                            <Simple>ASSET.BUDGETCOST</Simple>
+                            <SubstitutionTemplate>80000</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.DESCRIPTION</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.DESCRIPTION"]</Script>
+                            <Simple>ASSET.DESCRIPTION</Simple>
+                            <SubstitutionTemplate>Sample Asset added into TAMIT via SDI TPAE IF Connector.</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.PURCHASEPRICE</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.PURCHASEPRICE"]</Script>
+                            <Simple>ASSET.PURCHASEPRICE</Simple>
+                            <SubstitutionTemplate>50000</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.REPLACECOST</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.REPLACECOST"]</Script>
+                            <Simple>ASSET.REPLACECOST</Simple>
+                            <SubstitutionTemplate>5000</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.SITEID</Name>
+                            <Type>advanced</Type>
+                            <Script>work.SITEID</Script>
+                            <Simple>ASSET.SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="default_fail">
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[task.logmsg("######################");
+task.logmsg(" ERROR : "," An eception occured. ");
+thisConnector.connector.extractMaximoException(error);
+task.dumpEntry(error);
+task.logmsg("######################");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="delete">
+            <ModTime>1324379950546</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="TpaeIFConnector" state="Simulated"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="filePath">examples\TpaeIFConnector\assets.txt</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSETNUM</Name>
+                            <Type>simple</Type>
+                            <Simple>ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>SITEID</Name>
+                            <Type>simple</Type>
+                            <Simple>SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="TpaeIFConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.TpaeIFConnector</InheritFrom>
+                    <ConnectorMode>Delete</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="enterpriseServiceQuery">@SUBSTITUTE{property.TpaeIFConnector_example:queryEnterpriseService}</parameter>
+                        <parameter name="enterpriseServiceSync">@SUBSTITUTE{property.TpaeIFConnector_example:syncEnterpriseService}</parameter>
+                        <parameter name="externalSystem">@SUBSTITUTE{property.TpaeIFConnector_example:externalSystem}</parameter>
+                        <parameter name="maximoBaseURL">@SUBSTITUTE{property.TpaeIFConnector_example:baseURLs}</parameter>
+                        <parameter name="objectStructure">@SUBSTITUTE{property.TpaeIFConnector_example:objectStructure}</parameter>
+                        <parameter name="password">@SUBSTITUTE{property.TpaeIFConnector_example:password}</parameter>
+                        <parameter name="userId">@SUBSTITUTE{property.TpaeIFConnector_example:userid}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSET</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>ASSET</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETNUM</Name>
+                            <Type>advanced</Type>
+                            <Script>work.ASSETNUM</Script>
+                            <Simple>ASSET.ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.SITEID</Name>
+                            <Type>advanced</Type>
+                            <Script>work.SITEID</Script>
+                            <Simple>ASSET.SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>12f05795bad</Key>
+                            <Attribute>ASSET.ASSETNUM</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$ASSETNUM</Value>
+                        </LinkCriteriaItem>
+                        <LinkCriteriaItem>
+                            <Key>12f057d7155</Key>
+                            <Attribute>ASSET.SITEID</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$SITEID</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="default_fail">
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[task.logmsg("######################");
+task.logmsg(" ERROR : "," An eception occured. ");
+thisConnector.connector.extractMaximoException(error);
+task.dumpEntry(error);
+task.logmsg("######################");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="delete_multiple">
+                            <Name>delete_multiple</Name>
+                            <Script><![CDATA[task.logmsg("### Multiple entries found in maximo for the specified link criteria ###");
+task.logmsg("### You may need to process the multiple entries inside On Multiple Entries hook via script ###");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="delete_nomatch">
+                            <Name>delete_nomatch</Name>
+                            <Script><![CDATA[task.logmsg("#### Entry not found in Maximo - Skipping the current entry ####");
+system.skipEntry();]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="lookup">
+            <ModTime>1324379951078</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="TpaeIFConnector" state="Enabled"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="filePath">examples\TpaeIFConnector\assets.txt</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSETNUM</Name>
+                            <Type>simple</Type>
+                            <Simple>ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>SITEID</Name>
+                            <Type>simple</Type>
+                            <Simple>SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="TpaeIFConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.TpaeIFConnector</InheritFrom>
+                    <ConnectorMode>Lookup</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="enterpriseServiceQuery">@SUBSTITUTE{property.TpaeIFConnector_example:queryEnterpriseService}</parameter>
+                        <parameter name="enterpriseServiceSync">@SUBSTITUTE{property.TpaeIFConnector_example:syncEnterpriseService}</parameter>
+                        <parameter name="externalSystem">@SUBSTITUTE{property.TpaeIFConnector_example:externalSystem}</parameter>
+                        <parameter name="maximoBaseURL">@SUBSTITUTE{property.TpaeIFConnector_example:baseURLs}</parameter>
+                        <parameter name="objectStructure">@SUBSTITUTE{property.TpaeIFConnector_example:objectStructure}</parameter>
+                        <parameter name="password">@SUBSTITUTE{property.TpaeIFConnector_example:password}</parameter>
+                        <parameter name="userId">@SUBSTITUTE{property.TpaeIFConnector_example:userid}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSET</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>ASSET</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETNUM</Name>
+                            <Type>advanced</Type>
+                            <Script>work.ASSETNUM</Script>
+                            <Simple>ASSET.ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.SITEID</Name>
+                            <Type>advanced</Type>
+                            <Script>work.SITEID</Script>
+                            <Simple>ASSET.SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>12f058471ef</Key>
+                            <Attribute>ASSET.ASSETNUM</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$ASSETNUM</Value>
+                        </LinkCriteriaItem>
+                        <LinkCriteriaItem>
+                            <Key>12f0584afb4</Key>
+                            <Attribute>ASSET.SITEID</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$SITEID</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="default_fail">
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[task.logmsg("######################");
+task.logmsg(" ERROR : "," An eception occured. ");
+thisConnector.connector.extractMaximoException(error);
+task.dumpEntry(error);
+task.logmsg("######################");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="lookup_multiple">
+                            <Name>lookup_multiple</Name>
+                            <Script><![CDATA[task.logmsg("### Multiple entries found in maximo for the specified link criteria ###");
+task.logmsg("### You may need to process the multiple entries inside On Multiple Entries hook via script ###");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="lookup_nomatch">
+                            <Name>lookup_nomatch</Name>
+                            <Script><![CDATA[task.logmsg("#### Entry not found in Maximo - Skipping the current entry ####");
+system.skipEntry();]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="iterate">
+            <ModTime>1324379951281</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="FileSystemConnector" state="Simulated"/>
+                    <Component name="TpaeIFConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="TpaeIFConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.TpaeIFConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="enterpriseServiceQuery">@SUBSTITUTE{property.TpaeIFConnector_example:queryEnterpriseService}</parameter>
+                        <parameter name="enterpriseServiceSync">@SUBSTITUTE{property.TpaeIFConnector_example:syncEnterpriseService}</parameter>
+                        <parameter name="externalSystem">@SUBSTITUTE{property.TpaeIFConnector_example:externalSystem}</parameter>
+                        <parameter name="maximoBaseURL">@SUBSTITUTE{property.TpaeIFConnector_example:baseURLs}</parameter>
+                        <parameter name="objectStructure">@SUBSTITUTE{property.TpaeIFConnector_example:objectStructure}</parameter>
+                        <parameter name="password">@SUBSTITUTE{property.TpaeIFConnector_example:password}</parameter>
+                        <parameter name="queryCriteria"><![CDATA[<ASSET>
+	<ASSETNUM operator="SW">TDI_ASSET-</ASSETNUM>
+</ASSET>]]></parameter>
+                        <parameter name="userId">@SUBSTITUTE{property.TpaeIFConnector_example:userid}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSET</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>ASSET</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETNUM</Name>
+                            <Type>advanced</Type>
+                            <Script>work.ASSETNUM</Script>
+                            <Simple>ASSET.ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.SITEID</Name>
+                            <Type>advanced</Type>
+                            <Script>work.SITEID</Script>
+                            <Simple>ASSET.SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="default_fail">
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[task.logmsg("######################");
+task.logmsg(" ERROR : "," An eception occured. ");
+thisConnector.connector.extractMaximoException(error);
+task.dumpEntry(error);
+task.logmsg("######################");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\TpaeIFConnector\expected_assets_output.xml</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.XML2</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="update">
+            <ModTime>1324379951562</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="TpaeIFConnector" state="Simulated"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="filePath">examples\TpaeIFConnector\assets.txt</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSETNUM</Name>
+                            <Type>simple</Type>
+                            <Simple>ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>SITEID</Name>
+                            <Type>simple</Type>
+                            <Simple>SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ASSETNUM</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>SITEID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="TpaeIFConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.TpaeIFConnector</InheritFrom>
+                    <ConnectorMode>Update</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="enterpriseServiceQuery">@SUBSTITUTE{property.TpaeIFConnector_example:queryEnterpriseService}</parameter>
+                        <parameter name="enterpriseServiceSync">@SUBSTITUTE{property.TpaeIFConnector_example:syncEnterpriseService}</parameter>
+                        <parameter name="externalSystem">@SUBSTITUTE{property.TpaeIFConnector_example:externalSystem}</parameter>
+                        <parameter name="maximoBaseURL">@SUBSTITUTE{property.TpaeIFConnector_example:baseURLs}</parameter>
+                        <parameter name="objectStructure">@SUBSTITUTE{property.TpaeIFConnector_example:objectStructure}</parameter>
+                        <parameter name="password">@SUBSTITUTE{property.TpaeIFConnector_example:password}</parameter>
+                        <parameter name="userId">@SUBSTITUTE{property.TpaeIFConnector_example:userid}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>ASSET</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>ASSET</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETMETER.AVGCALCMETHOD</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.ASSETMETER.AVGCALCMETHOD"]</Script>
+                            <Simple>ASSET.ASSETMETER.AVGCALCMETHOD</Simple>
+                            <SubstitutionTemplate>ALL</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETMETER.LINEARASSETMETERID</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.ASSETMETER.LINEARASSETMETERID"]</Script>
+                            <Simple>ASSET.ASSETMETER.LINEARASSETMETERID</Simple>
+                            <SubstitutionTemplate>0</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETMETER.METERNAME</Name>
+                            <Type>substitution</Type>
+                            <Script>work["ASSET.ASSETMETER.METERNAME"]</Script>
+                            <Simple>ASSET.ASSETMETER.METERNAME</Simple>
+                            <SubstitutionTemplate>RUNHOURS</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.ASSETNUM</Name>
+                            <Type>advanced</Type>
+                            <Script>work.ASSETNUM</Script>
+                            <Simple>ASSET.ASSETNUM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ASSET.SITEID</Name>
+                            <Type>advanced</Type>
+                            <Script>work.SITEID</Script>
+                            <Simple>ASSET.SITEID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>12f058ea514</Key>
+                            <Attribute>ASSET.ASSETNUM</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$ASSETNUM</Value>
+                        </LinkCriteriaItem>
+                        <LinkCriteriaItem>
+                            <Key>12f058eeeb0</Key>
+                            <Attribute>ASSET.SITEID</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$SITEID</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="default_fail">
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[task.logmsg("######################");
+task.logmsg(" ERROR : "," An eception occured. ");
+thisConnector.connector.extractMaximoException(error);
+task.dumpEntry(error);
+task.logmsg("######################");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="update_multiple">
+                            <Name>update_multiple</Name>
+                            <Script><![CDATA[task.logmsg("### Multiple entries found in maximo for the specified link criteria ###");
+task.logmsg("### You may need to process the multiple entries inside On Multiple Entries hook via script ###");]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>TpaeIFConnector_example</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/TPAEIFConnectorExample.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="TpaeIFConnector_example">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">examples\TpaeIFConnector\TpaeIFConnector_example.properties</parameter>
+                    <parameter name="collectionType">TpaeIFConnector_example</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="keyAlias"/>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
+</MetamergeConfig>

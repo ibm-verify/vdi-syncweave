@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="filemanagementconnector" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+<Message ID="CTGDIT051E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.NO.PATH.SPECIFIED" varFormat="Java">
+   The starting directory path is not specified.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;Directory Path&apos; parameter in the configuration of the Connector is not set.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Set the &apos;Directory Path&apos; parameter in the configuration of the Connector.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT052E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DEPTH.CANNOT.BE.NEGATIVE" varFormat="Java">
+   The depth parameter can not be negative.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;Depth&apos; parameter is a negative number.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Either leave the &apos;Depth&apos; parameter blank or provide a non-negative value.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT053E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.INVALIDE.GLOB.PATTERN" varFormat="Java">
+   The glob pattern &apos;<Variable formatSpec="{0}">glob pattern</Variable>&apos; is invalid.
+   </MsgText>
+   <Explanation> <p>
+   The given filter is not a correct glob pattern.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Check the documentation of the Connector and modify the filter so that it matches the glob syntax.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT054I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.SECURITY.VIOLATION" varFormat="Java">
+   No permission to read &apos;<Variable formatSpec="{0}">directory</Variable>&apos; directory.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIT055I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DOES.NOT.EXIST" varFormat="Java">
+   &apos;<Variable formatSpec="{0}">file</Variable>&apos; does not exist.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIT056I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FULL.PATH.CRITERIA.FOUND" varFormat="Java">
+   Full Path &apos;<Variable formatSpec="{0}">full path</Variable>&apos; criteria is used. Connector will skip Lookup and use the specified file or directory directly.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIT057I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DELETED.READ.ONLY.FILE" varFormat="Java">
+   Read only file &apos;<Variable formatSpec="{0}">file</Variable>&apos; is deleted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIT058E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FILE.IS.READ.ONLY" varFormat="Java">
+   File &apos;<Variable formatSpec="{0}">file</Variable>&apos; is read-only.
+   </MsgText>
+   <Explanation> <p>
+   The specified file is Read-Only and cannot be deleted without the &apos;Force Delete&apos; option.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Enable the &apos;Force Delete&apos; option in the configuration of the Connector.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT059I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DELETED.NON.EMPTY.DIRECTORY" varFormat="Java">
+   Non-empty directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos; is deleted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIT060E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DIRECTORY.IS.NOT.EMPTY" varFormat="Java">
+   Directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos; is not empty.
+   </MsgText>
+   <Explanation> <p>
+   The specified directory is not empty and cannot be deleted without the &apos;Force Delete&apos; option.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Enable the &apos;Force Delete&apos; option in the configuration of the Connector.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT061E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FORCE.DELETE.FAIL" varFormat="Java">
+   Deleting &apos;<Variable formatSpec="{0}">file</Variable>&apos; failed.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;Force Delete&apos; operation failed.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT062E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.PATH.IS.NOT.DIRECTORY" varFormat="Java">
+   &apos;<Variable formatSpec="{0}">file</Variable>&apos; is not a directory.
+   </MsgText>
+   <Explanation> <p>
+   The provided &apos;Directory Path&apos; in not a real directory.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Provide a correct starting directory path.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT063E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FILE.OR.DIRECTORY.INFORMATION.IS.NOT.PROVIDED" varFormat="Java">
+   The name of the file or directory is not specified. At least the &apos;fullPath&apos; or &apos;name&apos; attribute must be provided in the Output Map.
+   </MsgText>
+   <Explanation> <p>
+   The file cannot be named with the provided information.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Provide the &apos;fullPath&apos; or &apos;name&apos; attribute in the Output Map.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT064E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FILE.OR.DIRECTORY.ALREADY.EXISTS" varFormat="Java">
+   &apos;<Variable formatSpec="{0}">file</Variable>&apos; already exists.
+   </MsgText>
+   <Explanation> <p>
+   The specified file or directory already exists on the file system.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Provide information for a non-existent file or directory.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT065E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.DIRECTORY.IS.NOT.CREATED" varFormat="Java">
+   Directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos; could not be created.
+   </MsgText>
+   <Explanation> <p>
+   A problem occurred during the directory creation.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT066E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.FILE.IS.NOT.CREATED" varFormat="Java">
+   File &apos;<Variable formatSpec="{0}">file</Variable>&apos; could not be created.
+   </MsgText>
+   <Explanation> <p>
+   A problem occurred during the file creation.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT067E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.COULD.NOT.BE.SET.READ.ONLY" varFormat="Java">
+   &apos;<Variable formatSpec="{0}">file</Variable>&apos; could not be made Read-Only.
+   </MsgText>
+   <Explanation> <p>
+   A problem occurred when setting the Read-Only flag.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT068E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.EXPECT.FORMATTED.DATE" varFormat="Java">
+   Dates must use format: <Variable formatSpec="{0}">date format</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A Date attribute in the Link Criteria is not formatted correctly.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Provide a value in accordance with the specified format.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT069E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.COPY.OPERATION.FAIL" varFormat="Java">
+   Copying &apos;<Variable formatSpec="{0}">from file</Variable>&apos; to &apos;<Variable formatSpec="{1}">to file</Variable>&apos; failed.
+   </MsgText>
+   <Explanation> <p>
+   The copy operation has failed.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT070E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.MOVE.OPERATION.FAIL" varFormat="Java">
+   Moving &apos;<Variable formatSpec="{0}">from file</Variable>&apos; to &apos;<Variable formatSpec="{1}">to file</Variable>&apos; failed.
+   </MsgText>
+   <Explanation> <p>
+   The move operation has failed.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   This operation relies on file system specific capabilities.
+   </p></OperatorResponse>
+</Message>
+<Message ID="CTGDIT071E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.FILEMANAGEMENT.EXPECT.TRUE.OR.FALSES" varFormat="Java">
+   Boolean attributes expect values true or false.
+   </MsgText>
+   <Explanation> <p>
+   A Boolean attribute in the Link Criteria has an incorrect value.
+   </p></Explanation>
+   <OperatorResponse> <p>
+   Provide a correct value for the Boolean attribute.
+   </p></OperatorResponse>
+</Message>
+</TMSSource>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DominoChangeDetectionConnector">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DominoChangeDetectionConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="httpPort">80</parameter>
+				<parameter name="iiopSSL">false</parameter>
+				<parameter name="sessionType">IIOP</parameter>
+				<parameter name="sleepInterval">1</parameter>
+				<parameter name="sort">false</parameter>
+				<parameter name="startAt">Start Of Data</parameter>
+				<parameter name="stateKeyPersistence">End of cycle</parameter>
+				<parameter name="timeout">5</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DominoChangeDetectionConnector">
+			<TranslationFile>NLS/idi_conn_DominoChangeDetection</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>sessionType</ListItem>
+					<ListItem>dominoServerIP</ListItem>
+					<ListItem>ior</ListItem>
+					<ListItem>httpPort</ListItem>
+					<ListItem>userName</ListItem>
+					<ListItem>internetPassword</ListItem>
+					<ListItem>database</ListItem>
+					<ListItem>systemStoreKey</ListItem>
+					<ListItem>startAt</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="initiallyExpanded">false</parameter>
+				<parameter name="title">Advanced</parameter>
+				<FormSectionNames>
+					<ListItem>iiopSSL</ListItem>
+					<ListItem>startDate</ListItem>
+					<ListItem>stateKeyPersistence</ListItem>
+					<ListItem>timeout</ListItem>
+					<ListItem>sleepInterval</ListItem>
+					<ListItem>sort</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>sessionType</ListItem>
+				<ListItem>dominoServerIP</ListItem>
+				<ListItem>ior</ListItem>
+				<ListItem>httpPort</ListItem>
+				<ListItem>userName</ListItem>
+				<ListItem>internetPassword</ListItem>
+				<ListItem>iiopSSL</ListItem>
+				<ListItem>database</ListItem>
+				<ListItem>systemStoreKey</ListItem>
+				<ListItem>startAt</ListItem>
+				<ListItem>startDate</ListItem>
+				<ListItem>stateKeyPersistence</ListItem>
+				<ListItem>timeout</ListItem>
+				<ListItem>sleepInterval</ListItem>
+				<ListItem>sort</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="database">
+				<parameter name="description">DATABASE_DESC</parameter>
+				<parameter name="label">DATABASE_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="dominoServerIP">
+				<parameter name="description">DOMINOSERVERIP_DESC</parameter>
+				<parameter name="label">DOMINOSERVERIP_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="httpPort">
+				<parameter name="description">HTTPPORT_DESC</parameter>
+				<parameter name="label">HTTPPORT_LBL</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="iiopSSL">
+				<parameter name="description">ssl_desc</parameter>
+				<parameter name="label">ssl_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="internetPassword">
+				<parameter name="description">INTERNETPASSWORD_DESC</parameter>
+				<parameter name="label">INTERNETPASSWORD_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ior">
+				<parameter name="description">IOR_DESC</parameter>
+				<parameter name="label">IOR_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="sessionType">
+				<Values>
+					<ListItem>IIOP</ListItem>
+					<ListItem>LocalClient</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>IIOP</Key>
+						<Value>Localized.IIOP</Value>
+					</Item>
+					<Item>
+						<Key>LocalClient</Key>
+						<Value>Localized.LocalClient</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SESSIONTYPE_DESC</parameter>
+				<parameter name="label">SESSIONTYPE_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sleepInterval">
+				<parameter name="description">SLEEP_DESC</parameter>
+				<parameter name="label">SLEEP_LBL</parameter>
+			</FormItem>
+			<FormItem name="sort">
+				<parameter name="description">sort_desc</parameter>
+				<parameter name="label">sort_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="startAt">
+				<Values>
+					<ListItem>Start Of Data</ListItem>
+					<ListItem>End Of Data</ListItem>
+					<ListItem>Specific date</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>End Of Data</Key>
+						<Value>Localized.End.Of.Data</Value>
+					</Item>
+					<Item>
+						<Key>Specific date</Key>
+						<Value>Localized.Specific.date</Value>
+					</Item>
+					<Item>
+						<Key>Start Of Data</Key>
+						<Value>Localized.Start.Of.Data</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">STARTAT_DESC</parameter>
+				<parameter name="label">STARTAT_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="startDate">
+				<parameter name="description">STARTDATE_DESC</parameter>
+				<parameter name="label">STARTDATE_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="stateKeyPersistence">
+				<Values>
+					<ListItem>After read</ListItem>
+					<ListItem>End of cycle</ListItem>
+					<ListItem>Manual</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After read</Key>
+						<Value>Localized.After.read</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">STATE_KEY_PERSIST_DESC</parameter>
+				<parameter name="label">STATE_KEY_PERSIST_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="systemStoreKey">
+				<parameter name="description">SYSTEMSTOREKEY_DESC</parameter>
+				<parameter name="label">SYSTEMSTOREKEY_LBL</parameter>
+				<parameter name="script">clearStore</parameter>
+				<parameter name="scriptLabel">SYSTEMSTOREKEY_SCR_LBL</parameter>
+				<parameter name="scripthelp">SYSTEMSTOREKEY_SCR_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="timeout">
+				<parameter name="description">TIMEOUT_DESC</parameter>
+				<parameter name="label">TIMEOUT_LBL</parameter>
+			</FormItem>
+			<FormItem name="userName">
+				<parameter name="description">USERNAME_DESC</parameter>
+				<parameter name="label">USERNAME_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function setStartAtControlValue() {
+	var startAt = form.getConfigValue("startAt"); 
+	if (startAt.equalsIgnoreCase("Specific date")) { 
+		form.getControl("startDate").setEnabled(true); 
+	} else {
+		form.getControl("startDate").setEnabled(false); 
+	}
+}
+
+function setSessionControlValue() {
+	var session = form.getConfigValue("sessionType"); 
+	if (session!=null) { 
+		if (session.equalsIgnoreCase("LocalClient")) { 
+			form.getControl("httpPort").setEnabled(false); 
+			form.getControl("ior").setEnabled(false); 
+			form.getControl("userName").setEnabled(false); 
+			form.getControl("iiopSSL").setEnabled(false); 
+		} else if (session.equalsIgnoreCase("IIOP")) { 
+			form.getControl("httpPort").setEnabled(true); 
+			form.getControl("ior").setEnabled(true); 
+			form.getControl("userName").setEnabled(true); 
+			form.getControl("iiopSSL").setEnabled(true); 
+		}
+	}
+}
+
+setSessionControlValue();
+
+function sessionType_changed() {
+		setSessionControlValue();
+}
+
+setStartAtControlValue();
+
+function startAt_changed() {
+	setStartAtControlValue();
+}
+]]></parameter>
+			<parameter name="formscript"><![CDATA[
+function clearStore () {
+	deleteIteratorStateKey();
+	Packages.com.ibm.di.store.StoreFactory.dropTable("IDI_PS_domch_" + form.getConfig ( button.getName() ));
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

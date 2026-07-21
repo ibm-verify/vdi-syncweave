@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Jul 16 15:00:10 SGT 2010" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TpaeIFCDConnector">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.maximo.TpaeIFCDConnector</parameter>
+				<parameter name="class">com.ibm.di.connector.maximo.TpaeIFCDConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="tcpPort">80</parameter>
+				<parameter name="backlog"/>
+				<parameter name="httpAuth">false</parameter>
+				<parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+				<parameter name="useSSL">false</parameter>
+				<parameter name="needClientAuth">false</parameter>
+				<parameter name="jdbcDriver">sun.jdbc.odbc.JdbcOdbcDriver</parameter>
+				<parameter name="jdbcSchema">MAXIMO</parameter>
+				<parameter name="action">None</parameter>
+				<parameter name="errorCheckInterval">0</parameter>
+				<parameter name="jdbcSource">jdbc:db2://localhost:50000/SAMPLE</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.maximo.TpaeIFCDConnector">
+			<TranslationFile>NLS/idi_conn_tpaeifcd</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+				<ListItem>ErrorDetect</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>httpAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>needClientAuth</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="ErrorDetect">
+				<parameter name="title">ERRORDETECT_SECTION</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jdbcSource</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>jdbcLogin</ListItem>
+					<ListItem>jdbcPassword</ListItem>
+					<ListItem>jdbcSchema</ListItem>
+					<ListItem>extSystem</ListItem>
+					<ListItem>action</ListItem>
+					<ListItem>errorCheckInterval</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>tcpPort</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>httpAuth</ListItem>
+				<ListItem>authRealm</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>needClientAuth</ListItem>
+				<ListItem>jdbcSource</ListItem>
+				<ListItem>jdbcDriver</ListItem>
+				<ListItem>jdbcLogin</ListItem>
+				<ListItem>jdbcPassword</ListItem>
+				<ListItem>jdbcSchema</ListItem>
+				<ListItem>extSystem</ListItem>s
+				<ListItem>action</ListItem>
+				<ListItem>errorCheckInterval</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="tcpPort">
+				<parameter name="Required">true</parameter>
+				<parameter name="description">TCP_PORT_DESC</parameter>
+				<parameter name="label">TCP_PORT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="httpAuth">
+				<parameter name="description">HTTP_AUTH_DESC</parameter>
+				<parameter name="label">HTTP_AUTH_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="authRealm">
+				<parameter name="description">AUTH_REALM_DESC</parameter>
+				<parameter name="label">AUTH_REALM_LBL</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="needClientAuth">
+				<parameter name="description">CLIENT_AUTH_DESC</parameter>
+				<parameter name="label">CLIENT_AUTH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcSource">
+				<parameter name="description">source_desc</parameter>
+				<parameter name="label">source_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">driver_desc</parameter>
+				<parameter name="label">driver_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcLogin">
+				<parameter name="description">login_desc</parameter>
+				<parameter name="label">login_label</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="jdbcSchema">
+				<parameter name="description">schema_desc</parameter>
+				<parameter name="label">schema_label</parameter>
+			</FormItem>			
+			<FormItem name="extSystem">
+				<parameter name="description">EXT_SYS_DESC</parameter>
+				<parameter name="label">EXT_SYS_LABEL</parameter>
+			</FormItem>
+			<FormItem name="action">
+				<Values>
+					<ListItem>NONE</ListItem>
+					<ListItem>RETRY</ListItem>
+					<ListItem>DELETE</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>NONE</Key>
+						<Value>Localized.None</Value>
+					</Item>
+					<Item>
+						<Key>RETRY</Key>
+						<Value>Localized.Retry</Value>
+					</Item>
+					<Item>
+						<Key>DELETE</Key>
+						<Value>Localized.Delete</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">ACTION_DESC</parameter>
+				<parameter name="label">ACTION_LABEL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="errorCheckInterval">
+				<parameter name="description">CHECK_INTERVAL_DESC</parameter>
+				<parameter name="label">CHECK_INTERVAL_LABEL</parameter>
+				<parameter name="syntax">NUMBER</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="maxValue">999999</parameter>
+			</FormItem>
+			<parameter name="formevents">
+				<![CDATA[
+function enabled (param, value){
+	if(form.getControl(param) != null)
+		form.getControl(param).setEnabled(value);
+}
+
+function useSSL_changed() {
+	var ssl= form.getConfig ("useSSL");
+	if ( ssl!= null && ssl.equals("true"))
+		enabled("needClientAuth", true);
+	else	
+		enabled("needClientAuth", false);
+}
+
+useSSL_changed();
+]]>
+			</parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

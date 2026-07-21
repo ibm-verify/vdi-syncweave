@@ -1,0 +1,79 @@
+
+<!--
+	The PDE builder automatically generates the order in which plugins
+	are compiled, but for some strange reason the order is not
+	consistent across build platforms, and we have a dependency on the
+	order as some plugins rely on different plugins.  This problem
+	was first noticed in the Travis-CI environment when it placed the
+	org.eclipse.equinox.http.jetty.listener plugin first, even though
+	it was dependent on other plugins.  The easiest solution is to
+	modify the build.xml file so that the plugin target is built from
+	the contents of this file.  This replacement happens within the
+	"preProcess" target within the osgi/customTargets.xml file.
+-->
+
+<project>
+
+	<target name="all.plugins.ordered" depends="init">
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.systemqueue" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.util" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.log" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.server" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.http.jetty.listener" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.bundle" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/org.eclipse.equinox.http.jetty.listener" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.server.entry" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.log.slf4j" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.log.slf4j-tdi" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.config" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.component" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.jaxrs" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.jaxrs.impl" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.jaxrs.jackson" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.jaxrs.storage.atom" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.schema" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.config.bind" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.api" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.api.bind" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.api.connection" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.web.common" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.tp.server" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.ui.webui" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.tdi.rest" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.ui.easyetl" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.api.rest" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.api.impl" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../../plugins/com.ibm.di.connector.taddm" target="${target}">
+		</ant>
+	</target>
+
+</project>
+

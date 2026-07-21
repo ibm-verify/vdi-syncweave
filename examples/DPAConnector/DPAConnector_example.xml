@@ -1,0 +1,1328 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by TDI7.1.1 - 2011-11-22" created="Fri Dec 09 13:53:26 GMT+05:30 2011" createdBy="administrator" modified="Fri Dec 09 13:53:26 GMT+05:30 2011" modifiedBy="administrator" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="iterate_DeployedAsset">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="DeployedAssetsConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="DeployedAssetsConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.DeployedAssetsConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="assetType">NETWORK_DEVICES</parameter>
+                        <parameter name="dbPassword">tdi@islt1voli</parameter>
+                        <parameter name="dbUsername">maximo</parameter>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="jdbcUrl">jdbc:db2://9.120.98.139:50005/MAXDB71</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer"/>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="lookup_DeployedAsset">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="DeployedAssetsConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="DeployedAssetsConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.DeployedAssetsConnector</InheritFrom>
+                    <ConnectorMode>Lookup</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="assetType">NETWORK_DEVICES</parameter>
+                        <parameter name="dbPassword">tdi@islt1voli</parameter>
+                        <parameter name="dbUsername">maximo</parameter>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="jdbcUrl">jdbc:db2://9.120.98.139:50005/MAXDB71</parameter>
+                        <parameter name="loadReferences">true</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Assetclass</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Assettag</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Changedate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Createdate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Description</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Domainname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Firmwareversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Guid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwdetectiontool</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwlastscandate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Makemodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Manufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netmacaddr</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netsourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>NetworkCards</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Networkaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodeid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodename</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsguid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrshostsystem</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanagedsystemname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsprimarymacaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsserialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssignature</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssystemboarduuid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsvmid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Orgid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Osversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramsize</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramunit</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Serialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Siteid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Sourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Supportssnmp</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Systemrole</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhash</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhwtype</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamstatus</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>manufacturer-info</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>1340da132c1</Key>
+                            <Attribute>Nodename</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>router1</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="delete_DeployedAsset">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="DeployedAssetsConnector" state="Simulated"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="DeployedAssetsConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.DeployedAssetsConnector</InheritFrom>
+                    <ConnectorMode>Delete</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="assetType">NETWORK_DEVICES</parameter>
+                        <parameter name="dbPassword">tdi@islt1voli</parameter>
+                        <parameter name="dbUsername">maximo</parameter>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="jdbcUrl">jdbc:db2://9.120.98.139:50005/MAXDB71</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Assetclass</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Assettag</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Changedate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Createdate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Description</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Domainname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Firmwareversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Guid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwdetectiontool</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwlastscandate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Makemodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Manufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netmacaddr</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netsourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>NetworkCards</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Networkaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodeid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodename</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsguid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrshostsystem</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanagedsystemname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsprimarymacaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsserialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssignature</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssystemboarduuid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsvmid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Orgid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Osversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramsize</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramunit</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Serialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Siteid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Sourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Supportssnmp</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Systemrole</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhash</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhwtype</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamstatus</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>manufacturer-info</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>1340da6d9d6</Key>
+                            <Attribute>Nodename</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>router1</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="add_DeployedAsset">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="DAC_Add" state="Simulated"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="DAC_Add">
+                    <InheritFrom>system:/Connectors/ibmdi.DeployedAssetsConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="assetType">NETWORK_DEVICES</parameter>
+                        <parameter name="dbPassword">tdi@islt1voli</parameter>
+                        <parameter name="dbUsername">maximo</parameter>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="jdbcUrl">jdbc:db2://9.120.98.139:50005/MAXDB71</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>Assetclass</Name>
+                            <Type>advanced</Type>
+                            <Script>return "NETDEVICE";</Script>
+                            <Simple>Assetclass</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Assettag</Name>
+                            <Type>advanced</Type>
+                            <Script>return "TAGDevice1";</Script>
+                            <Simple>Assettag</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Changedate</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1998-03-26 00:00:00.0";</Script>
+                            <Simple>Changedate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Createdate</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1998-03-26 00:00:00.0";</Script>
+                            <Simple>Createdate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Description</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Description";</Script>
+                            <Simple>Description</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Domainname</Name>
+                            <Type>advanced</Type>
+                            <Script>return "in.ibm.com";</Script>
+                            <Simple>Domainname</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Firmwareversion</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1.2.3";</Script>
+                            <Simple>Firmwareversion</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Guid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Guid1";</Script>
+                            <Simple>Guid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Hwdetectiontool</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Maximo 4.6.5";</Script>
+                            <Simple>Hwdetectiontool</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Hwlastscandate</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1998-03-26 00:00:00.0";</Script>
+                            <Simple>Hwlastscandate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Makemodel</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Makemodel1";</Script>
+                            <Simple>Makemodel</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Manufacturer</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Manufacturer";</Script>
+                            <Simple>Manufacturer</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Netmacaddr</Name>
+                            <Type>advanced</Type>
+                            <Script>return "00:01:02:03:04:05";</Script>
+                            <Simple>Netmacaddr</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Netsourceid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Netsourceid";</Script>
+                            <Simple>Netsourceid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>NetworkCards</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Assettag</Name>
+                            <Type>advanced</Type>
+                            <Script>return "asset1";</Script>
+                            <Simple>NetworkCards.NetworkCard.Assettag</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Bandwidth</Name>
+                            <Type>advanced</Type>
+                            <Script>return 1000;</Script>
+                            <Simple>NetworkCards.NetworkCard.Bandwidth</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Bandwidthunit</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Kbytes";</Script>
+                            <Simple>NetworkCards.NetworkCard.Bandwidthunit</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Changedate</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1998-03-26 00:00:00.0";</Script>
+                            <Simple>NetworkCards.NetworkCard.Changedate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Chipset</Name>
+                            <Type>advanced</Type>
+                            <Script>return "chipset";</Script>
+                            <Simple>NetworkCards.NetworkCard.Chipset</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Createdate</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1998-03-26 00:00:00.0";</Script>
+                            <Simple>NetworkCards.NetworkCard.Createdate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Description</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Description";</Script>
+                            <Simple>NetworkCards.NetworkCard.Description</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Firmwareversion</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Firmwareversion";</Script>
+                            <Simple>NetworkCards.NetworkCard.Firmwareversion</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Makemodel</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Makemodel";</Script>
+                            <Simple>NetworkCards.NetworkCard.Makemodel</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Manufacturer</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Manufacturer";</Script>
+                            <Simple>NetworkCards.NetworkCard.Manufacturer</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Netmacaddr</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Netmacaddr";</Script>
+                            <Simple>NetworkCards.NetworkCard.Netmacaddr</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Networkaddress</Name>
+                            <Type>advanced</Type>
+                            <Script>return "10.1.1.1";</Script>
+                            <Simple>NetworkCards.NetworkCard.Networkaddress</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Ramsize</Name>
+                            <Type>advanced</Type>
+                            <Script>return 256;</Script>
+                            <Simple>NetworkCards.NetworkCard.Ramsize</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Ramunit</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Kbytes";</Script>
+                            <Simple>NetworkCards.NetworkCard.Ramunit</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Serialnumber</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Serialnumber";</Script>
+                            <Simple>NetworkCards.NetworkCard.Serialnumber</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Sourceid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Sourceid";</Script>
+                            <Simple>NetworkCards.NetworkCard.Sourceid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.Type</Name>
+                            <Type>advanced</Type>
+                            <Script>return "type1";</Script>
+                            <Simple>NetworkCards.NetworkCard.Type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.manufacturer-info</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>NetworkCards.NetworkCard.manufacturer-info</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.manufacturer-info.Dpammanuvariantid</Name>
+                            <Type>advanced</Type>
+                            <Script>return 100;</Script>
+                            <Simple>NetworkCards.NetworkCard.manufacturer-info.Dpammanuvariantid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.manufacturer-info.Manufacturername</Name>
+                            <Type>advanced</Type>
+                            <Script>return "NetworkCardManufacturername"</Script>
+                            <Simple>NetworkCards.NetworkCard.manufacturer-info.Manufacturername</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>NetworkCards.NetworkCard.manufacturer-info.Manufacturervar</Name>
+                            <Type>advanced</Type>
+                            <Script>return "NetworkCardManufacturervar";</Script>
+                            <Simple>NetworkCards.NetworkCard.manufacturer-info.Manufacturervar</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Networkaddress</Name>
+                            <Type>advanced</Type>
+                            <Script>return "10.1.1.1";</Script>
+                            <Simple>Networkaddress</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nodename</Name>
+                            <Type>advanced</Type>
+                            <Script>return "router1";</Script>
+                            <Simple>Nodename</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsguid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "nrsguid1";</Script>
+                            <Simple>Nrsguid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrshostsystem</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrshostsystem";</Script>
+                            <Simple>Nrshostsystem</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsmanagedsystemname</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsmanagedsystemname";</Script>
+                            <Simple>Nrsmanagedsystemname</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsmanufacturer</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsmanufacturer";</Script>
+                            <Simple>Nrsmanufacturer</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsmodel</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsmodel";</Script>
+                            <Simple>Nrsmodel</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsname</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsname";</Script>
+                            <Simple>Nrsname</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsprimarymacaddress</Name>
+                            <Type>advanced</Type>
+                            <Script>return "macaddress";</Script>
+                            <Simple>Nrsprimarymacaddress</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsserialnumber</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsserialnumber";</Script>
+                            <Simple>Nrsserialnumber</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrssignature</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrssignature";</Script>
+                            <Simple>Nrssignature</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrssystemboarduuid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrssystemboarduuid";</Script>
+                            <Simple>Nrssystemboarduuid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Nrsvmid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Nrsvmid";</Script>
+                            <Simple>Nrsvmid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Orgid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Orgid";</Script>
+                            <Simple>Orgid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Osversion</Name>
+                            <Type>advanced</Type>
+                            <Script>return "1.1"</Script>
+                            <Simple>Osversion</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Ramsize</Name>
+                            <Type>advanced</Type>
+                            <Script>return 256;</Script>
+                            <Simple>Ramsize</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Ramunit</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Kbytes";</Script>
+                            <Simple>Ramunit</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Serialnumber</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Serialnumber";</Script>
+                            <Simple>Serialnumber</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Siteid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Siteid";</Script>
+                            <Simple>Siteid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Sourceid</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Sourceid";</Script>
+                            <Simple>Sourceid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Supportssnmp</Name>
+                            <Type>advanced</Type>
+                            <Script>return 1;</Script>
+                            <Simple>Supportssnmp</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Systemrole</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Systemrole";</Script>
+                            <Simple>Systemrole</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Tloamhash</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Tloamhash"</Script>
+                            <Simple>Tloamhash</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Tloamhwtype</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Tloamhwtype";</Script>
+                            <Simple>Tloamhwtype</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>Tloamstatus</Name>
+                            <Type>advanced</Type>
+                            <Script>return "Tloamstatus";</Script>
+                            <Simple>Tloamstatus</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>manufacturer-info</Name>
+                            <Type>advanced</Type>
+                            <Script>return "";</Script>
+                            <Simple>manufacturer-info</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>manufacturer-info.Dpammanuvariantid</Name>
+                            <Type>advanced</Type>
+                            <Script>return 101;</Script>
+                            <Simple>manufacturer-info.Dpammanuvariantid</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Assetclass</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Assettag</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Changedate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Createdate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Description</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Domainname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Firmwareversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Guid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwdetectiontool</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hwlastscandate</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Makemodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Manufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netmacaddr</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Netsourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>NetworkCards</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Networkaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodeid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nodename</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsguid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrshostsystem</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanagedsystemname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmanufacturer</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsmodel</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsname</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsprimarymacaddress</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsserialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssignature</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrssystemboarduuid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Nrsvmid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Orgid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Osversion</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramsize</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Ramunit</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Serialnumber</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Siteid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Sourceid</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Supportssnmp</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Systemrole</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhash</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamhwtype</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tloamstatus</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>manufacturer-info</Name>
+                            <Syntax>com.ibm.di.entry.Attribute</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>DPAConnector_Example</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/DPAConnector_Example.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="DPAConnector_Example">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/DPAConnector_Example.properties</parameter>
+                    <parameter name="collectionType">DPAConnector_Example</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

@@ -1,0 +1,4166 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by SDI7.2.0 - 2015-03-19" created="Tue Apr 21 20:14:09 SGT 2015" createdBy="jens thomassen" modified="Tue Apr 21 20:14:09 SGT 2015" modifiedBy="jens thomassen" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="SCIM_Service">
+            <ModTime>1429618412745</ModTime>
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">false</parameter>
+                <parameter name="automapattributes">false</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="includePrologs"/>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks>
+                <Hook name="epilog">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <Name>epilog</Name>
+                    <Script>SDSConnector.doConnectorTerminate(true)</Script>
+                    <Enabled>true</Enabled>
+                </Hook>
+                <Hook name="prolog">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <Name>prolog</Name>
+                    <Script><![CDATA[propertyStore = system.getTDIProperties().getPropertyStore("SCIM")
+propertyStore.reconnect()
+
+debugging = getBooleanProperty("debugging")
+
+remoteUser = null
+remotePassword = null
+tenantName = null
+apiUserName = null
+tenantPasswordPolicy = null
+
+messageResolver = com.ibm.di.server.ResourceHash.getHash("miserver")
+
+JSONParser = system.getParser("ibmdi.JSONParser")
+JSONParser.setParam("compact", "false")
+
+// Define some classes and constants
+Normalizer = java.text.Normalizer
+NFC = Normalizer.Form.NFC
+LdapName = javax.naming.ldap.LdapName
+Rdn = javax.naming.ldap.Rdn
+Date = java.util.Date
+
+userMapping = null
+groupMapping = null
+tenantEntry = null
+
+auditLogging = getBooleanProperty("audit.log");
+auditSysLogging = getBooleanProperty("audit.syslog");
+initLogging();
+
+authenticationEndpoint = getBooleanProperty("authenticationEndpoint")
+mapTenantNames = getBooleanProperty("mapTenantNames")
+tenantBase = propertyStore.getProperty("tenantBase")
+if (tenantBase == null)
+	tenantBase = propertyStore.getProperty("TenantBase")
+
+usePasswordPolicy = getBooleanProperty("usePasswordPolicy")
+
+setupFailOver(true);
+globalPasswordPolicy = null;]]></Script>
+                    <Enabled>true</Enabled>
+                </Hook>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="ParseRequest" state="Enabled"/>
+                    <Component name="HandleEndpoints" state="Enabled"/>
+                    <Component name="getAuthentication" state="Enabled"/>
+                    <Component name="SDSConnector" state="Enabled"/>
+                    <Component name="POST Request" state="Enabled"/>
+                    <Component name="HandleCreateUserOrGroup" state="Enabled"/>
+                    <Component name="PUT Request" state="Enabled"/>
+                    <Component name="PutEntry" state="Enabled"/>
+                    <Component name="PATCH Request" state="Enabled"/>
+                    <Component name="PatchEntry" state="Enabled"/>
+                    <Component name="DELETE Request" state="Enabled"/>
+                    <Component name="DeleteEntry" state="Enabled"/>
+                    <Component name="GET Request" state="Enabled"/>
+                    <Component name="FindEntry" state="Enabled"/>
+                    <Component name="Other Request" state="Enabled"/>
+                    <Component name="NotImplemented" state="Enabled"/>
+                    <Component name="QRadarConnector" state="Enabled"/>
+                    <Component name="SCIM Request Handler" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="SCIM Request Handler">
+                    <InheritFrom>system:/Connectors/ibmdi.HTTPServer</InheritFrom>
+                    <ModTime>1429618412745</ModTime>
+                    <ConnectorMode>Server</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="contentType">application/json</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="tcpPort">@SUBSTITUTE{property.SCIM:httpPort}</parameter>
+                        <parameter name="useSSL">true</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>http.Allow</Name>
+                            <Type>simple</Type>
+                            <Simple>http.Allow</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.Connection</Name>
+                            <Type>simple</Type>
+                            <Simple>http.Connection</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.Content-Language</Name>
+                            <Type>simple</Type>
+                            <Simple>http.Content-Language</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.Content-Type</Name>
+                            <Type>simple</Type>
+                            <Simple>http.Content-Type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.Location</Name>
+                            <Type>simple</Type>
+                            <Simple>http.Location</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.WWW-Authenticate</Name>
+                            <Type>simple</Type>
+                            <Simple>http.WWW-Authenticate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.body</Name>
+                            <Type>simple</Type>
+                            <Simple>http.body</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.status</Name>
+                            <Type>simple</Type>
+                            <Simple>http.status</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="after_getnext">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>after_getnext</Name>
+                            <Script>logRequest()</Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="after_reply2">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>after_reply2</Name>
+                            <Script><![CDATA[failOverAttempts = 0;
+var status = work.getString("http.status")
+if (status == null || !status.startsWith("2"))
+	remoteUser == null; // Try to force a reset of the LDAP Connector]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="before_initialize">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>before_initialize</Name>
+                            <Script><![CDATA[// Only do this in Server mode
+
+if (thisConnector.getType() != 10)
+	return;
+
+task.logmsg("SCIM_Service version 20180109")
+// Do an anonymous bind to verify that the SDS server is running.
+try {
+	var sds = system.loadConnector("ibmdi.LDAP")
+	sds.setParam("ldapUrl", system.getTDIProperty("SCIM", "LDAPServer"))
+	sds.initialize(null)
+	sds.terminate()
+} catch (e) {
+	var msg = com.ibm.di.server.ResourceHash.getHash("miserver").getString("SCIM.Cannot.connect.to.server")
+	if (!canFailOver(e))
+		throw new java.lang.Exception(msg, e)
+}]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="before_reply">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>before_reply</Name>
+                            <Script>logResponse()</Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="ParseRequest">
+                    <ModTime>1416881768346</ModTime>
+                    <parameter name="script"><![CDATA[location = propertyStore.getProperty("Location")
+isPatching = false
+
+var base = work.getString("http.base")
+work.removeAttribute("http.body")
+work.removeAttribute("http.bodyAsBytes")
+contentType = work.getString("http.content-type")
+work["http.content-type"] = "application/json"
+work["http.status"] = "200 OK";
+if (work["http.remote_pass"] != null)
+	work["http.remote_pass"].setProtected(true)
+if (work["http.Authentication-Password"] != null)
+	work["http.Authentication-Password"].setProtected(true)
+
+if (debugging)
+	task.dumpEntry(work)
+
+if (work["http.Accept-Language"] != null) {
+	try {
+		responseResolver = com.ibm.di.server.ResourceHash.getHash("miserver", work.getString("http.Accept-Language"))
+		work["http.Content-Language"] = responseResolver.getLanguage();
+	} catch (err) {
+		task.logmsg("WARN", "Update to a recent version of tdiresource.jar")
+		responseResolver = messageResolver;
+	} 	
+} else {
+	responseResolver = messageResolver;	
+}
+
+if (base == null || base.length() == 0)
+	badRequest("400 Bad Request", "SCIM.No.path.found")
+
+if (contentType != null && contentType.toLowerCase().indexOf("application/xml") >= 0)
+	badRequest("501 Not Implemented", "SCIM.XML.NOT.SUPPORTED")
+
+var acceptType = "JSON"
+if (base.toLowerCase().endsWith(".json")) {
+	base = base.substring(0, base.length() - 5)
+} else if (base.toLowerCase().endsWith(".xml")) {
+	base = base.substring(0, base.length() - 4)
+	acceptType = "XML"
+} else {
+	accept = work.getString("http.accept");
+	if (accept != null && accept.toLowerCase().indexOf("application/json")>=0)
+		acceptType = "JSON"	
+// TODO: Add this test later, too annoying when testing
+//	else if (accept != null && accept.toLowerCase().indexOf("application/xml")>=0)
+//		acceptType = "XML"
+}
+if (acceptType == "XML")
+	badRequest("501 Not Implemented", "SCIM.XML.NOT.SUPPORTED")
+
+if (base.startsWithIgnoreCase("http")) {
+// parse a complete url
+	try {
+		var url = new java.net.URL(base)
+		base = url.getFile()
+	} catch (e) {}
+}
+
+var parts = system.splitString(base, "/")
+if (parts.length == 0)
+	badRequest("400 Bad Request", "SCIM.No.path.found")
+
+endPoint = parts[0].trim().toLowerCase()
+resourceID = ""
+index = 1
+
+if (endPoint == "v1" && parts.length >=2) {
+	endPoint = parts[1].trim().toLowerCase()
+	index = 2
+}
+	
+if (parts.length > index)	
+	resourceID = parts[index].trim()
+
+if (work["http.X-HTTP-Method-Override"] != null)
+	work["http.method"] = work["http.X-HTTP-Method-Override"]
+
+s = work.getString("http.qs.Attributes");
+if (s != null)
+	attributeFilter = system.splitString(s.toLowerCase(), ",")
+else
+	attributeFilter = null
+	
+if (userMapping == null)
+	userMapping = readMapping("SCIM/UserMapping.json")
+if (groupMapping == null)
+	groupMapping = readMapping("SCIM/GroupMapping.json")]]></parameter>
+                </Script>
+                <Script name="HandleEndpoints">
+                    <ModTime>1427952103921</ModTime>
+                    <parameter name="script"><![CDATA[// Canonicalize to singular, to allow for misspelling
+if (endPoint.endsWith("s"))
+	endPoint = endPoint.substring(0, endPoint.length() - 1)
+
+isAuthentication = false
+isTenantEndPoint = false
+isPolicyEndPoint = false
+isApiEndPoint = false
+
+if (endPoint == "user") {
+	mapping = userMapping
+	location += "/Users/"
+} else if (endPoint == "group") {
+	mapping = groupMapping
+	location += "/Groups/"
+} else if (authenticationEndpoint && endPoint == "authentication") {
+	mapping = userMapping
+	endPoint = "user"
+	isAuthentication = true
+	work.setAttribute("http.method", "GET")
+} else if (endPoint == "tenant" || endPoint == "alltenant") {
+	isTenantEndPoint = true
+} else if (endPoint == "policy" || endPoint == "policie") {
+	isPolicyEndPoint = true
+} else if (endPoint == "apiuser") {
+	isApiEndPoint = true
+} else if (! "get".equalsIgnoreCase(work.getString("http.method"))) {
+	work["http.Allow"] = "GET"
+	badRequest("405 Method Not Allowed", "SCIM.Cannot.change", endPoint)
+} else if (endPoint == "schema") {
+	name = resourceID.toLowerCase();
+	if (name == "user" || name == "users")
+		returnFile("SCIM/UserSchema.json")
+	if (name == "group" || name == "groups")
+		returnFile("SCIM/GroupSchema.json")	
+	if (name == "tenant" || name == "tenants")
+		returnFile("SCIM/TenantSchema.json")	
+	if (name == "policy" || name == "policies")
+		returnFile("SCIM/PolicySchema.json")	
+	if (name == "") {
+		returnUserandGroupSchema()
+	}
+	badRequest("404 Not Found", "SCIM.Unknown.schema", resourceID);
+} else if (endPoint == "serviceproviderconfig") {
+	returnFile("SCIM/ServiceProviderConfig.json")
+} else {
+	badRequest("400 Bad Request", "SCIM.Unknown.endpoint", endPoint)
+}]]></parameter>
+                </Script>
+                <Script name="getAuthentication">
+                    <ModTime>1427848694793</ModTime>
+                    <parameter name="script"><![CDATA[oldUser = remoteUser
+oldPass = remotePassword
+
+remoteUser = work.getString("http.remote_user")
+remotePassword = work.getString("http.remote_pass")
+
+if (remoteUser == null || remoteUser.trim().length() == 0 || remotePassword == null) {
+	task.logmsg("WARN", messageResolver.getString("SCIM.no.basic.auth"))
+	badRequest("401 Unauthorized", null)
+}
+
+if (tenantName != remoteUser && apiUserName != remoteUser) {
+	tenantName = remoteUser
+	apiUserName = null
+	tenantEntry = null
+}
+
+if (! remoteUser.equals(oldUser) || !remotePassword.equals(oldPass)) {
+	// New credentials, so terminate the Connector
+	SDSConnector.doConnectorTerminate(true);
+
+	tenantEntry = null;
+	tenantName = remoteUser;
+	apiUserName = null;
+
+	if (mapTenantNames) {
+		var password = getPassword()
+		ldapName = getProp("ldapName", null)
+		if (ldapName == null) {
+			task.logmsg("WARN", messageResolver.getString("SCIM.auth.1", remoteUser + ".ldapName"))
+			badRequest("401 Unauthorized", null)
+		}	
+
+		ldapPassword = remotePassword
+		if (password != null) {
+			if (! password.equals(remotePassword)) {			
+				task.logmsg("WARN", messageResolver.getString("SCIM.auth.2", remoteUser))
+				badRequest("401 Unauthorized", null)
+			}		
+			var s = getProp("ldapPassword", null)
+			if (s != null)
+				ldapPassword = s
+		}	
+	} else {
+		ldapName = remoteUser		
+		ldapPassword = remotePassword
+	}
+}
+
+// Initialize using new credentials,
+// will return 401 Unauthorized if it fails
+if (debugging) {
+	task.logmsg("ldapName = " + ldapName)
+}
+
+try {
+	SDSConnector.checkInitialize()
+} catch (e) {
+	dumpException(e)
+	s = e.getMessage();
+	if (s != null && s.contains("Account is locked"))
+		badRequest("401 Unauthorized", "SCIM.tenant.not.enabled") 
+	if (isCommFailure(e)) {
+		attemptFailOver(e)
+		badRequest("503 Service Unavailable", "SCIM.Cannot.connect.to.server")
+	}
+	task.logmsg("WARN", messageResolver.getString("SCIM.auth.3", [remoteUser, e]))
+	if (thisConnector.componentInitialized())
+		thisConnector.doConnectorTerminate(true);
+	badRequest("401 Unauthorized", null)
+}
+
+if (!SDSConnector.componentInitialized()) {
+	task.logmsg("WARN", messageResolver.getString("SCIM.auth.3", [remoteUser, ""]))
+	badRequest("401 Unauthorized", null)
+}
+
+setTenant(work.getString("http.tenantname"));
+
+if (isTenantEndPoint)
+	handleTenantRequest()
+
+if (isPolicyEndPoint)
+	handlePolicyRequest()
+
+if (isApiEndPoint)
+	handleApiRequest()
+
+userBase = getProp("userSearchBase")
+groupBase = getProp("groupSearchBase")
+
+userFilter = getProp("userSearchFilter", "cn=*")
+groupFilter = getProp("groupSearchFilter", "cn=*")
+
+if (mapping == userMapping) {
+	setSearchBase(userBase)
+} else {
+	setSearchBase(groupBase)
+}
+
+if (isAuthentication)
+	verifyAccess("auth", null)]]></parameter>
+                </Script>
+                <Connector name="SDSConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <ModTime>1417673319768</ModTime>
+                    <ConnectorMode>Lookup</ConnectorMode>
+                    <ConnectorState>Passive</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="ldapPassword"><![CDATA[@SUBSTITUTE{javascript if (typeof(ldapPassword) === 'undefined')
+	return ""
+return ldapPassword}]]></parameter>
+                        <parameter name="ldapUrl">@SUBSTITUTE{property.SCIM:LDAPServer}</parameter>
+                        <parameter name="ldapUsername"><![CDATA[@SUBSTITUTE{javascript if (typeof(ldapName) === 'undefined')
+	return ""
+return ldapName}]]></parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="FailBackAfter"/>
+                        <parameter name="FailOverConnector">/Connectors/FailOverConnector</parameter>
+                        <parameter name="FailOverOption">false</parameter>
+                        <parameter name="autoreconnect">true</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+                <Branch name="POST Request">
+                    <ModTime>1427330269433</ModTime>
+                    <Script name="HandleCreateUserOrGroup">
+                        <ModTime>1427330269433</ModTime>
+                        <parameter name="script"><![CDATA[verifyAccess(endPoint == "user" ? "createUser" : "createGroup", null)
+var conn = system.newEntry()
+scim2ldap(getSCIMEntry(), conn, true)
+
+if (conn.getString("$dn") == null)
+	badRequest("400 Bad Request", "SCIM.No.externalID.specified", getDNattribute())
+
+objectClass = conn.newAttribute("objectClass")
+objectClassProp = propertyStore.getProperty(endPoint + "ObjectClass")
+for (s in system.splitString(objectClassProp, ","))
+	objectClass.addValue(s.trim())
+
+if (endPoint == "group") {
+	addDummyGroupMember(conn)
+}
+
+try {
+	addUserToPasswordPolicyGroup()
+	SDSConnector.connector.putEntry(conn)
+} catch (e) {
+	s = e.getMessage();
+	if (s!=null && s.contains("Entry Already Exists"))
+		badRequest("409 Conflict", "SCIM.Already.existing", getDNattribute())
+	gotException(e)
+}
+
+// Return the new Entry by getting it
+work["http.status"] = "201 Created"
+
+if (! returnEntryFromDN(conn.getString("$dn")) ) {
+	badRequest("500 Internal server error", "SCIM.Could.not.find")
+}
+system.exitFlow();]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>POST</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>true</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                    <ScriptDeleted>true</ScriptDeleted>
+                </Branch>
+                <Branch name="PUT Request">
+                    <ModTime>1415765936630</ModTime>
+                    <Connector name="PutEntry">
+                        <InheritFrom>@SDSConnector</InheritFrom>
+                        <ModTime>1415765936630</ModTime>
+                        <ConnectorMode>Update</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@SDSConnector</parameter>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <SkipLookup>false</SkipLookup>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                            <Script/>
+                            <LinkCriteriaItem>
+                                <Key>13e3a9d8a72</Key>
+                                <Attribute>$dn</Attribute>
+                                <Operator>equals</Operator>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Hook name="before_add">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_add</Name>
+                                <Script>badRequest("404 Not found", "SCIM.Unknown.ID", resourceID)</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_lookup</Name>
+                                <Script><![CDATA[if (resourceID == null || resourceID.length() == 0) {
+	badRequest("400 Bad Request", "SCIM.No.ID.specified")
+}
+
+var template = search.getTemplate(0)
+template.name = getMapName(mapping, "id")
+template.value = resourceID
+
+setReturnAttributes(getLDAPNames(true, false))]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_modify">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_modify</Name>
+                                <Script><![CDATA[verifyAccess(endPoint == "user" ? "modifyUser" : "modifyGroup", current.getString("$dn"))
+scim2ldap(getSCIMEntry(), conn, false)
+// Create empty attributes if needed, to delete the current values
+// Try to ignore attributes that should not be deleted
+
+for (mapIndex in mapping) {
+	var mapEntry = mapping[mapIndex]
+	if ("true".equalsIgnoreCase(mapEntry.getString("ReadOnly")))
+		continue;
+	if ("password".equalsIgnoreCase(mapEntry.getString("SCIM")))
+		continue;
+	if ("id".equalsIgnoreCase(mapEntry.getString("SCIM")))
+		continue;
+	if ("true".equalsIgnoreCase(mapEntry.getString("CreateDN")))
+		continue;
+			
+	var ldap = mapEntry.getString("LDAP")
+	if (current.getAttribute(ldap) != null)
+		conn.newAttribute(ldap)
+}
+
+if (endPoint == "group") {
+	addDummyGroupMember(conn)
+}]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script>gotException(error.getObject("exception"))</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_ok">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_ok</Name>
+                                <Script><![CDATA[// Return the changed Entry 
+var dn = conn.getString("$dn")
+if (dn == null)
+	dn = current.getString("$dn")
+
+returnEntryFromDN(dn)]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>1</InitializeOption>
+                        <LookupLimit>10000</LookupLimit>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>PUT</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>true</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                    <ScriptDeleted>true</ScriptDeleted>
+                </Branch>
+                <Branch name="PATCH Request">
+                    <ModTime>1412741026279</ModTime>
+                    <Connector name="PatchEntry">
+                        <InheritFrom>@SDSConnector</InheritFrom>
+                        <ModTime>1412741026279</ModTime>
+                        <ConnectorMode>Update</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@SDSConnector</parameter>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <ComputeChanges>false</ComputeChanges>
+                        <SkipLookup>false</SkipLookup>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                            <Script/>
+                            <LinkCriteriaItem>
+                                <Key>13e3a9d8a72</Key>
+                                <Attribute>$dn</Attribute>
+                                <Operator>equals</Operator>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Hook name="before_add">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_add</Name>
+                                <Script>badRequest("404 Not found", "SCIM.Unknown.ID", resourceID)</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_lookup</Name>
+                                <Script><![CDATA[if (resourceID == null || resourceID.length() == 0) {
+	badRequest("400 Bad Request", "SCIM.No.ID.specified")
+}
+
+var template = search.getTemplate(0)
+template.name = getMapName(mapping, "id")
+template.value = resourceID
+
+setReturnAttributes(getLDAPNames(true, true))]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_modify">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_modify</Name>
+                                <Script><![CDATA[verifyAccess(endPoint == "user" ? "modifyUser" : "modifyGroup", current.getString("$dn"))
+var SCIMEntry = getSCIMEntry()
+isPatching = true
+conn.setOperation("modify")
+scim2ldap(SCIMEntry, conn, false)
+
+useMetaForPatching(SCIMEntry.meta)
+
+
+// Save the DN and group attribute for later updating,
+// one member at a time, to avoid reading the entire group
+DN = conn.getString("$dn")
+if (DN == null)
+	DN = current.getString("$dn")
+
+groupMemberName = getLDAPGroupName();
+groupMemberAttribute = null
+if (groupMemberName != null)
+	groupMemberAttribute = conn[groupMemberName];
+if (groupMemberAttribute != null) {
+	if (groupMemberAttribute.getOperation() == "modify")
+		conn.removeAttribute(groupMemberName)
+	else
+		groupMemberAttribute = null;
+}]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script>gotException(error.getObject("exception"))</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_ok">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_ok</Name>
+                                <Script><![CDATA[// Process the group member values, one at a time
+if (groupMemberAttribute != null && groupMemberAttribute.size() > 0) {
+	var dummyName = propertyStore.getProperty("dummyGroupMember")
+	changeGroupValue("add", dummyName);
+	for (var i = 0; i < groupMemberAttribute.size(); i++) {
+		var av = groupMemberAttribute.getValueAV(i)
+		if (av instanceof com.ibm.di.entry.AttributeValue) {
+			changeGroupValue(av.getOperation(), av.getValue())
+		}
+	}	
+	changeGroupValue("delete", dummyName);
+}
+
+// Return the changed Entry 
+returnEntryFromDN(DN)]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>1</InitializeOption>
+                        <LookupLimit>10000</LookupLimit>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>PATCH</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>true</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                    <ScriptDeleted>true</ScriptDeleted>
+                </Branch>
+                <Branch name="DELETE Request">
+                    <ModTime>1416873822693</ModTime>
+                    <Connector name="DeleteEntry">
+                        <InheritFrom>@SDSConnector</InheritFrom>
+                        <ModTime>1416873822693</ModTime>
+                        <ConnectorMode>Delete</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@SDSConnector</parameter>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                            <Script/>
+                            <LinkCriteriaItem>
+                                <Key>13e3a9d8a72</Key>
+                                <Attribute>$dn</Attribute>
+                                <Operator>equals</Operator>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Hook name="after_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>after_lookup</Name>
+                                <Script>verifyAccess(endPoint == "user" ? "deleteUser" : "deleteGroup", conn.getString("$dn"))</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_lookup</Name>
+                                <Script><![CDATA[if (resourceID == null || resourceID.length() == 0) {
+	badRequest("400 Bad Request", "SCIM.No.ID.specified")
+}
+
+var template = search.getTemplate(0)
+template.name = getMapName(mapping, "id")
+template.value = resourceID
+
+setReturnAttributes([""])]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script>gotException(error.getObject("exception"))</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_ok">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_ok</Name>
+                                <Script><![CDATA[// Return a 200 OK, and the entire entry that was deleted
+deleteUserFromPasswordPolicyGroup()
+
+var entry = ldap2scim(conn)
+entry["schemas.schemas"] = "urn:scim:schemas:core:1.0"
+work["http.body"] = toJSON(entry)]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="delete_nomatch">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>delete_nomatch</Name>
+                                <Script>badRequest("404 Not found", "SCIM.Unknown.ID", resourceID)</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>1</InitializeOption>
+                        <LookupLimit>10000</LookupLimit>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>DELETE</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>true</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                    <ScriptDeleted>true</ScriptDeleted>
+                </Branch>
+                <Branch name="GET Request">
+                    <ModTime>1418695305321</ModTime>
+                    <Connector name="FindEntry">
+                        <InheritFrom>@SDSConnector</InheritFrom>
+                        <ModTime>1418695305321</ModTime>
+                        <ConnectorMode>Lookup</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@SDSConnector</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>http.body</Name>
+                                <Type>advanced</Type>
+                                <Script><![CDATA[var entry = ldap2scim(conn)
+entry["schemas.schemas"] = "urn:scim:schemas:core:1.0"
+
+// Best to set this attribute here, where we know the id.
+work["http.Location"] = location + ID
+
+return toJSON(entry)]]></Script>
+                                <Simple>http.body</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$dn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>audio</Name>
+                                <NativeSyntax>MAY/Binary/Contains a sound file in binary format.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>businessCategory</Name>
+                                <NativeSyntax>MAY/Directory String/This attribute describes the kind of business performed by an organization.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>carLicense</Name>
+                                <NativeSyntax>MAY/Directory String/vehicle license plate tag</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>cn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>createTimestamp</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>departmentNumber</Name>
+                                <NativeSyntax>MAY/Directory String/identifies a department within an organization.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>description</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Directory String/Attribute common to CIM and LDAP schema to provide lengthy description of a directory object entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>destinationIndicator</Name>
+                                <NativeSyntax>MAY/Directory String/This attribute is used for the telegram service.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>displayName</Name>
+                                <NativeSyntax>MAY/Directory String/A name used in displaying an entry in a one-line summary list.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>employeeNumber</Name>
+                                <NativeSyntax>MAY/Directory String/Identifies the entrys employee number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>employeeType</Name>
+                                <NativeSyntax>MAY/Directory String/Identifies the entrys type of employment.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>facsimiletelephonenumber</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Telephone Number/Identifies the fax number at which the entry can be reached.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>gecos</Name>
+                                <NativeSyntax>MAY/IA5 String/The GECOS field; the common name</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>gidNumber</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/INTEGER/An integer uniquely identifying a group in an administrative domain.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>givenname</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/String/Used to hold the part of a persons name which is not their surname nor middle name.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>homeDirectory</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/Directory String/The absolute path to the home directory</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>homePhone</Name>
+                                <NativeSyntax>MAY/Telephone Number/Identifies the entrys home phone number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>homePostalAddress</Name>
+                                <NativeSyntax>MAY/Directory String/Identifies the entrys home mailing address. This field is  intended to include multiple lines, but each line within the  entry should be separated by a dollar sign (\24). To represent  an actual dollar sign (\24) or backslash (\) within this text, use  the escaped hex values \24 and \5c respectively.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ibm-allGroups</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ibm-entryChecksum</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ibm-entryChecksumOp</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ibm-entryUuid</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>initials</Name>
+                                <NativeSyntax>MAY/String/The initials attribute contains the initials of some or all of an individuals names, but not the surname(s).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>internationalISDNNumber</Name>
+                                <NativeSyntax>MAY/IA5 String/Contains the ISDN number of the entry. This is in the internationally agreed format for ISDN addresses given in CCITT Rec. E. 164.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>jpegPhoto</Name>
+                                <NativeSyntax>MAY/Binary/Contains a JPEG photo of the entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>l</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/String/This attribute contains the name of a locality, such as a city, county or other geographic region (localityName).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>labeledURI</Name>
+                                <NativeSyntax>MAY/Directory String/Uniform Resource Identifier with optional label as defined in RFC2079.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>loginShell</Name>
+                                <NativeSyntax>MAY/Directory String/The path to the login shell</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>mail</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Directory String/Identifies a users primary email address (the email address retrieved and displayed by white-pages lookup applications).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>manager</Name>
+                                <NativeSyntax>MAY/DN/Identifies the distinguished name of the entrys manager.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>mobile</Name>
+                                <NativeSyntax>MAY/Telephone Number/Identifies the entrys mobile or cellular phone number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>modifyTimestamp</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>o</Name>
+                                <NativeSyntax>MAY/String/This attribute contains the name of an organization (organizationName).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>objectClass</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ou</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/String/This attribute contains the name of an organization (organizationName).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>owner</Name>
+                                <NativeSyntax>MAY/String/Identifies the distinguished name (DN) of the person responsible for the entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>pager</Name>
+                                <NativeSyntax>MAY/Telephone Number/Identifies the entrys pager phone number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>photo</Name>
+                                <NativeSyntax>MAY/Binary/Contains a photo, in binary form, of the entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>physicalDeliveryOfficeName</Name>
+                                <NativeSyntax>MAY/Directory String/Physcial delivery office number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>postOfficeBox</Name>
+                                <NativeSyntax>MAY/Directory String/Post office box number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>postalAddress</Name>
+                                <NativeSyntax>MAY/Directory String/Identifies the entry\27s mailing address. This field is intended to include multiple lines. When represented in LDIF format, each line should be separated by a dollar sign (\24).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>postalCode</Name>
+                                <NativeSyntax>MAY/Directory String/Postal code.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>preferredDeliveryMethod</Name>
+                                <NativeSyntax>MAY/Directory String/Identifies the entry\27s preferred contact or delivery method.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>preferredLanguage</Name>
+                                <NativeSyntax>MAY/Directory String/A persons preferred written or spoken language</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>registeredAddress</Name>
+                                <NativeSyntax>MAY/String/This attribute contains a postal address for receiving telegrams or expedited documents. The recipient\27s signature is usually required on delivery.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>roomnumber</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Directory String/Specifies the room number of an object. Note that the commonName attribute should be used for naming room  objects.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>secretary</Name>
+                                <NativeSyntax>MAY/DN/Identifies the entrys secretary or administrative assistant.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>seeAlso</Name>
+                                <NativeSyntax>MAY/String/Identifies another directory server entry that may contain information related to this entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>sn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/String/This is the X.500 surname attribute, which contains the family name of a person.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>st</Name>
+                                <NativeSyntax>MAY/String/This attribute contains the full name of a state or province (stateOrProvinceName).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>street</Name>
+                                <NativeSyntax>MAY/Directory String/This attribute contains the physical address of the object to which the entry corresponds, such as an address for package delivery (streetAddress).</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>telephonenumber</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Telephone Number/Telephone number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>teletexTerminalIdentifier</Name>
+                                <NativeSyntax>MAY/Directory String/Teletex terminal identifier.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>telexNumber</Name>
+                                <NativeSyntax>MAY/Directory String/Telex number.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>title</Name>
+                                <NativeSyntax>MAY/String/This attribute contains the title, such as Vice President, of a person in their organizational context. The personalTitle attribute would be used for a persons title independent of their job function.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>uid</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MAY/Directory String/Typically a user shortname or userid.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>uidNumber</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/INTEGER/An integer uniquely identifying a user in an administrative domain.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>uniqueMember</Name>
+                                <Syntax>java.lang.String</Syntax>
+                                <NativeSyntax>MUST/DN/Identifies a group of names associated with an entry where each name was given a uniqueIdentifier to ensure its uniqueness. A value for the uniqueMember attribute is a DN followed by the uniqueIdentifier.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>userCertificate</Name>
+                                <NativeSyntax>MAY/Binary/Used to represent certificates from one or more Certification Authorities representing a user.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>userPKCS12</Name>
+                                <NativeSyntax>MAY/Binary/PKCS \2312 PFX PDU for exchange of personal identity information</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>userSMIMECertificate</Name>
+                                <NativeSyntax>MAY/Binary/Signed message used to support S/MIME</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>userpassword</Name>
+                                <Syntax>[B</Syntax>
+                                <NativeSyntax>MAY/Binary/Holds a password value for a distinguished name.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>x121Address</Name>
+                                <NativeSyntax>MAY/IA5 String/Defines the X.121 address of the entry.</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>x500UniqueIdentifier</Name>
+                                <NativeSyntax>MAY/Binary/Used to distinguish between objects when a distinguished name has been reused. This is a different attribute type from both the uid and uniqueIdentifier types.</NativeSyntax>
+                            </SchemaItem>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AdvancedLinkMode>true</AdvancedLinkMode>
+                            <Script><![CDATA[if (isAuthentication)
+	setReturnAttributes([""])
+else
+	setReturnAttributes(getLDAPNames(false, false))
+setSorting();
+theLDAPFilter = getLDAPFilter()
+
+if (theLDAPFilter.startsWith("$dn=")) {
+	// Special code to handle $dn=
+	var dn = theLDAPFilter.substring(4)
+	if (isAuthentication)
+		doAuthenticate(dn)
+	verifyAccess(endPoint == "user" ? "readUser" : "readGroup", dn)
+	if (returnEntryFromDN(dn))
+		system.exitFlow()
+	badRequest("404 Not Found", "SCIM.Unknown.ID", resourceID)
+}
+
+return theLDAPFilter
+]]></Script>
+                            <LinkCriteriaItem>
+                                <Key>13e3a9d8a72</Key>
+                                <Attribute>cn</Attribute>
+                                <Operator>equals</Operator>
+                                <Value>*</Value>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Hook name="after_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>after_lookup</Name>
+                                <Script><![CDATA[resetSorting();
+if (isAuthentication)
+	doAuthenticate(conn.getString("$dn"))
+verifyAccess(endPoint == "user" ? "readUser" : "readGroup", conn.getString("$dn"))]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script><![CDATA[resetSorting();
+e = error.getObject("exception");
+dumpException(e)
+attemptFailOver(e)
+badRequest("500 Internal Server Error", e.toString())]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_ok">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_ok</Name>
+                                <Script>system.exitFlow()</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="lookup_multiple">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>lookup_multiple</Name>
+                                <Script><![CDATA[resetSorting();
+if (isAuthentication)
+	badRequest("409 Duplicate", null)
+verifyAccess(endPoint == "user" ? "readUser" : "readGroup", null)
+
+var resultEntry = system.newEntry()
+resultEntry.enableDOM();
+resultEntry["schemas.schemas"] = "urn:scim:schemas:core:1.0"
+resources = resultEntry.newAttribute("Resources")
+
+// Put all the results in an Array to be able to reuse the Connector,
+// e.g. for looking up members of a group
+var resultArray = new Array()
+for(entry = thisConnector.getFirstDuplicateEntry(); entry != null; entry = thisConnector.getNextDuplicateEntry()) {
+	resultArray.push(entry);
+}
+thisConnector.connector.clearFindEntries()
+
+//doSorting(resultArray)
+
+if (work["http.qs.count"] == null) {
+	resultEntry.totalResults = resultArray.length;
+}
+
+startIndex = getInt("http.qs.startIndex", 1)
+if (startIndex < 1)
+	startIndex = 1;
+maxCount = getInt("http.qs.count", resultArray.length)
+
+for(index = startIndex - 1; index < resultArray.length && resources.size() < maxCount; index++) {
+	resources.addValue(ldap2scim(resultArray[index]))
+	resultArray[index] = null
+}
+
+if (work["http.qs.startIndex"] != null || work["http.qs.count"] != null) {
+	resultEntry.startIndex = startIndex
+	resultEntry.itemsPerPage = resources.size()
+	if (resources.size() < getInt("http.qs.count", 1))
+		resultEntry.totalResults = resultArray.length;
+}
+resultArray = null
+
+work["http.body"] = toJSON(resultEntry)
+system.exitFlow()]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="lookup_nomatch">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>lookup_nomatch</Name>
+                                <Script><![CDATA[resetSorting();
+if (isAuthentication)
+	badRequest("403 Forbidden", null)
+verifyAccess(endPoint == "user" ? "readUser" : "readGroup", null)
+if (filterString != null)
+	badRequest("404 Not Found", "SCIM.nothing.found.filter", filterString)
+if (resourceID != null && resourceID.length > 0)
+	badRequest("404 Not Found", "SCIM.Unknown.ID", resourceID)
+badRequest("404 Not Found", "SCIM.nothing.found.searchbase", searchBase)]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>2</InitializeOption>
+                        <LookupLimit>@SUBSTITUTE{property.SCIM:LDAP.LookupLimit}</LookupLimit>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>GET</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                </Branch>
+                <Branch name="Other Request">
+                    <ModTime>1414562326918</ModTime>
+                    <Script name="NotImplemented">
+                        <ModTime>1414562326918</ModTime>
+                        <parameter name="script">badRequest("501 Not Implemented", null)</parameter>
+                    </Script>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>2</Type>
+                </Branch>
+                <Connector name="QRadarConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.QRadarConnector</InheritFrom>
+                    <ModTime>1411092695070</ModTime>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Passive</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="dateMask">@SUBSTITUTE{property.SCIM:audit.devTimeFormat}</parameter>
+                        <parameter name="facility">@SUBSTITUTE{property.SCIM:audit.facility}</parameter>
+                        <parameter name="hostname">@SUBSTITUTE{property.SCIM:audit.QRadarHost}</parameter>
+                        <parameter name="port">@SUBSTITUTE{property.SCIM:audit.QRadarPort}</parameter>
+                        <parameter name="severity">informational</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions>
+                <parameter name="assemblyline.ehc.executeProlog">true</parameter>
+                <parameter name="assemblyline.ehc.maxInstance">100</parameter>
+                <parameter name="assemblyline.ehc.minPrepare">3</parameter>
+            </ThreadOptions>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="ReloadProperties">
+            <ModTime>1411092255568</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Script" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="Script">
+                    <ModTime>1411092255568</ModTime>
+                    <parameter name="script"><![CDATA[propertyStore = system.getTDIProperties().getPropertyStore("SCIM")
+propertyStore.reconnect();]]></parameter>
+                </Script>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts">
+        <Script name="failOver">
+            <ModTime>1414652529323</ModTime>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[function setupFailOver(slave) {
+	failOverServers = new Array();
+	failOverServers.push(propertyStore.getProperty("LDAPServer"))
+	var i = 1;
+	while (true) {
+		var name = propertyStore.getProperty("LDAPServer." + i)
+		if (name == null)
+			break;
+		failOverServers.push(name)
+		i++;
+	}
+	currentFailOver = failOverServers.length - 1;
+	failOverAttempts = 0;
+	if (currentFailOver <= 0 && slave)
+		return false;
+	i = getFailTo();
+	if (i < 0)
+		return false;
+	currentFailOver = i;
+	if (slave) {
+		SDSConnector.setConnectorParam("ldapUrl", failOverServers[currentFailOver])
+		if (debugging)
+			task.logmsg(messageResolver.getString("SCIM.failing.over", failOverServers[currentFailOver]))
+	}	
+	return true;
+}
+
+function attemptFailOver(ex) {
+	if (!isCommFailure(ex))
+		return;
+	if (failOverAttempts > 3)
+		return;	
+	var c = getFailTo();
+	if (c < 0)
+		return;
+	currentFailOver = c;
+	failOverAttempts++;
+	
+	if (debugging)
+		task.logmsg(messageResolver.getString("SCIM.failing.over", failOverServers[currentFailOver]))
+	SDSConnector.setConnectorParam("ldapUrl", failOverServers[currentFailOver])
+	// Need to login again.
+	remoteUser = null;
+	SDSConnector.doConnectorTerminate(true);
+	system.skipTo("getAuthentication")
+}
+
+/**
+ * Return true if it is possible to connect to another LDAP server
+ */
+function canFailOver(ex) {
+	if (!isCommFailure(ex))
+		return false;
+	propertyStore = system.getTDIProperties().getPropertyStore("SCIM")
+	return setupFailOver(false);
+}
+
+function isCommFailure(ex) {
+	return ex instanceof javax.naming.CommunicationException ||
+		ex instanceof javax.naming.ServiceUnavailableException;
+}
+
+function getFailTo() {
+	if (failOverServers.length == 0)
+		return -1;
+	var lc = system.loadConnector("ibmdi.LDAP")
+	var i = currentFailOver;
+	do {
+		i++;
+		if (i >= failOverServers.length)
+			i = 0;
+		try {
+			lc.setParam("ldapUrl", failOverServers[i])
+			lc.initialize(null)
+			lc.terminate()
+			return i;
+		} catch (exc) {}
+	} while ( i != currentFailOver );
+	
+	return -1;
+}]]></parameter>
+        </Script>
+        <Script name="tenantAdmin">
+            <ModTime>1428393040997</ModTime>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/**
+ * tenantName - the tenant that is logged in, or is attempting to log in
+ * tenantEntry - info about the above tenant
+ * resourceID - the tenant we are processing
+ * apiUserName - name of API User, or null if not API user
+ */
+
+function handleTenantRequest() {
+
+	if (!mapTenantNames)
+		badRequest("403 Forbidden", "SCIM.no.tenant.mapping")
+
+	if (tenantBase == null)
+		badRequest("500 Internal Server Error", "SCIM.no.tenantbase");
+
+	var method = work.getString("http.method");
+
+	if (apiUserName != null)
+		badRequest("403 Forbidden", "SCIM.user.no.access",
+					[apiUserName, method + "Tenant"])
+
+	if (endPoint == "alltenant") 
+		handleAllTenantRequest();
+		
+	if (method.equalsIgnoreCase("post")) {
+		addTenant();
+	} else if (method.equalsIgnoreCase("delete")) {
+		deleteTenant();
+	} else if (method.equalsIgnoreCase("get")) {
+		getTenant();
+	} else if (method.equalsIgnoreCase("patch")) {
+		patchTenant();
+	} else {
+		work["http.Allow"] = "GET, POST, DELETE, PATCH"
+		badRequest("405 Method Not Allowed", null)
+	}	
+
+	system.exitFlow();
+}
+
+function handleAllTenantRequest() {
+	if (! getBooleanProperty("enableAllTenants"))
+		badRequest("403 Forbidden", "The allTenants endpoint is not enabled")
+
+	if (!isSuperUser())
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+
+	var method = work.getString("http.method");
+	if (method.equalsIgnoreCase("delete")) {
+		deleteAllTenants();
+	} else if (method.equalsIgnoreCase("get")) {
+		returnAllTenants();
+	} else {
+		work["http.Allow"] = "GET, DELETE"
+		badRequest("405 Method Not Allowed", null)
+	}
+	
+	system.exitFlow();	
+}
+
+function isSuperUser() {
+	if (!mapTenantNames)
+		return false;
+
+	var access = propertyStore.getProperty(tenantName + ".access")
+	if (access == null) 
+		return false;
+
+	return access.equalsIgnoreCase("superuser")
+}
+
+function createContainer(name, value, adminAccess, aclEntryValue) {
+	var conn = system.newEntry()
+	conn.setAttribute("objectClass", "organizationalunit");
+	conn.setAttribute("ou", value)
+	conn.setAttribute("$dn", name)
+	if (adminAccess != null) {
+		conn.setAttribute("entryOwner", adminAccess)
+		conn.setAttribute("ownerPropagate", "true")
+	}
+//		if (value == "users") {
+//			conn.setAttribute("aclEntry", "access-id:cn=this:at.userpassword:rwsc")
+//			conn.addAttributeValue("aclEntry", adminAccess + ":normal:rwsc:critical:rw:restricted:rw")
+//			conn.setAttribute("aclPropagate", "true")
+//		}
+	if (aclEntryValue != null) {
+		conn.setAttribute("aclEntry", "access-id:cn=this:at.userpassword:rwsc")
+		conn.addAttributeValue("aclEntry", aclEntryValue)
+		conn.setAttribute("aclPropagate", "true")
+	}	
+	SDSConnector.connector.putEntry(conn)
+}
+
+function createAdminUser(name, input) {
+	var conn = system.newEntry()
+	conn.setAttribute("objectClass", "person")
+	conn.setAttribute("cn", "Administrator")
+	conn.setAttribute("$dn", name)
+	conn.setAttribute("sn", resourceID)
+
+	copyTenantAttributes(input, conn)
+
+	if (usePasswordPolicy) {
+//		conn.setAttribute("ibm-pwdIndividualPolicyDN", getPasswordPolicyName(resourceID))
+		conn.setAttribute("pwdReset", "FALSE")
+	}
+//	conn.setAttribute("entryOwner", "access-id:CN=THIS")
+	SDSConnector.connector.putEntry(conn)
+}
+
+function createPasswordPolicyGroup(baseDN, aclEntryValue) {
+	if (!usePasswordPolicy)
+		return;
+	var conn = system.newEntry()
+	conn.setAttribute("objectClass", "accessGroup")
+	conn.setAttribute("cn", "allUsers")
+	conn.setAttribute("$dn", "cn=allUsers," + baseDN)
+	conn.setAttribute("ibm-pwdGroupPolicyDN", getPasswordPolicyName(resourceID))
+	if (aclEntryValue != null) {
+		conn.setAttribute("aclEntry", aclEntryValue)
+	}	
+
+	SDSConnector.connector.putEntry(conn)
+}
+
+function addTenant() {
+	if (!isSuperUser())
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+	var input = getSCIMEntry();
+		
+	resourceID = input.getString("tenantName")
+	if (resourceID == null || resourceID.trim().length() == 0)
+		badRequest("400 Bad Request", "SCIM.no.tenant.name")
+	
+	if (propertyStore.getProperty(resourceID + ".access") != null) 
+		badRequest("409 Conflict", "SCIM.Tenant.exists.2")
+
+	if (getTenantEntry(resourceID) != null)
+		badRequest("409 Conflict", "SCIM.Tenant.exists")
+	
+	var badChars = /[=:\r\n]/
+	var badStartChars = /[\#\'\/!]/ 
+	if (badChars.test(resourceID) || 
+		resourceID.trim() != resourceID ||
+		badStartChars.test(resourceID.substring(0,1)))
+		badRequest("403 Forbidden", "SCIM.tenant.illegal.chars");
+
+	if (resourceID.equalsIgnoreCase("pwdpolicy") ||
+		resourceID.equalsIgnoreCase("REPLICATION"))
+		badRequest("403 Forbidden", "SCIM.reserved.tenant")
+
+	var password = input.getString("password")
+	if (password == null || password.trim().length() == 0)
+		badRequest("400 Bad Request", "SCIM.no.password");
+	
+	var resEntry = getDummyTenantEntry(resourceID)
+	var adminDN = resEntry.getString("ldapName")
+	var adminAccess = "access-id:" + adminDN;
+	var aclEntryValue = "group:" + resEntry.getString("apiUserGroupName") +
+		  ":normal:rwsc:system:rsc:restricted:rsc:object:ad:at.userpassword:rwsc"
+
+	if (usePasswordPolicy)
+		SDSConnector.connector.setServerAdminControl(true);
+	
+	createPasswordPolicy(adminAccess, null);
+
+	try {
+		createContainer(resEntry.getString("baseDN"), resourceID, adminAccess, null);
+		createAdminUser(adminDN, input);
+		createContainer(resEntry.getString("userSearchBase"), "users", null, aclEntryValue)
+		createContainer(resEntry.getString("groupSearchBase"), "groups", null, aclEntryValue)
+		createContainer(resEntry.getString("apiSearchBase"), "API", null, null)
+		createApiGroup(resEntry)
+		createPasswordPolicyGroup(resEntry.getString("baseDN"), aclEntryValue)
+	} catch (ex) {
+		// Something bad happened. Delete the password policy again
+		deletePasswordPolicy();
+		if (ex instanceof javax.naming.NameAlreadyBoundException)
+			badRequest("409 Conflict", "SCIM.Tenant.exists")
+		gotException(ex)
+	} finally {
+		SDSConnector.connector.setServerAdminControl(false);
+	}
+ 
+	work["http.status"] = "201 Created"
+	work["http.Location"] = propertyStore.getProperty("Location") + "/Tenants/" + resourceID;
+	returnTenant();
+}
+
+function deleteTenant() {
+	if (!isSuperUser())
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+	if (resourceID == null || resourceID.length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.ID.specified")
+	
+	var name = new LdapName(tenantBase);
+ 	name.add(new Rdn("ou", resourceID));
+
+	var conn = system.newEntry()
+	conn.setAttribute("$dn", name.toString());
+	
+	try {
+		SDSConnector.connector.setsubtreeDeleteSupported(true);
+		SDSConnector.connector.deleteEntry(conn, null)
+	} catch (e) {
+		if (e instanceof javax.naming.NameNotFoundException)
+			badRequest("404 Not Found", "SCIM.tenant.not.exist", resourceID)
+		gotException(e)
+	} finally {
+		SDSConnector.connector.setsubtreeDeleteSupported(false);
+		deletePasswordPolicy();
+	}	
+
+	var ret = system.newEntry()
+	ret.result = "OK"
+	work["http.body"] = toJSON(ret)
+}
+
+function deleteAllTenants() {
+	if (!isSuperUser())
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+
+	var resultArray = new Array()	
+	SDSConnector.setConnectorParam("ldapSearchBase", tenantBase)
+	SDSConnector.setDuplicateEntryCount(100000)
+	var baseLength = new LdapName(tenantBase).size();
+	
+	try {
+		setReturnAttributes(["sn", 
+							 "userPassword", 
+							 "ibm-pwdAccountLocked",
+							 "description"]);
+		var entry = SDSConnector.lookup("cn", "Administrator")
+		for (entry = SDSConnector.getFirstDuplicateEntry(); entry != null; entry = SDSConnector.getNextDuplicateEntry()) {
+			var DN = new LdapName(entry.getString("$dn"))
+			if (DN.size() == baseLength + 2) {
+				entry.baseDn = DN.getPrefix(DN.size() - 1).toString();
+				resultArray.push(entry);
+			}	
+		}
+		SDSConnector.connector.clearFindEntries()	
+	} catch (e)	{
+		attemptFailOver(e)
+		dumpException(e)
+	}
+
+	if (resultArray.length == 0)
+		badRequest("404 Not Found", "SCIM.nothing.found.searchbase", tenantBase)
+
+	var resultEntry = system.newEntry()
+	resultEntry.enableDOM();
+	resultEntry["schemas.schemas"] = "urn:ibm:schemas:userpwdpolicy:1.0:Tenant"
+	resultEntry.totalResults = resultArray.length;
+
+	var resources = resultEntry.newAttribute("Resources")
+
+	for(index = 0; index < resultArray.length; index++) {
+		entry = ldap2SCIMtenant(resultArray[index]);
+		task.logmsg("Deleting: " + entry.tenantName)
+		resultArray[index] = null;
+		try {
+			var conn = system.newEntry()
+			conn["$dn"] = entry.baseDn;
+			SDSConnector.connector.setsubtreeDeleteSupported(true);
+			SDSConnector.connector.deleteEntry(conn, null)
+			SDSConnector.connector.setsubtreeDeleteSupported(false);
+			conn["$dn"] = entry.passwordPolicyDn;
+			SDSConnector.connector.deleteEntry(conn, null)
+			entry.deleted = true;
+		} catch (e) {
+			entry.deleted = e.toString();
+		} finally {
+			SDSConnector.connector.setsubtreeDeleteSupported(false);
+		}
+		resources.addValue(entry)		
+	}
+	
+
+	resultArray = null
+
+	work["http.body"] = toJSON(resultEntry)
+	system.exitFlow()
+}
+
+/**
+ * Delete the password policy if it exists
+ */
+function deletePasswordPolicy() {
+	if (!usePasswordPolicy)
+		return;
+	
+	try {
+		var oldEntry = SDSConnector.lookup("$dn", getPasswordPolicyName(resourceID))
+		if (oldEntry != null)
+			SDSConnector.connector.deleteEntry(oldEntry, null)
+	} catch (e) {
+		if (debugging)
+			task.logmsg("While deleting password policy: " + e)
+	}
+}
+
+function patchTenant() {
+	
+	if (resourceID == null || resourceID.length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.ID.specified")	
+
+	if (!isSuperUser() && !resourceID.equalsIgnoreCase(tenantName))
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+	
+	var input = getSCIMEntry();
+
+	var conn = system.newEntry()
+	copyTenantAttributes(input, conn)
+	if (conn.size() == 0)
+		badRequest("400 Bad Request", "SCIM.no.change")
+
+	var resourceEntry = getTenantEntry(resourceID);
+	if (resourceEntry == null) 
+		badRequest("404 Not Found", "SCIM.tenant.not.exist", resourceID)
+	conn.setAttribute("$dn", resourceEntry["$dn"]);
+
+	setApiUsersLocked(resourceEntry.getString("baseDN"), conn);
+
+	try {
+		SDSConnector.connector.modEntry(conn, null, null)
+	} catch (e) {
+		if (!(e instanceof com.ibm.di.exceptions.NoChangesException))
+			gotException(e)
+	}
+
+	returnTenant();
+}
+
+function copyTenantAttributes(input, conn) {
+	var password = input.getString("password")
+	if (password != null && password.length() > 0)
+		conn.setAttribute("userPassword", password);
+	var enabled = input.getString("enabled")
+	if (enabled != null && isSuperUser())
+		conn.setAttribute("ibm-pwdAccountLocked", "false".equalsIgnoreCase(enabled) ? "true" : "false")
+	var policyLevel = input.getString("policyLevel")
+	if (policyLevel != null && policyLevel.length() > 0)
+		conn.setAttribute("description", policyLevel);	
+}
+
+function getTenant() {
+	if (resourceID == null || resourceID.length() == 0)
+		returnAllTenants();
+	
+	if (!isSuperUser() && !resourceID.equalsIgnoreCase(tenantName))
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+
+	returnTenant();
+}
+
+function returnTenant() {
+	var resourceEntry = getTenantEntry(resourceID)
+	if (resourceEntry == null)
+		badRequest("404 Not Found", "SCIM.tenant.not.exist", resourceID);
+
+	work["http.body"] = toJSON(ldap2SCIMtenant(resourceEntry))
+}
+
+function returnAllTenants() {
+	if (!isSuperUser())
+		badRequest("403 Forbidden", "SCIM.not.superuser")
+
+	var resultArray = new Array()	
+	SDSConnector.setConnectorParam("ldapSearchBase", tenantBase)
+	SDSConnector.setDuplicateEntryCount(100000)
+	var startIndex = getInt("http.qs.startIndex", 1)
+	if (startIndex < 1)
+		startIndex = 1;
+	var count = getInt("http.qs.count", 0)
+	if (count > 0)
+		count += startIndex - 1;
+	SDSConnector.connector.setSortControl("sn", true, count);	
+	var baseLength = new LdapName(tenantBase).size();
+	
+	try {
+		setReturnAttributes(["sn", 
+							 "userPassword", 
+							 "ibm-pwdAccountLocked",
+							 "description"]);
+		var entry = SDSConnector.lookup("cn", "Administrator")
+		for (entry = SDSConnector.getFirstDuplicateEntry(); entry != null; entry = SDSConnector.getNextDuplicateEntry()) {
+			var DN = new LdapName(entry.getString("$dn"))
+			if (DN.size() == baseLength + 2) {
+				entry.baseDn = DN.getPrefix(DN.size() - 1).toString();
+				resultArray.push(entry);
+			}	
+		}
+		SDSConnector.connector.clearFindEntries()
+		SDSConnector.connector.setSortControl(null, true, 0);	
+		
+	} catch (e)	{
+		SDSConnector.connector.setSortControl(null, true, 0);	
+		attemptFailOver(e)
+		dumpException(e)
+	}
+
+	if (resultArray.length == 0)
+		badRequest("404 Not Found", "SCIM.nothing.found.searchbase", tenantBase)
+
+	var resultEntry = system.newEntry()
+	resultEntry.enableDOM();
+	resultEntry["schemas.schemas"] = "urn:ibm:schemas:userpwdpolicy:1.0:Tenant"
+	if (work["http.qs.count"] == null) {
+		resultEntry.totalResults = resultArray.length;
+	}
+
+	var resources = resultEntry.newAttribute("Resources")
+
+	maxCount = getInt("http.qs.count", resultArray.length)
+
+	for(index = startIndex - 1; index < resultArray.length && resources.size() < maxCount; index++) {
+		resources.addValue(ldap2SCIMtenant(resultArray[index]))
+		resultArray[index] = null
+	}
+
+	if (work["http.qs.startIndex"] != null || work["http.qs.count"] != null) {
+		resultEntry.startIndex = startIndex
+		resultEntry.itemsPerPage = resources.size()
+		if (resources.size() < getInt("http.qs.count", 1))
+			resultEntry.totalResults = resultArray.length;
+	}
+	resultArray = null
+
+	work["http.body"] = toJSON(resultEntry)
+	system.exitFlow()
+}
+
+function ldap2SCIMtenant(resourceEntry) {
+	var entry = system.newEntry()
+	entry.tenantName = resourceEntry.sn;
+	entry.enabled = ! "true".equalsIgnoreCase(resourceEntry.getString("ibm-pwdAccountLocked"))
+	if (resourceEntry.description != null)
+		entry.policyLevel = resourceEntry.description;
+	entry.baseDn = resourceEntry.baseDn;
+	entry.tenantAdminDn = resourceEntry["$dn"]
+	entry.passwordPolicyDn = getPasswordPolicyName(resourceEntry.getString("sn"))
+	return entry
+}
+
+/**
+ * Try to get the tenant entry in LDAP
+ */
+function getTenantEntry(tenant) {
+	tenantPasswordPolicy = null;
+	if (! mapTenantNames || tenantBase == null) {
+		return null;
+	}	
+
+	var name = new LdapName(tenantBase);
+	name.add(new Rdn("ou", tenant));
+	var DN = name.toString();
+
+	try {
+		name.add(new Rdn("cn", "Administrator"));
+		setReturnAttributes(["sn",
+							 "ibm-pwdAccountLocked",
+							 "description"]);
+		var entry = SDSConnector.lookup("$dn", name.toString())
+		
+		if (entry != null) {
+			entry.baseDn = DN;
+			entry.userSearchBase = "ou=users," + DN
+			entry.groupSearchBase = "ou=groups," + DN
+			entry.apiSearchBase = "ou=API," + DN
+			entry.ldapName = name.toString();
+			entry.access = "all"
+			entry.enabled = ! "true".equalsIgnoreCase(entry.getString("ibm-pwdAccountLocked"))
+		}
+		return entry
+	} catch (e)	{
+		attemptFailOver(e)
+		dumpException(e)
+	}
+	return null
+}
+
+function getProp(propName, defaultValue) {
+	var value = null
+	
+	if (mapTenantNames)
+		value = propertyStore.getProperty(tenantName + "." + propName)
+
+	if (value == null && tenantEntry != null)
+		value = tenantEntry.getString(propName)
+
+	if (value == null)
+		value = propertyStore.getProperty(propName)
+
+	if (value != null && value.length() > 0)
+		return value
+		
+	if (defaultValue != undefined)
+		return defaultValue
+		
+	// This will log a warning
+	return system.getTDIProperty("SCIM", propName)
+}
+
+function getPassword() {
+	if (mapTenantNames) {
+		tenantPasswordPolicy = null;
+		var pw = propertyStore.getProperty(tenantName + ".password")
+		if (pw != null)
+			return pw;
+
+		var t = work.getString("http.TenantName")
+		if (t != null)
+			tenantEntry = getApiDummyEntry(t)
+		else
+			tenantEntry = getDummyTenantEntry(tenantName)
+	}
+
+	return propertyStore.getProperty("password")
+}
+
+function getDummyTenantEntry(tenant) {
+	if (tenantBase == null)
+		return null;
+	
+	if (propertyStore.getProperty(tenant + ".access") != null)
+		return null;
+
+	var name = new LdapName(tenantBase);
+	name.add(new Rdn("ou", tenant));
+	var DN = name.toString();
+
+	var entry = system.newEntry();
+	entry.baseDn = DN;
+	entry.userSearchBase = "ou=users," + DN
+	entry.groupSearchBase = "ou=groups," + DN
+	entry.apiSearchBase = "ou=API," + DN
+	entry.apiUserGroupName = "cn=APIuserGroup," + DN
+	entry.ldapName = "cn=Administrator," + DN
+	entry.access = "all"
+
+	return entry
+}
+
+function setTenant(name) {
+	if (name == null || name.length() == 0 || !isSuperUser())
+		return;
+
+	tenantEntry = getTenantEntry(name);
+
+	if (getProp("access", null) == null)
+		badRequest("403 Forbidden", "SCIM.tenant.not.exist", name)
+
+	if (tenantEntry != null) {
+		var enabled = tenantEntry.getString("enabled")
+		if (enabled != null && "false".equalsIgnoreCase(enabled))
+			badRequest("403 Forbidden", "SCIM.tenant.not.enabled")
+	}			
+
+	tenantName = name;
+}
+
+function getPasswordPolicyName(tenant) {
+	var policyName = new LdapName("cn=ibmPolicies")
+	policyName.add(new Rdn("cn", tenant));
+	return policyName.toString()
+}
+
+/**
+ * Create a password policy entry for the tenant we are adding now
+ */
+function createPasswordPolicy(adminAccess, aclEntryValue) {
+	if (!usePasswordPolicy)
+		return;
+	
+	var policyEntry = system.newEntry()
+	try {
+		policyEntry.setAttribute("$dn", getPasswordPolicyName(resourceID))
+		var objectClass = policyEntry.newAttribute("objectClass")
+		objectClass.addValue("container")
+		objectClass.addValue("pwdPolicy")
+		objectClass.addValue("ibm-pwdPolicyExt")
+		objectClass.addValue("top")
+		policyEntry.setAttribute("cn", resourceID)
+		policyEntry.setAttribute("pwdAttribute", "userPassword")
+		policyEntry.setAttribute("ibm-pwdPolicy", "TRUE")
+		policyEntry.setAttribute("pwdMustChange", "TRUE")
+		
+		if (adminAccess != null) {
+			policyEntry.setAttribute("entryOwner", adminAccess)
+			policyEntry.setAttribute("aclEntry", adminAccess +
+				":normal:rwsc:system:rsc:restricted:rsc")
+		}
+		if (aclEntryValue != null) 
+			policyEntry.addAttributeValue("aclEntry", aclEntryValue)
+		SDSConnector.connector.putEntry(policyEntry)
+	} catch (e) {
+		SDSConnector.connector.setServerAdminControl(false);
+		if (e instanceof javax.naming.NameAlreadyBoundException)
+			badRequest("409 Conflict", "SCIM.Tenant.exists")
+		conn = policyEntry;
+		dumpException(e)
+		badRequest("500 Internal Server Error", "SCIM.add.password.policy", e)
+	}
+}
+
+function handlePolicyRequest() {
+	if (resourceID == null || resourceID.length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.ID.specified")
+
+	if (!mapTenantNames)
+		badRequest("403 Forbidden", "SCIM.no.tenant.mapping")
+
+	if (!usePasswordPolicy)
+		badRequest("403 Forbidden", "SCIM.no.password.policy")
+
+	if (tenantBase == null)
+		badRequest("500 Internal Server Error", "SCIM.no.tenantbase");
+
+	var method = work.getString("http.method");
+	verifyLegalPolicyRequest(method);
+	
+	if (method.equalsIgnoreCase("get")) {
+		returnPolicy();
+	} else if (method.equalsIgnoreCase("patch")) {
+		patchPolicy(false);
+	} else if (method.equalsIgnoreCase("put")) {
+		patchPolicy(true);
+	} else {
+		work["http.Allow"] = "GET, PUT, PATCH"
+		badRequest("405 Method Not Allowed", null)	
+	}
+	
+	system.exitFlow();
+}
+
+function verifyLegalPolicyRequest(method) {
+	if (isSuperUser())
+		return;
+	
+	if (apiUserName != null)
+		badRequest("403 Forbidden", "SCIM.user.no.access",
+					[apiUserName, method + "Policy"])
+	
+	if (resourceID.equalsIgnoreCase(tenantName))
+		return;
+	
+	if (method.equalsIgnoreCase("get") && resourceID.equalsIgnoreCase("pwdpolicy"))
+		return;
+
+	badRequest("403 Forbidden", "SCIM.not.superuser")
+}
+
+function returnPolicy() {
+
+	var pEntry;
+	try {
+		setReturnAttributes([""])
+		pEntry = SDSConnector.lookup("$dn", getPasswordPolicyName(resourceID))
+	} catch (e) {
+		attemptFailOver(e)
+		pEntry = null
+	}
+
+	if (pEntry == null)
+		badRequest("404 Not Found", "SCIM.password.policy.not.found")
+
+	pEntry.removeAttribute("$dn")
+	pEntry.removeAttribute("cn")
+	pEntry.removeAttribute("objectClass")
+	work["http.body"] = toJSON(pEntry)
+}
+
+function patchPolicy(replaceAll) {
+	modifyPasswordPolicy(getSCIMEntry(), replaceAll);
+	returnPolicy();
+}
+
+
+function modifyPasswordPolicy(entry, replaceAll) {
+
+	var policyEntry = system.newEntry();	
+	// Convert values to strings, and remove trailing .0
+	for (name in entry.getAttributeNames()) {
+		// ignore attrs we do not want to change
+		if ("tenantName".equalsIgnoreCase(name) ||
+			"schemas".equalsIgnoreCase(name) ||
+			"cn".equalsIgnoreCase(name) ||
+			"objectClass".equalsIgnoreCase(name) ||
+			"pwdAttribute".equalsIgnoreCase(name))
+			continue;
+		var value = entry.getString(name)
+		if (value == null)
+			continue;
+		if (value.endsWith(".0"))
+			value = value.substring(0, value.length() - 2)
+		policyEntry.setAttribute(name, value)
+	}
+
+	if (policyEntry.size() == 0 && ! replaceAll)
+		return;
+
+	try {
+		var policyName = getPasswordPolicyName(resourceID);
+		policyEntry.setAttribute("$dn", policyName)
+
+		setReturnAttributes([""])
+		var oldEntry = SDSConnector.lookup("$dn", policyName)
+		if (oldEntry != null) {
+			if (replaceAll) {
+				markDeletedAttributes(policyEntry, oldEntry)
+				// If only $dn attribute, no changes.
+				if (policyEntry.size() <= 1)
+					return;
+			}	
+			SDSConnector.connector.modEntry(policyEntry, null, oldEntry)			
+		} else {
+			// This cannot happen?
+			var objectClass = policyEntry.newAttribute("objectClass")
+			objectClass.addValue("container")
+			objectClass.addValue("pwdPolicy")
+			objectClass.addValue("ibm-pwdPolicyExt")
+			objectClass.addValue("top")
+			policyEntry.setAttribute("cn", resourceID)
+			if (policyEntry.pwdAttribute == null)
+				policyEntry.setAttribute("pwdAttribute", "userPassword")
+			SDSConnector.connector.putEntry(policyEntry)
+		}
+	} catch (e) {
+		if (e instanceof com.ibm.di.exceptions.NoChangesException)
+			return;
+		conn = policyEntry;
+		gotException(e)
+	}		
+}
+
+function markDeletedAttributes(conn, old) {
+	for (var name in old.getAttributeNames()) {
+		// special hack for this attribute
+		if (name.equalsIgnoreCase("pwdAllowUserChange")) {
+			if (conn.getAttribute(name) == null)
+				conn.setAttribute(name, "true");
+			continue;
+		}
+		
+		if (name.equals("$dn") || 
+			name.equalsIgnoreCase("pwdAttribute") || 
+			name.equalsIgnoreCase("ibm-pwdPolicy") ||
+			name.equalsIgnoreCase("ibm-pwdPolicyStartTime") ||
+			name.equalsIgnoreCase("pwdMustChange") ||
+			name.equalsIgnoreCase("cn") ||
+			name.equalsIgnoreCase("objectClass"))
+			continue;
+			
+		conn.newAttribute(name)
+	}
+}
+
+function getPasswordPolicyGroupName(e) {
+	return "cn=allUsers," + e.getString("baseDN")	
+}
+
+function addUserToPasswordPolicyGroup() {
+	if (!usePasswordPolicy || tenantEntry == null || endPoint != "user")
+		return;
+	
+	try {
+		SDSConnector.connector.addAttributeValue(
+			getPasswordPolicyGroupName(tenantEntry), "member", conn["$dn"])
+	} catch (err) {
+	}
+}
+
+function deleteUserFromPasswordPolicyGroup() {
+	if (!usePasswordPolicy || tenantEntry == null || endPoint != "user")
+		return;
+	
+	try {
+		SDSConnector.connector.removeAttributeValue(
+			getPasswordPolicyGroupName(tenantEntry), "member", conn["$dn"])
+	} catch (err) {
+	}
+}
+
+function handleApiRequest() {
+	if (tenantEntry == null)
+		badRequest("403 Forbidden", 
+		isSuperUser() ? "superuser cannot access /apiusers" : "SCIM.no.tenant.mapping")
+
+	var method = work.getString("http.method");
+
+	if (apiUserName != null)
+		badRequest("403 Forbidden", "SCIM.user.no.access",
+					[apiUserName, method + "API"])
+	
+	if (method.equalsIgnoreCase("get")) {
+		returnApiUser();
+	} else if (method.equalsIgnoreCase("post")) {
+		createApiUser();
+	} else if (method.equalsIgnoreCase("delete")) {
+		deleteApiUser();
+	} else if (method.equalsIgnoreCase("patch")) {
+		patchApiUser();
+	} else {
+		work["http.Allow"] = "GET, POST, DELETE, PATCH"
+		badRequest("405 Method Not Allowed", null)
+	}
+	
+	system.exitFlow();
+}
+
+function returnApiUser() {
+	if (resourceID == null || resourceID.length() == 0) {
+		returnAllApiUsers();
+	} else {		
+		var resourceEntry = getApiEntry(resourceID)
+		if (resourceEntry == null)
+			badRequest("404 Not Found", "SCIM.Unknown.ID", resourceID);
+	
+		work["http.body"] = toJSON(ldap2ScimApi(resourceEntry))
+	}
+}
+
+function returnAllApiUsers() {
+	var apiBase = tenantEntry.getString("apiSearchBase");
+	SDSConnector.setConnectorParam("ldapSearchBase", apiBase)
+
+	var resultEntry = system.newEntry()
+	resultEntry.enableDOM();
+	resultEntry["schemas.schemas"] = "urn:ibm:schemas:userpwdpolicy:1.0:APIuser"
+
+	var resources = resultEntry.newAttribute("Resources.Resources")
+
+	try {
+		setReturnAttributes(["sn"]);
+		SDSConnector.connector.selectEntries();
+		var entry;
+		while ((entry = SDSConnector.connector.getNextEntry()) != null) {
+			resources.addValue(ldap2ScimApi(entry))
+		}
+	} catch (e)	{
+		attemptFailOver(e)
+		dumpException(e)
+	}
+
+	if (resources.size() == 0)
+		badRequest("404 Not Found", "SCIM.nothing.found.searchbase", apiBase)
+
+	resultEntry.totalResults = resources.size();
+	work["http.body"] = toJSON(resultEntry)
+}
+
+function getApiEntry(resId) {
+	var apiBase = tenantEntry.getString("apiSearchBase");
+	SDSConnector.setConnectorParam("ldapSearchBase", apiBase)
+
+	try {
+		setReturnAttributes(["sn"]);
+		return SDSConnector.lookup("cn", resId)
+	} catch (e)	{
+		attemptFailOver(e)
+		dumpException(e)
+	}
+	return null;
+}
+
+function ldap2ScimApi(resourceEntry) {
+	var entry = system.newEntry()
+	entry.name = resourceEntry.sn;
+	entry.DN = resourceEntry.$dn;
+	return entry
+}
+
+function createApiUser() {
+	var input = getSCIMEntry();
+		
+	resourceID = input.getString("name")
+	if (resourceID == null || resourceID.trim().length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.externalID.specified", "name")
+	var password = input.getString("password")
+	if (password == null || password.trim().length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.externalID.specified", "password")
+
+	if (propertyStore.getProperty(resourceID + ".password") != null)
+		badRequest("403 Forbidden", "SCIM.reserved.tenant")
+
+	var badChars = /[=:\r\n]/
+	var badStartChars = /[\#\'\/!]/ 
+	if (badChars.test(resourceID) || 
+		resourceID.trim() != resourceID ||
+		badStartChars.test(resourceID.substring(0,1)))
+		badRequest("403 Forbidden", "SCIM.tenant.illegal.chars");
+
+	var conn = getApiEntry(resourceID)
+	if (conn != null)
+		badRequest("409 Conflict", "SCIM.one.exists", ["name", resourceID]);
+	
+	conn = system.newEntry()
+	conn.setAttribute("objectClass", "person")
+	conn.setAttribute("cn", resourceID)
+	var name = new LdapName(tenantEntry.getString("apiSearchBase"));
+	name.add(new Rdn("cn", resourceID));
+	conn.setAttribute("$dn", name.toString())
+	conn.setAttribute("sn", resourceID)
+	conn.setAttribute("userPassword", password);
+
+	try {
+		SDSConnector.connector.putEntry(conn)
+		SDSConnector.connector.addAttributeValue(
+			tenantEntry.getString("apiUserGroupName"), 
+			"uniqueMember", name.toString())
+	} catch (e) {
+		gotException(e)
+	}	
+
+	work["http.status"] = "201 Created"
+	work["http.Location"] = propertyStore.getProperty("Location") + "/APIusers/" + resourceID;
+	
+	returnApiUser();
+}
+
+function deleteApiUser() {
+	if (resourceID == null || resourceID.length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.ID.specified")
+
+	var conn = getApiEntry(resourceID)
+	if (conn == null)
+		badRequest("404 Not Found", "SCIM.Unknown.ID", resourceID);
+	
+	try {
+		SDSConnector.connector.deleteEntry(conn, null)
+		SDSConnector.connector.removeAttributeValue(
+			tenantEntry.getString("apiUserGroupName"), 
+			"uniqueMember", conn.getString("$dn"))
+	} catch (e) {
+		if (e instanceof javax.naming.NameNotFoundException)
+			badRequest("404 Not Found", "SCIM.tenant.not.exist", resourceID)
+		gotException(e)
+	}	
+
+	var ret = system.newEntry()
+	ret.result = "OK"
+	work["http.body"] = toJSON(ret)
+}
+
+
+function patchApiUser() {
+	var input = getSCIMEntry();
+
+	if (resourceID == null)
+		resourceID = input.getString("name")
+
+	if (resourceID == null || resourceID.trim().length() == 0)
+		badRequest("400 Bad Request", "SCIM.No.ID.specified")
+
+	var old = getApiEntry(resourceID)
+	if (old == null)
+		badRequest("404 Not Found", "SCIM.Unknown.ID", resourceID);
+	
+	
+	conn = system.newEntry()
+	conn.setAttribute("$dn", old.getString("$dn"))
+
+	var password = input.getString("password")
+	if (password != null && password.length() > 0) {
+		conn.setAttribute("userPassword", password);
+//		conn.setAttribute("pwdReset", "FALSE")
+	}
+
+	if (conn.size() == 1)
+		badRequest("400 Bad Request", "SCIM.no.change")
+	try {
+		SDSConnector.connector.modEntry(conn, null, old)
+	} catch (e) {
+		gotException(e)		
+	}	
+
+	returnApiUser();
+}
+
+function getApiDummyEntry(t) {
+	var e = getDummyTenantEntry(t)
+	if (e == null)
+		return e;
+
+	var base = e.getString("apiSearchBase")
+	if (base == null)
+		return null;
+	var name = new LdapName(base);
+	name.add(new Rdn("cn", tenantName))
+	apiUserName = tenantName
+	tenantName = t
+	e.ldapName = name.toString();
+	e.isApiUser = true;
+
+	return e
+}
+
+function createApiGroup(res) {
+	var conn = system.newEntry()
+	conn.setAttribute("objectClass", "groupOfUniqueNames")
+	conn.setAttribute("cn", "APIuserGroup")
+	conn.setAttribute("$dn", res.getString("apiUserGroupName"))
+	conn.setAttribute("uniqueMember", res.getString("ldapName"))
+
+	SDSConnector.connector.putEntry(conn)
+}
+
+function setApiUsersLocked(baseDN, tenant) {
+	locked = tenant.getString("ibm-pwdAccountLocked")
+	if (locked == null)
+		return;
+
+	try {
+		setReturnAttributes(["uniqueMember"]);
+		var entry = SDSConnector.lookup("$dn", "cn=APIuserGroup," + baseDN);
+		
+		if (entry == null)
+			return;
+		var group = entry.getAttribute("uniqueMember");
+		if (group == null)
+			return;
+		for (var apiUser in group.getValues) {
+			SDSConnector.connector.replaceAttributeValue(apiUser, "ibm-pwdAccountLocked", locked)
+		}
+	} catch (e) {
+		if (debugging)
+			task.logmsg("Failed to (un)lock " + apiUser + ": " + e )
+	}
+}]]></parameter>
+        </Script>
+        <Script name="utils">
+            <ModTime>1418864203149</ModTime>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"><![CDATA[
+]]></parameter>
+            <parameter name="script"><![CDATA[function badRequest(status, msg, arg) {
+	work["http.status"] = status
+	if (status.startsWith("401"))
+		work["http.WWW-Authenticate"] = 'Basic realm="' + propertyStore.getProperty("AuthenticationRealm") + '"'
+		
+	var entry = system.newEntry()
+	entry.enableDOM()
+	entry["Errors.Errors.code"] = status.substring(0,3)
+	if (msg != null) {
+		var s
+		if (typeof(arg) == 'undefined')
+			s = responseResolver.getString(msg)
+		else
+			s = responseResolver.getString(msg, arg)
+		entry.Errors.Errors.description = s
+	}	
+	work["http.body"] = toJSON(entry);
+	system.exitFlow()
+}
+
+function gotException(e) {
+	dumpException(e)
+	attemptFailOver(e)
+	var s
+	try {
+		s = e.getCause()
+	} catch (e2) {
+		s = null
+	}
+	if (s == null)
+		s = e.toString()
+	else
+		s = s.toString()
+	if (s != null) {
+		var i = s.indexOf("; remaining name")
+		if (i > 0)
+			s = s.substring(0,i)
+	}
+	badRequest("400 Bad Request", s)
+}
+	
+function returnFile(fileName) {
+	var file = java.io.File(fileName)
+	if (file.exists()) {
+		work["http.body"] = file
+		work["http.status"] = "200 OK"
+	} else {
+		badRequest("500 Internal Server Error", "SCIM.File.not.found", fileName)
+	}
+	system.exitFlow()
+}
+
+function returnUserandGroupSchema() {
+	var entry = system.newEntry()
+	try {
+		var fileName = "SCIM/UserSchema.json";
+		var data = new java.io.FileInputStream(fileName);
+		entry.User = system.parseObject("ibmdi.JSONParser", data);
+		data.close();
+		
+		fileName = "SCIM/GroupSchema.json";
+		data = new java.io.FileInputStream(fileName);
+		entry.Group = system.parseObject("ibmdi.JSONParser", data);
+		data.close();
+	} catch (err) {
+		dumpException(err)
+		badRequest("500 Internal Server Error", "SCIM.File.not.found", fileName)
+	}	
+	work["http.body"] = toJSON(entry)
+	work["http.status"] = "200 OK"
+	system.exitFlow()
+}
+
+function timeStampToDateTime(ts) {
+	// ts = 20130416091402.171000Z
+	// return 2013-04-16T09:14:02Z
+	return ts.substring(0,4)+ "-" + ts.substring(4,6) + "-" + ts.substring(6,8) + "T" +
+		ts.substring(8,10) + ":" + ts.substring(10,12) + ":" + ts.substring(12,14) + ts.substring(21)
+}
+
+function dateTimeToTimeStamp(dt) {
+	// dt = 2013-04-16T09:14:02Z
+	// return 20130416091402.000000Z
+	return dt.substring(0,4)+ dt.substring(5,7) + dt.substring(8,10) + 
+		dt.substring(11,13) + dt.substring(14,16) + dt.substring(17,19) + ".000000" + dt.substring(19)
+}
+
+/**
+ * Convert an Entry to a JSON string with linefeeds,
+ * because it is eadier to read than the compact form
+ */
+function toJSON(entry) {
+	var sw = java.io.StringWriter()
+	JSONParser.setOutputStream(sw)
+	JSONParser.initParser()
+	JSONParser.writeEntry(entry)
+	JSONParser.closeParser()
+	return sw.toString()
+}
+
+function getInt(name, defVal) {
+	var s = work.getString(name)
+	if (s != null) {
+		try {
+			return parseInt(s)
+		} catch (e) {} 
+	}
+	return defVal	
+}
+
+function getSCIMEntry() {
+	var body = work.getString("http.bodyAsString")
+	if (body == null)
+		badRequest("400 Bad Request", "SCIM.No.body.specified")
+
+	var entry = null;
+	try {
+		entry = com.ibm.di.entry.Entry.fromJSON(body)
+	} catch (e) {
+		badRequest("400 Bad Request", "SCIM.unable.to.parse.body", e.getCause().getMessage())
+	}
+
+	if (entry == null)
+		badRequest("400 Bad Request", "SCIM.No.body.specified")
+	return entry
+}
+
+function dumpException(e) {
+	if (! debugging || ! (e instanceof java.lang.Throwable))
+		return;
+		
+	var sw = java.io.StringWriter()
+	var pw = java.io.PrintWriter(sw)
+	e.printStackTrace(pw)
+	pw.close()
+	task.logmsg(sw.toString())
+	if (e.getCause() != null)
+		task.logmsg("Cause: " + e.getCause())
+	task.logmsg("CONN")
+	task.dumpEntry(conn)
+}
+
+function readMapping(fileName) {
+
+	var file = java.io.File(fileName)
+	if (!file.exists()) {
+		task.logmsg("ERROR", messageResolver.getString("SCIM.File.not.found", fileName))
+		badRequest("500 Internal Server Error", "SCIM.File.not.found", fileName)
+	}	
+	var mapping = new Array()
+	try {
+		JSONParser.setInputStream(new java.io.FileInputStream(file))
+		JSONParser.initParser()
+		var e
+		while ((e = JSONParser.readEntry()) != null)
+			mapping.push(e)
+		JSONParser.closeParser()
+	} catch (err) {
+		dumpException(err)
+		badRequest("500 Internal Server Error", "SCIM.unable.to.parse.mapping.file", fileName)
+	} 		
+	return mapping
+}
+
+function ldap2scim(conn) {
+
+    var entry = system.newEntry();
+    entry.enableDOM();
+
+	for (var mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex];
+
+		if ("true".equalsIgnoreCase(mapEntry.getString("WriteOnly")))
+			continue;
+
+		var ldap = mapEntry.getString("LDAP")
+		var scimName = mapEntry.getString("SCIM")
+		var conversion = mapEntry.getString("Conversion")
+
+		if ("IsActive".equalsIgnoreCase(conversion)) {
+			entry[scimName] = isActive(conn, entry);
+			continue;
+		}	
+		
+		if (conn[ldap] == null)
+			continue;
+
+		if ("ID".equalsIgnoreCase(scimName))
+			ID = conn.getString(ldap);	
+
+		var multiType = mapEntry.getString("Type")
+		if (! isOK(scimName, multiType != null || "Group".equalsIgnoreCase(conversion)))
+			continue;
+
+		if ("Group".equalsIgnoreCase(conversion)) {
+			mapLDAPGroup(entry, scimName, conn[ldap]);
+		} else if (multiType != null) {
+			mapMulti2SCIM(entry, scimName, conn[ldap], multiType, conversion)
+		} else if ("DateTime".equalsIgnoreCase(conversion)) {
+			entry[scimName] = timeStampToDateTime(conn.getString(ldap))		
+		} else if ("NewLines".equalsIgnoreCase(conversion)) {
+			entry[scimName] = conn.getString(ldap).replace("$", "\n")	
+		} else if ("Boolean".equalsIgnoreCase(conversion)) {
+			entry[scimName] = "true".equalsIgnoreCase(conn.getString(ldap))
+		} else if ("InverseBoolean".equalsIgnoreCase(conversion)) {
+			entry[scimName] = ! "true".equalsIgnoreCase(conn.getString(ldap))
+		} else if ("MultiValued".equalsIgnoreCase(conversion)) {
+			entry[scimName] = conn[ldap]
+		} else {
+			entry[scimName] = conn.getString(ldap)
+		}
+	}
+	
+	return entry
+}
+
+function isOK(key, multi) {
+	if (attributeFilter == null)
+		return true
+	key = key.toLowerCase()
+	if (containsValue(attributeFilter, key))
+		return true
+
+	if (multi) {
+		if (containsValue(attributeFilter, key + ".type")) 
+			return true
+		if (containsValue(attributeFilter, key + ".value")) 
+			return true
+	}	
+			
+	var i = key.indexOf(".")
+	if ( i <= 0)
+		return false
+	return containsValue(attributeFilter, key.substring(0, i))
+}
+
+function containsValue(a, v) {
+	for (i=0; i< a.length; i++)
+		if (a[i] == v)
+			return true;
+	return false;
+}
+
+function mapMulti2SCIM(entry, scimName, valueAttr, multiType, conversion) {
+	var index = scimName.indexOf(".")
+	for (var value in valueAttr) {
+		if (index < 0) {
+			var node = system.newAttribute(scimName)
+			if (isOK(scimName + ".type", false))
+				node.type = multiType
+			if (isOK(scimName + ".value", false))
+				node.value = value
+			entry.newAttribute(scimName).appendChild(node)
+	
+		} else {
+	
+			var attrName = scimName.substring(0, index)
+			// Try to find an existing node, if one subattr has
+			// already been mapped
+			var aa = entry[attrName + "." + attrName]
+			var node = null
+		 	if (aa instanceof org.w3c.dom.NodeList) {
+				for (var m in aa) {
+		           	if (m.type != null && multiType.equals(m.type.getValue())) {
+		           		node = m
+		           		break;
+		           	}
+				}	
+			} else if (aa != null && aa.type != null && multiType.equals(aa.type.getValue())) {
+				node = aa
+			}
+			
+			if (node == null) {
+				node = system.newAttribute(attrName)
+				node["type"] = multiType
+				entry.newAttribute(attrName).appendChild(node)
+			}
+			
+			var subAttr = scimName.substring(index + 1)
+			if ("NewLines".equalsIgnoreCase(conversion))
+				value = value.replace("$", "\n")	
+			node[subAttr] = value
+		}
+	}
+}
+
+function mapAddress2LDAP(entry, ldap, scim, scimName, multiType, conversion) {
+	var index = scimName.indexOf(".")
+	if (index <= 0) {
+		if (scim[scimName] == null)
+			return;
+		for (var node in scim[scimName].getChildNodes()) {
+	        if (node instanceof com.ibm.di.entry.Attribute) {
+	        	if (node.value == null)
+	        		continue
+	        	var nodeType = node.type;
+	            if (nodeType == null || multiType.equalsIgnoreCase(nodeType.getValue())) {
+					var newAttribute = entry.newAttribute(ldap);
+					var value = node.value.getValue()
+					if (value == null)
+						continue;
+					if (! isPatching) {
+						newAttribute.addValue(value);
+					} else {
+						newAttribute.setOperation("modify")
+						var op = node.operation
+						if (op != null && op.getValue() == "delete") {
+							newAttribute.addValue(value, 100);
+						} else {
+							newAttribute.addValue(value);
+						}	
+					}	
+				}	
+	        } else {
+	            entry.newAttribute(ldap).addValue(node);
+	        }
+	    }
+
+	} else {
+		var attrName = scimName.substring(0, index)
+		var attr = scim[attrName + "." + attrName]
+	
+	   	if (attr == null)
+	   		return;
+	
+	   	var node = null
+	  
+		if (attr instanceof org.w3c.dom.NodeList) {
+			for (var m in attr) {
+	           	if (matchingAddressType(m, multiType)) {
+	           		node = m;
+	           		break
+	           	}
+			}
+		} else if (matchingAddressType(attr, multiType)){
+			node = attr
+	 	}
+	 	
+	 	if (node == null)
+	 		return;
+	 	
+	 	var subAttr = scimName.substring(index + 1)
+	 	var value = node[subAttr]
+		if (value == null)
+			return;
+		value = value.getValue()
+		if (value == null)
+			continue;
+	
+		if ("NewLines".equalsIgnoreCase(conversion))
+			value = value.replace("\n", "$")
+			
+		var newAttribute = entry.newAttribute(ldap);
+		if (! isPatching) {
+			newAttribute.addValue(value);
+		} else {
+			newAttribute.setOperation("modify")
+			var op = node.operation
+			if (op != null && op.getValue() == "delete") {
+				newAttribute.addValue(value, 100);
+			} else {
+				newAttribute.addValue(value)
+			}	
+		}	
+	}	
+}
+
+function matchingAddressType(attr, addressType) {
+	var t = null
+	if (attr.type != null)
+		t = attr.type.getValue()
+    if (t == null)
+       	t = "work"
+    return addressType.equalsIgnoreCase(t)
+}
+
+function mapLDAPGroup(entry, scimName, dnNames) {
+	var groupAttribute = entry.newAttribute(scimName);
+	
+	var otherMap = (mapping == userMapping ? groupMapping : userMapping)
+
+	var idName = null
+	var displayName = null
+	var createName = null
+
+	var mapIndex
+	for (mapIndex in otherMap) {
+		var mapEntry = otherMap[mapIndex];
+		if ("id".equalsIgnoreCase(mapEntry.getString("SCIM")))
+			idName = mapEntry.getString("LDAP")
+		if ("displayName".equalsIgnoreCase(mapEntry.getString("SCIM")))
+			displayName = mapEntry.getString("LDAP")
+		if ("true".equalsIgnoreCase(mapEntry.getString("CreateDN")))
+			createName = mapEntry.getString("LDAP")
+	}
+
+	var userBaseLDAP = new LdapName(userBase)
+	var groupBaseLDAP = new LdapName(groupBase)
+	var ldap;
+	
+	if ("$dn".equalsIgnoreCase(idName)) {
+		// Optimize this case to avoid lookups.
+		// There will be no display attribute, but this is much faster
+		for (var dn in dnNames) {
+			if (dn == null || dn.trim().length() == 0)
+				continue;
+			var a = system.newAttribute(scimName);
+			if (isOK(scimName + ".value", false))
+				a.value = dn;
+			if (mapping == groupMapping && isOK(scimName + ".type", false)) {
+		        ldap = new LdapName(dn);
+				if (ldap.startsWith(userBaseLDAP))
+					a.type = "user"
+				else if (ldap.startsWith(groupBaseLDAP))
+					a.type = "group"
+			}
+			groupAttribute.appendChild(a);
+		}
+		return;
+	}
+	
+	if (idName.equalsIgnoreCase(createName)) {
+		// Optimize this case as well, to avoid lookups.
+
+		for (var dn in dnNames) {
+			if (dn == null || dn.trim().length() == 0)
+				continue;
+			var a = system.newAttribute(scimName);
+	        ldap = new LdapName(dn);
+			if (isOK(scimName + ".value", false))
+				a.value = ldap.getRdn(ldap.size() - 1).getValue();
+			if (mapping == groupMapping && isOK(scimName + ".type", false)) {
+				if (ldap.startsWith(userBaseLDAP))
+					a.type = "user"
+				else if (ldap.startsWith(groupBaseLDAP))
+					a.type = "group"
+			}
+			groupAttribute.appendChild(a);
+		}
+		return;
+	}
+	
+	var addedChild = false
+	setReturnAttributes([idName, displayName]);
+
+	for (var dn in dnNames) {
+    	try {
+			e = SDSConnector.lookup("$dn", dn);
+			if (e != null) {
+				var a = system.newAttribute(scimName);
+				if (isOK(scimName + ".value", false))
+					a.value = e.getString(idName)
+				if (isOK(scimName + ".display", false) && e[displayName] != null)
+					a.display = e.getString(displayName)
+				if (mapping == groupMapping && isOK(scimName + ".type", false)) {
+					ldap = new LdapName(dn);
+					if (ldap.startsWith(userBaseLDAP))
+						a.type = "user"
+					else if (ldap.startsWith(groupBaseLDAP))
+						a.type = "group"
+				}
+
+				groupAttribute.appendChild(a);
+				addedChild = true
+			}   
+		} catch (err) { }				
+	}
+	if (! addedChild)
+		entry.removeAttribute(scimName)
+}
+
+function getMapName(map, name) {
+	var i = 0
+	for (i in map) {
+		var mapEntry = map[i]
+		if (name.equalsIgnoreCase(mapEntry.getString("SCIM")))
+			return mapEntry.getString("LDAP")
+	}
+	return null; // TODO: throw an error?	
+}
+
+function scim2ldap(scim, entry, isCreate) {
+	entry.enableDOM();
+
+	// For uniqueness checking
+	var uniqueValue = null
+	var uniqueAttr = null
+	var uniqueName = null;
+
+	for (mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex]
+		if ("true".equalsIgnoreCase(mapEntry.getString("ReadOnly")))
+			continue;
+
+		var scimName = mapEntry.getString("SCIM")
+		var ldap = mapEntry.getString("LDAP")
+		var multiType = mapEntry.getString("Type")
+		var conversion = mapEntry.getString("Conversion")
+
+		if ("true".equalsIgnoreCase(mapEntry.getString("CreateDN"))) {
+			if (scim[scimName] == null && isCreate) {
+				scim.setAttribute(scimName, (endPoint == "user" ? "U" : "G") + java.util.UUID.randomUUID())
+			}	
+			if (scim[scimName] != null)
+				entry["$dn"] = createDN(ldap, scim.getString(scimName))
+		}
+
+		if (multiType == null && scim[scimName] == null)
+			continue;
+			
+		if ("Group".equalsIgnoreCase(conversion)) {
+			mapSCIMGroup(entry.newAttribute(ldap), scim, scimName);
+		} else if (multiType != null) {
+			mapAddress2LDAP(entry, ldap, scim, scimName, multiType, conversion)	
+		} else if ("DateTime".equalsIgnoreCase(conversion)) {
+			entry[ldap] = dateTimeToTimeStamp(scim.getString(scimName))		
+		} else if ("NewLines".equalsIgnoreCase(conversion)) {
+			entry[ldap] = scim.getString(scimName).replace("\n", "$")	
+		} else if ("Boolean".equalsIgnoreCase(conversion)) {
+			entry[ldap] = "true".equalsIgnoreCase(scim.getString(scimName)) ? "TRUE" : "FALSE"
+		} else if ("InverseBoolean".equalsIgnoreCase(conversion)) {
+			entry[ldap] = "true".equalsIgnoreCase(scim.getString(scimName)) ? "FALSE" : "TRUE"
+		} else if ("IsActive".equalsIgnoreCase(conversion)) {
+			entry[ldap] = "true".equalsIgnoreCase(scim.getString(scimName)) ? "FALSE" : "TRUE"
+		} else if ("true".equalsIgnoreCase(mapEntry.getString("WriteOnly"))) {
+			entry[ldap] = scim[scimName]
+		} else {
+			entry[ldap] = Normalizer.normalize(scim.getString(scimName), NFC)
+		}
+
+		if ("true".equalsIgnoreCase(mapEntry.getString("Unique"))) {
+			uniqueValue = entry.getString(ldap)
+			uniqueAttr = ldap
+			uniqueName = scimName
+		}
+	}
+
+	if (uniqueValue == null)
+		return; // No need to check for uniqueness
+
+	var lookup = null
+	setReturnAttributes([""]);
+	try {
+		lookup = SDSConnector.lookup(uniqueAttr, uniqueValue)
+	} catch (err) {
+		attemptFailOver(err);
+		return; 
+	}
+	if (SDSConnector.getDuplicateEntryCount() > 1)
+		badRequest("409 Conflict", "SCIM.multiple.exists", [uniqueName, uniqueValue])
+		
+	if (lookup == null)
+		return;
+
+	if (! isCreate) {
+		var dn1 = current.getString("$dn")
+		var dn2 = lookup.getString("$dn")
+		if (dn1 == null || dn2 == null)
+			return;
+		if (new LdapName(dn1).equals(new LdapName(dn2)))
+			return;
+	}	
+	badRequest("409 Conflict", "SCIM.one.exists", [uniqueName, uniqueValue])
+}
+
+function createDN(type, value) {
+	var name = new LdapName(searchBase);
+	name.add(new Rdn(type, value))
+	return name.toString()
+}
+
+function mapSCIMGroup(members, scim, scimName) {
+	var scimMembers = scim[scimName]
+
+    if (scimMembers == null)
+    	return;
+ 
+ 	if (isPatching) {
+		members.setOperation("modify")
+	}	
+ 
+   	var attr = scimMembers[scimName];
+   	
+	if (attr instanceof org.w3c.dom.NodeList) {
+		for (var node in attr) {
+           	addOneValue(node, members)
+		}
+	} else if (attr != null) {
+		addOneValue(attr, members)
+	} else  {
+		for (var m in scimMembers) {
+			if (isPatching)
+				members.addValue(convertIDtoDN(m.getValue(), null), 97)
+			else
+				members.addValue(convertIDtoDN(m.getValue(), null))
+		}
+	}
+}
+
+function addOneValue(attr, members) {
+	if (attr.value == null)
+		return;
+
+	var memberType = null
+	if (attr.type != null)
+		memberType = attr.type.getValue()
+
+	var value = convertIDtoDN(attr.value.getValue(), memberType)
+	if (value == null)
+		return;
+
+	if (isPatching) {
+        if (attr.operation != null && "delete".equalsIgnoreCase(attr.operation.getValue()))
+ 			members.addValue(value, 100)
+ 		else
+ 			members.addValue(value, 97)
+	} else {
+		members.addValue(value)
+	}   		
+}
+
+function convertIDtoDN(id, memberType) {
+	if (id == null)
+		return null
+
+	var tmpMap
+	var tmpBase
+
+	if (memberType == null ? searchBase == groupBase : "user".equalsIgnoreCase(memberType)) {
+		tmpMap = userMapping;
+		tmpBase = userBase
+	} else {
+		tmpMap = groupMapping;
+		tmpBase = groupBase
+	}
+
+	var idName = null
+	var createName = null
+	var mapIndex
+	for (mapIndex in tmpMap) {
+		var mapEntry = tmpMap[mapIndex]
+		if ("id".equalsIgnoreCase(mapEntry.getString("SCIM")))
+			idName = mapEntry.getString("LDAP")
+		if ("true".equalsIgnoreCase(mapEntry.getString("CreateDN"))) {
+			createName = mapEntry.getString("LDAP")
+		}
+	}
+
+	if ("$dn".equalsIgnoreCase(idName))
+		return id;
+
+	if (idName.equalsIgnoreCase(createName)) {
+        var name = new LdapName(tmpBase);
+        name.add(new Rdn(createName, id))
+        return name.toString()		
+	}
+
+	// Need to temporarily switch searchbase,
+	// to be able to successfully look up the IDs
+	var saveBase = searchBase
+	setSearchBase(tmpBase)
+	setReturnAttributes([""])
+	var dn = null;
+
+	try {
+		var e = SDSConnector.lookup(idName, id);
+		if (e != null)
+			dn = e.getString("$dn")
+	} catch (err) { 
+		gotException(err)
+	}
+
+    setSearchBase(saveBase)
+
+	if (dn == null)
+		badRequest("400 Bad Request", "SCIM.Unknown.ID", id)
+
+	return dn;
+}
+
+function returnEntryFromDN(DN) {
+	if (DN == null)
+		return false
+
+	var lookup = null
+	setReturnAttributes(getLDAPNames(false, false))
+	try {
+		lookup = SDSConnector.lookup("$dn", DN)
+	} catch (err) {
+		attemptFailOver(err)
+		return false
+	}
+	
+	if (lookup == null)
+		return false
+	
+	var entry = ldap2scim(lookup)
+	entry["schemas.schemas"] = "urn:scim:schemas:core:1.0"
+
+	work["http.Location"] = location + ID
+	work["http.body"] = toJSON(entry)
+	if (debugging) {
+		task.dumpEntry(work)
+	}	
+	return true
+}
+
+function useMetaForPatching(meta) {
+	if (meta == null)
+		return;
+	var attr = meta.attributes
+	if (attr == null)
+		return;
+	for (var scimName in attr) {
+		for (var ldap in convertSCIMname2LDAPnames(scimName.getValue())) {
+			if (ldap == null)
+				continue;
+			var a = conn[ldap];
+			if (a == null) {
+				a = conn.newAttribute(ldap)
+				a.setOperation("delete")
+			} else {
+				a.setOperation("replace")
+				// Convert all AttributeValues to regular values
+				for (var i = a.size()-1; i >= 0; i--) {
+					var av = a.getValueAV(i)
+					if (av instanceof com.ibm.di.entry.AttributeValue) {
+						var op = av.getOperation();
+						if (op == "add" || op == "replace")
+							a.setValue(i, av.getValue());
+						else if (op == "delete")
+							a.removeValueAt(i);
+					}
+				}
+			}
+		}	
+	}
+}
+
+function convertSCIMname2LDAPnames(name) {
+	var retValues = system.newAttribute("names")
+	if (name == null)
+		return retValues;
+	
+	for (var i in mapping) {
+		var mapEntry = mapping[i]
+		var mapName = mapEntry.getString("SCIM");
+		if (mapName == null)
+			continue;
+		if (name.equalsIgnoreCase(mapName) || system.startsWithIC(mapName, name + "."))
+			retValues.addValue(mapEntry.getString("LDAP"))	
+	}
+
+	return retValues
+}
+
+function addDummyGroupMember(entry) {
+	var dummyName = propertyStore.getProperty("dummyGroupMember")
+	if (dummyName == null || dummyName.trim().length()==0 )
+		return;
+	
+	var memberName = getMapName(mapping, "members");
+	if (memberName == null)
+		return;
+	
+	var m = entry[memberName];
+	if (m == null || m.size() == 0)
+		entry.newAttribute(memberName).addValue(dummyName)
+}
+
+function getDNattribute() {
+	for (mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex]
+		if ("true".equalsIgnoreCase(mapEntry.getString("CreateDN"))) {
+			return mapEntry.getString("SCIM")
+		}
+	}	
+
+	for (mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex]
+		if ("$dn".equalsIgnoreCase(mapEntry.getString("ldapName"))) {
+			return mapEntry.getString("SCIM")
+		}
+	}	
+	badRequest("500 Internal Server Error", "SCIM.No.CreateDN.Found")
+}
+
+function setSearchBase(base) {
+	searchBase = base
+	SDSConnector.setConnectorParam("ldapSearchBase", base)
+}
+
+function setReturnAttributes(arr) {
+	SDSConnector.setConnectorParam("ldapReturnAttributes", arr.join("\n"))
+}
+
+/**
+ * All LDAP names in current mapping
+ */
+function getLDAPNames(ignoreReadOnly, ignoreGroups) {
+	var arr = new Array();
+
+	for (var mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex];
+
+		if ("true".equalsIgnoreCase(mapEntry.getString("WriteOnly")))
+			continue;
+
+		if (ignoreReadOnly && "true".equalsIgnoreCase(mapEntry.getString("ReadOnly")))
+			continue;
+
+		if (ignoreGroups && "Group".equalsIgnoreCase(mapEntry.getString("Conversion")))
+			continue;
+
+		var name = mapEntry.getString("LDAP");
+		if (!containsValue(arr, name))
+			arr.push(name)
+
+		// Special code to try to compute the "active" attribute
+		if ("IsActive".equalsIgnoreCase(mapEntry.getString("Conversion"))) {
+		    if (!containsValue(arr, "pwdAccountLockedTime"))
+				arr.push("pwdAccountLockedTime")			
+		    if (!containsValue(arr, "pwdChangedTime"))
+				arr.push("pwdChangedTime")			
+		    if (!containsValue(arr, "pwdFailureTime"))
+				arr.push("pwdFailureTime")	
+		}			
+	}
+	
+	return arr;
+}
+
+/**
+ * Get the name of the group attribute
+ */
+function getLDAPGroupName() {
+	for (var mapIndex in mapping) {
+		var mapEntry = mapping[mapIndex];
+
+		if ("true".equalsIgnoreCase(mapEntry.getString("ReadOnly")))
+			continue;
+
+		if ("Group".equalsIgnoreCase(mapEntry.getString("Conversion")))
+			return mapEntry.getString("LDAP");
+	}
+	
+	return null;
+}
+
+function doAuthenticate(dn) {
+	var password = work.getString("http.Authentication-Password")
+	if (password == null)
+		badRequest("403 No Password", null)
+	verifyAccess("auth", dn)
+	// TODO: Maybe we should base64Decode?
+	// password = system.base64Decode(password, "UTF-8")
+	remotePassword = password
+	remoteUser = dn
+	try {
+		SDSConnector.connector.rebind(dn, password, null)
+	} catch (e) {
+		attemptFailOver(e)
+		badRequest("403 Forbidden", null)
+	}
+	work["http.status"] = "204 No Content";
+	system.exitFlow()
+}
+
+function isIncludedIn(dn, base) {
+	if (dn == null || base == null)
+		return true;
+	var baseName = new LdapName(base)
+	var dnName = new LdapName(dn)
+	return dnName.startsWith(baseName)
+}
+
+function verifyAccess(operation, dn) {
+	if (!mapTenantNames)
+		return;
+
+	if (dn != null && ! isIncludedIn(dn, searchBase)) {
+		task.logmsg("WARN", messageResolver.getString("SCIM.auth.4", [dn, tenantName]))
+		badRequest("401 Unauthorized", "SCIM.DN.outside.searchbase", [dn, searchBase])
+	}
+
+	var access = getProp("access", null)
+	if (access == null) {
+		task.logmsg("WARN", messageResolver.getString("SCIM.auth.1", tenantName + ".access"))
+		badRequest("401 Unauthorized", "SCIM.no.access.property");
+	}	
+
+	var arr = access.split(/,\s*/);
+
+	for (i = 0; i < arr.length; i++)
+		if (arr[i].equalsIgnoreCase(operation) || arr[i].equalsIgnoreCase("all"))
+			return;
+
+	task.logmsg("WARN", messageResolver.getString("SCIM.user.no.access", [tenantName, operation]))
+	badRequest("401 Unauthorized", "SCIM.access.no.match", [access, operation]);
+}
+
+function changeGroupValue(op, value) {
+	if (value == null || value.trim().length() == 0)
+		return;
+	try {
+		if (op == "add")
+			SDSConnector.connector.addAttributeValue(DN, groupMemberName, value)
+		else if (op == "delete")
+			SDSConnector.connector.removeAttributeValue(DN, groupMemberName, value)
+	} catch (exc) {
+		attemptFailOver(exc)
+		if (debugging)
+			task.logmsg("Failed to " + op + " value " + value + " in " + DN)
+		// We could send back a 400 if there is an error.
+	}		
+}
+
+function getBooleanProperty(name) {
+	return "true".equalsIgnoreCase(propertyStore.getProperty(name))
+}
+
+function isActive(conn, entry) {
+	setReturnAttributes([""])
+	try {
+		if (globalPasswordPolicy == null)
+			globalPasswordPolicy = SDSConnector.lookup("$dn", getPasswordPolicyName("pwdpolicy"))
+	} catch (e) {}		
+	try {
+		if (tenantPasswordPolicy == null)
+			tenantPasswordPolicy = SDSConnector.lookup("$dn", getPasswordPolicyName(tenantName))
+	} catch (e) {}	
+
+	var code = "";
+	if ("true".equalsIgnoreCase(conn.getString("ibm-pwdAccountLocked")))
+		code += ",ibm-pwdAccountLocked";
+	if (conn.getString("pwdAccountLockedTime") != null)
+		code += ",pwdAccountLockedTime"
+	
+	var pwdMaxAge = getPolicyAttr("pwdMaxAge")
+	if (pwdMaxAge != null && pwdMaxAge != "0" && conn.pwdChangedTime != null) {
+		var changed = system.parseDate(conn.getString("pwdChangedTime"), "yyyyMMddHHmmss.SSSSSSz")
+		var max = java.lang.Long.parseLong(pwdMaxAge)  // seconds
+		if (changed != null) {
+			var sum = changed.getTime() + max*1000; // Use milliseconds
+			if (sum < new Date().getTime())
+				code += ",pwdChangedTime"	
+		}
+	}
+
+	var pwdMaxFailure = getPolicyAttr("pwdMaxFailure")
+	if (pwdMaxFailure != null && pwdMaxFailure != "0" && conn.pwdFailureTime != null) {
+		max = parseInt(pwdMaxFailure)
+		if (conn.pwdFailureTime.size() >= max)
+			code += ",pwdFailureTime"
+	}
+	
+	if (code == "") {
+		return true;
+	} else {
+		entry.accountLockedCode = code.substring(1)
+		return false;
+	}
+}
+
+function getPolicyAttr(name) {
+	var val = null;
+	if (tenantPasswordPolicy != null && 
+		"true".equalsIgnoreCase(tenantPasswordPolicy.getString("ibm-pwdpolicy")))
+		val = tenantPasswordPolicy[name]
+	if (val == null &&
+		globalPasswordPolicy != null &&
+		"true".equalsIgnoreCase(globalPasswordPolicy.getString("ibm-pwdpolicy")))
+		val = globalPasswordPolicy[name]
+	return val != null ? val.getValue() : null;
+}
+
+function resetSorting() {
+	SDSConnector.connector.setSortControl(null, false, 0);
+}
+
+function setSorting() {
+	var names = convertSCIMname2LDAPnames(work.getString("http.qs.sortBy"))
+
+	var startIndex = getInt("http.qs.startIndex", 1)
+	var count = getInt("http.qs.count", 0)
+	
+	if (count > 0 && startIndex > 0)
+		count += startIndex - 1;
+
+	var descending = "descending".equalsIgnoreCase(work.getString("http.qs.sortOrder"))
+	
+	SDSConnector.connector.setSortControl(names.getValue(), !descending, count);	
+}]]></parameter>
+        </Script>
+        <Script name="filter">
+            <ModTime>1418814844003</ModTime>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[function getLDAPFilter() {
+	filterString = work.getString("http.qs.filter")
+
+	if (filterString == null) {
+		if (resourceID != null && resourceID.length() > 0) {
+			return getMapName(mapping, "id") + "=" + resourceID
+		} else if (endPoint == "user") {
+			return userFilter;
+		} else {
+			return groupFilter;
+		}	
+	}
+
+	filterIndex = 0
+	
+	var expr = getOrExpression()
+	if (nextToken != null)
+		parseError("SCIM.filter.additional.text", nextToken)
+
+	if (endPoint == "user") {
+			expr = "(&(" + userFilter + ")" + expr + ")";
+		} else {
+			expr = "(&(" + groupFilter + ")" + expr + ")";
+		}		
+	if (debugging)
+		task.logmsg("Using Filter:"  + expr)
+	return expr
+}
+
+function parseError(msg, args) {
+	work["http.status"] = "400 Bad Request"
+		
+	var entry = system.newEntry()
+	entry.enableDOM()
+	entry["Errors.Errors.code"] = "400";
+	var s1 = responseResolver.getString("SCIM.Unable.to.parse.filter", filterIndex)
+	var s2 = responseResolver.getString(msg, args)
+	entry["Errors.Errors.description"] = s1 + " " + s2
+	work["http.body"] = toJSON(entry);
+	system.exitFlow()
+}
+	
+function getOrExpression() {
+	var expr = getAndExpression()
+	if (nextToken == "or") {
+		var builder = expr + getAndExpression()
+		while (nextToken == "or") {
+			builder += getAndExpression()
+		}
+		return "(|" + builder + ")"
+	}
+	return expr
+}	
+
+function getAndExpression() {
+	var expr = getSimpleExpression()	
+	if (getNextToken() == "and") {
+		var builder = expr + getSimpleExpression()
+		while (getNextToken() == "and") {
+			builder += getSimpleExpression()
+		}
+		return "(&" + builder + ")"
+	}
+	return expr
+}
+
+function getSimpleExpression() {
+	
+	filterAttributeName = getNextToken()
+	if (filterAttributeName == "(")
+		return getParenExpression()
+
+	if (filterAttributeName == "not")
+		return "(!" + getSimpleExpression() + ")"
+	
+	if (filterAttributeName == null)
+		parseError("SCIM.Unable.to.parse.filter", null)
+
+	getMappingsFor(filterAttributeName)
+	
+	if (filterMaps == null)
+		parseError("SCIM.filter.unknown.attribute", filterAttributeName)
+
+	filterOperator = getNextToken()
+	if (filterOperator == null)
+		parseError("SCIM.filter.no.operator", null)
+
+	filterOperator = filterOperator.toLowerCase()
+	if (filterOperator != "pr" )
+		filterValue = getLDAPValue()
+
+	if (filterIsTypeMapping)
+		return createTypeExpression(filterAttributeName)
+
+	if (filterMaps.length == 1)
+		return createSimpleExpression(filterMaps[0])
+	
+	var buffer = "(|"
+	for (var i in filterMaps) {
+		buffer += createSimpleExpression(filterMaps[i])
+	}	
+
+	return buffer + ")"	
+}
+
+function createSimpleExpression(me) {
+	var attrName = me.getString("LDAP")
+
+	if (filterOperator == "eq")
+		return "(" + attrName + "=" + filterValue + ")"
+
+	if (attrName.equalsIgnoreCase("$dn"))
+		parseError("SCIM.filter.unsupported.operator.multi", [filterOperator, filterAttributeName])
+
+	if (filterOperator == "co")
+		return "(" + attrName + "=*" + filterValue + "*)"
+		
+	if (filterOperator == "sw")
+		return "(" + attrName + "=" + filterValue + "*)"
+	
+	// LDAP does not have a strict greater than.
+	// But we can use NOT less than or equal
+	if (filterOperator == "gt")
+		return "(!(" + attrName + "<=" + filterValue + "))"
+	
+	if (filterOperator == "ge")
+		return "(" + attrName + ">=" + filterValue + ")"
+	
+	if (filterOperator == "lt")
+		return "(!(" + attrName + ">=" + filterValue + "))"
+	
+	if (filterOperator == "le")
+		return "(" + attrName + "<=" + filterValue + ")"
+	
+	if (filterOperator == "pr" )
+		return "(" + attrName + "=*)"
+
+	parseError("SCIM.filter.unsupported.operator", filterOperator)
+}	
+
+function getParenExpression() {
+	var expr = getOrExpression()
+	if (nextToken == ")")
+		return expr
+	parseError("SCIM.filter.closing.parenthesis", null)	
+}
+
+function getNextToken() {
+	nextToken = getNextChar()
+	while (nextToken == " ") {
+		nextToken = getNextChar()
+	}
+	
+	if (nextToken == ")" || nextToken == "(" || nextToken == null)
+		return nextToken
+
+	var c = getNextChar()
+	while (c != " " && c != null && c != ")" ) {
+		nextToken += c
+		c = getNextChar()
+	}
+	if (c == ")")
+		filterIndex--
+	
+	return nextToken
+}
+
+function getNextChar() {
+	if (filterIndex >= filterString.length)
+		return null
+	var c = filterString.charAt(filterIndex)
+	filterIndex++
+	return c
+}
+
+function getValueToken() {
+	var c = getNextChar()
+	while (c == " ") {
+		c = getNextChar()
+	}
+	
+	if (c == null)
+		parseError("SCIM.filter.value.missing", filterOperator)
+
+	if (c != '"') {
+		// Special handling of true and false
+		if (system.startsWithIC(filterString.substring(filterIndex-1), "true")) {
+			filterIndex +=3
+			return "true"
+		}
+		if (system.startsWithIC(filterString.substring(filterIndex-1), "false")) {
+			filterIndex +=4
+			return "false"
+		}
+		return getNumberToken(c)
+	}	
+		
+	var value = ""
+	c = getNextChar()
+	while (c != '"') {
+
+		// First convert backslash sequences
+		if (c == "\\") {
+			c = getNextChar()
+			if (c == "b") {
+				c = "\b"
+			} else if (c == "f") {
+				c = "\f"
+			} else if (c == "t") {
+				c = "\t"
+			} else if (c == "r") {
+				c = "\r"
+			} else if (c == "n") {
+				c = "\n"
+			} else if (c == "u") {
+				var code = filterString.substring(filterIndex, filterIndex+4)
+				var i = parseInt(code, 16)
+				if (isNaN(i))
+					parseError("SCIM.filter.unknown.unicode", code)
+				c = String.fromCharCode(i)
+				filterIndex += 4
+			}
+		}
+		
+		if ( c == null)
+			parseError("SCIM.filter.unexpected.end", null)
+
+		// TODO: Convert more special LDAP characters
+		if (c == '(')
+			c = "\\28"
+		else if (c == ')')
+			c = "\\29"
+		else if (c == '*')
+			c = "\\2a"
+		else if (c == '\\')
+			c = "\\5c"
+
+		value += c
+
+		c = getNextChar()
+	}
+	return value;
+}
+	
+function getNumberToken(c) {
+	var value = ""
+	
+	// Thia also accepts not-numbers, but that is probably ok
+	while (c != null && "0123456789+-.Ee".indexOf(c) >= 0) {
+		value += c
+		c = getNextChar()
+	}
+
+	if (value.length == 0)
+		parseError("SCIM.filter.no.string", c)
+
+	// Pushback the last char
+	if (c != null)
+		filterIndex--;
+	
+	return value
+}
+
+function getLDAPValue() {
+	var value = getValueToken();
+	
+	if ( "DateTime".equalsIgnoreCase(filterConversion) ) {
+		try {
+			return dateTimeToTimeStamp(value)
+		} catch (e) {
+		}	
+	} else if ("Group".equalsIgnoreCase(filterConversion)) {
+		return convertIDtoDN(value, null)
+	} else if ("InverseBoolean".equalsIgnoreCase(filterConversion) ||
+				"IsActive".equalsIgnoreCase(filterConversion)) {
+		return "true".equalsIgnoreCase(value) ? "FALSE" : "TRUE";
+	}	
+
+	return Normalizer.normalize(value, NFC)
+}
+
+function getMappingsFor(name) {
+
+	var scimName = name.toLowerCase()
+	filterIsTypeMapping = false
+	
+	if (scimName.endsWith(".value")) {
+		scimName = scimName.substring(0, scimName.length-6)
+	} else if (scimName.endsWith(".type")) {
+		scimName = scimName.substring(0, scimName.length-5)
+		filterIsTypeMapping = true
+	}	
+
+	filterMaps = new Array()
+	for (var i in mapping) {
+		var mapEntry = mapping[i]
+		if ("true".equalsIgnoreCase(mapEntry.getString("WriteOnly")))
+			continue;
+		var mapName = mapEntry.getString("SCIM");
+		if (mapName == null)
+			continue;
+		if (scimName.equalsIgnoreCase(mapName) || system.startsWithIC(mapName, scimName + "."))
+			filterMaps.push(mapEntry)	
+	}
+
+	if (filterMaps.length == 0) {
+		filterMaps = null;
+	} else {
+		filterConversion = filterMaps[0].getString("Conversion")
+	}
+}
+
+function createTypeExpression(name) {
+	var mapEntry = null
+
+	if (filterOperator == "eq") {
+		for (var i in filterMaps) {
+			mapEntry = filterMaps[i]
+			if (filterValue.equalsIgnoreCase(mapEntry.getString("Type")))
+				return "(" + mapEntry.getString("LDAP") + "=*)"
+		}
+		parseError("SCIM.filter.unknown.value", [name, filterValue])
+	}
+
+	if (filterOperator == "pr") {
+		if (filterMaps.length == 1) {
+			mapEntry = filterMaps[0]
+			return "(" + mapEntry.getString("LDAP") + "=*)"
+		}
+
+		var buffer = "(|"
+		for (var i in filterMaps) {
+			mapEntry = filterMaps[i]
+			buffer += "(" + mapEntry.getString("LDAP") + "=*)"
+		}
+		return buffer + ")"
+	}
+
+	parseError("SCIM.filter.unsupported.operator.multi", [filterOperator, name])
+}]]></parameter>
+        </Script>
+        <Script name="logging">
+            <ModTime>1418820813278</ModTime>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/**
+ * Create and init the logger
+ */
+function initLogging() {
+	if (auditLogging) {
+        	myLogger = org.apache.logging.log4j.LogManager.getLogger("com.ibm.di.ScimService");
+		dateFormatter = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
+	}
+
+	if (auditSysLogging) {		
+		QRadarConnector.useAttributeMap("SCIM/QRadarLogging.map")
+	}	
+}
+
+/**
+ * Add request parameters to the log object
+ */
+function logRequest() {
+	if (auditLogging) {
+		logObject = new Object()
+		logObject.date = dateFormatter.format(new Date())
+		logObject.user = conn.getString("http.remote_user")
+		logObject.method = conn.getString("http.method")
+		logObject.url = conn.getString("http.url")
+		logObject.remoteHost = conn.getString("tcp.remoteIP")
+		logObject.remotePort = conn.getString("tcp.remotePort")
+		logObject.localHost = conn.getString("tcp.localIP")
+		logObject.localPort = conn.getString("tcp.localPort")
+		var s = conn.getString("http.User-Agent")
+		if (s != null)
+			logObject.userAgent = s;	
+	}
+
+	ID = null;
+}
+
+/**
+ * Add response parameters to log object, and do actual logging.
+ */
+function logResponse() {
+	if (auditLogging) {
+		logObject.status = work.getString("http.status")
+		if (ID != null)
+			logObject.resourceID = ID;
+		myLogger.info(toJson(logObject))		
+	}
+
+	if (auditSysLogging) {
+		try {
+			QRadarConnector.add(work)
+		} catch (e) {
+			task.logmsg("Logging failed with " + e)
+		}
+	}
+}]]></parameter>
+        </Script>
+    </Folder>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <ModTime>1368621036453</ModTime>
+            <PollInterval>-1</PollInterval>
+            <InstanceID>SCIM</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="SCIM">
+                <ModTime>1414401190628</ModTime>
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="autorewrite">true</parameter>
+                    <parameter name="collection">SCIM/SCIM.properties</parameter>
+                    <parameter name="collectionType">SCIM</parameter>
+                    <parameter name="createCollection">false</parameter>
+                    <parameter name="keyAlias"/>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/SCIM.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
+</MetamergeConfig>

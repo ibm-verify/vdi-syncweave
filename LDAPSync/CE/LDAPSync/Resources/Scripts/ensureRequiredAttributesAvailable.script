@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="13" UUID="b49e9ea3-610f-4c7a-8fa1-e94d54bc3688" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="ensureRequiredAttributesAvailable" modified="Mon May 11 12:40:57 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="ensureRequiredAttributesAvailable">
+        <ModTime>1431340857079</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// get rdn from the old dn
+//
+sourceDN = work.getString("$dn");
+changelogEntryRead = false;
+if (sourceDN.toLowerCase().indexOf("cn=changelog") >= 0) {
+	sourceDN = work.getString("targetDN");
+	work.setAttribute("$dn", sourceDN);
+	changelogEntryRead = true;
+}
+sourceRDN = sourceDN
+// in case of modrdn or moddn change
+newSuperior = work.getString("newSuperior")
+newrdn = work.getString("newrdn")
+
+// If necessary, clean up AD 'munging' of delete entry DNs
+//
+try {
+	rdns = new javax.naming.ldap.LdapName(sourceDN).getRdns()
+} catch (ex) {
+	throw where() + " - " + resource.getString("LDAPSYNC.ERROR.DURING.INITIAL.PARSING.OF.SOURCE.DN") + ": " + ex + " - dn: " + sourceDN
+}	
+sourceRDN = rdns.get(rdns.size()-1).toString()
+
+p = sourceRDN.indexOf("\n").toString()
+if (p > 0)
+	sourceRDN = sourceRDN.substring(0,p)
+	
+p = sourceRDN.indexOf("=")
+sourceRDNAtt = sourceRDN.substring(0,p).trim()
+sourceRDNValue = sourceRDN.substring(p+1).trim()
+sourceRDN = sourceRDN.toLowerCase()
+
+typeOfEntry = entryType(work.getAttribute("objectClass"))
+
+if ("person".equals(typeOfEntry)) {
+	useRDN = targetUserRDN
+	readRDN = sourceUserRDN
+}
+else
+if ("group".equals(typeOfEntry)) {
+	useRDN = "cn"
+	readRDN = useRDN
+}
+else 
+if ("unknown".equals(typeOfEntry)){
+	useRDN = "???"
+	readRDN = useRDN
+}
+else {	
+	// if type is unknown then this caught below, else it's a container so use the source RDN
+	useRDN = sourceRDNAtt
+	readRDN = useRDN
+}
+
+rdnValue = work.getString(readRDN) 
+snValue = work.getString("sn")
+cnValue = work.getString("cn")
+
+//
+// If objectClass or other needed attributes are missing (or wrong) then lookup in source
+//
+if (work.getOperation() != "delete" && ("unknown".equals(typeOfEntry) || 
+									    newSuperior != null || rdnValue == null || 
+									    ("person".equals(typeOfEntry) && (snValue == null || cnValue == null)))) {
+	lookupDN = sourceDN;
+	
+	//
+	// For a moddn/modrdn we need to lookup using the new suffix/rdn
+	//
+	if (newSuperior != null || newrdn != null) {
+		try {
+			ldapName = new javax.naming.ldap.LdapName(lookupDN)
+		} catch (ex) {
+			throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.SOURCE.DN") + ": " + ex + " - dn: " + lookupDN
+		}	
+		rdns = ldapName.getRdns()
+		if (newSuperior != null) {
+			lookupDN = newSuperior
+		} else {
+			ldapName.remove(rdns.size()-1)
+			lookupDN = ldapName.toString()
+		}
+		lookupDN = newrdn + "," + lookupDN
+	}
+
+	sourceEntry = input.findEntry("$dn", lookupDN)
+
+	if (sourceEntry != null) {
+		oc = sourceEntry.getAttribute("objectClass");
+		if (work.oc == null) {
+			work["objectClass"] = oc;
+			work.objectClass.setOperation("unchanged");
+		}	
+		typeOfEntry = entryType(oc);
+
+		attNames = sourceEntry.getAttributeNames()
+		for (name in attNames) {
+			if (work[name] == null && !"userPassword".equalsIgnoreCase(name)) {
+				work[name] = sourceEntry[name];
+				work[name].setOperation("unchanged");
+			}	
+		}
+	}
+	
+	if (deBug) {
+		if (newSuperior != null || newrdn != null) {
+			logmsg("@----> newSuperior: " + newSuperior + "    newRDN: " + newrdn)
+		}
+		logmsg("@@---> source lookup for dn: " + lookupDN + ((sourceEntry == null) ? "  !failed!" : "  *success*") + "  type: " + typeOfEntry)	
+	}
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

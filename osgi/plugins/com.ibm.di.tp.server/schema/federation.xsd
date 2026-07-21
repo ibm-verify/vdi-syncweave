@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:complexType name="federation-type">
+		<xsd:complexContent>
+            <xsd:extension base="tns:server-resource"> 
+            	<xsd:sequence>
+            	</xsd:sequence>
+	        </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="federation" type="tns:federation-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Federation</scmp:display>
+                <scmp:summary>Federation</scmp:summary>
+                <scmp:description>A federation is a collection of service domains.</scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+</xsd:schema>

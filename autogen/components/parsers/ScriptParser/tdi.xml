@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sat Dec 08 16:09:15 SGT 2007" version="7.1.1">
+	<Folder name="Parsers">
+		<Parser name="ibmdi.ScriptParser">
+				<parameter name="class">com.ibm.di.parser.ScriptParser</parameter>
+				<parameter name="characterSet"/>
+				<parameter name="description">PAR_DESC</parameter>
+				<parameter name="includeFiles"/>
+				<parameter name="includePrologs"/>
+				<parameter name="script"><![CDATA[//
+// This is a simple parser that returns one line at a time from
+// the input stream.
+//
+
+var counter = 0;
+
+function writeEntry ()
+{
+	out.write (entry.getString("line"));
+	out.newLine();
+}
+
+function readEntry ()
+{
+	var str = inp.readLine();
+
+	if (str == null) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	counter++;
+
+	entry.setAttribute ("line", str);
+	result.setStatus (1);
+}
+
+function querySchema ()
+{
+	var e = new com.ibm.di.entry.Entry();
+	e.addAttributeValue("name","line");
+	e.addAttributeValue("syntax","String");
+	list.add(e);
+	result.setStatus (1);
+}
+]]></parameter>
+		</Parser>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.parser.ScriptParser">
+			<TranslationFile>NLS/idi_par_script</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.script</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>$GLOBAL.includeFiles</ListItem>
+					<ListItem>includePrologs</ListItem>
+					<ListItem>characterSet</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>$GLOBAL.script</ListItem>
+				<ListItem>$GLOBAL.includeFiles</ListItem>
+				<ListItem>includePrologs</ListItem>
+				<ListItem>characterSet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="characterSet">
+				<parameter name="description">set_desc</parameter>
+				<parameter name="label">set_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="includePrologs">
+				<parameter name="description">pro_desc</parameter>
+				<parameter name="label">pro_label</parameter>
+				<parameter name="script">selectGlobalProlog</parameter>
+				<parameter name="scriptLabel">pro_script_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<parameter name="title">PAR_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+
+<project name="setup" basedir=".">
+
+  <!-- Give the user a chance to override without editing this file (and
+       without typing -D each time they run it). -->
+  <property file="${user.home}/${propfile}"/>
+  <property file="${basedir}/${propfile}"/>
+
+  <!-- Specifically define certain variables recognized by ant.  -->
+  <property name="deprecation"   value="false"/>
+  <property name="optimize"      value="true"/>
+
+  <!-- Bring in the environment variables..  -->
+  <property environment="project_env_vars"/>
+
+  <!-- Set the product name info for later use in the build.  -->
+  <property name="project.tdi.name"   value="Security Verify Directory Integrator"/>
+
+  <!-- Set the version number info for later use in the build.
+       Is tied to the version numbering in the CE plugin -->
+  <property name="project.tdi.version"   value="10.0.0.6"/>
+
+  <!-- Set the version number info use in the installer executable name.  -->
+  <property name="project.tdi.version.installer"   value="72"/>
+
+  <!-- Set the value to use in the swgtag files we make -->
+  <property name="project.tdi.swgtag.vers"   value="10.0.0"/>
+  
+  <!-- Set the prefix of all TDI OSGi bundles -->
+  <property name="project.tdi.osgi.plugins.prefix" value="com.ibm.di" />
+
+  <!-- Set the location of the project source root.  -->
+  <dirname property="project.basedir" file="${ant.file.setup}"/>
+  <property name="project.root"   location="${project.basedir}/.."/>
+
+  <!-- set the location of the tools directory. -->
+  <property name="project.tools_home"   location="${project_env_vars.TOOLS_HOME}"/>
+
+  <!-- The CMVC Release. -->
+  <property name="project.cmvc_release"   value="10.0.0"/>
+
+  <!-- The short name of the cmvc family TDI uses. -->
+  <property name="project.cmvc_family.short"   value="integrator"/>
+
+  <!-- The CMVC Level for this build. It will only have a value in a product build. -->
+  <property name="project.cmvc_level"   value="0"/>
+
+  <!-- set the location of the adks directory. -->
+  <property name="project.adks_home"   location="${project.root}/adks"/>
+
+  <!-- set the location of the tmsxml directory. -->
+  <property name="project.tmsxml"   location="${project.root}/tools/tmsxml_to_properties"/>
+
+  <!-- set the location of the adks lib.nodist directory. The are old jars used for building. -->
+  <property name="project.adks.lib.nodist"   location="${project.adks_home}/lib.nodist"/>
+
+  <!-- Set the location the install root directory.  -->
+  <property name="project.root.install"   location="${project.root}/install"/>
+
+  <!-- Set the location the install bin directory.  -->
+  <property name="project.root.install.bin"   location="${project.root.install}/bin"/>
+  
+  <!-- Set the location the install utils directory.  -->
+  <property name="project.root.install.utils"   location="${project.root.install}/utils"/>
+
+  <!-- Set the location of the license directory.  -->
+  <property name="project.root.license"   location="${project.root.install}/lib/license"/>
+
+  <!-- Set the location of where the overall ship tree will be for the build.  -->
+  <property name="project.root.ship"   location="${project.root}/ship"/>
+
+  <!-- Set the location of where the lum license files will be for the build.  -->
+  <property name="project.root.lum"   location="${project.root}/lum"/>
+
+  <!-- The base location of where the cd images will go. -->
+  <property name="project.root.img.cdimage"  location="${project.root.ship}/cdimage"/>
+
+  <!-- The base location of where the images should be shipped to depending on the edition. -->
+  <property name="project.root.general.ed.img.base"     location="${project.root.img.cdimage}/gen_purpose_edition"/>
+  <property name="project.root.identity.ed.img.base"    location="${project.root.img.cdimage}/identity_edition"/>
+
+  <!-- The location of the tar file images will go for zos. -->
+  <property name="project.root.img.tarimage.zos"   location="${project.root.ship}/zos"/>
+
+  <!-- The location of where all zip bunds we build will go. Includes war and wab files. -->
+  <property name="project.root.img.zips_bundles"   location="${project.root.ship}/zip_bundles"/>
+
+  <!-- The location of where the zip used for upgrading from a trial to full version will go. -->
+  <property name="project.root.img.upgrade.zip"   location="${project.root.img.zips_bundles}/trial_upgrade"/>
+
+  <!-- The base location of where the support bundles will go. -->
+  <property name="project.root.ship.support"  location="${project.root.ship}/support"/>
+  
+  <!-- The base location of where the test packages will go. -->
+  <property name="project.root.ship.tests"  location="${project.root.ship}/tests"/>
+
+  <!-- Set the location the support directory.  -->
+  <property name="project.root.support"   location="${project.root}/support"/>
+
+  <!-- Set the location the lib directory.  -->
+  <property name="project.root.lib"   location="${project.root}/lib"/>
+
+  <!-- Set the location the etc directory.  -->
+  <property name="project.root.etc"   location="${project.root}/etc"/>
+
+  <!-- Set the location the bin directory.  -->
+  <property name="project.root.bin"   location="${project.root}/bin"/>
+
+  <!-- Set the location the serverapi directory (the tools specifically).  -->
+  <property name="project.root.serverapi"   location="${project.root}/serverapi"/>
+
+  <!-- Set the location the examples directory.  -->
+  <property name="project.root.examples"   location="${project.root}/examples"/>
+
+  <!-- Set the location the performance directory.  -->
+  <property name="project.root.performance"  location="${project.root}/performance"/>
+
+  <!-- Set the location of the static code analysis baseline files.  -->
+  <property name="project.root.baseline.sca"   location="${project.root}/sca"/>
+
+  <!-- Set the location the source files for the server, connectors, parsers, and FCs.  -->
+  <property name="project.root.server.src"   location="${project.root}/src"/>
+
+  <!-- Set the location the source files for the server apis  -->
+  <property name="project.root.serverapi.src"   location="${project.root.server.src}/com/ibm/di/api"/>
+
+  <!-- Set the location the source files for plugin.  -->
+  <property name="project.root.pwd.plugin.src"   location="${project.root}/pwd_plugins"/>
+  
+  <!-- Set the location of the source files for unit_tests.  -->
+  <property name="project.root.unit_tests"   location="${project.root}/unit_tests"/>
+
+  <!-- Set the location of the OSGi bundles projects. -->
+  <property name="project.root.osgi" location="${project.root}/osgi" />
+	
+  <!-- Set the base location the source files for amc and am.  -->
+  <property name="project.root.amc.base"           location="${project.root}/amc3"/>
+  <property name="project.root.amc.bin"            location="${project.root.amc.base}/bin"/>
+  <property name="project.root.amc.am.base.src"    location="${project.root.amc.base}/src"/>
+  <property name="project.root.amc.src"            location="${project.root.amc.am.base.src}/AMC"/>
+  <property name="project.root.am.src"             location="${project.root.amc.am.base.src}/ActionManager"/>
+  <property name="project.root.amc_migration.src"  location="${project.root.amc.am.base.src}/migamcdb"/>
+  <property name="project.root.console.src"        location="${project.root.amc.am.base.src}/console"/>
+  <property name="project.root.amc_tools.src"      location="${project.root.amc.base}/tools/deploy/src"/>
+
+  <!-- Set the base location where the doc source files are at.  -->
+  <property name="project.root.doc"  location="${project.root}/tdi_docs"/>
+
+  <!-- Set the location the export directory.  -->
+  <property name="project.root.export"   location="${project.root}/export"/>
+
+  <!-- Set the location of where the base of the ce rcp app is at.  -->
+  <property name="project.root.ce_rcp"   location="${project.root}/ce_rcp"/>
+
+  <!-- The location of where we put the temporary rcp files for building. -->
+  <property name="project.root.export.ce_rcp"   location="${project.root.export}/ce_rcp"/>
+
+  <!-- Set the location of where the base of each ce rcp plugin is at.  -->
+  <property name="project.root.ce_rcp.base.plugin.name"   value="com.ibm.tdi.rcp"/>
+  <property name="project.root.ce_rcp.base.plugin"   location="${project.root.export.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}"/>
+  <property name="project.root.ce_rcp.loader.plugin.name"   value="com.ibm.tdi.loader"/>
+  <property name="project.root.ce_rcp.loader.plugin"   location="${project.root.export.ce_rcp}/plugins/${project.root.ce_rcp.loader.plugin.name}"/>
+  <property name="project.root.ce_rcp.update.plugin.name"   value="com.ibm.tdi.updatesite"/>
+  <property name="project.root.ce_rcp.update.plugin"   location="${project.root.export.ce_rcp}/plugins/${project.root.ce_rcp.update.plugin.name}"/>
+
+  <!-- Set the location of where the base of the TDI launchpad src files are at.  -->
+  <property name="project.root.launchpad"   location="${project.root}/launchpad"/>
+
+  <!-- Set the location of where the base autogen directory is at.  -->
+  <property name="project.root.autogen.base"   location="${project.root}/autogen"/>
+
+  <!-- Set the location of where the base autogen directory is at for our components.  -->
+  <property name="project.root.autogen.comp"   location="${project.root.autogen.base}/components"/>
+
+  <!-- Set the location the export zos tmp directory.  -->
+  <property name="project.root.export.zos"   location="${project.root.export}/zos"/>
+
+  <!-- The location of where to put the logs we want to be published with the build. -->
+  <property name="project.root.export.logs"   location="${project.root.export}/logs"/>
+
+  <!-- The location of where to put the install outputted items we want to be published with the build. -->
+  <property name="project.root.export.install"   location="${project.root.export}/install"/>
+
+  <!-- The location of where to put the lib install outputted items we want to be published with the build. -->
+  <property name="project.root.export.install.lib"   location="${project.root.export.install}/lib"/>
+
+  <!-- The location of where we put the temp zip_bundles. -->
+  <property name="project.root.export.zips_bundles"   location="${project.root.export}/zip_bundles"/>
+
+  <!-- The location of where we put any source zip files we need to create. -->
+  <property name="project.root.export.src_zips"   location="${project.root.export}/src_zips"/>
+
+  <!-- The location of where we put the finished ce_eclipse zips. -->
+  <property name="project.root.export.ce_eclipse"   location="${project.root.export}/ce_eclipse"/>
+
+  <!-- The location for packaged OSGi bundles -->
+  <property name="project.root.export.osgi" location="${project.root.export}/osgi" />
+  <property name="project.root.export.osgi.build" location="${project.root.export.osgi}/builder" />
+  <!-- This property contains the path to the plugins build directory but with forward instead.
+	   This works around a problem with macrodefs that use javascripts and are running on Windows -->
+  <pathconvert dirsep="/" property="project.root.export.osgi.build.plugins">
+    <path path="${project.root.export.osgi.build}/plugins" />
+  </pathconvert>
+  <property name="project.root.export.osgi.embedded" location="${project.root.export.osgi}/embedded" />
+  <property name="project.root.export.osgi.runtime" location="${project.root.export.osgi}/runtime" />
+	
+  <!-- The location of where we put the export files for various parts of the amc/am build -->
+  <property name="project.root.export.amc_base"   location="${project.root.export}/amc_export"/>
+  <property name="project.root.export.amc"   location="${project.root.export.amc_base}/amc"/>
+  <property name="project.root.export.am"   location="${project.root.export.amc_base}/am"/>
+  <property name="project.root.export.amc_dbmig"   location="${project.root.export.amc_base}/amc_dbmig"/>
+  <property name="project.root.export.amc_help_tmp"   location="${project.root.export.amc_base}/amc_help_tmp"/>
+  <property name="project.root.export.amc_help"   location="${project.root.export.amc_base}/amc_help"/>
+  <property name="project.root.export.temp_amc3_res"   location="${project.root.export.amc_base}/temp_amc3_res"/>
+  <property name="project.root.export.amc.tools"   location="${project.root.export.amc_base}/tools"/>
+  <property name="project.root.export.amc.ship"   location="${project.root.export.amc_base}/ship"/>
+  <property name="project.root.export.amc.lib"   location="${project.root.export.amc_base}/lib"/>
+
+  <!-- Set the location of where the javadocs is put together.  -->
+  <property name="project.root.javadocs.export"   location="${project.root.export}/docs/api"/>
+
+  <!-- Set the location of where the javadocs is put together.  -->
+  <property name="project.root.javadocs_internal.export"   location="${project.root.export}/docs_internal/api"/>
+
+  <!-- Set the location of where the TDI launchpad is put together.  -->
+  <property name="project.root.launchpad.export"   location="${project.root.export}/launchpad"/>
+
+  <!-- Set the location of where the tmp launchpad directory is put together.  -->
+  <property name="launchpadtmp" value="${project.root.export}/launchpadtmp"/>
+
+  <!-- Set the location of where to put the tmsxml files generated.  -->
+  <property name="project.root.tmsxml_props.export"   location="${project.root.export}/tmsxml_props"/>
+
+  <!-- Set the location the license directory where the license files to be created go.  -->
+  <property name="project.root.license.export"   location="${project.root.export}/license"/>
+
+  <!-- Set the location to put the temporary server etc file for windows and unix  -->
+  <property name="project.root.export.win.etc"   location="${project.root.export}/win_etc"/>
+  <property name="project.root.export.unix.etc"  location="${project.root.export}/unix_etc"/>
+  <property name="project.root.export.i5os.etc"  location="${project.root.export}/i5os_etc"/>
+  <property name="project.root.export.zos.etc"  location="${project.root.export}/zos_etc"/>
+
+  <!-- Set the location to put the temporary server bin file for windows and unix  -->
+  <property name="project.root.export.win.bin"   location="${project.root.export}/win_bin"/>
+  <property name="project.root.export.unix.bin"  location="${project.root.export}/unix_bin"/>
+  <property name="project.root.export.i5os.bin"  location="${project.root.export}/i5os_bin"/>
+  <property name="project.root.export.zos.bin"  location="${project.root.export}/zos_bin"/>
+  <property name="project.root.export.i5os.bin.amc.bin"  location="${project.root.export}/i5os_bin/amc/bin"/>
+  <property name="project.root.export.zos.bin.amc.bin"  location="${project.root.export}/zos_bin/amc/bin"/>
+
+  <!-- Set the location the source files for examples.  -->
+  <property name="project.root.examples.export"   location="${project.root.export}/examples"/>
+
+  <!-- Set the location the source files for plugin.  -->
+  <property name="project.root.pwd.plugin.export"   location="${project.root.export}/pwd_plugins"/>
+  <property name="project.root.pwd.plugin.export.win"   location="${project.root.pwd.plugin.export}/win"/>
+  <property name="project.root.pwd.plugin.export.unix"   location="${project.root.pwd.plugin.export}/unix"/>
+
+  <!-- Set the location the support directory.  -->
+  <property name="project.root.export.support"   location="${project.root.export}/support"/>
+
+  <!-- Set the location of the static code analysis output files.  -->
+  <property name="project.root.export.sca"   location="${project.root.export}/sca"/>
+
+  <!-- Set the location of the temporary files for chkpii.  -->
+  <property name="project.root.export.chkpii"   location="${project.root.export}/chkpii"/>
+
+  <!-- Set the location to send the tmsxml log output. -->
+  <property name="project.root.tmsxml.log"  location="${project.root.export.logs}/tmsxml_to_props.log"/>
+
+  <!-- Set the location to send the auiml splitter tool output. -->
+  <property name="project.root.auiml.splitter.log"  location="${project.root.export.logs}/auiml_splitter.log"/>
+
+  <!-- Set the location to send the additional ce_rcp output. -->
+  <property name="project.root.ce_rcp.log"  location="${project.root.export.logs}/ce_rcp.log"/>
+
+  <!-- Set the location to send the war to wab output. -->
+  <property name="project.root.warToWab.log"  location="${project.root.export.logs}/warToWab.log"/>
+
+  <!-- Set the list of names we use for the various zip files we generate in the build -->
+  <property name="ServerZip_Name"                value="TDI_Server.zip"/>
+  <property name="ServerZipIdentity_Name"        value="TDI_ServerIdentity.zip"/>
+  <property name="ServerZipWin_Name"             value="TDI_ServerWin.zip"/>
+  <property name="ServerZipUnix_Name"            value="TDI_ServerUNIX.zip"/>
+  <property name="ServerZipI5OS_Name"            value="TDI_ServerI5OS.zip"/>
+  <property name="ServerZipWinX86_Name"          value="TDI_ServerWinX86.zip"/>
+  <property name="ServerZipWinX86_64_Name"       value="TDI_ServerWinX86_64.zip"/>
+  <property name="ServerZipLinuxX86_Name"        value="TDI_ServerLinuxX86.zip"/>
+  <property name="ServerZipLinuxX86_64_Name"     value="TDI_ServerLinuxX86_64.zip"/>
+  <property name="ServerZipAixPPC_Name"          value="TDI_ServerAixPPC.zip"/>
+  <property name="CeZipWin_Name"                 value="TDI_CEWin.zip"/>
+  <property name="CeZipUNIX_Name"                value="TDI_CEUNIX.zip"/>
+  <property name="CeUpdateSite_Name"             value="TDI_CEUpdateSite.zip"/>
+  <property name="DocsZip_Name"                  value="TDI_Docs.zip"/>
+  <property name="ExamplesZip_Name"              value="TDI_Examples.zip"/>
+  <property name="ExamplesZipUnix_Name"          value="TDI_ExamplesUNIX.zip"/>
+  <property name="ExamplesZipIdentity_Name"      value="TDI_ExamplesIdentity.zip"/>
+  <property name="ExamplesZipUnixIdentity_Name"  value="TDI_ExamplesUNIXIdentity.zip"/>
+  <property name="AMCZip_Name"                   value="TDI_AMC.zip"/>
+  <property name="AMCZipWin_Name"                value="TDI_AMCWin.zip"/>
+  <property name="AMCZipUNIX_Name"               value="TDI_AMCUnix.zip"/>
+  <property name="AMCZipI5OS_Name"               value="TDI_AMCI5OS.zip"/>
+  <property name="LicenseZip_Name"               value="TDI_License.zip"/>
+  <property name="BaseZip_Name"                  value="TDI_Base.zip"/>
+  <property name="BaseZipWin_Name"               value="TDI_BaseWin.zip"/>
+  <property name="BaseZipUnix_Name"              value="TDI_BaseUNIX.zip"/>
+  <property name="BaseZipI5OS_Name"              value="TDI_BaseI5OS.zip"/>
+  <property name="PluginsZip_base_Name"          value="TDI_Plugins_Base.zip"/>
+  <property name="PluginsZip_base_win_Name"      value="TDI_Plugins_BaseWin.zip"/>
+  <property name="PluginsZip_base_unix_Name"     value="TDI_Plugins_BaseUNIX.zip"/>
+  <property name="PluginsZip_win_x86_Name"       value="TDI_Plugins_win_x86.zip"/>
+  <property name="PluginsZip_win_x86_64_Name"    value="TDI_Plugins_win_x86_64.zip"/>
+  <property name="PluginsZip_linux_86_Name"      value="TDI_Plugins_linux_x86.zip"/>
+  <property name="PluginsZip_linux_86_64_Name"   value="TDI_Plugins_linux_x86_64.zip"/>
+  <property name="PluginsZip_aix_ppc_Name"       value="TDI_Plugins_aix_ppc.zip"/>
+  <property name="PluginsZip_solaris_sparc_Name" value="TDI_Plugins_solaris_sparc.zip"/>
+  <property name="PluginsZip_hp_parisc_Name"     value="TDI_Plugins_hp_parisc.zip"/>
+  <property name="EditionZip_Name"               value="TDI_Edition.zip"/>
+  <property name="LUMZip_Name"                   value="TDI_LUM.zip"/>
+  <property name="LUMTrialZip_Name"              value="TDI_LUM_TRIAL.zip"/>
+  <property name="LUMFullZip_Name"               value="TDI_LUM_FULL.zip"/>
+  <property name="LUMEmptyZip_Name"              value="TDI_LUM_EMPTY.zip"/>
+  <property name="LUMUpgradeZip_Name"            value="TDI_LUM_UPGRADE.zip"/>
+  <property name="LUMTrialName"                  value="tb.tab"/>
+  <property name="LUMProdName"                   value="prod.tab"/>
+  <property name="LUMEmptyName"                  value="empty.tab"/>
+  <property name="EditionFileName"               value="ITLM.xxx"/>
+  <property name="CE_RCP_ZIP_UpdateSite_Name"    value="TDI_CEUpdateSite.zip"/>
+  <property name="CE_RCP_ZIP_win_x86_Name"       value="eclipsece-win32.win32.x86.zip"/>
+  <property name="CE_RCP_ZIP_win_x86_64_Name"    value="eclipsece-win32.win32.x86_64.zip"/>
+  <property name="CE_RCP_ZIP_linux_86_Name"      value="eclipsece-linux.gtk.x86.zip"/>
+  <property name="CE_RCP_ZIP_linux_86_64_Name"   value="eclipsece-linux.gtk.x86_64.zip"/>
+  <property name="CE_RCP_ZIP_aix_Name"           value="eclipsece-aix.gtk.ppc.zip"/>
+  <property name="CE_RCP_ZIP_solaris_sparc_Name" value="eclipsece-solaris.gtk.sparc.zip"/>
+  <property name="Maintainence_TAGS_Name"        value="TDI_tags_update.zip"/>
+  <property name="JUnitTestsZipName"             value="unit_tests.zip"/>
+  <property name="TPServerExtraJarsZipName"      value="TPServerExtraJars.zip" />
+  <property name="ITRegistryDbScriptZip_Name"    value="it_registry_dbscript.zip"/>
+  <property name="CDMWebsiteZip_Name"            value="CDMWebsite.zip"/>
+
+  <!-- Set the list of backup file names we use for moving around files for the installer -->
+  <property name="ServerZipWin_Name_Backup"             value="TDI_ServerWin_backup.zip"/>
+  <property name="ServerZipUnix_Name_Backup"            value="TDI_ServerUNIX_backup.zip"/>
+  <property name="ServerZipI5OS_Name_Backup"            value="TDI_ServerI5OS_backup.zip"/>
+  <property name="ServerZipWinX86_Name_Backup"          value="TDI_ServerWinX86_backup.zip"/>
+  <property name="ServerZipWinX86_64_Name_Backup"       value="TDI_ServerWinX86_64_backup.zip"/>
+  <property name="ServerZipLinuxX86_Name_Backup"        value="TDI_ServerLinuxX86_backup.zip"/>
+  <property name="ServerZipLinuxX86_64_Name_Backup"     value="TDI_ServerLinuxX86_64_backup.zip"/>
+  <property name="ServerZipAixPPC_Name_Backup"          value="TDI_ServerAixPPC_backup.zip"/>
+  <property name="CeZipWin_Name_Backup"                 value="TDI_CEWin_backup.zip"/>
+  <property name="CeZipUNIX_Name_Backup"                value="TDI_CEUNIX_backup.zip"/>
+  <property name="ExamplesZip_Name_Backup"              value="TDI_Examples_backup.zip"/>
+  <property name="ExamplesZipUnix_Name_Backup"          value="TDI_ExamplesUNIX_backup.zip"/>
+  <property name="ExamplesZipIdentity_Name_Backup"      value="TDI_ExamplesIdentity_backup.zip"/>
+  <property name="ExamplesZipUnixIdentity_Name_Backup"  value="TDI_ExamplesUNIXIdentity_backup.zip"/>
+  <property name="AMCZipWin_Name_Backup"                value="TDI_AMCWin_backup.zip"/>
+  <property name="AMCZipUNIX_Name_Backup"               value="TDI_AMCUnix_backup.zip"/>
+  <property name="AMCZipI5OS_Name_Backup"               value="TDI_AMCI5OS_backup.zip"/>
+  <property name="BaseZipWin_Name_Backup"               value="TDI_BaseWin_backup.zip"/>
+  <property name="BaseZipUnix_Name_Backup"              value="TDI_BaseUNIX_backup.zip"/>
+  <property name="BaseZipI5OS_Name_Backup"              value="TDI_BaseI5OS_backup.zip"/>
+  <property name="PluginsZip_base_win_Name_Backup"      value="TDI_Plugins_BaseWin_backup.zip"/>
+  <property name="PluginsZip_base_unix_Name_Backup"     value="TDI_Plugins_BaseUNIX_backup.zip"/>
+  <property name="PluginsZip_win_x86_Name_Backup"       value="TDI_Plugins_win_x86_backup.zip"/>
+  <property name="PluginsZip_win_x86_64_Name_Backup"    value="TDI_Plugins_win_x86_64_backup.zip"/>
+  <property name="PluginsZip_linux_86_Name_Backup"      value="TDI_Plugins_linux_x86_backup.zip"/>
+  <property name="PluginsZip_linux_86_64_Name_Backup"   value="TDI_Plugins_linux_x86_64_backup.zip"/>
+  <property name="PluginsZip_aix_ppc_Name_Backup"       value="TDI_Plugins_aix_ppc_backup.zip"/>
+  <property name="PluginsZip_solaris_sparc_Name_Backup" value="TDI_Plugins_solaris_sparc_backup.zip"/>
+  <property name="PluginsZip_hp_parisc_Name_Backup"     value="TDI_Plugins_hp_parisc_backup.zip"/>
+  <property name="CE_RCP_ZIP_UpdateSite_Name_Backup"    value="TDI_CEUpdateSite_backup.zip"/>
+  <property name="CE_RCP_ZIP_win_x86_Name_Backup"       value="eclipsece-win32.win32.x86_backup.zip"/>
+  <property name="CE_RCP_ZIP_win_x86_64_Name_Backup"    value="eclipsece-win32.win32.x86_64_backup.zip"/>
+  <property name="CE_RCP_ZIP_linux_86_Name_Backup"      value="eclipsece-linux.gtk.x86_backup.zip"/>
+  <property name="CE_RCP_ZIP_linux_86_64_Name_Backup"   value="eclipsece-linux.gtk.x86_64_backup.zip"/>
+  <property name="CE_RCP_ZIP_aix_Name_Backup"           value="eclipsece-aix.gtk.ppc_backup.zip"/>
+  <property name="CE_RCP_ZIP_solaris_sparc_Name_Backup" value="eclipsece-solaris.gtk.sparc_backup.zip"/>
+
+  <!-- SWG TAG File Variables -->
+
+  <!-- The location of where to put the swg tag files templates. -->
+  <property name="project.root.swgtags"   location="${project.root}/swg_tag_files"/>
+
+  <!-- The location of where to put the swg tag files we want to be published with the build. -->
+  <property name="project.root.export.swgtags"   location="${project.root.export}/swg_tag_files"/>
+
+  <!-- Template files for swg tag files. -->
+  <property name="swtag_template"   location="${project.root.swgtags}/template.swtag"/>
+  <property name="fxtag_template"   location="${project.root.swgtags}/template.fxtag"/>
+
+  <!-- The names to give the various files. -->
+  <property name="swtag_file_name" value="IBM_Security_Directory_Integrator-${project.tdi.swgtag.vers}.swtag"/>
+
+  <!-- The names of each SWGFMIDX. -->
+  <property name="prod_swgfmidx_name" value="HISDIN720"/>
+  <!-- The OC Code -->
+  <property name="prod_oc_code" value="SSCQGF"/>
+  
+  <!-- The Product Release ID : A unique identifier of an installable component release-->
+  <property name="prod_release_id" value="026b16f6b6d74f1b8f3197d862bc23c4"/>
+
+  <!-- Ivy information - used to download dependencies. -->
+  <property name="ivy.install.version" value="2.4.0"/>
+  <property name="ivy.jar.dir" value="${project.root}/ivy"/>
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
+  <property name="ivy.lib.dir" value="${project.root}/lib/ivy"/>
+
+  <!-- Import the tools setup properties and macros -->
+  <import file="${project.root}/rules_mk/tools_setup.xml"/>
+
+</project>

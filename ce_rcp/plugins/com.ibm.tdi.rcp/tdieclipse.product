@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Security Verify Directory Integrator" id="com.ibm.tdi.rcp.product" application="org.eclipse.ui.ide.workbench" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+
+   <aboutInfo>
+      <image path="/com.ibm.tdi.rcp/icons/About_Eclipse_tv.gif"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <launcherArgs>
+      <vmArgsLin>-DTDI_HOME_DIR=..\..
+      </vmArgsLin>
+      <vmArgsMac>-DTDI_HOME_DIR=..\..\..\..
+      </vmArgsMac>
+      <vmArgsWin>-DTDI_HOME_DIR=..\..
+      </vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="/com.ibm.tdi.rcp/icons/Neo_16.gif" i32="/com.ibm.tdi.rcp/icons/Neo_32.gif"/>
+
+   <splash
+      location="com.ibm.tdi.rcp"
+      startupProgressRect="0,0,0,0"
+      startupMessageRect="0,0,0,0"
+      startupForegroundColor="000000" />
+   <launcher name="miadmin">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="tdi_intro"/>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.ibm.tdi.feature" version="1.0.0"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.pde"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.emf"/>
+      <feature id="org.eclipse.emf.codegen"/>
+      <feature id="org.eclipse.emf.codegen.ecore"/>
+      <feature id="org.eclipse.emf.codegen.ecore.ui"/>
+      <feature id="org.eclipse.emf.codegen.ui"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.emf.converter"/>
+      <feature id="org.eclipse.emf.databinding"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.ecore.edit"/>
+      <feature id="org.eclipse.emf.ecore.editor"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.emf.mapping"/>
+      <feature id="org.eclipse.emf.mapping.ecore"/>
+      <feature id="org.eclipse.emf.mapping.ecore.editor"/>
+      <feature id="org.eclipse.emf.mapping.ui"/>
+      <feature id="org.eclipse.xsd"/>
+      <feature id="org.eclipse.xsd.ecore.converter"/>
+      <feature id="org.eclipse.xsd.edit"/>
+      <feature id="org.eclipse.xsd.editor"/>
+      <feature id="org.eclipse.xsd.mapping"/>
+      <feature id="org.eclipse.xsd.mapping.editor"/>
+      <feature id="org.eclipse.equinox.server.core"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.e4.core.tools.feature"/>
+      <feature id="org.eclipse.equinox.server.p2"/>
+
+      <feature id="org.eclipse.help.nls1"/>
+      <feature id="org.eclipse.jdt.nls1"/>
+      <feature id="org.eclipse.pde.nls1"/>
+      <feature id="org.eclipse.platform.nls1"/>
+      <feature id="org.eclipse.rcp.nls1"/>
+      <feature id="org.eclipse.equinox.p2.user.ui.nls1"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="osgi.framework.extensions" value="com.ibm.tdi.loader" />
+      <property name="osgi.hook.configurators.include" value="com.ibm.tdi.loader.TDIClassLoaderHook" />
+      <property name="eclipse.p2.data.area" value="@config.dir/../p2" />
+      <property name="eclipse.p2.profile" value="DefaultProfile" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
+

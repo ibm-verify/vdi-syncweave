@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tdiReport>
+
+    <reportClass>com.ibm.di.report.aloverview.AssemblyLineOverview</reportClass>
+    
+    <reportConfig>
+
+    <htmlFragments>
+    
+      <!-- **************** DOCUMENT HEADER *********************************-->
+      <documentHeader><![CDATA[
+<html>
+
+  <head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <base href="file:///#{INSTALL_DIR}/XSLT/ConfigReports/images/" />
+    
+    <link rel="stylesheet" type="text/css" href="file:///#{INSTALL_DIR}/XSLT/ConfigReports/resources/assemblyLineOverview.css">
+    <script language=javascript type='text/javascript'>
+    
+    function showhidediv(divId, imgId) {                 
+      divref = document.getElementById(divId);
+      imgref = document.getElementById(imgId);
+
+      if (divref.style.display == 'none') {
+        divref.style.display = 'block';
+        imgref.src = 'minus.gif';
+      } else {
+        divref.style.display = 'none';
+        imgref.src = 'plus.gif';
+      }           
+    }
+    
+    function showAll() { 
+      var divs = document.getElementsByTagName('div');
+      var divCount = divs.length - 1;
+      for (var i=0; i < divCount; i++) {
+        var nextDiv = divs[i];
+        if (nextDiv.style.display == 'none') {
+            nextDiv.style.display = 'block';
+        } 
+      }   
+      
+      var imgs = document.getElementsByName('expcol');
+      var imgCount = imgs.length - 1;
+      for (var j=0; j < imgCount; j++) {
+         var nextImg = imgs[j]; 
+         nextImg.src = 'minus.gif';
+      }       
+    }
+    
+    function hideAll() {                 
+      var divs = document.getElementsByTagName('div');
+      var divCount = divs.length - 1;
+      for (var i=0; i < divCount; i++) {
+        var nextDiv = divs[i];
+        if (nextDiv.style.display == 'block') {
+            nextDiv.style.display = 'none';
+        } 
+      }   
+      
+      var imgs = document.getElementsByName('expcol');
+      var imgCount = imgs.length - 1;
+      for (var j=0; j < imgCount; j++) {
+        var nextImg = imgs[j];
+        nextImg.src = 'plus.gif';
+      }       
+    }    
+      
+    function gotoDiv(divId, imgId, linkId) {                 
+      divref = document.getElementById(divId);
+      imgref = document.getElementById(imgId);
+      linkref = document.getElementById(linkId);
+
+      if (divref.style.display == 'none') {
+        divref.style.display = 'block';
+        imgref.src = 'minus.gif';
+      }  
+          
+      linkref.focus();      
+    }     
+    </script>
+    
+    <title>#{TITLE}</title>
+    
+  </head>
+
+  <body>
+
+    <h2>#{TITLE}</h2> 
+    <hr width="100%" size="3">
+    <input type="button" onclick="javascript:showAll()" class="lsb" value="#{EXPAND_ALL}">
+    <input type="button" onclick="javascript:hideAll()" class="lsb" value="#{HIDE_ALL}">
+    <h1> <img src="AssemblyLine_16.gif" border="0">&nbsp;#{ASSEMBLY_LINE_NAME}</h1>
+          
+    ]]></documentHeader>
+    <!-- **************** DOCUMENT HEADER END *******************************-->
+    
+    
+    <!-- **************** DOCUMENT FOOTER ***********************************-->
+    <documentFooter><![CDATA[
+  </body>
+</html>      
+    ]]></documentFooter>  
+    <!-- **************** DOCUMENT FOOTER END *******************************--> 
+    
+    
+    <!-- **************** ROOT NODE *****************************************-->
+    <rootNode><![CDATA[
+    <div class="sdiv">     
+      <a id="#{NODE_ID}" href='javascript:showhidediv("#{NODE_ID}_Div", "#{NODE_ID}_Img")' class="chapter">
+         <img src="plus.gif" id="#{NODE_ID}_Img" border="0" name='expcol'> 
+         <img src="#{NODE_IMG}" border="0"> 
+         <span class='p1'>#{NODE_TITLE}</span>
+      </a>          
+      <div id="#{NODE_ID}_Div" class="cdiv" style="display: none;">
+         #{NODE_CONTENT}
+      </div> 
+    </div>        
+    ]]></rootNode>
+    <!-- **************** ROOT NODE *****************************************-->    
+    
+    
+    <!-- **************** COMPONENT NODE ************************************-->
+    <componentNode><![CDATA[
+      <a id="#{NODE_ID}" href='javascript:showhidediv("#{NODE_ID}_Div", "#{NODE_ID}_Img")' class="chapter">
+         <img src="plus.gif" id="#{NODE_ID}_Img" border="0" name='expcol'> 
+         <img src="#{NODE_IMG}" border="0"> 
+         <span class='p1'>#{NODE_TITLE}</span>
+      </a>          
+      <div id="#{NODE_ID}_Div" class="cdiv" style="display: none;">
+         #{NODE_CONTENT}
+      </div>  
+      <br>
+    ]]></componentNode>
+    <!-- **************** COMPONENT NODE ************************************-->    
+     
+    
+    <!-- **************** TREE NODE *****************************************-->
+    <treeNode><![CDATA[
+      <a href='javascript:showhidediv("#{NODE_ID}_Div", "#{NODE_ID}_Img")' class="chapter">
+         <img src="plus.gif" id="#{NODE_ID}_Img" border="0" name='expcol'> 
+         <img src="#{NODE_IMG}" border="0"> 
+         <span class='p2'>#{NODE_TITLE}</span>
+      </a>          
+      <div id="#{NODE_ID}_Div" class="cdiv" style="display: none;">
+         #{NODE_CONTENT}
+      </div>  
+      <br>
+    ]]></treeNode>
+    <!-- **************** TREE NODE *****************************************-->  
+    
+    
+    <!-- **************** DATA TABLE ****************************************-->
+    <dataTable><![CDATA[
+      <table class='dataTable' cellspacing='0' cellpadding='0'>
+        <thead style='background-color:#E0E0E0;'>
+          <tr>
+            #{TABLE_HEADER} 
+          </tr>
+        </thead>
+        <tbody>
+          #{TABLE_CONTENT}                   
+        </tbody>
+      </table>    
+      <br>
+    ]]></dataTable>   
+    
+    <dataTableHeaderCell><![CDATA[ 
+        <th class="dataCell">#{PARAM_NAME}</th> 
+    ]]></dataTableHeaderCell> 
+    
+    <dataTableDataCell><![CDATA[ 
+        <td class="dataCell">#{PARAM_VALUE}</td>
+    ]]></dataTableDataCell> 
+    
+    <dataTableEvenRow><![CDATA[
+          <tr style='background-color:#FFFFFF;'>
+            #{ROW_CONTENT}
+          </tr>      
+    ]]></dataTableEvenRow>  
+    
+    <dataTableOddRow><![CDATA[
+          <tr style='background-color:#F0F0F0;'>
+            #{ROW_CONTENT}
+          </tr>      
+    ]]></dataTableOddRow>      
+    <!-- **************** PARAMETERS TABLE **********************************--> 
+    
+    
+    <!-- **************** SCRIPT ********************************************-->
+    <script><![CDATA[
+          <div class='boxdiv'>
+            <pre>                            
+                #{SCRIPT}
+             </pre>
+          </div>          
+    ]]></script>      
+    <!-- **************** SCRIPT ********************************************-->   
+     
+    
+    <!-- **************** INFO TABLE ****************************************-->
+    <infoTable><![CDATA[
+          <table class='infoTable' cellspacing='0' cellpadding='0'>
+            #{TABLE_CONTENT}              
+          </table> 
+    ]]></infoTable>   
+    
+    <infoTableRow><![CDATA[
+            <tr>
+              <td class="infoCellParam">#{PARAM_NAME}:</td>
+              <td class="infoCellValue">#{PARAM_VALUE}</td>            
+            </tr>
+    ]]></infoTableRow>                                  
+    <!-- **************** INFO TABLE END ************************************-->  
+          
+    <!-- **************** RESOURCES *****************************************-->
+    <resources><![CDATA[
+    <!-- ***** resources overview ***** -->
+    <br>
+    <hr width="100%" size="3">                   
+                      
+    <h1> <img src="WnFolderOpen.gif" border="0">&nbsp;#{RESOURCES}</h1>
+    ]]></resources>
+       
+    <resource_link><![CDATA[
+    <a href='javascript:gotoDiv("#{RESOURCE_ID}_Div", "#{RESOURCE_ID}_Img","#{RESOURCE_ID}")'>
+      <span style="color: #5555FF;">#{RESOURCE_NAME}</span>
+     </a>
+    ]]></resource_link>  
+    <!-- **************** RESOURCES END *************************************-->            
+    
+    </htmlFragments>
+
+    <images>
+      <assemblyLine>AssemblyLine_16.gif</assemblyLine>
+      <settings>Settings_16.gif</settings>
+      <script>Script_16.gif</script>
+      <folder>WnFolderOpen.gif</folder>
+      <connectorDelta>Connector_Delta_Enabled.gif</connectorDelta>
+      <connectorIterator>Connector_Iterator_Enabled.gif</connectorIterator>
+      <connectorLookup>Connector_Lookup_Enabled.gif</connectorLookup>
+      <connectorServer>Connector_Server.gif</connectorServer>
+      <connectorUpdate>Connector_Update_Enabled.gif</connectorUpdate>
+      <connectorAddOnly>Connector_AddOnly_Enabled.gif</connectorAddOnly>
+      <connectorCallReply>Connector_CallReply.gif</connectorCallReply>
+      <connectorDelete>Connector_Delete_Enabled.gif</connectorDelete> 
+      <connector>Connector_16.gif</connector> 
+      <attrMap>AttributeMap_16.gif</attrMap> 
+      <parser>Parser_16.gif</parser>     
+      <delta>Delta_16.gif</delta>   
+      <function>FC_16.gif</function>   
+      <branch>Branch_Enabled.gif</branch>
+      <branch_disabled>Branch_Disabled.gif</branch_disabled>  
+    </images>          
+    
+    </reportConfig>
+  
+</tdiReport>

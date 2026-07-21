@@ -1,0 +1,3523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-04-24" created="Tue Aug 18 14:06:17 EEST 2009" createdBy="krasimir.baylov" modified="Tue Aug 18 14:06:17 EEST 2009" modifiedBy="krasimir.baylov" version="7.0">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="Dummy_Iterator_with_AddOnly">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_AddOnly" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">12000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_AddOnly">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">3</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_Delete">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_Delete" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">10000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_Delete">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Delete</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">10</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>debug</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>totalAttributes</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>totalIterations</Name>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                        <Script>"attr0 EQUALS attr0</Script>
+                        <LinkCriteriaItem>
+                            <Key>12328032aa0</Key>
+                            <Attribute>attr0</Attribute>
+                            <Operator>starts with</Operator>
+                            <Value>attr0</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_Update">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_Update" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">5000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>simple</Type>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>simple</Type>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_Update">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Update</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>simple</Type>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>simple</Type>
+                            <Modify>true</Modify>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>123147ee269</Key>
+                            <Attribute>attr0</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$attr0</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_IF_Branch_TRUE">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="IF" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">24000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="IF">
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>attr0</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>attr0</RightHand>
+                            <CaseSensitive>true</CaseSensitive>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_IF_Branch_FALSE">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="IF" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">14000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="IF">
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>attr0</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>attr0</RightHand>
+                            <Negate>true</Negate>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_IF_ELSE_Branch">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="IF" state="Enabled"/>
+                    <Component name="ELSE" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">14000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="IF">
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>attr0</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>attr0</RightHand>
+                            <Negate>true</Negate>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="ELSE">
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>2</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_LOOP">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="AttributeValueLoop" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalAttributes">5</parameter>
+                        <parameter name="totalIterations">8000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Loop name="AttributeValueLoop">
+                    <LoopType>2</LoopType>
+                    <WorkAttributeName>attr0</WorkAttributeName>
+                    <LoopAttributeName>attr0</LoopAttributeName>
+                    <Branch name="AttributeValueLoop">
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_Script_Component">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="EmptyScript" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">15000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="EmptyScript">
+                    <parameter name="script"/>
+                </Script>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_AttributeMapping_MAP_STAR">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_AddOnly" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalAttributes">30</parameter>
+                        <parameter name="totalIterations">2400000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_AddOnly">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_AttributeMapping_Advanced">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_AddOnly" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalAttributes">30</parameter>
+                        <parameter name="totalIterations">1400000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr10</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr10</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr11</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr11</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr12</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr12</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr13</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr13</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr14</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr14</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr15</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr15</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr16</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr16</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr17</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr17</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr18</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr18</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr19</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr19</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr2</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr2</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr20</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr20</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr21</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr21</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr22</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr22</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr23</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr23</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr24</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr24</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr25</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr25</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr26</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr26</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr27</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr27</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr28</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr28</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr29</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr29</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr3</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr3</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr4</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr4</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr5</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr5</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr6</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr6</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr7</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr7</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr8</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr8</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr9</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "attr"</Script>
+                            <Simple>attr9</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr10</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr11</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr12</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr13</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr14</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr15</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr16</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr17</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr18</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr19</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr20</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr21</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr22</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr23</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr24</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr25</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr26</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr27</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr28</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr29</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr10</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr11</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr12</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr13</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr14</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr15</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr16</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr17</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr18</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr19</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr20</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr21</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr22</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr23</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr24</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr25</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr26</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr27</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr28</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr29</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>com.ibm.di.entry.AttributeValue</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_AddOnly">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>simple</Type>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>simple</Type>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr10</Name>
+                            <Type>simple</Type>
+                            <Simple>attr10</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr11</Name>
+                            <Type>simple</Type>
+                            <Simple>attr11</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr12</Name>
+                            <Type>simple</Type>
+                            <Simple>attr12</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr13</Name>
+                            <Type>simple</Type>
+                            <Simple>attr13</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr14</Name>
+                            <Type>simple</Type>
+                            <Simple>attr14</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr15</Name>
+                            <Type>simple</Type>
+                            <Simple>attr15</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr16</Name>
+                            <Type>simple</Type>
+                            <Simple>attr16</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr17</Name>
+                            <Type>simple</Type>
+                            <Simple>attr17</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr18</Name>
+                            <Type>simple</Type>
+                            <Simple>attr18</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr19</Name>
+                            <Type>simple</Type>
+                            <Simple>attr19</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr2</Name>
+                            <Type>simple</Type>
+                            <Simple>attr2</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr20</Name>
+                            <Type>simple</Type>
+                            <Simple>attr20</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr21</Name>
+                            <Type>simple</Type>
+                            <Simple>attr21</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr22</Name>
+                            <Type>simple</Type>
+                            <Simple>attr22</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr23</Name>
+                            <Type>simple</Type>
+                            <Simple>attr23</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr24</Name>
+                            <Type>simple</Type>
+                            <Simple>attr24</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr25</Name>
+                            <Type>simple</Type>
+                            <Simple>attr25</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr26</Name>
+                            <Type>simple</Type>
+                            <Simple>attr26</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr27</Name>
+                            <Type>simple</Type>
+                            <Simple>attr27</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr28</Name>
+                            <Type>simple</Type>
+                            <Simple>attr28</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr29</Name>
+                            <Type>simple</Type>
+                            <Simple>attr29</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr3</Name>
+                            <Type>simple</Type>
+                            <Simple>attr3</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr4</Name>
+                            <Type>simple</Type>
+                            <Simple>attr4</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr5</Name>
+                            <Type>simple</Type>
+                            <Simple>attr5</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr6</Name>
+                            <Type>simple</Type>
+                            <Simple>attr6</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr7</Name>
+                            <Type>simple</Type>
+                            <Simple>attr7</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr8</Name>
+                            <Type>simple</Type>
+                            <Simple>attr8</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr9</Name>
+                            <Type>simple</Type>
+                            <Simple>attr9</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="AL_with_Dummy_Iterator">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">24000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer"/>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_Lookup">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_Lookup" state="Enabled"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalIterations">11000000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_Lookup">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Lookup</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>123281c921b</Key>
+                            <Attribute>attr0</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>attr0</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Dummy_Iterator_with_AttributeMapping_Simple">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Dummy_AddOnly" state="Simulated"/>
+                    <Component name="Dummy_Iterator" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Dummy_Iterator">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="totalAttributes">30</parameter>
+                        <parameter name="totalIterations">2300000</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>simple</Type>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>simple</Type>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr10</Name>
+                            <Type>simple</Type>
+                            <Simple>attr10</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr11</Name>
+                            <Type>simple</Type>
+                            <Simple>attr11</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr12</Name>
+                            <Type>simple</Type>
+                            <Simple>attr12</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr13</Name>
+                            <Type>simple</Type>
+                            <Simple>attr13</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr14</Name>
+                            <Type>simple</Type>
+                            <Simple>attr14</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr15</Name>
+                            <Type>simple</Type>
+                            <Simple>attr15</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr16</Name>
+                            <Type>simple</Type>
+                            <Simple>attr16</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr17</Name>
+                            <Type>simple</Type>
+                            <Simple>attr17</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr18</Name>
+                            <Type>simple</Type>
+                            <Simple>attr18</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr19</Name>
+                            <Type>simple</Type>
+                            <Simple>attr19</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr2</Name>
+                            <Type>simple</Type>
+                            <Simple>attr2</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr20</Name>
+                            <Type>simple</Type>
+                            <Simple>attr20</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr21</Name>
+                            <Type>simple</Type>
+                            <Simple>attr21</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr22</Name>
+                            <Type>simple</Type>
+                            <Simple>attr22</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr23</Name>
+                            <Type>simple</Type>
+                            <Simple>attr23</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr24</Name>
+                            <Type>simple</Type>
+                            <Simple>attr24</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr25</Name>
+                            <Type>simple</Type>
+                            <Simple>attr25</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr26</Name>
+                            <Type>simple</Type>
+                            <Simple>attr26</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr27</Name>
+                            <Type>simple</Type>
+                            <Simple>attr27</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr28</Name>
+                            <Type>simple</Type>
+                            <Simple>attr28</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr29</Name>
+                            <Type>simple</Type>
+                            <Simple>attr29</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr3</Name>
+                            <Type>simple</Type>
+                            <Simple>attr3</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr4</Name>
+                            <Type>simple</Type>
+                            <Simple>attr4</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr5</Name>
+                            <Type>simple</Type>
+                            <Simple>attr5</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr6</Name>
+                            <Type>simple</Type>
+                            <Simple>attr6</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr7</Name>
+                            <Type>simple</Type>
+                            <Simple>attr7</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr8</Name>
+                            <Type>simple</Type>
+                            <Simple>attr8</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr9</Name>
+                            <Type>simple</Type>
+                            <Simple>attr9</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr10</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr11</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr12</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr13</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr14</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr15</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr16</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr17</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr18</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr19</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr20</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr21</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr22</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr23</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr24</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr25</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr26</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr27</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr28</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr29</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>attr0</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr1</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr10</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr11</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr12</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr13</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr14</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr15</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr16</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr17</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr18</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr19</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr2</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr20</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr21</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr22</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr23</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr24</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr25</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr26</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr27</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr28</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr29</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr3</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr4</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr5</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr6</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr7</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr8</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>attr9</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="Dummy_AddOnly">
+                    <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>attr0</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr0</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr1</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr1</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr10</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr10</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr11</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr11</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr12</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr12</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr13</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr13</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr14</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr14</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr15</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr15</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr16</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr16</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr17</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr17</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr18</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr18</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr19</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr19</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr2</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr2</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr20</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr20</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr21</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr21</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr22</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr22</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr23</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr23</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr24</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr24</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr25</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr25</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr26</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr26</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr27</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr27</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr28</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr28</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr29</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr29</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr3</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr3</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr4</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr4</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr5</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr5</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr6</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr6</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr7</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr7</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr8</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr8</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>attr9</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>attr9</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="AL_with_Loop_over_Dummy_Iterator">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="ConnectorLoop" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Loop name="ConnectorLoop">
+                    <LoopType>1</LoopType>
+                    <Connector name="ConnectorLoop">
+                        <InheritFrom>system:/Connectors/ibmdi.DummyConnector</InheritFrom>
+                        <ConnectorMode>Iterator</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <UserComment/>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="totalIterations">23000000</parameter>
+                            <parameter name="userComment"/>
+                        </Configuration>
+                        <Parser>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <WhenToCommit>After every database operation</WhenToCommit>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>debug</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>totalAttributes</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>totalIterations</Name>
+                            </SchemaItem>
+                        </Schema>
+                        <LinkCriteria/>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="initreconnect">false</parameter>
+                            <parameter name="numberOfRetries">1</parameter>
+                            <parameter name="retryDelay">10</parameter>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Branch name="ConnectorLoop">
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="AL_speed_start">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates/>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer"/>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>AL_dummy_iterator_with_component</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/AL_dummy_iterator_with_component.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="AL_dummy_iterator_with_component">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/AL_dummy_iterator_with_component.properties</parameter>
+                    <parameter name="collectionType">AL_dummy_iterator_with_component</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

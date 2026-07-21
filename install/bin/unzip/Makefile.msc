@@ -1,0 +1,46 @@
+# IBM Confidential 
+# PID 5724-K74
+#
+# Copyright IBM Corp. 2023
+
+#
+# Variables
+#
+
+TOP       = ../..
+STATICLIB = $(TOP)/win32/zlib.lib
+MINIZIP   = $(TOP)/contrib/minizip
+
+CC      = cl
+LD      = link
+CFLAGS  = -nologo -MT -W3 -O2 -Oy- -Zi -Fd"zlib" $(LOC) -I$(TOP) -I$(MINIZIP)
+WFLAGS  = -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE
+LDFLAGS = -nologo -debug -incremental:no -opt:ref 
+
+#
+# Targets
+#
+
+all: ibm_vdi_unzip.exe 
+
+ibm_vdi_unzip.exe: ibm_vdi_unzip.obj ioapi.obj unzip.obj iowin32.obj $(STATICLIB)
+	$(LD) $(LDFLAGS) ibm_vdi_unzip.obj ioapi.obj unzip.obj iowin32.obj $(STATICLIB) 
+
+ibm_vdi_unzip.obj: ibm_vdi_unzip.c $(TOP)/zlib.h $(TOP)/zconf.h
+	$(CC) -c $(WFLAGS) $(CFLAGS) ibm_vdi_unzip.c
+
+iowin32.obj: $(MINIZIP)/iowin32.c $(TOP)/zlib.h $(TOP)/zconf.h
+	$(CC) -c $(WFLAGS) $(CFLAGS) $(MINIZIP)/iowin32.c
+
+unzip.obj: $(MINIZIP)/unzip.c $(TOP)/zlib.h $(TOP)/zconf.h
+	$(CC) -c $(WFLAGS) $(CFLAGS) $(MINIZIP)/unzip.c
+
+ioapi.obj: $(MINIZIP)/ioapi.c $(TOP)/zlib.h $(TOP)/zconf.h
+	$(CC) -c $(WFLAGS) $(CFLAGS) $(MINIZIP)/ioapi.c
+
+# cleanup
+clean:
+	-del *.obj
+	-del *.exe
+	-del *.pdb
+

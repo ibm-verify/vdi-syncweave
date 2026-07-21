@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="proxy" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDKN001I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.PROXY.STOP.REQUESTED" varFormat="Java">
+   Proxy stop requested.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN002E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.UNKNOWN.HOST" varFormat="Java">
+   Encountered an unknown hostname or IP address.
+   </MsgText>
+   <Explanation> <p>
+   Unexpected internal error has occurred that may
+   be due to the current network configuration settings
+   of the Java Proxy.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the Java Proxy configuration and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN003E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.STOP.FAILED" varFormat="Java">
+	Proxy stop request failed! The server is probably already stopped.
+   </MsgText>
+   <Explanation> <p>
+	This error might be thrown if the proxy's maximum opened connections limit 
+	is reached by the time the proxy is requested to stop.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Try to stop the proxy using the &apos;stopProxy&apos; console utility.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN004I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.WAITING.FOR.THREADS" varFormat="Java">
+   Waiting for &apos;<Variable formatSpec="{0}">number of threads</Variable>&apos; threads to die.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN005I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.WAITING.FOR.THREADS.INTERRUPTED" varFormat="Java">
+   Interrupted while waiting for the other threads to die.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN006E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.MISSING.PROXY.CONFIG.PROP" varFormat="Java">
+   Unable to start the Java Proxy because the Java property &apos;<Variable formatSpec="{0}">property name</Variable>&apos;
+   was not specified.
+   </MsgText>
+   <Explanation> <p>
+   The specified property was missing and is required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN007E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INCORRECT.PATH.TO.PROXY.CONFIG.FILE" varFormat="Java">
+   Unable to start the Java Proxy. The path to the Java Proxy configuration file is not valid.
+   </MsgText>
+   <Explanation> <p>
+   The path to the Java Proxy configuration file is either missing or not existing.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN008E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.NO.PROXY.CONFIG.FILE" varFormat="Java">
+   Unable to start the Java Proxy. The proxy configuration file property was not specified.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;proxyConfigFile&apos; property does not contain a value
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN009E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.COULD.NOT.OPEN.SERVER.SOCKET" varFormat="Java">
+   Unable to start the Java Proxy. The server socket could not be created.
+   </MsgText>
+   <Explanation> <p>
+   This indicates an issue in the environment. The specified port is already taken and
+   is in use by another application.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the message of the corresponding exception for further details. Verify that the
+   port number is in use and specify an alternate port.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN010I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.AUTH.FOLDER" varFormat="Java">
+   The authentication folder is: &apos;<Variable formatSpec="{0}">directory name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN011I" prefix="yes">
+   <MsgText pgmKey="PWYSYNC.AUTH.SUCCESS" varFormat="Java">
+   Plug-in/Proxy authentication successful.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN012I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.AUTH.FAILURE" varFormat="Java">
+   Plug-in/Proxy authentication failed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN013E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.IO.EXCEPTION" varFormat="Java">
+   An unexpected Input/Output Exception occurred.
+   </MsgText>
+   <Explanation> <p>
+   An unexpected exception has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception message for more information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN014I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.PROXY.SHUTTING.DOWN" varFormat="Java">
+   The Java Proxy is shutting down...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN015E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.EXCEPTION" varFormat="Java">
+   An unexpected exception occurred.
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception message for more information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN016E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.NO.SYNC.CLASS" varFormat="Java">
+   Unable to start the Java Proxy.  The configuration property &apos;syncClass&apos;
+   is missing.
+   </MsgText>
+   <Explanation> <p>
+   The syncClass property is missing.
+   The syncClass property is required and is used to specify the Password Store class.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the configuration file and ensure the syncClass property is specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN017E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.ERROR.IN.SYNC.CLASS" varFormat="Java">
+   Unable to start the Java Proxy. The Password Store class could not be instantiated.
+   </MsgText>
+   <Explanation> <p>
+   The Password Store class could not be instantiated. This could happen if the specified
+   class name is invalid.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the message of the auxiliary exception for more details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN018I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INCORRECT.PORT" varFormat="Java">
+   Invalid value for &apos;<Variable formatSpec="{0}">property name</Variable>&apos; property, 
+   falling back to the default port &apos;<Variable formatSpec="{1}">port number</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN019I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.SENT.STOP.REQUEST" varFormat="Java">
+   Sending Proxy Stop request.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN020E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.ERROR.CONNECTING.TO.PROXY" varFormat="Java">
+   Could not connect to &apos;<Variable formatSpec="{0}">hostname</Variable>&apos;
+   :&apos;<Variable formatSpec="{1}">port number</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The connection with the Java Proxy failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Either the Proxy has already been stopped or the connection limit has been reached.
+   Verify the Java Proxy is running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN021I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.OLD.PROXY" varFormat="Java">
+   The Java Proxy does not recognize the byte-order mark.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN022W" prefix="yes">
+   <MsgText pgmKey="PWYSINC.STOP.REJECTED" varFormat="Java">
+   The Proxy Stop request was rejected by the Java Proxy.
+   </MsgText>
+   <Explanation> <p>
+   The proxy did not acknowledge the request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check log file of the Java Proxy.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN023I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.PROXY.IS.STOPPING" varFormat="Java">
+   The Proxy stop request was sent successfully. The Proxy will react in 
+   less than  <Variable formatSpec="{0}">number of seconds</Variable> seconds.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN024I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.STOP.USAGE.1" varFormat="Java">
+   Usage of the StopProxy program:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN025I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.STOP.USAGE.2" varFormat="Java">
+   stopProxy &lt;full path to the configuration file of the Password Synchronizer&gt;
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN026I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.RECEIVED.OPCODE" varFormat="Java">
+   Received operational code: &apos;<Variable formatSpec="{0}">operational code</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN027I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INVALID.OPCODE" varFormat="Java">
+   Invalid operational code: &apos;<Variable formatSpec="{0}">operational code</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN028I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.REJECT.OPCODE" varFormat="Java">
+	Rejecting operation.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN029I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.REJECT.FOR.DN" varFormat="Java">
+   Invalid data received. The data might contain null characters.
+   The operation for &apos;<Variable formatSpec="{0}">operation name</Variable>&apos; 
+   will be rejected. 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN030E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.ERROR.READ.ZERO" varFormat="Java">
+   Invalid protocol data. Expected 0x00, received:  <Variable formatSpec="{0}">byte</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The client plug-in is using a protocol which is not recognized by the Java Proxy.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the versions of both the client plug-in and the Java Proxy are the same. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN031I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.READING.BOM" varFormat="Java">
+   Reading BOM.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN032I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.NOT.BOM.FOUND" varFormat="Java">
+   Encoding not found. Using default encoding 
+   (&apos;<Variable formatSpec="{0}">character set</Variable>&apos;).
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN033I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.BOM.FOUND" varFormat="Java">
+   Found encoding &apos;<Variable formatSpec="{0}">character set</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN034I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.RESPONSE.POSITIVE" varFormat="Java">
+   Sending positive response to the client plug-in.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN035I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INSUFFICIENT.INPUT.DATA" varFormat="Java">
+   Insufficient input data.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Deleted message CTGDKN036I. -->
+
+<Message ID="CTGDKN037E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PASS.FILE.CREATION.FAILED" varFormat="Java">
+   A password file was not created successfully.
+   </MsgText>
+   <Explanation> <p>
+   The proxy sent a notification that it failed to create a password file.
+   The authentication process could not continue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the authentication folder has the right file system permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKN038W. -->
+
+<!-- Deleted message CTGDKN039I. -->
+
+<Message ID="CTGDKN040I" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PASS.FILE.READ" varFormat="Java">
+   Both password files were successfully read.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN041I" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.SENDING.PROXY.PASS" varFormat="Java">
+   Sending proxy password.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Deleted message CTGDKN042W. -->
+
+<!-- Deleted message CTGDKN043I. -->
+
+<Message ID="CTGDKN044E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PROXY.UNEXPECTED.RESPONSE" varFormat="Java">
+   The authentication process failed.  The proxy did not respond as expected.
+   </MsgText>
+   <Explanation> <p>
+    An unknown error occurred on the proxy side during the authentication
+    process.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Ensure the proxy is operating normally. Inspect the proxy log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN045I" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PROXY.PASS.VALID" varFormat="Java">
+   The password sent by the proxy is valid.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN046E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PROXY.PASS.INVALID" varFormat="Java">
+   Authentication failed.  The password sent by the proxy is not the same as the one that the client generated at
+   the beginning of the authentication process. 
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+    Verfiy the proxy is operating normally. Inspect the proxy log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN047E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.FAILED" varFormat="Java">
+	The authentication failed: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the error logs.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKN048W. -->
+
+<Message ID="CTGDKN049E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PASS.FILE.MISSING" varFormat="Java">
+   The password file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; is missing.
+   </MsgText>
+   <Explanation> <p>
+   The client could not find a password file. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the proxy is operating normally.
+   Inspect the proxy error log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN050E" prefix="yes">
+   <MsgText pgmKey="CLIENT.AUTH.PASS.FILE.INCORRECT" varFormat="Java">
+   The password file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; is of unexpected format.
+   </MsgText>
+   <Explanation> <p>
+   The client does not recognize the format of the password file.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the proxy is operating normally.
+   Inspect the proxy error log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN051E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.PASS.FILE.CREATION.FAILED" varFormat="Java">
+   Authentication failed because a password file could not be created:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message for details.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Make sure the authentication folder has the right file system permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN052W" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CANNOT.DELETE.PROXY.PASS.FILE" varFormat="Java">
+   Could not delete proxy password file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The proxy password file should be deleted after the client reads the proxy password. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Ensure the authentication folder has the right file system permissions.
+  	Verify the specified password file is not left in the authentication
+  	folder after the authentication process completes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN053I" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.PROXY.PASS.FILE.DELETED" varFormat="Java">
+   Proxy password file deleted successfully.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN054E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.UNEXPECTED.RESPONSE" varFormat="Java">
+   The client did not respond as expected.
+   </MsgText>
+   <Explanation> <p>
+   This is an error in the authentication process.  An error might have occurred on the client side.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the proxy log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN055E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.WRONG.PASS.FROM.CLIENT" varFormat="Java">
+   The password received from the client does not match the password generated by the proxy
+   in the beginning of the authentication process.
+   </MsgText>
+   <Explanation> <p>
+   See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the proxy log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN056I" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CORRECT.PASS.FROM.CLIENT" varFormat="Java">
+   Received correct password from client.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN057I" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.SENDING.PASS.TO.CLIENT" varFormat="Java">
+   Sending password to client.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Deleted message CTGDKN058I. -->
+
+<Message ID="CTGDKN059W" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CANNOT.DELETE.CLIENT.PASS.FILE" varFormat="Java">
+  Could not delete client password file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The client password file should be deleted after the proxy reads the client password. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the authentication folder has the right file system permissions.
+   Verify the specified password file is not left in the authentication
+   folder after the authentication process completes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN060I" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.PASS.FILE.DELETED" varFormat="Java">
+   Client password file deleted successfully.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN061E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.UNEXPECTED.RESPONSE.2" varFormat="Java">
+	The client did not respond as expected.
+   </MsgText>
+   <Explanation> <p>
+   This is an error in the authentication process.  An error might have occurred on the client side.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Inspect the proxy log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN062E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.REJECTED.PASS" varFormat="Java">
+   The client rejected the password sent by the proxy.
+   </MsgText>
+   <Explanation> <p>
+   This is an error in the authentication process.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Inspect the log for errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN063I" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.ACCEPTED.PASS" varFormat="Java">
+   The client accepted the password sent by the proxy.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN064E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.FAILED" varFormat="Java">
+   The authentication failed.  An exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Inspect the error logs.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKN065I. -->
+
+<!-- Deleted message CTGDKN066I.  -->
+
+<Message ID="CTGDKN067E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.PASS.FILE.MISSING" varFormat="Java">
+   The client password file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; is missing.
+   </MsgText>
+   <Explanation> <p>
+   The proxy could not find the client password file. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the client is operating normally. Inspect the client error log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN068E" prefix="yes">
+   <MsgText pgmKey="PROXY.AUTH.CLIENT.PASS.FILE.INCORRECT" varFormat="Java">
+   The authentication failed.  The proxy does not recognize the format of the client password file.
+   </MsgText>
+   <Explanation> <p>
+   See the error message.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the client is operating normally.  Inspect the client error log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN069E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.CANNOT.INSTALL.CRYPTO.PROVIDER" varFormat="Java">
+   Cannot install IBMJCE provider.  An exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   This is an internal error. The installation may be corrupted. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the installation is not corrupted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN070E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.CIPHER.INIT.FAILED" varFormat="Java">
+   Could not obtain cipher &apos;<Variable formatSpec="{0}">cipher name</Variable>&apos; implementation 
+   from provider &apos;<Variable formatSpec="{1}">provider name</Variable>&apos;:
+   <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   This is an internal error. Probably the installation is corrupted.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the installation is not corrupted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN071E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.KEY.STORE.FILE.NOT.FOUND" varFormat="Java">
+   Key store file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; does not exist.
+   </MsgText>
+   <Explanation> <p>
+   The specified key store file could not be found.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the key store file exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN072E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.KEY.STORE.OPEN.FAILED" varFormat="Java">
+   Failed to open key store file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the key store password is correct, the key store file is accessible and is not corrupted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN073E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.CERT.NOT.FOUND" varFormat="Java">
+   Could not find certificate with alias &apos;<Variable formatSpec="{0}">certificate alias</Variable>&apos;
+   in key store file &apos;<Variable formatSpec="{1}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   A certificate with the specified alias does not exit in the key store.  
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Verify that the certificate exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN074E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.CERT.RETRIEVAL.FAILED" varFormat="Java">
+   Failed to retrieve certificate with alias &apos;<Variable formatSpec="{0}">certificate alias</Variable>&apos; from
+   key store file &apos;<Variable formatSpec="{1}">file name</Variable>&apos;: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   The key store password is not correct or the key store is corrupt.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the certificate exists and the key store password is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN075E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.PRIVATE.KEY.RETRIEVAL.FAILED" varFormat="Java">
+   Failed to retrieve private key with alias &apos;<Variable formatSpec="{0}">private key alias</Variable>&apos; from
+   key store file &apos;<Variable formatSpec="{1}">file name</Variable>&apos;: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   The key store password is not correct, the key password is not correct or the key store is corrupt.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Verify that the private key exists, the key store password is correct and the private key password is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN076E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.PUBLIC.KEY.RETRIEVAL.FAILED" varFormat="Java">
+   Failed to retrieve public key with alias &apos;<Variable formatSpec="{0}">alias name</Variable>&apos; from
+   key store file &apos;<Variable formatSpec="{1}">file name</Variable>&apos;: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   The key store password is not correct or the key store is corrupt.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Verify that the public key exists and the key store password is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN077E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.ENCRYPT.FAILED" varFormat="Java">
+   An exception occurred during the encryption operation:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN078E" prefix="yes">
+   <MsgText pgmKey="PWCRYPTO.DECRYPT.FAILED" varFormat="Java">
+   An exception occurred during the decryption operation:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+  	Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN079I" prefix="yes">
+   <MsgText pgmKey="ENCODEPW.USAGE" varFormat="Java">
+   Usage: java com.ibm.di.plugin.idipwsync.EncodePW &lt;password&gt;
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN080E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INTERNAL.ERROR.IN.COMMAND.LOOP" varFormat="Java">
+   An unexpected error occurred.
+   </MsgText>
+   <Explanation> <p>
+   This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN081E" prefix="yes">
+   <MsgText pgmKey="PWSYNC.ERROR.INCORRECT.SYNC.CLASS" varFormat="Java">
+   Incorrect class specified in the syncClass property.
+   </MsgText>
+   <Explanation> <p>
+   The specified class does not implement the proper interface.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the value of the syncClass property in the pwsync.props file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN082I" prefix="yes">
+   <MsgText pgmKey="PWSYNC.INCORRECT.RETRYATTEMPTS" varFormat="Java">
+   Invalid value for &apos;<Variable formatSpec="{0}">property name</Variable>&apos; property, 
+   falling back to the default retry attempts &apos;<Variable formatSpec="{1}">retry attempt</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

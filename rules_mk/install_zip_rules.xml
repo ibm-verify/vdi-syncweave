@@ -1,0 +1,2346 @@
+<?xml version="1.0"?>
+
+<project name="install_zip_rules" basedir=".">
+
+	<description>
+    =========================================================================
+      Macro:  copyandfixfori5OS
+
+      Purpose:  Get a shell script converted to i5/OS specs.
+    =========================================================================
+	</description>
+	<macrodef name="copyandfixfori5OS">
+		<!-- name of file to copy. -->
+		<attribute name="inputfile"/>
+		<!-- new name and location of file. -->
+		<attribute name="outputfile"/>
+		<!-- location where file will be . -->
+		<attribute name="outputdir"/>
+		<!-- shell input string to search for and replace in the file. -->
+		<attribute name="shellstring"/>
+
+		<sequential>
+			<!-- Copy the file. -->
+			<copy file="@{inputfile}"
+              tofile="@{outputfile}"/>
+			<!-- Replace the shell string. -->
+			<replaceregexp file="@{outputfile}"
+                        match="@{shellstring}"
+                        replace="#!/usr/bin/qsh"
+                        byline="true" />
+			<!-- Remove escaped slashes. -->
+			<replaceregexp file="@{outputfile}"
+                        match="&#92;&#92;&#92;&#34;"
+                        replace="&#34;"
+                        flags="gm"
+                        byline="true" />
+			<!-- always remove the .sh from any was commands. -->
+			<replaceregexp file="@{outputfile}"
+                        match="wsadmin.sh"
+                        replace="wsadmin"
+                        byline="true" />
+			<replaceregexp file="@{outputfile}"
+                        match="stopServer.sh"
+                        replace="stopServer"
+                        byline="true" />
+			<replaceregexp file="@{outputfile}"
+                        match="startServer.sh"
+                        replace="startServer"
+                        byline="true" />
+			<replaceregexp file="@{outputfile}"
+                        match="wasprofile.sh"
+                        replace="wasprofile"
+                        byline="true" />
+			<replaceregexp file="@{outputfile}"
+                        match="TDI_SOLDIR=/opt/IBM/TDI/V10.0.0.6"
+                        replace="TDI_SOLDIR=/QIBM/ProdData/TDI/V10.0.0.6"
+                        byline="true" />
+			<replaceregexp file="@{outputfile}"
+                        match="TDI_JAVA_HOME=/opt/IBM/TDI/V10.0.0.6/jvm"
+                        replace="TDI_JAVA_HOME=/QOpenSys/QIBM/ProdData/JavaVM/jdk60/32bit"
+                        byline="true" />
+
+			<!-- Make sure the format is still unix after this -->
+			<fixcrlf srcdir="@{outputdir}" eol="unix" includes="@{outputfile}" />
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  setupEtcBinMiscFiles
+
+      Purpose:  Copies all of the bin, etc, and misc files that we need for
+                various platforms and make them usable to actually bundle.
+    =========================================================================
+	</description>
+	<macrodef name="setupEtcBinMiscFiles">
+
+		<sequential>
+			<!-- delete any existing files in the directories and copy them back over so we can modify them. -->
+			<delete dir="${project.root.export.win.bin}"/>
+			<mkdir dir="${project.root.export.win.bin}"/>
+			<delete dir="${project.root.export.unix.bin}"/>
+			<mkdir dir="${project.root.export.unix.bin}"/>
+			<delete dir="${project.root.export.i5os.bin}"/>
+			<mkdir dir="${project.root.export.i5os.bin}"/>
+			<delete dir="${project.root.export.win.etc}"/>
+			<mkdir dir="${project.root.export.win.etc}"/>
+			<delete dir="${project.root.export.unix.etc}"/>
+			<mkdir dir="${project.root.export.unix.etc}"/>
+			<delete dir="${project.root.export.i5os.etc}"/>
+			<mkdir dir="${project.root.export.i5os.etc}"/>
+
+			<!-- Copy over the files from the bin directory for windows -->
+			<copy todir="${project.root.export.win.bin}">
+				<fileset dir="${project.root.bin}">
+					<include name="*.bat"/>
+					<include name="*.txt"/>
+					<include name="*.html"/>
+					<include name="*.vbs"/>
+				</fileset>
+			</copy>
+			<!-- Convert the file to have windows slashes. -->
+			<replaceregexp file="${project.root.export.win.bin}/filelist.txt"
+                        match="&#47;"
+                        replace="\\\\"
+                        flags="gm"
+                        byline="true" />
+
+			<!-- Copy over the files from the bin directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root.bin}">
+					<include name="*.sh"/>
+					<include name="*.txt"/>
+					<include name="*.html"/>
+					<include name="tdisrvctl"/>
+					<include name="tdimiggbl"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the etc directory for windows -->
+			<copy todir="${project.root.export.win.etc}">
+				<fileset dir="${project.root.etc}">
+					<exclude name="TDI1000.SYS2"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the etc directory for unix -->
+			<copy todir="${project.root.export.unix.etc}">
+				<fileset dir="${project.root.etc}">
+					<exclude name="TDI1000.SYS2"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the serverapi directory for windows -->
+			<copy todir="${project.root.export.win.bin}">
+				<fileset dir="${project.root.serverapi}">
+					<include name="*.bat"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the serverapi directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root.serverapi}">
+					<include name="*.sh"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the CSMigraton directory for windows -->
+			<copy todir="${project.root.export.win.bin}">
+				<fileset dir="${project.root}/tools/CSMigration">
+					<include name="*.bat"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the CSMigration directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root}/tools/CSMigration">
+					<include name="*.sh"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the root directory for windows -->
+			<copy todir="${project.root.export.win.bin}">
+				<fileset dir="${project.root}">
+					<include name="*.bat"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the root directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root}">
+					<include name="*.sh"/>
+					<include name="ibmditk"/>
+					<include name="ibmdisrv"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the performance directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root.performance}">
+					<include name="*.sh"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the performance directory for unix -->
+			<copy todir="${project.root.export.unix.etc}">
+				<fileset dir="${project.root.performance}">
+					<include name="*.properties"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the performance directory for i5os -->
+			<copy todir="${project.root.export.i5os.etc}">
+				<fileset dir="${project.root.performance}">
+					<include name="*.properties"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the install/bin directory for windows -->
+			<copy todir="${project.root.export.win.bin}">
+				<fileset dir="${project.root.install.bin}">
+					<include name="*.bat"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the install/bin directory for unix -->
+			<copy todir="${project.root.export.unix.bin}">
+				<fileset dir="${project.root.install.bin}">
+					<include name="*.sh"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the etc directory for i5OS -->
+			<copy todir="${project.root.export.i5os.etc}">
+				<fileset dir="${project.root.etc}">
+					<exclude name="TDI1000.SYS2"/>
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the osgi directory for windows -->
+			<copy todir="${project.root.export.win.etc}">
+				<fileset dir="${project.root.osgi}/config">
+					<include name="*.ini" />
+				</fileset>
+				<fileset dir="${project.root.osgi}/config/configuration">
+					<include name="*.ini" />
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the osgi directory for unix -->
+			<copy todir="${project.root.export.unix.etc}">
+				<fileset dir="${project.root.osgi}/config">
+					<include name="*.ini" />
+				</fileset>
+				<fileset dir="${project.root.osgi}/config/configuration">
+					<include name="*.ini" />
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files from the osgi directory for i5OS -->
+			<copy todir="${project.root.export.i5os.etc}">
+				<fileset dir="${project.root.osgi}/config">
+					<include name="*.ini" />
+				</fileset>
+				<fileset dir="${project.root.osgi}/config/configuration">
+					<include name="*.ini" />
+				</fileset>
+			</copy>
+
+			<!-- Copy over the files needed for the splashscreen -->
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/en/splashscreen.jpg"        tofile="${project.root.export.install.lib}/splashscreen.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/de/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_de.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/es/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_es.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/fr/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_fr.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/it/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_it.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/ja/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_ja.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/ko/splashscreen.jpg"     tofile="${project.root.export.install.lib}/splashscreen_ko.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/pt_BR/splashscreen.jpg"  tofile="${project.root.export.install.lib}/splashscreen_pt_BR.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/zh_CN/splashscreen.jpg"  tofile="${project.root.export.install.lib}/splashscreen_zh_CN.jpg"/>
+			<copy file="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}/nl/zh_TW/splashscreen.jpg"  tofile="${project.root.export.install.lib}/splashscreen_zh_TW.jpg"/>
+
+			<!-- One for i5/OS.  Always make the .properties files Unix -->
+			<!-- format all of the files needed to be i5/OS specific -->
+			<copyandfixfori5OS inputfile="${project.root.bin}/javaHome.sh" outputfile="${project.root.export.i5os.bin}/javaHome.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/setupCmdLine.sh" outputfile="${project.root.export.i5os.bin}/setupCmdLine.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdiSetJavaHome.sh" outputfile="${project.root.export.i5os.bin}/tdiSetJavaHome.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/setDefaultSolDir.sh" outputfile="${project.root.export.i5os.bin}/setDefaultSolDir.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/defaultSolDir.sh" outputfile="${project.root.export.i5os.bin}/defaultSolDir.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/setISCHome.sh" outputfile="${project.root.export.i5os.bin}/setISCHome.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdiISCHome.sh" outputfile="${project.root.export.i5os.bin}/tdiISCHome.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/createstash.sh" outputfile="${project.root.export.i5os.bin}/createstash.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdisrvctl" outputfile="${project.root.export.i5os.bin}/tdisrvctl"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/logcmd.sh" outputfile="${project.root.export.i5os.bin}/logcmd.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/collect.sh" outputfile="${project.root.export.i5os.bin}/collect.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdimiggbl" outputfile="${project.root.export.i5os.bin}/tdimiggbl"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdiSetBackupDir.sh" outputfile="${project.root.export.i5os.bin}/tdiSetBackupDir.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/backupDir.sh" outputfile="${project.root.export.i5os.bin}/backupDir.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/applyUpdates.sh" outputfile="${project.root.export.i5os.bin}/applyUpdates.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/tdiBackup.sh" outputfile="${project.root.export.i5os.bin}/tdiBackup.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/startNetworkServer.sh" outputfile="${project.root.export.i5os.bin}/startNetworkServer.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.bin}/stopNetworkServer.sh" outputfile="${project.root.export.i5os.bin}/stopNetworkServer.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+
+			<!-- Make sure we always make a special copy of filelist.txt for i5OS -->
+			<copy file="${project.root.bin}/filelist.txt" tofile="${project.root.export.i5os.bin}/filelist.txt"/>
+			<copyandfixfori5OS inputfile="${project.root.serverapi}/cryptoutils.sh" outputfile="${project.root.export.i5os.bin}/cryptoutils.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root}/tools/CSMigration/migrateCS.sh" outputfile="${project.root.export.i5os.bin}/migrateCS.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root}/ibmdisrv" outputfile="${project.root.export.i5os.bin}/ibmdisrv"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.install.bin}/backup_server.sh" outputfile="${project.root.export.i5os.bin}/backup_server.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.install.bin}/restore_server.sh" outputfile="${project.root.export.i5os.bin}/restore_server.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.install.bin}/tdiVerifyInstall.sh" outputfile="${project.root.export.i5os.bin}/tdiVerifyInstall.sh"
+                         outputdir="${project.root.export.i5os.bin}" shellstring="#!/bin/sh"  />
+			<copyandfixfori5OS inputfile="${project.root.install.utils}/install_tdi_i5os.sh" outputfile="${project.root.install.utils}/install_tdi_i5os.sh"
+                         outputdir="${project.root.install.utils}" shellstring="#!/bin/sh"  />
+
+			<!-- One for Windows.  Always make the files dos -->
+			<fixcrlf srcdir="${project.root.export.win.bin}"
+               eol="dos"
+               includes="*" />
+			<fixcrlf srcdir="${project.root.export.win.etc}"
+               eol="dos"
+               includes="*" />
+
+			<!-- One for Unix.  Always make the files unix format -->
+			<fixcrlf srcdir="${project.root.export.unix.bin}"
+               eol="unix"
+               includes="*" />
+			<fixcrlf srcdir="${project.root.export.unix.etc}"
+               eol="unix"
+               includes="*" />
+
+			<!-- One for i5OS.  Always make the files unix format -->
+			<fixcrlf srcdir="${project.root.export.i5os.bin}"
+               eol="unix"
+               includes="*" />
+			<fixcrlf srcdir="${project.root.export.i5os.etc}"
+               eol="unix"
+               includes="*" />
+
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  copyMadeLicenseFiles
+
+      Purpose:  Copy the build license files to the specified directory.
+    =========================================================================
+	</description>
+	<macrodef name="copyMadeLicenseFiles">
+		<!-- The zip file name and location for the license package. -->
+		<attribute name="output.dir"/>
+		<attribute name="dir.prefix"/>
+		<sequential>
+			<copy todir="@{output.dir}">
+				<fileset dir="${project.root.license.export}@{dir.prefix}">
+					<include name="TDI_License.txt"/>
+					<include name="TDI_License_zh.txt"/>
+					<include name="TDI_License_zh_TW.txt"/>
+					<include name="TDI_License_cs.txt"/>
+					<include name="TDI_License_en.txt"/>
+					<include name="TDI_License_fr.txt"/>
+					<include name="TDI_License_de.txt"/>
+					<include name="TDI_License_it.txt"/>
+					<include name="TDI_License_ja.txt"/>
+					<include name="TDI_License_ko.txt"/>
+					<include name="TDI_License_pl.txt"/>
+					<include name="TDI_License_pt_BR.txt"/>
+					<include name="TDI_License_es.txt"/>
+					<include name="TDI_License_tr.txt"/>
+					<include name="TDI_License_el.txt"/>
+					<include name="TDI_License_lt.txt"/>
+					<include name="TDI_License_ru.txt"/>
+					<include name="TDI_License_sl.txt"/>
+					<include name="TDI_License_in.txt"/>
+					<include name="notices"/>
+				</fileset>
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  copyMadeLicenseFilesi5os
+
+      Purpose:  Copy the build license files to the specified directory for i5os.
+    =========================================================================
+	</description>
+	<macrodef name="copyMadeLicenseFilesi5os">
+		<!-- The zip file name and location for the license package. -->
+		<attribute name="output.dir"/>
+		<attribute name="dir.prefix"/>
+
+		<sequential>
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License.txt" tofile="@{output.dir}/LICENSE.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_zh.txt" tofile="@{output.dir}/LI_ZH.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_zh_TW.txt" tofile="@{output.dir}/LI_ZH_TW.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_cs.txt" tofile="@{output.dir}/LI_CS.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_en.txt" tofile="@{output.dir}/LI_EN.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_fr.txt" tofile="@{output.dir}/LI_FR.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_de.txt" tofile="@{output.dir}/LI_DE.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_it.txt" tofile="@{output.dir}/LI_IT.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_ja.txt" tofile="@{output.dir}/LI_JA.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_ko.txt" tofile="@{output.dir}/LI_KO.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_pl.txt" tofile="@{output.dir}/LI_PL.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_pt_BR.txt" tofile="@{output.dir}/LI_PT_BR.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_es.txt" tofile="@{output.dir}/LI_ES.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_tr.txt" tofile="@{output.dir}/LI_TR.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_el.txt" tofile="@{output.dir}/LI_EL.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_lt.txt" tofile="@{output.dir}/LI_LT.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_ru.txt" tofile="@{output.dir}/LI_RU.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_sl.txt" tofile="@{output.dir}/LI_SL.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_in.txt" tofile="@{output.dir}/LI_IN.TXT" />
+			<copy file="${project.root.license.export}@{dir.prefix}/notices" tofile="@{output.dir}/NOTICES" />
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  createTDILicenseFiles
+
+      Purpose:  Create TDI license files
+    =========================================================================
+	</description>
+	<macrodef name="createTDILicenseFiles">
+		<!-- The zip file name and location for the license package. -->
+		<attribute name="dir.prefix"/>
+
+		<sequential>
+			<delete dir="${project.root.license.export}@{dir.prefix}"/>
+			<mkdir dir="${project.root.license.export}@{dir.prefix}"/>
+			<!-- Copy over the license files -->
+			<copy todir="${project.root.license.export}@{dir.prefix}">
+				<fileset dir="${project.root.license}@{dir.prefix}">
+					<include name="*"/>
+				</fileset>
+			</copy>
+			<!-- Create the proper license files. -->
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_el.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_el,LI_el"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_lt.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_lt,LI_lt"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_ru.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_ru,LI_ru"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_sl.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_sl,LI_sl"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_zh.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_zh,LI_zh"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_zh_TW.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_zh_TW,LI_zh_TW"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_cs.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_cs,LI_cs"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_en.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_en,LI_en"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_fr.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_fr,LI_fr"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_de.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_de,LI_de"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_it.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_it,LI_it"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_ja.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_ja,LI_ja"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_ko.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_ko,LI_ko"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_pl.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_pl,LI_pl"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_pt_BR.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_pt,LI_pt"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_es.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_es,LI_es"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_tr.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_tr,LI_tr"/>
+			</concat>
+			<concat destfile="${project.root.license.export}@{dir.prefix}/TDI_License_in.txt" binary="true" append="true">
+				<filelist dir="${project.root.license.export}@{dir.prefix}" files="LA_in,LI_in"/>
+			</concat>
+			<copy file="${project.root.license.export}@{dir.prefix}/TDI_License_en.txt"
+              tofile="${project.root.license.export}@{dir.prefix}/TDI_License.txt"/>			
+		</sequential>
+	</macrodef>
+	
+	<description>
+    =========================================================================
+      Macro:  copyTDILicenseFilesForIA
+
+      Purpose:  Copy License files of a specific edition to the location where IA expects them 
+    =========================================================================
+	</description>
+	<macrodef name="copyTDILicenseFilesForIA">
+	<!-- The prefix to the directory containing the license files for the two editions. -->
+		<attribute name="dir.prefix"/>
+		
+		<sequential>
+		<!-- Copy over the license files needed. -->
+		<copy todir="${project.root.license}" overwrite="true">
+				<fileset dir="${project.root.license}@{dir.prefix}">
+					<include name="*"/>
+				</fileset>
+		</copy>
+		</sequential>	
+	</macrodef>
+	<description>
+    =========================================================================
+      Macro:  zipTDIJavaDocsPackage
+
+      Purpose:  Make the zip of the TDI Javadocs package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIJavaDocsPackage">
+		<!-- The zip file name and location for the license package. -->
+		<attribute name="output.name"/>
+
+		<sequential>
+			<!-- Delete the old zip file if it exists. -->
+			<delete file="@{output.name}"/>
+
+			<!-- Make the Javadocs zip file. -->
+			<zip zipfile="@{output.name}">
+				<zipfileset dir="${project.root.export}" >
+					<include name="docs/**/*"/>
+				</zipfileset>
+				<zipfileset dir="${project.root}" >
+					<include name="jscript/**/*"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDIExamplesPackage
+
+      Purpose:  Make the zip of the TDI Examples package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIExamplesPackage">
+		<!-- The zip file name and location for the example package. -->
+		<attribute name="output.name"/>
+		<!-- The zip file name and location for examples that are added to the identity edition. -->
+		<attribute name="output.name.identity.ed"/>
+		<!-- Determines whether the format of the txt files should be dos or unix.
+        Specify either dos or unix. -->
+		<attribute name="eol"/>
+
+		<sequential>
+			<!-- Delete the old zip file if it exists. -->
+			<delete file="@{output.name}"/>
+
+			<!-- Make sure the needed directory is created. -->
+			<delete dir="${project.root.examples.export}"/>
+			<mkdir dir="${project.root.examples.export}"/>
+			<!-- Copy over the files needed -->
+			<copy todir="${project.root.examples.export}">
+				<fileset dir="${project.root.examples}">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+
+			<!-- Put the files in the format specified. -->
+			<fixcrlf srcdir="${project.root.examples.export}"
+               eol="@{eol}"
+               includes="**/*.txt" />
+
+			<!-- Make the Examples zip file. -->
+			<zip zipfile="@{output.name}">
+				<zipfileset dir="${project.root.export}" >
+					<include name="examples/**/*"/>
+					<exclude name="examples/VirtDir/*"/>
+					<exclude name="examples/SPMLv2Parser/*"/>
+					<exclude name="examples/NT4/*"/>
+					<exclude name="examples/pwsync_racf/*"/>
+					<exclude name="examples/pwsync_decryption/*"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Make the Examples zip file. -->
+			<zip zipfile="@{output.name.identity.ed}">
+				<zipfileset dir="${project.root.export}" >
+					<include name="examples/VirtDir/*"/>
+					<include name="examples/SPMLv2Parser/*"/>
+					<include name="examples/NT4/*"/>
+					<include name="examples/pwsync_racf/*"/>
+					<include name="examples/pwsync_decryption/*"/>
+				</zipfileset>
+			</zip>
+
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDIBasePackage
+
+      Purpose:  Make the zip of the TDI Base package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIBasePackage">
+		<!-- The zip file name and location for the general base package. -->
+		<attribute name="output.name"/>
+		<!-- The zip file name and location for the windows base package. -->
+		<attribute name="output.name.win"/>
+		<!-- The zip file name and location for the unix base package. -->
+		<attribute name="output.name.unix"/>
+		<!-- The zip file name and location for the i5os base package. -->
+		<attribute name="output.name.i5os"/>
+
+		<sequential>
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name}"/>
+			<delete file="@{output.name.win}"/>
+			<delete file="@{output.name.unix}"/>
+			<delete file="@{output.name.i5os}"/>
+			
+			<!--<copy file="${root.log4j_src}/log4j-1.2-api-2.25.4.jar" tofile="${root.log4j_src}/log4j-1.2-api.jar"/>
+			<copy file="${root.log4j_src}/log4j-api-2.25.4.jar" tofile="${root.log4j_src}/log4j-api.jar"/>
+			<copy file="${root.log4j_src}/log4j-core-2.25.4.jar" tofile="${root.log4j_src}/log4j-core.jar"/>
+			<copy file="${root.icu4j_src}/icu4j-51_1.jar" tofile="${root.icu4j_src}/icu4j.jar"/> -->
+
+			<!--<delete file="${root.log4j_src}/log4j-1.2-api-2.25.4.jar"/>
+			<delete file="${root.log4j_src}/log4j-api-2.25.4.jar"/>
+			<delete file="${root.log4j_src}/log4j-core-2.25.4.jar"/>
+			<delete file="${root.icu4j_src}/icu4j-51_1.jar"/> -->
+			
+			<!-- Package of the general files. -->
+			<zip zipfile="@{output.name}">
+				<zipfileset dir="${project.root.export}/jars" prefix="maintenance">
+					<include name="UpdateInstaller.jar"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export}/jars" prefix="jars/common">
+					<include name="tdiresource.jar"/>
+				</zipfileset>
+				<zipfileset dir="${root.icu4j_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="icu4j-51_1.jar"/>
+				</zipfileset>
+				<zipfileset dir="${root.log4j_src}"
+                prefix="jars/3rdparty/others">
+					<include name="log4j-1.2-api-2.25.4.jar"/>
+					<include name="log4j-api-2.25.4.jar"/>
+					<include name="log4j-core-2.25.4.jar"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.swgtags}"
+                prefix="properties/version">
+					<include name="${swtag_file_name}"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export}"
+                prefix="etc/">
+					<include name="build.properties"/>
+				</zipfileset>				
+			</zip>
+
+			<!-- Package of the windows files. -->
+			<zip zipfile="@{output.name.win}">
+				<zipfileset dir="${project.root.export.win.bin}"
+                prefix="bin/">
+					<include name="javaHome.bat"/>
+					<include name="setupCmdLine.bat"/>
+					<include name="tdiSetJavaHome.bat"/>
+					<include name="ibmdicwd.bat"/>
+					<include name="tdiSetBackupDir.bat"/>
+					<include name="backupDir.bat"/>
+					<include name="applyUpdates.bat"/>
+					<include name="manipulate_workspaces.vbs"/>
+					<include name="manipulate_store.vbs"/>
+					<include name="tdiBackup.bat"/>
+					<include name="startNetworkServer.bat"/>
+					<include name="stopNetworkServer.bat"/>
+					<include name="tdiVerifyInstall.bat"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.etc}"
+                prefix="etc/">
+					<include name="updateinstaller-log4j.properties"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Package of the unix files. -->
+			<zip zipfile="@{output.name.unix}">
+				<zipfileset dir="${project.root.export.unix.bin}"
+                prefix="bin/">
+					<include name="javaHome.sh"/>
+					<include name="setupCmdLine.sh"/>
+					<include name="tdiSetJavaHome.sh"/>
+					<include name="tdiSetBackupDir.sh"/>
+					<include name="backupDir.sh"/>
+					<include name="applyUpdates.sh"/>
+					<include name="tdiBackup.sh"/>
+					<include name="startNetworkServer.sh"/>
+					<include name="stopNetworkServer.sh"/>
+					<include name="tdiVerifyInstall.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.etc}"
+                prefix="etc/">
+					<include name="updateinstaller-log4j.properties"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.install}/res/images"
+                prefix="_uninst/">
+					<include name="tv_uninsticon_16.gif"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Package of the i5OS files. -->
+			<zip zipfile="@{output.name.i5os}">
+				<zipfileset dir="${project.root.export.i5os.bin}"
+                prefix="bin/">
+					<include name="javaHome.sh"/>
+					<include name="setupCmdLine.sh"/>
+					<include name="tdiSetJavaHome.sh"/>
+					<include name="tdiSetBackupDir.sh"/>
+					<include name="backupDir.sh"/>
+					<include name="applyUpdates.sh"/>
+					<include name="tdiBackup.sh"/>
+					<include name="startNetworkServer.sh"/>
+					<include name="stopNetworkServer.sh"/>
+					<include name="tdiVerifyInstall.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.etc}"
+                prefix="etc/">
+					<include name="updateinstaller-log4j.properties"/>
+				</zipfileset>
+			</zip>
+
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDIServerPackage
+
+      Purpose:  Make the zip of the TDI Server package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIServerPackage">
+		<!-- The zip file name and location for the base server package. -->
+		<attribute name="output.name.base"/>
+		<!-- The zip file name and location for the identity components only to be shipped with identity Edition. -->
+		<attribute name="output.name.identity"/>
+		<!-- The zip file name and location for the windows server package. -->
+		<attribute name="output.name.win"/>
+		<!-- The zip file name and location for the unix server package. -->
+		<attribute name="output.name.unix"/>
+		<!-- The zip file name and location for the i5os server package. -->
+		<attribute name="output.name.i5os"/>
+		<!-- The zip file name and location for the Windows x86 server package. -->
+		<attribute name="output.name.win.x86"/>
+		<!-- The zip file name and location for the Linux x86 server package. -->
+		<attribute name="output.name.linux.x86"/>
+		<!-- The zip file name and location for the Linux x86_64 server package. -->
+		<attribute name="output.name.linux.x86.64"/>
+		<!-- The zip file name and location for the AIX ppc server package. -->
+		<attribute name="output.name.aix.ppc"/>
+		<!-- The zip file name and location for the Windows x86_64 server package. -->
+		<attribute name="output.name.win.x86.64"/>
+
+		<sequential>
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name.base}"/>
+			<delete file="@{output.name.identity}"/>
+			<delete file="@{output.name.win}"/>
+			<delete file="@{output.name.unix}"/>
+			<delete file="@{output.name.i5os}"/>
+			<delete file="@{output.name.win.x86}"/>
+			<delete file="@{output.name.linux.x86}"/>
+			<delete file="@{output.name.linux.x86.64}"/>
+			<delete file="@{output.name.aix.ppc}"/>			
+			<delete file="@{output.name.win.x86.64}"/>
+			
+			<!-- <copy file="${root.castor_src}/castor-core-0.9.5.4.jar" tofile="${root.castor_src}/castor-core.jar"/>
+			<copy file="${root.castor_src}/castor-xml-0.9.5.4.jar" tofile="${root.castor_src}/castor-xml.jar"/>
+			<copy file="${root.castor_src}/oro-2.0.8.jar" tofile="${root.castor_src}/oro.jar"/>			
+			<delete file="${root.castor_src}/castor-*-0.9.5.4.jar"/>
+			<delete file="${root.castor_src}/oro-2.0.8.jar"/> -->
+			
+			<copy file="${root.axis_src}/commons-logging-1.2.jar" tofile="${root.axis_src}/commons-logging.jar"/>
+			<!-- <delete file="${root.axis_src}/commons-logging-1.2.jar"/> -->
+						
+			
+			<copy file="${root.axis2_src}/activation-1.1.jar" tofile="${root.axis2_src}/activation.jar"/>
+			<copy file="${root.axis2_src}/antlr-2.7.7.jar" tofile="${root.axis2_src}/antlr.jar"/>
+			<copy file="${root.axis2_src}/apache-mime4j-core-0.8.11.jar" tofile="${root.axis2_src}/apache-mime4j-core.jar"/>
+			<delete file="${root.axis2_src}/activation-1.1.jar"/>
+			<delete file="${root.axis2_src}/antlr-2.7.7.jar"/>
+			<delete file="${root.axis2_src}/apache-mime4j-core-0.8.11.jar"/>
+						
+			
+			<copy file="${root.axis2_src}/axiom-api-1.4.0.jar" tofile="${root.axis2_src}/axiom-api.jar"/>
+			<copy file="${root.axis2_src}/axiom-dom-1.4.0.jar" tofile="${root.axis2_src}/axiom-dom.jar"/>
+			<copy file="${root.axis2_src}/axiom-impl-1.4.0.jar" tofile="${root.axis2_src}/axiom-impl.jar"/>
+			<delete file="${root.axis2_src}/axiom-api-1.4.0.jar"/>
+			<delete file="${root.axis2_src}/axiom-dom-1.4.0.jar"/>
+			<delete file="${root.axis2_src}/axiom-impl-1.4.0.jar"/>
+			
+			
+			<copy file="${root.axis2_src}/bcel-6.7.0.jar" tofile="${root.axis2_src}/bcel.jar"/>
+			<delete file="${root.axis2_src}/bcel-6.7.0.jar"/>
+			<copy file="${root.axis2_src}/gson-2.10.1.jar" tofile="${root.axis2_src}/gson.jar"/>	
+			<copy file="${root.axis2_src}/httpclient-4.5.14.jar" tofile="${root.axis2_src}/httpclient.jar"/>
+			<copy file="${root.axis2_src}/httpcore-4.4.16.jar" tofile="${root.axis2_src}/httpcore.jar"/>
+			<delete file="${root.axis2_src}/httpclient-4.5.14.jar"/>
+			<delete file="${root.axis2_src}/httpcore-4.4.16.jar"/>
+						
+			<copy file="${root.axis2_src}/commons-cli-1.5.0.jar" tofile="${root.axis2_src}/commons-cli.jar"/>
+			<copy file="${root.axis2_src}/commons-codec-1.20.0.jar" tofile="${root.axis2_src}/commons-codec.jar"/>
+			<copy file="${root.axis2_src}/commons-fileupload-1.6.0.jar" tofile="${root.axis2_src}/commons-fileupload.jar"/>
+			<copy file="${root.axis2_src}/commons-io-2.19.0.jar" tofile="${root.axis2_src}/commons-io.jar"/>
+			<copy file="${root.axis2_src}/commons-lang3-3.12.0.jar" tofile="${root.axis2_src}/commons-lang3.jar"/>
+			<copy file="${root.axis2_src}/commons-logging-1.2.jar" tofile="${root.axis2_src}/commons-logging.jar"/>
+			<delete file="${root.axis2_src}/commons-cli-1.5.0.jar"/>
+			<delete file="${root.axis2_src}/commons-codec-1.20.0.jar"/>
+			<delete file="${root.axis2_src}/commons-fileupload-1.6.0.jar"/>
+			<delete file="${root.axis2_src}/commons-io-2.19.0.jar"/>
+			<delete file="${root.axis2_src}/commons-lang3-3.12.0.jar"/>
+			<delete file="${root.axis2_src}/commons-logging-1.2.jar"/>
+						
+			<copy file="${root.axis2_src}/tomcat-juli-10.0.27.jar" tofile="${root.axis2_src}/tomcat-juli.jar"/>
+			<copy file="${root.axis2_src}/tomcat-tribes-10.0.27.jar" tofile="${root.axis2_src}/tomcat-tribes.jar"/>
+			<copy file="${root.axis2_src}/mex-1.8.2-impl.jar" tofile="${root.axis2_src}/mex.jar"/>
+			<delete file="${root.axis2_src}/tomcat-juli-10.0.27.jar"/>
+			<delete file="${root.axis2_src}/tomcat-tribes-10.0.27.jar"/>
+			<delete file="${root.axis2_src}/mex-1.8.2-impl.jar"/>
+						
+			
+			<copy file="${root.axis2_src}/jakarta.xml.bind-api-2.3.3.jar" tofile="${root.axis2_src}/jaxb-api.jar"/>
+			<copy file="${root.axis2_src}/jaxb-runtime-2.3.6.jar" tofile="${root.axis2_src}/jaxb-impl.jar"/>
+			<copy file="${root.axis2_src}/jaxb-xjc-2.3.6.jar" tofile="${root.axis2_src}/jaxb-xjc.jar"/>
+			<delete file="${root.axis2_src}/jakarta.xml.bind-api-2.3.3.jar"/>
+			<delete file="${root.axis2_src}/jaxb-runtime-2.3.6.jar"/>
+			<delete file="${root.axis2_src}/jaxb-xjc-2.3.6.jar"/>
+			
+			<copy file="${root.axis2_src}/jaxen-1.2.0.jar" tofile="${root.axis2_src}/jaxen.jar"/>
+			<copy file="${root.axis2_src}/jaxws-tools-2.3.3.jar" tofile="${root.axis2_src}/jaxws-tools.jar"/>
+			<copy file="${root.axis2_src}/jettison-1.5.4.jar" tofile="${root.axis2_src}/jettison.jar"/>
+			<copy file="${root.axis2_src}/jibx-bind-1.4.2.jar" tofile="${root.axis2_src}/jibx-bind.jar"/>
+			<copy file="${root.axis2_src}/jibx-run-1.4.2.jar" tofile="${root.axis2_src}/jibx-run.jar"/>
+			<copy file="${root.axis2_src}/jsr311-api-1.1.1.jar" tofile="${root.axis2_src}/jsr311-api.jar"/>			
+			<delete file="${root.axis2_src}/jaxen-1.2.0.jar"/>
+			<delete file="${root.axis2_src}/jaxws-tools-2.3.3.jar"/>
+			<delete file="${root.axis2_src}/jettison-1.5.4.jar"/>
+			<delete file="${root.axis2_src}/jibx-bind-1.4.2.jar"/>
+			<delete file="${root.axis2_src}/jibx-run-1.4.2.jar"/>
+			<delete file="${root.axis2_src}/jsr311-api-1.1.1.jar"/>
+			
+			
+			<copy file="${root.axis2_src}/xalan-2.7.3.jar" tofile="${root.axis2_src}/xalan.jar"/>
+			<copy file="${root.axis2_src}/xercesImpl-2.12.2.jar" tofile="${root.axis2_src}/xercesImpl.jar"/>
+			<copy file="${root.axis2_src}/xml-apis-1.4.01.jar" tofile="${root.axis2_src}/xml-apis.jar"/>
+			<copy file="${root.axis2_src}/xml-resolver-1.2.jar" tofile="${root.axis2_src}/xml-resolver.jar"/>
+			<copy file="${root.axis2_src}/xmlschema-core-2.3.0.jar" tofile="${root.axis2_src}/xmlschema-core.jar"/>
+			<copy file="${root.axis2_src}/xmlbeans-5.2.1.jar" tofile="${root.axis2_src}/xmlbeans.jar"/>
+			<delete file="${root.axis2_src}/xalan-2.7.3.jar"/>
+			<delete file="${root.axis2_src}/xercesImpl-2.12.2.jar"/>
+			<delete file="${root.axis2_src}/xml-apis-1.4.01.jar"/>
+			<delete file="${root.axis2_src}/xml-resolver-1.2.jar"/>
+			<delete file="${root.axis2_src}/xmlschema-core-2.3.0.jar"/>
+			<delete file="${root.axis2_src}/xmlbeans-5.2.1.jar"/>
+			
+			<copy file="${root.axis2_src}/axis2-adb-1.8.2.jar" tofile="${root.axis2_src}/axis2-adb.jar"/>
+			<copy file="${root.axis2_src}/axis2-adb-codegen-1.8.2.jar" tofile="${root.axis2_src}/axis2-adb-codegen.jar"/>
+			<copy file="${root.axis2_src}/axis2-ant-plugin-1.8.2.jar" tofile="${root.axis2_src}/axis2-ant-plugin.jar"/>
+			<copy file="${root.axis2_src}/axis2-clustering-1.8.2.jar" tofile="${root.axis2_src}/axis2-clustering.jar"/>
+			<copy file="${root.axis2_src}/axis2-codegen-1.8.2.jar" tofile="${root.axis2_src}/axis2-codegen.jar"/>
+			<copy file="${root.axis2_src}/axis2-corba-1.8.2.jar" tofile="${root.axis2_src}/axis2-corba.jar"/>
+			<copy file="${root.axis2_src}/axis2-fastinfoset-1.8.2.jar" tofile="${root.axis2_src}/axis2-fastinfoset.jar"/>
+			<copy file="${root.axis2_src}/axis2-java2wsdl-1.8.2.jar" tofile="${root.axis2_src}/axis2-java2wsdl.jar"/>
+			<copy file="${root.axis2_src}/axis2-jaxws-1.8.2.jar" tofile="${root.axis2_src}/axis2-jaxws.jar"/>
+			<copy file="${root.axis2_src}/axis2-jibx-1.8.2.jar" tofile="${root.axis2_src}/axis2-jibx.jar"/>
+			<copy file="${root.axis2_src}/axis2-json-1.8.2.jar" tofile="${root.axis2_src}/axis2-json.jar"/>
+			<copy file="${root.axis2_src}/axis2-kernel-1.8.2.jar" tofile="${root.axis2_src}/axis2-kernel.jar"/>
+			<copy file="${root.axis2_src}/axis2-metadata-1.8.2.jar" tofile="${root.axis2_src}/axis2-metadata.jar"/>
+			<copy file="${root.axis2_src}/axis2-mtompolicy-1.8.2.jar" tofile="${root.axis2_src}/axis2-mtompolicy.jar"/>
+			<copy file="${root.axis2_src}/axis2-saaj-1.8.2.jar" tofile="${root.axis2_src}/axis2-saaj.jar"/>
+			<copy file="${root.axis2_src}/axis2-soapmonitor-servlet-1.8.2.jar" tofile="${root.axis2_src}/axis2-soapmonitor-servlet.jar"/>
+			<copy file="${root.axis2_src}/axis2-spring-1.8.2.jar" tofile="${root.axis2_src}/axis2-spring.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-base-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-base.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-http-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-http.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-jms-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-jms.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-mail-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-mail.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-tcp-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-tcp.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-udp-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-udp.jar"/>
+			<copy file="${root.axis2_src}/axis2-transport-xmpp-1.8.2.jar" tofile="${root.axis2_src}/axis2-transport-xmpp.jar"/>
+			<copy file="${root.axis2_src}/axis2-xmlbeans-1.8.2.jar" tofile="${root.axis2_src}/axis2-xmlbeans.jar"/>
+			<delete file="${root.axis2_src}/axis2-adb-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-adb-codegen-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-ant-plugin-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-clustering-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-codegen-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-corba-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-fastinfoset-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-java2wsdl-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-jaxws-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-jibx-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-json-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-kernel-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-metadata-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-mtompolicy-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-saaj-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-soapmonitor-servlet-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-spring-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-base-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-http-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-jms-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-mail-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-tcp-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-udp-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-transport-xmpp-1.8.2.jar"/>
+			<delete file="${root.axis2_src}/axis2-xmlbeans-1.8.2.jar"/>
+			
+			<copy file="${root.activemq_src}/geronimo-j2ee-management_1.1_spec-1.0.1.jar" tofile="${root.activemq_src}/geronimo-j2ee-management_1.1_spec.jar"/>										     
+			<copy file="${root.activemq_src}/geronimo-jms_1.1_spec-1.1.1.jar" tofile="${root.activemq_src}/geronimo-jms_1.1_spec.jar"/>
+			<copy file="${root.activemq_src}/geronimo-jta_1.1_spec-1.1.1.jar" tofile="${root.activemq_src}/geronimo-jta_1.1_spec.jar"/>			
+			<!-- <delete file="${root.activemq_src}/geronimo-j2ee-management_1.1_spec-1.0.1.jar"/> -->
+			<delete file="${root.activemq_src}/geronimo-jms_1.1_spec-1.1.1.jar"/>
+			<delete file="${root.activemq_src}/geronimo-jta_1.1_spec-1.1.1.jar"/>	
+			
+			<copy file="${root.axis2_src}/neethi-3.2.0.jar" tofile="${root.axis2_src}/neethi.jar"/>
+			<copy file="${root.axis2_src}/serializer-2.7.3.jar" tofile="${root.axis2_src}/serializer.jar"/>
+			<copy file="${root.axis2_src}/stax2-api-4.2.2.jar" tofile="${root.axis2_src}/stax2-api.jar"/>
+			<copy file="${root.axis2_src}/woodstox-core-6.6.2.jar" tofile="${root.axis2_src}/woodstox-core.jar"/>
+			<delete file="${root.axis2_src}/neethi-3.2.0.jar"/>
+			<delete file="${root.axis2_src}/serializer-2.7.3.jar"/>
+			<delete file="${root.axis2_src}/stax2-api-4.2.2.jar"/>
+			<delete file="${root.axis2_src}/woodstox-core-6.6.2.jar"/>
+			
+			<copy file="${root.axis2_src}/geronimo-annotation_1.0_spec-1.1.1.jar" tofile="${root.axis2_src}/geronimo-annotation_1.0_spec.jar"/>
+			<copy file="${root.axis2_src}/geronimo-jaxws_2.2_spec-1.2.jar" tofile="${root.axis2_src}/geronimo-jaxws_2.2_spec.jar"/>
+			<copy file="${root.axis2_src}/geronimo-ws-metadata_2.0_spec-1.1.3.jar" tofile="${root.axis2_src}/geronimo-ws-metadata_2.0_spec.jar"/>
+			<delete file="${root.axis2_src}/geronimo-annotation_1.0_spec-1.1.1.jar"/>
+			<delete file="${root.axis2_src}/geronimo-jaxws_2.2_spec-1.2.jar"/>
+			<delete file="${root.axis2_src}/geronimo-ws-metadata_2.0_spec-1.1.3.jar"/>
+			
+
+			<!-- Zip of the windows x86_64 zip. -->
+			<zip zipfile="@{output.name.win.x86.64}">
+				<zipfileset dir="${project.root.lib}/64"
+                prefix="libs">
+					<include name="COMProxy.dll"/>
+					<include name="domchdet.dll"/>
+					<include name="WindowsUsers.dll"/>
+				</zipfileset>
+				<zipfileset dir="${root.log4j_src}"
+                prefix="libs">
+					<include name="NTEventLogAppender.amd64.dll"/>
+				</zipfileset>
+				<zipfileset dir="${root.lum_src}"
+                prefix="libs">
+					<include name="i4trybuyjni.dll"/>
+				</zipfileset>
+				<zipfileset dir="${project.root}/src/com/ibm/di/Win32/WinService/bin64"
+                prefix="win32_service">
+					<include name="ibmdiservice.exe"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Zip of the Linux x86_64 zip. -->
+			<zip zipfile="@{output.name.linux.x86.64}">
+				<zipfileset dir="${root.lum_src}"
+                prefix="libs">
+					<include name="libi4trybuyjni.so"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Zip of the AIX ppc zip. -->
+			<zip zipfile="@{output.name.aix.ppc}" update="true">
+				<zipfileset dir="${root.lum_src}"
+                prefix="libs">
+					<include name="libi4trybuyjni.a"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Zip of the windows zip. -->
+			<zip zipfile="@{output.name.win}">
+				<zipfileset dir="${project.root.export.win.etc}"
+                prefix="etc/">
+					<include name="derby.properties"/>
+					<include name="global.properties"/>
+					<include name="jlog.properties"/>
+					<include name="logging.properties"/>
+					<include name="simplelogger.properties"/>
+					<include name="tdimiggbl-log4j.properties"/>
+					<include name="tdisrvctl-log4j.properties"/>
+					<include name="it_registry.properties"/>
+					<include name="reconnect.rules"/>
+					<include name="pkcs11.cfg"/>
+					<include name="*.xml"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.bin}" >
+					<include name="ibmdisrv.bat"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.bin}"
+                prefix="bin/">
+					<include name="tdisrvctl.bat"/>
+					<include name="tdimiggbl.bat"/>
+					<include name="logcmd.bat"/>
+					<include name="collect.bat"/>
+					<include name="createstash.bat"/>
+					<include name="moveActiveMQ.bat"/>
+					<include name="removeAMC.bat"/>
+					<include name="filelist.txt"/>
+					<include name="setDefaultSolDir.bat"/>
+					<include name="defaultSolDir.bat"/>
+					<include name="servicemgr.bat"/>
+					<include name="launchDashboard.html"/>
+					<include name="launchFDSDashboard.html"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.bin}"
+                prefix="serverapi">
+					<include name="cryptoutils.bat"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.lib}"
+                prefix="win32_service">
+					<include name="ibmdiservice.props"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.bin}"
+                prefix="tools/CSMigration">
+					<include name="migrateCS.bat"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.etc}" prefix="osgi/">
+					<include name="console.ini" />
+					<include name="launch.ini" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.etc}"
+				            prefix="osgi/configuration">
+					<include name="config.ini" />
+				</zipfileset>
+			</zip>
+
+			<!-- Zip of the unix zip. -->
+			<zip zipfile="@{output.name.unix}">
+				<zipfileset dir="${project.root.export.unix.etc}"
+                prefix="etc/">
+					<include name="derby.properties"/>
+					<include name="global.properties"/>
+					<include name="jlog.properties"/>
+					<include name="logging.properties"/>
+					<include name="simplelogger.properties"/>
+					<include name="tdimiggbl-log4j.properties"/>
+					<include name="tdisrvctl-log4j.properties"/>
+					<include name="it_registry.properties"/>
+					<include name="reconnect.rules"/>
+					<include name="pkcs11.cfg"/>
+					<include name="*.xml"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}" >
+					<include name="ibmdisrv"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}"
+                prefix="bin/">
+					<include name="tdisrvctl"/>
+					<include name="tdimiggbl"/>
+					<include name="logcmd.sh"/>
+					<include name="collect.sh"/>
+					<include name="filelist.txt"/>
+					<include name="createstash.sh"/>
+					<include name="moveActiveMQ.sh"/>
+					<include name="removeAMC.sh"/>
+					<include name="setDefaultSolDir.sh"/>
+					<include name="defaultSolDir.sh"/>
+					<include name="servicemgr.sh"/>
+					<include name="launchDashboard.html"/>
+					<include name="launchFDSDashboard.html"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}"
+                prefix="serverapi">
+					<include name="cryptoutils.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}"
+                prefix="performance">
+					<include name="ibmdisrvtp.sh"/>
+					<include name="ibmdibenchmark.sh"/>
+					<include name="tdiperfhead.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.etc}"
+                prefix="performance">
+					<include name="benchmark.properties"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}"
+                prefix="tools/CSMigration">
+					<include name="migrateCS.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.etc}"
+				            prefix="osgi/">
+					<include name="console.ini" />
+					<include name="launch.ini" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.etc}"
+				            prefix="osgi/configuration">
+					<include name="config.ini" />
+				</zipfileset>
+			</zip>
+
+			<!-- Zip of the i5OS zip. -->
+			<zip zipfile="@{output.name.i5os}">
+				<zipfileset dir="${project.root.export.i5os.etc}"
+                prefix="etc/">
+					<include name="derby.properties"/>
+					<include name="global.properties"/>
+					<include name="jlog.properties"/>
+					<include name="logging.properties"/>
+					<include name="simplelogger.properties"/>
+					<include name="tdimiggbl-log4j.properties"/>
+					<include name="tdisrvctl-log4j.properties"/>
+					<include name="it_registry.properties"/>
+					<include name="reconnect.rules"/>
+					<include name="pkcs11.cfg"/>
+					<include name="*.xml"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin}" >
+					<include name="ibmdisrv"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin}"
+                prefix="bin/">
+					<include name="tdisrvctl"/>
+					<include name="tdimiggbl"/>
+					<include name="logcmd.sh"/>
+					<include name="collect.sh"/>
+					<include name="createstash.sh"/>
+					<include name="filelist.txt"/>
+					<include name="setDefaultSolDir.sh"/>
+					<include name="defaultSolDir.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin}"
+                prefix="serverapi">
+					<include name="cryptoutils.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.etc}"
+                prefix="performance">
+					<include name="benchmark.properties"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin}"
+                        prefix="tools/CSMigration">
+					<include name="migrateCS.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.etc}"
+				            prefix="osgi/">
+					<include name="console.ini" />
+					<include name="launch.ini" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.etc}"
+				            prefix="osgi/configuration">
+					<include name="config.ini" />
+				</zipfileset>
+			</zip>
+
+			<!-- One for the identity specific components that only ship with the identity edition.  -->
+			<zip zipfile="@{output.name.identity}">
+				<zipfileset dir="${project.root.export}" >
+					<include name="jars/connectors/WindowsUsersGroupsConnector.jar"/>
+					<include name="jars/connectors/zOSChangelogConnector.jar"/>
+					<include name="jars/connectors/IDSChangelogConnector.jar"/>
+					<include name="jars/connectors/SunDirectoryCDConnector.jar"/>
+					<include name="jars/connectors/ADChangeDetectionConnector.jar"/>
+					<include name="jars/connectors/ADChangelogConnector.jar"/>
+					<include name="jars/connectors/TIMDSMLv2Connector.jar"/>
+					<include name="jars/connectors/TAMConnector.jar"/>
+					<include name="jars/connectors/JMSPasswordStoreConnector.jar"/>
+					<include name="jars/connectors/SapR3UserRegConnector.jar"/>
+					<include name="jars/parsers/SPMLv2Parser.jar"/>
+					<include name="jars/parsers/LDIFParser.jar"/>
+					<include name="jars/ldapsync.jar" />
+				</zipfileset>
+				
+				<!-- Zip up the LDAPSync folder -->
+				<zipfileset dir="${project.root}/LDAPSync" >
+					<include name="LDAPSync/**"/>
+				</zipfileset>
+				
+				<!-- Zip up the SCIM folder -->
+				<zipfileset dir="${project.root}" >
+					<include name="SCIM/**"/>
+				</zipfileset>
+				
+				<!-- Zip up the SCIM20 folder -->
+				<zipfileset dir="${project.root}" >
+					<include name="SCIM20/**"/>
+				</zipfileset>
+				
+				<!-- Zip up the swidtag folder -->
+				<zipfileset dir="${project.root}" >
+					<include name="swidtag/**"/>
+				</zipfileset>
+				
+			</zip>
+
+			<!-- One for generic not platform specific items (where possible).  -->
+			<zip zipfile="@{output.name.base}">
+				<zipfileset dir="${project.root}" >
+					<include name="idisrv.sth"/>
+					<include name="xsl/*"/>
+				</zipfileset>
+
+				<!-- <zipfileset dir="${project.root.etc}"
+                prefix="etc/">
+					<include name="TDI1000.SYS2"/>
+				</zipfileset> -->
+
+				<zipfileset dir="${project.root}/src/com/ibm/di/fc/castorbind"
+                prefix="etc">
+					<include name="di_castor_mapping.xml"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tptp_gla_src}/schema"
+                prefix="xsd/gla/schema">
+					<include name="*.xsd"/>
+				</zipfileset>
+				<zipfileset src="${root.tptp_gla_src}/hlcbe101.jar"
+                prefix="xsd/gla/schema">
+					<include name="commonbaseevent1_0_1.xsd" />
+				</zipfileset>
+
+				<zipfileset dir="${project.root.export}" >
+					<exclude name="docs/**/*"/>
+					<include name="jars/**/*.jar"/>
+					<include name="IDILoader.jar" />
+					<exclude name="jars/plugins/idipwsync.jar" />
+					<exclude name="jars/cli.jar"/>
+					<exclude name="jars/diserverapi.jar" />
+					<exclude name="jars/diserverapirmi.jar" />
+					<exclude name="jars/miconfig.jar" />
+					<exclude name="jars/miserver.jar" />
+					<exclude name="jars/mmconfig.jar" />
+					<exclude name="jars/report.jar" />
+					<exclude name="jars/webserver.jar" />
+					<exclude name="jars/WebServiceUtil.jar" />
+					<exclude name="jars/EmfUtil.jar" />
+					<exclude name="jars/tdiresource.jar" />
+					<exclude name="jars/tdiauth.jar" />
+					<exclude name="jars/OIDCUtil.jar"/>
+					<exclude name="jars/migam.jar" />
+					<exclude name="jars/miggbl.jar" />
+					<exclude name="jars/UpdateInstaller.jar" />
+					<exclude name="jars/connectors/WindowsUsersGroupsConnector.jar"/>
+					<exclude name="jars/connectors/zOSChangelogConnector.jar"/>
+					<exclude name="jars/connectors/IDSChangelogConnector.jar"/>
+					<exclude name="jars/connectors/SunDirectoryCDConnector.jar"/>
+					<exclude name="jars/connectors/ADChangeDetectionConnector.jar"/>
+					<exclude name="jars/connectors/ADChangelogConnector.jar"/>
+					<exclude name="jars/connectors/TIMDSMLv2Connector.jar"/>
+					<exclude name="jars/connectors/TAMConnector.jar"/>
+					<exclude name="jars/connectors/JMSPasswordStoreConnector.jar"/>
+					<exclude name="jars/connectors/SapR3UserRegConnector.jar"/>
+					<exclude name="jars/parsers/SPMLv2Parser.jar"/>
+					<exclude name="jars/parsers/LDIFParser.jar"/>
+					<exclude name="jars/plugins/proxy.jar" />
+				</zipfileset>
+
+				<zipfileset dir="${project.root}/install/res/images"
+                prefix="etc/">
+					<include name="ibmdi.ico"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root.bin}"
+                prefix="bin/">
+					<include name="dirlist.txt"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.auiml_src}"
+                        prefix="jars/3rdparty/IBM">
+					<include name="auibase.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.jsengine_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="ibmjs.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.regex4j_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="regex4j.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tim_daml_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="enroleagent.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tds_ber_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="IBMLDAPJavaBer.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tds_dsml_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="dsml.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tds_jnditoolkit_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="TDSJNDIToolkit.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tim_dsml_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="dsml2.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${ivy.lib.dir}"
+                prefix="jars/3rdparty/others">
+					<include name="javax.jms-api.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.rxa_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="remoteaccess.jar"/>
+					<include name="ssh.jar"/>
+					<include name="rxa-langpack.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.rxa_src}"
+                prefix="jars/3rdparty/others">
+					<include name="jlanclient.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.jtopen_src}"
+                prefix="jars/3rdparty/others">
+					<include name="jt400.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.derby_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="derby.jar"/>
+					<include name="derbytools.jar"/>
+					<include name="derbyshared.jar"/>
+					<include name="derbynet.jar"/>
+					<include name="derbyclient.jar"/>
+					<include name="derbyLocale_de_DE.jar"/>
+					<include name="derbyLocale_es.jar"/>
+					<include name="derbyLocale_fr.jar"/>
+					<include name="derbyLocale_it.jar"/>
+					<include name="derbyLocale_ja_JP.jar"/>
+					<include name="derbyLocale_ko_KR.jar"/>
+					<include name="derbyLocale_pt_BR.jar"/>
+					<include name="derbyLocale_zh_CN.jar"/>
+					<include name="derbyLocale_zh_TW.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.db2drv_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="db2jcc.jar"/>
+					<include name="db2jcc_license_cu.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.derb_mig_src}"
+                prefix="tools/CSMigration">
+					<include name="migratetoderby.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.jlog_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="jlog.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.jffdc_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="jffdc.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.lgvw_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="viewer.jar"/>
+				</zipfileset>
+				<!-- Zip up the CBE related jars -->
+				<zipfileset dir="${root.tptp_src}"
+             prefix="jars/3rdparty/others">
+					<include name="hl14.jar"/>
+					<include name="tptpcore.jar"/>
+				</zipfileset>
+				<zipfileset dir="${root.tptp_gla_src}"
+             prefix="jars/3rdparty/others">
+					<include name="hlcbe101.jar"/>
+					<include name="tlcore.jar"/>
+					<include name="hlcore.jar"/>
+				</zipfileset>
+				<zipfileset dir="${root.rcp_src}"
+             prefix="jars/3rdparty/others">
+					<include name="org.eclipse.osgi.jar"/>
+					<include name="org.eclipse.equinox.common.jar"/>
+					<include name="org.eclipse.core.runtime.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tivsnmp_src}"
+             prefix="jars/3rdparty/IBM">
+					<include name="snmp.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.javamail_src}"
+             prefix="jars/3rdparty/others">
+					<include name="mail.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.jaf_src}"
+                prefix="jars/3rdparty/others">
+					<include name="activation.jar"/>
+				</zipfileset>
+				
+				<zipfileset dir="${root.castor_src}"
+                prefix="jars/3rdparty/others">
+					<include name="castor-core.jar"/>
+					<include name="castor-xml.jar"/>
+					<include name="oro.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.antlr_src}"
+                prefix="jars/3rdparty/others">
+					<include name="antlr.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.axis_src}"
+                prefix="jars/3rdparty/others">
+					<include name="commons-logging.jar"/>
+					<include name="commons-net.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.axis2_src}"
+                prefix="jars/3rdparty/IBM/axis2">
+					<include name="*.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.oidc_src}"
+                prefix="jars/3rdparty/others/oidc">
+					<include name="accessors-smart-2.5.1.jar"/>
+					<include name="json-smart-2.5.1.jar"/>
+					<include name="content-type-2.3.jar"/>
+					<include name="lang-tag-1.7.jar"/>
+					<include name="nimbus-jose-jwt-9.40.jar"/>
+					<include name="oauth2-oidc-sdk-11.13.jar"/>
+				</zipfileset>				
+
+				<zipfileset dir="${root.spml_src}"
+                prefix="jars/3rdparty/others">
+					<include name="openspml2-toolkit.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.tptp_gla_src}"
+                prefix="jars/3rdparty/IBM/gla">
+					<include name="hexr.jar"/>
+					<include name="hparse.jar"/>
+					<include name="hgla.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.actl_gla_src}"
+                prefix="jars/3rdparty/IBM/gla">
+					<include name="glacomponents.jar"/>
+					<include name="logparsers.jar"/>
+					<include name="IBMsecEvents.jar"/>
+					<include name="icuwrapper.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.eclipse_jars}"
+                prefix="jars/3rdparty/others/emf">
+					<include name="org.eclipse.emf.common_*.jar"/>
+					<include name="org.eclipse.emf.ecore.change_*.jar"/>
+					<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+					<include name="org.eclipse.emf.ecore_*.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.emfsdo_src}"
+                prefix="jars/3rdparty/others/emf">
+					<include name="org.eclipse.emf.commonj.sdo.jar"/>
+					<include name="org.eclipse.emf.ecore.sdo.jar"/>
+					<include name="org.eclipse.xsd.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.xsd_src}"
+                prefix="jars/3rdparty/others/emf">
+					<include name="org.eclipse.xsd.jar"/>
+				</zipfileset>
+				
+				<zipfileset dir="${root.activemq_adks}"
+				prefix="jars/3rdparty/others/ActiveMQ">
+					<include name="activemq-all.jar"/>
+				</zipfileset>
+				
+				<zipfileset dir="${root.activemq_src}"
+                prefix="jars/3rdparty/others/ActiveMQ">
+					<include name="geronimo-j2ee-management_1.1_spec.jar"/>
+					<include name="geronimo-jms_1.1_spec.jar"/>
+					<include name="geronimo-jta_1.1_spec.jar"/>
+					<include name="jackson-annotations.jar"/>
+					<include name="jackson-core.jar"/>
+					<include name="jackson-databind.jar"/>
+					<include name="kahadb.jar"/>
+					<include name="slf4j-api.jar"/>
+					<include name="xbean-spring.jar"/>					
+				</zipfileset>
+				
+				<zipfileset dir="${root.tdi_ws_schema_src}"
+                prefix="jars/common">
+					<include name="wsprov.jar"/>
+					<include name="wstrust.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root.export}/jars"
+                prefix="jars/common">
+					<include name="cli.jar"/>
+					<include name="diserverapi.jar"/>
+					<include name="diserverapirmi.jar"/>
+					<include name="tdiauth.jar"/>
+					<include name="miconfig.jar"/>
+					<include name="miserver.jar"/>
+					<include name="mmconfig.jar"/>
+					<include name="webserver.jar"/>
+					<include name="WebServiceUtil.jar"/>
+					<include name="EmfUtil.jar"/>
+					<include name="miggbl.jar"/>
+					<include name="report.jar"/>
+					<include name="OIDCUtil.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root.serverapi}"
+                prefix="serverapi">
+					<include name="registry.txt"/>
+					<include name="registry.enc"/>
+					<include name="testadmin.der"/>
+					<include name="testadmin.jks"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root.serverapi}" >
+					<include name="testserver.der"/>
+					<include name="testserver.jks"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root}" >
+					<include name="XSLT/**/*"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.ce_rcp.base.plugin}/icons"
+                prefix="XSLT/ConfigReports/images">
+					<include name="*.gif"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.lum_src}"
+                prefix="jars/3rdparty/IBM">
+					<include name="LUMClient.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.it_registry_src}"
+                prefix="jars/3rdparty/IBM/IT_registry">
+					<include name="*.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${root.cdm_src}"
+                prefix="jars/3rdparty/IBM/cdm">
+					<include name="dl_core.jar"/>
+					<include name="idmlcert.jar"/>
+				</zipfileset>
+
+				<zipfileset dir="${project.root.export.osgi.runtime}" prefix="osgi/plugins">
+					<include name="*.jar" />
+				</zipfileset>
+
+				<zipfileset dir="${project.root.export.osgi.embedded}" prefix="osgi/plugins">
+					<exclude name="com.ibm.di.tp.server.jar"/>
+					<include name="*.jar" />
+				</zipfileset>
+				
+				<zipfileset dir="${root.slf4j_src}" prefix="osgi/plugins">
+					<include name="slf4j.api_2.0.3.jar" />
+					<include name="slf4j.jdk14_1.7.36.jar" />
+				</zipfileset>
+
+				<!-- Zip up the DISB related jars -->
+				<zipfileset dir="${root.auiml_src}"
+				prefix="jars/3rdparty/others">
+					<include name="JSON4J.jar"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDICEPackage
+
+      Purpose:  Make the zip of the TDI CE package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDICEPackage">
+		<!-- The zip file name and location for the windows CE package. -->
+		<attribute name="output.name.win"/>
+		<!-- The zip file name and location for the unix CE package. -->
+		<attribute name="output.name.unix"/>
+
+		<sequential>
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name.win}"/>
+			<delete file="@{output.name.unix}"/>
+
+			<!-- One for Windows. -->
+			<zip zipfile="@{output.name.win}">
+				<zipfileset dir="${project.root.export.win.bin}" >
+					<include name="ibmditk.bat"/>
+				</zipfileset>
+			</zip>
+
+			<!-- One for UNIX. -->
+			<zip zipfile="@{output.name.unix}">
+				<zipfileset dir="${project.root.export.unix.bin}" >
+					<include name="ibmditk"/>
+				</zipfileset>
+				<zipfileset dir="${project.root}/install/res/images" prefix="ce">
+					<include name="ibmdi.ico"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDIAMCPackage
+
+      Purpose:  Make the zip of the TDI AMC package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIAMCPackage">
+		<!-- The zip file name and location for the base AMC package. -->
+		<attribute name="output.name.base"/>
+		<!-- The zip file name and location for the windows AMC package. -->
+		<attribute name="output.name.win"/>
+		<!-- The zip file name and location for the unix AMC package. -->
+		<attribute name="output.name.unix"/>
+		<!-- The zip file name and location for the i5os AMC package. -->
+		<attribute name="output.name.i5os"/>
+
+		<sequential>
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name.base}"/>
+			<delete file="@{output.name.win}"/>
+			<delete file="@{output.name.unix}"/>
+			<delete file="@{output.name.i5os}"/>
+
+			<!-- One for Windows. -->
+			<zip zipfile="@{output.name.win}">
+				<zipfileset dir="${project.root.export.win.bin}" prefix="bin/amc/">
+					<include name="backupamc.bat" />
+					<include name="install.bat" />
+					<include name="lwiUpdate.bat" />
+					<include name="migrateamc.bat" />
+					<include name="restoreamc.bat" />
+					<include name="setAMCRoles.bat" />
+					<include name="startAM.bat" />
+					<include name="process.vbs" />
+					<include name="stopAM.bat" />
+					<include name="start_tdiamc.bat" />
+					<!-- <include name="stopNetworkServer.bat" /> 
+					<include name="startNetworkServer.bat" /> -->
+					<include name="stop_tdiamc.bat" />
+					<include name="amcservice.bat" />
+					<include name="amcwinservice.ini" />
+					<include name="uninstall.bat" />
+					<include name="tdimigam.bat" />
+					<include name="addAMCService.bat" />
+					<include name="deleteAMCService.bat" />
+					<include name="backupamcdb.bat" />
+					<include name="restoreamcdb.bat" />
+					<include name="tdimigamc.bat" />
+					<include name="setDBType.bat" />
+					<include name="setDerbyProps.bat" />
+					<include name="backupam.bat" />
+					<include name="restoream.bat" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.win.bin}" prefix="bin/">
+					<include name="setISCHome.bat"/>
+					<include name="tdiISCHome.bat"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.amc.bin}" prefix="bin/amc/">
+					<include name="launchAMC.html" />
+					<include name="stopNetworkServer.bat" />
+					<include name="startNetworkServer.bat" />
+				</zipfileset>
+				<zipfileset file="${root.pit_src}/GenericWindowsService/AZY_GenericWindowsService.exe" fullpath="bin/amc/amcwinservice.exe" />
+			</zip>
+
+			<!-- One for UNIX. -->
+			<zip zipfile="@{output.name.unix}">
+				<zipfileset dir="${project.root.export.unix.bin}" prefix="bin/amc/">
+					<include name="backupamc.sh" />
+					<include name="install.sh" />
+					<include name="lwiUpdate.sh" />
+					<include name="migrateamc.sh" />
+					<include name="restoreamc.sh" />
+					<include name="setAMCRoles.sh" />
+					<include name="startAM.sh" />
+					<include name="stopAM.sh" />
+					<include name="start_tdiamc.sh" />
+					<!-- <include name="stopNetworkServer.sh" />
+					<include name="startNetworkServer.sh" /> -->
+					<include name="stop_tdiamc.sh" />
+					<include name="amcservice.sh" />
+					<include name="uninstall.sh" />
+					<include name="tdimigam.sh" />
+					<include name="addAMCService.sh" />
+					<include name="deleteAMCService.sh" />
+					<include name="backupamcdb.sh" />
+					<include name="restoreamcdb.sh" />
+					<include name="tdimigamc.sh" />
+					<include name="setDBType.sh" />
+					<include name="setDerbyProps.sh" />
+					<include name="backupam.sh" />
+					<include name="restoream.sh" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.unix.bin}" prefix="bin/">
+					<include name="setISCHome.sh"/>
+					<include name="tdiISCHome.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.amc.bin}" prefix="bin/amc/">
+					<include name="launchAMC.html" />
+					<include name="stopNetworkServer.sh" />
+					<include name="startNetworkServer.sh" />
+				</zipfileset>
+			</zip>
+
+			<!-- One for i5os. -->
+			<zip zipfile="@{output.name.i5os}">
+				<zipfileset dir="${project.root.export.i5os.bin}" prefix="bin/amc/">
+					<include name="backupamc.sh" />
+					<include name="install.sh" />
+					<include name="lwiUpdate.sh" />
+					<include name="migrateamc.sh" />
+					<include name="restoreamc.sh" />
+					<include name="setAMCRoles.sh" />
+					<include name="startAM.sh" />
+					<include name="stopAM.sh" />
+					<include name="start_tdiamc.sh" />
+					<!-- <include name="stopNetworkServer.sh" />
+					<include name="startNetworkServer.sh" /> -->
+					<include name="stop_tdiamc.sh" />
+					<include name="amcservice.sh" />
+					<include name="uninstall.sh" />
+					<include name="tdimigam.sh" />
+					<include name="backupamcdb.sh" />
+					<include name="restoreamcdb.sh" />
+					<include name="tdimigamc.sh" />
+					<include name="setDBType.sh" />
+					<include name="setDerbyProps.sh" />
+					<include name="backupam.sh" />
+					<include name="restoream.sh" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin}" prefix="bin/">
+					<include name="setISCHome.sh"/>
+					<include name="tdiISCHome.sh"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.i5os.bin.amc.bin}" prefix="bin/amc/">
+					<include name="stopNetworkServer.sh" />
+					<include name="startNetworkServer.sh" />
+				</zipfileset>
+				
+			</zip>
+
+			<!-- One for common zip. -->
+			<zip zipfile="@{output.name.base}">
+				<zipfileset dir="${project.root.export.amc.ship}/AMC" prefix="amc/">
+					<include name="tdiamc.war"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.amc.ship}/ActionManager" prefix="bin/amc/ActionManager">
+					<include name="**/*"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export}/jars"
+                prefix="bin/amc/ActionManager/jars">
+					<include name="migam.jar"/>
+					<include name="migamc.jar"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.export.amc.ship}/AMC" prefix="bin/amc/ActionManager/jars">
+					<include name="deploySE.jar" />
+				</zipfileset>
+				<zipfileset dir="${project.root.export.amc.ship}/AMC/iscse" prefix="amc/iscse">
+					<include name="**/*"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipCommonPluginJars
+
+      Purpose:  Adds common plugin jars to a zip file.
+    =========================================================================
+	</description>
+	<macrodef name="zipCommonPluginJars">
+		<!-- Name and location of the zip file being produced. -->
+		<attribute name="plugin.zip"/>
+		<!-- The prefix to put in the zip where all the jar files will go. -->
+		<attribute name="plugin.prefix.dir"/>
+
+		<sequential>
+			<copy file="${root.activemq_src}/geronimo-j2ee-management_1.1_spec-1.0.1.jar" tofile="${root.activemq_src}/geronimo-j2ee-management_1.1_spec.jar"/>
+			<copy file="${root.activemq_src}/geronimo-jms_1.1_spec-1.1.1.jar" tofile="${root.activemq_src}/geronimo-jms_1.1_spec.jar"/>
+			<copy file="${root.activemq_src}/geronimo-jta_1.1_spec-1.1.1.jar" tofile="${root.activemq_src}/geronimo-jta_1.1_spec.jar"/>
+			<copy file="${root.axis_src}/commons-logging-1.2.jar" tofile="${root.axis_src}/commons-logging.jar"/>
+			<!-- Create the base jars package that is used by every plugin. -->
+			<zip zipfile="@{plugin.zip}"  update="true">
+				<zipfileset dir="${project.root.export}/jars/plugins"
+                      prefix="@{plugin.prefix.dir}/jars">
+					<include name="proxy.jar" />
+				</zipfileset>
+				<zipfileset dir="${ivy.lib.dir}"
+                      prefix="@{plugin.prefix.dir}/jars">
+					<include name="javax.jms-api.jar" />
+				</zipfileset>
+				<zipfileset dir="${root.icu4j_src}"
+                      prefix="@{plugin.prefix.dir}/jars">
+					<include name="icu4j-51_1.jar"/>					
+				</zipfileset>
+				
+				<zipfileset dir="${root.activemq_adks}"
+					prefix="@{plugin.prefix.dir}/jars">
+					<include name="activemq-all.jar"/>
+				</zipfileset>
+				
+				<zipfileset dir="${root.activemq_src}"
+                      prefix="@{plugin.prefix.dir}/jars">
+					<include name="geronimo-j2ee-management_1.1_spec.jar"/>					
+					<include name="geronimo-jms_1.1_spec.jar"/>
+					<include name="geronimo-jta_1.1_spec.jar"/>
+				</zipfileset>
+				<zipfileset dir="${root.axis2_src}" 
+					prefix="@{plugin.prefix.dir}/jars">
+					<include name="commons-logging.jar"/>					
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipCommonPluginFiles
+
+      Purpose:  Adds generic specific common plugin files to a zip file.
+    =========================================================================
+	</description>
+	<macrodef name="zipCommonPluginFiles">
+		<!-- Location of the common plugin files. -->
+		<attribute name="plugin.export.dir"/>
+		<!-- Name and location of the zip file being produced. -->
+		<attribute name="plugin.zip"/>
+		<!-- The prefix to put in the zip where all the jar files will go. -->
+		<attribute name="plugin.prefix.dir"/>
+		<!-- The format to put the files in. (dos or unix). -->
+		<attribute name="plugin.file.format"/>
+		<!-- The script suffixes to bring in. -->
+		<attribute name="plugin.file.suffix"/>
+		<!-- Path separator (";" for windows and ":" for unix). -->
+		<attribute name="plugin.path.separator"/>
+
+		<sequential>
+			<!-- Put the files in the format we need. -->
+			<fixcrlf srcdir="@{plugin.export.dir}/plns_bin"
+                 eol="@{plugin.file.format}"
+                 includes="*.@{plugin.file.suffix}" />
+			<fixcrlf srcdir="@{plugin.export.dir}/etc"
+                 eol="@{plugin.file.format}"
+                 includes="*.ldif *.properties" />
+			<fixcrlf srcdir="@{plugin.export.dir}/domino/etc"
+                 eol="@{plugin.file.format}"
+                 includes="*.props" />
+			<fixcrlf srcdir="@{plugin.export.dir}/sun/etc"
+                 eol="@{plugin.file.format}"
+                 includes="*.props" />
+			<fixcrlf srcdir="@{plugin.export.dir}/tds/etc"
+                 eol="@{plugin.file.format}"
+                 includes="*.props" />
+
+			<!-- Package up the scripts, a few props files, and ldif files. -->
+			<zip zipfile="@{plugin.zip}"  update="true">
+				<zipfileset dir="@{plugin.export.dir}/plns_bin"
+                        prefix="@{plugin.prefix.dir}/bin">
+					<include name="*.@{plugin.file.suffix}"/>
+				</zipfileset>
+				<zipfileset dir="@{plugin.export.dir}/etc"
+                        prefix="@{plugin.prefix.dir}/etc">
+					<include name="*.ldif"/>
+					<include name="*.properties"/>
+				</zipfileset>
+				
+				<!--  CAP files  - these are used to monitor the Java proxy with ITM -->
+				<zipfileset dir="@{plugin.export.dir}/cap"
+                        prefix="@{plugin.prefix.dir}/cap">
+					<include name="*.xml"/>
+				</zipfileset>
+
+				<!-- TDS general config file -->
+				<zipfileset dir="@{plugin.export.dir}/tds/etc"
+                         prefix="@{plugin.prefix.dir}/tds">
+					<include name="pwsync.props"/>
+				</zipfileset>
+
+				<!-- SunDS general config file -->
+				<zipfileset dir="@{plugin.export.dir}/sun/etc"
+                         prefix="@{plugin.prefix.dir}/sun">
+					<include name="pwsync.props"/>
+				</zipfileset>
+
+				<!-- Dimino general config file -->
+				<zipfileset dir="@{plugin.export.dir}/domino/etc"
+                         prefix="@{plugin.prefix.dir}/domino">
+					<include name="pwsync.props"/>
+				</zipfileset>
+
+				<zipfileset dir="@{plugin.export.dir}/domino/etc"
+                        prefix="@{plugin.prefix.dir}/domino">
+					<include name="*.nsf"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDIPwdPluginsPackage
+
+      Purpose:  Make the zip of the TDI Plugins package in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDIPwdPluginsPackage">
+		<!-- The zip file name and location for the plugins base package. -->
+		<attribute name="output.name.plugins.base"/>
+		<!-- The zip file name and location for the plugins base package for windows specific files. -->
+		<attribute name="output.name.plugins.base.win"/>
+		<!-- The zip file name and location for the plugins base package for unix specific files. -->
+		<attribute name="output.name.plugins.base.unix"/>
+		<!-- The zip file name and location for the windows plugins package. -->
+		<attribute name="output.name.win.x86"/>
+		<!-- The zip file name and location for the windows x86_64 plugins package. -->
+		<attribute name="output.name.win.x86.64"/>
+		<!-- The zip file name and location for the linux plugins package. -->
+		<attribute name="output.name.linux.x86"/>
+		<!-- The zip file name and location for the linux x86_64 plugins package. -->
+		<attribute name="output.name.linux.x86.64"/>
+		<!-- The zip file name and location for the aix ppc plugins package. -->
+		<attribute name="output.name.aix.ppc"/>
+		<!-- The zip file name and location for the solaris sparc plugins package. -->
+		<attribute name="output.name.solaris.sparc"/>
+		<!-- The zip file name and location for the hp parisc plugins package. -->
+		<attribute name="output.name.hp.parisc"/>
+
+		<sequential>
+			<!-- Make sure the needed directory is created. -->
+			<delete dir="${project.root.pwd.plugin.export.win}"/>
+			<mkdir dir="${project.root.pwd.plugin.export.win}"/>
+			<delete dir="${project.root.pwd.plugin.export.unix}"/>
+			<mkdir dir="${project.root.pwd.plugin.export.unix}"/>
+			<!-- Copy over the common plugin files for windows -->
+			<copy todir="${project.root.pwd.plugin.export.win}">
+				<fileset dir="${project.root.pwd.plugin.src}">
+					<include name="**/*.bat"/>
+					<include name="**/*.props"/>
+					<include name="**/*.properties"/>
+					<include name="**/*.ldif"/>
+					<include name="**/*.nsf"/>
+					<include name="**/*.reg"/>
+					<include name="**/*.xml"/>
+					<exclude name="pam/etc/*.props"/>
+				</fileset>
+			</copy>
+			<!-- Copy over the common plugin files for unix -->
+			<copy todir="${project.root.pwd.plugin.export.unix}">
+				<fileset dir="${project.root.pwd.plugin.src}">
+					<include name="**/*.sh"/>
+					<include name="**/*.props"/>
+					<include name="**/*.properties"/>
+					<include name="**/*.ldif"/>
+					<include name="**/*.nsf"/>
+					<include name="**/*.xml"/>
+					<exclude name="windows/etc/*.props"/>
+				</fileset>
+			</copy>
+
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name.plugins.base}"/>
+			<delete file="@{output.name.plugins.base.win}"/>
+			<delete file="@{output.name.plugins.base.unix}"/>
+			<delete file="@{output.name.win.x86}"/>
+			<delete file="@{output.name.win.x86.64}"/>
+			<delete file="@{output.name.linux.x86}"/>
+			<delete file="@{output.name.linux.x86.64}"/>
+			<delete file="@{output.name.aix.ppc}"/>
+			<delete file="@{output.name.solaris.sparc}"/>
+			<delete file="@{output.name.hp.parisc}"/>
+
+			<!-- Replace the $startProxy$ placeholder for the windows zip. Put "$change$" placeholders, which the installer will fill in with the install path. -->
+			<replace dir="${project.root.pwd.plugin.export.win}" token="$$startProxy$$" value="$$change$$/pwd_plugins/bin/startProxy.bat">
+				<include name="**/*.props"/>
+			</replace>
+
+			<!-- Replace the $startProxy$ placeholder for the unix zip. Put "$change$" placeholders, which the installer will fill in with the install path. -->
+			<replace dir="${project.root.pwd.plugin.export.unix}" token="$$startProxy$$" value="$$change$$/pwd_plugins/bin/startProxy.sh">
+				<include name="**/*.props"/>
+			</replace>
+
+			<!-- Create the base package. -->
+			<zipCommonPluginJars plugin.zip="@{output.name.plugins.base}" plugin.prefix.dir="pwd_plugins" />
+
+			<!-- Create the base package for windows. -->
+			<zipCommonPluginFiles plugin.export.dir="${project.root.pwd.plugin.export.win}" plugin.zip="@{output.name.plugins.base.win}" plugin.prefix.dir="pwd_plugins" plugin.file.format="dos" plugin.file.suffix="bat" plugin.path.separator=";" />
+
+			<!-- Put the files in Windows format -->
+			<fixcrlf srcdir="${project.root.pwd.plugin.export.win}/windows/etc"
+                 eol="dos"
+                 includes="*.props" />
+
+			<!-- zip the windows-only plugin -->
+			<zip zipfile="@{output.name.plugins.base.win}" update="true">
+				<zipfileset dir="${project.root.pwd.plugin.export.win}/windows/etc"
+                        prefix="pwd_plugins/windows">
+					<include name="pwsync.props"/>
+				</zipfileset>
+			</zip>
+
+			<zip zipfile="@{output.name.plugins.base.win}" update="true">
+				<zipfileset dir="${project.root.pwd.plugin.export.win}/windows/etc"
+                        prefix="pwd_plugins/windows">
+					<include name="registerpwsync.reg"/>
+					<include name="unregisterpwsync.reg"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Create the base package for unix. -->
+			<zipCommonPluginFiles plugin.export.dir="${project.root.pwd.plugin.export.unix}" plugin.zip="@{output.name.plugins.base.unix}" plugin.prefix.dir="pwd_plugins" plugin.file.format="unix" plugin.file.suffix="sh" plugin.path.separator=":" />
+
+			<!-- Put the files in Unix format -->
+			<fixcrlf srcdir="${project.root.pwd.plugin.export.unix}/pam/etc"
+                 eol="unix"
+                 includes="*.props" />
+
+			<!-- zip the unix-only plugin -->
+			<zip zipfile="@{output.name.plugins.base.unix}"  update="true">
+				<zipfileset dir="${project.root.pwd.plugin.export.unix}/pam/etc"
+                         prefix="pwd_plugins/pam">
+					<include name="pwsync.props"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Create the windows x86_64 zip. -->
+			<zip zipfile="@{output.name.win.x86.64}" update="true">
+				<zipfileset dir="${project.root.pwd.plugin.src}/tds/lib/win_x86_64"
+                        prefix="pwd_plugins/tds">
+					<include name="idspwsync_64.dll"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/windows/lib/win_x86_64"
+                        prefix="pwd_plugins/windows">
+					<include name="tdipwflt_64.dll"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/windows/bin/win_x86_64"
+                        prefix="pwd_plugins/windows">
+					<include name="pwsync_admin_64.exe"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Create the linux x86_64 zip. -->
+			<zip zipfile="@{output.name.linux.x86.64}"  update="true">
+				<zipfileset dir="${project.root.pwd.plugin.src}/pam/lib/linux_x86_64"
+                         prefix="pwd_plugins/pam">
+					<include name="libpamtivoli_64.so"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/sun/lib/linux_x86"
+                        prefix="pwd_plugins/sun">
+					<include name="libsunpwsync.so"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/tds/lib/linux_x86_64"
+                        prefix="pwd_plugins/tds">
+					<include name="libidspwsync_64.so"/>
+				</zipfileset>
+			</zip>
+
+			<!-- Create the aix ppc zip. -->
+			<zip zipfile="@{output.name.aix.ppc}"  update="true">
+				<zipfileset dir="${project.root.pwd.plugin.src}/pam/lib/aix"
+                         prefix="pwd_plugins/pam">
+					<include name="libpamtivoli.a.so"/>		
+					<include name="libpamtivoli_64.a.so"/>					
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/sun/lib/aix"
+                         prefix="pwd_plugins/sun">
+					<include name="libsunpwsync.a.so"/>
+				</zipfileset>
+				<zipfileset dir="${project.root.pwd.plugin.src}/tds/lib/aix"
+                        prefix="pwd_plugins/tds">
+					<include name="libidspwsync.a.so"/>
+					<include name="libidspwsync_64.a.so"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTDILUMPackages
+
+      Purpose:  Make the zip of the TDI LUM packages in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTDILUMPackages">
+		<!-- The zip file name and location for the full package. -->
+		<attribute name="output.name.trial"/>
+		<!-- The zip file name and location for the trial package. -->
+		<attribute name="output.name.full"/>
+		<!-- The zip file name and location for the empty package. -->
+		<attribute name="output.name.empty"/>
+		<!-- The zip file name and location for the upgrade package. -->
+		<attribute name="output.name.upgrade"/>
+
+		<sequential>
+			<!-- delete any existing zip files. -->
+			<delete file="@{output.name.trial}"/>
+			<delete file="@{output.name.full}"/>
+			<delete file="@{output.name.empty}"/>
+			<delete file="@{output.name.upgrade}"/>
+
+			<!-- create the trial zip -->
+			<zip zipfile="@{output.name.trial}">
+				<zipfileset dir="${project.root.lum}">
+					<include name="${LUMTrialName}"/>
+				</zipfileset>
+			</zip>
+
+			<!-- create the full zip -->
+			<zip zipfile="@{output.name.full}">
+				<zipfileset dir="${project.root.lum}" >
+					<include name="${LUMTrialName}"/>
+					<include name="${LUMProdName}"/>
+				</zipfileset>
+			</zip>
+
+			<!-- create the empty zip -->
+			<zip zipfile="@{output.name.empty}">
+				<zipfileset dir="${project.root.lum}">
+					<include name="${LUMEmptyName}"/>
+				</zipfileset>
+			</zip>
+
+			<!-- create the upgrade zip -->
+			<zip zipfile="@{output.name.upgrade}">
+				<zipfileset dir="${project.root.lum}" >
+					<include name="${LUMProdName}"/>
+				</zipfileset>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+       Target:  create_tag_files
+
+      Purpose:  Create the various tag files we will need
+    =========================================================================
+	</description>
+	<macrodef name="create_tag_files">
+
+		<sequential>
+			<echo>Building all the tag files...</echo>
+
+			<!-- Delete the dir and files if they exist -->
+			<delete dir="${project.root.export.swgtags}"/>
+			<mkdir dir="${project.root.export.swgtags}"/>
+
+			<!-- Make each file that is needed -->
+			<create_swtag_file outputname.loc="${project.root.export.swgtags}/${swtag_file_name}" swgfmidx="${prod_swgfmidx_name}" occode="${prod_oc_code}" prodreleaseid="${prod_release_id}"/>
+
+		</sequential>
+
+	</macrodef>
+
+	<description>
+    =========================================================================
+       Target:  create_swtag_file
+
+      Purpose:  Create SWG TAG FILE.
+    =========================================================================
+	</description>
+	<macrodef name="create_swtag_file">
+		<!-- The name of the file to create. -->
+		<attribute name="outputname.loc"/>
+		<!-- The SWGFMIDX to use for the file. -->
+		<attribute name="swgfmidx"/>
+		<!-- The OC CODE to use for the file.-->
+		<attribute name="occode"/>
+		<!-- The Product Release ID to use for the file.-->
+		<attribute name="prodreleaseid"/>
+
+		<sequential>
+			<echo>Building swtag file @{outputname.loc}...</echo>
+
+			<!-- Delete the file if it exists already.  -->
+			<delete file="@{outputname.loc}"/>
+
+			<!-- Create a new file from the template.  -->
+			<copy file="${swtag_template}" tofile="@{outputname.loc}"/>
+
+			<!-- Make the needed changes -->
+			<replaceregexp file="@{outputname.loc}"
+                           match="%PRODNAME%"
+                           replace="IBM ${project.tdi.name}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%VERSION%"
+                           replace="${project.tdi.swgtag.vers}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%SWGFMIDX%"
+                           replace="@{swgfmidx}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%OCCODE%"
+                           replace="@{occode}"
+                           byline="true"/>
+						   
+			<replaceregexp file="@{outputname.loc}"
+                           match="%PRODRELEASEID%"
+                           replace="@{prodreleaseid}"
+                           byline="true"/>
+
+		</sequential>
+
+	</macrodef>
+
+	<description>
+    =========================================================================
+       Target:  create_fxtag_file
+
+      Purpose:  Create FX TAG FILE.
+    =========================================================================
+	</description>
+	<macrodef name="create_fxtag_file">
+		<!-- The name of the file to create. -->
+		<attribute name="outputname.loc"/>
+		<!-- The SWGFMIDX to use for the file. -->
+		<attribute name="swgfmidx"/>
+		<!-- The name of the fix name. -->
+		<attribute name="fixname"/>
+		<!-- The name of the fix version. -->
+		<attribute name="fixversion"/>
+		<!-- The name of the fix id. -->
+		<attribute name="fixid"/>
+		<!-- The fixtype -->
+		<attribute name="fixtype"/>
+
+		<sequential>
+			<echo>Building fxtag file @{outputname.loc}...</echo>
+
+			<!-- Delete the file if it exists already.  -->
+			<delete file="@{outputname.loc}"/>
+
+			<!-- Create a new file from the template.  -->
+			<copy file="${fxtag_template}" tofile="@{outputname.loc}"/>
+
+			<!-- Make the needed changes -->
+			<replaceregexp file="@{outputname.loc}"
+                           match="%FIXNAME%"
+                           replace="@{fixname}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%FIXVER%"
+                           replace="@{fixversion}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%FIXID%"
+                           replace="@{fixid}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%SWGFMIDX%"
+                           replace="@{swgfmidx}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="%FIXTYPE%"
+                           replace="@{fixtype}"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="FixPack"
+                           replace="Fix Pack"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="InterimFix"
+                           replace="Interim Fix"
+                           byline="true"/>
+			<replaceregexp file="@{outputname.loc}"
+                           match="LimitedAvailabilityInterimFix"
+                           replace="Limited Availability Interim Fix"
+                           byline="true"/>
+
+		</sequential>
+	</macrodef>
+
+	<description>
+    =========================================================================
+      Macro:  zipTagsFile
+
+      Purpose:  Make the zip of the Tags file in a specified location.
+    =========================================================================
+	</description>
+	<macrodef name="zipTagsFile">
+
+		<!-- The zip file name and location for the tags package. -->
+		<attribute name="output.name"/>
+
+		<sequential>
+			<!-- Does nothing. Rule here to make other ant usage not break. -->
+
+		</sequential>
+	</macrodef>
+
+	<description>
+      =========================================================================
+         Macro: installer_locale_files
+
+        Purpose:  delete and copy latest IA locale files
+      =========================================================================
+	</description>
+	<macrodef name="installer_locale_files">		
+
+		<sequential>
+			<!-- Delete existing locale files -->			
+			<echo message="Deleting IA locale files..."/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_en"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_de"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_es"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_fr"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_it"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_ja"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_ko"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_pt_BR"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_zh_CN"/>
+			<delete file="${img.base}/itdiMainlocales_ALL/custom_zh_TW"/>
+
+			<copy file="${install.src.resources}/TDIInstallGUIStrings.properties"
+              tofile="${install.src.resources}/TDIInstallGUIStrings_en.properties"/>
+		</sequential>
+	</macrodef>
+
+</project>

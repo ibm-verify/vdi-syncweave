@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+
+
+
+	<complexType name="Property">
+		<annotation>
+			<documentation>Represents a single Property from the PropertyStore.
+			</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="string">
+				<attribute name="name" type="string" use="required">
+					<annotation>
+						<documentation>The property key name.</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="encrypt" type="boolean" use="optional"
+					default="false">
+					<annotation>
+						<documentation>On request to the server specifies that the
+							Server
+							must encrypt the property value. When provided in a Server
+							response specifies that the property value is encrypted. If the
+							value is null then the value on the Server side will be
+							encrypted.
+						</documentation>
+					</annotation>
+				</attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+
+
+
+	<element name="properties" type="tns:Properties"></element>
+
+	<complexType name="Properties">
+
+		<annotation>
+			<documentation>
+				Contains the list of properties the Server maintains.
+			</documentation>
+		</annotation>
+
+		<sequence>
+			<element ref="tns:property" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+		<attribute name="commit" type="boolean" use="optional"
+			default="false">
+		</attribute>
+	</complexType>
+
+	<element name="property" type="tns:Property"></element>
+</schema>

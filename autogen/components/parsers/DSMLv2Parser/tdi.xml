@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Parsers">
+		<Parser name="ibmdi.DSMLv2 Parser">
+			<parameter name="class">com.ibm.di.parser.Dsmlv2Parser</parameter>
+			<parameter name="binaryAttributes"><![CDATA[photo, personalSignature, audio, jpegPhoto, javaSerializedData, thumbnailPhoto, 
+thumbnailLogo, userPassword, userCertificate, authorityRevocationList, 
+certificateRevocationList, crossCertificatePair, x500UniqueIdentifier, 
+objectGUID, objectSid]]></parameter>
+			<parameter name="characterSet">UTF-8</parameter>
+			<parameter name="description">PAR_DESC</parameter>
+			<parameter name="indentoutput">true</parameter>
+			<parameter name="mode">Client</parameter>
+			<parameter name="omitxmldeclaration">false</parameter>
+			<parameter name="onError">exit</parameter>
+			<parameter name="processing">sequential</parameter>
+			<parameter name="responseOrder">sequential</parameter>
+			<parameter name="soapbinding">false</parameter>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$dn</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.abandonID</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.attributes</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.base</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_name</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_result</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_value</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.controls</Name>
+					<Syntax>java.util.Vector</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.deleteOldRDN</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.derefAliases</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.details</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.error</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.errorType</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestname</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestvalue</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.filter</Name>
+					<Syntax>string or base64Binary or URI</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.message</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.newSuperior</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.operation</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.principal</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.referral</Name>
+					<Syntax>java.util.Vector</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.requestID</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.response</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.responseName</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultcode</Name>
+					<Syntax>integer</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultdescr</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.scope</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.sizeLimit</Name>
+					<Syntax>integer &gt;= 0</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.timeLimit</Name>
+					<Syntax>integer &gt;= 0</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.typesOnly</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>newrdn</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>resultEntries</Name>
+					<Syntax>com.ibm.di.entry.Entry</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$dn</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.abandonID</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.attributes</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.base</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_name</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_result</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_value</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.controls</Name>
+					<Syntax>java.util.Vector</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.deleteOldRDN</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.derefAliases</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.details</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.error</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.errorType</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestname</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestvalue</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.filter</Name>
+					<Syntax>string or base64Binary or URI</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.message</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.newSuperior</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.operation</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.principal</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.referral</Name>
+					<Syntax>java.util.Vector</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.requestID</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.response</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.responseName</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultcode</Name>
+					<Syntax>integer</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultdescr</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.scope</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.sizeLimit</Name>
+					<Syntax>integer &gt;= 0</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.timeLimit</Name>
+					<Syntax>integer &gt;= 0</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.typesOnly</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>newrdn</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>resultEntries</Name>
+					<Syntax>com.ibm.di.entry.Entry</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Parser>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.parser.Dsmlv2Parser">
+			<TranslationFile>NLS/idi_par_dsmlv2</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>mode</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>characterSet</ListItem>
+					<ListItem>binaryAttributes</ListItem>
+					<ListItem>onError</ListItem>
+					<ListItem>processing</ListItem>
+					<ListItem>responseOrder</ListItem>
+					<ListItem>omitxmldeclaration</ListItem>
+					<ListItem>indentoutput</ListItem>
+					<ListItem>soapbinding</ListItem>
+			</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>characterSet</ListItem>
+				<ListItem>mode</ListItem>
+				<ListItem>binaryAttributes</ListItem>
+				<ListItem>onError</ListItem>
+				<ListItem>processing</ListItem>
+				<ListItem>responseOrder</ListItem>
+				<ListItem>omitxmldeclaration</ListItem>
+				<ListItem>indentoutput</ListItem>
+				<ListItem>soapbinding</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="binaryAttributes">
+				<parameter name="description">BA_DESC</parameter>
+				<parameter name="label">BA_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="characterSet">
+				<parameter name="description">set_desc</parameter>
+				<parameter name="label">set_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="indentoutput">
+				<parameter name="description">INDOUT_DESC</parameter>
+				<parameter name="label">INDOUT_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="mode">
+				<Values>
+					<ListItem>Client</ListItem>
+					<ListItem>Server</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Client</Key>
+						<Value>Localized.Client</Value>
+					</Item>
+					<Item>
+						<Key>Server</Key>
+						<Value>Localized.Server</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">MODE_DESC</parameter>
+				<parameter name="label">MODE_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="omitxmldeclaration">
+				<parameter name="description">OMITXML_DESC</parameter>
+				<parameter name="label">OMITXML_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="onError">
+				<Values>
+					<ListItem>exit</ListItem>
+					<ListItem>resume</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>exit</Key>
+						<Value>Localized.exit</Value>
+					</Item>
+					<Item>
+						<Key>resume</Key>
+						<Value>Localized.resume</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">ONERR_DESC</parameter>
+				<parameter name="label">ONERR_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="processing">
+				<Values>
+					<ListItem>sequential</ListItem>
+					<ListItem>parallel</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>parallel</Key>
+						<Value>Localized.parallel</Value>
+					</Item>
+					<Item>
+						<Key>sequential</Key>
+						<Value>Localized.sequential</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">PROC_DESC</parameter>
+				<parameter name="label">PROC_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="responseOrder">
+				<Values>
+					<ListItem>sequential</ListItem>
+					<ListItem>unordered</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>sequential</Key>
+						<Value>Localized.sequential</Value>
+					</Item>
+					<Item>
+						<Key>unordered</Key>
+						<Value>Localized.unordered</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">RESPORD_DESC</parameter>
+				<parameter name="label">RESPORD_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="soapbinding">
+				<parameter name="description">SOAP_DESC</parameter>
+				<parameter name="label">SOAP_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">PAR_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

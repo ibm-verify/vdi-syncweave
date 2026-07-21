@@ -1,0 +1,26 @@
+# IBM Confidential
+# PID 5724-K74
+#
+# Copyright IBM Corp. 2023
+
+# Our build image is based on the RedHat UBI 8 image
+FROM redhat/ubi8
+
+# Add in our files.  
+COPY stage/etc/build.version /etc/build.version
+COPY stage/sbin/*.sh         /sbin/
+
+# Update the build image with some additional required RPMs.
+RUN /bin/sh /sbin/prepare.sh && rm -f /sbin/prepare.sh
+
+# Our default entry point.
+ENTRYPOINT [ "/bin/sh", "/sbin/bootstrap.sh" ]
+
+# The volumes which we need to export.
+VOLUME ["/build"]
+
+# Some labels which will be associated with the image.
+LABEL maintainer="iamdev@us.ibm.com" \
+    vendor="IBM" \
+    product="IBM Security Verify Directory Integrator"
+

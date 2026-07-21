@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/curi" xmlns:tns="http://www.example.org/curi" elementFormDefault="qualified">
+
+	<!--
+		xjc -d src -p com.ibm.di.ui.easyetl.bind schema/configuration.xsd 
+	 -->
+	 
+	<complexType name="Solution">
+		<sequence>
+			<element name="id" type="string"></element>
+			<element name="label" type="string"></element>
+			<element name="description" type="string"></element>
+			<element name="filetype" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:Solution" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Solutions">
+		<sequence>
+			<element name="identifer" type="string"></element>
+			<element name="label" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:Solution" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+
+	<element name="Solution" type="tns:Solution"></element>
+</schema>

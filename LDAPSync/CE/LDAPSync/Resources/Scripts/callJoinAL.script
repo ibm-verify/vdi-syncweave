@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="49" UUID="a4f0bb17-e80a-43f4-9243-06051ebc55d5" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="callJoinAL" modified="Fri Apr 01 12:53:09 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="callJoinAL">
+        <ModTime>1459507989305</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[function handleError(typeOfEntry, ex) {
+	skipEntry = ifJoinFails.startsWith("abort") || ifJoinFails.startsWith("skip");
+
+	if (ifJoinFails.startsWith("abort")) {
+		errorLevel = "error";
+	} else {
+		errorLevel = "warning";
+	}
+
+	setException(ex, "join");
+	
+	errorMsg = flowKey + "_" + thisConnector.getName() 
+				+ " - " + resource.getString("LDAPSYNC.ERROR.JOINING.DATA") 
+				+ " - exception: " + ex;
+	cname = thisConnector.getName();
+	failed.put(cname, errorMsg);
+	
+	addToStats(flowKey, errorLevel, errorLevel);
+	if (typeof(typeOfEntry) != "undefined") {
+		addToStats(flowKey, typeOfEntry, errorLevel);
+	}	
+		
+	logmsg(errorLevel.toUpperCase(), errorMsg);
+	
+	itr = joinALFC.keySet().iterator();
+	joinALFC.get(typeOfEntry).terminate();
+	joinALFC.put(typeOfEntry, "error");
+	
+	if (errorLevel == "error") {
+		while (itr.hasNext()) {
+			try {
+				var nxt = itr.next();
+				joinALFC.get(nxt).terminate();
+				joinALFC.put(nxt, "error");
+			} catch (ex) {
+				// do nothing
+			}
+		}
+	}	
+
+	entry.removeAllAttributes()
+
+	if (skipEntry) {
+		readError = errorMsg
+		if (ifJoinFails.startsWith("abort")) {
+			abortFlow = true
+			setException(readError,"fatal")
+			throw errorMsg
+		}
+		
+		addToStats(flowKey, "skipping", "skipping")
+		if (typeof(typeOfEntry) != "undefined") {
+			addToStats(flowKey, typeOfEntry, "skipping")
+		}
+	}
+}
+
+// --------- end of function definitions
+
+joinEntry = null; // initialize the Join entry returned for simulate-sync reports
+
+if (!performJoin || skipEntry || joinALFC.get(typeOfEntry) == "error") {
+	
+	if (performJoin && joinALFC.get(typeOfEntry) == "error") {
+		skipEntry = ifJoinFails.startsWith("abort") || ifJoinFails.startsWith("skip");
+		abortFlow = "true".equalsIgnoreCase(work.getString("$stopFlow")) || ifJoinFails.startsWith("abort");
+		
+		if (skipEntry) {
+			addToStats(flowKey, "skipping", "skipping")
+			if (typeof(typeOfEntry) != "undefined") {
+				addToStats(flowKey, typeOfEntry, "skipping")
+			}
+		}
+	}	
+	// exit this script
+	return;
+}
+
+if (joinALFC.get(typeOfEntry) == null) {
+	try {
+		joinALName = getALName("join." + typeOfEntry + ".AL",defaultJoinALName.get(typeOfEntry))
+		if (joinALName == null || joinALName.trim().length == 0) {
+			return; // leave script
+		}
+	
+		var ALFC = system.getFunction("ibmdi.AssemblyLineFC")
+	
+		ALFC.setParam("assemblyLine", joinALName)
+		ALFC.setParam("shareLog", "true")
+		ALFC.setParam("mode", "2") // Manual mode
+		joinALFC.put(typeOfEntry, ALFC)
+		
+		tcb = ALFC.getTCB();
+		passGlobalVariablesViaTCB(tcb);
+/*
+		task.logmsg("................................ reseting the joinALFC\n\n"
+						+ "    al name: " + ALName + "\n\n.............................................")
+*/
+		tcb.setOperationInitParams(opEntry)	
+		tcb.setTaskName(flowKey + "_" + ALName + "_" + typeOfEntry + "_join")
+
+		ALFC.initialize(null)
+	} catch (ex) {
+		handleError(typeOfEntry, ex)
+	}	
+}
+
+try {
+	readError = ""
+	entry = ALFC.perform(work);
+	
+	if (entry != null && entry.size() > 0 && !entry.getObject("$skipEntry") == true) {
+		var attNames = entry.getAttributeNames()
+		for (var attName in attNames) {
+			work.setAttribute(attName, entry.getAttribute(attName))
+		}
+		
+		joinEntry = system.newEntry();
+		joinEntry.merge(entry);
+
+		abortFlow = "true".equalsIgnoreCase(work.getString("$stopFlow"));
+	} else
+	if (ifJoinFails.startsWith("skip")) {
+		addToStats(flowKey, "skipping", "skipping");
+		if (typeof(typeOfEntry) != "undefined") {
+			addToStats(flowKey, typeOfEntry, "skipping");
+		}
+		skipEntry = true;
+	} else
+	if (ifJoinFails.startsWith("abort")) {
+		abortFlow = true;
+		skipEntry = true;
+	}
+} catch (ex) {
+	handleError(typeOfEntry, ex)
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

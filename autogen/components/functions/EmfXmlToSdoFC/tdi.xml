@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.EmfXmlToSdo">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.emf.EmfXmlToSdo</parameter>
+				<parameter name="encoding"/>
+				<parameter name="inputXMLType">String</parameter>
+				<parameter name="namespaceMap"/>
+				<parameter name="simulate">Enabled</parameter>
+				<parameter name="useNamespaces">false</parameter>
+				<parameter name="xsdFile"/>
+			</Configuration>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.emf.EmfXmlToSdo">
+			<TranslationFile>NLS/idi_fc_emfxmltosdo</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>xsdFile</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>useNamespaces</ListItem>
+					<ListItem>namespaceMap</ListItem>
+					<ListItem>inputXMLType</ListItem>
+					<ListItem>encoding</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>xsdFile</ListItem>
+				<ListItem>useNamespaces</ListItem>
+				<ListItem>namespaceMap</ListItem>
+				<ListItem>inputXMLType</ListItem>
+				<ListItem>encoding</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="encoding">
+				<parameter name="description">ENC_DESC</parameter>
+				<parameter name="label">ENC_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="inputXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">IXT_DESC</parameter>
+				<parameter name="label">IXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="namespaceMap">
+				<parameter name="description">NM_DESC</parameter>
+				<parameter name="label">NM_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="useNamespaces">
+				<parameter name="description">UN_DESC</parameter>
+				<parameter name="label">UN_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="xsdFile">
+				<parameter name="description">XF_DESC</parameter>
+				<parameter name="label">XF_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

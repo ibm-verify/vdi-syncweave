@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Mon Mar 15 11:00:10 IST 2011" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DISB">
+                        <SupportedModes>AddOnly,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.disb.DISBConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>				
+				<parameter name="jms.autoAcknowledge">true</parameter>
+				<parameter name="jms.broker">hostname:port</parameter>
+				<parameter name="jms.driver">IBMMQ</parameter>
+				<parameter name="jms.durable">false</parameter>
+				<parameter name="jms.getnextTimeout">-1</parameter>
+				<parameter name="jms.headersAsAttributes">false</parameter>
+				<parameter name="jms.lookupConsumesMessage">false</parameter>
+				<parameter name="jms.lookupRetries">10</parameter>
+				<parameter name="jms.lookupTimeout">1000</parameter>
+				<parameter name="jms.propertiesAsAttributes">false</parameter>
+				<parameter name="jms.sslCipher">SSL_RSA_WITH_RC4_128_MD5</parameter>
+				<parameter name="jms.sslUseFlag">false</parameter>
+				<parameter name="jms.messageType">TextMessage</parameter>
+				<parameter name="meta.description">Java Message Server client</parameter>
+				<parameter name="idmlMsgFlag">false</parameter>
+				<parameter name="validateIdmlFlag">false</parameter>
+				<parameter name="jsonMsgFlag">true</parameter>
+			</Configuration>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>DISJSONMessage</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>DISSourceMSSName</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>DISSourceMSSGuid</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>DISMessageVersion</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>DISIDMLMessage</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.disb.DISBConnector">
+			<TranslationFile>NLS/idi_conn_disb</TranslationFile>
+			<parameter name="formevents"><![CDATA[
+		function setJMSDriverParams() {
+		var jmsDriver = form.getConfigValue("jms.driver"); 
+		if (jmsDriver!=null) { 
+			if (jmsDriver.equalsIgnoreCase("IBMMQe")) { 
+				form.getControl("jms.serverChannel").setEnabled(false); 
+				form.getControl("jms.qManager").setEnabled(false); 
+				form.getControl("jms.clientID").setEnabled(false); 
+				form.getControl("jms.username").setEnabled(false); 
+				form.getControl("jms.password").setEnabled(false); 
+				form.getControl("jms.sslUseFlag").setEnabled(false); 
+				form.getControl("jms.sslCipher").setEnabled(false); 
+				form.getControl("jms.sslServerChannel").setEnabled(false);
+			} else { 
+				form.getControl("jms.serverChannel").setEnabled(true); 
+				form.getControl("jms.qManager").setEnabled(true); 
+				form.getControl("jms.clientID").setEnabled(true); 
+				form.getControl("jms.username").setEnabled(true); 
+				form.getControl("jms.password").setEnabled(true); 
+				form.getControl("jms.sslUseFlag").setEnabled(true); 
+				form.getControl("jms.sslServerChannel").setEnabled(true); 
+				form.getControl("jms.sslCipher").setEnabled(true); 
+			}
+			form.updateControl("jms.serverChannel"); 
+		}
+}
+
+setJMSDriverParams();
+
+function jms_driver_changed() {
+		setJMSDriverParams();
+}
+
+function idmlMsgFlag_changed(){
+		var idmlMsg = form.getConfigValue("idmlMsgFlag");
+		if (idmlMsg != null){
+					if(idmlMsg.equalsIgnoreCase("true")){
+						form.getControl("validateIdmlFlag").setEnabled(true);
+						form.getControl("jsonMsgFlag").setEnabled(false);
+					}
+					else{
+						form.getControl("validateIdmlFlag").setEnabled(false);
+						form.getControl("jsonMsgFlag").setEnabled(true);
+					}
+		}
+}
+
+function jsonMsgFlag_changed(){
+		var jsonMsg = form.getConfigValue("jsonMsgFlag");
+		if (jsonMsg != null){
+			if(jsonMsg.equalsIgnoreCase("false")){
+			form.getControl("idmlMsgFlag").setEnabled(true);
+			}
+			else{
+			form.getControl("idmlMsgFlag").setEnabled(false);
+			}
+		}	
+}
+
+function topicType_changed(){
+		var topicType = form.getConfigValue("topicType");
+		if (topicType!=null){
+			if(topicType.equalsIgnoreCase("Instance Topic")){
+				form.getControl("jms.topic").setText("DisInstanceTopic");
+			}
+			else if(topicType.equalsIgnoreCase("Model Topic")){
+				form.getControl("jms.topic").setText("DisModelTopic");
+			}
+			else if(topicType.equalsIgnoreCase("GUIDLifeCycle Topic")){
+				form.getControl("jms.topic").setText("DisGuidLifeCycleTopic");
+			}
+			form.updateControl("jms.topic");
+		}
+}
+
+function update_controls() {
+			var co = form.getConfigObject();
+			if ( co == null ) {
+						return;
+			} 				
+			var cmode = co.getParent().getMode();
+			if ( cmode.equalsIgnoreCase("AddOnly")){ 
+				form.getControl("jms.connectionType").setText("Queue");
+				form.getControl("jms.connectionType").setEnabled(false);
+				form.getControl("jms.messageType").setEnabled(false);
+				form.getControl("jms.topic").setText("DisSubscriptionQueue");
+				form.getControl("idmlMsgFlag").setEnabled(false);
+				form.getControl("validateIdmlFlag").setEnabled(false);
+ 			}
+			else if (cmode.equalsIgnoreCase("Iterator"))					
+			{
+				form.getControl("jms.connectionType").setText("Topic");
+				form.getControl("jms.connectionType").setEnabled(false);
+				form.getControl("topicType").setText("Instance Topic");
+				form.getControl("jms.topic").setText("DisInstanceTopic");
+				form.getControl("jms.propertiesAsAttributes").setEnabled(false);
+				form.getControl("jms.specificPropertiesAsAttributes").setEnabled(false);
+			}
+			form.updateControl ("jms.connectionType");
+			form.updateControl("jms.topic");
+}
+update_controls();			
+idmlMsgFlag_changed();
+jsonMsgFlag_changed();
+topicType_changed();
+
+]]></parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jms.broker</ListItem>
+					<ListItem>jms.connectionType</ListItem>
+					<ListItem>topicType</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jms.topic</ListItem>
+					<ListItem>jms.driver</ListItem>
+					<ListItem>jms.serverChannel</ListItem>
+					<ListItem>jms.qManager</ListItem>
+					<ListItem>jms.driverScript</ListItem>
+					<ListItem>jms.messageType</ListItem>
+					<ListItem>jsonMsgFlag</ListItem>					
+					<ListItem>idmlMsgFlag</ListItem>
+					<ListItem>validateIdmlFlag</ListItem>
+					<ListItem>jms.username</ListItem>
+					<ListItem>jms.password</ListItem>
+					<ListItem>jms.sslUseFlag</ListItem>
+					<ListItem>jms.sslServerChannel</ListItem>
+					<ListItem>jms.sslCipher</ListItem>
+					<ListItem>jms.durable</ListItem>
+					<ListItem>jms.clientID</ListItem>
+					<ListItem>jms.messageFilter</ListItem>
+					<ListItem>jms.getnextTimeout</ListItem>
+					<ListItem>jms.autoAcknowledge</ListItem>
+					<ListItem>jms.headersAsAttributes</ListItem>
+					<ListItem>jms.specificHeadersAsAttributes</ListItem>
+					<ListItem>jms.propertiesAsAttributes</ListItem>
+					<ListItem>jms.specificPropertiesAsAttributes</ListItem>
+					<ListItem>jms.driverAttributes</ListItem>
+					<ListItem>jms.lookupConsumesMessage</ListItem>
+					<ListItem>jms.lookupRetries</ListItem>
+					<ListItem>jms.lookupTimeout</ListItem>					
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>jms.broker</ListItem>
+				<ListItem>jms.serverChannel</ListItem>
+				<ListItem>jms.sslUseFlag</ListItem>
+				<ListItem>jms.sslServerChannel</ListItem>
+				<ListItem>jms.qManager</ListItem>
+				<ListItem>jms.sslCipher</ListItem>
+				<ListItem>jms.username</ListItem>
+				<ListItem>jms.password</ListItem>
+				<ListItem>jms.connectionType</ListItem>
+				<ListItem>jms.topic</ListItem>
+				<ListItem>jms.durable</ListItem>
+				<ListItem>jms.clientID</ListItem>
+				<ListItem>jms.messageFilter</ListItem>
+				<ListItem>jms.getnextTimeout</ListItem>
+				<ListItem>jms.driver</ListItem>
+				<ListItem>jms.driverAttributes</ListItem>
+				<ListItem>jms.driverScript</ListItem>
+				<ListItem>jms.autoAcknowledge</ListItem>
+				<ListItem>jms.messageType</ListItem>
+				<ListItem>jms.headersAsAttributes</ListItem>
+				<ListItem>jms.specificHeadersAsAttributes</ListItem>
+				<ListItem>jms.propertiesAsAttributes</ListItem>
+				<ListItem>jms.specificPropertiesAsAttributes</ListItem>
+				<ListItem>jms.lookupConsumesMessage</ListItem>
+				<ListItem>jms.lookupRetries</ListItem>
+				<ListItem>jms.lookupTimeout</ListItem>	
+				<ListItem>topicType</ListItem>
+				<ListItem>idmlMsgFlag</ListItem>
+				<ListItem>validateIdmlFlag</ListItem>
+				<ListItem>jsonMsgFlag</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="jms.autoAcknowledge">
+				<parameter name="description">JMS_AUTOACK_DESC</parameter>
+				<parameter name="label">JMS_AUTOACK_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.broker">
+				<parameter name="description">JMS_BROKER_DESC</parameter>
+				<parameter name="label">JMS_BROKER_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.clientID">
+				<parameter name="description">JMS_CLIENTID_DESC</parameter>
+				<parameter name="label">JMS_CLIENTID_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.connectionType">
+				<parameter name="description">JMS_CONNTYPE_DESC</parameter>
+				<parameter name="label">JMS_CONNTYPE_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.driver">
+				<Values>
+					<ListItem>IBMMQ</ListItem>
+					<ListItem>ActiveMQ</ListItem>
+				</Values>
+				<parameter name="description">JMS_DRIVER_DESC</parameter>
+				<parameter name="label">JMS_DRIVER_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.driverAttributes">
+				<parameter name="description">JMS_DRV_ATTR_DESC</parameter>
+				<parameter name="label">JMS_DRV_ATTR_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.driverScript">
+				<parameter name="description">JMS_DRV_SCRIPT_DESC</parameter>
+				<parameter name="label">JMS_DRV_SCRIPT_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.durable">
+				<parameter name="description">JMS_DURABLE_DESC</parameter>
+				<parameter name="label">JMS_DURABLE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.getnextTimeout">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">JMS_TIMEOUT_DESC</parameter>
+				<parameter name="label">JMS_TIMEOUT_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jms.headersAsAttributes">
+				<parameter name="description">JMS_HEADERATTRIB_DESC</parameter>
+				<parameter name="label">JMS_HEADERATTRIB_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.lookupConsumesMessage">
+				<parameter name="description">JMS_LOOKUPMSG_DESC</parameter>
+				<parameter name="label">JMS_LOOKUPMSG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.lookupRetries">
+				<parameter name="description">JMS_LOOKUPRETRY_DESC</parameter>
+				<parameter name="label">JMS_LOOKUPRETRY_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jms.lookupTimeout">
+				<parameter name="description">JMS_LOOKUPTIMEOUT_DESC</parameter>
+				<parameter name="label">JMS_LOOKUPTIMEOUT_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>			
+			<FormItem name="jms.messageFilter">
+				<parameter name="description">JMS_MSGFLT_DESC</parameter>
+				<parameter name="label">JMS_MSGFLT_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.password">
+				<parameter name="description">JMS_PW_DESC</parameter>
+				<parameter name="label">JMS_PW_LABEL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="jms.propertiesAsAttributes">
+				<parameter name="description">JMS_PROPERTIESATTRIB_DESC</parameter>
+				<parameter name="label">JMS_PROPERTIESATTRIB_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.qManager">
+				<parameter name="description">JMS_QUEUE_MANAGER_DESC</parameter>
+				<parameter name="label">JMS_QUEUE_MANAGER_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.serverChannel">
+				<parameter name="description">JMS_SERVER_CHANNEL_DESC</parameter>
+				<parameter name="label">JMS_SERVER_CHANNEL_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.specificHeadersAsAttributes">
+				<parameter name="description">JMS_SPECIFIC_HEADERATTRIB_DESC</parameter>
+				<parameter name="label">JMS_SPECIFIC_HEADERATTRIB_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.specificPropertiesAsAttributes">
+				<parameter name="description">JMS_SPECIFIC_PROPERTIESATTRIB_DESC</parameter>
+				<parameter name="label">JMS_SPECIFIC_PROPERTIESATTRIB_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.sslCipher">
+				<Values>
+					<ListItem>SSL_RSA_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_NULL_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_NULL_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_RC4_128_MD5</ListItem>
+					<ListItem>SSL_RSA_EXPORT_WITH_RC4_40_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_RC4_128_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_3DES_EDE_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT1024_WITH_RC4_56_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT1024_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_AES_128_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_AES_256_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_FIPS_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA</ListItem>
+				</Values>
+				<parameter name="description">JMS_SSL_CIPHERSUITE_DESC</parameter>
+				<parameter name="label">JMS_SSL_CIPHERSUITE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="jms.sslServerChannel">
+				<parameter name="description">JMS_SSL_SERVER_CHANNEL_DESC</parameter>
+				<parameter name="label">JMS_SSL_SERVER_CHANNEL_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.sslUseFlag">
+				<parameter name="description">JMS_SSL_USE_FLAG_DESC</parameter>
+				<parameter name="label">JMS_SSL_USE_FLAG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="topicType">
+				<Values>
+					<ListItem>Model Topic</ListItem>
+					<ListItem>Instance Topic</ListItem>
+					<ListItem>GUIDLifeCycle Topic</ListItem>
+				</Values>
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">JMS_TOPICTYPE_DESC</parameter>
+				<parameter name="label">JMS_TOPICTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.topic">
+				<parameter name="description">JMS_TOPIC_DESC</parameter>
+				<parameter name="label">JMS_TOPIC_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.username">
+				<parameter name="description">JMS_USERNAME_DESC</parameter>
+				<parameter name="label">JMS_USERNAME_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.messageType">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">JMS_MSGTYPE_DESC</parameter>
+				<parameter name="label">JMS_MSGTYPE_LABEL</parameter>
+			</FormItem>
+			<FormItem name="idmlMsgFlag">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">DISB_IDML_MSG_USE_FLAG_DESC</parameter>
+				<parameter name="label">DISB_IDML_MSG_USE_FLAG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="validateIdmlFlag">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">DISB_IDML_MSG_VALIDATE_FLAG_DESC</parameter>
+				<parameter name="label">DISB_IDML_MSG_VALIDATE_FLAG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jsonMsgFlag">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">DISB_JSON_MSG_USE_FLAG_DESC</parameter>
+				<parameter name="label">DISB_JSON_MSG_USE_FLAG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>			
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

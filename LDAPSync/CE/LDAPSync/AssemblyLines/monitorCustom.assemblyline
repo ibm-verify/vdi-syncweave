@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="76" UUID="9870f6eb-8e7e-49f4-ad4c-bdc9d9646e69" created="Thu Jan 30 14:17:55 CET 2014" createdBy="Administrator" main="monitorCustom" modified="Wed Oct 22 15:09:05 CEST 2014" modifiedBy="Administrator" project="LDAPSync_hooks" version="7.1.1">
+    <AssemblyLine name="monitorCustom">
+        <ModTime>1413983342390</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1395831908309</ModTime>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[var flowKey = getProperty("global.flows");
+var hookName = getProperty("$hookName");]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="display" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig>
+            <ModTime>1413983342390</ModTime>
+            <Logger name="FileRollerAppender">
+                <InheritFrom>system:/Loggers/ibmdi.FileRollerAppender</InheritFrom>
+                <ModTime>1413983342390</ModTime>
+                <parameter name="IDIFileRoller.File">LDAPSync/logs/monitorCustom.log</parameter>
+                <parameter name="IDIFileRoller.RollCount">5</parameter>
+                <parameter name="Pattern.ConversionPattern">%d{ISO8601} - %m%n</parameter>
+                <parameter name="com.ibm.di.log.layout">Pattern</parameter>
+                <parameter name="com.ibm.di.log.level">INFO</parameter>
+                <parameter name="enabled">true</parameter>
+            </Logger>
+        </LogConfig>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1413983180530</ModTime>
+            <Script name="display">
+                <ModTime>1413983180530</ModTime>
+                <parameter name="script"><![CDATA[msg = "\n-------> Custom monitor Hook name: " + hookName 
+		+ " -- Hook called: " + work.getString("$hookToBeCalled") +  "\n"
+logmsg(msg);
+
+logmsg("-> OPENTRY:\n")
+dbgDumpEntry(opEntry,"customMonitor");
+logmsg("-> IEW:\n")
+dbgDumpEntry(work)
+
+java.lang.System.out.println(msg);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <ModTime>1396948729046</ModTime>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+
+	<element name="connector" type="tns:ConnectorBinding"
+		substitutionGroup="tns:complexConfig">
+	</element>
+
+	<complexType name="ConnectorBinding">
+		<complexContent>
+			<extension base="tns:ComplexComponentBinding">
+				<sequence>
+					<element name="modeConfig" type="tns:ConnectorModeBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="deltaConfig" type="tns:DeltaBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+					<element name="linkCriteria" type="tns:LinkCriteriaBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+					<element name="poolDef" type="tns:PoolDefinitionBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+					<element name="poolInst" type="tns:PoolInstanceBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+				</sequence>
+				<attribute name="mode" type="tns:ConnectorModeEnum" use="optional"
+					default="Iterator">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="ConnectorModeEnum">
+		<restriction base="string">
+			<enumeration value="Iterator"></enumeration>
+			<enumeration value="AddOnly"></enumeration>
+			<enumeration value="Delete"></enumeration>
+			<enumeration value="Lookup"></enumeration>
+			<enumeration value="Update"></enumeration>
+			<enumeration value="CallReply"></enumeration>
+			<enumeration value="Server"></enumeration>
+			<enumeration value="ReplyChannel"></enumeration>
+			<enumeration value="Delta"></enumeration>
+			<enumeration value="Script"></enumeration>
+		</restriction>
+	</simpleType>
+
+
+	<complexType name="DeltaBinding">
+		<attribute name="enabled" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="uniqueAttribute" type="string" use="optional"></attribute>
+		<attribute name="deltaDb" type="string" use="optional"></attribute>
+		<attribute name="readDeleted" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="removeDeleted" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="returnUnchanged" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="fasterAlgorithm" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="allowDuplicateKeys" type="boolean"></attribute>
+		<attribute name="commit" use="optional" default="onEveryOp"
+			type="tns:DeltaCommitEnum">
+
+		</attribute>
+		<attribute name="rowLocking" use="optional" default="serializable"
+			type="tns:DeltaRowLockingEnum">
+
+		</attribute>
+		<attribute name="changeDetectionMode" use="optional"
+			default="detectAll" type="tns:DeltaChangeDetectionModeEnum">
+
+		</attribute>
+		<attribute name="changeDetectionAttributes" type="string"
+			use="optional">
+		</attribute>
+	</complexType>
+
+	<complexType name="LinkCriteriaBinding">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="script" type="string" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="item" type="tns:LinkCriteriaItemBinding"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+
+				</sequence>
+				<attribute name="matchAny" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="advanced" type="boolean" use="optional"
+					default="false">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="PoolDefinitionBinding">
+		<attribute name="enabled" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="minSize" type="int" use="optional"></attribute>
+		<attribute name="maxSize" type="int"></attribute>
+		<attribute name="purgeInterval" type="int"></attribute>
+		<attribute name="initializeAttempts" type="int"></attribute>
+		<attribute name="initializeSleepInterval" type="int"></attribute>
+	</complexType>
+
+	<complexType name="ConnectorModeBinding">
+		<attribute name="computeChanges" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="skipLookup" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="lookupLimit" type="int" use="optional"
+			default="10">
+		</attribute>
+		<attribute name="skipDeltaEntryDelete" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="processDeltaEntryOnly" type="boolean" use="optional"
+			default="true">
+		</attribute>
+	</complexType>
+
+	<simpleType name="DeltaCommitEnum">
+		<restriction base="string">
+			<enumeration value="onEveryOp"></enumeration>
+			<enumeration value="onAlCycle"></enumeration>
+			<enumeration value="onAlEnd"></enumeration>
+			<enumeration value="custom"></enumeration>
+		</restriction>
+	</simpleType>
+	<simpleType name="DeltaRowLockingEnum">
+		<restriction base="string">
+			<enumeration value="readUncommited"></enumeration>
+			<enumeration value="readCommited"></enumeration>
+			<enumeration value="repeatableRead"></enumeration>
+			<enumeration value="serializable"></enumeration>
+		</restriction>
+	</simpleType>
+	<simpleType name="DeltaChangeDetectionModeEnum">
+		<restriction base="string">
+			<enumeration value="ignoreAttributes"></enumeration>
+			<enumeration value="detectAttributes"></enumeration>
+			<enumeration value="detectAll"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="LinkCriteriaItemBinding">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="key" type="string" use="optional"></attribute>
+				<attribute name="attribute" type="string"></attribute>
+				<attribute name="operator" type="string"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="PoolInstanceBinding">
+		<attribute name="enabled" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="onExhausted" type="tns:PoolInstanceExhaustedEnum">
+		</attribute>
+	</complexType>
+
+	<simpleType name="PoolInstanceExhaustedEnum">
+		<restriction base="string">
+			<enumeration value="wait"></enumeration>
+			<enumeration value="fail"></enumeration>
+		</restriction>
+	</simpleType>
+
+</schema>

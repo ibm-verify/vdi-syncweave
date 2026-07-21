@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="10" UUID="f7ca8e3b-df83-47c6-a874-6ce431343928" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="ReadEntries" modified="Thu Mar 24 19:13:26 CET 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="ReadEntries">
+        <ModTime>1458843205868</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="prolog0">
+                <InheritFrom>/Scripts/libPrologHook</InheritFrom>
+                <Name>prolog0</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="SourceEntries" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1458843205868</ModTime>
+            <Connector name="SourceEntries">
+                <InheritFrom>/Connectors/SourceEntries</InheritFrom>
+                <ModTime>1458843205868</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1458843205868</ModTime>
+                    <Enabled><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></Enabled>
+                    <UniqueAttribute><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "defkey"
+opEntry = task.getOpEntry()
+return opEntry.getString("$deltaKey")}]]></UniqueAttribute>
+                    <FilePath><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT"
+opEntry = task.getOpEntry()
+deltaStore = opEntry.getString("$deltaStore");
+return deltaStore.toUpperCase();}]]></FilePath>
+                    <ReadDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></ReadDeleted>
+                    <RemoveDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></RemoveDeleted>
+                    <AllowDuplicateDeltaKeys>true</AllowDuplicateDeltaKeys>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>REPEATABLE_READ</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1421843903253</ModTime>
+                    <Hook name="before_execute">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_execute</Name>
+                        <Script>//task.logmsg("BEFORE EXECUTE ***************")</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_initialize</Name>
+                        <Script><![CDATA[throwError = true;
+endpoint = getProperty("endpoint");]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <Name>default_fail</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="end_of_data">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>end_of_data</Name>
+                        <Script>initialized = false</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_getnext">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>override_getnext</Name>
+                        <Script><![CDATA[if (typeof(initialized) == "undefined" || !initialized) {
+	// must initialize this connector
+	initialized = true
+	
+	//
+	// This Connector uses properties to set up the CI, and if necessary Parser.
+	//
+	var ctrName
+	var parserName
+	var ctr = null
+	var parser = null
+	var useRDN = "CN"
+	var typeOfEntry = "*unknown*"
+	var userObjectClass = "person"
+	var groupObjectClass = "group"
+	var useObjectClass = userObjectClass
+	
+	userObjectClass = getProperty("source.userObjectClass","person")
+	groupObjectClass = getProperty("group.userObjectClass","group")
+	
+	readRDN = getProperty("source.userRDN")
+	typeOfEntry = opEntry.getString("$typeOfEntry")
+	if ("person".equals(typeOfEntry)) {
+		useObjectClass = userObjectClass
+		useRDN = getProperty("source.userRDN")
+	} else
+	if ("group".equals(typeOfEntry)) {
+		useObjectClass = groupObjectClass
+		useRDN = "CN"
+	} else
+	if ("container".equals(typeOfEntry)) {
+		useObjectClass = "organizationalUnit"
+		useRDN = "OU"
+	} else {
+		typeOfEntry = "person"
+		useObjectClass = userObjectClass
+		useRDN = getProperty("source.userRDN")
+		logmsg("WARN",resource.getString("LDAPSYNC.TYPE.OF.ENTRY.NOT.SET.DEFAULTING.TO.PERSON"))
+	}
+
+	ctr = configureConnector() // in Utils
+}
+
+try {
+	var e = ctr.getNextEntry()
+} catch (ex) {
+	setException(ex, "fatal")
+	e = null
+}	
+
+if (e == null) {
+	result.setStatus(0);
+	return;
+}
+
+//task.logmsg("\n\n\n------ Read entry:\n" + e.toString() + "\n\n\n.")
+
+entry.removeAllAttributes()
+entry.merge(e)
+
+var rdn = entry[readRDN]
+if (rdn == null) {
+	throw where() + resource.getString("LDAPSYNC.NO.RDN.ATTRIBUTE.FOUND.IN.ENTRY.READ") + " - (" + readRDN + ")\n" + entry.toString()
+}
+
+if (entry.getString("$dn") == null) {
+	entry["$dn"] = useRDN + "=" + entry.getString(readRDN);
+}
+if (entry.getString("objectClass") == null) {
+	entry["objectClass"] = useObjectClass
+}
+
+entry["$dn"] = entry.getString("$dn") + ",ep=" + endpoint + ",flow=" + flowKey;
+
+result.setStatus(1);
+
+//system.ignoreEntry()
+
+//task.logmsg("\n\n\n------ WORK:\n" + entry.toString() + "\n\n\n.")]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer"/>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>entryType</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>opEntry</Name>
+                    <NativeSyntax>String</NativeSyntax>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+
+	<complexType name="SchemaBinding">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="item" type="tns:SchemaItemBinding" maxOccurs="unbounded"
+						minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SchemaItemBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+				<sequence>
+					<element name="sample" type="string" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="item" type="tns:SchemaItemBinding"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+
+				</sequence>
+                <attribute name="type" type="tns:SchemaItemTypeEnum" use="optional" default="Attribute"></attribute>
+                <attribute name="syntax" type="tns:JavaClassConstraint" use="optional"></attribute>
+                <attribute name="nativeSyntax" type="string"
+					use="optional">
+				</attribute>
+
+
+				<attribute name="minOccurs" type="int" use="optional" default="0"></attribute>
+				<attribute name="maxOccurs" type="tns:UnboundedInt" use="optional" default="unbounded"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="schema" type="tns:SchemaBinding"
+		substitutionGroup="tns:config"></element>
+
+	<simpleType name="SchemaItemTypeEnum">
+		<restriction base="string">
+			<enumeration value="Attribute"></enumeration>
+			<enumeration value="Property"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="UnboundedInt">
+		<restriction base="string">
+			<pattern value="\d+"></pattern>
+			<pattern value="unbounded"></pattern>
+		</restriction>
+	</simpleType>
+</schema>

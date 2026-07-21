@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<include schemaLocation="listener.xsd"></include>
+
+	<include schemaLocation="entry.xsd"></include>
+	<include schemaLocation="error.xsd"></include>
+	<element name="startAL" type="tns:StartAL"></element>
+
+	<complexType name="StartAL">
+		<sequence>
+
+            <element name="assemblyLineListener"
+            	type="tns:AssemblyLineListener" maxOccurs="1" minOccurs="0">
+            </element>
+            <element name="iwe" type="tns:Entry" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="tcb" type="tns:TaskCallBlock" maxOccurs="1"
+				minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="sync" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="manual" type="boolean" use="optional"
+			default="false">
+		</attribute>
+	</complexType>
+
+	<element name="taskStatistics" type="tns:TaskStatistics"></element>
+
+	<complexType name="TaskStatistics">
+		<sequence>
+			<element name="stat" type="tns:Stat" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+			<element name="error" type="tns:Exception" maxOccurs="1"
+				minOccurs="0"></element>
+		</sequence>
+
+	</complexType>
+
+	<complexType name="Stat">
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="value" type="long" use="required"></attribute>
+	</complexType>
+
+	<element name="alHandle" type="tns:ALHandle"></element>
+
+	<complexType name="ALHandle">
+		<sequence>
+			<element name="workEntry" type="tns:Entry" maxOccurs="1"
+				minOccurs="0"></element>
+			<element name="resultEntry" type="tns:Entry" maxOccurs="1"
+				minOccurs="0"></element>
+		</sequence>
+		<attribute name="state" use="optional" default="init" type="tns:ALHandleStateEnum">
+		</attribute>
+		<attribute name="processTcb" type="boolean" use="optional"
+			default="true">
+		</attribute>
+	</complexType>
+	<simpleType name="ALHandleStateEnum">
+		<restriction base="string">
+			<enumeration value="init"></enumeration>
+			<enumeration value="processing"></enumeration>
+			<enumeration value="done"></enumeration>
+			<enumeration value="closed"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>

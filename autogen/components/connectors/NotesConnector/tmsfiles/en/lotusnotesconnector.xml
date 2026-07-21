@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="lotusnotesconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIV001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.GETENTRY.EXCEPTION" varFormat="Java">
+   NotesException encountered while trying to retrieve the next entry from the
+   Domino Server: 
+   &apos;&apos;<Variable formatSpec="{0}">exception ID</Variable>&apos;&apos;,
+   &apos;&apos;<Variable formatSpec="{1}">exception message</Variable>&apos;&apos;
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector encountered an exception while trying to retrieve the
+   next entry from the Domino Server and was unable to continue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Domino Server being queried is still running and that
+   the information being retrieved is still present.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV002I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SESSION.INFO" varFormat="Java">
+   Opening Session to Domino Server:
+   Session Type=&apos;&apos;<Variable formatSpec="{0}">Session Type</Variable>&apos;&apos;,,
+   Hostname=&apos;&apos;<Variable formatSpec="{1}">Hostname</Variable>&apos;&apos;,
+   User ID=&apos;&apos;<Variable formatSpec="{2}">User ID</Variable>&apos;&apos;,
+   Requested IIOP/SSL=&apos;&apos;<Variable formatSpec="{3}">Boolean</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV003I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.IOR.INFO" varFormat="Java">
+   Using specified &apos;IOR&apos; in the connection information for opening the session.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV004E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SESSION.EXCEPTION" varFormat="Java">
+   NotesException encountered trying to create a session with the Domino Server:
+   Class Name=&apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;,
+   Exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector encountered an exception while trying to create
+   a session with the Domino Server and was unable to continue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Domino Server being queried is still running and that
+   the connection information in the Lotus Notes Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.CONNECTED.INFO" varFormat="Java">
+   Success establishing a Notes Session:
+   Name=&apos;&apos;<Variable formatSpec="{0}">server name</Variable>&apos;&apos;,
+   Version=&apos;&apos;<Variable formatSpec="{1}">version number</Variable>&apos;&apos;,
+   Platform=&apos;&apos;<Variable formatSpec="{2}">operating system</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV006E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DATABASE.EXCEPTION" varFormat="Java">
+   Lotus Notes Connector unable to open database 
+   &apos;&apos;<Variable formatSpec="{0}">database name</Variable>&apos;&apos; on server
+   &apos;&apos;<Variable formatSpec="{1}">server name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector was unable to connect to the specified database
+   on the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the correct database name was specified for the Domino Server and that
+   the connection information in the Lotus Notes Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.FULLTXINDEX.INFO" varFormat="Java">
+   The Database connected to is full-text indexed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV008I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NONFULLTXINDEX.INFO" varFormat="Java">
+   The Database connected to not is full-text indexed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.WILLFULLTXTSEARCH.INFO" varFormat="Java">
+   The Connector will use full-text search on the database.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.WILLNOTFULLTXTSEARCH.INFO" varFormat="Java">
+   The Connector will not use full-text search on the database.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV011E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.VIEWNOTFOUND.ERROR" varFormat="Java">
+   The specified search view &apos;&apos;<Variable formatSpec="{0}">search view</Variable>&apos;&apos;
+   was not found in the database. The Lotus Notes Connector is unable to select entries
+   without a valid database search view.
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector was unable to find the specified search view in the database
+   of the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the correct search view was specified for the Domino Server.  The
+   notesSearchView parameter of the Lotus Notes Connector should be checked.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DOCSELECTION.INFO" varFormat="Java">
+   Database select statement:
+   &apos;&apos;<Variable formatSpec="{0}">select statement</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV013E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SELECT.EXCEPTION" varFormat="Java">
+   Unable to retrieve entries from Domino Server.  NotesException encountered:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector encountered an exception while trying to perform
+   a search to retrieve a set entries from the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the correct select statement was specified for the Domino Server.  The
+   notesSelection parameter of the Lotus Notes Connector should be checked.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV014I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NOSEARCHRESULTS.INFO" varFormat="Java">
+   No results returned from database search.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SEARCHRESULTS.INFO" varFormat="Java">
+   Database search returned <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+    
+
+<Message ID="CTGDIV016E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DOCCREATE.EXCEPTION" varFormat="Java">
+   The Lotus Notes Connector failed to create a new document on the Domino Server.
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector encountered an exception while trying to create
+   a new document on the Domino Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the document being added does not already exist on the Domino Server and
+   that the Domino Server is still running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV017I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.BUILDENTRY.INFO" varFormat="Java">
+   Lotus Notes Connector building entry from retrieved document:
+   <Variable formatSpec="{0}">document attributes</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.THREADSTART.INFO" varFormat="Java">
+   Lotus Notes Connector&apos;s local Notes thread started.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV019I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.THREADTERMINATE.INFO" varFormat="Java">
+   Lotus Notes Connector&apos;s local Notes thread terminated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.THREADCLASS.EXCEPTION" varFormat="Java">
+   Unable to create local Notes thread because the lotus.domino.NotesThread class
+   was not found in the classpath of the program. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Lotus Notes Connector encountered an exception while trying to create
+   a local notes thread.  The lotus.domino.NotesThread class is needed to create
+   the thread and it was not found in the classpath.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the classpath of the program and ensure the Notes.jar file is in the
+   classpath.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV021E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.MODDOC.EXCEPTION" varFormat="Java">
+   Lotus Notes Connector was unable to modify the entry because the
+   entry was not found on the Domino Server.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the document being modified exists on the Domino Server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV022E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DELETEDOC.EXCEPTION" varFormat="Java">
+   Lotus Notes Connector was unable to delete the entry because the
+   entry was not found on the Domino Server.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the document being deleted exists on the Domino Server and
+   that the correct document is being choosen for deletion.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV023I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ADDATTR.INFO" varFormat="Java">
+   Adding attribute to entry: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV024I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ADDATTRNULL.INFO" varFormat="Java">
+   Attribute value added was null.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV025I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ADDATTRVALUE.INFO" varFormat="Java">
+   Attribute value added was &apos;&apos;<Variable formatSpec="{0}">attribute value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV026I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ENTER.BUILD.ENTRY.INFO" varFormat="Java">
+   Attempting to build an entry in the Lotus Notes Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV027I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.EXIT.BUILD.ENTRY.INFO" varFormat="Java">
+   Successfully built an entry in the Lotus Notes Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV028I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SEARCHVIEW.INFO" varFormat="Java">
+   Database search view is set to <Variable formatSpec="{0}">search view</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV029I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.VIEWFILTER.INFO" varFormat="Java">
+   FTSearch filter on search view: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV030I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.FTSEARCHRC.INFO" varFormat="Java">
+   FTSearch return code was <Variable formatSpec="{0}">return code</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV031W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.VIEWFILTER.WARNING" varFormat="Java">
+   Reverting to basic search because FTSearch on database view failed:
+   <Variable formatSpec="{0}">filter</Variable>.<br/>
+   NotesException occurred: Error=<Variable formatSpec="{1}">error</Variable>,
+   Error Text=<Variable formatSpec="{2}">error text</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV032I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.VIEWFILTER2.INFO" varFormat="Java">
+   FTSearch filter on database: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV033I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.VIEWFILTER3.INFO" varFormat="Java">
+   Formula Search filter on database: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV034I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NODOCSFOUND.INFO" varFormat="Java">
+   No documents found.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV035I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DOCSFOUNDCOUNT.INFO" varFormat="Java">
+   Found <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV036I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.GETIDINFO.INFO" varFormat="Java">
+   Get document with Notes ID &apos;&apos;<Variable formatSpec="{0}">Notes ID</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV037I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DOCUMENTNOTFOUNDBYID.INFO" varFormat="Java">
+   Document with Notes ID &apos;&apos;<Variable formatSpec="{0}">Notes ID</Variable>&apos;&apos; not found.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV038W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.GETDOCBYID.WARNING" varFormat="Java">
+   Unable to get document with Notes ID:
+   <Variable formatSpec="{0}">Notes ID</Variable>.<br/>
+   NotesException occurred: Error=<Variable formatSpec="{1}">error</Variable>,
+   Error Text=<Variable formatSpec="{2}">error text</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to determine the next course of action to
+   take.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV039I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.DOCUMENTUPDATENUM.INFO" varFormat="Java">
+   Will update <Variable formatSpec="{0}">number of attributes</Variable> attributes in document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV040E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NOSAVE.EXCEPTION" varFormat="Java">
+   Lotus Notes Connector was unable to save the document it was trying to modify.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify you have the permissions to modify the document on Domino Server and
+   that the Domino Server is still running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV041E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NOSAVE.ERROR" varFormat="Java">
+   Lotus Notes Connector was unable to save the document it was trying to modify.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception encountered.  The exception should provide more information
+   on why the failure occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV042I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.UPDATEATTR.ERROR" varFormat="Java">
+   Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; will
+   be updated with value &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV043I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.UPDATEATTRWCLASS.ERROR" varFormat="Java">
+   Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; will
+   be updated with value &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;
+   which is of class type &apos;&apos;<Variable formatSpec="{2}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV044W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.STOPTHREAD.WARNING" varFormat="Java">
+   Lotus Notes Connector could not terminate the local Notes thread.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV045I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.IOR.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session with specified IOR string is created. SSL is on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV046I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.IOR.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session with specified IOR string is created. SSL is off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV047I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.PORT.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session is created. SSL is on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV048I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.PORT.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session is created. SSL is off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV049I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SESSION.CREATED" varFormat="Java">
+   Session to Domino Server is created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV050I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SPECIFIED.PORT.NOT.VALID.WARNING" varFormat="Java">
+   The specified port: &apos;&apos;<Variable formatSpec="{0}">port</Variable>&apos;&apos; 
+   is bigger than 65535. The default port 80 will be used.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV051I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.SPECIFIED.PORT.INCORRECT.EXCEPTION" varFormat="Java">
+   No port is specified. The default port 80 will be used.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIV052E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.MATCH.OPERATION.EXCEPTION" varFormat="Java">
+   The specified match operation for the UNID or NoteID in the Link Criteria is not correct.
+   </MsgText>
+   <Explanation> <p>
+   The allowed match operation when using UNID or NoteID is only exact matching. The user has 
+   specified another one.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify &apos;&apos;equals&apos;&apos; match operation. The case does not have effect.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV053E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.NO.MATCHING.EXCEPTION" varFormat="Java">
+   Document with the specified UNID/NoteID was not found.
+   </MsgText>
+   <Explanation> <p>
+   Document with the specified UNID/NoteID was not found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV054E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.CONNECTOR.ALREADY.INITIALIZED" varFormat="Java">
+   Connector already initialized. You must terminate it before initializing again.
+   </MsgText>
+   <Explanation> <p>
+   The user tries to initialize the Connector, for example through script, 
+   that has been already initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the values of the configuration parameters and the business logic of your solution.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV055W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ERROR.PROCESSING.ENTRIES" varFormat="Java">
+   Error occured while executing the command &apos;&apos;SET_CURRENT&apos;&apos;. 
+   Exception thrown: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Look at the exception message and try to fix the problem.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV056W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.ERROR.WHILE.TERMINATING" varFormat="Java">
+   Exception occurred while terminating: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The user may have loaded a Connector without initializing it. For example, through 
+   the getConnector method.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the values of the configuration parameters 
+   and the business logic of the solution.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV057E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.THREADDOWN.EXCEP" varFormat="Java">
+   The Notes thread is not alive. Lotus Notes Connector cannot execute
+   the required command against the Domino Server without an active Notes Thread.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Try to innitialize the NotesThread first, that is, using the initNotesThread method.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV058E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.FATAL.EXCEP" varFormat="Java">
+   Fatal Error while executing command against Domino Server:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the message returned from the Domino Server to see how to respond.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIV059I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NOTES.CANNOT.FIND.VIEW" varFormat="Java">
+   Did not find view <Variable formatSpec="{0}">view name</Variable> in database <Variable formatSpec="{1}">database name</Variable>: Database.getView returned NULL.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

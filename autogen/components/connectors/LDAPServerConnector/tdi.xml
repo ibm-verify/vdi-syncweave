@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.LDAPServer">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.LDAPServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="backlog"/>
+				<parameter name="charset">UTF-8</parameter>
+				<parameter name="ldapBinaryAttributes"/>
+				<parameter name="ldapPort">389</parameter>
+				<parameter name="ldapUseSSL">false</parameter>
+				<parameter name="serverReply">true</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>ldap.abandon</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>abandon</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.attributes</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.bindmethod</Name>
+					<Syntax>String</Syntax>
+					<Presence>bind</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.compareattribute</Name>
+					<Syntax>String</Syntax>
+					<Presence>compare</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.comparevalue</Name>
+					<Syntax>String|byte array</Syntax>
+					<Presence>compare</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.controls</Name>
+					<Syntax>com.ibm.di.eventhandler.ldap.LDAPControl</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.deleteOldRDN</Name>
+					<Syntax>Boolean</Syntax>
+					<NativeSyntax>boolean</NativeSyntax>
+					<Presence>modifyrdn</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.derefalias</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.dn</Name>
+					<Syntax>String</Syntax>
+					<NativeSyntax>Distinguished Name</NativeSyntax>
+					<Presence>bind,add,delete,modify,modifyrdn,compare</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.entry</Name>
+					<Syntax>Entry</Syntax>
+					<Presence>add,modify</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.ipaddress</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.messageid</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.newSuperior</Name>
+					<Syntax>String</Syntax>
+					<NativeSyntax>Distinguished Name</NativeSyntax>
+					<Presence>modifyrdn</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.operation</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.pagedsearch.cookie</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.pagedsearch.pagesize</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.password</Name>
+					<Syntax>String</Syntax>
+					<Presence>(bind, ldap.bindmethod=simple)</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.rdn</Name>
+					<Syntax>String</Syntax>
+					<Presence>modifyrdn</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.requestname</Name>
+					<Syntax>String</Syntax>
+					<Presence>extended</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.requestvalue</Name>
+					<Syntax>String</Syntax>
+					<Presence>extended</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.saslcredentials</Name>
+					<Syntax>String</Syntax>
+					<Presence>May (bind, ldap.bindmethod=sasl)</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.saslmechanism</Name>
+					<Syntax>String</Syntax>
+					<Presence>(bind, ldap.bindmethod=sasl)</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.scope</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.searchbase</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.searchfilter</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.sizelimit</Name>
+					<Syntax>Integer</Syntax>
+					<NativeSyntax>Integer</NativeSyntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.timelimit</Name>
+					<Syntax>Integer</Syntax>
+					<NativeSyntax>Integer</NativeSyntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.typesonly</Name>
+					<Syntax>Boolean</Syntax>
+					<NativeSyntax>boolean</NativeSyntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.version</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>bind</Presence>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>ldap.status</Name>
+					<Syntax>String</Syntax>
+					<NativeSyntax>String</NativeSyntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.matcheddn</Name>
+					<Syntax>String</Syntax>
+					<NativeSyntax>LDAP DN</NativeSyntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.pagedsearch.cookie</Name>
+					<Syntax>String</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.pagedsearch.pagesize</Name>
+					<Syntax>Integer</Syntax>
+					<Presence>search</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.referrals</Name>
+					<Syntax>String</Syntax>
+					<NativeSyntax>LDAP URL</NativeSyntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>ldap.status</Name>
+					<Syntax>String|Integer</Syntax>
+					<NativeSyntax>integer</NativeSyntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.LDAPServerConnector">
+			<TranslationFile>NLS/idi_conn_ldapserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>ldapPort</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>ldapUseSSL</ListItem>
+					<ListItem>charset</ListItem>
+					<ListItem>ldapBinaryAttributes</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>ldapPort</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>ldapUseSSL</ListItem>
+				<ListItem>charset</ListItem>
+				<ListItem>ldapBinaryAttributes</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="charset">
+				<parameter name="description">charset_desc</parameter>
+				<parameter name="label">charset_label</parameter>
+			</FormItem>
+			<FormItem name="ldapBinaryAttributes">
+				<parameter name="description">BIN_ATTRIB_DESC</parameter>
+				<parameter name="label">BIN_ATTRIB_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="ldapPort">
+				<Values>
+					<ListItem>389</ListItem>
+					<ListItem>636</ListItem>
+				</Values>
+				<parameter name="description">PORT_DESC</parameter>
+				<parameter name="label">PORT_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="ldapUseSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

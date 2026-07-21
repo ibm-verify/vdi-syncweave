@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.JavaClassFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.JavaClassFC</parameter>
+				<parameter name="defaultAttribute">value</parameter>
+				<parameter name="jarFile"/>
+				<parameter name="javaClass"/>
+				<parameter name="method"/>
+			</Configuration>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.JavaClassFC">
+			<TranslationFile>NLS/idi_fc_javaclass</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jarFile</ListItem>
+					<ListItem>javaClass</ListItem>
+					<ListItem>method</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>jarFile</ListItem>
+				<ListItem>javaClass</ListItem>
+				<ListItem>method</ListItem>
+			</FormItemNames>
+			<FormItem name="jarFile">
+				<parameter name="description">FILE_DESC</parameter>
+				<parameter name="label">FILE_LABEL</parameter>
+				<parameter name="script">selectJarFile</parameter>
+				<parameter name="scriptHelp">FS_HELP</parameter>
+				<parameter name="scriptLabel">FS_LABEL</parameter>
+			</FormItem>
+			<FormItem name="javaClass">
+				<parameter name="description">JC_DESC</parameter>
+				<parameter name="label">JC_LABEL</parameter>
+				<parameter name="script">selectJavaClass</parameter>
+				<parameter name="scriptLabel">JC_SLBL</parameter>
+				<parameter name="scripthelp">JC_SHLP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="method">
+				<parameter name="description">METHOD_DESC</parameter>
+				<parameter name="label">METHOD_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function javaClass_changed() {
+	m = form.getConfig("method");
+	fc = new Packages.com.ibm.di.fc.JavaClassFC();
+	fc.setConfiguration(form.getConfigObject());
+	form.getControl("method").setItems(fc.getMethods());
+	if (m != null)
+		form.getControl("method").setText(m);
+}
+function method_changed() {
+	fc = new Packages.com.ibm.di.fc.JavaClassFC();
+	try {
+		fc.updateSchema(form.getConfigObject().getParent());
+	} catch (e) {}
+}
+javaClass_changed();
+]]></parameter>
+			<parameter name="formscript"><![CDATA[
+function selectJarFile() {
+	selectFileWithFilter("jar");
+}
+function selectJavaClass () {
+	jarFile = form.getConfig("jarFile");
+	if (jarFile == null)
+			return;
+
+	v = new java.util.Vector();
+
+	try {
+		if (jarFile.endsWith(".class")) {
+			c = com.ibm.di.loader.IDILoader.getInstance().loadClassFromFile(jarFile);
+			if (c!= null)
+				v.add(c.getName());
+		} else {
+			jf = new java.util.jar.JarFile(jarFile);
+
+			for (e = jf.entries(); e.hasMoreElements();) {
+				entry = e.nextElement();
+				name = entry.getName();
+
+				if (! entry.isDirectory() && name.endsWith(".class")) {
+					name = name.substring(0, name.length()-6);
+					
+					v.add(name.replace('/', '.'));
+				}
+			}
+		}
+	} catch (error) {
+		form.alert(error.toString());
+	}
+
+	if (v.size() == 0)
+		javaClass = null;
+	else if (v.size() == 1)
+		javaClass = v.get(0);
+	else
+		javaClass = form.chooseFromList("JC_SELECT", v);
+
+	if ( javaClass != null ) {
+		form.setConfig("javaClass", javaClass.toString() );
+		form.updateControl("javaClass");
+	}
+}
+]]></parameter>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

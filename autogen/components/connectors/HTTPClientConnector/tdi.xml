@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.HTTPClient">
+                        <SupportedModes>AddOnly,Iterator,Lookup,CallReply</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.HTTPClientConnector</parameter>
+				<parameter name="parserOption">Optional</parameter>
+				<parameter name="method">GET</parameter>
+				<parameter name="url">http://localhost</parameter>
+				<parameter name="timeout">0</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.HTTPClientConnector">
+			<TranslationFile>NLS/idi_conn_httpclient</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>url</ListItem>
+					<ListItem>method</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>proxy</ListItem>
+					<ListItem>proxyUsername</ListItem>
+					<ListItem>proxyPassword</ListItem>
+					<ListItem>inbody</ListItem>
+					<ListItem>contentType</ListItem>
+					<ListItem>outbody</ListItem>
+					<ListItem>timeout</ListItem>
+					<ListItem>characterSet</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>url</ListItem>
+				<ListItem>method</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>proxy</ListItem>
+				<ListItem>inbody</ListItem>
+				<ListItem>contentType</ListItem>
+				<ListItem>outbody</ListItem>
+				<ListItem>timeout</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="contentType">
+				<Values>
+					<ListItem>text/plain; charset=US-ASCII</ListItem>
+					<ListItem>text/xml; charset=UTF-8</ListItem>
+					<ListItem>text/html; charset=ISO-8859-1</ListItem>
+				</Values>
+				<parameter name="description">content_type_desc</parameter>
+				<parameter name="label">content_type_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="inbody">
+				<parameter name="description">body_file_desc</parameter>
+				<parameter name="label">body_file_label</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">...</parameter>
+				<parameter name="scripthelp">select_file_tooltip</parameter>
+			</FormItem>
+			<FormItem name="method">
+				<Values>
+					<ListItem>GET</ListItem>
+					<ListItem>POST</ListItem>
+					<ListItem>HEAD</ListItem>
+					<ListItem>OPTIONS</ListItem>
+					<ListItem>PUT</ListItem>
+					<ListItem>DELETE</ListItem>
+					<ListItem>TRACE</ListItem>
+					<ListItem>PATCH</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DELETE</Key>
+						<Value>Localized.DELETE</Value>
+					</Item>
+					<Item>
+						<Key>GET</Key>
+						<Value>Localized.GET</Value>
+					</Item>
+					<Item>
+						<Key>HEAD</Key>
+						<Value>Localized.HEAD</Value>
+					</Item>
+					<Item>
+						<Key>OPTIONS</Key>
+						<Value>Localized.OPTIONS</Value>
+					</Item>
+					<Item>
+						<Key>POST</Key>
+						<Value>Localized.POST</Value>
+					</Item>
+					<Item>
+						<Key>PUT</Key>
+						<Value>Localized.PUT</Value>
+					</Item>
+					<Item>
+						<Key>PATCH</Key>
+						<Value>PATCH</Value>
+					</Item>
+					<Item>
+						<Key>TRACE</Key>
+						<Value>Localized.TRACE</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">method_desc</parameter>
+				<parameter name="label">method_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="outbody">
+				<parameter name="description">out_body_file_desc</parameter>
+				<parameter name="label">out_body_file_label</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">...</parameter>
+				<parameter name="scripthelp">select_file_tooltip</parameter>
+			</FormItem>
+			<FormItem name="characterSet">
+				<parameter name="description">characterSet_desc</parameter>
+				<parameter name="label">characterSet_label</parameter>
+			</FormItem>
+			<FormItem name="timeout">
+				<parameter name="description">timeout_desc</parameter>
+				<parameter name="label">timeout_label</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="proxyPassword">
+				<parameter name="description">proxy_pass_desc</parameter>
+				<parameter name="label">proxy_pass_label</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="proxy">
+				<parameter name="description">proxy_desc</parameter>
+				<parameter name="label">proxy_label</parameter>
+			</FormItem>
+			<FormItem name="url">
+				<parameter name="description">url_desc</parameter>
+				<parameter name="label">url_label</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">getCertificate</parameter>
+				<parameter name="scriptLabel">certificate.label</parameter>
+				<parameter name="scripthelp">certificate.desc</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">user_desc</parameter>
+				<parameter name="label">user_label</parameter>
+			</FormItem>
+			<FormItem name="proxyUsername">
+				<parameter name="description">proxy_user_desc</parameter>
+				<parameter name="label">proxy_user_label</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+			<parameter name="formscript"><![CDATA[
+function getCertificate () {
+	var url = form.getConfigValue("url");
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+]]></parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

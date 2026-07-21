@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="ff5a9138-3480-45e9-ad0b-7a5c1996c858" created="Mon Feb 24 19:16:45 CET 2014" createdBy="Administrator" main="Hook Before Write" modified="Fri Apr 04 11:01:13 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Hook Before Write">
+        <ModTime>1396602073013</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[retEntry = invokeHook("beforewrite", work);
+
+if (retEntry !== null) {
+	abortFlow = "true".equalsIgnoreCase(retEntry.getString("$stopFlow"));
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

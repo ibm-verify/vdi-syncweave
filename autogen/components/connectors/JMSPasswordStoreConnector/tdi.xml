@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.MQePasswordStoreConnector">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.MQePasswordStoreConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="autoAcknowledge">true</parameter>
+				<parameter name="decryptMessages">true</parameter>
+				<parameter name="getNextTimeout">-1</parameter>
+				<parameter name="jms.broker">hostname:port</parameter>
+				<parameter name="jms.driver">ActiveMQ</parameter>
+				<parameter name="jms.sslCipher">SSL_RSA_WITH_RC4_128_MD5</parameter>
+				<parameter name="jms.sslUseFlag">false</parameter>
+				<parameter name="keyStoreCertificateAlias"/>
+				<parameter name="keyStoreCertificatePassword"/>
+				<parameter name="keyStoreFilePassword"/>
+				<parameter name="keyStoreFilePath"/>
+				<parameter name="pkcs7KeyStoreFilePassword"/>
+				<parameter name="pkcs7KeyStoreFilePath"/>
+				<parameter name="pkcs7MqeConnectorCertificateAlias"/>
+				<parameter name="storageNotification"></parameter>
+				<parameter name="usePkcs7">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>Passwords</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>UpdateType</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>UserId</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>CustomData</Name>
+					<Syntax>String</Syntax>
+					<Presence>Optional</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Timestamp</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.MQePasswordStoreConnector">
+			<TranslationFile>NLS/idi_conn_mqepasswordstoreconnector</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jms.broker</ListItem>
+					<ListItem>jms.serverChannel</ListItem>
+					<ListItem>jms.qManager</ListItem>
+					<ListItem>jms.clientID</ListItem>
+					<ListItem>jms.username</ListItem>
+					<ListItem>jms.password</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jms.driver</ListItem>
+					<ListItem>jms.driverAttributes</ListItem>
+					<ListItem>getNextTimeout</ListItem>
+					<ListItem>storageNotification</ListItem>
+					<ListItem>jms.sslUseFlag</ListItem>
+					<ListItem>jms.sslServerChannel</ListItem>
+					<ListItem>jms.sslCipher</ListItem>
+					<ListItem>autoAcknowledge</ListItem>
+					<ListItem>decryptMessages</ListItem>
+					<ListItem>keyStoreFilePath</ListItem>
+					<ListItem>keyStoreFilePassword</ListItem>
+					<ListItem>keyStoreCertificateAlias</ListItem>
+					<ListItem>keyStoreCertificatePassword</ListItem>
+					<ListItem>usePkcs7</ListItem>
+					<ListItem>pkcs7KeyStoreFilePath</ListItem>
+					<ListItem>pkcs7KeyStoreFilePassword</ListItem>
+					<ListItem>pkcs7MqeConnectorCertificateAlias</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>getNextTimeout</ListItem>
+				<ListItem>storageNotification</ListItem>
+				<ListItem>jms.broker</ListItem>
+				<ListItem>jms.driver</ListItem>
+				<ListItem>jms.driverAttributes</ListItem>
+				<ListItem>jms.serverChannel</ListItem>
+				<ListItem>jms.qManager</ListItem>
+				<ListItem>jms.username</ListItem>
+				<ListItem>jms.password</ListItem>
+				<ListItem>jms.clientID</ListItem>
+				<ListItem>jms.sslUseFlag</ListItem>
+				<ListItem>jms.sslServerChannel</ListItem>
+				<ListItem>jms.sslCipher</ListItem>
+				<ListItem>autoAcknowledge</ListItem>
+				<ListItem>decryptMessages</ListItem>
+				<ListItem>keyStoreFilePath</ListItem>
+				<ListItem>keyStoreFilePassword</ListItem>
+				<ListItem>keyStoreCertificateAlias</ListItem>
+				<ListItem>keyStoreCertificatePassword</ListItem>
+				<ListItem>usePkcs7</ListItem>
+				<ListItem>pkcs7KeyStoreFilePath</ListItem>
+				<ListItem>pkcs7KeyStoreFilePassword</ListItem>
+				<ListItem>pkcs7MqeConnectorCertificateAlias</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="autoAcknowledge">
+				<parameter name="description">JMS_AUTOACK_DESC</parameter>
+				<parameter name="label">JMS_AUTOACK_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="decryptMessages">
+				<parameter name="description">decryptMessages_DESC</parameter>
+				<parameter name="label">decryptMessages_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="getNextTimeout">
+				<parameter name="description">getNextTimeout_DESC</parameter>
+				<parameter name="label">getNextTimeout_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jms.broker">
+				<parameter name="description">JMS_BROKER_DESC</parameter>
+				<parameter name="label">JMS_BROKER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.clientID">
+				<parameter name="description">JMS_CLIENTID_DESC</parameter>
+				<parameter name="label">JMS_CLIENTID_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.driver">
+				<Values>
+					<ListItem>IBMMQ</ListItem>
+					<ListItem>IBMMQe</ListItem>
+					<ListItem>ActiveMQ</ListItem>
+				</Values>
+				<parameter name="description">JMS_DRIVER_DESC</parameter>
+				<parameter name="label">JMS_DRIVER_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="jms.driverAttributes">
+				<parameter name="description">JMS_DRV_ATTR_DESC</parameter>
+				<parameter name="label">JMS_DRV_ATTR_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jms.password">
+				<parameter name="description">JMS_PW_DESC</parameter>
+				<parameter name="label">JMS_PW_LABEL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="jms.qManager">
+				<parameter name="description">JMS_QUEUE_MANAGER_DESC</parameter>
+				<parameter name="label">JMS_QUEUE_MANAGER_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.serverChannel">
+				<parameter name="description">JMS_SERVER_CHANNEL_DESC</parameter>
+				<parameter name="label">JMS_SERVER_CHANNEL_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jms.sslCipher">
+				<Values>
+					<ListItem>SSL_RSA_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_NULL_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_NULL_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_RC4_128_MD5</ListItem>
+					<ListItem>SSL_RSA_EXPORT_WITH_RC4_40_MD5</ListItem>
+					<ListItem>SSL_RSA_WITH_RC4_128_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_3DES_EDE_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT1024_WITH_RC4_56_SHA</ListItem>
+					<ListItem>SSL_RSA_EXPORT1024_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_AES_128_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_WITH_AES_256_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_FIPS_WITH_DES_CBC_SHA</ListItem>
+					<ListItem>SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA</ListItem>
+				</Values>
+				<parameter name="description">JMS_SSL_CIPHERSUITE_DESC</parameter>
+				<parameter name="label">JMS_SSL_CIPHERSUITE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="jms.sslServerChannel">
+				<parameter name="description">JMS_SSL_SERVER_CHANNEL_DESC</parameter>
+				<parameter name="label">JMS_SSL_SERVER_CHANNEL_LABEL</parameter>
+			</FormItem>
+			<FormItem name="jms.sslUseFlag">
+				<parameter name="description">JMS_SSL_USE_FLAG_DESC</parameter>
+				<parameter name="label">JMS_SSL_USE_FLAG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jms.username">
+				<parameter name="description">JMS_USERNAME_DESC</parameter>
+				<parameter name="label">JMS_USERNAME_LABEL</parameter>
+			</FormItem>
+			<FormItem name="keyStoreCertificateAlias">
+				<parameter name="description">keyStoreCertificateAlias_DESC</parameter>
+				<parameter name="label">keyStoreCertificateAlias_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="keyStoreCertificatePassword">
+				<parameter name="description">keyStoreCertificatePassword_DESC</parameter>
+				<parameter name="label">keyStoreCertificatePassword_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="keyStoreFilePassword">
+				<parameter name="description">keyStoreFilePassword_DESC</parameter>
+				<parameter name="label">keyStoreFilePassword_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="keyStoreFilePath">
+				<parameter name="description">keyStoreFilePath_DESC</parameter>
+				<parameter name="label">keyStoreFilePath_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="pkcs7KeyStoreFilePassword">
+				<parameter name="description">pkcs7KeyStoreFilePassword_DESC</parameter>
+				<parameter name="label">pkcs7KeyStoreFilePassword_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="pkcs7KeyStoreFilePath">
+				<parameter name="description">pkcs7KeyStoreFilePath_DESC</parameter>
+				<parameter name="label">pkcs7KeyStoreFilePath_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="pkcs7MqeConnectorCertificateAlias">
+				<parameter name="description">pkcs7MqeConnectorCertificateAlias_DESC</parameter>
+				<parameter name="label">pkcs7MqeConnectorCertificateAlias_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="storageNotification">
+				<parameter name="description">storageNotification_DESC</parameter>
+				<parameter name="label">storageNotification_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="usePkcs7">
+				<parameter name="description">usePkcs7_DESC</parameter>
+				<parameter name="label">usePkcs7_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function setJMSDriverParams() {
+	var jmsDriver = form.getConfigValue("jms.driver"); 
+	if (jmsDriver!=null) { 
+		if (jmsDriver.equalsIgnoreCase("IBMMQe")) { 
+			form.getControl("jms.serverChannel").setEnabled(false); 
+			form.getControl("jms.qManager").setEnabled(false); 
+			form.getControl("jms.clientID").setEnabled(false); 
+			form.getControl("jms.username").setEnabled(false); 
+			form.getControl("jms.password").setEnabled(false); 
+			form.getControl("jms.sslUseFlag").setEnabled(false); 
+			form.getControl("jms.sslServerChannel").setEnabled(false); 
+			form.getControl("jms.sslCipher").setEnabled(false); 
+		} else { 
+			form.getControl("jms.serverChannel").setEnabled(true); 
+			form.getControl("jms.qManager").setEnabled(true); 
+			form.getControl("jms.clientID").setEnabled(true); 
+			form.getControl("jms.username").setEnabled(true); 
+			form.getControl("jms.password").setEnabled(true); 
+			form.getControl("jms.sslUseFlag").setEnabled(true); 
+			form.getControl("jms.sslServerChannel").setEnabled(true); 
+			form.getControl("jms.sslCipher").setEnabled(true); 
+		}
+		form.updateControl("jms.serverChannel"); 
+	}
+}
+
+setJMSDriverParams();
+
+function jms_driver_changed() {
+	setJMSDriverParams();
+}
+]]></parameter>
+			<parameter name="title">conn_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

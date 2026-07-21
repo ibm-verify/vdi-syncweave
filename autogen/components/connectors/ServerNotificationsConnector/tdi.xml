@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.ServerNotificationsConnector">
+                        <SupportedModes>AddOnly,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.ServerNotificationsConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="configInstanceId"/>
+				<parameter name="connectionType">local</parameter>
+				<parameter name="customNotifications"/>
+				<parameter name="di_al_all">false</parameter>
+				<parameter name="di_al_start">false</parameter>
+				<parameter name="di_al_stop">false</parameter>
+				<parameter name="di_all">false</parameter>
+				<parameter name="di_ci_all">false</parameter>
+				<parameter name="di_ci_file_updated">false</parameter>
+				<parameter name="di_ci_start">false</parameter>
+				<parameter name="di_ci_stop">false</parameter>
+				<parameter name="di_server_stop">false</parameter>
+				<parameter name="hasCustomNotifications">false</parameter>
+				<parameter name="notificationId"/>
+				<parameter name="password"/>
+				<parameter name="timeOut">0</parameter>
+				<parameter name="url">rmi://127.0.0.1:1099/SessionFactory</parameter>
+				<parameter name="username"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>event.configInstanceId</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.dateCreated</Name>
+					<Syntax>Date</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.id</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.rawNotification</Name>
+					<Syntax>com.ibm.di.api.DIEvent</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.type</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.userData</Name>
+					<Syntax>Object</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>event.id</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.type</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>userData</Name>
+					<Syntax>Object</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.ServerNotificationsConnector">
+			<TranslationFile>NLS/idi_conn_srvnotifications</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>connectionType</ListItem>
+					<ListItem>url</ListItem>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>configInstanceId</ListItem>
+					<ListItem>notificationId</ListItem>
+					<ListItem>timeOut</ListItem>
+					<ListItem>di_all</ListItem>
+					<ListItem>di_ci_all</ListItem>
+					<ListItem>di_ci_start</ListItem>
+					<ListItem>di_ci_stop</ListItem>
+					<ListItem>di_ci_file_updated</ListItem>
+					<ListItem>di_al_all</ListItem>
+					<ListItem>di_al_start</ListItem>
+					<ListItem>di_al_stop</ListItem>
+					<ListItem>di_server_stop</ListItem>
+					<ListItem>hasCustomNotifications</ListItem>
+					<ListItem>customNotifications</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>connectionType</ListItem>
+				<ListItem>url</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>configInstanceId</ListItem>
+				<ListItem>notificationId</ListItem>
+				<ListItem>timeOut</ListItem>
+				<ListItem>di_all</ListItem>
+				<ListItem>di_ci_all</ListItem>
+				<ListItem>di_ci_start</ListItem>
+				<ListItem>di_ci_stop</ListItem>
+				<ListItem>di_ci_file_updated</ListItem>
+				<ListItem>di_al_all</ListItem>
+				<ListItem>di_al_start</ListItem>
+				<ListItem>di_al_stop</ListItem>
+				<ListItem>di_server_stop</ListItem>
+				<ListItem>hasCustomNotifications</ListItem>
+				<ListItem>customNotifications</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="configInstanceId">
+				<parameter name="description">SNL_CONFIG_INSTANCE_ID_DESC</parameter>
+				<parameter name="label">SNL_CONFIG_INSTANCE_ID_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="connectionType">
+				<Values>
+					<ListItem>remote</ListItem>
+					<ListItem>local</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>local</Key>
+						<Value>Localized.local</Value>
+					</Item>
+					<Item>
+						<Key>remote</Key>
+						<Value>Localized.remote</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SNL_CONN_TYPE_DESC</parameter>
+				<parameter name="label">SNL_CONN_TYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="customNotifications">
+				<parameter name="description">SNL_CUSTOM_NOTIFICATIONS_DESC</parameter>
+				<parameter name="label">SNL_CUSTOM_NOTIFICATIONS_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_al_all">
+				<parameter name="description">SNL_DI_AL_ALL_DESC</parameter>
+				<parameter name="label">SNL_DI_AL_ALL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_al_start">
+				<parameter name="description">SNL_DI_AL_START_DESC</parameter>
+				<parameter name="label">SNL_DI_AL_START_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_al_stop">
+				<parameter name="description">SNL_DI_AL_STOP_DESC</parameter>
+				<parameter name="label">SNL_DI_AL_STOP_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_all">
+				<parameter name="description">SNL_DI_ALL_DESC</parameter>
+				<parameter name="label">SNL_DI_ALL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_ci_all">
+				<parameter name="description">SNL_DI_CI_ALL_DESC</parameter>
+				<parameter name="label">SNL_DI_CI_ALL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_ci_file_updated">
+				<parameter name="description">SNL_DI_CI_FILE_UPDATED_DESC</parameter>
+				<parameter name="label">SNL_DI_CI_FILE_UPDATED_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_ci_start">
+				<parameter name="description">SNL_DI_CI_START_DESC</parameter>
+				<parameter name="label">SNL_DI_CI_START_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_ci_stop">
+				<parameter name="description">SNL_DI_CI_STOP_DESC</parameter>
+				<parameter name="label">SNL_DI_CI_STOP_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="di_server_stop">
+				<parameter name="description">SNL_DI_SERVER_STOP_DESC</parameter>
+				<parameter name="label">SNL_DI_SERVER_STOP_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="hasCustomNotifications">
+				<parameter name="description">SNL_HAS_CUSTOM_NOTIFICATIONS_DESC</parameter>
+				<parameter name="label">SNL_HAS_CUSTOM_NOTIFICATIONS_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="notificationId">
+				<parameter name="description">SNL_NOTIFICATION_ID_DESC</parameter>
+				<parameter name="label">SNL_NOTIFICATION_ID_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">SNL_PASSWORD_DESC</parameter>
+				<parameter name="label">SNL_PASSWORD_LABEL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="timeOut">
+				<parameter name="description">SNL_TIMEOUT_DESC</parameter>
+				<parameter name="label">SNL_TIMEOUT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="url">
+				<parameter name="description">SNL_URL_DESC</parameter>
+				<parameter name="label">SNL_URL_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">SNL_USERNAME_DESC</parameter>
+				<parameter name="label">SNL_USERNAME_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function enabled (param, value){
+	form.getControl(param).setEnabled(value);
+}
+
+function connectionType_changed(){
+	var val = form.getConfig ("connectionType");
+	var local_mode = false;
+	if ( val != null && val.equalsIgnoreCase ("local") )
+		local_mode = true;
+	enabled("url", !local_mode);
+	enabled("username", !local_mode);
+	enabled("password", !local_mode);
+}
+
+function checkBoxes(){
+	var val = form.getConfig ("di_ci_all");
+	var enable_ci_all = false;
+	if ( val != null && val.equalsIgnoreCase ("true") )
+		enable_ci_all = true;
+	val = form.getConfig ("di_al_all");
+	var enable_al_all = false;
+	if ( val != null && val.equalsIgnoreCase ("true") )
+		enable_al_all = true;
+	val = form.getConfig ("di_all");
+	var enable_all = false;
+	if ( val != null && val.equalsIgnoreCase ("true") ) {
+		enable_all = true;
+		enable_ci_all = true;
+		enable_al_all = true;
+	}
+	enabled("di_ci_all", !enable_all);
+	enabled("di_al_all", !enable_all);
+	enabled("di_server_stop", !enable_all);
+	enabled("di_ci_start", !enable_ci_all);
+	enabled("di_ci_stop", !enable_ci_all);
+	enabled("di_ci_file_updated", !enable_ci_all);
+	enabled("di_al_start", !enable_al_all);
+	enabled("di_al_stop", !enable_al_all);
+}
+
+function hasCustomNotifications_changed(){
+	var val = form.getConfig ("hasCustomNotifications");
+	var enable_custom = false;
+	if ( val != null && val.equalsIgnoreCase ("true") )
+		enable_custom = true;
+	enabled("customNotifications", enable_custom);
+}
+
+function di_all_changed(){
+	checkBoxes();
+}
+
+function di_ci_all_changed(){
+	checkBoxes();
+}
+
+function di_al_all_changed(){
+	checkBoxes();
+}
+
+connectionType_changed();
+checkBoxes();
+hasCustomNotifications_changed();
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

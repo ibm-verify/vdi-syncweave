@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="simpletpaeifconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- Information messages --> 
+<Message ID="CTGDJP501I" prefix="yes">
+   <MsgText pgmKey="MXCONN.PARSING.XML" varFormat="Java">
+	Parsing XML response from the server.
+   </MsgText>
+   <NoHelp/>
+</Message>>
+
+<Message ID="CTGDJP502I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CONFIG.PARAMS" varFormat="Java">
+	Configuration parameters: <Variable formatSpec="{0}">params</Variable>.
+   </MsgText>
+	<NoHelp/>
+</Message>
+
+<Message ID="CTGDJP503I" prefix="yes">
+   <MsgText pgmKey="MXCONN.NEW.MXCONNITERATOR.CREATED" varFormat="Java">
+	New MxConnIterator instance created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP504I" prefix="yes">
+   <MsgText pgmKey="MXCONN.NEW.MXCONNADDONLY.CREATED" varFormat="Java">
+	New MxConnAddOnly instance created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP505I" prefix="yes">
+   <MsgText pgmKey="MXCONN.NEW.MXCONNLOOKUP.CREATED" varFormat="Java">
+	New MxConnLookup instance created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP506I" prefix="yes">
+   <MsgText pgmKey="MXCONN.NEW.MXCONNUPDATE.CREATED" varFormat="Java">
+	New MxConnUpdate instance created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP507I" prefix="yes">
+   <MsgText pgmKey="MXCONN.NEW.MXCONNDELETE.CREATED" varFormat="Java">
+	New MxConnDelete instance created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP508I" prefix="yes">
+   <MsgText pgmKey="MXCONN.SELECT.ENTRIES" varFormat="Java">
+	Selecting entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP509I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CREATE.ENTRY" varFormat="Java">
+	Creating entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP510I" prefix="yes">
+   <MsgText pgmKey="MXCONN.EXECUTE.SEARCH" varFormat="Java">
+	Performing search.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP511I" prefix="yes">
+   <MsgText pgmKey="MXCONN.UPDATE.ENTRY" varFormat="Java">
+	Updating entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP512I" prefix="yes">
+   <MsgText pgmKey="MXCONN.DELETE.ENTRY" varFormat="Java">
+	Deleting entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP513I" prefix="yes">
+   <MsgText pgmKey="MXCONN.RECEIVING.MSG" varFormat="Java">
+	Receiving HTTP response message.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP514I" prefix="yes">
+   <MsgText pgmKey="MXCONN.XML.VALIDATION.ENABLED" varFormat="Java">
+	XML character validation enabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP515I" prefix="yes">
+   <MsgText pgmKey="MXCONN.SENDING.MESSAGE" varFormat="Java">
+	Sending HTTP message: <Variable formatSpec="{0}">message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP516I" prefix="yes">
+   <MsgText pgmKey="MXCONN.XML.MESSAGE.AFTER.VALIDATION" varFormat="Java">
+	XML message after validation: <Variable formatSpec="{0}">message</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP517I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CLOSE.INPUT.STREAM" varFormat="Java">
+	Can not close file stream.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP518I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.LOAD.PROPERTIES" varFormat="Java">
+	Can not load properties from file: <Variable formatSpec="{0}">file</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP519I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CONFIG.PARAMS.CLASSPATH" varFormat="Java">
+	Configuration parameters from file on classpath: <Variable formatSpec="{0}">params</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP520I" prefix="yes">
+   <MsgText pgmKey="MXCONN.LOAD.PROPERTIES" varFormat="Java">
+	Loading properties from file: <Variable formatSpec="{0}">file</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP521I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CONFIG.PARAMS.SOLDIR" varFormat="Java">
+	Configuration parameters from file in solution folder: <Variable formatSpec="{0}">params</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP522I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CONFIG.PARAMS.SYSTEM" varFormat="Java">
+	Configuration parameters from file specified as system property: <Variable formatSpec="{0}">params</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP523I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CLEAR.CONFIG.PARAMS" varFormat="Java">
+	Clearing configuration parameters.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP524I" prefix="no">
+   <MsgText pgmKey="MXCONN.SELECT.MBO" varFormat="Java">
+	Select MBO
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP525I" prefix="no">
+   <MsgText pgmKey="MXCONN.SCHEMA.CACHE.CLEARED" varFormat="Java">
+	Schema cache has been cleared.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Exception and warning messages --> 
+<Message ID="CTGDJP526E" prefix="yes">
+   <MsgText pgmKey="MXCONN.USUPPORTED.OPERATOR" varFormat="Java">
+	Unsupported Link criteria operator.
+   </MsgText>
+   <Explanation> <p>
+	The operator used for matching is not supported by the Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Change Link criteria operators.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP527E" prefix="yes">
+   <MsgText pgmKey="MXCONN.UNIQUE.KEY.NOT.FOUND" varFormat="Java">
+	The following unique keys are not specified: <Variable formatSpec="{0}">keys</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	All unique keys must be specified when adding, updating or deleting an entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Specify all unique keys.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP528E" prefix="yes">
+   <MsgText pgmKey="MXCONN.HTTP.RESPONSE.CODE.NOT.OK" varFormat="Java">
+	The HTTP server did not returned <q/>HTTP OK<q/>.
+   </MsgText>
+   <Explanation> <p>
+	The HTTP server returned a response code other than 200.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check configuration parameters.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP529E" prefix="yes">
+   <MsgText pgmKey="MXCONN.SOCKET.TIMEOUT" varFormat="Java">
+	Sending message timed out.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Change value of Timeout parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP530E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.SEND.HTTP.REQUEST" varFormat="Java">
+	Can not send HTTP request.
+   </MsgText>
+   <Explanation> <p>
+	An I/O operation has been interupted or failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check network or server availability.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP531E" prefix="yes">
+   <MsgText pgmKey="MXCONN.INVALID.TIMEOUT.VALUE" varFormat="Java">
+	Invalid value for Timeout parameter.
+   </MsgText>
+   <Explanation> <p>
+	Timeout parameter have to be greater or equal to zero.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Change the value of the Timeout parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP532E" prefix="yes">
+   <MsgText pgmKey="MXCONN.TARGET.URL.LIST.IS.EMPTY" varFormat="Java">
+	List of target URLs is empty.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check Base URLs parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP533E" prefix="yes">
+   <MsgText pgmKey="MXCONN.HTTPCLIENT.PARAM.NOT.DEFINED" varFormat="Java">
+	Parameter not defined: <Variable formatSpec="{0}">param</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	Parameter&apos;s value is either empty or contains only whitespace characters.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Specify parameter&apos;s value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP534W" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.SEND.REQUEST" varFormat="Java">
+	Unable to send HTTP request.
+   </MsgText>
+   <Explanation> <p>
+	Could not send HTTP message to any of the target URLs.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check Base URLs parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP535E" prefix="yes">
+   <MsgText pgmKey="MXCONN.UNSUPPORTED.ENCODING" varFormat="Java">
+	Not supported encoding: <Variable formatSpec="{0}">encoding</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP536W" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.READ.ERROR.MESSAGE" varFormat="Java">
+	Can not read the HTTP error message.
+   </MsgText>
+   <Explanation> <p>
+	Can not obtain detailed error message about failed HTTP request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP537E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.LOAD.TEMPLATE" varFormat="Java">
+	Can not load XML template.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP538E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.PARSE.XML" varFormat="Java">
+	Can not parse received XML.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP539E" prefix="yes">
+   <MsgText pgmKey="MXCONN.PARAM.NOT.DEFINED" varFormat="Java">
+	Parameter not defined: <Variable formatSpec="{0}">param</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value of this parameter is either empty or contains only whitespace characters.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Specify parameter&apos;s value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP540W" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.READ.FILE" varFormat="Java">
+	Can not read file: <Variable formatSpec="{0}">file</Variable>.
+	Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verify the file exists and has the right permission.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP541W" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.LOAD.RESOURCE" varFormat="Java">
+	Can not load resource: <Variable formatSpec="{0}">resource</Variable>.
+	Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verify the resource exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP542E" prefix="yes">
+   <MsgText pgmKey="MXCONN.MBO.NOT.FOUND.IN.SCHEMA" varFormat="Java">
+	Schema does not contain MBO: <Variable formatSpec="{0}">mbo</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check MBO name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP543E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CAN.NOT.FIND.MOS.SCHEMA" varFormat="Java">
+	Can not obtain schema for object structure: <Variable formatSpec="{0}">mos</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Regenerate XSD files for object structure.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP544E" prefix="yes">
+   <MsgText pgmKey="MXCONN.ILLEGAL.ELEMENT" varFormat="Java">
+	Illegal schema element: <Variable formatSpec="{0}">name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	Entry or Link Criteria contains another MBO.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP545E" prefix="yes">
+   <MsgText pgmKey="MXCONN.ILLEGAL.ELEMENT.IN.CRITERIA" varFormat="Java">
+	Illegal schema element for Link criteria: <Variable formatSpec="{0}">name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	Link criteria name is defined as XML attribute. Only XML elements are allowed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check Link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP546E" prefix="yes">
+   <MsgText pgmKey="MXCONN.ELEMENT.NOT.FOUND" varFormat="Java">
+	Element not found: <Variable formatSpec="{0}">name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The specified element can not be found in the schema.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP547E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NO.CONFIGURATION" varFormat="Java">
+   No configuration is specified.
+   </MsgText>
+   <Explanation> <p>
+   The configuration of the Connector has not been initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify all configuration parameters in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP548E" prefix="yes">
+   <MsgText pgmKey="MXCONN.UNSUPPORTED.CRITERIA.TYPE" varFormat="Java">
+	Unsupported Link criteria type.
+   </MsgText>
+   <Explanation> <p>
+	See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Change the type of the used Link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP549E" prefix="yes">
+   <MsgText pgmKey="MXCONN.INVALID.PAGE.SIZE.VALUE" varFormat="Java">
+	Invalid value for Page size parameter.
+   </MsgText>
+   <Explanation> <p>
+	Page size parameter has to be greater than zero.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Change Page size parameter&apos;s value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP550E" prefix="yes">
+   <MsgText pgmKey="MXCONN.EXCEDENT.SIZE" varFormat="Java">
+	The &apos;<Variable formatSpec="{0}">name</Variable>&apos; attribute exceeds the maximum allowed size: <Variable formatSpec="{1}">size</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	Length of attribute or link criteria value exceeds the maximum allowed size for this type of field.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Review and change entry or link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP551E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NOT.VALID.BOOLEAN" varFormat="Java">
+	The value is not a valid boolean: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value can not be converted to a valid boolean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP552E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CONVERT.TO.BOOLEAN" varFormat="Java">
+	The string does not contain a boolean: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The string can not be parsed as a boolean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP553E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NOT.VALID.DATE" varFormat="Java">
+	The value is not a valid date: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value can not be converted to a valid date.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP554E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CONVERT.TO.DATE" varFormat="Java">
+	The string does not contain a parsable date: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The string can not be parsed as a date.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP555E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NOT.VALID.DOUBLE" varFormat="Java">
+	The value is not a valid double: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value can not be converted to a valid double.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP556E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CONVERT.TO.DOUBLE" varFormat="Java">
+	The string does not contain a parsable double: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The string can not be parsed as a double.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP557E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NOT.VALID.INTEGER" varFormat="Java">
+	The value is not a valid integer: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value can not be converted to a valid integer.
+   </p> </Explanation>
+	   <OperatorResponse> <p>
+	Check value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP558E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CONVERT.TO.INTEGER" varFormat="Java">
+	The string does not contain a parsable integer: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The string can not be parsed as an integer.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP559E" prefix="yes">
+   <MsgText pgmKey="MXCONN.NOT.VALID.LONG" varFormat="Java">
+	The value is not a valid long: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The value can not be converted to a valid long.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP560E" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CONVERT.TO.LONG" varFormat="Java">
+	The string does not contain a parsable long: <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+	The string can not be parsed as a long.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP561I" prefix="yes">
+   <MsgText pgmKey="MXCONN.MAXIMO.EXCEPION.NOT.FOUND" varFormat="Java">
+	Can not find a Maximo exception.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP562I" prefix="yes">
+   <MsgText pgmKey="MXCONN.CANNOT.CHANGE.UNIQUE.ATTRIBUTE" varFormat="Java">
+	The unique attribute: <Variable formatSpec="{0}">attributeName</Variable> has a value of &apos;<Variable formatSpec="{1}">originalValue</Variable>&apos;. It cannot be changed to <Variable formatSpec="{2}">userValue</Variable>. 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP563E" prefix="yes">
+   <MsgText pgmKey="MXCONN.MISSING.ATTRIBUTE.UNIQUE.KEY" varFormat="Java">
+	Unique attribute &apos;<Variable formatSpec="{0}">attribute</Variable>&apos; is not provided.
+   </MsgText>
+   <Explanation> <p>
+	No attribute with this name is provided in the entry. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Assign a value to the attribute (empty string is also supported).
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP564I" prefix="no">
+   <MsgText pgmKey="MXCONN.TARGET.URL" varFormat="Java">
+	Target URL: <Variable formatSpec="{0}">url</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

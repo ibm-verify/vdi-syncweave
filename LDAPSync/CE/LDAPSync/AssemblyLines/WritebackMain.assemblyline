@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="33" UUID="634c0285-ae07-40a5-ae60-ff1a94015da7" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="WritebackMain" modified="Wed Apr 29 12:05:36 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="WritebackMain">
+        <ModTime>1430301934763</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <ModTime>1402556638940</ModTime>
+            <Hook name="epilog2">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>epilog2</Name>
+                <Script><![CDATA[if (typeof(rulesEngine) != "undefined" && rulesEngine != null) {
+	rulesEngine.terminate()
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>onfailure</Name>
+                <Script><![CDATA[if (typeof(error) != "undefined") {
+	exceptionStr = error.getString("exception")
+	if (exceptionStr != null && exceptionStr.indexOf("ExitBranchException") < 0) {
+		defaultErrorHandling("ERROR", false, true)
+	
+		notifyWritebackError(error)
+		
+		system.sleep(sleepTime)
+	}
+}
+
+if (typeof(rulesEngine) != "undefined" && rulesEngine != null) {
+	rulesEngine.terminate()
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[// find a Flow loaded on the Server in order to get SDS parameters
+var opEntry = task.getOpEntry()
+
+flowKey = "WB_WritebackMain"
+responseLogFile = "WritebackHistory"
+typeOfEntry = "person" // @@TODO only support Person entries
+
+getAllFlowParameters(opEntry, flowKey);
+
+initUtils(flowKey, true); // skip hooks init
+
+var saveOpEntry = system.newEntry();
+saveOpEntry.merge(opEntry);
+
+sleepTime = 10 // used when Writeback is not enabled
+var paramEntry = system.newEntry();
+
+do {
+	waitTimeParam = getProperty("writeback.timeout")
+	try {
+		waitTime = Math.max(10, system.toInt(waitTimeParam))
+	} catch (ex) {
+		waitTime = 30 // seconds before timeout for SDS changelog connector
+	}
+	
+	numberOfPollsParam = getProperty("writeback.polls")
+	try {
+		numberOfPolls = Math.max(2, system.toInt(numberOfPollsParam))
+	} catch (ex) {
+		numberOfPolls = Math.round(waitTime / 5) // number of 5 second polls in the timeout
+	}
+
+	if (numberOfPolls < 1) {
+		numberOfPolls = 1 // to avoid div by zero
+	}
+	
+	pollTime = Math.floor(waitTime / (numberOfPolls*0.95))
+	if (pollTime < 2) {
+		pollTime = 2
+	}
+	
+//	opEntry.removeAllAttributes()
+	paramEntry.removeAllAttributes();
+	
+	var CIs = session.getConfigInstances()
+	var CI
+	
+	for (CI in CIs) {
+		if (CI.getConfigId().startsWith("SE_")) {
+			var ALnames = CI.getAssemblyLineNames()
+			for (var ALname in ALnames) {
+				if (ALname.startsWith("Flow_")) {
+					var paramEntry = getFlowParameters(CI.getConfigId(), ALname, null, null);
+					if (paramEntry != null) {
+						break
+					}
+				}
+			}
+		}
+	}
+	
+	if (paramEntry.size() == 0) {
+		CIs = session.listAllConfigurations()
+		for (var CIname in CIs) {
+			if (CIname.startsWith("SE_")) {
+				CI = session.getConfigInstance(CIname)
+				if (CI == null) {
+					try {
+						CI = session.startConfigInstance("configs/" + CIname + ".xml", true, null, CIname, null)
+						if (CI != null) {
+							var ALnames = CI.getAssemblyLineNames()
+							for (var ALname in ALnames) {
+								if (ALname.startsWith("Flow_")) {
+									var paramEntry = getFlowParameters(CI.getConfigId(), ALname, null, null)
+									if (paramEntry != null) {
+										break
+									}
+								}
+							}
+						}
+					} catch (ex) {
+						errorMsg = resource.getString("LDAPSYNC.ERROR.LOADING.CI") + ": " + CIname + " - " + ex
+						logmsg("ERROR", errorMsg)
+					}	
+				}	
+			}
+		}
+	}
+	
+	if (paramEntry.size() == 0 || CI == null) {
+		system.sleep(sleepTime)
+		continue
+	}
+	
+	CIs = session.getConfigInstances()
+	var writebackEnabled = false
+	for (CI in CIs) {
+		if (CI.getConfigId().startsWith("SE_")) {
+			if (!writebackEnabled) {
+				writebackEnabled = main.getConnector(CI.getConfigId() + 
+					":/Connectors/GeneralSettings").getConnectionConfig().getBooleanParameter("writeback.enabled", false)
+				}	
+			break
+		}
+	}
+	
+	if (!writebackEnabled) {
+//		var schedule = main.getScheduler("WriteBackMain KeepAlive");
+		var schedule = task.getScheduler();
+		if (schedule) {
+			schedule.shutdown();
+		}
+		task.shutdown();
+		return;
+	}
+	
+	sdiUser = getProperty("target.ldap.user")
+	
+	// check to make sure SDS is correctly configured and has changelog enabled
+	if (writebackEnabled) {
+		opEntry.testId = "SE_DefaultFDS.GeneralSettings"
+		opEntry["source.form"] = "Form_LDAP"
+		opEntry["read.count"] = 0
+		opEntry["read.start"] = 0
+		opEntry["source.ldap.url"] = getProperty("target.ldap.url")
+		opEntry["source.ldap.user"] = getProperty("target.ldap.user")
+		opEntry["source.ldap.password"] = getProperty("target.ldap.password")
+		opEntry["source.ldap.searchbase"] = getProperty("target.ldap.searchbase")
+		result = testConnection()
+		
+		writebackEnabled = "success".equals(result.status)
+	}
+	
+	if (!writebackEnabled) {
+		system.sleep(sleepTime)
+	}
+} while (!writebackEnabled);
+
+opEntry.removeAllAttributes();
+opEntry.merge(saveOpEntry);
+
+jsonEntry = system.newEntry()]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="check if writeback has been disabled" state="Enabled"/>
+                <Component name="modify" state="Enabled"/>
+                <Component name="Retrieve additional attributes" state="Enabled"/>
+                <Component name="handling this entry modifier" state="Enabled"/>
+                <Component name="Init cycle" state="Enabled"/>
+                <Component name="Build RulesEngine" state="Enabled"/>
+                <Component name="Log" state="Enabled"/>
+                <Component name="Apply Rules" state="Enabled"/>
+                <Component name="ChangeDetection_WriteBack" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1393944134631</ModTime>
+            <Connector name="ChangeDetection_WriteBack">
+                <InheritFrom>/Connectors/ChangeDetection_WriteBack</InheritFrom>
+                <ModTime>1393944134631</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="nsSleepInterval">@SUBSTITUTE{javascript return pollTime}</parameter>
+                    <parameter name="nsTimeout">@SUBSTITUTE{javascript return waitTime}</parameter>
+                    <parameter name="stateKeyPersistence">Manual</parameter>
+                    <parameter name="useNotifications">false</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1393944134631</ModTime>
+                    <Hook name="after_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>after_initialize</Name>
+                        <Script>originalReturnAttributes = thisConnector.connector.getParam("ldapReturnAttributes")</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_execute">
+                        <Name>before_execute</Name>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="before_getnext">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_getnext</Name>
+                        <Script><![CDATA[/*
+if (typeof(rulesEngine) != "undefined" && rulesEngine != null) {
+	rulesEngine.terminate()
+}
+*/]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_initialize</Name>
+                        <Script>ldap = thisConnector.connector</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>default_fail</Name>
+                        <Script><![CDATA[// quick fix to deal with a bug/problem in the SDS Changelog Connector
+// where some changelog entries do not have a changeType attribute
+msg = error.getString("message")
+if (msg.indexOf("CTGDIS969E") >= 0) {
+	// swallow this error
+	system.ignoreEntry()
+}
+
+notifyWritebackError(error)
+
+var schedule = main.getScheduler("WriteBackMain KeepAlive");
+if (schedule) {
+	schedule.shutdown();
+}
+task.shutdown();
+
+throw error.exception;]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>initialize_fail</Name>
+                        <Script><![CDATA[notifyWritebackError(error)
+
+system.sleep(sleepTime)
+
+system.exitBranch("AssemblyLine")]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1430301934763</ModTime>
+            <Script name="check if writeback has been disabled">
+                <ModTime>1382099585921</ModTime>
+                <parameter name="script"><![CDATA[CIs = session.getConfigInstances()
+var writebackEnabled = false
+for (CI in CIs) {
+	if (CI.getConfigId().startsWith("SE_")) {
+		if (!writebackEnabled) {
+			writebackEnabled = main.getConnector(CI.getConfigId() + 
+				":/Connectors/GeneralSettings").getConnectionConfig().getBooleanParameter("writeback.enabled", false)
+			}	
+		break
+	}
+}
+
+if (!writebackEnabled) {
+	system.sleep(sleepTime)
+	task.logmsg("Exiting...")
+	system.exitBranch("AssemblyLine")
+}]]></parameter>
+            </Script>
+            <Branch name="modify">
+                <ModTime>1430301934763</ModTime>
+                <Script name="Retrieve additional attributes">
+                    <ModTime>1430301934763</ModTime>
+                    <parameter name="script"><![CDATA[ignoreChangesBySDI = !"false".equalsIgnoreCase(getProperty("writeback.ignoreChangesBySDI"));
+targetDN = work.getString("targetdn");
+operation = work.getOperation();
+
+ldap.setParam("ldapReturnAttributes","modifiersName\n" 
+				+ auxLinkedDNAttribute + "\n"
+				+ auxLinkedGUIDAttribute + "\n");
+
+try {
+	entry = ldap.findEntry("$dn", targetDN);
+	modifierOfCurrentEntry = entry.getString("modifiersName");
+} catch (ex) {
+	log("ERROR", resource.getString("LDAPSYNC.WRITEBACK.COULD.NOT.FIND.ENTRY.WITH.DN") 
+				+ ": " + targetDN);
+	system.exitFlow();
+}
+
+ldap.setParam("ldapReturnAttributes", originalReturnAttributes);
+
+if (entry == null) {
+	system.skipEntry() // @@TODO again, perhaps an error
+}
+
+work.merge(entry);]]></parameter>
+                </Script>
+                <Branch name="handling this entry modifier">
+                    <ModTime>1386161318328</ModTime>
+                    <Script name="Init cycle">
+                        <ModTime>1386161318328</ModTime>
+                        <parameter name="script"><![CDATA[jsonEntry.removeAllAttributes()
+jsonEntry.adDn = work.getString(auxLinkedDNAttribute)
+jsonEntry.sourceDn = work.getString(auxLinkedDNAttribute)
+jsonEntry.sourceGUID = work.getString(auxLinkedGUIDAttribute)
+jsonEntry.sdiUser = sdiUser
+jsonEntry.modifiersName = entry.getString("modifiersName")
+jsonEntry["changenumber"] = work.getString("changenumber")
+jsonEntry["targetdn"] = targetDN
+jsonEntry["operation"] = operation
+jsonEntry.timestamp = new java.util.Date().getTime()
+jsonEntry.enableDOM()
+
+json = jsonEntry.toJSON()
+
+sendCustomNotification("fds.writeback", "WritebackMain", json)]]></parameter>
+                    </Script>
+                    <Script name="Build RulesEngine">
+                        <ModTime>1381219794421</ModTime>
+                        <parameter name="script">refreshRulesEngine("writeback")</parameter>
+                    </Script>
+                    <Script name="Log">
+                        <ModTime>1380200072109</ModTime>
+                        <parameter name="script">logmsg("JSON: " + json)</parameter>
+                    </Script>
+                    <Script name="Apply Rules">
+                        <ModTime>1378734574067</ModTime>
+                        <parameter name="script">rulesEngine.runRules()</parameter>
+                    </Script>
+                    <ScriptCondition>return !ignoreChangesBySDI || !modifierOfCurrentEntry.equalsIgnoreCase(sdiUser)</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <ScriptCondition>return "modify".equals(work.getOperation())</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

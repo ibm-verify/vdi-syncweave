@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.LDAPGroup">
+                        <SupportedModes>Iterator</SupportedModes>
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.LDAPGroupConnector</parameter>
+				<parameter name="ldapAuthenticationMethod">Simple</parameter>
+				<parameter name="ldapPageSize">0</parameter>
+				<parameter name="ldapReferrals">follow</parameter>
+				<parameter name="ldapSearchBase">o=orgname</parameter>
+				<parameter name="ldapSearchFilter">cn=*</parameter>
+				<parameter name="ldapSearchScope">subtree</parameter>
+				<parameter name="ldapSizeLimit">0</parameter>
+				<parameter name="ldapTimeLimit">0</parameter>
+				<parameter name="ldapUrl">ldap://localhost:389</parameter>
+				<parameter name="ldapUseSSL">false</parameter>
+				<parameter name="ldapVLVPageSize">0</parameter>
+				<parameter name="simulateRename">false</parameter>
+				<parameter name="supportsSkipLookup">true</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="ldapExpandGroups">true</parameter>
+				<parameter name="ldapReturnUsersOnce">true</parameter>
+				<parameter name="ldpaMemberAttributes">member,uniquemember,ibm-memberGroup</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.LDAPGroupConnector">
+			<InheritFrom>system:/Forms/com.ibm.di.connector.LDAPConnector</InheritFrom>
+			<TranslationFile>NLS/idi_conn_ldapgroup</TranslationFile>
+			<parameter name="title">CONN_DESC</parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>ldapUrl</ListItem>
+					<ListItem>ldapUsername</ListItem>
+					<ListItem>ldapPassword</ListItem>
+					<ListItem>ldapSearchBase</ListItem>
+					<ListItem>ldapSearchFilter</ListItem>
+					<ListItem>ldapExpandGroups</ListItem>
+					<ListItem>ldapSearchScope</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ldapTimeLimit</ListItem>
+					<ListItem>ldapSizeLimit</ListItem>
+					<ListItem>ldapPageSize</ListItem>
+					<ListItem>ldapAuthenticationMethod</ListItem>
+					<ListItem>ldapReferrals</ListItem>
+					<ListItem>$GLOBAL.connectorFlags</ListItem>
+					<ListItem>jndiExtraProviderParams</ListItem>
+					<ListItem>ldapReturnAttributes</ListItem>
+					<ListItem>ldapBinaryAttributes</ListItem>
+					<ListItem>automapADPassword</ListItem>
+					<ListItem>ldapBERTrace</ListItem>
+					<ListItem>ldapSortAttribute</ListItem>
+					<ListItem>ldapVLVPageSize</ListItem>
+					<ListItem>simulateRename</ListItem>
+					<ListItem>ldapAddAttr</ListItem>
+					<ListItem>ldapReturnUsersOnce</ListItem>
+					<ListItem>ldpaMemberAttributes</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>ldapUrl</ListItem>
+				<ListItem>ldapUsername</ListItem>
+				<ListItem>ldapPassword</ListItem>
+				<ListItem>ldapSearchBase</ListItem>
+				<ListItem>ldapSearchFilter</ListItem>
+				<ListItem>ldapSearchScope</ListItem>
+				<ListItem>ldapTimeLimit</ListItem>
+				<ListItem>ldapSizeLimit</ListItem>
+				<ListItem>ldapPageSize</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>ldapAuthenticationMethod</ListItem>
+				<ListItem>ldapUseSSL</ListItem>
+				<ListItem>ldapReferrals</ListItem>
+				<ListItem>$GLOBAL.connectorFlags</ListItem>
+				<ListItem>jndiExtraProviderParams</ListItem>
+				<ListItem>ldapReturnAttributes</ListItem>
+				<ListItem>ldapBinaryAttributes</ListItem>
+				<ListItem>automapADPassword</ListItem>
+				<ListItem>ldapBERTrace</ListItem>
+				<ListItem>ldapSortAttribute</ListItem>
+				<ListItem>ldapVLVPageSize</ListItem>
+				<ListItem>simulateRename</ListItem>
+				<ListItem>ldapAddAttr</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>ldapExpandGroups</ListItem>
+			</FormItemNames>
+			<FormItem name="ldapExpandGroups">
+				<parameter name="description">EXPAND_GROUPS</parameter>
+				<parameter name="label">EXPAND_NESTED_GROUPS</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ldapReturnUsersOnce">
+				<parameter name="description">RETURN_USERS_ONCE_DESC</parameter>
+				<parameter name="label">RETURN_USERS_ONCE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ldpaMemberAttributes">
+				<parameter name="description">LDAP_MEMBER_DESC</parameter>
+				<parameter name="label">LDAP_MEMBER_LABEL</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

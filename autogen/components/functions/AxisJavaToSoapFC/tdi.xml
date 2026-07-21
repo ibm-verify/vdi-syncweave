@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.AxisJavaToSoap">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.webservice.AxisJavaToSoap</parameter>
+				<parameter name="complexTypes"/>
+				<parameter name="mode">Request</parameter>
+				<parameter name="operationParamList"/>
+				<parameter name="returnXMLType">String</parameter>
+				<parameter name="simulate">Enabled</parameter>
+				<parameter name="soapOperation"/>
+				<parameter name="useMultiRefs">true</parameter>
+				<parameter name="wsdlUrl"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>soapFault</Name>
+					<Syntax>org.apache.axis2.AxisFault</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.webservice.AxisJavaToSoap">
+			<TranslationFile>NLS/idi_fc_axis_java_to_soap</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>soapOperation</ListItem>
+					<ListItem>mode</ListItem>
+					<ListItem>operationParamList</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>returnXMLType</ListItem>
+					<ListItem>complexTypes</ListItem>
+					<ListItem>useMultiRefs</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>wsdlUrl</ListItem>
+				<ListItem>soapOperation</ListItem>
+				<ListItem>returnXMLType</ListItem>
+				<ListItem>complexTypes</ListItem>
+				<ListItem>mode</ListItem>
+				<ListItem>useMultiRefs</ListItem>
+				<ListItem>operationParamList</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="complexTypes">
+				<parameter name="description">CT_DESC</parameter>
+				<parameter name="label">CT_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="mode">
+				<Values>
+					<ListItem>Request</ListItem>
+					<ListItem>Response</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Request</Key>
+						<Value>Localized.Request</Value>
+					</Item>
+					<Item>
+						<Key>Response</Key>
+						<Value>Localized.Response</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">M_DESC</parameter>
+				<parameter name="label">M_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="operationParamList">
+				<parameter name="description">OPL_DESC</parameter>
+				<parameter name="label">OPL_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="returnXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">RXT_DESC</parameter>
+				<parameter name="label">RXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="soapOperation">
+				<parameter name="description">SO_DESC</parameter>
+				<parameter name="label">SO_LBL</parameter>
+				<parameter name="script">selectWSOperation</parameter>
+				<parameter name="scriptLabel">SO_SCRLBL</parameter>
+				<parameter name="scripthelp">SO_SCRHLP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="useMultiRefs">
+				<parameter name="description">USE_MULTI_REFS_DESC</parameter>
+				<parameter name="label">USE_MULTI_REFS_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="wsdlUrl">
+				<parameter name="description">WU_DESC</parameter>
+				<parameter name="label">WU_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+function selectWSOperation() {
+	var wsdlUrl = form.getConfigValue("wsdlUrl");
+	if (wsdlUrl == null || wsdlUrl.equals("")) {
+		form.alert(form.translate("WFMNBE_MSG"));
+		return;
+	}
+	form.setWaitCursor();
+	var operations = null;
+	try {
+		operations = Packages.com.ibm.di.fc.webservice.axis2.WSDLData.getSoapOperations(wsdlUrl);
+	} finally {
+		form.setNormalCursor();
+	}
+	var sel = null;
+	if (operations.size() == 0) {
+		form.alert(form.translate("CNFASODIW_MSG") + " '" + wsdlUrl + "'");
+	} else {
+		sel = form.chooseFromList ("SWSO_LBL", operations);
+	}
+	if (sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}]]></parameter>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

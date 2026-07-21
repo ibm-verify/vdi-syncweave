@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:17:37 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:17:37 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="Dump">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/logging/dump.txt</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>multipleValues</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("multipleValues");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("name");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>singleValue</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("singleValue");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/logging/dump.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>multipleValues</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script><![CDATA[attr = work.getAttribute("multipleValues");
+var values = attr.getValues();
+task.logmsg("Dumping multiple values attribute: " + attr.getName());
+task.logmsg("----------------------------------");
+task.logmsg("Attr size = " + attr.size());
+
+for ( i = 0; i < values.length; i++ ) 
+{
+	task.logmsg ("Value " + i + " --> " + values [ i ] );
+}
+task.logmsg ("");
+
+ret.value = work.getAttribute("multipleValues");]]></Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>name</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("name");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>singleValue</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script><![CDATA[attr = work.getAttribute("singleValue");
+
+task.logmsg("Dumping single value attribute: " + attr.getName());
+task.logmsg("-------------------------------");
+task.logmsg("Value = " + attr.getValue());
+task.logmsg("");
+
+ret.value = work.getAttribute("singleValue");]]></Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>after_add</Name>
+<Script><![CDATA[task.logmsg("Dumping Output connector status:");
+task.logmsg("-------------------------------- ");
+
+var status = Output.getStats();
+
+task.logmsg("Number of add operations performed:" + status.numAdd() );
+task.logmsg("Number of delete operations performed:" + status.numDelete() );
+task.logmsg("Number of errors:" + status.numErrors() );
+task.logmsg("Number of get operations performed:" +  status.numGet() );
+task.logmsg("Number of entries ignored:" + status.numIgnored() );
+task.logmsg("Number of lookup operations performed:" + status.numLookup() );
+task.logmsg("Number of modify operations performed:" + status.numModify() );
+task.logmsg("Number of no-change entries:" + status.numNoChange() );
+task.logmsg("Number of entries skipped:" + status.numSkipped() );
+task.logmsg("");]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

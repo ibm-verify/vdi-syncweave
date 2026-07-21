@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:19:32 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:19:32 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="Update">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="CreateEntry">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[// Since we have no iterator, we will create our own entry here
+work.setAttribute("UserName","NEWGUEST");
+work.setAttribute("AccountComment","A test user account added by IBM Security Verify Directory Integrator");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+<Connector name="Update">
+<InheritFrom>system:/Connectors/ibmdi.NT4</InheritFrom>
+<ConnectorMode>Update</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="ComputerName">@PROPERTY{NT_Machine}</parameter>
+<parameter name="EntryType">User</parameter>
+<parameter name="PageSize">100</parameter>
+<parameter name="Password">@PROPERTY{NT_Password}</parameter>
+<parameter name="UserName">@PROPERTY{NT_Username}</parameter>
+<parameter name="debug">false</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>AccountComment</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("AccountComment");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<Script>ret.filter = "";</Script>
+<LinkCriteriaItem>
+<Key>f13c5c4bb3</Key>
+<Attribute>UserName</Attribute>
+<Operator>equals</Operator>
+<Value>$UserName</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>before_update</Name>
+<Script></Script>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>update_fail</Name>
+<Script><![CDATA[main.logmsg("Error: No such User defined");
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>update_multiple</Name>
+<Script>system.skipEntry();</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Path>examples/NT4/NT.properties</Path>
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

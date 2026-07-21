@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:simpleType name="enum_ProviderType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="wmb">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>WebSphere Message Broker</scmp:display>
+                        <scmp:description>WebSphere Message Broker</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="wesb">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>WebSphere Enterprise Service Bus</scmp:display>
+                        <scmp:description>WebSphere Enterprise Service Bus</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="wdp">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>WebSphere DataPower</scmp:display>
+                        <scmp:description>WebSphere DataPower</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="other">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Other</scmp:display>
+                        <scmp:description>Other</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="connectivity-provider-type">
+		<xsd:complexContent>
+            <xsd:extension base="tns:server-resource"> 
+		        <xsd:sequence>
+		            <xsd:element name="type" type="tns:enum_ProviderType" minOccurs="1" maxOccurs="1" >
+		                <xsd:annotation>
+		                    <xsd:appinfo>
+		                        <scmp:display>Type</scmp:display>
+		                        <scmp:summary>Connectivity Provider Type</scmp:summary>
+		                        <scmp:description>The type of the Connectivity Provider.</scmp:description>
+		                    </xsd:appinfo>
+		                </xsd:annotation>
+		            </xsd:element>
+		        </xsd:sequence>
+	        </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="connectivity-provider" type="tns:connectivity-provider-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Connectivity Provider</scmp:display>
+                <scmp:summary>Connectivity Provider</scmp:summary>
+                <scmp:description>A Connectivity Provider represents an ESB product instance, or a partition thereof.</scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

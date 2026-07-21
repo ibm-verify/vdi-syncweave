@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-06-01" created="Fri Jul 03 00:01:20 PDT 2009" createdBy="krasimir.baylov" modified="Fri Jul 03 00:21:18 PDT 2009" modifiedBy="krasimir.baylov" version="7.0">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="TDI_Monitoring">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="SendEventsToOmnibus" state="Simulated"/>
+                    <Component name="GetTDIServerEvents" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="GetTDIServerEvents">
+                    <InheritFrom>system:/Connectors/ibmdi.ServerNotificationsConnector</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="customNotifications">@SUBSTITUTE{property.EventPropertyFile:event.customNotifications}</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="di_al_all">@SUBSTITUTE{property.EventPropertyFile:event.al.all}</parameter>
+                        <parameter name="di_al_start">@SUBSTITUTE{property.EventPropertyFile:event.al.start}</parameter>
+                        <parameter name="di_al_stop">@SUBSTITUTE{property.EventPropertyFile:event.al.stop}</parameter>
+                        <parameter name="di_all">@SUBSTITUTE{property.EventPropertyFile:event.all}</parameter>
+                        <parameter name="di_ci_all">@SUBSTITUTE{property.EventPropertyFile:event.ci.all}</parameter>
+                        <parameter name="di_ci_file_updated">@SUBSTITUTE{property.EventPropertyFile:event.ci.fileUpdated}</parameter>
+                        <parameter name="di_ci_start">@SUBSTITUTE{property.EventPropertyFile:event.ci.start}</parameter>
+                        <parameter name="di_ci_stop">@SUBSTITUTE{property.EventPropertyFile:event.ci.stop}</parameter>
+                        <parameter name="di_server_stop">@SUBSTITUTE{property.EventPropertyFile:event.server.stop}</parameter>
+                        <parameter name="hasCustomNotifications">@SUBSTITUTE{property.EventPropertyFile:event.hasCustomNotifications}</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>event.rawNotification</Name>
+                            <Type>simple</Type>
+                            <Simple>event.rawNotification</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>event.type</Name>
+                            <Type>simple</Type>
+                            <Simple>event.type</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>event.configInstanceId</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.dateCreated</Name>
+                            <Syntax>Date</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.id</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.rawNotification</Name>
+                            <Syntax>com.ibm.di.api.DIEvent</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.type</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.userData</Name>
+                            <Syntax>Object</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>configInstanceId</Name>
+                            <NativeSyntax>String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>connectionType</Name>
+                            <NativeSyntax>droplist</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>customNotifications</Name>
+                            <NativeSyntax>textarea</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>debug</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_al_all</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_al_start</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_al_stop</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_all</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_ci_all</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_ci_file_updated</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_ci_start</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_ci_stop</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>di_server_stop</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.id</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>event.type</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>hasCustomNotifications</Name>
+                            <NativeSyntax>BOOLEAN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>notificationId</Name>
+                            <NativeSyntax>String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>password</Name>
+                            <NativeSyntax>password</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>timeOut</Name>
+                            <NativeSyntax>Number</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>url</Name>
+                            <NativeSyntax>String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>userData</Name>
+                            <Syntax>Object</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>username</Name>
+                            <NativeSyntax>String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="SendEventsToOmnibus">
+                    <InheritFrom>system:/Connectors/ibmdi.EIFConnector</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="eifConfFilePath"><![CDATA[!###############################################################################
+#BufEvtMaxSize=kilobytes
+#
+#Specifies the maximum size, in kilobytes, of the adapter cache file. 
+#The default value is 64. The cache file stores events on disk when the 
+#BufferEvents keyword is set to YES. The minimum size for the file is 8 KB. 
+#File sizes specified below this level are ignored, and 8 KB is used. There is 
+#no upper limit for the file size. 
+#
+#Note:
+#    If the cache file already exists, you must delete the file for keyword 
+#    changes to take effect. 
+#
+#The BufEvtMaxSize keyword is optional. 
+###############################################################################
+BufEvtMaxSize=8192
+ServerLocation=win2k3sp1
+ServerPort=9998
+
+###############################################################################
+#BufEvtPath=pathname 
+#
+#Specifies the full path name of the adapter cache file. This is a required 
+#keyword when the BufferEvents keyword is set to YES. If the 
+#UseStateCorrelation keyword is set to YES, the BufEvtPath keyword also 
+#specifies the path to store events for state correlation. Tivoli Event 
+#Integration Facility adds the prefix _sc to the specified file name. The 
+#prefix differentiates the adapter cache file from the event storage path for 
+#state correlation.
+#
+#Note:
+#    If more than one application on the same system uses Tivoli Event 
+#    Integration Facility, ensure that each application has unique values for 
+#    the path name. 
+###############################################################################
+BufEvtPath=cache.dat
+
+###############################################################################
+#BufferEvents=YES | MEMORY_ONLY | NO 
+#
+#Specifies how event buffering is enabled. 
+#
+# YES - Stores events in the file specified by the BufEvtPath keyword. 
+# MEMORY_ONLY - Buffers events in memory. 
+# NO - Does not store or buffer events. 
+#
+#If UseStateCorrelation=YES and BufferEvents=YES, the API also stores events in 
+#files that are specified with the BufEvtPath keyword. The 
+#StateCorrelationMaxFileSize and StateCorrelationTotalSize keywords control the 
+#size and number of files. 
+#
+#The value is not case-sensitive. The default value is YES. This keyword is optional. 
+###############################################################################
+#BufferEvents=YES 
+
+###############################################################################
+#BufferFlushRate=events_per_minute 
+#
+#Specifies the number of events that are sent per minute. Once the adapter has 
+#recovered the lost connection, and there are events in the buffer, the events 
+#are sent  at  this rate per minute. The default value is zero (0); consequently 
+#all events are sent in one burst. 
+#
+#This keyword is optional. 
+###############################################################################
+#BufferFlushRate=0 
+
+###############################################################################
+#ConnectionMode=connection_oriented | connection_less 
+#
+#Specifies the connection mode to use to connect to the IBM Tivoli Enterprise 
+#Console gateway or the event server. The default value is connection_less, 
+#except for the IBM  Tivoli Enterprise Console gateway , which has 
+#connection_oriented as the default value. 
+#
+# connection_oriented - A connection is established at adapter initialization 
+#                       and is maintained for all events sent. A new connection 
+#                       is established only if the initial connection is lost. 
+#                       The connection is discarded when the adapter is stopped. 
+#                       This option can be abbreviated to co or CO. 
+#
+# connection_less - A new connection is established and discarded for each event 
+#                   or group of events that is sent. 
+#
+#This keyword is optional. 
+###############################################################################
+#ConnectionMode=connection_less
+
+###############################################################################
+#ed_diag_config_file=./diag_config 
+#
+#For the C API only, generates log and trace messages. The ./ diag_config file 
+#must be present, or else logging and tracing do not occur. To enable logging, 
+#specify error or warning in the ./diag_config file. To enable tracing, specify 
+#trace0, trace1, or trace2 in the ./diag_config file. The location of a sample 
+#file is $BINDIR/TME/TEC/EIF/samples. 
+#
+#Each level of logging or tracing also includes all levels below it. For example, 
+#when you specify warning logging, error logging automatically is enabled. 
+#
+#Note:
+#    Be aware that increasing the level of tracing produces a large trace output. 
+#    When Tivoli Event Integration Facility restarts, the API truncates the 
+#    /tmp/tec_ed trace file. To avoid truncation, change the Truncate_on_restart 
+#    line from true to false. 
+#
+#This keyword is optional. 
+###############################################################################
+#ed_diag_config_file=./diag_config 
+
+###############################################################################
+#Filter:Class=class_name;[attribute=value;...;attribute=value]
+#
+#Works with the FilterMode keyword to determine how events are filtered. An 
+#event matches a Filter statement when each attribute=value pair in the Filter 
+#statement is identical to the corresponding attribute=value pair in the event. 
+#
+#A Filter statement must contain the event class, and optionally can include 
+#any other attribute=value pair that is defined for the event class. The format 
+#of a filtering statement is the following: 
+#
+#Each statement must be on a single line. The attribute=value pair is case sensitive. 
+#
+#This keyword is optional. 
+###############################################################################
+#Filter:Class=Su_Success;origin=126.32.2.14
+#Filter:Class=re:'TEC_.*'
+
+###############################################################################
+#FilterCache:Class=class_name;[attribute=value;...;attribute=value] 
+#
+#Works with the FilterMode and Filter keywords to determine which events are 
+#stored in the cache when events cannot be sent successfully to the event server. 
+#To store events in the cache, you must set BufferEvents=YES. An event matches 
+#a FilterCache statement when each attribute=value pair in the FilterCache 
+#statement is identical to the corresponding attribute=value pair in the event. 
+#
+#A FilterCache statement must contain the event class (class_name) and can include 
+#any attribute=value pair that is defined for that event class. The format of a 
+#filtering statement is the following: 
+#
+#Each statement must be on a single line. The attribute=value pair is case 
+#sensitive. You must specify the Filter keyword, when you use the FilterCache 
+#keyword. Additionally, the FilterCache statement must specify the same class 
+#or subset of classes that the Filter statement specifies. 
+#
+#This keyword is optional. 
+#
+#Note:
+#    When using FilterCache with endpoint adapters and the IBM Tivoli Enterprise
+#    Console gateway, you must set the filtering statements at both locations 
+#    to the same specifications. 
+###############################################################################
+#FilterCache:Class=Su_Success;origin=126.32.2.14
+#FilterCache:Class=re:'TEC_.*'
+
+###############################################################################
+#FilterMode=IN | OUT 
+#
+#Specifies whether events that match a Filter or FilterCache statement are sent 
+#to the event server (FilterMode=IN) or discarded (FilterMode=OUT). The default 
+#value is OUT. The valid values are IN or OUT, without regard for case. If you 
+#set FilterMode=IN, you must have one or more Filter and FilterCache statements 
+#defined. 
+#
+#For information about how to use filtering keywords to send, cache, and discard 
+#events, see Filtering with Configuration Files. 
+#
+#This keyword is optional. 
+###############################################################################
+#FilterMode=OUT 
+
+###############################################################################
+#FQDomain   =YES - The adapter will attempt to determine the 
+#                  fully qualified hostname and if successful
+#                  will fill in the fqhostname slot in the event.
+#           =NO  - The fqhostname slot will be set to a null string. 
+#           =<fully.qualified.domain.suffix> - The adapter will
+#                  append this value to the hostname in order
+#                  to set the fqhostname slot.
+###############################################################################
+#FQDomain=YES
+
+###############################################################################
+#LogFileName=pathname 
+#
+#Specifies the full path name of the log file for the Java API. 
+#
+#If UseStateCorrelation=YES, the LogFileName keyword also defines the path to 
+#store the log file for state correlation. Tivoli Event Integration Facility 
+#adds the prefix _sc to the specified file name. The prefix differentiates the 
+#log file for the Java API from the log file for state correlation. 
+#
+#This keyword is optional. 
+###############################################################################
+#LogFileName=eif.log
+
+###############################################################################
+#LogLevel=level 
+#
+#Specifies whether the Java API generates log messages or not. By default, no 
+#messages are generated. Specify ALL to generate messages. If you specify any 
+#other value or no value, the API does not generate messages.
+#
+#This keyword is optional. 
+###############################################################################
+#LogLevel=ALL
+
+###############################################################################
+#MaxPacketSize=bytes 
+#
+#Specifies the number of bytes to be sent at the rate specified by the 
+#BufferFlushRate keyword. The default value is zero (0), where one event is 
+#sent at a time. 
+#
+#This keyword is optional. 
+###############################################################################
+#MaxPacketSize=0
+
+###############################################################################
+#NO_UTF8_CONVERSION=YES | NO 
+#
+#Specifies whether Tivoli Event Integration Facility encodes event data in 
+#UTF-8. When this keyword is set to YES, Tivoli Event Integration Facility does 
+#not encode event data in UTF-8. The data is assumed to already be in UTF-8 
+#encoding when passed to Tivoli Event Integration Facility. It does, however, 
+#prepend the flag indicating that the data is in UTF-8 encoding if the flag does
+#not exist at the beginning of the event data. 
+#
+#This keyword is optional. The default value for this keyword is NO. 
+###############################################################################
+#NO_UTF8_CONVERSION=NO 
+
+###############################################################################
+#Pre37Server=YES | NO 
+#
+#Specifies whether the adapter sends events in the encoding of the event server 
+#host or in UTF-8 encoding. Event server host versions earlier than the IBM 
+#Tivoli Enterprise Console 3.7 product do not support UTF-8 encoding of events. 
+#The following values are not case-sensitive: 
+#
+#YES - Disables UTF-8 encoding and allows the adapter to communicate with event 
+#      server host versions earlier than the IBM Tivoli Enterprise Console 3.7 
+#      product. When this keyword is set to YES, you must also specify the 
+#      Pre37ServerEncoding keyword. 
+#
+#NO - The adapter sends events in UTF-8 encoding. The default is NO. 
+#     
+#This keyword is optional. 
+###############################################################################
+#Pre37Server=NO
+
+###############################################################################
+#Pre37ServerEncoding=encoding
+#Determines which language to use when a non-TME adapter communicates with a 
+#non-UTF-8 event server host (versions earlier than the IBM Tivoli Enterprise 
+#Console 3.7 product). This keyword is active only when the Pre37Server keyword 
+#is set to YES. 
+#
+#This keyword is optional. 
+###############################################################################
+#Pre37ServerEncoding=SJIS
+
+###############################################################################
+#RetryInterval=timeout 
+#
+#When ConnectionMode=connection_oriented, and the connection to the event 
+#server is lost, an adapter waits the specified number of seconds before 
+#re-attempting to connect to the primary or secondary servers, or to buffer 
+#the events. While the adapter is waiting for the expiration of this interval, 
+#no new events are processed by the adapter. 
+#
+#This keyword is optional. The default is 120 seconds. 
+###############################################################################
+#RetryInterval=120
+
+###############################################################################
+#StateCorrelationCleaningInterval=milliseconds 
+#
+#Specifies, in milliseconds, how often state correlation removes unnecessary 
+#entries from its event storage files. The default value is one minute. 
+#
+#This keyword is optional. 
+###############################################################################
+#StateCorrelationCleaningInterval=60000
+
+###############################################################################
+#StateCorrelationConfigURL= pathname 
+#
+#Specifies the directory and file name where the configuration for state 
+#correlation is stored. On Windows, an example of the path is as follows: 
+#file:C:\work_dir\tstate\tecroot.xml. On UNIX, an example of the path is 
+#as follows: file:///work_dir/tstate/tecroot.xml. 
+#
+#This keyword is required when the UseStateCorrelation keyword is set to YES. 
+###############################################################################
+#StateCorrelationConfigURL=file://default_sm/tecroot.xml.
+
+###############################################################################
+#StateCorrelationMaxFileSize= kilobytes 
+#
+#Specifies the maximum size, in kilobytes, for each event storage file created 
+#by state correlation. This is an approximate value, due to the variable size 
+#of events. 
+#
+#This keyword is optional. 
+###############################################################################
+#StateCorrelationMaxFileSize=64
+
+###############################################################################
+#StateCorrelationTotalSize=kilobytes 
+#
+#Specifies the maximum value, in kilobytes, allowed for the entire caching 
+#mechanism for state correlation. This is an approximate value, due to the 
+#variable size of events. 
+#
+#This keyword is optional. 
+###############################################################################
+#StateCorrelationTotalSize=128
+
+###############################################################################
+#TestMode=YES | NO 
+#
+#Specifies whether test mode is turned on or off. When TestMode=YES, the 
+#ServerLocation keyword specifies the file to which events are logged, instead 
+#of being sent to the event server. Valid values are YES and NO, without regard 
+#to case. The default is NO. 
+#
+#The TestMode keyword is optional. 
+###############################################################################
+#TestMode=NO
+
+###############################################################################
+#TraceFileName=C:/Dinesh/NetCool/TEC/EIFSDK/samples/Sample.trace
+#
+#Specifies the full path name of the trace file for the Java API.
+#
+#If the UseStateCorrelation keyword is set to YES, the TraceFileName keyword 
+#also defines the path to store tracing for state correlation. Tivoli Event 
+#Integration Facility adds the prefix to the specified file name. The prefix 
+#differentiates the trace file for the Java API from the trace file for state 
+#correlation. 
+#
+#This keyword is optional. 
+###############################################################################
+#TraceFileName=eif.trc 
+
+###############################################################################
+#TraceLevel=level 
+#
+#Specifies whether the Java API generates trace messages or not. By default, 
+#no messages are generated. Specify ALL to generate messages. If you specify 
+#any other value or no value, the API does not generate messages. 
+#
+##This keyword is optional. 
+###############################################################################
+#TraceLevel=ALL
+
+###############################################################################
+#TransportList=type_name... 
+#
+#Specifies the user-supplied names of the transport mechanisms. When a transport 
+#mechanism fails for sender applications, the API uses the following transport
+#mechanisms in the order specified in the list. For receiving applications, 
+#the API creates and uses all the transport mechanisms. 
+#
+#This keyword is optional. The transport type and channel for each type_name 
+#are specified by the Channels and Type keywords: 
+###############################################################################
+#TransportList=TMEChannels
+#TransportList=SocketChannels
+#TransportList=LCFChannels
+
+###############################################################################
+#type_nameChannels=channel_name... 
+#
+#Specifies the user-supplied names of the channels for the transport mechanisms, 
+#which are specified by the TransportList keyword. 
+#
+#This keyword is required. 
+###############################################################################
+#TMEChannels=TME_Channel
+#SocketChannels=Socket_Channel
+#LCFChannels=LCF_Channel
+
+###############################################################################
+#type_nameType=LCF | SOCKET | TME 
+#
+#Specifies the transport type for the transport mechanism specified by the 
+#TransportList keyword. 
+#
+#This keyword is required. 
+#
+#The server and port for each channel_name are specified by the ServerLocation 
+#and Port keywords. Depending on the Type specified, you also use one or more of 
+#the following keywords: 
+###############################################################################
+#TME_ChannelPort=TME
+#Socket_ChannelPort=SOCKET
+#LCF_ChannelPort=LCF
+
+###############################################################################
+#channel_namePort=number 
+#
+#Specifies the port number on which the transport mechanisms server listens for 
+#the specified channel (set by the Channel keyword). When this keyword is set 
+#to zero (0), the portmapper is used. This keyword is required when the Type 
+#keyword is set to SOCKET. It is optional for endpoint adapters. 
+###############################################################################
+#Socket_ChannelPort=5529
+#LCF_ChannelPort=5529
+
+###############################################################################
+#channel_namePortMapper=YES | NO
+#
+#Enables the portmapper for the specified channel. This optional keyword is 
+#valid only when the transport type is set to SOCKET. 
+###############################################################################
+#Socket_ChannelPortMapper=NO
+
+###############################################################################
+#channel_namePortMapperName=name 
+#
+#If the portmapper is enabled, specifies the name of the portmapper. 
+#This optional keyword is valid only when the transport type is set to SOCKET. 
+###############################################################################
+#Socket_ChannelPortMapperName=name
+
+###############################################################################
+#channel_namePortMapperNumber=rpc_id 
+#
+#Specifies the ID registered by the remote procedure call. This optional 
+#keyword is valid only when the transport type is set to SOCKET. 
+###############################################################################
+#Socket_ChannelPortMapperNumber=rpc_id 
+
+###############################################################################
+#channel_namePortMapperVersion=version_number 
+#
+#If the portmapper is enabled, specifies the version of the portmapper. 
+#This optional keyword is valid only when the transport type is set to SOCKET. 
+###############################################################################
+#Socket_ChannelPortMapperVersion=version_number 
+
+###############################################################################
+#channel_nameServerLocation=server[region] 
+#
+#Specifies the name of the event server and region on which the server for 
+#transport mechanisms is located for the specified channel. The channel is set 
+#by the Channel keyword. This keyword is required when the Type keyword is set 
+#to TME, LCF, or SOCKET. See Table 15 for valid formats of the server and 
+#region fields. 
+###############################################################################
+#TME_ChannelServerLocation=@EventServer
+#Socket_ChannelServerLocation=localhost
+#LCF_ChannelServerLocation=@EventServer
+
+###############################################################################
+#channel_nameTMEHost=hostname 
+#
+#For the Java API only, specifies the host name of the managed node where the 
+#event server resides. This is a required keyword when the Type keyword is set to TME. 
+###############################################################################
+#TME_ChannelTMEHost=TmeHostName
+
+###############################################################################
+#channel_nameTMEPassword=password 
+#
+#For the Java API only, specifies the password for the Tivoli administrator 
+#used to connect to the managed node. This keyword is required when the Type 
+#keyword is set to TME. 
+###############################################################################
+#TME_ChannelTMEPassword=TmeUserPassword
+
+###############################################################################
+#channel_nameTMEPort=number 
+#
+#For the Java API only, specifies the port number for the managed node. The 
+#default value for this keyword is 94. This keyword is required when the Type 
+#keyword is set to TME. 
+###############################################################################
+#TME_ChannelTMEPort=94
+
+###############################################################################
+#channel_nameTMEUserID=name 
+#
+#For the Java API only, specifies the Tivoli administrator for the managed node. 
+#The required authorization role is user. This keyword is required when the 
+#Type keyword is set to TME. 
+###############################################################################
+#TME_ChannelTMEUserID=TmeUserName
+
+###############################################################################
+#UseStateCorrelation=YES | NO 
+#
+#Specifies if the API calls the state correlation engine. The default value is 
+#NO. If this keyword is set to YES, the BufferEvents and BufEvtPath keywords 
+#control state correlation. 
+#
+#This keyword is optional. 
+###############################################################################
+#UseStateCorrelation=NO]]></parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>className</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>work["event.type"]</Script>
+                            <Simple>event.type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>msg</Name>
+                            <Type>advanced</Type>
+                            <Script>work["event.rawNotification"]</Script>
+                            <Simple>msg</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>origin</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "TDI";</Script>
+                            <Simple>origin</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>msg</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>With_new_XML</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/With_new_XML.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="EventPropertyFile">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <UserComment/>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">examples/Tivoli_Monitoring/TDI_Monitored_By_Omnibus/EventPropertyFile.properties</parameter>
+                    <parameter name="collectionType">Default</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+
+  <!-- Manufacturer --> 
+  <class name="Manufacturer" table="MAXIMO.DPAMMANUVARIANT">
+  
+    <properties>     
+      <property name="Dpammanuvariantid" column="DPAMMANUVARIANTID" type="int" required="true" primary="true"/> 
+      <property name="Manufacturername" column="MANUFACTURERNAME" type="string" required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Manufacturervar" column="MANUFACTURERVAR" type="string" required="true" nativeType="VARGRAPHIC"/>        
+    </properties>  
+  
+    <additional_properties name="Manufacturer" table="MAXIMO.DPAMMANUFACTURER" 
+                           joinColumn="MANUFACTURERNAME" onProperty="Manufacturername">     
+      <property name="Manufacturerid" column="MANUFACTURERID" type="int" required="true"/>
+      <property name="Validated" column="VALIDATED" type="int" required="true"/>
+    </additional_properties>   
+    
+  </class>  
+
+  <!-- Adapter Variant --> 
+  <class name="AdapterVariant" table="MAXIMO.DPAMADPTVARIANT">
+  
+    <properties>    
+      <property name="Dpamadptvariantid" column="DPAMADPTVARIANTID" type="int" required="true" primary="true"/> 
+      <property name="Adaptername" column="ADAPTERNAME" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Adaptervariant" column="ADAPTERVARIANT" type="string" required="true" nativeType="VARGRAPHIC"/>
+    </properties>  
+    
+    <additional_properties name="Adapter" table="MAXIMO.DPAMADAPTER" joinColumn="ADAPTERNAME" onProperty="Adaptername">     
+      <property name="Adapterid" column="ADAPTERID" type="int" required="true"/>
+      <property name="Validated" column="VALIDATED" type="int" required="true"/>
+    </additional_properties>        
+    
+  </class>  
+
+  <!-- Operating System Variant --> 
+  <class name="OperatingSystemVariant" table="MAXIMO.DPAMOSVARIANT">
+  
+    <properties>     
+      <property name="Dpamosvariantid" column="DPAMOSVARIANTID" type="int" required="true" primary="true"/>
+      <property name="Osname" column="OSNAME" type="string" required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Osvariant" column="OSVARIANT" type="string" required="true" nativeType="VARGRAPHIC"/>
+    </properties>  
+    
+    <additional_properties name="Os" table="MAXIMO.DPAMOS" joinColumn="OSNAME" onProperty="Osname">     
+      <property name="Osid" column="OSID" type="int" required="true"/>
+      <property name="Validated" column="VALIDATED" type="int" required="true"/>
+    </additional_properties>        
+    
+  </class>  
+
+  <!-- Processor Variant --> 
+  <class name="ProcessorVariant" table="MAXIMO.DPAMPROCVARIANT">
+  
+    <properties>     
+      <property name="Dpamprocvariantid" column="DPAMPROCVARIANTID" type="int" required="true" primary="true"/>
+      <property name="Processorname" column="PROCESSORNAME" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Processorvar" column="PROCESSORVAR" type="string" required="true" nativeType="VARGRAPHIC"/>
+    </properties>  
+    
+    <additional_properties name="Processor" table="MAXIMO.DPAMPROCESSOR" joinColumn="PROCESSORNAME" onProperty="Processorname">     
+      <property name="Processorid" column="PROCESSORID" type="int" required="true"/>
+      <property name="Validated" column="VALIDATED" type="int" required="true"/>
+    </additional_properties>        
+    
+  </class>  
+
+  <!-- Deployed Asset -->
+  <class name="DeployedAsset" table="MAXIMO.DEPLOYEDASSET">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_NODEID"/>
+  
+    <properties>    
+      <property name="Nodeid" column="NODEID" type="int" required="true" primary="true"/>
+      
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>       
+      <property name="Assetclass" column="ASSETCLASS" type="string" required="true" unique="true" nativeType="VARGRAPHIC"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Domainname" column="DOMAINNAME" type="string" required="true" unique="true" nativeType="VARGRAPHIC"/>
+      <property name="Nodename" column="NODENAME" type="string" required="true" unique="true" nativeType="VARGRAPHIC"/>
+      <property name="Supportssnmp" column="SUPPORTSSNMP" type="int" required="true"/>
+      <property name="Hwdetectiontool" column="HWDETECTIONTOOL" type="string" required="true" nativeType="VARGRAPHIC"/>         
+      <property name="Guid" column="GUID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>   
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Hwlastscandate" column="HWLASTSCANDATE" type="timestamp"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Orgid" column="ORGID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Siteid" column="SITEID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Sourceid" column="SOURCEID" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Systemrole" column="SYSTEMROLE" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Nrsguid" column="TLOAMNRSGUID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrshostsystem" column="TLOAMNRSHOSTSYSTEM" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsmanagedsystemname" column="TLOAMNRSMANAGEDSYSTEMNAME" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsmanufacturer" column="TLOAMNRSMANUFACTURER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsmodel" column="TLOAMNRSMODEL" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsname" column="TLOAMNRSNAME" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsprimarymacaddress" column="TLOAMNRSPRIMARYMACADDRESS" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Nrsserialnumber" column="TLOAMNRSSERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrssignature" column="TLOAMNRSSIGNATURE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrssystemboarduuid" column="TLOAMNRSSYSTEMBOARDUUID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Nrsvmid" column="TLOAMNRSVMID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Tloamstatus" column="TLOAMSTATUS" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Tloamhash" column="TLOAMHASH" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Tloamhwtype" column="TLOAMHWTYPE" type="string" nativeType="VARGRAPHIC"/>
+    </properties>  
+   
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" maxOccurs="1" minOccurs="1" type="composition">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>
+  
+  </class>  
+  
+  <!-- Computer --> 
+  <class name="Computer" table="MAXIMO.DPACOMPUTER">
+  
+    <pkDefinition type="inherit" value="Nodeid"/>  
+  
+    <extends class="DeployedAsset">
+      <key column="NODEID" onProperty="Nodeid" reversePK="true"/>
+    </extends>     
+  
+    <properties>     
+      <property name="Nodeid" column="NODEID" type="int" required="true" primary="true"/>             
+      <property name="Smbios" column="SMBIOS" type="int" required="true"/>
+      <property name="Biospnp" column="BIOSPNP" type="int" required="true"/> 
+      <property name="Supportswmi" column="SUPPORTSWMI" type="int" required="true"/> 
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>       
+      <property name="Tloamparentid" column="TLOAMPARENTID" type="int"/>
+      <property name="Tloamplatformbase" column="TLOAMPLATFORMBASE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Mips" column="MIPS1" type="int"/>
+      <property name="Numcputotal" column="NUMCPUTOTAL1" type="int"/>
+      <property name="Numcpuconfig" column="NUMCPUCONFIG1" type="int"/>
+      <property name="Capacitymodel" column="CAPACITYMODEL1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Msus" column="MSUS1" type="int"/>
+      <property name="Plantcode" column="PLANTCODE1" type="string" nativeType="VARGRAPHIC"/>     
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Ramsize" column="RAMSIZE" type="double"/>
+      <property name="Mobodescription" column="MOBODESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Mobomanufacturer" column="MOBOMANUFACTURER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Mobomakemodel" column="MOBOMAKEMODEL" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Moboassettag" column="MOBOASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Moboserialnumber" column="MOBOSERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Biosdate" column="BIOSDATE" type="timestamp"/>  
+      <property name="Biosversion" column="BIOSVERSION" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Biosname" column="BIOSNAME" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Ramdescription" column="RAMDESCRIPTION" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Ramunusedslots" column="RAMUNUSEDSLOTS" type="int"/> 
+      <property name="Ramtotalslots" column="RAMTOTALSLOTS" type="int"/>     
+      <property name="Ramtype" column="RAMTYPE" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Mobochipset" column="MOBOCHIPSET" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Swdetectiontool" column="SWDETECTIONTOOL" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Swlastscandate" column="SWLASTSCANDATE" type="timestamp"/>  
+      <property name="Logonname" column="LOGONNAME" type="string" nativeType="VARGRAPHIC"/>
+      
+    </properties>    
+                
+    <references>
+    
+      <reference name="Communications" class="Communication" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true" >
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>
+      
+      <reference name="DPAAncestors" class="DPAAncestor" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>    
+      
+      <reference name="Displays" class="Display" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>                   
+      
+      <reference name="Files" class="File" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>         
+      
+      <reference name="IPX" class="IPX" maxOccurs="1" type="aggregation"
+                 minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>   
+      
+      <reference name="ImageDevices" class="ImageDevice" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>  
+      
+      <reference name="LogicalDrives" class="LogicalDrive" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>                     
+    
+      <reference name="MediaAdapters" class="MediaAdapter" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>  
+      
+      <reference name="NetworkAdapters" class="NetworkAdapter" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>  
+      
+      <reference name="OperatingSystems" class="OperatingSystem" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>        
+
+      <reference name="PVUDataList" class="PVUData" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>  
+      
+      <reference name="PhysicalDisks" class="PhysicalDisk" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>        
+      
+      <reference name="CPUList" class="Processor" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>              
+
+      <reference name="SoftwareList" class="Software" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>    
+
+      <reference name="TCPIPList" class="TCPIP" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>   
+                    
+      <reference name="Users" class="User" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>    
+      
+    </references>    
+    
+  </class>    
+  
+  <!-- Network device --> 
+  <class name="NetworkDevice" table="MAXIMO.DPANETDEVICE">
+  
+    <pkDefinition type="inherit" value="Nodeid"/>    
+  
+    <extends class="DeployedAsset">
+      <key column="NODEID" onProperty="Nodeid" reversePK="true"/>
+    </extends>    
+  
+    <properties>         
+      <property name="Nodeid" column="NODEID" type="int" required="true" primary="true"/>     
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>        
+      <property name="Description" column="DESCRIPTION1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Netsourceid" column="NETSOURCEID1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Ramsize" column="RAMSIZE" type="double"/>
+      <property name="Osversion" column="OSVERSION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Firmwareversion" column="FIRMWAREVERSION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Netmacaddr" column="NETMACADDR" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Networkaddress" column="NETWORKADDRESS" type="string" nativeType="VARGRAPHIC"/>
+         
+    </properties>    
+    
+    <references>
+    
+      <reference name="NetworkCards" class="NetworkCard" type="aggregation"
+                 maxOccurs="-1" minOccurs="0" reversePK="true">
+        <key column="NODEID" onProperty="Nodeid"/>
+      </reference>          
+      
+    </references>     
+    
+  </class>   
+  
+  <!-- Network printer --> 
+  <class name="NetworkPrinter" table="MAXIMO.DPANETPRINTER">
+  
+    <pkDefinition type="inherit" value="Nodeid"/>  
+  
+    <extends class="DeployedAsset">
+      <key column="NODEID" onProperty="Nodeid" reversePK="true"/>
+    </extends>    
+  
+    <properties>    
+      <property name="Nodeid" column="NODEID" type="int" required="true" primary="true"/>     
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>     
+      <property name="Colordepthbit" column="COLORDEPTHBIT" type="int"/>
+      <property name="Horizontaldpi" column="HORIZONTALDPI" type="int"/>
+      <property name="Maxlength" column="MAXLENGTH" type="double"/>
+      <property name="Maxram" column="MAXRAM" type="double"/>
+      <property name="Maxwidth" column="MAXWIDTH" type="double"/>
+      <property name="Netmacaddr" column="NETMACADDR" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Networkaddress" column="NETWORKADDRESS" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Numberoftrays" column="NUMBEROFTRAYS" type="int"/> 
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Sizeunit" column="SIZEUNIT" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Verticaldpi" column="VERTICALDPI" type="int"/>           
+    </properties>    
+    
+  </class>  
+  
+  <!-- Communication --> 
+  <class name="Communication" table="MAXIMO.DPACOMMDEVICE">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_DEVICEID"/>
+  
+    <properties>    
+      <property name="Deviceid" column="DEVICEID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>      
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/> 
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" required="true" nativeType="VARGRAPHIC"/>                  
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Bandwidth" column="BANDWIDTH" type="double"/>
+      <property name="Bandwidthunit" column="BANDWIDTHUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Devicename" column="DEVICENAME" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Devicetype" column="DEVICETYPE" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>   
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition"
+                 maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>    
+    
+  </class>    
+ 
+  <!-- DPA Ancestor --> 
+  <class name="DPAAncestor" table="MAXIMO.TLOAMDPAANCESTOR">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_TLOAMDPAANCESTORID"/>
+  
+    <properties>
+      <property name="Tloamdpaancestorid" column="TLOAMDPAANCESTORID" type="int" required="true" primary="true"/>              
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>        
+      <property name="Ancestor" column="ANCESTOR" type="int" required="true"/>
+      <property name="Hierarchylevels" column="HIERARCHYLEVELS" type="int" required="true"/>     
+    </properties>    
+    
+  </class>      
+  
+  <!-- Display --> 
+  <class name="Display" table="MAXIMO.DPADISPLAY">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_DISPLAYID"/>
+  
+    <properties>    
+      <property name="Displayid" column="DISPLAYID" type="int"  required="true" primary="true"/>       
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>            
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/> 
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>      
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>     
+      <property name="Colordepthbit" column="COLORDEPTHBIT" type="int"/>      
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Displaysize" column="DISPLAYSIZE" type="int"/>
+      <property name="Displaytype" column="DISPLAYTYPE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Maxhorzresolution" column="MAXHORZRESOLUTION" type="int"/> 
+      <property name="Maxvertresolution" column="MAXVERTRESOLUTION" type="int"/>      
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>        
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition"
+                 maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>  
+ 
+  <!-- File --> 
+  <class name="File" table="MAXIMO.DPAFILE">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_FILEID"/>
+  
+    <properties>    
+      <property name="Fileid" column="FILEID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>      
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Name" column="NAME" type="string" required="true" nativeType="VARGRAPHIC"/>       
+      <property name="Author" column="AUTHOR" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Extension" column="EXTENSION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Filecreatedate" column="FILECREATEDATE" type="timestamp"/>        
+      <property name="Filesize" column="FILESIZE" type="double"/>
+      <property name="Lastaccessdate" column="LASTACCESSDATE" type="timestamp"/> 
+      <property name="Lastaccessedby" column="LASTACCESSEDBY" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Lastchangedate" column="Lastchangedate" type="timestamp"/>       
+      <property name="Owner" column="OWNER" type="string" nativeType="VARGRAPHIC"/>  
+      <property name="Path" column="PATH" type="string" nativeType="VARGRAPHIC"/>   
+      <property name="Sizeunit" column="SIZEUNIT" type="string" nativeType="VARGRAPHIC"/>   
+      <property name="Volume" column="VOLUME" type="string" nativeType="VARGRAPHIC"/>         
+    </properties>    
+    
+  </class>  
+ 
+  <!-- IPX --> 
+  <class name="IPX" table="MAXIMO.DPAIPX">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_IPXID"/>
+  
+    <properties> 
+      <property name="Ipxid" column="IPXID" type="int"  required="true" primary="true"/>          
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>          
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Ipxaddress" column="IPXADDRESS" type="string"  required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Maxpacketsize" column="MAXPACKETSIZE" type="int"/>
+      <property name="Linkspeed" column="LINKSPEED" type="int"/>
+      <property name="Networknumber" column="NETWORKNUMBER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Frametype" column="FRAMETYPE" type="string" nativeType="VARGRAPHIC"/>             
+    </properties>    
+    
+  </class>  
+  
+  <!-- Image Device --> 
+  <class name="ImageDevice" table="MAXIMO.DPAIMAGEDEVICE">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_IMAGEDEVICEID"/>
+  
+    <properties>
+      <property name="Deviceid" column="DEVICEID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>            
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Copycapable" column="COPYCAPABLE" type="int"  required="true"/>
+      <property name="Faxcapable" column="FAXCAPABLE" type="int" required="true"/>
+      <property name="Printcapable" column="PRINTCAPABLE" type="int" required="true"/>
+      <property name="Scancapable" column="SCANCAPABLE" type="int"  required="true"/>               
+      <property name="Alias" column="ALIAS" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Colordepthbit" column="COLORDEPTHBIT" type="int"/>      
+      <property name="Currentram" column="CURRENTRAM" type="double"/>
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Devicetype" column="DEVICETYPE" type="string" nativeType="VARGRAPHIC"/>         
+      <property name="Horizontaldpi" column="HORIZONTALDPI" type="int"/>
+      <property name="Interface" column="INTERFACE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Maxlength" column="MAXLENGTH" type="double"/>
+      <property name="Maxram" column="MAXRAM" type="double"/>
+      <property name="Maxwidth" column="MAXWIDTH" type="double"/>
+      <property name="Name" column="NAME" type="string" nativeType="VARGRAPHIC"/>         
+      <property name="Numberoftrays" column="NUMBEROFTRAYS" type="int"/>        
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Sizeunit" column="SIZEUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Verticaldpi" column="VERTICALDPI" type="int"/>             
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>    
+  
+  <!-- Logical Drive --> 
+  <class name="LogicalDrive" table="MAXIMO.DPALOGICALDRIVE">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_LOGICALDRIVEID"/>  
+  
+    <properties>    
+      <property name="Logicaldriveid" column="LOGICALDRIVEID" type="int" required="true" primary="true"/>      
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>    
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>      
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/> 
+      <property name="Compressed" column="COMPRESSED" type="int" required="true"/>
+      <property name="Encrypted" column="ENCRYPTED" type="int" required="true"/>       
+      <property name="Attachednetname" column="ATTACHEDNETNAME" type="string" nativeType="VARGRAPHIC"/>  
+      <property name="Availablesize" column="AVAILABLESIZE" type="double"/> 
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Drivetype" column="DRIVETYPE" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Filesystem" column="FILESYSTEM" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Mount" column="MOUNT" type="string" nativeType="VARGRAPHIC"/>         
+      <property name="Sizeunit" column="SIZEUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Totalsize" column="TOTALSIZE" type="double"/>
+      <property name="Volumelabel" column="VOLUMELABEL" type="string" nativeType="VARGRAPHIC"/>      
+    </properties>    
+    
+  </class>    
+  
+  <!-- Media Adapter --> 
+  <class name="MediaAdapter" table="MAXIMO.DPAMEDIAADAPTER">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_ADAPTERID"/>   
+  
+    <properties>    
+      <property name="Adapterid" column="ADAPTERID" type="int" required="true" primary="true"/>       
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>            
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>          
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Bustype" column="BUSTYPE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Chipset" column="CHIPSET" type="string" nativeType="VARGRAPHIC"/>  
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>             
+      <property name="Mediatype" column="MEDIATYPE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Memorytype" column="MEMORYTYPE" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Ramsize" column="RAMSIZE" type="double"/>
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>       
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition"
+                 maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>  
+  
+  <!-- Network Adapter --> 
+  <class name="NetworkAdapter" table="MAXIMO.DPANETADAPTER">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_NETADAPTERID"/>     
+  
+    <properties>    
+      <property name="Adapterid" column="ADAPTERID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>            
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/> 
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>        
+      <property name="Adaptertype" column="ADAPTERTYPE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Bandwidth" column="BANDWIDTH" type="double"/>
+      <property name="Bandwidthunit" column="BANDWIDTHUNIT" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Chipset" column="CHIPSET" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Firmwareversion" column="FIRMWAREVERSION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>            
+      <property name="Netmacaddr1" column="NETMACADDR1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Netmacaddr2" column="NETMACADDR2" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Port" column="PORT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Protocol" column="PROTOCOL" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>       
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" 
+                 maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>    
+  
+  <!-- Operating System --> 
+  <class name="OperatingSystem" table="MAXIMO.DPAOS">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_OSID"/>   
+  
+    <properties>    
+      <property name="Osid" column="OSID" type="int" required="true" primary="true"/>          
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>             
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/> 
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>         
+      <property name="Build" column="BUILD" type="int"/>      
+      <property name="Characterset" column="CHARACTERSET1" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Language" column="LANGUAGE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Licensedorg" column="LICENSEDORG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Licenseduser" column="LICENSEDUSER" type="string" nativeType="VARGRAPHIC"/>            
+      <property name="Name" column="NAME" type="string" required="true" nativeType="VARGRAPHIC"/>       
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Servicepack" column="SERVICEPACK" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Version" column="VERSION" type="string" nativeType="VARGRAPHIC"/>       
+    </properties>    
+    
+    <references>
+    
+      <reference name="manufacturer-info" class="Manufacturer" type="composition"
+                 maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+
+      <reference name="osvariant" class="OperatingSystemVariant" type="composition"
+                 maxOccurs="1" minOccurs="1">
+        <key column="OSNAME" onProperty="Name"/>
+      </reference>
+      
+    </references> 
+    
+  </class>      
+  
+  <!-- PVU Data --> 
+  <class name="PVUData" table="MAXIMO.TLOAMDPAHWM">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_TLOAMDPAHWMID"/>   
+  
+    <properties>    
+      <property name="Tloamdpahwmid" column="TLOAMDPAHWMID" type="int" required="true" primary="true"/>      
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>        
+      <property name="Enddate" column="ENDDATE" type="timestamp" required="true"/>
+      <property name="Hwmvufull" column="HWMVUFULL" type="int" required="true"/>
+      <property name="Hwmvusub" column="HWMVUSUB" type="int" required="true"/>
+      <property name="Startdate" column="STARTDATE" type="timestamp" required="true"/>
+      <property name="Tloamsoftwareid" column="TLOAMSOFTWAREID" type="int" required="true"/>        
+      <property name="Hwmcoresfull" column="HWMCORESFULL" type="int"/>
+      <property name="Hwmcoressub" column="HWMCORESSUB" type="int"/>
+      <property name="Hwmmsu" column="HWMMSU" type="int"/>      
+      <property name="Lastmodified" column="LASTMODIFIED" type="timestamp"/>           
+    </properties>    
+    
+    <references>
+      <reference name="softwareProduct" class="SoftwareProduct" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="TLOAMSOFTWAREID" onProperty="Tloamsoftwareid"/>
+      </reference>
+    </references>     
+    
+  </class>     
+  
+  <!-- Physical Disk --> 
+  <class name="PhysicalDisk" table="MAXIMO.DPADISK">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_DISKID"/>  
+  
+    <properties>
+      <property name="Diskid" column="DISKID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>             
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>  
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>  
+      <property name="Externaldevice" column="EXTERNALDEVICE" type="int" required="true"/> 
+      <property name="Hotswappable" column="HOTSWAPPABLE" type="int" required="true"/>
+      <property name="Removablemedia" column="REMOVABLEMEDIA" type="int" required="true"/>
+      <property name="Writecapable" column="WRITECAPABLE" type="int" required="true"/>             
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Diskinterface" column="DISKINTERFACE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Disktype" column="DISKTYPE" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Sizeunit" column="SIZEUNIT" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Systemname" column="SYSTEMNAME" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Totalspace" column="TOTALSPACE" type="double"/>              
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>     
+  
+  <!-- Processor --> 
+  <class name="Processor" table="MAXIMO.DPACPU">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_CPUID"/>  
+  
+    <properties>    
+      <property name="Cpuid" column="CPUID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>         
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>   
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>        
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Currspeed" column="CURRSPEED" type="double"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Maxspeed" column="MAXSPEED" type="double"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Speedunit" column="SPEEDUNIT" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Tloamcputype" column="TLOAMCPUTYPE" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Tloamfamily" column="TLOAMFAMILY" type="string" nativeType="VARGRAPHIC"/>   
+    </properties>    
+    
+    <references>
+    
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+
+      <reference name="CPUVariant" class="ProcessorVariant" type="composition" maxOccurs="1" minOccurs="0">
+        <key column="PROCESSORVAR" onProperty="Makemodel"/>
+      </reference>
+      
+    </references>      
+    
+  </class>     
+
+  <!-- Software --> 
+  <class name="Software" table="MAXIMO.DPASOFTWARE">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_SOFTWAREID"/>  
+  
+    <properties>
+      <property name="Softwareid" column="SOFTWAREID" type="int" required="true" primary="true"/>       
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>              
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>         
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Softwarename" column="SOFTWARENAME" type="string" required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Firstencountered" column="FIRSTENCOUNTERED1" type="timestamp"/>
+      <property name="Installdate" column="INSTALLDATE" type="timestamp"/>
+      <property name="Installpath" column="INSTALLPATH" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Language" column="LANGUAGE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Lastencountered" column="LASTENCOUNTERED1" type="timestamp"/>
+      <property name="Lastusagedate" column="LASTUSAGEDATE" type="timestamp"/>
+      <property name="Licensedorg" column="LICENSEDORG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Licenseduser" column="LICENSEDUSER" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Productid" column="PRODUCTID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>     
+      <property name="Suiteid" column="SUITEID" type="int"/>   
+      <property name="Tloamproductid" column="TLOAMPRODUCTID" type="int"/> 
+      <property name="Tloamsoftwareid" column="TLOAMSOFTWAREID" type="int"/> 
+      <property name="Tloamuninstdate" column="TLOAMUNINSTDATE" type="timestamp"/> 
+      <property name="Type" column="TYPE" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Usagecount" column="USAGECOUNT" type="int"/> 
+      <property name="Version" column="VERSION" type="string" nativeType="VARGRAPHIC"/> 
+    </properties>    
+    
+    <references>
+    
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+
+      <reference name="parentProduct" class="SoftwareProduct" type="composition" maxOccurs="1" minOccurs="0">
+        <key column="TLOAMSOFTWAREID" onProperty="Tloamproductid"/>
+      </reference>
+
+      <reference name="softwareProduct" class="SoftwareProduct" type="composition" maxOccurs="1" minOccurs="0">
+        <key column="TLOAMSOFTWAREID" onProperty="Tloamsoftwareid"/>
+      </reference>
+      
+    </references>                
+    
+  </class>   
+  
+  <!-- TCP/IP --> 
+  <class name="TCPIP" table="MAXIMO.DPATCPIP">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_TCPIPID"/> 
+  
+    <properties>
+      <property name="Tcpipid" column="TCPIPID" type="int" required="true" primary="true"/>           
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>            
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>
+      <property name="Tcpipaddress" column="TCPIPADDRESS" type="string" required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Dhcpserver" column="DHCPSERVER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Dnsserver1" column="DNSSERVER1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Dnsserver2" column="DNSSERVER2" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Dnsserver3" column="DNSSERVER3" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Gateway" column="GATEWAY" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Host" column="HOST" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Primarywins" column="PRIMARYWINS" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Secondarywins" column="SECONDARYWINS" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Tcpipdomain" column="TCPIPDOMAIN" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Tcpipnetmask" column="TCPIPNETMASK" type="string" nativeType="VARGRAPHIC"/>
+     </properties>  
+    
+  </class>  
+
+  <!-- User --> 
+  <class name="User" table="MAXIMO.DPAUSERINFO">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_PERSONID"/>
+  
+    <properties>    
+      <property name="Personid" column="PERSONID" type="string" required="true" primary="true" nativeType="VARGRAPHIC"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>          
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>    
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Building" column="BUILDING" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Department" column="DEPARTMENT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Facility" column="FACILITY" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Firstname" column="FIRSTNAME" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Floor" column="FLOOR" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Glaccount" column="GLACCOUNT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Jobtitle" column="JOBTITLE" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Lastname" column="LASTNAME" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Personnelnumber" column="PERSONNELNUMBER" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Room" column="ROOM" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Workemail" column="WORKEMAIL" type="string" nativeType="VARGRAPHIC"/>   
+      <property name="Workphone" column="WORKPHONE" type="string" nativeType="VARGRAPHIC"/>  
+     </properties> 
+           
+  </class> 
+
+  <!-- Network Card --> 
+  <class name="NetworkCard" table="MAXIMO.DPANETDEVCARD">
+  
+    <pkDefinition type="sql" value="SELECT_NEXT_CARDID"/>
+  
+    <properties>    
+      <property name="Cardid" column="CARDID" type="int" required="true" primary="true"/>        
+      <property name="Nodeid" column="NODEID" type="int" required="true"/>             
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>  
+      <property name="Changedate" column="CHANGEDATE" type="timestamp" required="true"/>
+      <property name="Createdate" column="CREATEDATE" type="timestamp" required="true"/>            
+      <property name="Assettag" column="ASSETTAG" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Bandwidth" column="BANDWIDTH" type="double"/>
+      <property name="Bandwidthunit" column="BANDWIDTHUNIT" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Chipset" column="CHIPSET" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Firmwareversion" column="FIRMWAREVERSION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Makemodel" column="MAKEMODEL" type="string" nativeType="VARGRAPHIC"/>           
+      <property name="Netmacaddr" column="NETMACADDR" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Networkaddress" column="NETWORKADDRESS" type="string" nativeType="VARGRAPHIC"/>       
+      <property name="Ramsize" column="RAMSIZE" type="double"/>
+      <property name="Ramunit" column="RAMUNIT" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Sourceid" column="SOURCEID1" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Serialnumber" column="SERIALNUMBER" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Type" column="TYPE" type="string" nativeType="VARGRAPHIC"/>    
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>   
+
+  <!-- Software Product --> 
+  <class name="SoftwareProduct" table="MAXIMO.TLOAMSOFTWARE">
+  
+    <properties>
+      <property name="Tloamsoftwareid" column="TLOAMSOFTWAREID" type="int" required="true" primary="true"/>       
+      <property name="Manufacturer" column="MANUFACTURER" type="string" required="true" nativeType="VARGRAPHIC"/>        
+      <property name="Isdeleted" column="ISDELETED" type="int" required="true"/>
+      <property name="Isipla" column="ISIPLA" type="int" required="true"/>
+      <property name="Ispvu" column="ISPVU" type="int" required="true"/>
+      <property name="Isreviewed" column="ISREVIEWED" type="int" required="true"/>
+      <property name="Issubcap" column="ISSUBCAP" type="int" required="true"/>      
+      <property name="Role" column="ROLE" type="string" required="true" nativeType="VARGRAPHIC"/>
+      <property name="Uniqueid" column="UNIQUEID" type="string" required="true" nativeType="VARGRAPHIC"/>                 
+      <property name="Deletedate" column="DELETEDATE" type="timestamp"/>         
+      <property name="Catalogsourceid" column="CATALOGSOURCEID" type="int"/>      
+      <property name="Description" column="DESCRIPTION" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Externalid" column="EXTERNALID" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Func" column="FUNC" type="string" nativeType="VARGRAPHIC"/>             
+      <property name="Parent" column="PARENT" type="int"/>
+      <property name="Platformbase" column="PLATFORMBASE" type="string" nativeType="VARGRAPHIC"/>
+      <property name="Productid" column="PRODUCTID" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Release" column="RELEASE" type="string" nativeType="VARGRAPHIC"/>      
+      <property name="Swname" column="SWNAME" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Type" column="TYPE" type="string" nativeType="VARGRAPHIC"/>        
+      <property name="Vulexhibitid" column="VULEXHIBITID" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Url" column="URL" type="string" nativeType="VARGRAPHIC"/> 
+      <property name="Version" column="VERSION" type="string" nativeType="VARGRAPHIC"/> 
+    </properties>    
+    
+    <references>
+      <reference name="manufacturer-info" class="Manufacturer" type="composition" maxOccurs="1" minOccurs="1">
+        <key column="MANUFACTURERVAR" onProperty="Manufacturer"/>
+      </reference>
+    </references>      
+    
+  </class>  
+  
+</schema>

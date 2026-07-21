@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Parsers">
+		<Parser name="ibmdi.DSML">
+			<parameter name="class">com.ibm.di.parser.DSMLParser</parameter>
+			<parameter name="characterSet">UTF-8</parameter>
+			<parameter name="description">PAR_DESC</parameter>
+			<parameter name="dnattribute">$dn</parameter>
+			<parameter name="prefix">dsml</parameter>
+			<parameter name="uri">http://www.dsml.org/DSML</parameter>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>objectclass</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>objectclass</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Parser>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.parser.DSMLParser">
+			<TranslationFile>NLS/idi_par_dsml</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>dnattribute</ListItem>
+					<ListItem>prefix</ListItem>
+					<ListItem>uri</ListItem>
+					<ListItem>$GLOBAL.omitxmldeclaration</ListItem>
+					<ListItem>$GLOBAL.isvalidating</ListItem>
+					<ListItem>$GLOBAL.isnamespaceaware</ListItem>
+					<ListItem>characterSet</ListItem>
+			</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>dnattribute</ListItem>
+				<ListItem>prefix</ListItem>
+				<ListItem>uri</ListItem>
+				<ListItem>$GLOBAL.omitxmldeclaration</ListItem>
+				<ListItem>$GLOBAL.isvalidating</ListItem>
+				<ListItem>$GLOBAL.isnamespaceaware</ListItem>
+				<ListItem>characterSet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="characterSet">
+				<parameter name="description">set_desc</parameter>
+				<parameter name="label">set_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="dnattribute">
+				<parameter name="description">att_desc</parameter>
+				<parameter name="label">att_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="prefix">
+				<parameter name="description">fix_desc</parameter>
+				<parameter name="label">fix_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="uri">
+				<parameter name="description">uri_desc</parameter>
+				<parameter name="label">uri_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<parameter name="title">PAR_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

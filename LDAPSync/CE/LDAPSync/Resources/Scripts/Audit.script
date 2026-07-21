@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="134" UUID="1327f321-2fcb-468b-aaa1-219c29fcf113" created="Fri Apr 17 11:54:46 CEST 2015" createdBy="Administrator" main="Audit" modified="Mon Dec 07 12:29:23 CET 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Audit">
+        <ModTime>1449487755273</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[audit = {
+	auditFileName : null,
+	oldFilesRolled : false,
+	isEnabled : null,
+	
+	enabled : function() {
+		if (this.isEnabled == null) {
+			this.isEnabled = !"false".equalsIgnoreCase(getProperty("audit.enabled"));
+		}
+		
+		return this.isEnabled;
+	},
+	
+	log : function(flowKey, simEntry, sourceDN, targetDN, targetRDNatt) {
+		if (!this.enabled() || simEntry == null) {
+			return;
+		}
+		
+		try {
+			var logEntry = this.makeLogEntry(simEntry, sourceDN, targetDN, targetRDNatt);
+			var auditFile;
+			
+			// If not already set, then prepare the audit file name
+			if (this.auditFileName == null) {
+				this.auditFileName = "LDAPSync/logs/" + flowKey + "_audit.log";
+			}
+			
+			// If Incrementall Sync (isSync) then append, otherwise roll the old file and create new			
+			if (isSync || this.oldFilesRolled) {
+				auditFile = openOutputFile(this.auditFileName, _appendToFile);
+			} else {
+				this.rollAuditFile();
+				auditFile = openOutputFile(this.auditFileName);
+			}
+
+			auditFile.write(toJson(logEntry));
+			auditFile.newLine();
+		} catch (ex) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.WRITING.AUDIT.LOG")
+						+ " - " + ex);
+		}
+		
+		// close the file
+		try {
+			auditFile.close();
+		} catch (ex) {
+			// do nothing
+		}
+	},
+	
+	rollAuditFile : function() {
+		var file;
+		var filename;
+		if (this.oldFilesRolled) {
+			return;
+		}
+		
+		this.oldFilesRolled = true;
+		
+		try {
+			for (var i = 9; i > 0; i--) {
+				filename = this.auditFileName + "." + i;
+				file = new java.io.File(filename);
+				if (file.exists()) {
+					if (i == 9) {
+						system.deleteFile(filename);
+					} else {
+						system.renameFile(filename, this.auditFileName + "." + (i+1));
+					}
+				}	
+			}
+			
+			system.renameFile(this.auditFileName, this.auditFileName + ".1");
+		} catch (ex) {
+			logmsg("ERROR", "Error rolling old audit log file: " + filename);
+		}	
+	},
+	
+	makeLogEntry : function(simEntry, sourceDN, targetDN, targetRDNatt) {
+		var changelist = [];
+		var targetRDNatt = targetRDNatt.toLowerCase();
+		var ids = {
+			targetDN : targetDN,
+			sourceDN : sourceDN
+		};
+		var auditLogEntry = null;
+		
+		for (var att in simEntry) {
+			var attOp = att.getOperation();
+			var attName = att.getName().toLowerCase();
+			var attValue = att.getValue();
+			if (attName.toLowerCase().indexOf("password") >= 0) {
+				value = "********";
+			} else
+			if ("adobjectguidstr".equals(attName)) {
+				if (attValue != null && attValue.trim() != "") {
+					ids.sourceGUID = att.getValue();
+				}
+				continue;
+			} else
+			if ("addn".equals(attName)) {
+				continue;
+			} else
+			if (targetRDNatt.equals(attName)) {
+				ids.targetRDN = attValue;
+				continue;
+			} else
+			if ("uid".equals(attName)) {
+				if (attValue != null && attValue.trim() != "") {
+					ids.targetId = att.getValue();
+				}
+				continue;
+			} else
+			if ("unchanged".equals(attOp)) {
+				continue;
+			} else
+			if ("modify".equals(attOp)) {
+				var value = []
+				for (i = 0; i < att.size(); i++) {
+					valOp = att.getValueOperation(i);
+					value.push({
+							value : String(att.getValue(i)),
+							operation : valOp ? valOp : "replace"
+						})
+				}
+			} else 
+			if (att.size() > 1) {
+				value = [];
+				for (i = 0; i < att.size(); i++) {
+					value.push({
+							index : i,
+							value : String(att.getValue(i))
+						})
+				}
+			} else 	{
+				value = att.getValue(0);
+				if (value !== null) {
+					value = value.toString();
+				}
+			}
+			
+			auditAtt = {
+				name : att.getName(),
+				operation : att.getOperation(),
+				value : value == null ? "" : value
+			}	
+			
+			changelist.push(auditAtt);
+		}
+			
+		auditLogEntry = {
+			identifers : ids,
+			operation: op
+		}
+		
+		if (changelist.length == 0) {
+			auditLogEntry.operation = "modrdn/moddn";
+		} else {
+			auditLogEntry.changes = changelist;
+		}	
+		
+		auditLogEntry.when = system.formatDate(new java.util.Date(), "yyyyMMdd' 'HHmmss.SSSZ");
+		return auditLogEntry;
+	}	
+	
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

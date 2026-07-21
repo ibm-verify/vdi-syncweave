@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="disbconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDII101I" prefix="yes">
+   <MsgText pgmKey="MESSAGE.RECIEVED.FROM.TOPIC" varFormat="Java">
+   Message received from topic: <Variable formatSpec="{0}">message</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDII102E" prefix="yes">
+   <MsgText pgmKey="UNABLE.TO.PARSE.THE.JSON.MESSAGE" varFormat="Java">
+   Exception occurred while parsing the JSON Data. <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the JSON syntax is incorrect or the JSON format is incorrect.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check for the JSON message syntax. Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDII103I" prefix="yes">
+   <MsgText pgmKey="DISB.CONN.PARAMETER.INITIALIZED" varFormat="Java">
+   The parameter <Variable formatSpec="{0}">param name</Variable> was initialized with the value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDII104E" prefix="yes">
+   <MsgText pgmKey="UNABLE.TO.GET.THE.OPSET.CONTENTS" varFormat="Java">
+   Exception occurred while obtaining the OpSet <Variable formatSpec="{0}">opSet name</Variable>objects from the JSON Message. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the JSON message format does not contain the Operation set contents like the CI or the relationships.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check for the contents of the JSON message.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDII105I" prefix="yes">
+   <MsgText pgmKey="JMS.PROPERTIES.OF.JSON.PAYLOAD.MISSING" varFormat="Java">
+   Missing JMS Properties. The Payload does not contain the JMS properties. 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDII106E" prefix="yes">
+   <MsgText pgmKey="INVALID.JSON.MESSAGE" varFormat="Java">
+   Invalid JSON Message on the <Variable formatSpec="{0}">Topic name</Variable>. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the JSON message received from the Topic specified in the error message is not of the required format as specified by DIS.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check for the contents of the JSON message.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDII107E" prefix="yes">
+   <MsgText pgmKey="INSUFFICIENT.DATA.TO.PROCEED" varFormat="Java">
+   Insufficient data. Please check for the required parameters <Variable formatSpec="{0}">requiredParam</Variable>. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if there is insufficient data that is required to push the message to DIS Queue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check for the contents that needs to be passed to the queue. The required data is the JMS message in JSON format and the JMS Properties.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDII108E" prefix="yes">
+   <MsgText pgmKey="IDML.DATA.FAILED.CERTIFICATION" varFormat="Java">   
+   The IBM DL Certification Tool assessed the IDML data and found it to be invalid.
+   </MsgText>
+   <Explanation><p>
+   The DISB connector can be configured to validate the provided IdML. If it fails the validation the user is
+   notified with this message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the IDML provided is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDII109I" prefix="yes">
+   <MsgText pgmKey="JMS.PROPERTIES.OF.IDML.PAYLOAD.MISSING" varFormat="Java">
+   Missing JMS Properties. The Payload does not contain the JMS properties. <Variable formatSpec="{0}">property</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

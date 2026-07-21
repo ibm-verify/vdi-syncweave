@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.AssemblyLineFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.AssemblyLineFC</parameter>
+				<parameter name="assemblyLine"/>
+				<parameter name="config"/>
+				<parameter name="customSecurity">false</parameter>
+				<parameter name="defaultAttribute">value</parameter>
+				<parameter name="mode">0</parameter>
+				<parameter name="operation"/>
+				<parameter name="operationInit"/>
+				<parameter name="server"/>
+				<parameter name="shareLog">false</parameter>
+				<parameter name="simulate.mode">false</parameter>
+				<parameter name="useTCBAttributes">false</parameter>
+			</Configuration>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.AssemblyLineFC">
+			<TranslationFile>NLS/idi_fc_assemblylinefc</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>assemblyLine</ListItem>
+					<ListItem>operationInit</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>shareLog</ListItem>
+					<ListItem>mode</ListItem>
+					<ListItem>operation</ListItem>
+					<ListItem>server</ListItem>
+					<ListItem>config</ListItem>
+					<ListItem>customSecurity</ListItem>
+					<ListItem>useTCBAttributes</ListItem>
+					<ListItem>simulate.mode</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>assemblyLine</ListItem>
+				<ListItem>server</ListItem>
+				<ListItem>config</ListItem>
+				<ListItem>mode</ListItem>
+				<ListItem>customSecurity</ListItem>
+				<ListItem>useTCBAttributes</ListItem>
+				<ListItem>simulate.mode</ListItem>
+				<ListItem>shareLog</ListItem>
+				<ListItem>operation</ListItem>
+				<ListItem>operationInit</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="assemblyLine">
+				<parameter name="description">ALFC_AL_DESC</parameter>
+				<parameter name="label">ALFC_AL_LAB</parameter>
+				<parameter name="script">queryServer</parameter>
+				<parameter name="scriptLabel">ALFC_AL_SC_LAB</parameter>
+				<parameter name="scripthelp">ALFC_AL_SC_HELP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="config">
+				<parameter name="description">ALFC_CONFIG_DESC</parameter>
+				<parameter name="label">ALFC_CONFIG_LAB</parameter>
+				<parameter name="script">queryConfig</parameter>
+				<parameter name="scriptLabel">ALFC_CONFIG_SC_LAB</parameter>
+				<parameter name="scripthelp">ALFC_CONFIG_SC_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="customSecurity">
+				<parameter name="description">CUSTOM_SEC_DESC</parameter>
+				<parameter name="label">CUSTOM_SEC_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="mode">
+				<Values>
+					<ListItem>ALFC_MODE_0</ListItem>
+					<ListItem>ALFC_MODE_1</ListItem>
+					<ListItem>ALFC_MODE_2</ListItem>
+				</Values>
+				<parameter name="description">ALFC_MODE_DESC</parameter>
+				<parameter name="indexbased">true</parameter>
+				<parameter name="label">ALFC_MODE_LAB</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="operation">
+				<parameter name="description">OPERATION_DESC</parameter>
+				<parameter name="label">OPERATION_LABEL</parameter>
+				<parameter name="script">queryOperation</parameter>
+				<parameter name="scriptLabel">OPERATION_SC_LABEL</parameter>
+				<parameter name="scripthelp">OPERATION_SC_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="operationInit">
+				<parameter name="component">com.ibm.tdi.eclipse.custom.ALFC</parameter>
+				<parameter name="description">OPERATION_INIT_DESC</parameter>
+				<parameter name="label">OPERATION_INIT_LABEL</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="usehyperlabel">false</parameter>
+			</FormItem>
+			<FormItem name="server">
+				<parameter name="description">ALFC_SERVER_DESC</parameter>
+				<parameter name="label">ALFC_SERVER_LAB</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="shareLog">
+				<parameter name="description">SHARE_LOG_DESC</parameter>
+				<parameter name="label">SHARE_LOG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="simulate.mode">
+				<parameter name="description">SIMULATE_DESC</parameter>
+				<parameter name="label">SIMULATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useTCBAttributes">
+				<parameter name="description">USE_TCB_DESC</parameter>
+				<parameter name="label">USE_TCB_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function operation_changed() {
+	assemblyLine_changed();
+}
+
+function assemblyLine_changed() {
+	var name = form.getConfig("assemblyLine");
+	if (name != null && name.contains("/Sequences/")) {
+		form.getControl("operation").setEnabled(false);
+		form.getControl("operationInit").setEnabled(false);
+	} else {
+		form.getControl("operation").setEnabled(true);
+		form.getControl("operationInit").setEnabled(true);
+		cfg = com.ibm.tdi.eclipse.custom.ALFC.getInitSchema(config, form);
+		if ( cfg != null ) {
+			ui = form.getControl("operationInit");
+			ui.updateSchema(cfg);
+		}
+	}
+}
+
+function queryServer() {
+	var str = com.ibm.tdi.eclipse.custom.ALFC.selectAL(config, form, true);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function queryConfig() {
+	var str = com.ibm.tdi.eclipse.custom.ALFC.selectConfig(config, form);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function queryOperation() {
+	str = com.ibm.tdi.eclipse.custom.ALFC.selectOperation(config, form);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function server_changed() {
+	var val = form.getConfig ( "server" );
+	var enable = ( val == null || val.equals("") || val.equalsIgnoreCase ("local") );
+	form.getControl ("shareLog").setEnabled (enable);
+}
+
+assemblyLine_changed();
+server_changed();
+]]></parameter>
+			<parameter name="title">ASSEMBLYLINEFC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

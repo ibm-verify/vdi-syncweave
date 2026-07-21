@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api">
+
+    <complexType name="statistics">
+    	<sequence>
+    		<element name="add" type="int"></element>
+    		<element name="mod" type="int"></element>
+    		<element name="del" type="int"></element>
+    		<element name="get" type="int"></element>
+    		<element name="request" type="int"></element>
+    		<element name="callReply" type="int"></element>
+    		<element name="err" type="int"></element>
+    		<element name="skip" type="int"></element>
+    		<element name="lookup" type="int"></element>
+    		<element name="ignore" type="int"></element>
+    		<element name="reconnect" type="int"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="tombstone">
+    	<sequence>
+    		<element name="component" type="string"></element>
+    		<element name="configuration" type="string"></element>
+		    <element name="errorDescription" type="string"></element>
+		    <element name="exitCode" type="int"></element>
+		    <element name="guuid" type="string"></element>
+		    <element name="started" type="date"></element>
+		    <element name="terminated" type="date"></element>
+		    <element name="userMessage" type="string"></element>
+		    <element name="statistics" type="tns:statistics"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="tombstone" type="tns:tombstone"></element>
+
+    <complexType name="tombstones">
+    	<sequence>
+    		<element ref="tns:tombstone" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+</schema>

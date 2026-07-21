@@ -1,0 +1,112 @@
+#!/bin/sh
+
+#
+# IBM Confidential
+# PID 5724-K74
+#
+# Copyright IBM Corp. 2003, 2025
+#
+
+#################################################################
+# Start up script for IBM Security Verify Directory Integrator
+#################################################################
+
+# Function to source in the SDI setupCmdLine.sh script
+setupTDIEnv ()
+{
+. "$TEMP_BIN_DIR/setupCmdLine.sh"
+}
+
+UNAME_OS=`uname`
+
+#
+# CMDFINDER holds the command which is used to find other commands
+# depending on the platform.
+#
+CMDFINDER=which
+
+if [ "$UNAME_OS" = "OS/390" -o "$UNAME_OS" = "OS400" ] ; then
+	NO_USE=`hash which 2>/dev/null` 
+	if [ $? -eq 1 ] ; then
+		CMDFINDER=whence
+	else
+		CMDFINDER=which
+	fi
+fi
+
+TEMP_BIN_DIR=`$CMDFINDER $0`
+TEMP_BIN_DIR=`dirname $TEMP_BIN_DIR`
+TEMP_BIN_DIR="$TEMP_BIN_DIR/bin"
+
+SKIP_ISCDIR_SETUP=1
+setupTDIEnv "$TEMP_BIN_DIR"
+
+PATH="$TDI_HOME_DIR:$TDI_JAVA_BIN_DIR:$PATH"
+export PATH
+
+#
+# -s overrides TDI_SOLDIR env
+#
+solnext=0
+for s
+do
+	case $s in
+		-s)  solnext=1;;
+		-s*) TDI_SOLDIR="`echo $s | cut -c3-`";;
+		-*)  solnext=0;;
+		*)   if [ $solnext -eq 1 ]; then
+			   TDI_SOLDIR=$s
+			   solnext=0
+			 fi;;
+	esac
+done
+
+# Create the solution directory if it does not exist
+if [ ! -d "$TDI_SOLDIR" ]; then
+	mkdir "$TDI_SOLDIR";
+fi
+
+# Move to the Solution Directory
+cd "$TDI_SOLDIR"
+
+# Create the logs directory if it does not exist
+if [ ! -d "logs" ]; then
+	mkdir logs;
+fi
+
+# Set the library path so all shared libraries are found.
+if [ $UNAME_OS = "Linux" -o $UNAME_OS = "SunOS" ] ; then
+	LD_LIBRARY_PATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$LD_LIBRARY_PATH"
+	export LD_LIBRARY_PATH
+elif [ $UNAME_OS = "HP-UX" ] ; then
+	SHLIB_PATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$SHLIB_PATH"
+	export SHLIB_PATH
+else
+	LIBPATH="$TDI_SOLDIR/libs:$TDI_LIB_DIR:$LIBPATH"
+	export LIBPATH
+fi
+
+if [ "$UNAME_OS" = "OS/390" ] ; then
+	if [ -z $IBM_JAVA_OPTIONS ] ; then
+		IBM_JAVA_OPTIONS=-Xmx64M
+		export IBM_JAVA_OPTIONS
+	fi
+fi
+
+# Log4j2 configuration file (quote the path to handle spaces)
+LOG_4J="-Dlog4j2.configurationFile=file:$TDI_SOLDIR/etc/log4j2.xml"
+
+# Java Util Logging configuration (quote the path to handle spaces)
+JAVA_LOGGING="-Djava.util.logging.config.file=$TDI_SOLDIR/etc/logging.properties"
+
+"$TDI_JAVA_PROGRAM" $TDI_MIXEDMODE_FLAG -Dcom.sun.management.jmxremote=false -Dcom.sun.management.jmxremote.local.only=true -Dcom.sun.management.jmxremote.host=localhost -cp "$TDI_HOME_DIR/IDILoader.jar" $LOG_4J $JAVA_LOGGING --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-exports java.base/sun.security.util=ALL-UNNAMED com.ibm.di.loader.ServerLauncher "$@" &
+
+CHILD_PID=$!
+
+# trap 'kill ${CHILD_PID}' SIGINT SIGTERM
+trap 'kill ${CHILD_PID}' 2 15
+
+wait $CHILD_PID
+RC=$?
+
+exit $RC

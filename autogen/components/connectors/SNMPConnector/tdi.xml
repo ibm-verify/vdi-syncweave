@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SNMP">
+                        <SupportedModes>Iterator,AddOnly,Lookup</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.SNMPConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="snmpGetSetPort">161</parameter>
+				<parameter name="snmpMode">Client</parameter>
+				<parameter name="snmpTrapPort">162</parameter>
+				<parameter name="snmpTrapTimeout">0</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.SNMPConnector">
+			<TranslationFile>NLS/idi_conn_snmp</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>snmpMode</ListItem>
+					<ListItem>snmpGetSetHost</ListItem>
+					<ListItem>snmpGetSetPort</ListItem>
+					<ListItem>snmpTrapPort</ListItem>
+					<ListItem>snmpCommunity</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>snmpTrapTimeout</ListItem>
+					<ListItem>snmpOID</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>snmpCommunity</ListItem>
+				<ListItem>snmpMode</ListItem>
+				<ListItem>snmpTrapPort</ListItem>
+				<ListItem>snmpTrapTimeout</ListItem>
+				<ListItem>snmpGetSetHost</ListItem>
+				<ListItem>snmpGetSetPort</ListItem>
+				<ListItem>snmpOID</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="snmpCommunity">
+				<parameter name="description">comm_desc</parameter>
+				<parameter name="label">comm_label</parameter>
+			</FormItem>
+			<FormItem name="snmpGetSetHost">
+				<parameter name="description">host_desc</parameter>
+				<parameter name="label">host_label</parameter>
+			</FormItem>
+			<FormItem name="snmpGetSetPort">
+				<parameter name="description">get_desc</parameter>
+				<parameter name="label">get_label</parameter>
+			</FormItem>
+			<FormItem name="snmpMode">
+				<Values>
+					<ListItem>Client</ListItem>
+					<ListItem>Trap Listener</ListItem>
+					<ListItem>Trap Sender</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Client</Key>
+						<Value>Localized.Client</Value>
+					</Item>
+					<Item>
+						<Key>Trap Listener</Key>
+						<Value>Localized.Trap.Listener</Value>
+					</Item>
+					<Item>
+						<Key>Trap Sender</Key>
+						<Value>Localized.Trap.Sender</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">mode_desc</parameter>
+				<parameter name="label">mode_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="snmpOID">
+				<parameter name="description">oid_desc</parameter>
+				<parameter name="label">oid_label</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="snmpTrapPort">
+				<parameter name="description">trap_desc</parameter>
+				<parameter name="label">trap_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="snmpTrapTimeout">
+				<parameter name="description">time_desc</parameter>
+				<parameter name="label">time_label</parameter>
+			</FormItem>
+                       <parameter name="formevents">
+                                <![CDATA[
+function snmpMode_changed() {
+        var val= form.getConfig ("snmpMode");
+	if (val == null)
+		val = "Client";
+	form.setVisible("snmpTrapTimeout", val == "Trap Listener");
+	form.setVisible("snmpTrapPort", val != "Client");
+	form.setVisible("snmpOID", val == "Client");
+	form.setVisible("snmpGetSetHost", val != "Trap Listener");
+	form.setVisible("snmpGetSetPort", val == "Client");
+	form.setVisible("snmpCommunity", val != "Trap Listener");
+}
+
+snmpMode_changed();
+]]>
+                        </parameter>
+
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

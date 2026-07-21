@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.CCMDBConnector">
+                        <SupportedModes>Iterator,Lookup,AddOnly,Update,Delete</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.ccmdb.CCMDBConnector</parameter>
+				<parameter name="parserOption">useless</parameter>
+				<parameter name="artifactType">CI</parameter>
+				<parameter name="idmlMode">false</parameter>
+				<parameter name="relSrc">false</parameter>
+				<parameter name="relTrg">false</parameter>
+				<parameter name="jdbcUrl"/>
+				<parameter name="jdbcDriver"/>
+				<parameter name="dbUsername"/>
+				<parameter name="dbPassword"/>				
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.ccmdb.CCMDBConnector">
+			<TranslationFile>NLS/idi_conn_ccmdb</TranslationFile>
+			<parameter name="title">CCMDB_CONNECTOR_TITLE</parameter>
+			<parameter name="description">CONN_DESC</parameter>	
+			<parameter name="formevents"><![CDATA[
+				function artifactType_changed () {
+				 
+					var val = form.getConfig("artifactType");
+					if ( val == null ) {
+						return;
+					} 
+					
+					var selclass = form.getConfig("classType");
+
+					if ( val.equalsIgnoreCase("RELATIONSHIP") ) {
+						form.getControl("relSrc").setEnabled(false);						
+						form.getControl("relTrg").setEnabled(false);
+						
+						if ((selclass != null) 
+                && (!selclass.startsWith("RELATION")) 
+                && (!selclass.equals("ALL"))) {
+						    form.getControl("classType").setText("");
+            }
+					} else {
+						form.getControl("relSrc").setEnabled(true);						
+						form.getControl("relTrg").setEnabled(true);
+						
+						if ((selclass != null) && (selclass.startsWith("RELATION"))) {
+						    form.getControl("classType").setText("");
+            }
+					}   					
+					
+					update_controls();
+				}
+				
+				function 	update_controls() {
+					var co = form.getConfigObject();
+					if ( co == null ) {
+						return;
+					} 
+					
+					var cmode = co.getParent().getMode();
+					if ( cmode.equalsIgnoreCase("AddOnly") || 
+                cmode.equalsIgnoreCase("Delete") ||
+                cmode.equalsIgnoreCase("Update")) {
+            //form.getControl("classType").setText("ALL");
+            form.getControl("classType").setEnabled(false);
+						form.getControl("relSrc").setEnabled(false);						
+						form.getControl("relTrg").setEnabled(false);					
+					} 
+					
+					form.updateControl ("classType");
+				}				
+				
+				artifactType_changed();
+				update_controls();
+			]]></parameter>      		
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+          <ListItem>idmlMode</ListItem>			
+          <ListItem>relSrc</ListItem>		
+          <ListItem>relTrg</ListItem>		
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>          	
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+					<ListItem>idmlMode</ListItem>
+					<ListItem>relSrc</ListItem>
+					<ListItem>relTrg</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="artifactType">
+				<Values>
+					<ListItem>CI</ListItem>
+					<ListItem>RELATIONSHIP</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>CI</Key>
+						<Value>CCMDB_CONN_CI</Value>
+					</Item>
+					<Item>
+						<Key>RELATIONSHIP</Key>
+						<Value>CCMDB_CONN_RELATIONSHIP</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">CCMDB_CONN_ARTIFACTTYPE_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_ARTIFACTTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="classType">
+				<parameter name="description">CCMDB_CONN_CLASSTYPE_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_CLASSTYPE_LABEL</parameter>
+				<parameter name="script">getClassTypes</parameter>
+				<parameter name="scriptLabel">CCMDB_CONN_CLASSTYPE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">CCMDB_CONN_CLASSTYPE_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="default">ALL</parameter>
+			</FormItem>	
+			<FormItem name="idmlMode">
+				<parameter name="description">CCMDB_CONN_IDMLMODE_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_IDMLMODE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>      
+			<FormItem name="relSrc">
+				<parameter name="description">CCMDB_CONN_RELSRC_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_RELSRC_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem> 
+			<FormItem name="relTrg">
+				<parameter name="description">CCMDB_CONN_RELTRG_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_RELTRG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>             		
+			<FormItem name="jdbcUrl">
+				<parameter name="description">CCMDB_CONN_JDBCURL_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_JDBCURL_LABEL</parameter>
+				<parameter name="script">checkConnection</parameter>
+				<parameter name="scriptLabel">CCMDB_CONN_QUERYDB_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">CCMDB_CONN_QUERYDB_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">CCMDB_CONN_JDBCDRIVER_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_JDBCDRIVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbUsername">
+				<parameter name="description">CCMDB_CONN_DBUSERNAME_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_DBUSERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbPassword">
+				<parameter name="description">CCMDB_CONN_DBPASSWORD_DESC</parameter>
+				<parameter name="label">CCMDB_CONN_DBPASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+// tests if a connection to a remote system can be established by a Connector
+function checkConnection() {
+	var conn = form.loadConnector();
+	
+	conn.initialize (null);
+	var exceptionText = null;
+
+	exceptionText = conn.checkDbConnection();
+	var jdbcParams = "";
+	jdbcParams += conn.getJdbcUrl() + ", ";
+	jdbcParams += conn.getJdbcDriver() + ", ";
+	jdbcParams += conn.getDbUsername() ;
+	conn.terminate();
+	
+	if (exceptionText == null) {
+		form.alert(Messages.getMessage("ASForms.Connection.Success", jdbcParams));
+	} else {
+		// log the values of the jdbc parameters used in the connecion attempt
+		form.alert(Messages.getMessage("ASForms.Connection.Failure", jdbcParams, exceptionText));
+	}	
+}
+
+// returns the Class types available to the CCMDB Connector
+function getClassTypes() {
+	var CCMDB_CONN_ARTIFACTTYPE = "artifactType";
+	var CCMDB_CONN_CLASSTYPE = "classType";
+	var IDML_MODE = "idmlMode";
+	
+	var idmlMode = form.getConfig(IDML_MODE);
+	if ( idmlMode == null ) {
+		idmlMode = "false";
+	}
+	
+	var artifactType = form.getConfig(CCMDB_CONN_ARTIFACTTYPE);
+	
+  var connector = form.loadConnector(); 	
+	connector.initialize (null);	
+	connector.checkDbConnection();
+	var classTypes = connector.getClassTypes(artifactType);
+
+	if (classTypes == null || classTypes.isEmpty()) {
+		form.alert(Messages.getString("ASForms.No.ClassTypes.Were.Found"));
+		return;
+	}
+	
+  var dlg = new com.ibm.tdi.eclipse.dialogs.ComboInputDialog(form.getShell(), Messages.getString("ASForms.Select.ClassType"), Messages.getString("ASForms.Select.ClassType"), classTypes);	
+	dlg.open();
+  var selection = dlg.getValue();
+  	
+	if (selection != null) {
+		form.setConfig (CCMDB_CONN_CLASSTYPE, selection.toString());
+		form.updateControl (CCMDB_CONN_CLASSTYPE);
+	}
+}
+]]></parameter>			
+		</Form>
+	</Folder>
+</MetamergeConfig>

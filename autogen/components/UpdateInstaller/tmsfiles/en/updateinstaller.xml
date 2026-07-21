@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="updateinstaller" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDKO001E" prefix="yes">
+   <MsgText pgmKey="ASCIIFILEUPDATE.FILE.OPEN.ERROR" varFormat="Java">
+   Unable to open &apos;<Variable formatSpec="{0}">file name</Variable>&apos; for modification.
+   An exception occurred: <Variable formatSpec="{1}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The file indicated in the error message that must be altered by the Update Installer cannot be opened.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO002E" prefix="yes">
+   <MsgText pgmKey="GENERIC.FILE.CLOSE.ERROR" varFormat="Java">
+   Error closing &apos;<Variable formatSpec="{0}">file name</Variable>&apos;. An exception occurred: <Variable formatSpec="{1}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An error occurred while closing a file.  If the file was being read, this error may be ignored.  If the file was being written, all of the data may not have been written correctly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the file mentioned in the error message for correctness.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO003E" prefix="yes">
+   <MsgText pgmKey="ASCIIFILEUPDATE.USAGE" varFormat="Java">
+   Usage: ACSIIFileUpdate file search replacement [LINE|TEXT]
+   </MsgText>
+   <Explanation> <p>
+   An incorrect call was made to ASCIIFileUpdate.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If this message is seen while running the Update Installer, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO004E" prefix="yes">
+   <MsgText pgmKey="ASCIIFILEUPDATE.CANT.FIND.ERROR" varFormat="Java">
+   Unable to find &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The file indicated in the error message that must be altered by the Update Installer cannot be found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO005E" prefix="yes">
+   <MsgText pgmKey="ASCIIFILEUPDATE.READ.ERROR" varFormat="Java">
+   Error reading &apos;<Variable formatSpec="{0}">file name</Variable>&apos;. An exception occurred: <Variable formatSpec="{1}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The file indicated in the error message is not altered.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO006E" prefix="yes">
+   <MsgText pgmKey="GENERIC.STREAM.READ.ERROR" varFormat="Java">
+   Error reading from input stream. An exception occurred: <Variable formatSpec="{0}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An error occurred while reading the input stream from an opened file.  The operation being performed did not complete.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO007E" prefix="yes">
+   <MsgText pgmKey="FIXUTILS.FILE.READ.ERROR" varFormat="Java">
+   Error processing file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;. An exception occurred: <Variable formatSpec="{1}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The file indicated in the error message could not be read.  The operation being performed did not complete.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO008E" prefix="yes">
+   <MsgText pgmKey="FIXUTILS.FILE.CREATE.ERROR" varFormat="Java">
+   Unable to create script file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;. An exception occurred: <Variable formatSpec="{1}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An error occurred while trying to create a temporary script for execution.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the accompanying exception information to fix the error and run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO009E" prefix="yes">
+   <MsgText pgmKey="FIXUTILS.EXECUTE.EXCEPTION" varFormat="Java">
+   Error while executing an operating system command. An exception occurred: <Variable formatSpec="{0}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An error occurred while executing a shell script.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the accompanying exception information to fix the error and run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO010W" prefix="yes">
+   <MsgText pgmKey="FIXUTILS.EXECUTE.ERROR" varFormat="Java">
+   While executing an operating system command, a non-zero return code was returned. Return code=<Variable formatSpec="{0}">return code</Variable>; Message: <Variable formatSpec="{1}">message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A non-zero return code was found while executing a shell script.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the additional information in the message.  If this information indicates a fatal error, run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO011I" prefix="yes">
+   <MsgText pgmKey="COMPONENT.FIX.APPLIED" varFormat="Java">
+   <Variable formatSpec="{0}">component</Variable> already has this fix applied and will not be updated.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO012E" prefix="yes">
+   <MsgText pgmKey="FIX.FILE.ERROR" varFormat="Java">
+   Unable to process fix file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Update Installer was unable to process the fix file specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the file specified is correct and exists.  If so, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO013E" prefix="yes">
+   <MsgText pgmKey="INSTALL.DIR.NOT.FOUND" varFormat="Java">
+   The specified install directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos; does not exist.
+   </MsgText>
+   <Explanation> <p>
+   The Update Installer was unable to find the specified install directory.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO014E" prefix="yes">
+   <MsgText pgmKey="REGISTRY.FILE.NOT.FOUND" varFormat="Java">
+   No .registry file was found in the install directory, the file was empty, or it could not be read.
+   </MsgText>
+   <Explanation> <p>
+   The Update Installer was unable to find the .registry file in the install directory.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the directory specified is correct and contains the .registry file.  If it does, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO015E" prefix="yes">
+   <MsgText pgmKey="REGISTRY.FILE.WRITE.ERROR" varFormat="Java">
+   Unable to open the .registry file for writing.
+   </MsgText>
+   <Explanation> <p>
+   The fix has been applied, but the .registry file could not be updated.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Reapply the fix, or update the .registry file manually.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO016E" prefix="yes">
+   <MsgText pgmKey="FILE.DIR.CREATE.ERROR" varFormat="Java">
+   Unable to create file or directory &apos;<Variable formatSpec="{0}">file or directory name</Variable>&apos; when extracting from &apos;<Variable formatSpec="{1}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   A file or directory could not be created.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that permissions are correct and there is enough space on the system and run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO017E" prefix="yes">
+   <MsgText pgmKey="ERROR.DURING.UNZIP" varFormat="Java">
+   Unable to extract &apos;<Variable formatSpec="{0}">file name</Variable>&apos; from &apos;<Variable formatSpec="{1}">zip file</Variable>&apos;. An exception occurred: <Variable formatSpec="{2}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An error occurred while attempting to extract a file from an archive.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the exception information to fix the problem.  If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO018E" prefix="yes">
+   <MsgText pgmKey="ARCHIVE.FILE.NOT.FOUND" varFormat="Java">
+   File &apos;<Variable formatSpec="{0}">file name</Variable>&apos; does not exist in archive &apos;<Variable formatSpec="{1}">zip file</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   A file that should be present in the indicated archive cannot be found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO019E" prefix="yes">
+   <MsgText pgmKey="REGISTRY.PROCESS.ERROR" varFormat="Java">
+   Unable to process .registry file in install directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The .registry file in the indicated install directory could not be processed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See other messages issued for futher information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO020I" prefix="yes">
+   <MsgText pgmKey="ROLLBACK.NO.FIXES" varFormat="Java">
+   Unable to rollback; there are no fixes applied to this installation.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO021I" prefix="yes">
+   <MsgText pgmKey="ROLLBACK.GOING" varFormat="Java">
+   Rolling back &apos;<Variable formatSpec="{0}">fix name</Variable>&apos; using backup directory
+   &apos;<Variable formatSpec="{1}">directory</Variable>&apos;.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO022E" prefix="yes">
+   <MsgText pgmKey="BACKUPDIR.CREATE.ERROR" varFormat="Java">
+   Unable to create backup directory &apos;<Variable formatSpec="{0}">directory</Variable>&apos; for fix &apos;<Variable formatSpec="{1}">fix name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The directory which will be used for backup files for this fix cannot be created.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that permissions are correct and there is enough space on the sytstem.  Create the directory manually or run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO023I" prefix="yes">
+   <MsgText pgmKey="APPLYING.FIX" varFormat="Java">
+   Applying fix &apos;<Variable formatSpec="{0}">fix name</Variable>&apos; using backup directory &apos;<Variable formatSpec="{1}">directory</Variable>&apos;.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO024E" prefix="yes">
+   <MsgText pgmKey="MISSING.PREREQ" varFormat="Java">
+   The current fix cannot be applied because &apos;<Variable formatSpec="{0}">prereq</Variable>&apos; is a pre-requisite.
+   </MsgText>
+   <Explanation> <p>
+   The installation is missing a pre-requisite fix.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Apply the pre-requisite fix and run the Update Installer for this fix again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO025I" prefix="yes">
+   <MsgText pgmKey="FIX.ALREADY.APPLIED" varFormat="Java">
+   The fix specified is already installed.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO026I" prefix="yes">
+   <MsgText pgmKey="BACKUP.DIRS.NOT.CLEARED" varFormat="Java">
+   Backup directories will not be cleared, because the current fix is being applied to previously missing components.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO027I" prefix="yes">
+   <MsgText pgmKey="UPDATING.COMPONENT" varFormat="Java">
+   Updating <Variable formatSpec="{0}">component</Variable>.
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO028E" prefix="yes">
+   <MsgText pgmKey="UNRECOGNIZED.COMPONENT" varFormat="Java">
+   Unrecognized component &apos;<Variable formatSpec="{0}">component</Variable>&apos; in fix.
+   </MsgText>
+   <Explanation> <p>
+   The fix is applied, but the fix file contains information about a component that is not valid.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO029E" prefix="yes">
+   <MsgText pgmKey="LWI.JAR.NOT.FOUND" varFormat="Java">
+   During application of a fix to the Embedded Web Platform component, a required JAR file was not found.
+   </MsgText>
+   <Explanation> <p>
+   The fix file indicated and update to the Embedded Web Platform, but the JAR file which contains that fix cannot be found.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO030I" prefix="yes">
+   <MsgText pgmKey="UPDATEINSTALLER.USAGE" varFormat="Java">
+<pre>
+Usage: applyUpdates  (-queryreg |<br />
+                      -rollback |<br />
+                      -update fix_file.zip [-clean [-silent]] |<br />
+                      -queryfix fix_file.zip<br />
+                      -enroll lum_file.zip<br />
+                      -?</pre>
+   </MsgText>
+   <NoHelp />
+</Message>
+
+<Message ID="CTGDKO031I" prefix="yes">
+   <MsgText pgmKey="CLEAN.ONLY.DURING.FIXPACK" varFormat="Java">
+   Backup directories will not be cleared, because this fix is not a fixpack.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO032E" prefix="yes">
+   <MsgText pgmKey="LEVEL.RANGE.MISMATCH" varFormat="Java">
+   The level of the current installation is &apos;<Variable formatSpec="{0}">level</Variable>&apos;.  The level must be between
+   &apos;<Variable formatSpec="{1}">number</Variable>&apos; and &apos;<Variable formatSpec="{2}">number</Variable>&apos; to apply this fix.
+   </MsgText>
+   <Explanation> <p>
+   The current installation is not at an appropriate level to apply this fix.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the level of the current installation is greater than the maximum level, this fix does not need to be applied.  Otherwise, bring the current installation up to the required level before installing this fix.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO033I">
+   <MsgText pgmKey="CLEAN.CONFIRM" varFormat="Java">
+   During installation of this fixpack, existing backup directories will be deleted.<br />Are you sure you want to continue? [Y/N]:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO034I">
+   <MsgText pgmKey="ARG.NO" varFormat="Java">
+   Argument <Variable formatSpec="{0}">name</Variable> <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO035I">
+   <MsgText pgmKey="LWI.JAR.CONFIG" varFormat="Java">
+   The name of the LWI jar is: <Variable formatSpec="{0}">jar name</Variable>; Configuration ID is: <Variable formatSpec="{1}">Configuration ID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO036I">
+   <MsgText pgmKey="FIX.ALREADY.INSTALLED" varFormat="Java">
+   The fix will not be installed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO037I">
+   <MsgText pgmKey="FINAL.BACKUPDIR.NAME" varFormat="Java">
+   Final backup directory is: <Variable formatSpec="{0}">directory</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO038I">
+   <MsgText pgmKey="READING.MANIFEST" varFormat="Java">
+   Reading manifest file...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO039I">
+   <MsgText pgmKey="READING.REGISTRY" varFormat="Java">
+   Reading .registry file...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO040I">
+   <MsgText pgmKey="LWI.JAR.NAME" varFormat="Java">
+   LWI JAR name: <Variable formatSpec="{0}">jar_name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO041I">
+   <MsgText pgmKey="LWI.SVC.NAME" varFormat="Java">
+   LWI Service name: <Variable formatSpec="{0}">service_name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO042I">
+   <MsgText pgmKey="CALL.AMC.MIGRATE" varFormat="Java">
+   Call amcmigrate: <Variable formatSpec="{0}">boolean</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO043I">
+   <MsgText pgmKey="REG.POP.PROB" varFormat="Java">
+   Unable to populate registry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO044I">
+   <MsgText pgmKey="APPL.FIX.FOUND" varFormat="Java">
+   Found applied fix: <Variable formatSpec="{0}">fix_name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO045I">
+   <MsgText pgmKey="UPDATING.REGISTRY" varFormat="Java">
+   Updating .registry file...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO046I">
+   <MsgText pgmKey="EMPTY.FILE" varFormat="Java">
+   The file <Variable formatSpec="{0}">file name</Variable> in the archive <Variable formatSpec="{1}">zip file</Variable> is empty.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO047I">
+   <MsgText pgmKey="EMPTY.FIX.FILE" varFormat="Java">
+   Fix file is empty, unable to continue.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO048I">
+   <MsgText pgmKey="FIX.FILE.READ.ERR" varFormat="Java">
+   Unable to read fix file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO049I">
+   <MsgText pgmKey="FILE.NOT.FOUND" varFormat="Java">
+   File not found: <Variable formatSpec="{0}">file name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO050I">
+   <MsgText pgmKey="OS.UNKNOWN" varFormat="Java">
+   Unknown operating system: <Variable formatSpec="{0}">operating system</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO051I">
+   <MsgText pgmKey="BACKUP.FILE" varFormat="Java">
+   Backing up <Variable formatSpec="{0}">source file</Variable> to <Variable formatSpec="{1}">target file</Variable>...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO052I">
+   <MsgText pgmKey="LOOKING.AT.FILE" varFormat="Java">
+   Looking at <Variable formatSpec="{0}">file name</Variable>...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO053I">
+   <MsgText pgmKey="WRITING.FILE" varFormat="Java">
+   Writing <Variable formatSpec="{0}">file name</Variable>...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO054I">
+   <MsgText pgmKey="CREATE.DIR" varFormat="Java">
+   Creating directory <Variable formatSpec="{0}">directory</Variable>...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO055I">
+   <MsgText pgmKey="CE.SHUTDOWN.EXCEPTION" varFormat="Java">
+   Applying fix, but it may be necessary to rollback and run ibmditk -tdishutdown before fix is applied correctly.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO056I">
+   <MsgText pgmKey="LUM.EMPTY" varFormat="Java">
+   No license to enroll.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO057I">
+   <MsgText pgmKey="LUM.FULL.ALREADY" varFormat="Java">
+   The full license is already enrolled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO058I">
+   <MsgText pgmKey="LUM.TRIAL.ALREADY" varFormat="Java">
+   The trial license is already enrolled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO059I">
+   <MsgText pgmKey="LUM.TRIAL.SUCCESS" varFormat="Java">
+   Trial license successfully enrolled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO060E" prefix="yes">
+   <MsgText pgmKey="LUM.TRIAL.ERROR" varFormat="Java">
+   The trial license failed to enroll due to an internal error.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has caused the trial license enrollment to fail.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Attempt the license enrollment again.  If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO061I">
+   <MsgText pgmKey="LUM.FULL.PREREQ" varFormat="Java">
+   Enrolling the full license requires that the trial license already be enrolled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO062I">
+   <MsgText pgmKey="LUM.FULL.SUCCESS" varFormat="Java">
+   Full license successfully enrolled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKO063E" prefix="yes">
+   <MsgText pgmKey="LUM.FULL.ERROR" varFormat="Java">
+   Full license failed to enroll due to an internal error.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has caused the full license enrollment to fail.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Attempt the license enrollment again.  If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO064E" prefix="yes">
+   <MsgText pgmKey="BAD.LIC.TYPE" varFormat="Java">
+   Unrecognized license type: <Variable formatSpec="{0}">license type</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO065E" prefix="yes">
+   <MsgText pgmKey="LUM.INTERNAL.ERR" varFormat="Java">
+   An internal license enrollment error has occurred. Message: <Variable formatSpec="{0}">message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Attempt the enrollment again.  If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO066E" prefix="yes">
+   <MsgText pgmKey="LUM.INTERNAL.EXC" varFormat="Java">
+   An internal license enrollment error has occurred. An exception occurred: <Variable formatSpec="{0}">exception info</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Attempt the enrollment again.  If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO067E" prefix="yes">
+   <MsgText pgmKey="BAD.CERT.FILE" varFormat="Java">
+   Cannot find the full license file: <Variable formatSpec="{0}">file name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO068E" prefix="yes">
+   <MsgText pgmKey="BAD.NODELOCK.FILE" varFormat="Java">
+   The license nodelock file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; does not contain valid license data.
+   </MsgText>
+   <Explanation> <p>
+   The license nodelock file does not contain valid data.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO069E" prefix="yes">
+   <MsgText pgmKey="ERROR.IN.FIXPACK.ROLLEDBACK" varFormat="Java">
+   Fix pack installation has been rolled back as an error has occurred while installing the fix pack.
+   </MsgText>
+   <Explanation> <p>
+   There could be a problem in execution of a system command or insufficient disk space.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Please see the logs for more details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKO070E" prefix="yes">
+   <MsgText pgmKey="FILE.DIR.DELETE.ERROR" varFormat="Java">
+   Unable to delete file or directory &apos;<Variable formatSpec="{0}">file or directory name</Variable>&apos; .
+   </MsgText>
+   <Explanation> <p>
+   A file or directory could not be deleted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that permissions are correct and run the Update Installer again.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Labels -->
+
+<Label ID="CTGDK0001I">
+   <LabelText pgmKey="REGISTRY.DUMP" varFormat="Java">
+   Information from .registry file in: <Variable formatSpec="{0}">installDir</Variable><br />
+   Edition: <Variable formatSpec="{1}">edition</Variable><br />
+   Level: <Variable formatSpec="{2}">level</Variable><br />
+   License: <Variable formatSpec="{3}">type</Variable><br />
+   <br />
+   Fixes Applied<br />
+   =-=-=-=-=-=-=<br /><Variable formatSpec="{4}">fixes</Variable>
+   <br />
+   <br />
+   Components Installed<br />
+   =-=-=-=-=-=-=-=-=-=<br /><Variable formatSpec="{5}">components</Variable>
+   <br />
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0002I">
+   <LabelText pgmKey="FIX.DUMP" varFormat="Java">
+   Information from fix file: <Variable formatSpec="{0}">fixFileName</Variable><br />
+   Name: <Variable formatSpec="{1}">fixname</Variable><br />
+   <br />
+   Minimum level required to apply fix: <Variable formatSpec="{2}">fixname</Variable><br />
+   Maximum level allowed to apply fix: <Variable formatSpec="{3}">fixname</Variable><br />
+   <br />
+   Prereq<br />
+   =-=-=-<br /><Variable formatSpec="{4}">prereqs</Variable>
+   <br />
+   Components Affected<br />
+   =-=-=-=-=-=-=-=-=-=<br /><Variable formatSpec="{5}">components</Variable>
+   <br />
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0003I">
+   <LabelText pgmKey="FIX.DUMP.EWP" varFormat="Java">
+   Config ID of Embedded Web Platform: <Variable formatSpec="{0}">configID</Variable>
+   <br />
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0004I">
+   <LabelText pgmKey="DEFER.TRUE" varFormat="Java">
+   Deferred: true
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0005I">
+   <LabelText pgmKey="DEFER.FALSE" varFormat="Java">
+   Deferred: false
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0006I">
+   <LabelText pgmKey="NONE.LABEL" varFormat="Java">
+   None
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0007I">
+   <LabelText pgmKey="GEN.PURPOSE.ED" varFormat="Java">
+   General Purpose
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0008I">
+   <LabelText pgmKey="IDENTITY.ED" varFormat="Java">
+   Identity
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0009I">
+   <LabelText pgmKey="PARAM.INFO" varFormat="Java">
+   Type: <Variable formatSpec="{0}">type</Variable><br />
+   Backup Directory: <Variable formatSpec="{1}">backup directory</Variable><br />
+   Install Directory: <Variable formatSpec="{2}">install directory</Variable><br />
+   Zip File: <Variable formatSpec="{3}">zip file</Variable><br />
+   Operating System: <Variable formatSpec="{4}">operating system</Variable>
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0010I">
+   <LabelText pgmKey="LICENSE.FULL" varFormat="Java">
+   Full
+   </LabelText>
+</Label>
+
+<Label ID="CTGDK0011I">
+   <LabelText pgmKey="LICENSE.TRIAL" varFormat="Java">
+   Trial
+   </LabelText>
+</Label>
+
+</TMSSource>

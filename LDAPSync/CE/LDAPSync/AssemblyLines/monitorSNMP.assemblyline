@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="85" UUID="9870f6eb-8e7e-49f4-ad4c-bdc9d9646e69" created="Thu Jan 30 14:17:55 CET 2014" createdBy="Administrator" main="monitorSNMP" modified="Mon Sep 08 14:34:20 CEST 2014" modifiedBy="Administrator" project="LDAPSync_hooks" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+
+
+
+
+<AssemblyLine name="monitorSNMP">
+        <ModTime>1410176826085</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1395832417215</ModTime>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[var flowKey = getProperty("global.flows");
+var hookName = getProperty("$hookName");
+
+function opEntryParams() {
+	var e = task.getOpEntry();
+	var s = java.lang.StringBuffer();
+	var names = e.getAttributeNames();
+	java.util.Arrays.sort(names);
+	for (var n in names) {
+		if (n.indexOf(flowKey) < 0) {
+			s.append("opEntry:   " + e.getAttribute(n).toString() + "\n");
+		}
+	}
+	
+	return s.toString();
+}
+
+function tcbParams() {
+	var e = task.getTCB();
+	var s = java.lang.StringBuffer();
+	var names = e.getAttributeNames();
+	java.util.Arrays.sort(names);
+	for (var n in names) {
+		s.append("TCB:   " + e.getAttribute(n).toString() + "\n");
+	}
+	
+	return s.toString();
+}
+
+function iwe() {
+	var s = java.lang.StringBuffer();
+	var e = work;
+	var names = e.getAttributeNames();
+	java.util.Arrays.sort(names);
+	for (var n in names) {
+		s.append("IWE:   " + e.getAttribute(n).toString() + "\n");
+	}
+	
+	return s.toString();
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="display" state="Enabled"/>
+                <Component name="SNMPConnector" state="Simulated"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig>
+            <ModTime>1395667451734</ModTime>
+            <Logger name="FileRollerAppender">
+                <InheritFrom>system:/Loggers/ibmdi.FileRollerAppender</InheritFrom>
+                <ModTime>1395667451734</ModTime>
+                <parameter name="IDIFileRoller.File"><![CDATA[@SUBSTITUTE{javascript alname = task.getShortName();
+
+return "LDAPSync/logs/" + alname + ".out"}]]></parameter>
+                <parameter name="IDIFileRoller.RollCount">5</parameter>
+                <parameter name="Pattern.ConversionPattern">%d{ISO8601} - %m%n</parameter>
+                <parameter name="com.ibm.di.log.layout">Pattern</parameter>
+                <parameter name="com.ibm.di.log.level">INFO</parameter>
+                <parameter name="enabled">true</parameter>
+            </Logger>
+        </LogConfig>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1410176826085</ModTime>
+            <Script name="display">
+                <ModTime>1395832402317</ModTime>
+                <parameter name="script"><![CDATA[msg = "\n-------> Hook name: " + hookName + "\n"
+err = work.getObject("$error");
+msg += "  >   trap port: " + getProperty("snmpTrapPort") + "\n";
+msg += "  >   error msg: " + work.getString("$errorMessage") + "\n";
+msg += "  > error level: " + work.getString("$level") + "\n";
+msg += "  >   error loc: " + work.getString("$where") + "\n";
+msg += "  > error entry:\n" + err + "\n";
+
+task.logmsg(msg);
+java.lang.System.out.println(msg);]]></parameter>
+            </Script>
+            <Connector name="SNMPConnector">
+                <InheritFrom>/Connectors/SNMPConnector</InheritFrom>
+                <ModTime>1396860682990</ModTime>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1396860682990</ModTime>
+                    <parameter name="snmpMode">Trap Sender</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings/>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1396273288456</ModTime>
+                    <Hook name="before_add">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_add</Name>
+                        <Script><![CDATA[if (deBug) {
+	snmp = thisConnector.connector;
+	msg = "\n-----> hook.snmp.AL ->" + task.getShortName()
+			+ "\n      host: " + snmp.getParam("snmpGetSetHost")
+			+ ":" + snmp.getParam("snmpTrapPort") + "\n";
+	msg += "......\n" + conn.toString() + "......\n";
+	logmsg(msg);
+}]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_execute">
+                        <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                        <Name>before_execute</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_initialize</Name>
+                        <Script/>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <ModTime>1396948708585</ModTime>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

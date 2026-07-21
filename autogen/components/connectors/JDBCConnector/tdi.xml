@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.JDBC">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update,Delta</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.JDBCConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="connectorFlags">{ignoreFieldErrors}</parameter>
+				<parameter name="jdbcCommit">After every database operation</parameter>
+				<parameter name="jdbcDisablePaddingInsert">false</parameter>
+				<parameter name="jdbcDisablePaddingLookup">false</parameter>
+				<parameter name="jdbcDisablePaddingUpdate">false</parameter>
+				<parameter name="jdbcDriver">sun.jdbc.odbc.JdbcOdbcDriver</parameter>
+				<parameter name="jdbcExposeNullValues">true</parameter>
+				<parameter name="jdbcPreparedStatement">true</parameter>
+				<parameter name="supportsSkipLookup">true</parameter>
+				<parameter name="jdbcAutoCreateTable">false</parameter>
+			</Configuration>
+			<Reconnect>
+				<ReconnectRules>
+					<Rule>
+						<parameter name="exceptionClass">java.sql.SQLException</parameter>
+						<parameter name="exceptionMessageRegExp">^I/O.*</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+					<Rule>
+						<parameter name="exceptionClass">java.sql.SQLException</parameter>
+						<parameter name="exceptionMessageRegExp">^Io.*</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+					<Rule>
+						<parameter name="exceptionClass">java.sql.SQLException</parameter>
+						<parameter name="exceptionMessageRegExp">^IO.*</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+					<Rule>
+						<parameter name="exceptionClass">java.sql.SQLException</parameter>
+						<parameter name="exceptionMessageRegExp">^ORA-01089.*</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+					<Rule>
+						<parameter name="exceptionClass">java.sql.SQLException</parameter>
+						<parameter name="exceptionMessageRegExp">^Closed Connection.*</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+				</ReconnectRules>
+			</Reconnect>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.JDBCConnector">
+			<TranslationFile>NLS/idi_conn_jdbc</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jdbcSource</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>jdbcLogin</ListItem>
+					<ListItem>jdbcPassword</ListItem>
+					<ListItem>jdbcSchema</ListItem>
+					<ListItem>jdbcTable</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jdbcExposeNullValues</ListItem>
+					<ListItem>jdbcCommit</ListItem>
+					<ListItem>jdbcCustomPreparedStatements</ListItem>
+					<ListItem>jdbcSelect</ListItem>
+					<ListItem>jdbcLookup</ListItem>
+					<ListItem>jdbcInsert</ListItem>
+					<ListItem>jdbcUpdate</ListItem>
+					<ListItem>jdbcDelete</ListItem>
+					<ListItem>jdbcSessionParameters</ListItem>
+					<ListItem>jdbcProviderParams</ListItem>
+					<ListItem>jdbcDateFormat</ListItem>
+					<ListItem>jdbcPreparedStatement</ListItem>
+					<ListItem>jdbcDisablePaddingInsert</ListItem>
+					<ListItem>jdbcDisablePaddingUpdate</ListItem>
+					<ListItem>jdbcDisablePaddingLookup</ListItem>
+					<ListItem>jdbcAutoCreateTable</ListItem>
+					<ListItem>$GLOBAL.connectorFlags</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>jdbcSource</ListItem>
+				<ListItem>jdbcDriver</ListItem>
+				<ListItem>jdbcLogin</ListItem>
+				<ListItem>jdbcPassword</ListItem>
+				<ListItem>jdbcSchema</ListItem>
+				<ListItem>jdbcTable</ListItem>
+				<ListItem>jdbcExposeNullValues</ListItem>
+				<ListItem>jdbcCommit</ListItem>
+				<ListItem>jdbcSelect</ListItem>
+				<ListItem>jdbcLookup</ListItem>
+				<ListItem>jdbcInsert</ListItem>
+				<ListItem>jdbcUpdate</ListItem>
+				<ListItem>jdbcDelete</ListItem>
+				<ListItem>jdbcSessionParameters</ListItem>
+				<ListItem>jdbcProviderParams</ListItem>
+				<ListItem>jdbcDateFormat</ListItem>
+				<ListItem>jdbcPreparedStatement</ListItem>
+				<ListItem>jdbcDisablePaddingInsert</ListItem>
+				<ListItem>jdbcDisablePaddingUpdate</ListItem>
+				<ListItem>jdbcDisablePaddingLookup</ListItem>
+				<ListItem>$GLOBAL.connectorFlags</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="jdbcCommit">
+				<Values>
+					<ListItem>After every database operation</ListItem>
+					<ListItem>After every database operation (Including Select)</ListItem>
+					<ListItem>On Connector close</ListItem>
+					<ListItem>Manual</ListItem>
+					<ListItem>End of Cycle</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After every database operation</Key>
+						<Value>Localized.After.every.database.operation</Value>
+					</Item>
+					<Item>
+						<Key>After every database operation (Including Select)</Key>
+						<Value>Localized.After.every.database.operation.Including.Select</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+					<Item>
+						<Key>On Connector close</Key>
+						<Value>Localized.On.Connector.close</Value>
+					</Item>
+					<Item>
+						<Key>End of Cycle</Key>
+						<Value>Localized.End.of.Cycle</Value>
+					</Item>
+
+                                        
+				</LocalizedValues>
+				<parameter name="description">commit_desc</parameter>
+				<parameter name="label">commit_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="jdbcDateFormat">
+				<Values>
+					<ListItem>yyyy.MM.dd</ListItem>
+					<ListItem>yy-MM-dd</ListItem>
+					<ListItem>MM/dd/yy</ListItem>
+					<ListItem>yyyy.MM.dd hh:mm</ListItem>
+					<ListItem>yyyy.MM.dd hh:mm:ss</ListItem>
+					<ListItem>dd.MM.yy</ListItem>
+					<ListItem>dd.MM.yyyy</ListItem>
+				</Values>
+				<parameter name="description">format_desc</parameter>
+				<parameter name="label">format_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="jdbcDelete">
+				<parameter name="modes">Delete,Delta</parameter>
+				<parameter name="description">delete_desc</parameter>
+				<parameter name="label">delete_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<FormItem name="jdbcDisablePaddingInsert">
+				<parameter name="modes">AddOnly,Update,Delta</parameter>
+				<parameter name="description">inspad_description</parameter>
+				<parameter name="label">inspad_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcDisablePaddingLookup">
+				<parameter name="modes">Lookup,Update,Delete,Delta</parameter>
+				<parameter name="description">lookuppad_description</parameter>
+				<parameter name="label">lookuppad_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcDisablePaddingUpdate">
+				<parameter name="modes">Update,Delta</parameter>
+				<parameter name="description">updpad_description</parameter>
+				<parameter name="label">updpad_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">driver_desc</parameter>
+				<parameter name="label">driver_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcExposeNullValues">
+				<parameter name="modes">-AddOnly</parameter>
+				<parameter name="label">val_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="description">expose_null_desc</parameter>
+			</FormItem>
+			<FormItem name="jdbcInsert">
+				<parameter name="modes">AddOnly,Update,Delta</parameter>
+				<parameter name="description">insert_desc</parameter>
+				<parameter name="label">insert_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<FormItem name="jdbcLogin">
+				<parameter name="description">login_desc</parameter>
+				<parameter name="label">login_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcLookup">
+				<parameter name="modes">Lookup,Update,Delete</parameter>
+				<parameter name="description">find_desc</parameter>
+				<parameter name="label">find_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<FormItem name="jdbcMetaQuery">
+				<parameter name="description">query_desc</parameter>
+				<parameter name="label">query_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="jdbcPreparedStatement">
+				<parameter name="description">prepared_description</parameter>
+				<parameter name="label">prepared_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcCustomPreparedStatements">
+				<parameter name="description">custom_prepared_description</parameter>
+				<parameter name="label">custom_prepared_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcProviderParams">
+				<parameter name="description">JDBC_PROVIDER_DESC</parameter>
+				<parameter name="label">JDBC_PROVIDER_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jdbcSchema">
+				<parameter name="label">schema_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcSelect">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">select_desc</parameter>
+				<parameter name="label">select_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+				<parameter name="script">selectJdbcSearchFilter</parameter>
+				<parameter name="scriptLabel">...</parameter>
+			</FormItem>
+			<FormItem name="jdbcSessionParameters">
+				<parameter name="description">para_desc</parameter>
+				<parameter name="label">para_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jdbcSource">
+				<parameter name="description">source_desc</parameter>
+				<parameter name="label">source_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcTable">
+				<parameter name="description">table_desc</parameter>
+				<parameter name="label">table_label</parameter>
+				<parameter name="script">selectJDBCTable</parameter>
+				<parameter name="scriptLabel">table_script_label</parameter>
+				<parameter name="scripthelp">table_script_help</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcUpdate">
+				<parameter name="modes">Update,Delta</parameter>
+				<parameter name="description">update_desc</parameter>
+				<parameter name="label">update_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<FormItem name="jdbcAutoCreateTable">
+				<parameter name="description">auto_create_description</parameter>
+				<parameter name="label">auto_create_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

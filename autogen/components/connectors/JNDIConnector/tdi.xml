@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.JNDI">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update,Delta</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.JNDIConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="java.naming.batchsize">1</parameter>
+				<parameter name="java.naming.referral">follow</parameter>
+				<parameter name="java.naming.security.authentication">Anonymous</parameter>
+				<parameter name="jndiNameParameter">$dn</parameter>
+				<parameter name="jndiSearchScope">subtree</parameter>
+				<parameter name="ldapUseSSL">false</parameter>
+				<parameter name="supportsSkipLookup">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.JNDIConnector">
+			<TranslationFile>NLS/idi_conn_jndi</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>java.naming.provider.url</ListItem>
+					<ListItem>jndiSearchFilter</ListItem>
+					<ListItem>jndiSearchBase</ListItem>
+					<ListItem>jndiSearchScope</ListItem>
+					<ListItem>java.naming.factory.initial</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>java.naming.security.authentication</ListItem>
+					<ListItem>java.naming.security.principal</ListItem>
+					<ListItem>java.naming.security.credentials</ListItem>
+					<ListItem>ldapUseSSL</ListItem>
+					<ListItem>jndiNameParameter</ListItem>
+					<ListItem>java.naming.referral</ListItem>
+					<ListItem>jndiExtraProviderParams</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>java.naming.factory.initial</ListItem>
+				<ListItem>java.naming.provider.url</ListItem>
+				<ListItem>java.naming.security.authentication</ListItem>
+				<ListItem>java.naming.security.principal</ListItem>
+				<ListItem>java.naming.security.credentials</ListItem>
+				<ListItem>ldapUseSSL</ListItem>
+				<ListItem>jndiNameParameter</ListItem>
+				<ListItem>jndiSearchBase</ListItem>
+				<ListItem>jndiSearchFilter</ListItem>
+				<ListItem>jndiSearchScope</ListItem>
+				<ListItem>java.naming.referral</ListItem>
+				<ListItem>jndiExtraProviderParams</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="java.naming.factory.initial">
+				<parameter name="description">init_desc</parameter>
+				<parameter name="label">init_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="java.naming.provider.url">
+				<parameter name="description">pro_desc</parameter>
+				<parameter name="label">pro_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="java.naming.referral">
+				<Values>
+					<ListItem>follow</ListItem>
+					<ListItem>ignore</ListItem>
+					<ListItem>throw</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>follow</Key>
+						<Value>Localized.follow</Value>
+					</Item>
+					<Item>
+						<Key>ignore</Key>
+						<Value>Localized.ignore</Value>
+					</Item>
+					<Item>
+						<Key>throw</Key>
+						<Value>Localized.throw</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">ref_desc</parameter>
+				<parameter name="label">ref_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="java.naming.security.authentication">
+				<Values>
+					<ListItem>Anonymous</ListItem>
+					<ListItem>Simple</ListItem>
+					<ListItem>CRAM-MD5</ListItem>
+					<ListItem>SASL</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Anonymous</Key>
+						<Value>Localized.Anonymous</Value>
+					</Item>
+					<Item>
+						<Key>CRAM-MD5</Key>
+						<Value>Localized.CRAM-MD5</Value>
+					</Item>
+					<Item>
+						<Key>SASL</Key>
+						<Value>Localized.SASL</Value>
+					</Item>
+					<Item>
+						<Key>Simple</Key>
+						<Value>Localized.Simple</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">auth_desc</parameter>
+				<parameter name="label">auth_label</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="java.naming.security.credentials">
+				<parameter name="description">cred_desc</parameter>
+				<parameter name="label">cred_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="java.naming.security.principal">
+				<parameter name="description">prin_desc</parameter>
+				<parameter name="label">prin_label</parameter>
+				<parameter name="syntax">DN</parameter>
+			</FormItem>
+			<FormItem name="jndiExtraProviderParams">
+				<parameter name="description">extra_desc</parameter>
+				<parameter name="label">extra_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="jndiNameParameter">
+				<parameter name="description">name_desc</parameter>
+				<parameter name="label">name_label</parameter>
+			</FormItem>
+			<FormItem name="jndiSearchBase">
+				<parameter name="description">base_desc</parameter>
+				<parameter name="label">base_label</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">-AddOnly</parameter>
+			</FormItem>
+			<FormItem name="jndiSearchFilter">
+				<parameter name="description">filter_desc</parameter>
+				<parameter name="label">filter_label</parameter>
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jndiSearchScope">
+				<Values>
+					<ListItem>subtree</ListItem>
+					<ListItem>onelevel</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>onelevel</Key>
+						<Value>Localized.onelevel</Value>
+					</Item>
+					<Item>
+						<Key>subtree</Key>
+						<Value>Localized.subtree</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">scope_desc</parameter>
+				<parameter name="label">scope_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="ldapUseSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

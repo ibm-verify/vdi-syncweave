@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="adchangedetection" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJF001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.MISSING.ITERATORSTATEKEY.EXCEPTION" varFormat="Java">
+   The &apos;iteratorStateKey&apos; parameter must be set to use
+   the Active Directory Change Detection Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter iteratorStateKey was not specified in the
+   Active Directory Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iteratorStateKey parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF002W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.USNFILENAME.WARN" varFormat="Java">
+   An old configuration parameter &apos;usnFileName&apos; is used that stores
+   the USN in a text file. This function is no longer supported.
+   </MsgText>
+   <Explanation> <p>
+   Specified the parameter usnFileName is no longer supported in the
+   Active Directory Change Detection Connector. This indicates an old configuration
+   file was used and needs to be migrated.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Consult the Reference Guide for migration information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF003W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.SLEEPINT.WARN" varFormat="Java">
+   The &apos;sleepInterval&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   The default value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;
+   will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid sleepInterval parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF004W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.TIMEOUT.WARN" varFormat="Java">
+   The &apos;timeout&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   The default value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;
+   will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid timeout parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF005W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.PAGESIZE.WARN" varFormat="Java">
+   The &apos;pageSize&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   Will not use paging.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pageSize parameter in the Connector if
+   paging needs to be enabled.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF006W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.NEGPAGESIZE.WARN" varFormat="Java">
+   The &apos;pageSize&apos; parameter set to a negative value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   Will not use paging.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pageSize parameter in the Connector if
+   paging needs to be enabled.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.START.AT.END.OF.DATA" varFormat="Java">
+   Synchronization from End Of Data will be performed: the Connector will
+   only report changes that occur after it is started.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF008E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.USN.IS.NULL" varFormat="Java">
+   Unable to retrieve the USN value from the given object.
+   </MsgText>
+   <Explanation> <p>
+   USN value object is NULL. This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF009E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.CANT.FIND.HIGHEST.COMMITTED.USN" varFormat="Java">
+   Synchronization from End Of Data requested, but can't retrieve the highest committed USN number.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See the next exception.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.INVALID.NUMERIC.USN" varFormat="Java">
+   Invalid numeric USN value: <Variable formatSpec="{0}">USN value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Unable to parse String USN value to Long. This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF011E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.USN.IS.INVALID.TYPE" varFormat="Java">
+   Invalid type for USN value object: <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The type of the USN object must be Entry, String or Number.  This is an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.CONNECTOR.IS.RESTARTING" varFormat="Java">
+   Connector is restarting. Will get start USN value from restart data.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF013E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.COULD.NOT.RETRIEVE.USN.VALUE" varFormat="Java">
+   Could not retrieve USN value from restart data.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.ERROR.ACCESS.SYSTEM.STORE" varFormat="Java">
+   Error on access to the System Store: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Could not read the USN values from the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Inspect the error message for more details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.READ.USN.VALUES.FROM.SYSTEM.STORE" varFormat="Java">
+   Will read start USN values from System Store. Parameter: <Variable formatSpec="{0}">parameter name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF016I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.PARAMETER.NOT.FOUND.IN.SYSTEM.STORE" varFormat="Java">
+   Parameter &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos; not found
+   in the System Store. Will use the &apos;Start at&apos; parameter value for start USN.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF017E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.START.AT.PARAMETER.NOT.SPECIFIED" varFormat="Java">
+   The &apos;Start at&apos; parameter was not specified.
+   </MsgText>
+   <Explanation> <p>
+   &apos;Start at&apos; parameter is null.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the startAt parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.START.USN.VALUE" varFormat="Java">
+   Start USN value: <Variable formatSpec="{0}">USN value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF019E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.COULD.NOT.RETRIEVE.HIGHEST.COMMITTED.USN.NUMBER" varFormat="Java">
+   The method getHighestCommittedUsn could not retrieve the highest
+   committed USN number from the Active Directory.
+   </MsgText>
+   <Explanation> <p>
+   The highest committed USN number is -1.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF020W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.PARTIAL.RESULT.EXCEPTION" varFormat="Java">
+   The method getNextSearchResult encountered a PartialResultException which typically occurs when
+   reaching the last element in the result set. No action is required. The exception is: 
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See method hasMore() of NamingEnumeration class for more detailed description of this exception.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.TIMEOUT.WAITING.FOR.NEXT.CHANGED.ENTRY" varFormat="Java">
+   Timeout waiting for the next changed entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.LDAP.SEARCH.QUERY" varFormat="Java">
+   LDAP search query: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF023E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.COULD.NOT.STORE.THE.USN.VALUE.IN.SYSTEM.STORE" varFormat="Java">
+   The method storeUSNForNextSynch could not store the USN value in the System Store.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Error occurs when tying to store the USN values for the next synchronization.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the database store.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF024I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.CURRENT.USN.VALUE.IS" varFormat="Java">
+   Current USN value is <Variable formatSpec="{0}">USN value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF025E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.RESTART.INFO.IS.NULL" varFormat="Java">
+   The restart info is NULL. Cannot restart.
+   </MsgText>
+   <Explanation> <p>
+   There is no restart information in the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the checkpoint configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF026I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.BLOCKING.FOR.NEW.CHANGES" varFormat="Java">
+   Blocking for new changes...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF027W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.INVALID.SLEEP.INTERVAL.VALUE.SPECIFIED" varFormat="Java">
+   Invalid &apos;Sleep Interval&apos; value specified: 
+   <Variable formatSpec="{0}">parameter value</Variable>. 
+   Will use default value of <Variable formatSpec="{1}">interval in seconds</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF028W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.INVALID.TIMEOUT.VALUE.SPECIFIED" varFormat="Java">
+   Invalid &apos;Timeout&apos; value specified: 
+   <Variable formatSpec="{0}">parameter value</Variable>. 
+   Will use default value of <Variable formatSpec="{1}">timeout value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF029W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.INVALID.PAGE.SIZE.VALUE.SPECIFIED" varFormat="Java">
+   Invalid &apos;Page Size&apos; value specified: 
+   <Variable formatSpec="{0}">parameter value</Variable>. Will not use paging.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF030E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.INVALID.PROP.START.USN.VALUE" varFormat="Java">
+   Invalid &apos;START_USN&apos; value: 
+   <Variable formatSpec="{1}">USN value</Variable>.
+   &apos;START_USN&apos; value will be set to 0.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF031I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.GET.NEXT.PAGE" varFormat="Java">
+   Get next page: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJF032E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.ERROR.COULD.NOT.STORE.THE.USN.VALUE" varFormat="Java">
+   Could not store the USN value in System Store.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJF033W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ADCHGLG.MISSING.ITERATORSTATEKEY.WARN" varFormat="Java">
+   The &apos;iteratorStateKey&apos; parameter is not specified in the
+   Active Directory Change Detection Connector. The Connector will not persist state.
+   </MsgText>
+   <Explanation> <p>
+   The parameter iteratorStateKey is not specified in the
+   Active Directory Change Detection Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iteratorStateKey parameter in the Connector configuration to enable state persistence.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Fri Dec 17 16:20:10 SGT 2010" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.FileTransferFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.filetransferfc.FileTransferFC</parameter>
+				<parameter name="sourceProtocol"></parameter>
+				<parameter name="sourceHostname"/>
+				<parameter name="sourcePort"/>
+				<parameter name="sourcePath"/>
+				<parameter name="sourceUsername"/>
+				<parameter name="sourcePassword"/>
+				<parameter name="sourceKeystore"/>
+				<parameter name="sourcePassphrase"/>
+				<parameter name="targetProtocol"></parameter>
+				<parameter name="targetHostname"/>
+				<parameter name="targetPort"/>
+				<parameter name="targetPath"/>
+				<parameter name="createTargetPath"/>
+				<parameter name="targetUsername"/>
+				<parameter name="targetPassword"/>
+				<parameter name="targetKeystore"/>
+				<parameter name="targetPassphrase"/>
+				<parameter name="tempDirectory"/>
+				<parameter name="deleteTempFile">true</parameter>
+				<parameter name="recursiveList">false</parameter>
+				<parameter name="ftpTransferMode">ASCII</parameter>
+				<parameter name="ftpPassive_src">false</parameter>
+				<parameter name="ftpPassive_tgt">false</parameter>
+				<parameter name="ftpSecurity_src">None</parameter>
+				<parameter name="ftpSecurity_tgt">None</parameter>
+				<parameter name="ftpExplicitModeSSL_src">false</parameter>
+				<parameter name="ftpExplicitModeSSL_tgt">false</parameter>
+				<parameter name="handleAsTextFile_src">false</parameter>
+				<parameter name="handleAsTextFile_tgt">false</parameter>
+				<parameter name="as400SSL_src">false</parameter>
+				<parameter name="as400SSL_tgt">false</parameter>
+				<parameter name="as400Proxy_src"/>
+				<parameter name="as400Proxy_tgt"/>
+				<parameter name="timeout_src">0</parameter>
+				<parameter name="timeout_tgt">0</parameter>
+				<parameter name="enableRXALog">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$tempFilePath</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$tempDirPath</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.protocol</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.path</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.hostname</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.port</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.user</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.password</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.keystore</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>source.passphrase</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.protocol</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.path</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.hostname</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.port</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.user</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.password</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.keystore</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>target.passphrase</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.filetransferfc.FileTransferFC">
+			<TranslationFile>NLS/idi_fc_filetransfer</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Source</ListItem>
+				<ListItem>Advanced Source</ListItem>
+				<ListItem>Target</ListItem>
+				<ListItem>Advanced Target</ListItem>
+				<!--<ListItem>Advanced</ListItem>-->
+				<!--<ListItem>Advanced RXA</ListItem>-->
+			</FormSectionNames>
+			<FormSection name="Source">
+				<parameter name="title">Source</parameter>
+				<parameter name="initiallyExpanded">true</parameter>
+				<FormSectionNames>
+					<ListItem>sourceProtocol</ListItem>
+					<ListItem>sourcePath</ListItem>
+					<ListItem>sourceHostname</ListItem>
+					<ListItem>sourcePort</ListItem>
+					<ListItem>sourceUsername</ListItem>
+					<ListItem>sourcePassword</ListItem>
+					<ListItem>sourceKeystore</ListItem>
+					<ListItem>sourcePassphrase</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced Source">
+				<parameter name="title">ADVCD_SRC</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ftpPassive_src</ListItem>
+					<ListItem>ftpSecurity_src</ListItem>
+					<ListItem>ftpExplicitModeSSL_src</ListItem>
+					<ListItem>timeout_src</ListItem>
+					<ListItem>handleAsTextFile_src</ListItem>
+					<ListItem>as400SSL_src</ListItem>
+					<ListItem>as400Proxy_src</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Target">
+				<parameter name="title">Target</parameter>	
+				<parameter name="initiallyExpanded">true</parameter>
+				<FormSectionNames>
+					<ListItem>targetProtocol</ListItem>
+					<ListItem>targetPath</ListItem>
+					<ListItem>createTargetPath</ListItem>
+					<ListItem>targetHostname</ListItem>
+					<ListItem>targetPort</ListItem>
+					<ListItem>targetUsername</ListItem>
+					<ListItem>targetPassword</ListItem>
+					<ListItem>targetKeystore</ListItem>
+					<ListItem>targetPassphrase</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced Target">
+				<parameter name="title">ADVCD_TRG</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ftpPassive_tgt</ListItem>
+					<ListItem>ftpSecurity_tgt</ListItem>
+					<ListItem>ftpExplicitModeSSL_tgt</ListItem>
+					<ListItem>timeout_tgt</ListItem>
+					<ListItem>handleAsTextFile_tgt</ListItem>
+					<ListItem>as400SSL_tgt</ListItem>
+					<ListItem>as400Proxy_tgt</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<!--<FormSection name="Advanced RXA">
+				<parameter name="title">Advanced RXA Options</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>timeout</ListItem>
+					<ListItem>handleAsTextFile</ListItem>
+					<ListItem>as400SSL</ListItem>
+					<ListItem>as400Proxy</ListItem>
+					<ListItem>enableRXALog</ListItem>
+				</FormSectionNames>
+			</FormSection>-->
+			<!--<FormSection name="Advanced">
+				<parameter name="title">Advanced Options</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ftpTransferMode</ListItem>
+					<ListItem>enableRXALog</ListItem>
+					<ListItem>ftpPassive</ListItem>
+					<ListItem>ftpSecurity</ListItem>
+					<ListItem>ftpExplicitModeSSL</ListItem>
+				</FormSectionNames>
+			</FormSection>-->
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tempDirectory</ListItem>
+					<ListItem>deleteTempFile</ListItem>
+					<ListItem>recursiveList</ListItem>
+					<ListItem>ftpTransferMode</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+					<ListItem>enableRXALog</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>sourceProtocol</ListItem>
+				<ListItem>sourceHostname</ListItem>
+				<ListItem>sourcePort</ListItem>
+				<ListItem>sourcePath</ListItem>
+				<ListItem>sourceUsername</ListItem>
+				<ListItem>sourcePassword</ListItem>
+				<ListItem>sourceKeystore</ListItem>
+				<ListItem>sourcePassphrase</ListItem>
+				<ListItem>targetProtocol</ListItem>
+				<ListItem>targetHostname</ListItem>
+				<ListItem>targetPort</ListItem>
+				<ListItem>targetPath</ListItem>
+				<ListItem>createTargetPath</ListItem>
+				<ListItem>targetUsername</ListItem>
+				<ListItem>targetPassword</ListItem>
+				<ListItem>targetKeystore</ListItem>
+				<ListItem>targetPassphrase</ListItem>
+				<ListItem>ftpTransferMode</ListItem>
+				<ListItem>ftpPassive_src</ListItem>
+				<ListItem>ftpSecurity_src</ListItem>
+				<ListItem>timeout_src</ListItem>
+				<ListItem>handleAsTextFile_src</ListItem>
+				<ListItem>as400SSL_src</ListItem>
+				<ListItem>as400Proxy_src</ListItem>
+				<ListItem>ftpPassive_tgt</ListItem>
+				<ListItem>ftpSecurity_tgt</ListItem>
+				<ListItem>timeout_tgt</ListItem>
+				<ListItem>handleAsTextFile_tgt</ListItem>
+				<ListItem>as400SSL_tgt</ListItem>
+				<ListItem>as400Proxy_tgt</ListItem>
+				<ListItem>enableRXALog</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="sourceProtocol">
+				<Values>
+					<ListItem></ListItem>
+					<ListItem>SSH</ListItem>
+					<ListItem>RSH</ListItem>
+					<ListItem>REXEC</ListItem>
+					<ListItem>AS400</ListItem>
+					<ListItem>WIN</ListItem>
+					<ListItem>FTP</ListItem>
+				</Values>
+			<LocalizedValues>
+			<Item>
+			    <Key>CONNECT_OPT1</Key>
+				<Value>Localized.CONNECT_OPT1</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT2</Key>
+				<Value>Localized.CONNECT_OPT2</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT3</Key>
+				<Value>Localized.CONNECT_OPT3</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT4</Key>
+				<Value>Localized.CONNECT_OPT4</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT5</Key>
+				<Value>Localized.CONNECT_OPT5</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT6</Key>
+				<Value>Localized.CONNECT_OPT6</Value>
+			</Item>
+			</LocalizedValues>
+				<parameter name="script">getSourceProtocols</parameter>
+				<parameter name="scriptLabel">get_protocol_sript_label</parameter>
+				<parameter name="scripthelp">get_protocol_script_help</parameter>
+				<parameter name="description">SRCCONNECT_DESC</parameter>
+				<parameter name="label">CONNECT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="targetProtocol">
+				<Values>
+					<ListItem></ListItem>
+					<ListItem>SSH</ListItem>
+					<ListItem>RSH</ListItem>
+					<ListItem>REXEC</ListItem>
+					<ListItem>AS400</ListItem>
+					<ListItem>WIN</ListItem>
+					<ListItem>FTP</ListItem>
+				</Values>
+			<LocalizedValues>
+			<Item>
+			    <Key>CONNECT_OPT1</Key>
+				<Value>Localized.CONNECT_OPT1</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT2</Key>
+				<Value>Localized.CONNECT_OPT2</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT3</Key>
+				<Value>Localized.CONNECT_OPT3</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT4</Key>
+				<Value>Localized.CONNECT_OPT4</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT5</Key>
+				<Value>Localized.CONNECT_OPT5</Value>
+			</Item>
+			<Item>
+			    <Key>CONNECT_OPT6</Key>
+				<Value>Localized.CONNECT_OPT6</Value>
+			</Item>
+			</LocalizedValues>
+				<parameter name="script">getTargetProtocols</parameter>
+				<parameter name="scriptLabel">get_protocol_sript_label</parameter>
+				<parameter name="scripthelp">get_protocol_script_help</parameter>
+				<parameter name="description">TGTCONNECT_DESC</parameter>
+				<parameter name="label">CONNECT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="sourceHostname">
+				<parameter name="description">SRCHOST_DESC</parameter>
+				<parameter name="label">HOST_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="sourcePort">
+				<parameter name="description">SRCPORT_DESC</parameter>
+				<parameter name="label">PORT_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="sourcePath">
+				<parameter name="description">SRCPATH_DESC</parameter>
+				<parameter name="label">SRCPATH_LBL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sourceUsername">
+				<parameter name="description">SRCUSR_DESC</parameter>
+				<parameter name="label">USR_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="sourcePassword">
+				<parameter name="description">SRCPWD_DESC</parameter>
+				<parameter name="label">PWD_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="sourceKeystore">
+				<parameter name="description">SRCKS_DESC</parameter>
+				<parameter name="label">KS_LBL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+			</FormItem>
+			<FormItem name="sourcePassphrase">
+				<parameter name="description">SRCPHRASE_DESC</parameter>
+				<parameter name="label">PHRASE_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="targetHostname">
+				<parameter name="description">TGTHOST_DESC</parameter>
+				<parameter name="label">HOST_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="targetPort">
+				<parameter name="description">TGTPORT_DESC</parameter>
+				<parameter name="label">PORT_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="targetPath">
+				<parameter name="description">TGTPATH_DESC</parameter>
+				<parameter name="label">TGTPATH_LBL</parameter>
+				<parameter name="script">selectDirectory</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="createTargetPath">
+				<parameter name="description">CREATEDIR_desc</parameter>
+				<parameter name="label">createDir_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="targetUsername">
+				<parameter name="description">TGTUSR_DESC</parameter>
+				<parameter name="label">USR_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="targetPassword">
+				<parameter name="description">TGTPWD_DESC</parameter>
+				<parameter name="label">PWD_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="targetKeystore">
+				<parameter name="description">TGTKS_DESC</parameter>
+				<parameter name="label">KS_LBL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+			</FormItem>
+			<FormItem name="targetPassphrase">
+				<parameter name="description">TGTPHRASE_DESC</parameter>
+				<parameter name="label">PHRASE_LBL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="tempDirectory">
+				<parameter name="description">TEMPDIR_DESC</parameter>
+				<parameter name="label">TEMP_LBL</parameter>
+				<parameter name="script">selectDirectory</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+			</FormItem>
+			<FormItem name="deleteTempFile">
+				<parameter name="description">deleteTemp_desc</parameter>
+				<parameter name="label">deleteTemp_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="recursiveList">
+				<parameter name="description">recursive_desc</parameter>
+				<parameter name="label">recursive_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ftpTransferMode">
+				<Values>
+					<ListItem>ASCII</ListItem>
+					<ListItem>Binary</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>ASCII</Key>
+						<Value>Localized.ASCII</Value>
+					</Item>
+					<Item>
+						<Key>Binary</Key>
+						<Value>Localized.Binary</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">mode_desc</parameter>
+				<parameter name="label">mode_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="ftpPassive_src">
+				<parameter name="description">passive_desc</parameter>
+				<parameter name="label">passive_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ftpSecurity_src">
+				<Values>
+					<ListItem>None</ListItem>
+					<ListItem>Use SSL on control channel</ListItem>
+					<ListItem>Use SSL on control and data channels</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>None</Key>
+						<Value>Localized.None</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control channel</Key>
+						<Value>Localized.SSL_control_channel</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control and data channels</Key>
+						<Value>Localized.SSL_control_data_channels</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">security_desc</parameter>
+				<parameter name="label">security_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="ftpExplicitModeSSL_src">
+				<parameter name="description">expmode_desc</parameter>
+				<parameter name="label">expmode_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="enabledWhen" condition="ftpSecurity != 0"/>
+			</FormItem>
+			<FormItem name="timeout_src">
+				<parameter name="description">TIME_DESC</parameter>
+				<parameter name="label">TIME_LBL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="as400Proxy_src">
+				<parameter name="description">AS400PROX_DESC</parameter>
+				<parameter name="label">AS400PROX_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="handleAsTextFile_src">
+				<parameter name="description">HANDLE_AS_TEXT_FILE_DESC</parameter>
+				<parameter name="label">HANDLE_AS_TEXT_FILE_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="as400SSL_src">
+				<parameter name="description">AS400SSL_DESC</parameter>
+				<parameter name="label">AS400SSL_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ftpPassive_tgt">
+				<parameter name="description">passive_desc</parameter>
+				<parameter name="label">passive_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ftpSecurity_tgt">
+				<Values>
+					<ListItem>None</ListItem>
+					<ListItem>Use SSL on control channel</ListItem>
+					<ListItem>Use SSL on control and data channels</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>None</Key>
+						<Value>Localized.None</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control channel</Key>
+						<Value>Localized.SSL_control_channel</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control and data channels</Key>
+						<Value>Localized.SSL_control_data_channels</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">security_desc</parameter>
+				<parameter name="label">security_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="ftpExplicitModeSSL_tgt">
+				<parameter name="description">expmode_desc</parameter>
+				<parameter name="label">expmode_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="enabledWhen" condition="ftpSecurity != 0"/>
+			</FormItem>
+			<FormItem name="timeout_tgt">
+				<parameter name="description">TIME_DESC</parameter>
+				<parameter name="label">TIME_LBL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="as400Proxy_tgt">
+				<parameter name="description">AS400PROX_DESC</parameter>
+				<parameter name="label">AS400PROX_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="handleAsTextFile_tgt">
+				<parameter name="description">HANDLE_AS_TEXT_FILE_DESC</parameter>
+				<parameter name="label">HANDLE_AS_TEXT_FILE_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="as400SSL_tgt">
+				<parameter name="description">AS400SSL_DESC</parameter>
+				<parameter name="label">AS400SSL_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="enableRXALog">
+				<parameter name="description">RXALOG_DESC</parameter>
+				<parameter name="label">RXALOG_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+			<parameter name="formevents"><![CDATA[
+
+updateExplicitMode();
+function updateExplicitMode() {
+	var security = form.getConfigValue("ftpSecurity");
+	var enabled = !"None".equals(security);
+	form.getControl("ftpExplicitModeSSL").setEnabled(enabled);
+}
+
+function ftpSecurity_changed() {
+	updateExplicitMode();
+}
+
+]]></parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

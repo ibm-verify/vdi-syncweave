@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TCPServerConnector">
+                        <SupportedModes>Server,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.TCPServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="backlog"/>
+				<parameter name="requireClientAuth">false</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="tcp.port"/>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>event.inputstream</Name>
+					<Syntax>java.io.InputStream</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.originator</Name>
+					<Syntax>com.ibm.di.connector.ConnectorInterface</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>event.outputstream</Name>
+					<Syntax>java.io.OutputStream</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.inputstream</Name>
+					<Syntax>java.io.InputStream</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localHost</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localIP</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localPort</Name>
+					<Syntax>int</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.originator</Name>
+					<Syntax>com.ibm.di.connector.ConnectorInterface</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.outputstream</Name>
+					<Syntax>java.io.OutputStream</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remoteHost</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remoteIP</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remotePort</Name>
+					<Syntax>int</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.socket</Name>
+					<Syntax>java.net.Socket</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.TCPServerConnector">
+			<TranslationFile>NLS/idi_conn_tcpserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tcp.port</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>requireClientAuth</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>tcp.port</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>requireClientAuth</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="requireClientAuth">
+				<parameter name="description">TCP_CLIENTAUTH_DESC</parameter>
+				<parameter name="label">TCP_CLIENTAUTH_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="tcp.port">
+				<parameter name="description">TCP_PORT_DESC</parameter>
+				<parameter name="label">TCP_PORT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">TCP_USESSL_DESC</parameter>
+				<parameter name="label">TCP_USESSL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

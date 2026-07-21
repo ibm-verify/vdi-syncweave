@@ -1,0 +1,1 @@
+set TDI_SOLDIR="C:\Program Files\IBM\TDI\V7.1.1"

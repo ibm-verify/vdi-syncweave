@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright IBM Corp. 2009 All Rights Reserved -->
+<subagents xmlns="http://www.tivoli.ibm.com/itm/kwgcap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tivoli.ibm.com/itm/kwgcap kwgcap.xsd">
+    <!-- DO NOT EDIT THIS PORTION OF THE CAP FILE -->
+    <subagent id="IBMTDIDOMINOL">
+      <agentName>Security Verify Directory Integrator - Password Integrator Java Proxy Component for Domino HTTP</agentName>
+        <process>
+            <procName>java</procName>
+		    <commandLine regex="true">domino\/.*.props.* \S.*\/(domino)\/.*.props$</commandLine>
+        </process>
+      <agentType>Console</agentType>
+      <agentPath><TDI_INSTALL_DIR>/jvm/jre/bin/java</agentPath>
+      <platform xsi:type="PlatformLinux"></platform>
+    <!--END-->
+      <checkFrequency>1800</checkFrequency>
+      <managerType>NotManaged</managerType>
+      <maxRestarts>1</maxRestarts>
+      <startScript>
+        <command>cd <TDI_INSTALL_DIR>/pwd_plugins/bin/ &amp;&amp; ./startProxy.sh ../domino/pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </startScript>
+      <stopScript>
+        <command>cd <TDI_INSTALL_DIR>/pwd_plugins/bin/ &amp;&amp; ./stopProxy.sh ../domino/pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </stopScript>
+    </subagent>
+       <!-- DO NOT EDIT THIS PORTION OF THE CAP FILE -->
+    <subagent id="IBMTDIDOMINOU">
+      <agentName>Security Verify Directory Integrator - Password Integrator Java Proxy Component for Domino HTTP</agentName>
+        <process>
+            <procName>java</procName>
+		    <commandLine regex="true">domino\/.*.props.* \S.*\/(domino)\/.*.props$</commandLine>
+        </process>
+      <agentType>Console</agentType>
+      <agentPath><TDI_INSTALL_DIR>/jvm/jre/bin/java</agentPath>
+      <platform xsi:type="PlatformUnix"></platform>
+    <!--END-->
+      <checkFrequency>1800</checkFrequency>
+      <managerType>NotManaged</managerType>
+      <maxRestarts>1</maxRestarts>
+      <startScript>
+        <command>cd <TDI_INSTALL_DIR>/pwd_plugins/bin/ &amp;&amp; ./startProxy.sh ../domino/pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </startScript>
+      <stopScript>
+        <command>cd /opt/IBM/IBM/TDI/ChinaTest/pwd_plugins/bin/ &amp;&amp; ./stopProxy.sh ../domino/pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </stopScript>
+    </subagent>
+    <subagent id="IBMTDIDOMINOW">
+      <agentName>Security Verify Directory Integrator - Password Integrator Java Proxy Component for Domino HTTP</agentName>
+        <process>
+            <procName>java.exe</procName>
+            <commandLine regex="true">(domino)\\.*.props.*-Xrs.*</commandLine>
+        </process>
+      <agentType>Console</agentType>
+	  <agentPath><TDI_INSTALL_DIR>\jvm\jre\bin\java.exe</agentPath>
+    <platform xsi:type="PlatformWindows"/>
+    <!--END-->
+      <checkFrequency>1800</checkFrequency>
+      <managerType>NotManaged</managerType>
+      <maxRestarts>1</maxRestarts>
+      <startScript>
+        <command><TDI_INSTALL_DIR>\pwd_plugins\bin\startProxy.bat <TDI_INSTALL_DIR>\pwd_plugins\domino\pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </startScript>
+      <stopScript>
+        <command><TDI_INSTALL_DIR>\pwd_plugins\bin\stopProxy.bat <TDI_INSTALL_DIR>\pwd_plugins\domino\pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </stopScript>
+    </subagent>
+</subagents>

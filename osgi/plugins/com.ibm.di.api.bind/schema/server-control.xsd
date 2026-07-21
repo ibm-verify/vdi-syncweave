@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<complexType name="Shutdown">
+        <annotation>
+        	<documentation>Requests the Server to shutdown.</documentation>
+        </annotation>
+        <attribute name="exitCode" type="int" use="optional"
+			default="0">
+            <annotation>
+            	<documentation>The code which the ConfigInstance will terminate with.</documentation>
+            </annotation>
+		</attribute>
+		<attribute name="sync" type="boolean" use="optional"
+			default="true">
+			<annotation>
+				<documentation>Specifies whether the request will be processed synchronously or not.</documentation>
+			</annotation></attribute>
+	</complexType>
+
+	<element name="shutdown" type="tns:Shutdown"></element>
+</schema>

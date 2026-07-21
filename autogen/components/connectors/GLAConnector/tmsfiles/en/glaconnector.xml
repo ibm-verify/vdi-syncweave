@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="glaconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDKK101E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.MISSING.CONFIG.FILE" varFormat="Java">
+   The &apos;configFile&apos; parameter must be set to use the GLA Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter configFile is not set in the GLA Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the path to the adapter configuration file in the configFile parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK102E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.CONFIG.FILE.NOT.VALID" varFormat="Java">
+   The adapter configuration file is not valid: <Variable formatSpec="{0}">exception message</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The given configuration file is not valid. See the exception
+   message for more information.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the adapter configuration file and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK103I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.CONFIG.FILE.VALIDATED" varFormat="Java">
+   The adapter configuration file is validated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKK104I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.CONFIG.FILE.STARTED" varFormat="Java">
+   The adapter configuration file is started.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKK105E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.ADAPTER.FAIL.TO.START" varFormat="Java">
+   The execution of the adapter configuration file failed:
+   <Variable formatSpec="{0}">Exception message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An Exception occurred during the execution of the adapter configuration file.
+   See the Exception message for more information.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the Exception message for more information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK106E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.NO.REGISTERED.CONNECTOR.FOR.NAME" varFormat="Java">
+   There is no registered GLAConnector matching the specified in the TDIOutputter
+   &apos;tdi_correlation_id&apos; parameter: <Variable formatSpec="{0}">Correlation ID</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The Hashtable of the TDIOutputter does not contain a Connector registered to
+   the specified &apos;tdi_correlation_id&apos;.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a correct value in the TDIOutputter &apos;tdi_correlation_id&apos; parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK107E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.MORE.THAN.ONE.CONFIGURED.OUTPUTTERS" varFormat="Java">
+   There are more than one configured TDIOutputters in the adapter configuration file.
+   </MsgText>
+   <Explanation> <p>
+   The GLAConnector allows only one TDIOutputter to be configured in the adapter configuration file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Put only one TDIOutputter in the adapter configuration file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK108E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.ERROR.PARSING.CONFIG.FILE" varFormat="Java">
+   An exception occurred while converting the XML file to Document object:
+   <Variable formatSpec="{0}">exception message</Variable>
+   </MsgText>
+   <Explanation> <p>
+    There are several possible reasons for this exception. A DocumentBuilder may not have
+    been able to be created which satisfied the configuration requested.
+    An IO error occurred. Or, a parse error occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the Exception message for more information.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKK109E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.GLA.NO.CONFIGURED.OUTPUTTER" varFormat="Java">
+   The given adapter configuration file does not have a configured TDIOutputter.
+   </MsgText>
+   <Explanation> <p>
+    The GLAConnector needs a TDIOutputter to be configured in the adapter configuration
+    file in order to receive the CBE objects.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set a TDIOutputter in the adapter configuration file and try again. Refer to the GLAConnector
+   documentation about how to configure the TDIOutputter.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

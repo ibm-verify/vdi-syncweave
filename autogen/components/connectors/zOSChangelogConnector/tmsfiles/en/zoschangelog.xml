@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="zoschangelog" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIE001I" prefix="yes">
+  <MsgText pgmKey="CANNOT.SET.STARTING.CHANGENUMBER" varFormat="Java">
+    Connector could not set the starting change number to
+    &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;. The
+    &apos;nsChangenumber&apos; parameter will be ignored.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE002I" prefix="yes">
+   <MsgText pgmKey="STARTING.CHANGENUMBER" varFormat="Java">
+   The starting change number is &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos; and
+   the &apos;iteratorStateKey&apos; parameter is set to
+   &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE003I" prefix="yes">
+   <MsgText pgmKey="ENTRY.NOT.FOUND.IN.CHANGELOG" varFormat="Java">
+   Entry not found in change log with change number of &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and the &apos;ldapSearchBase&apos; set to &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE004I" prefix="yes">
+   <MsgText pgmKey="SKIPPING.AND.TRY.NEXT" varFormat="Java">
+   Skipping entry with change number of &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and will try next entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE005I" prefix="yes">
+   <MsgText pgmKey="TIMEOUT.WAITING" varFormat="Java">
+   Timeout waiting for next changed entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE006E" prefix="yes">
+   <MsgText pgmKey="ERROR.LAST.CHANGENUMBER" varFormat="Java">
+   Could not retrieve last change number.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;lastchangenumber&apos; attribute is missing or its value is not a parsable string representing a long value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the z/OS LDAP Server is properly configured.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIE007W" prefix="yes">
+   <MsgText pgmKey="COULD.NOT.STORE" varFormat="Java">
+   Unable to store the change number value &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   in the System Store. Exception encountered: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The System Store could be configured incorrectly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the System Store is configured correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIE008E" prefix="yes">
+   <MsgText pgmKey="ERROR.CHANGES.ATTRIBUTE.MISSING" varFormat="Java">
+   Unable to parse entry because the entry is not a valid change log
+   entry. The &apos;changes&apos; and &apos;newrdn&apos; attributes are missing. The
+   entry operation was set to &apos;&apos;<Variable formatSpec="{0}">operation type</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Your z/OS LDAP Server could be configured incorrectly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that your z/OS LDAP Server is properly configured.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIE009E" prefix="yes">
+   <MsgText pgmKey="ERROR.CHANGES.ATTRIBUTE.PARSING" varFormat="Java">
+   Unable to parse the change log &apos;changes&apos; attribute. See the exception message for more information.
+   </MsgText>
+   <Explanation> <p>
+   An error has occured while the LDIF Parser was parsing the change log &apos;changes&apos; attribute.
+   The syntax of the change log information retrieved from the z/OS LDAP Server is probably invalid.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that your z/OS LDAP Server is properly configured.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIE010E" prefix="yes">
+   <MsgText pgmKey="ERROR.RESTART.INFO" varFormat="Java">
+   Restart info does not contain the attribute &apos;changeNumber&apos;.
+   </MsgText>
+   <Explanation> <p>
+   An internal error occurred. The Checkpoint/Restart feature failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIE011I" prefix="yes">
+   <MsgText pgmKey="READ.CHANGENUMBER" varFormat="Java">
+   Reading entry in change log with change number of &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and the &apos;ldapSearchBase&apos; set to &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE012I" prefix="yes">
+   <MsgText pgmKey="GOT.NEXT.CHANGENUMBER" varFormat="Java">
+   Found entry in change log with change number of &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and the &apos;ldapSearchBase&apos; set to &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIE013W" prefix="yes">
+   <MsgText pgmKey="EMPTY.ITERATORSTATEKEY" varFormat="Java">
+   The iterator state key is not specified. No state will be stored. The Start At parameter&apos;s value will be used.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iterator state key if you want the state of the changelog connector to be saved.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

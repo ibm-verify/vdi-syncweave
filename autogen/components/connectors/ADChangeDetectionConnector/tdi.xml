@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.ADChangelogv2">
+			<SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.ADChangelogConnectorv2</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="iteratorStateKey"/>
+				<parameter name="jndiExtraProviderParams"/>
+				<parameter name="ldapAuthenticationMethod">Simple</parameter>
+				<parameter name="ldapBinaryAttributes">objectGUID objectSid</parameter>
+				<parameter name="ldapPassword"/>
+				<parameter name="ldapReferrals">ignore</parameter>
+				<parameter name="ldapSearchBase"/>
+				<parameter name="ldapUrl">ldap://hostname:389</parameter>
+				<parameter name="ldapUseSSL">false</parameter>
+				<parameter name="ldapUsername"/>
+				<parameter name="pageSize">500</parameter>
+				<parameter name="sleepInterval">1</parameter>
+				<parameter name="startAt">0</parameter>
+				<parameter name="stateKeyPersistence">End of cycle</parameter>
+				<parameter name="timeout">5</parameter>
+				<parameter name="useNotifications">false</parameter>
+			</Configuration>
+			<Reconnect>
+				<parameter name="initreconnect">true</parameter>
+				<parameter name="numberOfRetries">9</parameter>
+				<parameter name="retryDelay">1</parameter>
+				<ReconnectRules>
+					<Rule>
+						<parameter name="exceptionClass">javax.naming.ServiceUnavailableException</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+					<Rule>
+						<parameter name="exceptionClass">javax.naming.CommunicationException</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+				</ReconnectRules>
+			</Reconnect>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.ADChangelogConnectorv2">
+			<TranslationFile>NLS/idi_conn_ADchangedetection</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>ldapUrl</ListItem>
+					<ListItem>ldapUsername</ListItem>
+					<ListItem>ldapPassword</ListItem>
+					<ListItem>ldapSearchBase</ListItem>
+					<ListItem>iteratorStateKey</ListItem>
+					<ListItem>startAt</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>useNotifications</ListItem>
+					<ListItem>stateKeyPersistence</ListItem>
+					<ListItem>ldapAuthenticationMethod</ListItem>
+					<ListItem>ldapUseSSL</ListItem>
+					<ListItem>jndiExtraProviderParams</ListItem>
+					<ListItem>ldapBinaryAttributes</ListItem>
+					<ListItem>pageSize</ListItem>
+					<ListItem>timeout</ListItem>
+					<ListItem>sleepInterval</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>ldapUrl</ListItem>
+				<ListItem>ldapUsername</ListItem>
+				<ListItem>ldapPassword</ListItem>
+				<ListItem>ldapAuthenticationMethod</ListItem>
+				<ListItem>ldapUseSSL</ListItem>
+				<ListItem>jndiExtraProviderParams</ListItem>
+				<ListItem>ldapBinaryAttributes</ListItem>
+				<ListItem>ldapSearchBase</ListItem>
+				<ListItem>pageSize</ListItem>
+				<ListItem>iteratorStateKey</ListItem>
+				<ListItem>startAt</ListItem>
+				<ListItem>stateKeyPersistence</ListItem>
+				<ListItem>useNotifications</ListItem>
+				<ListItem>timeout</ListItem>
+				<ListItem>sleepInterval</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="iteratorStateKey">
+				<parameter name="description">isk_desc</parameter>
+				<parameter name="label">isk_label</parameter>
+				<parameter name="script">deleteIteratorStateKey</parameter>
+				<parameter name="scriptLabel">isk_script_label</parameter>
+				<parameter name="scripthelp">isk_script_help</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jndiExtraProviderParams">
+				<parameter name="description">JNDI_XTRA_PROVIDER_DESC</parameter>
+				<parameter name="label">JNDI_XTRA_PROVIDER_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="ldapAuthenticationMethod">
+				<Values>
+					<ListItem>Anonymous</ListItem>
+					<ListItem>Simple</ListItem>
+					<ListItem>SASL</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Anonymous</Key>
+						<Value>Localized.Anonymous</Value>
+					</Item>
+					<Item>
+						<Key>Simple</Key>
+						<Value>Localized.Simple</Value>
+					</Item>
+					<Item>
+						<Key>SASL</Key>
+						<Value>Localized.SASL</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">auth_desc</parameter>
+				<parameter name="label">auth_label</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="ldapBinaryAttributes">
+				<parameter name="description">BIN_ATTRIB_DESC</parameter>
+				<parameter name="label">BIN_ATTRIB_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="ldapPassword">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="ldapSearchBase">
+				<parameter name="description">search_desc</parameter>
+				<parameter name="label">search_label</parameter>
+				<parameter name="script">selectLDAPSearchBase</parameter>
+				<parameter name="scriptLabel">search_script_label</parameter>
+				<parameter name="scripthelp">search_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ldapUrl">
+				<parameter name="description">url_desc</parameter>
+				<parameter name="label">url_label</parameter>
+				<parameter name="syntax">URL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ldapUseSSL">
+				<parameter name="description">usessl_desc</parameter>
+				<parameter name="label">usessl_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="ldapUsername">
+				<parameter name="description">user_desc</parameter>
+				<parameter name="label">user_label</parameter>
+				<parameter name="syntax">DN</parameter>
+			</FormItem>
+			<FormItem name="pageSize">
+				<parameter name="description">pagesize_desc</parameter>
+				<parameter name="label">pagesize_label</parameter>
+			</FormItem>
+			<FormItem name="sleepInterval">
+				<parameter name="description">sleep_desc</parameter>
+				<parameter name="label">sleep_label</parameter>
+			</FormItem>
+			<FormItem name="startAt">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>EOD</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>EOD</Key>
+						<Value>Localized.EOD</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">startat_desc</parameter>
+				<parameter name="label">startat_label</parameter>
+				<parameter name="syntax">DROPEDIT</parameter>
+			</FormItem>
+			<FormItem name="stateKeyPersistence">
+				<Values>
+					<ListItem>After read</ListItem>
+					<ListItem>End of cycle</ListItem>
+					<ListItem>Manual</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After read</Key>
+						<Value>Localized.After.read</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">STATE_KEY_PERSIST_DESCR</parameter>
+				<parameter name="label">STATE_KEY_PERSIST_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="timeout">
+				<parameter name="description">timeout_desc</parameter>
+				<parameter name="label">timeout_label</parameter>
+			</FormItem>
+			<FormItem name="useNotifications">
+				<parameter name="description">USE_NOTIFICATIONS_DESC</parameter>
+				<parameter name="label">USE_NOTIFICATIONS_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+			<parameter name="formevents"><![CDATA[
+function sleepInterval_focusout() {
+	checkMinMax("sleepInterval",  "timeout", true);
+}
+function timeout_focusout() {
+	checkMinMax("sleepInterval",  "timeout", false);
+}
+function checkMinMax(p1, p2, mm) {
+	min = 0;
+	max = 0;
+	try {
+		min = java.lang.Integer.parseInt(form.getConfig(p1));
+	} catch(ign) {}
+	try {
+		max = java.lang.Integer.parseInt(form.getConfig(p2));
+	} catch(ign) {}
+	
+	if(min > max && max > 0) {
+		if(mm) {
+			form.setConfig(p2, form.getConfig(p1));
+			form.updateControl(p2);
+		} else {
+			form.setConfig(p1, form.getConfig(p2));
+			form.updateControl(p1);
+		}
+	}
+}
+
+function useNotifications_changed() {
+	str = form.getConfig("useNotifications");
+	if(str == null)
+		str = "false";
+	enabled = str.equals("false");
+	try {
+		form.getControl("timeout").setEnabled(enabled);
+		form.getControl("sleepInterval").setEnabled(enabled);
+	} catch (ign) {
+		form.alert(ign);
+	}
+}
+
+useNotifications_changed();
+
+]]></parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

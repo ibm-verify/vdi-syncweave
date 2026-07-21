@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="273" UUID="15583da1-b2ea-4e0b-a464-eeacd6953940" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="TargetSystem" modified="Sat May 16 22:39:55 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<Connector name="TargetSystem">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1431808795037</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1431808795037</ModTime>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="ldapBinaryAttributes"><![CDATA[@SUBSTITUTE{javascript pname = "target.ldap.binaryAttributes"
+param = getProperty(pname,null)
+	
+if (param === null)
+	return ""
+	
+if (param.indexOf(",") > 0)
+	atts = system.splitString(param,",")
+else
+if (param.indexOf("\n") > 0)
+	atts = system.splitString(param,"\n")
+else
+	atts = system.splitString(param," ")
+pstr = ""
+for (a in atts)
+	if (!a.toLowerCase().equals("objectsid"))
+		pstr += a + "\n"
+return pstr}]]></parameter>
+            <parameter name="ldapPageSize">@SUBSTITUTE{javascript return connectorParam("source.ldap.pageSize", 0)}</parameter>
+            <parameter name="ldapPassword">@SUBSTITUTE{javascript return connectorParam("target.ldap.password")}</parameter>
+            <parameter name="ldapReturnAttributes"/>
+            <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return connectorParam("target.ldap.searchBase")}</parameter>
+            <parameter name="ldapSearchFilter">cn=*</parameter>
+            <parameter name="ldapUrl">@SUBSTITUTE{javascript return connectorParam("target.ldap.url")}</parameter>
+            <parameter name="ldapUsername">@SUBSTITUTE{javascript return connectorParam("target.ldap.user")}</parameter>
+            <parameter name="script"><![CDATA[var counter = 0;
+var opEntry = task.getOpEntry();
+var ctr = null;
+var alFC = null;
+var initialized = false;
+
+function handleError(entry, tcb) {
+	if (typeof tcb === "undefined" || tcb === null) { tcb = task.getTCB(); }
+	 	
+	var error = tcb.getObject("$error");
+	if (error === null) {
+		if (typeof entry == "undefined" || entry === null) { 
+			return; 
+		} else {
+			error = entry.getObject("$error");
+		}	
+	}
+	
+	// copy this to the opEntry as well
+	tcb["$error"] = error;
+	opEntry["$errorLogged"] = tcb["$errorLogged"];
+	
+	if (error !== null && (typeof error != "object" || !"ok".equalsIgnoreCase(error.getString("status")))) {
+		throw error.getObject("exception");
+	}
+}
+
+function initialize() {
+	initialized = opEntry.getObject("$initialized");
+	ctr = opEntry.getObject("$ctr");
+	alFC = opEntry.getObject("$alFC");
+
+	if (initialized == true) {
+		return;
+	}
+	
+	if (ctr != null) {
+		ctr.initialize(null);
+	} else
+	if (alFC != null) {
+		alFC.initialize();
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "initialize";
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		var retEntry = alFC.perform(opEntry.getObject("$entry"));
+		handleError(retEntry, alFC.getTCB());
+	}
+	
+	initialized = true;
+	opEntry.setAttribute("$initialized", initialized);
+}
+
+function selectEntries() {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	if (ctr != null) {
+		ctr.setParam("ldapSearchFilter", connector.getParam("ldapSearchFilter"))
+		ctr.setParam("ldapSearchBase", connector.getParam("ldapSearchBase"))
+		ctr.selectEntries();
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "selectEntries";
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		var retEntry = alFC.perform(opEntry.getObject("$entry"));
+		handleError(retEntry, alFC.getTCB());
+	}
+}
+
+function getNextEntry () {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	var retEntry = null;
+	
+	if (ctr != null) {
+		retEntry = ctr.getNextEntry();
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "getNextEntry";
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		retEntry = alFC.perform(opEntry.getObject("$entry"));
+		handleError(retEntry, alFC.getTCB());
+	}
+
+	if (retEntry == null) {
+		result.setStatus(0);
+	} else {
+		entry.merge(retEntry);
+		result.setStatus(1);
+	}
+}
+
+function putEntry () {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	if (ctr != null) {
+		ctr.putEntry(entry);
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "putEntry";
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		passSpecialAttributes(opEntry, entry);
+		var retEntry = alFC.perform(entry);
+		handleError(retEntry, alFC.getTCB());
+	}
+}
+
+function modEntry () {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	if (ctr != null) {
+		ctr.modEntry(entry, search);
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "modEntry";
+		tcb["$search"] = search;
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		passSpecialAttributes(opEntry, entry);
+		var retEntry = alFC.perform(entry);
+		handleError(retEntry, alFC.getTCB());
+	}
+}
+
+function deleteEntry () {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	if (ctr != null) {
+		var retEntry = system.newEntry();
+		
+		ctr.deleteEntry(retEntry, search);
+		if (retEntry != null) {
+			entry.merge(retEntry)
+		}
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "deleteEntry";
+		tcb["$search"] = search;
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		var sendEntry = opEntry.getObject("$entry");
+/*
+		java.lang.System.out.println("--> TargetSystem Connector - deleteEntry - search: " 
+				+ search.getCriteria()[0].name
+				+ " eq " + search.getCriteria()[0].value);
+		java.lang.System.out.println("-->                                      -   type: "
+				+ tcb.getString("$typeOfEntry") + " sdn: " + sendEntry.getString("$sourceDN"));
+*/
+		var retEntry = alFC.perform(sendEntry);
+		handleError(retEntry, alFC.getTCB());
+	}
+}
+
+function findEntry () {
+	if (!initialized) {
+		throw resource.getString("LDAPSYNC.TARGET.NOT.INITIALIZED");
+	}
+	var retEntry = null;
+	var nxt;
+	if (ctr != null) {
+		ctr.setParam("ldapReturnAttributes", connector.getParam("ldapReturnAttributes"))
+		retEntry = ctr.findEntry(search);
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "findEntry";
+		tcb["$search"] = search;
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		var sendEntry = opEntry.getObject("$entry");
+/*
+		java.lang.System.out.println("--> TargetSystem Connector - findEntry - search: " 
+				+ search.getCriteria()[0].name
+				+ " eq " + search.getCriteria()[0].value);
+		java.lang.System.out.println("-->                                    -    sdn: " + sendEntry.getString("$sourceDN"));
+*/
+		retEntry = alFC.perform(sendEntry);
+/*		
+		java.lang.System.out.println("==> TargetSystem Connector - findEntry - found: " 
+			+ ((retEntry !== null) ? retEntry.objectClass : " -- no match -- "));
+*/		
+		handleError(retEntry, alFC.getTCB());
+	}
+
+	if (retEntry != null && retEntry.size() > 0) {
+		var connEntry = retEntry.getObject("$conn");
+//		retEntry.removeAttribute("$conn");
+		
+		entry.merge(retEntry);
+		result.setStatus(1);
+		if (alFC != null && connEntry) {
+			for (var i = 1; i < connEntry.size(); i++) {
+				connector.addFindEntry(conn.getValue(i));
+			}
+		} else 
+		if (ctr != null && ctr.getFindEntryCount() > 1) {
+			do {
+				var nxt = ctr.getNextFindEntry();
+				if (nxt !== null) {
+					connector.addFindEntry()
+				}
+			} while (nxt !== null);
+		}
+	} else {
+		result.setStatus(0);
+	}
+}
+
+function terminate() {
+	if (!initialized) {
+		return;
+	}
+	
+	var retEntry = null;
+	
+	try {
+		if (ctr !== null) {
+			ctr.terminate();
+		}
+		
+		if (alFC !== null) {
+			var tcb = alFC.getTCB();
+			tcb["$operation"] = "terminate";
+			tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+			tcb["$error"] = null;
+			tcb["$errorLogged"] = null;
+			opEntry["$error"] = null;
+			opEntry["$errorLogged"] = null;
+			retEntry = alFC.perform(opEntry.getObject("$entry"));
+			alFC.terminate();
+		}
+	} catch (ex) {
+		// do nothing
+	}		
+	
+	initialized = false;
+	opEntry.setAttribute("$initialized", initialized);
+
+	if (retEntry !== null) {
+		handleError(retEntry, alFC.getTCB());
+	}
+}
+
+function querySchema () {
+	if (ctr != null) {
+		var callList = ctr.querySchema();
+		for (var i = 0; i < callList.size(); i++) {
+			list.add(callList.get(i));
+		}
+		result.setStatus(1);
+	} else
+	if (alFC != null) {
+		var tcb = alFC.getTCB();
+		tcb["$operation"] = "querySchema";
+		tcb["$search"] = search;
+		tcb.setAttribute("$typeOfEntry", opEntry.getString("$typeOfEntry"));
+		tcb["$error"] = null;
+		tcb["$errorLogged"] = null;
+		opEntry["$error"] = null;
+		opEntry["$errorLogged"] = null;
+		var retEntry = alFC.perform(opEntry.getObject("$entry"));
+		if (retEntry != null) {
+			var attNames = retEntry.getAttributeNames();
+			for (var attName in attNames) {
+				var e = system.newEntry();
+				e.name = attName;
+				e.syntax = retEntry.getString(attName);
+				list.add(e);
+			}
+			result.setStatus(1);
+		} else {
+			result.setStatus(0);
+		}	
+	}
+}
+
+function passSpecialAttributes(srcEntry, tgtEntry) {
+	if (srcEntry === null || srcEntry.size() == 0) {
+		return;
+	}
+	
+	for (var att in srcEntry) {
+		var attName = att.getName();
+		if (attName.startsWith("$")) {
+			var oldAtt = tgtEntry[attName];
+			tgtEntry[attName] = srcEntry[attName];
+/*
+			if (!"$entry".equals(attName)) {
+				java.lang.System.out.println("--> TargetSystem/passSpecialAttibutes"
+					+ " old: " + oldAtt + "  new: " + att);
+			}	
+*/			
+		}
+	}
+}
+]]></parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="before_initialize">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>before_initialize</Name>
+                <Script><![CDATA[opEntry = task.getOpEntry(); // just to be sure we have it
+alFC = opEntry.getObject("$alFC");
+ctr = opEntry.getObject("$ctr");
+targetTCB = null;
+
+if (alFC != null) {
+	targetTCB = alFC.getTCB();
+	return; // exit this Hook
+} else
+if (ctr != null) {
+	return;  // exit this Hook
+}
+
+alName = getALName("target.endpoint.AL");
+
+if (alName != null) {
+	p = alName.lastIndexOf("/");
+	if (p > 0) {
+		alNamePart = alName.substring(p+1);
+	} else {
+		alNamePart = alName;
+	}
+	
+	try {
+		alFC = system.getFunction("ibmdi.AssemblyLineFC");
+		alFC.setParam("assemblyLine", alName);
+		alFC.setParam("shareLog", "true");
+		alFC.setParam("mode", "2"); // Manual mode
+		targetTCB = alFC.getTCB();
+		targetTCB.setTaskName(flowKey + "_" + alNamePart);
+
+		// save ALFC in this AL's opEntry
+		opEntry.setAttribute("$alFC", alFC);
+		opEntry.setAttribute("$ctr", null);
+		
+		// set up $operation and search attributes of called AL's targetTCB
+		targetTCB["$operation"] = "*not set*";
+		targetTCB.search = null;
+		
+		if (opEntry != null) {
+			targetTCB.setOperationInitParams(opEntry);
+		}
+	} catch (ex) {
+		throw resource.getString("LDAPSYNC.CANNOT.LOAD.TARGET.SYSTEM.AL") + ": " + alName + " - " + ex;
+	}	
+} else {
+//	ctrName = getProperty("target.endpoint.connector", "TargetTDS");
+//	ctr = system.getConnector(ctrName);
+	ctrName = getProperty("target.endpoint.connector.name", "TargetTDS");
+	ctr = configureConnector(false, false, "target.endpoint", ctrName);
+	if (ctr === null) {
+		throw resource.getString("LDAPSYNC.CANNOT.LOAD.TARGET.SYSTEM.CONNECTOR") + ": " + ctrName;
+	}
+
+	// save ctr in this AL's opEntry
+	opEntry.setAttribute("$alFC", null);
+	opEntry.setAttribute("$ctr", ctr);
+}
+
+if (targetTCB !== null) {
+	passGlobalVariablesViaTCB(targetTCB);
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="default_fail">
+                <InheritFrom>/Scripts/libDefaultOnError</InheritFrom>
+                <Name>default_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="initialize_fail">
+                <InheritFrom>/Scripts/libInitError</InheritFrom>
+                <Name>initialize_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1429099808179</ModTime>
+            <parameter name="autoreconnect">@SUBSTITUTE{javascript return typeof cloudSync == "undefined" || !cloudSync;}</parameter>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

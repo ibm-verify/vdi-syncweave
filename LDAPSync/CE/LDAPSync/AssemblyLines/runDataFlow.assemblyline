@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="321" UUID="ee6cdede-2048-4239-824e-3c5a5b27f5a6" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="runDataFlow" modified="Fri Jul 08 18:17:13 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<AssemblyLine name="runDataFlow">
+        <ModTime>1467994633331</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="includePrologs">retryList</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <ModTime>1465538879600</ModTime>
+            <Hook name="ShutdownScript">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>ShutdownScript</Name>
+                <Script><![CDATA[if (typeof quickStop != "undefined" && quickStop) {
+	return;
+}
+
+if (typeof work === "undefined") {
+	work = system.newEntry();
+}
+
+invokeHook("onshutdownrequest", work);
+
+endOfFlowHandling(isSync)]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>onfailure</Name>
+                <Script><![CDATA[if (typeof quickStop != "undefined" && quickStop) {
+	return;
+}
+
+if (typeof work === "undefined") {
+	work = system.newEntry();
+}
+
+invokeHook("onfailure", work);
+
+endOfFlowHandling(isSync)]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="onsuccess">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>onsuccess</Name>
+                <Script><![CDATA[if (typeof quickStop != "undefined" && quickStop) {
+	return;
+}
+
+if (typeof work === "undefined") {
+	work = system.newEntry();
+}
+
+invokeHook("onsuccess", work);
+
+endOfFlowHandling(isSync);]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[if (!singletonAL()) {
+	stopMsg = resource.getString("STOPPING.EXTRA.INSTANCE.OF.FLOW");
+	task.logmsg("WARN", stopMsg);
+	java.lang.System.out.println(stopMsg);
+	
+	quickStop = true;
+	task.shutdown();
+	return;
+}
+
+quickStop = false;
+
+initUtils();
+
+prepareReport(); // prepare carrier of operation statistics
+
+//
+// Print Flow report
+//
+logmsg("\n" + FlowReport() + "\n")
+
+typeOfEntry = "* unknown *"
+
+changeDetType = getProperty("source.changeDetectionType","delta").toLowerCase()
+if (preserveContainers)
+	containerMsg = " " + resource.getString("LDAPSYNC.MIRRORING.HIERARCHY")
+else
+	containerMsg = " " + resource.getString("LDAPSYNC.FLATTENING.HIERARCHY")
+
+logmsg("--> " + resource.getString("LDAPSYNC.STARTING.MIGRATION") + ": " + flowKey + " - " + containerMsg)
+cont2Migrate = getProperty("source.containersToMigrate", null);
+if (cont2Migrate !== null) {
+	logmsg("-->   " + resource.getString("LDAPSYNC.CONTAINERS.TO.MIGRATE") + ":\n" + cont2Migrate);
+}	
+cont2Skip = getProperty("source.containersToSkip", null);
+if (cont2Skip !== null) {
+	logmsg("-->   " + resource.getString("LDAPSYNC.CONTAINERS.TO.SKIP") + ":\n" + cont2Skip)
+}
+
+stateKey = "";
+abortFlow = false;
+storeFactory = com.ibm.di.store.StoreFactory().getDefaultPropertyStore();]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="Initialize" state="Enabled"/>
+                <Component name="HOOK Prolog" state="Enabled"/>
+                <Component name="start timing" state="Enabled"/>
+                <Component name="Set lostFileName" state="Enabled"/>
+                <Component name="Initial status to UI" state="Enabled"/>
+                <Component name="Prepare target suffixes" state="Enabled"/>
+                <Component name="Build suffixMap" state="Enabled"/>
+                <Component name="start timing_1" state="Enabled"/>
+                <Component name="More suffixes to check" state="Enabled"/>
+                <Component name="Prepare this container" state="Enabled"/>
+                <Component name="AddModifyContainer" state="Simulated"/>
+                <Component name="Increment suffixCnt" state="Enabled"/>
+                <Component name="start timing_2" state="Enabled"/>
+                <Component name="Synchronize" state="Enabled"/>
+                <Component name="Stop if simulated" state="Enabled"/>
+                <Component name="Prepare for synchronization" state="Enabled"/>
+                <Component name="Get change detection" state="Enabled"/>
+                <Component name="more types to detect changes on" state="Enabled"/>
+                <Component name="Get AL name" state="Enabled"/>
+                <Component name="prepare for Sync loop" state="Enabled"/>
+                <Component name="this type handled" state="Enabled"/>
+                <Component name="More change entries" state="Enabled"/>
+                <Component name="Read next change" state="Enabled"/>
+                <Component name="Got a change entry" state="Enabled"/>
+                <Component name="callJoinAL_1" state="Enabled"/>
+                <Component name="Not skipping this change entry" state="Enabled"/>
+                <Component name="verifyDN" state="Enabled"/>
+                <Component name="filterOnEntryType" state="Enabled"/>
+                <Component name="Entry type is handled" state="Enabled"/>
+                <Component name="Hook Before Write" state="Enabled"/>
+                <Component name="NOT skipEntry after Hook" state="Enabled"/>
+                <Component name="call WriteToTarget" state="Simulated"/>
+                <Component name="after Write Behaviors" state="Enabled"/>
+                <Component name="Hook After Write" state="Enabled"/>
+                <Component name="continueTheReadLoop" state="Enabled"/>
+                <Component name="End of data reached" state="Enabled"/>
+                <Component name="signalEndOfData_1" state="Enabled"/>
+                <Component name="stopReadALFC" state="Enabled"/>
+                <Component name="Inc typeCnt" state="Enabled"/>
+                <Component name="Migration" state="Enabled"/>
+                <Component name="Prepare for migration" state="Enabled"/>
+                <Component name="Simulating" state="Enabled"/>
+                <Component name="Signal start of simulated run" state="Enabled"/>
+                <Component name="More types to migrate" state="Enabled"/>
+                <Component name="Initialize for this entry type" state="Enabled"/>
+                <Component name="NOT simulating" state="Enabled"/>
+                <Component name="Reset iterator state key" state="Enabled"/>
+                <Component name="Handling this type" state="Enabled"/>
+                <Component name="prepare for Migration loop" state="Enabled"/>
+                <Component name="More entries to migrate" state="Enabled"/>
+                <Component name="Empty work entry" state="Enabled"/>
+                <Component name="start timing_read" state="Enabled"/>
+                <Component name="Read next entry" state="Enabled"/>
+                <Component name="Not skipping this entry" state="Enabled"/>
+                <Component name="Set last change state for AD SDS or SUN Endpoint" state="Enabled"/>
+                <Component name="Set lastType" state="Enabled"/>
+                <Component name="start timing_join" state="Enabled"/>
+                <Component name="callJoinAL" state="Enabled"/>
+                <Component name="Entry read" state="Enabled"/>
+                <Component name="verifyDN_1" state="Enabled"/>
+                <Component name="filterOnEntryType_1" state="Enabled"/>
+                <Component name="Entry type handled" state="Enabled"/>
+                <Component name="Hook Before Write_1" state="Enabled"/>
+                <Component name="NOT skipping after Hook" state="Enabled"/>
+                <Component name="start timing_callingWriteToTarget" state="Enabled"/>
+                <Component name="callWriteToTarget" state="Simulated"/>
+                <Component name="start timing_afterWrite" state="Enabled"/>
+                <Component name="afterWriteBehaviors" state="Enabled"/>
+                <Component name="Hook After Write_1" state="Enabled"/>
+                <Component name="continueTheReadLoop_1" state="Enabled"/>
+                <Component name="End of data" state="Enabled"/>
+                <Component name="signalEndOfData" state="Enabled"/>
+                <Component name="Stop read AL" state="Enabled"/>
+                <Component name="Increment typeCnt" state="Enabled"/>
+                <Component name="Simulation run" state="Enabled"/>
+                <Component name="Signal end of simulate run" state="Enabled"/>
+                <Component name="HOOK Epilog" state="Enabled"/>
+                <Component name="Check stopFlow setting" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig>
+            <Logger name="FileRollerAppender">
+                <InheritFrom>system:/Loggers/ibmdi.FileRollerAppender</InheritFrom>
+                <parameter name="IDIFileRoller.File"><![CDATA[@SUBSTITUTE{javascript opEntry = task.getOpEntry()
+if (opEntry != null) {
+	flowKey = opEntry.getString("flowKey")
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = opEntry.getString(flowKey + ".global.logDirectory")
+	}
+}
+
+if (folder == null) {
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = "LDAPSync/logs"
+	}
+}
+
+logFile = folder + "/" + task.getShortName() + "_server.log"
+
+return logFile}]]></parameter>
+                <parameter name="IDIFileRoller.RollCount">1</parameter>
+                <parameter name="Pattern.ConversionPattern">%d{ISO8601} %-5p- %m%n</parameter>
+                <parameter name="com.ibm.di.log.layout">Pattern</parameter>
+                <parameter name="com.ibm.di.log.level">INFO</parameter>
+                <parameter name="enabled">true</parameter>
+            </Logger>
+        </LogConfig>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1467994633331</ModTime>
+            <Script name="Initialize">
+                <ModTime>1424775316430</ModTime>
+                <parameter name="script"><![CDATA[abortFlow = false;
+endOfData = false;
+lastStateKeyReset = "*initial*";
+targetTCB = null;]]></parameter>
+            </Script>
+            <Script name="HOOK Prolog">
+                <ModTime>1396604612572</ModTime>
+                <parameter name="script"><![CDATA[retEntry = invokeHook("prolog", work);
+
+if (retEntry !== null) {
+	abortFlow = "true".equalsIgnoreCase(retEntry.getString("$stopFlow"));
+}]]></parameter>
+            </Script>
+            <Script name="start timing">
+                <ModTime>1383052723168</ModTime>
+                <parameter name="script">if (doTiming) timing("startup")</parameter>
+            </Script>
+            <Script name="Set lostFileName">
+                <ModTime>1429609163775</ModTime>
+                <parameter name="script"><![CDATA[if (isSync) {
+	lostFileName = "EntriesNotSynchronized";
+} else {
+	lostFileName = "EntriesNotMigrated";
+}
+
+if (simulate) {
+	lostFileName = lostFileName + "_simulate";
+}]]></parameter>
+            </Script>
+            <Script name="Initial status to UI">
+                <ModTime>1394112967349</ModTime>
+                <parameter name="script">updateProgressReport(flowKey, null, true);</parameter>
+            </Script>
+            <Script name="Prepare target suffixes">
+                <ModTime>1395615032142</ModTime>
+                <parameter name="script"><![CDATA[suffixStr = ""
+
+if (true /*preserveContainers || handleType.group == true*/) {
+
+	if (targetRootSuffix != null && targetRootSuffix.trim().length != 0) {
+		suffixStr = targetRootSuffix
+	}
+	
+	try {
+		if (!preserveContainers) {
+			if (handleType.person == true) {
+				if (targetSuffixForUsers == null || targetSuffixForUsers.trim().length == 0) {
+					addToStats(flowKey, "error", "error");
+					throw resource.getString("LDAPSYNC.PROPERTY.NOT.SET") + ": target.suffixForUsers. "
+							+ resource.getString("LDAPSYNC.YOU.MUST.SPECIFY.WHERE.PERSON.ENTRIES.ARE.TO.BE.FLATTENED.UNDER")
+				}
+				if (suffixStr != "")
+					suffixStr += ";"
+				suffixStr += targetSuffixForUsers
+			}	
+			if (handleType.group == true) {
+				if (targetSuffixForGroups == null || targetSuffixForGroups.trim().length == 0) {
+					addToStats(flowKey, "error", "error");
+					throw resource.getString("LDAPSYNC.PROPERTY.NOT.SET") + ": target.suffixForGroup. "
+							+ resource.getString("LDAPSYNC.YOU.MUST.SPECIFY.WHERE.GROUP.ENTRIES.ARE.TO.BE.FLATTENED.UNDER")
+				}
+				if (suffixStr != "")
+					suffixStr += ";"
+				suffixStr += targetSuffixForGroups
+			}	
+		}
+	} catch (ex) {
+		throw where() + " - " + ex
+	}
+}]]></parameter>
+            </Script>
+            <Script name="Build suffixMap">
+                <ModTime>1459508052558</ModTime>
+                <parameter name="script"><![CDATA[//suffixMap = new java.util.concurrent.ConcurrentHashMap();
+suffixMap = new java.util.HashMap();
+suffixes = system.splitString(suffixStr.toLowerCase(), ";");
+
+for (suffixCnt = 0; suffixCnt < suffixes.length; suffixCnt++) {
+	container = suffixes[suffixCnt];
+	
+	try {
+		ldapName = new javax.naming.ldap.LdapName(container);
+	} catch (ex) {
+		throw where() + " - " + resource.getString("LDAPSYNC.ERROR.REPARSING.CONTAINER.DN")
+					+ ": " + ex + " - DN: " + container;
+	}	
+	rdns = ldapName.getRdns();
+	rdnSize = rdns.size();
+
+
+	for (i = rdnSize; i > 1; i--) {
+		if (i < rdnSize) {
+			ldapName.remove(i);
+		}
+
+		subRDNs = ldapName.getRdns();
+		rdn = subRDNs[0].toString();
+		for (j = 1; j < subRDNs.size(); j++) {
+			rdn += "," + subRDNs[j].toString();
+		}
+			
+		if (!suffixMap.containsKey(rdn)) {
+			e = system.newEntry();
+			e.dn = ldapName.toString();
+			e.rdn = rdns[i-1].getType();
+			e.rdnValue = rdns[i-1].getValue();
+			e.typeOfEntry = containerRDN.get(e.getString("rdn"));
+			suffixMap.put(rdn, e);
+		}
+	}
+}
+
+suffixes = suffixMap.keySet().toArray();
+java.util.Arrays.sort(suffixes);
+suffixCnt = 0;]]></parameter>
+            </Script>
+            <Script name="start timing_1">
+                <ModTime>1383052728262</ModTime>
+                <parameter name="script">if (doTiming) timing("create suffixes")</parameter>
+            </Script>
+            <Loop name="More suffixes to check">
+                <ModTime>1467994585516</ModTime>
+                <LoopType>0</LoopType>
+                <Branch name="More suffixes to check">
+                    <ModTime>1467994585516</ModTime>
+                    <Script name="Prepare this container">
+                        <ModTime>1395616622587</ModTime>
+                        <parameter name="script"><![CDATA[suffixKey = suffixes[suffixCnt];
+containerEntry = suffixMap.get(suffixKey);
+useRDN = containerEntry.getString("rdn");
+typeOfEntry = containerEntry.getString("typeOfEntry");
+
+work.removeAllAttributes()
+work[useRDN] = containerEntry.getString("rdnValue");
+work["$objectClass"] = typeOfEntry;
+work["$translatedDN"] = containerEntry.getString("dn");
+work["$targetLDAPDN"] = containerEntry.getString("dn");]]></parameter>
+                    </Script>
+                    <Connector name="AddModifyContainer">
+                        <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                        <ModTime>1467994585516</ModTime>
+                        <ConnectorMode>Update</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>$dn</Name>
+                                <Type>advanced</Type>
+                                <Enabled>true</Enabled>
+                                <Add>true</Add>
+                                <Modify>true</Modify>
+                                <Script>work.getString("$translatedDN");</Script>
+                                <Simple>$dn</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <DeltaSettings>
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$dn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>cn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>objectClass</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ou</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>$dn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>cn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>objectClass</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ou</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <LinkCriteriaItem>
+                                <Key>1391ff955ca</Key>
+                                <Attribute>$dn</Attribute>
+                                <Operator>equals</Operator>
+                                <Value>$$targetLDAPDN</Value>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                            <ModTime>1467994585516</ModTime>
+                            <Hook name="after_close">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <ModTime>1467994585516</ModTime>
+                                <Name>after_close</Name>
+                                <Script><![CDATA[if (typeof opEntry !== "undefined" && opEntry != null) {
+	opEntry = task.getOpEntry();
+	opEntry["$ctr"] = null;
+	opEntry["$alFC"] = null;
+}]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="after_initialize">
+                                <Name>after_initialize</Name>
+                                <Enabled>false</Enabled>
+                            </Hook>
+                            <Hook name="before_add">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_add</Name>
+                                <Script><![CDATA[logmsg("-----> " + resource.getString("LDAPSYNC.CREATING.SUFFIX.IN.TARGET") + ": " + work.getString("$translatedDN"));
+
+conn[useRDN] = work[useRDN];
+conn.objectClass = typeOfEntry;]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_execute">
+                                <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                                <Name>before_execute</Name>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_lookup">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_lookup</Name>
+                                <Script>thisConnector.connector.setParam("ldapReturnAttributes", "")</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script><![CDATA[errmsg = error.getString("message");
+if (errmsg !== null && 
+	(errmsg.indexOf("error code 32") >= 0 || // no such object
+	 errmsg.indexOf("error code 53") >= 0)) { // no global superior knowledge 
+	error.status = "ok";
+	error.exception = null;
+	error.message = null;
+	return; // do nothing
+}
+
+defaultErrorHandling("ERROR", true);
+
+abortFlow = true;]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="initialize_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>initialize_fail</Name>
+                                <Script><![CDATA[change = false;
+if (typeof(work) != "undefined" && work != null) {
+	work["$status"] = "failed";
+	work["$error"] = error;
+}	
+defaultInitErrorHandling("ERROR", true);]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="override_modify">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>override_modify</Name>
+                                <Script>system.ignoreEntry()</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>1</InitializeOption>
+                    </Connector>
+                    <Script name="Increment suffixCnt">
+                        <ModTime>1395617392766</ModTime>
+                        <parameter name="script">suffixCnt++;</parameter>
+                    </Script>
+                    <ScriptCondition><![CDATA[return !cloudSync 
+		&& suffixCnt < suffixes.length 
+		&& !simulate && !abortFlow && targetIsLDAP]]></ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </Loop>
+            <Script name="start timing_2">
+                <ModTime>1383052735902</ModTime>
+                <parameter name="script">if (doTiming) timing("start sync")</parameter>
+            </Script>
+            <Branch name="Synchronize">
+                <ModTime>1467994595095</ModTime>
+                <Script name="Stop if simulated">
+                    <ModTime>1369220638265</ModTime>
+                    <parameter name="script"><![CDATA[if (simulate) {
+	logmsg("WARN", resource.getString("LDAPSYNC.LDAPSYNC.CAN.NOT.BE.SIMULATED.PLEASE.CHANGE.THE.SIMULATE.PROPERTY"))
+	logmsg("WARN", " - " + resource.getString("LDAPSYNC.PLEASE.SET.THE.FOLLOWING.PROPERTY.SIMULATEFALSE"))
+	logmsg("WARN", "   " + resource.getString("LDAPSYNC.OR.USE.THE.COMMANDLINE.OPTION.0.ACTUAL"))
+	
+	system.exitFlow()
+}]]></parameter>
+                </Script>
+                <Script name="Prepare for synchronization">
+                    <ModTime>1458561156863</ModTime>
+                    <parameter name="script"><![CDATA[//defaultALName = new java.util.concurrent.ConcurrentHashMap()
+defaultALName = new java.util.HashMap()
+defaultALName.put("sun", "ReadSunChange") 
+defaultALName.put("ad", "ReadADChange") 
+defaultALName.put("tds", "ReadTDSChange")
+defaultALName.put("sds", "ReadTDSChange")
+defaultALName.put("delta", "ReadEntries")
+
+//defaultJoinALName = new java.util.concurrent.ConcurrentHashMap()
+defaultJoinALName = new java.util.HashMap()
+defaultJoinALName.put("container", "JoinEntry")
+defaultJoinALName.put("person", "JoinEntry")
+defaultJoinALName.put("group", "JoinEntry")
+
+//joinALFC = new java.util.concurrent.ConcurrentHashMap();
+joinALFC = new java.util.HashMap();
+
+// force roll of Entry Lost file
+writeLostEntry(null, lostFileName)
+
+checkTypes = ["container","person","group"]
+
+types = []
+for (i = 0; i < checkTypes.length; i++) {
+	thisType = checkTypes[i]
+	if (thisType == "container" && !preserveContainers && !targetIsLDAP) {
+		continue;
+	}
+	if (handleType[thisType] == true) {
+		types[types.length] = thisType
+	}
+}
+
+typeCnt = 0]]></parameter>
+                </Script>
+                <Script name="Get change detection">
+                    <ModTime>1381863471187</ModTime>
+                    <parameter name="script">changelogType = getProperty("source.changeDetectionType","delta").toLowerCase()</parameter>
+                </Script>
+                <Loop name="more types to detect changes on">
+                    <ModTime>1467994595095</ModTime>
+                    <LoopType>0</LoopType>
+                    <Branch name="more types to detect changes on">
+                        <ModTime>1467994595095</ModTime>
+                        <Script name="Get AL name">
+                            <ModTime>1467994595095</ModTime>
+                            <parameter name="script"><![CDATA[typeOfEntry = types[typeCnt]
+
+currentType = typeOfEntry
+
+opEntry = task.getOpEntry();
+opEntry["$deltaKey"] = getProperty("source.userRDN");
+if (!"delta".equalsIgnoreCase(changelogType)) {
+	opEntry["$deltaStore"] = connectorParam("source.ldap.stateKey", "statekey") + "_" + typeOfEntry.substring(0,1).toUpperCase();;
+} else {
+	opEntry["$deltaStore"] = connectorParam("source.ldap.stateKey", "statekey") + "_" + typeOfEntry.substring(0,1).toUpperCase();
+}	
+opEntry["$typeOfEntry"] = typeOfEntry;
+
+if ("delta".equalsIgnoreCase(changelogType)) {
+	opEntry["$enableDelta"] = (!simulate).toString();
+	if (deBug) logmsg("--@@-> Delta Store: " + opEntry["$deltaStore"])
+} else {
+	typeCnt = types.length // stop after this single cycle
+}
+
+ALName = getALName("source.delta." + typeOfEntry + ".AL",null)
+if (ALName == null || ALName.trim().length == 0) {
+	ALName = getALName("source.read." + typeOfEntry + ".AL",defaultALName.get(changelogType))
+}]]></parameter>
+                        </Script>
+                        <Script name="prepare for Sync loop">
+                            <InheritFrom>/Scripts/prepareForLooping</InheritFrom>
+                            <ModTime>1368701648156</ModTime>
+                        </Script>
+                        <Branch name="this type handled">
+                            <ModTime>1431680698156</ModTime>
+                            <Loop name="More change entries">
+                                <ModTime>1431680698156</ModTime>
+                                <LoopType>0</LoopType>
+                                <Branch name="More change entries">
+                                    <ModTime>1431680698156</ModTime>
+                                    <Script name="Read next change">
+                                        <InheritFrom>/Scripts/callReadAL</InheritFrom>
+                                        <ModTime>1373370072484</ModTime>
+                                    </Script>
+                                    <Branch name="Got a change entry">
+                                        <ModTime>1431349565936</ModTime>
+                                        <Script name="callJoinAL_1">
+                                            <InheritFrom>/Scripts/callJoinAL</InheritFrom>
+                                            <ModTime>1373360496703</ModTime>
+                                        </Script>
+                                        <ScriptCondition><![CDATA[return work.size() > 0 
+		&& skipEntry != true 
+		&& !"delete".equals(work.getOperation())
+		&& (typeOfEntry == "person" || !cloudSync);]]></ScriptCondition>
+                                        <Conditions/>
+                                        <MatchAny>false</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>0</Type>
+                                    </Branch>
+                                    <Branch name="Not skipping this change entry">
+                                        <ModTime>1431680698156</ModTime>
+                                        <Script name="verifyDN">
+                                            <InheritFrom>/Scripts/verifyDN</InheritFrom>
+                                            <ModTime>1369293991484</ModTime>
+                                        </Script>
+                                        <Script name="filterOnEntryType">
+                                            <InheritFrom>/Scripts/filterOnEntryType</InheritFrom>
+                                            <ModTime>1369823927796</ModTime>
+                                        </Script>
+                                        <Branch name="Entry type is handled">
+                                            <ModTime>1431680698156</ModTime>
+                                            <Script name="Hook Before Write">
+                                                <InheritFrom>/Scripts/Hook Before Write</InheritFrom>
+                                                <ModTime>1393265819306</ModTime>
+                                            </Script>
+                                            <Branch name="NOT skipEntry after Hook">
+                                                <ModTime>1431680698156</ModTime>
+                                                <Function name="call WriteToTarget">
+                                                    <InheritFrom>/Functions/call WriteToTarget</InheritFrom>
+                                                    <ModTime>1431680698156</ModTime>
+                                                    <ConnectorState>Enabled</ConnectorState>
+                                                    <Schema name="Input">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Schema>
+                                                    <Schema name="Output">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Schema>
+                                                    <Hooks>
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                        <ModTime>1431680698156</ModTime>
+                                                        <Hook name="functioncall_fail">
+                                                            <Name>functioncall_fail</Name>
+                                                            <Enabled>true</Enabled>
+                                                        </Hook>
+                                                        <Hook name="no_reply">
+                                                            <Name>no_reply</Name>
+                                                            <Enabled>true</Enabled>
+                                                        </Hook>
+                                                    </Hooks>
+                                                    <Configuration>
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Configuration>
+                                                    <SandboxConfig/>
+                                                    <AttributeMap name="Input">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                        <ModTime>1403207223480</ModTime>
+                                                        <AttributeMapItem>
+                                                            <Name>cn</Name>
+                                                            <Type>simple</Type>
+                                                            <Simple>cn</Simple>
+                                                        </AttributeMapItem>
+                                                        <AttributeMapItem>
+                                                            <Name>dc</Name>
+                                                            <Type>simple</Type>
+                                                            <Simple>dc</Simple>
+                                                        </AttributeMapItem>
+                                                        <AttributeMapItem>
+                                                            <Name>o</Name>
+                                                            <Type>simple</Type>
+                                                            <Simple>o</Simple>
+                                                        </AttributeMapItem>
+                                                        <AttributeMapItem>
+                                                            <Name>ou</Name>
+                                                            <Type>simple</Type>
+                                                            <Simple>ou</Simple>
+                                                        </AttributeMapItem>
+                                                        <AttributeMapItem>
+                                                            <Name>uid</Name>
+                                                            <Type>simple</Type>
+                                                            <Simple>uid</Simple>
+                                                        </AttributeMapItem>
+                                                    </AttributeMap>
+                                                    <AttributeMap name="Output">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </AttributeMap>
+                                                </Function>
+                                                <Script name="after Write Behaviors">
+                                                    <InheritFrom>/Scripts/afterWriteBehaviors</InheritFrom>
+                                                    <ModTime>1396602196464</ModTime>
+                                                </Script>
+                                                <ScriptCondition><![CDATA[return !skipEntry && !abortFlow 
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"))]]></ScriptCondition>
+                                                <Conditions/>
+                                                <MatchAny>false</MatchAny>
+                                                <Enabled>true</Enabled>
+                                                <Type>0</Type>
+                                            </Branch>
+                                            <Script name="Hook After Write">
+                                                <InheritFrom>/Scripts/Hook After Write</InheritFrom>
+                                                <ModTime>1393266166392</ModTime>
+                                            </Script>
+                                            <ScriptCondition>return !skipEntry &amp;&amp; (handleType[typeOfEntry] == true || "delete".equals(work.getOperation()));</ScriptCondition>
+                                            <Conditions/>
+                                            <MatchAny>false</MatchAny>
+                                            <Enabled>true</Enabled>
+                                            <Type>0</Type>
+                                        </Branch>
+                                        <Script name="continueTheReadLoop">
+                                            <InheritFrom>/Scripts/continueTheReadLoop</InheritFrom>
+                                            <ModTime>1396602788431</ModTime>
+                                            <parameter name="enabled">false</parameter>
+                                        </Script>
+                                        <ScriptCondition><![CDATA[return work.size() > 0 && skipEntry != true 
+		&& !abortFlow 
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                                        <Conditions/>
+                                        <MatchAny>false</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>0</Type>
+                                    </Branch>
+                                    <Branch name="End of data reached">
+                                        <Script name="signalEndOfData_1">
+                                            <InheritFrom>/Scripts/signalEndOfData</InheritFrom>
+                                            <ModTime>1396604136827</ModTime>
+                                        </Script>
+                                        <Conditions/>
+                                        <MatchAny>false</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>2</Type>
+                                    </Branch>
+                                    <ScriptCondition><![CDATA[return !endOfData 
+		&& !abortFlow 
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                                    <Conditions/>
+                                    <MatchAny>false</MatchAny>
+                                    <Enabled>true</Enabled>
+                                    <Type>0</Type>
+                                </Branch>
+                            </Loop>
+                            <Script name="stopReadALFC">
+                                <InheritFrom>/Scripts/stopReadALFC</InheritFrom>
+                                <ModTime>1370374261328</ModTime>
+                            </Script>
+                            <ScriptCondition><![CDATA[if (!"delta".equals(changelogType)) {
+	return true
+} else
+if ("container".equals(typeOfEntry) && handleType.container == true && preserveContainers) {
+	return true
+} else {
+	return (handleType[typeOfEntry] == true)
+}]]></ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Script name="Inc typeCnt">
+                            <ModTime>1382607589687</ModTime>
+                            <parameter name="script"><![CDATA[typeCnt++
+updateProgressReport(flowKey, null, true)]]></parameter>
+                        </Script>
+                        <ScriptCondition>return typeCnt &lt; types.length &amp;&amp; !abortFlow</ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+                <ScriptCondition>return isSync &amp;&amp; !abortFlow</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Branch name="Migration">
+                <ModTime>1467994633331</ModTime>
+                <Script name="Prepare for migration">
+                    <ModTime>1458561198265</ModTime>
+                    <parameter name="script"><![CDATA[checkTypes = ["container","person","group"];
+
+//defaultALName = new java.util.concurrent.ConcurrentHashMap();
+defaultALName = new java.util.HashMap();
+defaultALName.put("container", "ReadContainers");
+defaultALName.put("person", "ReadPersons");
+defaultALName.put("group", "ReadGroups");
+
+//defaultJoinALName = new java.util.concurrent.ConcurrentHashMap();
+defaultJoinALName = new java.util.HashMap();
+defaultJoinALName.put("person", "JoinEntry");
+
+//joinALFC = new java.util.concurrent.ConcurrentHashMap();
+joinALFC = new java.util.HashMap();
+
+OnlyInitializeGroupDeltaStore = false;
+types = [];
+for (i = 0; i < checkTypes.length; i++) {
+	thisType = checkTypes[i];
+	if (thisType == "container" && !preserveContainers && !targetIsLDAP) {
+		continue;
+	} else
+	if (thisType == "group" && filterOnGroups) {
+		if (cloudSync) {
+			continue;
+		}
+		
+		OnlyInitializeGroupDeltaStore = !(true == handleType["group"]);
+		handleType["group"] = true;
+	}
+	
+	if (handleType[thisType] == true) {
+		types.push(thisType);
+	}
+}
+
+writeLostEntry(null, lostFileName);
+
+changelogType = getProperty("source.changeDetectionType","delta").toLowerCase();
+
+typeCnt = 0;
+abortFlow = false;
+endOfData = false;]]></parameter>
+                </Script>
+                <Branch name="Simulating">
+                    <ModTime>1425990774368</ModTime>
+                    <Script name="Signal start of simulated run">
+                        <ModTime>1425990774368</ModTime>
+                        <parameter name="script">reportSimulateStatus(null, null, null, "starting");</parameter>
+                    </Script>
+                    <ScriptCondition>return simulate</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Loop name="More types to migrate">
+                    <ModTime>1467994633331</ModTime>
+                    <LoopType>0</LoopType>
+                    <Branch name="More types to migrate">
+                        <ModTime>1467994633331</ModTime>
+                        <Script name="Initialize for this entry type">
+                            <ModTime>1467994633331</ModTime>
+                            <parameter name="script"><![CDATA[typeOfEntry = types[typeCnt]
+opEntry = task.getOpEntry();
+
+currentType = typeOfEntry
+
+opEntry["$deltaKey"] = getProperty("source.userRDN");
+if (!"delta".equalsIgnoreCase(changelogType)) {
+	opEntry["$deltaStore"] = connectorParam("source.ldap.stateKey", "statekey") + "_" + typeOfEntry.substring(0,1).toUpperCase();;
+} else {
+	opEntry["$deltaStore"] = connectorParam("source.ldap.stateKey", "statekey") + "_" + typeOfEntry.substring(0,1).toUpperCase();
+}	
+opEntry["$typeOfEntry"] = typeOfEntry;
+
+if ("delta".equalsIgnoreCase(changelogType)) {
+	opEntry["$enableDelta"] = (!simulate).toString();
+	if (deBug) logmsg("--@@-> Delta Store: " + opEntry["$deltaStore"])
+}
+
+ALName = getALName("source.read." + typeOfEntry + ".AL",defaultALName.get(typeOfEntry));
+
+endOfData = false;]]></parameter>
+                        </Script>
+                        <Branch name="NOT simulating">
+                            <ModTime>1458843217584</ModTime>
+                            <Script name="Reset iterator state key">
+                                <ModTime>1458843217584</ModTime>
+                                <parameter name="script"><![CDATA[cdType = getProperty("source.changeDetectionType","")
+
+if (!simulate) {
+	if ("delta".equalsIgnoreCase(cdType) || "ad".equalsIgnoreCase(cdType)) {
+		stateKey = opEntry.getString("$deltaStore");
+		if (typeof(lastDeltaStateKeyReset) == "undefined") {
+			lastDeltaStateKeyReset = "";
+		}
+
+		if (!stateKey.equals(lastDeltaStateKeyReset)) {
+			logmsg("INFO", resource.getString("LDAPSYNC.RESETTING.CHANGE.DETECTION.STATE.FOR.FLOW") + ": " + flowKey + " (" + stateKey.toUpperCase() + ")")
+	
+			tableName = "IDI_DS_" + stateKey.toUpperCase();
+			try {
+				com.ibm.di.store.StoreFactory.dropTable(tableName)
+			} catch (ex) {
+				if (String(ex).indexOf("-204") < 0 && String(ex).indexOf("SyntaxError") < 0) {
+					logmsg("WARN", resource.getString("LDAPSYNC.UNABLE.TO.DELETE.DELTA.STORE.TABLE") + ": " + tableName 
+							+ " - " + ex)
+					addToStats(flowKey, "warn", "warn");
+				}	
+			}
+			lastDeltaStateKeyReset = stateKey;
+		}	
+	} 
+	
+	if (!"delta".equalsIgnoreCase(cdType)) {
+		stateKey = connectorParam("source.ldap.stateKey", "statekey");
+		if (typeof(lastStateKeyReset) == "undefined") {
+			lastStateKeyReset = "";
+		}
+		
+		if (!stateKey.equals(lastStateKeyReset)) {
+			logmsg("INFO", resource.getString("LDAPSYNC.RESETTING.CHANGE.DETECTION.STATE.FOR.FLOW") + ": " + flowKey + " (" + stateKey.toUpperCase() + ")")
+			
+			storeFactory.removeProperty(stateKey)
+			lastStateKeyReset = stateKey;
+		}	
+	}	
+}]]></parameter>
+                            </Script>
+                            <ScriptCondition>return !simulate</ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Branch name="Handling this type">
+                            <ModTime>1459507148656</ModTime>
+                            <Script name="prepare for Migration loop">
+                                <InheritFrom>/Scripts/prepareForLooping</InheritFrom>
+                                <ModTime>1396602482312</ModTime>
+                                <parameter name="enabled">true</parameter>
+                            </Script>
+                            <Loop name="More entries to migrate">
+                                <ModTime>1459507148656</ModTime>
+                                <LoopType>0</LoopType>
+                                <Branch name="More entries to migrate">
+                                    <ModTime>1459507148656</ModTime>
+                                    <Script name="Empty work entry">
+                                        <ModTime>1370344832015</ModTime>
+                                        <parameter name="script">work.removeAllAttributes()</parameter>
+                                    </Script>
+                                    <Script name="start timing_read">
+                                        <ModTime>1459507148656</ModTime>
+                                        <parameter name="script">if (doTiming) timing("reading");</parameter>
+                                    </Script>
+                                    <Script name="Read next entry">
+                                        <InheritFrom>/Scripts/callReadAL</InheritFrom>
+                                        <ModTime>1370351436234</ModTime>
+                                    </Script>
+                                    <Branch name="Not skipping this entry">
+                                        <ModTime>1431349604327</ModTime>
+                                        <Script name="Set last change state for AD SDS or SUN Endpoint">
+                                            <ModTime>1395323275453</ModTime>
+                                            <parameter name="script"><![CDATA[// For AD, Sun and SDS (& changelog compatible endpoints), set the change state
+// to the last committed changenumber/USN
+//
+if (typeof(lastStateKeySet) == "undefined") {
+	lastStateKeySet = "";
+}
+
+if (!lastStateKeySet.equals(stateKey) && "person".equals(typeOfEntry)) {
+	lastStateKeySet = stateKey;	
+	
+	lastChangeState = work.getString("$lastChangeState");
+	
+	if (lastChangeState != null) {
+		logmsg("INFO", resource.getString("LDAPSYNC.SETTING.CHANGE.STATE") + " (" + stateKey.toUpperCase() + "): " + lastChangeState)
+		storeFactory.setProperty(stateKey, lastChangeState)	
+	}
+}]]></parameter>
+                                        </Script>
+                                        <Script name="Set lastType">
+                                            <ModTime>1372241623187</ModTime>
+                                            <parameter name="script"><![CDATA[// This is to prevent re-init of the Read next entry AL when entry type changes.
+// Although this is necessary for migration, it should not happen during sync
+lastType = currentType]]></parameter>
+                                        </Script>
+                                        <Script name="start timing_join">
+                                            <ModTime>1383052750308</ModTime>
+                                            <parameter name="script">if (doTiming) timing("joining")</parameter>
+                                        </Script>
+                                        <Script name="callJoinAL">
+                                            <InheritFrom>/Scripts/callJoinAL</InheritFrom>
+                                            <ModTime>1373271447234</ModTime>
+                                        </Script>
+                                        <ScriptCondition><![CDATA[return work.size() > 0 && skipEntry != true 
+		&& !("group".equals(currentType) && OnlyInitializeGroupDeltaStore)
+		&& !abortFlow && !"true".equalsIgnoreCase(work.getString("$stopFlow"))
+		&& (typeOfEntry == "person" || !cloudSync);]]></ScriptCondition>
+                                        <Conditions/>
+                                        <MatchAny>true</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>0</Type>
+                                    </Branch>
+                                    <Branch name="Entry read">
+                                        <ModTime>1409254714377</ModTime>
+                                        <Script name="verifyDN_1">
+                                            <InheritFrom>/Scripts/verifyDN</InheritFrom>
+                                            <ModTime>1369294011625</ModTime>
+                                        </Script>
+                                        <Script name="filterOnEntryType_1">
+                                            <InheritFrom>/Scripts/filterOnEntryType</InheritFrom>
+                                            <ModTime>1369823998359</ModTime>
+                                        </Script>
+                                        <Branch name="Entry type handled">
+                                            <ModTime>1396602601072</ModTime>
+                                            <Script name="Hook Before Write_1">
+                                                <InheritFrom>/Scripts/Hook Before Write</InheritFrom>
+                                                <ModTime>1393266186961</ModTime>
+                                            </Script>
+                                            <Branch name="NOT skipping after Hook">
+                                                <ModTime>1396602601072</ModTime>
+                                                <Script name="start timing_callingWriteToTarget">
+                                                    <ModTime>1390484173804</ModTime>
+                                                    <parameter name="script">if (doTiming) timing("calling WriteToTarget")</parameter>
+                                                </Script>
+                                                <Function name="callWriteToTarget">
+                                                    <InheritFrom>/Functions/call WriteToTarget</InheritFrom>
+                                                    <ModTime>1391795719090</ModTime>
+                                                    <ConnectorState>Enabled</ConnectorState>
+                                                    <Schema name="Input">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Schema>
+                                                    <Schema name="Output">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Schema>
+                                                    <Hooks>
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                        <Hook name="after_functioncall">
+                                                            <InheritFrom>[no inheritance]</InheritFrom>
+                                                            <Name>after_functioncall</Name>
+                                                            <Script>if (doTiming) timing("calling WriteToTarget - after call hook")</Script>
+                                                            <Enabled>true</Enabled>
+                                                        </Hook>
+                                                        <Hook name="before_functioncall">
+                                                            <InheritFrom>[no inheritance]</InheritFrom>
+                                                            <Name>before_functioncall</Name>
+                                                            <Script>if (doTiming) timing("calling WriteToTarget - before call hook")</Script>
+                                                            <Enabled>true</Enabled>
+                                                        </Hook>
+                                                    </Hooks>
+                                                    <Configuration>
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </Configuration>
+                                                    <SandboxConfig/>
+                                                    <AttributeMap name="Input">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </AttributeMap>
+                                                    <AttributeMap name="Output">
+                                                        <InheritFrom>[parent]</InheritFrom>
+                                                    </AttributeMap>
+                                                </Function>
+                                                <Script name="start timing_afterWrite">
+                                                    <ModTime>1383052770901</ModTime>
+                                                    <parameter name="script">if (doTiming) timing("after write behavior")</parameter>
+                                                </Script>
+                                                <Script name="afterWriteBehaviors">
+                                                    <InheritFrom>/Scripts/afterWriteBehaviors</InheritFrom>
+                                                    <ModTime>1358869646711</ModTime>
+                                                </Script>
+                                                <ScriptCondition><![CDATA[return !skipEntry && !abortFlow
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                                                <Conditions/>
+                                                <MatchAny>false</MatchAny>
+                                                <Enabled>true</Enabled>
+                                                <Type>0</Type>
+                                            </Branch>
+                                            <Script name="Hook After Write_1">
+                                                <InheritFrom>/Scripts/Hook After Write</InheritFrom>
+                                                <ModTime>1393266192627</ModTime>
+                                            </Script>
+                                            <ScriptCondition>return handleType[typeOfEntry] == true &amp;&amp; !skipEntry &amp;&amp; typeOfEntry == currentType</ScriptCondition>
+                                            <Conditions/>
+                                            <MatchAny>false</MatchAny>
+                                            <Enabled>true</Enabled>
+                                            <Type>0</Type>
+                                        </Branch>
+                                        <Script name="continueTheReadLoop_1">
+                                            <InheritFrom>/Scripts/continueTheReadLoop</InheritFrom>
+                                            <ModTime>1396602780562</ModTime>
+                                            <parameter name="enabled">false</parameter>
+                                        </Script>
+                                        <ScriptCondition><![CDATA[return work.size() > 0 && !skipEntry
+		&& !("group".equals(currentType) && OnlyInitializeGroupDeltaStore)
+		&& !abortFlow && !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                                        <Conditions/>
+                                        <MatchAny>false</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>0</Type>
+                                    </Branch>
+                                    <Branch name="End of data">
+                                        <Script name="signalEndOfData">
+                                            <InheritFrom>/Scripts/signalEndOfData</InheritFrom>
+                                            <ModTime>1396603857550</ModTime>
+                                        </Script>
+                                        <Conditions/>
+                                        <MatchAny>false</MatchAny>
+                                        <Enabled>true</Enabled>
+                                        <Type>2</Type>
+                                    </Branch>
+                                    <ScriptCondition><![CDATA[return !endOfData 
+		&& !abortFlow 
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                                    <Conditions/>
+                                    <MatchAny>false</MatchAny>
+                                    <Enabled>true</Enabled>
+                                    <Type>0</Type>
+                                </Branch>
+                            </Loop>
+                            <Script name="Stop read AL">
+                                <InheritFrom>/Scripts/stopReadALFC</InheritFrom>
+                                <ModTime>1370351518687</ModTime>
+                            </Script>
+                            <ScriptCondition><![CDATA[if ("container".equals(typeOfEntry) 
+	&& handleType.container == true 
+	&& preserveContainers)
+	return true
+else
+	return (handleType[typeOfEntry] == true
+			&& (typeOfEntry != "group" || !cloudSync))]]></ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Script name="Increment typeCnt">
+                            <ModTime>1382607595750</ModTime>
+                            <parameter name="script"><![CDATA[typeCnt++
+updateProgressReport(flowKey, null, true)]]></parameter>
+                        </Script>
+                        <ScriptCondition><![CDATA[return typeCnt < types.length && !abortFlow
+		&& !"true".equalsIgnoreCase(work.getString("$stopFlow"));]]></ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+                <Branch name="Simulation run">
+                    <ModTime>1425990808501</ModTime>
+                    <Script name="Signal end of simulate run">
+                        <ModTime>1425990808501</ModTime>
+                        <parameter name="script">reportSimulateStatus(null, null, null, "completed");</parameter>
+                    </Script>
+                    <ScriptCondition>return simulate</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <ScriptCondition>return !abortFlow;</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>1</Type>
+            </Branch>
+            <Script name="HOOK Epilog">
+                <ModTime>1391443724210</ModTime>
+                <parameter name="script">invokeHook("epilog", work);</parameter>
+            </Script>
+            <Script name="Check stopFlow setting">
+                <ModTime>1396602898139</ModTime>
+                <parameter name="script"><![CDATA[if (abortFlow) {
+	addToStats(flowKey, "error", "error");
+	logmsg("ERROR", resource.getString("LDAPSYNC.USER.ABORT"));
+	throw resource.getString("LDAPSYNC.USER.ABORT");
+}]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>synchronize</Name>
+                    <NativeSyntax>Boolean</NativeSyntax>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,1400 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="29" UUID="e239afc2-6b4e-4bdd-bd3c-7e460d2c75d4" created="Fri Sep 19 15:12:16 EDT 2014" createdBy="blaskey" main="OpenPages Connector" modified="Tue Sep 23 13:22:59 EDT 2014" modifiedBy="blaskey" project="Eddie" version="7.1.1">
+    <Connector name="OpenPages Connector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1411492967553</ModTime>
+        <ConnectorMode>Delete</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1411492274381</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="178" UUID="a8ad3eb7-a05b-4a69-b5c2-397f536ac120" created="Sun Jun 01 21:17:26 CEST 2014" createdBy="Administrator" main="Form" modified="Fri Sep 12 13:58:25 CEST 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1410523051501</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>keepGlobalState</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>includePrologs</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>password</ListItem>
+            <ListItem>deBug</ListItem>
+            <ListItem>url</ListItem>
+            <ListItem>username</ListItem>
+            <ListItem>object</ListItem>
+            <ListItem>query</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="createoninit">
+            <ModTime>1401651110445</ModTime>
+            <parameter name="description">Enable to have the Database created if it does not already exist.</parameter>
+            <parameter name="label">Create Database if not found</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="database">
+            <ModTime>1402784860360</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">CouchDB database to access.</parameter>
+            <parameter name="label">Database</parameter>
+            <parameter name="script">queryDatabases</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="dbtype">
+            <ModTime>1403692392561</ModTime>
+            <Values>
+                <ListItem>CouchDB</ListItem>
+                <ListItem>Cloudant</ListItem>
+            </Values>
+            <parameter name="description">The type of CouchDB system, for example: CouchDB or Cloudant</parameter>
+            <parameter name="label">CouchDB Type</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="deBug">
+            <ModTime>1401650878867</ModTime>
+            <parameter name="description">Enable to provide debugging messages in the log output and console.</parameter>
+            <parameter name="label">Debug log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="deleteonclose">
+            <ModTime>1401651145645</ModTime>
+            <parameter name="description">Enable to have the Connector delete the databse when it closes.</parameter>
+            <parameter name="label">Delete on close</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="descending">
+            <ModTime>1402907157856</ModTime>
+            <parameter name="description">Enable to return the Documents of the view in descending order. Otherwise the order will be ascending.</parameter>
+            <parameter name="label">Descending</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="enabletempview">
+            <ModTime>1401652243838</ModTime>
+            <parameter name="description">Enable to enable creation of temporary views. Otherwise LinkCriteria Attribute must be 'key' (key of the selected view).</parameter>
+            <parameter name="label">Allow ad-hoc query</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="endkey">
+            <ModTime>1402907127520</ModTime>
+            <parameter name="description">The last key value for the returned data set, based on the sort direction (ascending/descending).</parameter>
+            <parameter name="label">End key</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="generateviews">
+            <ModTime>1402829837915</ModTime>
+            <Values>
+                <ListItem>Do not generate</ListItem>
+                <ListItem>After every write operation</ListItem>
+                <ListItem>On connector close</ListItem>
+            </Values>
+            <parameter name="description">Set when views should be updated.</parameter>
+            <parameter name="label">Generate views</parameter>
+            <parameter name="modes">AddOnly,Delete,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="grouplevel">
+            <ModTime>1401699410305</ModTime>
+            <Values>
+                <ListItem>Do not group</ListItem>
+                <ListItem>1</ListItem>
+                <ListItem>2</ListItem>
+                <ListItem>3</ListItem>
+                <ListItem>4</ListItem>
+                <ListItem>5</ListItem>
+                <ListItem>6</ListItem>
+                <ListItem>7</ListItem>
+                <ListItem>8</ListItem>
+                <ListItem>9</ListItem>
+            </Values>
+            <parameter name="description">Select to the key index to group on.</parameter>
+            <parameter name="label">Group level</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="host">
+            <ModTime>1401650519625</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The hostname or IP address of the CouchDB server</parameter>
+            <parameter name="label">Host</parameter>
+        </FormItem>
+        <FormItem name="includeDesignDocs">
+            <ModTime>1403608041897</ModTime>
+            <parameter name="description">Should Design Docs be handled by connector operations</parameter>
+            <parameter name="label">Read/write Design Docs</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="map">
+            <ModTime>1401712244303</ModTime>
+            <parameter name="description">Enter Javascript definition of the map() function. This parameter is optional and overrides the View setting.</parameter>
+            <parameter name="label">map() function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="object">
+            <ModTime>1410522387247</ModTime>
+            <Values>
+                <ListItem>Incident</ListItem>
+                <ListItem>Asset</ListItem>
+            </Values>
+            <parameter name="description">The type of object to work with - may be overridden on write operation by mapping out 'grc.object'</parameter>
+            <parameter name="label">GRC Object</parameter>
+            <parameter name="script">getTypes</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="pagesize">
+            <ModTime>1402907168053</ModTime>
+            <parameter name="description">The number of Documents to return for each read request. Default is 100.</parameter>
+            <parameter name="label">Page size</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="password">
+            <ModTime>1401651396440</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Password for the login User name</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="port">
+            <ModTime>1402779290980</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The CouchDB port. Default is 5984.</parameter>
+            <parameter name="label">Port</parameter>
+            <parameter name="script2">getCertificate</parameter>
+            <parameter name="scriptLabel2">Get SSL Certificate</parameter>
+        </FormItem>
+        <FormItem name="query">
+            <ModTime>1410519202050</ModTime>
+            <parameter name="description">The CRC query to apply for iteration. If empty then SELECT * FROM [&lt;object&gt;] is used.</parameter>
+            <parameter name="label">Query</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="reduce">
+            <ModTime>1401651531285</ModTime>
+            <parameter name="description">Enable to use the Reduce function in the view.</parameter>
+            <parameter name="label">Use Reduce function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="returnas">
+            <ModTime>1403692392573</ModTime>
+            <Values>
+                <ListItem>Flat Entry (note that some Attributes may be Javascript objects)</ListItem>
+                <ListItem>Hierarchical Entry</ListItem>
+            </Values>
+            <parameter name="description">Select how Documents are returned as Entry objects</parameter>
+            <parameter name="label">Return Document as</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="ssl">
+            <ModTime>1401650704078</ModTime>
+            <parameter name="description">Enable if CouchDB requires an SSL connection.</parameter>
+            <parameter name="label">Use SSL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="startkey">
+            <ModTime>1402907133736</ModTime>
+            <parameter name="description">The first key value for the returned data set, based on the sort direction (ascending/descending).</parameter>
+            <parameter name="label">Start key</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="url">
+            <ModTime>1403525215285</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The url to the database service.</parameter>
+            <parameter name="label">URL</parameter>
+        </FormItem>
+        <FormItem name="user">
+            <ModTime>1401651393459</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">The user name for authentication to CouchDB</parameter>
+            <parameter name="label">User</parameter>
+        </FormItem>
+        <FormItem name="username">
+            <ModTime>1410518560145</ModTime>
+            <parameter name="description">The user id to authenticate with</parameter>
+            <parameter name="label">User id</parameter>
+        </FormItem>
+        <FormItem name="view">
+            <ModTime>1402907148695</ModTime>
+            <parameter name="description">Name of the MapReduce view to read from. This parameter is ignored if a map() function is defined.</parameter>
+            <parameter name="label">View name</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+            <parameter name="script">queryViews</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>query</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>url</ListItem>
+                <ListItem>username</ListItem>
+                <ListItem>password</ListItem>
+                <ListItem>object</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+                <ListItem>deBug</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[// 20140912 1248
+var params = {	url : "", 
+				username : "", 
+				password : "",
+				object : "",
+				query : "",
+				
+				refresh : function(connector) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							var control = form.getControl(pname);
+							if (control !== null) {
+								this[pname] = control.getText();
+							}	
+						}	
+					}
+				},
+				
+				apply : function(http) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							http.setParam(pname, this[pname]);
+						}	
+					}
+				}
+			}
+
+
+function getCertificate () {
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+
+function getTypes() {
+	params.refresh();
+	params.apply(http);
+	
+	form.getClass();
+	var combo = form.getControl("object");
+	combo.removeAll();
+
+	var reply = makeRequest({"verb" : "GET", 
+							 "url" : "/types", 
+							 "ctype" : "application/json", 
+							 "where" : "selectEnries"});
+
+	if (typeof reply.length !== "undefined") {						 
+		var arr = new java.util.ArrayList();
+
+		for (var i = 0; i < reply.length; i++) {
+			arr.add(reply[i].name);
+		}
+			
+		arr = arr.toArray();
+		java.util.Arrays.sort(arr);
+	
+		for (var a in arr) {
+			combo.add(a);
+		}	
+		
+		combo.select(0);
+	}	
+}
+
+function makeRequest(args) {
+	var verb = args.verb;		// HTTP method, e.g. GET, POST, PUT, ...
+	var url = args.url;		// url for the request. May be partial (only the path & query string params)
+	var body = args.body;		// HTTP body to be passed for the request
+	var ctype = args.ctype;	// Content-Type of the HTTP body
+	var where = args.where;	// where this method is called from - for debugging purposes
+
+	// set default values for missing params/properties
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (where == null) { where = ""; } 
+
+	// prepend the base url if not found in the url passed to the function
+	if (url.toLowerCase().indexOf(params.url.toLowerCase()) < 0) {
+		url = params.url + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		requestEntry["http.body"] = body;
+	}
+	
+	// set Connector parameters
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url);
+
+	// prepare the request Entry (used for POST/PUT calls)
+	requestEntry["http.Content-Type"] = ctype;
+	requestEntry["http.Accept"] = "application/json";
+	requestEntry["http.Connection"] = "keep-alive";
+	requestEntry["http.remote_user"] = params.username;
+	requestEntry["http.remote_pass"] = params.password;
+
+// commented out for now
+//
+//	requestEntry["http.Accept-Encoding"] = "gzip, deflate";
+//	requestEntry["http.Accept-Language"] = "en-US,en;q=0.5";
+//	requestEntry["http.User-Agent"] = "IBM Security Verify Directory Integrator";
+//	requestEntry["http.Authorization"] = "BASIC " + system.base64Encode(String(user + ":" + password).getBytes());
+	
+	// add any cookies received on previous calls
+	if (cookies.size() > 0) {
+//		requestEntry["X-CouchDB-WWW-Authenticate"] = "Cookie"; // TODO
+		requestEntry.merge(cookies);
+	}	
+
+	// if Detailed Log is enabled then write request details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Request to"] + " OpenPages", 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype, 
+					"where" : where});
+	}
+
+	var retry = 0;
+	var maxRetry = 2;
+	var retEntry = null;
+	
+	// this loop makes the actual request. If an SSL handshake error occurs, attempt to retrieve
+	// and import the client certificate and inform the user that TDI must be restarted.
+	//
+	do {
+		try {	
+			retEntry = http.queryReply(requestEntry);
+		} catch (ex) {
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				if (retry == 0) {
+					getCertificate();
+				} else {	
+					throwException(message["You must restart the SDI server in order for the imported certificate to be trusted."])
+				}
+			} else {
+				throw ex;
+			}	
+		}
+		
+		retry++;
+	} while (retEntry === null && retry < maxRetry);
+	
+	// if Detailed Log is enabled, write reply details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Response from"] + " OpenPages", 
+				    "entry" : retEntry});
+	}
+	
+	verifyResponse(retEntry);
+	
+	// parse the reply from OpenPages
+	var reply = parseReply(retEntry);
+	
+	return reply;
+}
+
+function throwException(msg) {
+	throw new java.lang.IllegalArgumentException(msg);
+}
+
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		connector.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+function getParam(pname, required) {
+	if (typeof required === "undefined") { required = true; }
+	var ctrl = form.getControl(pname);
+	if (ctrl == null && required) {
+		throwException(message["Required parameter not set"] + ": " + pname);
+	}
+	
+	pval = ctrl.getText();
+	
+	if (pval === null && required) {
+		throwException(message["Required parameter not set"] + ": " + pname);
+	} 
+	
+	return pval;
+}
+
+function parseReply(replyEntry) {
+	var body = replyEntry.getString("http.bodyAsString");
+	
+	try {
+//		if (deBug) logmsg("DEBUG", "body: " + body);
+		var jobj = fromJson(body);
+		
+		// save any cookies passed back	
+		var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+		if (setCookie !== null) {
+			for (var i = 0; i < setCookie.size(); i++) {
+				var thisCookie = setCookie.getValue(i);
+				var p = thisCookie.indexOf("=");
+				if (p > 0) {
+					cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+				}
+			}	
+		}
+	} catch (ex) {
+		throwException(message["Unable to parse JSON return from"] + " OpenPages - " + ex);
+	}	
+	
+	return jobj;
+}
+
+function fixUrl(params) {
+	var url = params.url;
+	var dbtype = params.dbtype;
+	var protocolSpes = "http:";
+	var auth = "";
+	
+	if (url.startsWith("http")) {
+		var p = url.indexOf("/");
+		if (p > 0) {
+			protocolSpes = url.substring(0, p);
+			var p2 = url.indexOf("/", p+1);
+			if (p2 == (p+1)) {
+				url = url.substring(p2+1);
+			} else {
+				throwException(message["Invalid format for URL parameter"] + ": " + url);
+			}
+		}
+	}
+
+	if (!url.endsWith("/")) {
+		return protocolSpes + "//" + auth + url + "/";
+	} else {
+		return protocolSpes + "//" + auth + url;
+	}
+}
+
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				if (a.indexOf("http.") >= 0 && 
+					!("http.bodyAsString".equalsIgnoreCase(a)
+						|| "http.bodyAsBytes".equalsIgnoreCase(a)) ) {
+					s += " " + a + ": " + obj[a] + "\n";
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	form.alert(s.toString());
+}
+
+function verifyResponse(replyEntry) {
+	var respCode = replyEntry.getString("http.responseCode");
+	if (!respCode.startsWith("2")) {
+		throwException(message["Error from"] 
+						+ " OpenPage server - code: " + respCode
+						+ "  message: " + replyEntry.getString("http.responseMsg"));
+	}
+}
+
+function authenticate() {
+	var user = getParam("user");
+	var password = getParam("password");
+	var reply = makeRequest({verb : "POST", 
+							 url : "_session", 
+							 body : "name=" + user + "&password=" + password, 
+							 ctype : "application/x-www-form-urlencoded", 
+							 where : "authenticate",
+							 authenticating : true});
+	authenticated = true;
+}]]]]><![CDATA[></parameter>
+        <parameter name="formscript"><![CDATA[var message = new Array();
+var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["Response from"] = "Response from";
+message["Request to"] = "Request to";
+message["Error from"] = "Error from";
+message["You must restart the SDI server in order for the imported certificate to be trusted."] = "You must restart the SDI server in order for the imported certificate to be trusted.";
+message["Unable to parse JSON return from"] = "Unable to parse JSON return from";
+message["Invalid format for URL parameter"] = "Invalid format for URL parameter";
+
+if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions");
+	system = new c;
+}	
+
+var http = system.getConnector("ibmdi.HTTPClient");
+var requestEntry = system.newEntry();
+var cookies = system.newEntry();
+var deBug = false;
+var authenticated = false;
+http.initialize(null);]]]]><![CDATA[></parameter>
+        <parameter name="title">CouchDB Connector</parameter>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="database"/>
+            <parameter name="dbtype">CouchDB</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="grouplevel">Do not group</parameter>
+            <parameter name="host">127.0.0.1</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="object">SOXBusEntity</parameter>
+            <parameter name="pagesize">100</parameter>
+            <parameter name="password">OpenPagesAdministrator</parameter>
+            <parameter name="port">5984</parameter>
+            <parameter name="query"/>
+            <parameter name="returnas">Flat Entry (note that some Attributes may be Javascript objects)</parameter>
+            <parameter name="script"><![CDATA[// OpenPages Connector
+//
+// 
+var version = "20140910 1730" // started
+var deBug = true;
+var requestEntry = system.newEntry();
+var cookies = system.newEntry();
+
+/*
+*/
+
+// Messages returned by the Connector are kept in an Array and set here to make it
+// simpler to localize this component later.
+//
+var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["Response from"] = "Response from";
+message["Request to"] = "Request to";
+message["Error from"] = "Error from";
+message["You must restart the SDI server in order for the imported certificate to be trusted."] = "You must restart the SDI server in order for the imported certificate to be trusted.";
+message["Unable to parse JSON return from"] = "Unable to parse JSON return from";
+message["Invalid format for URL parameter"] = "Invalid format for URL parameter";
+
+// Global variables defined here
+//
+var http = system.getConnector("ibmdi.HTTPClient");
+var initialized = false;
+// parameters container object
+var params = {	url : "", 
+				username : "", 
+				password : "",
+				object : "",
+				query : "",
+				
+				refresh : function(connector) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							this[pname] = connector.getParam(pname);
+						}	
+					}
+				},
+				
+				apply : function(http) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							http.setParam(pname, this[pname]);
+						}	
+					}
+				}
+			}
+
+// result set handler - works similar to an Iterator			
+var resultSet = {
+	set : new java.util.ArrayList(),
+	index : 0,
+	nextUrl : null,
+	
+	add : function(entry) {
+		var setEntry = system.newEntry();
+		setEntry.merge(entry);
+		this.set.add(setEntry);
+	},
+	
+	size : function() {
+		return this.set.size();
+	},
+	
+	clear : function() {
+		this.set.clear();
+		this.index = 0;
+	},
+	
+	hasNext : function() {
+		return (this.set !== null && (this.index < this.set.size() || this.nextUrl != null));
+	},
+	
+	next : function() {
+		if (this.set === null) {
+			return null;
+		} else {
+			//if no results AND no next link, end of list
+			if(this.index >= this.set.size() && this.nextUrl == null){
+				return null;
+			}
+			//else if no results but have next link, get result set
+			else if(this.index >= this.set.size() && this.nextUrl != null){
+				this.getResultSet();
+			}	
+			
+			//return next entry
+			return this.set.get(this.index++);
+		}
+	},
+	
+	getResultSet : function() {
+		var reply = makeRequest({"verb" : "GET", 
+						"url" : "/"+this.nextUrl, 
+						"ctype" : "application/json", 
+						"where" : "selectEnries"});
+		if (typeof reply.rows !== "undefined") {
+			var rows = reply.rows;
+			for (var i = 0; i < rows.length; i++) {
+				resultSet.add(GrcObjectToEntry(rows[i]));
+			}
+			} else {
+				resultSet.add(GrcObjectToEntry(reply));
+		}
+			
+		//check for next link
+		if (typeof reply.links !== "undefined") {
+			resultSet.nextUrl = null;
+			for (var i = 0; i < reply.links.length; i++) {
+				if(reply.links[i].rel == "next"){
+					resultSet.nextUrl = reply.links[i].href;
+				}
+			}
+		}
+	}
+}
+
+// functions follow
+function initialize() {
+	logmsg("OpenPages Connector vrs." + version);
+	if (initialized) {
+		terminate();
+	}
+	params.refresh(connector);
+	params.apply(http);
+	
+	http.initialize(null);
+	
+	authenticate();
+	
+	initialized = true;
+}
+
+function terminate() {
+	initialized = false;
+	http.terminate();
+}
+
+function selectEntries() {
+	if (!initialized) { notInitializedError(); } 
+	
+	resultSet.clear();
+	
+	var url = "/query?q=";
+	var query = "SELECT * from [" + params.object + "]";
+	if (params.query && params.query.length > 0) {
+		query = params.query	
+	}
+	
+	var reply = makeRequest({"verb" : "GET", 
+							 "url" : "/query?q=" + query, 
+							 "ctype" : "application/json", 
+							 "where" : "selectEnries"});
+
+	if (typeof reply.rows !== "undefined") {
+		var rows = reply.rows;
+		for (var i = 0; i < rows.length; i++) {
+			resultSet.add(GrcObjectToEntry(rows[i]));
+		}
+	} else {
+		resultSet.add(GrcObjectToEntry(reply));
+	}
+	
+	//check for next link
+	if (typeof reply.links !== "undefined") {
+		resultSet.nextUrl = null;
+		for (var i = 0; i < reply.links.length; i++) {
+			if(reply.links[i].rel == "next"){
+				resultSet.nextUrl = reply.links[i].href;
+			}
+		}
+	}
+}
+
+function getNextEntry() {
+	if (!initialized) { notInitializedError(); } 
+	
+	var e = resultSet.next();
+	if (e !== null) {
+		entry.merge(e);
+		result.setStatus(1);
+	} else {
+		result.setStatus(0);
+	}
+	
+	return entry;
+}
+
+// requests the client cert from the service and installs it into the SDI keystore
+function getCertificate () {
+	var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(params.url, 443);
+}
+
+// examine the reply from OpenPages for any errors returned
+//
+function verifyResponse(replyEntry) {
+	var respCode = replyEntry.getString("http.responseCode");
+	if (!respCode.startsWith("2")) {
+		throwException(message["Error from"] 
+						+ " OpenPage server - code: " + respCode
+						+ "  message: " + replyEntry.getString("http.responseMsg"));
+	}
+}
+
+// makes the authentication call to OpenPages
+function authenticate() {
+/*	
+	var reply = makeRequest({"verb" : "POST", 
+							 "url" : "_session", 
+							 "body" : "name=" + user + "&password=" + password, 
+							 "ctype" : "application/x-www-form-urlencoded", 
+							 "where" : "authenticate"});
+
+ */ 
+ }
+
+// workhorse function that handles all comms with OpenPages. It accepts a single
+// argument that is a Javascript object containing the properties set in the first
+// lines of the function. Note that many of these properties are optional and that
+// default values are set by the script is not specified.
+//
+function makeRequest(args) {
+	var verb = args.verb;		// HTTP method, e.g. GET, POST, PUT, ...
+	var url = args.url;		// url for the request. May be partial (only the path & query string params)
+	var body = args.body;		// HTTP body to be passed for the request
+	var ctype = args.ctype;	// Content-Type of the HTTP body
+	var where = args.where;	// where this method is called from - for debugging purposes
+
+	// set default values for missing params/properties
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (where == null) { where = ""; } 
+
+	// prepend the base url if not found in the url passed to the function
+	if (url.toLowerCase().indexOf(params.url.toLowerCase()) < 0) {
+		url = params.url + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		requestEntry["http.body"] = body;
+	}
+	
+	// set Connector parameters
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url);
+
+	// prepare the request Entry (used for POST/PUT calls)
+	requestEntry["http.Content-Type"] = ctype;
+	requestEntry["http.Accept"] = "application/json";
+	requestEntry["http.Connection"] = "keep-alive";
+	requestEntry["http.remote_user"] = params.username;
+	requestEntry["http.remote_pass"] = params.password;
+
+// commented out for now
+//
+//	requestEntry["http.Accept-Encoding"] = "gzip, deflate";
+//	requestEntry["http.Accept-Language"] = "en-US,en;q=0.5";
+//	requestEntry["http.User-Agent"] = "IBM Security Verify Directory Integrator";
+//	requestEntry["http.Authorization"] = "BASIC " + system.base64Encode(String(user + ":" + password).getBytes());
+	
+	// add any cookies received on previous calls
+	if (cookies.size() > 0) {
+//		requestEntry["X-CouchDB-WWW-Authenticate"] = "Cookie"; // TODO
+		requestEntry.merge(cookies);
+	}	
+
+	// if Detailed Log is enabled then write request details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Request to"] + " OpenPages", 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype, 
+					"where" : where});
+	}
+
+	var retry = 0;
+	var maxRetry = 2;
+	var retEntry = null;
+	
+	// this loop makes the actual request. If an SSL handshake error occurs, attempt to retrieve
+	// and import the client certificate and inform the user that TDI must be restarted.
+	//
+	do {
+		try {	
+			retEntry = http.queryReply(requestEntry);
+		} catch (ex) {
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				if (retry == 0) {
+					getCertificate();
+				} else {	
+					throwException(message["You must restart the SDI server in order for the imported certificate to be trusted."])
+				}
+			} else {
+				throw ex;
+			}	
+		}
+		
+		retry++;
+	} while (retEntry === null && retry < maxRetry);
+	
+	// if Detailed Log is enabled, write reply details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Response from"] + " OpenPages", 
+				    "entry" : retEntry});
+	}
+	
+	verifyResponse(retEntry);
+	
+	// parse the reply from OpenPages
+	var reply = parseReply(retEntry);
+	
+	return reply;
+}
+
+function parseReply(replyEntry) {
+	var body = replyEntry.getString("http.bodyAsString");
+	
+	try {
+//		if (deBug) logmsg("DEBUG", "body: " + body);
+		var jobj = fromJson(body);
+		
+		// save any cookies passed back	
+		var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+		if (setCookie !== null) {
+			for (var i = 0; i < setCookie.size(); i++) {
+				var thisCookie = setCookie.getValue(i);
+				var p = thisCookie.indexOf("=");
+				if (p > 0) {
+					cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+				}
+			}	
+		}
+	} catch (ex) {
+		throwException(message["Unable to parse JSON return from"] + " OpenPages - " + ex);
+	}	
+	
+	return jobj;
+}
+
+// wrapper function for throwing exceptions. Otherwise exceptions throw will be 'script' exceptions
+function throwException(msg) {
+	throw new java.lang.IllegalArgumentException(msg);
+}
+
+// wrapper function for writing log messages
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	// if Detailed Log is enabled then log output is also sent to the stdout
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		task.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+// write request or reply details to the log
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				// include all "http.*" attributes, except bodyAsBytes
+				if (a.indexOf("http.") >= 0
+					&& !"http.bodyAsBytes".equalsIgnoreCase(a) ) {
+					s += " " + a + ": " + obj[a] + "\n";
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	logmsg(s.toString());
+}
+
+function notInitializedError() {
+	throwException("The OpenPages Connector must be initialized before use.")
+}
+
+function GrcObjectToEntry(jobj) {
+	var entry = system.newEntry();
+	
+	try {
+		var type = null;
+		
+		var links = jobj.links;
+		if (typeof links !== "undefined") {
+			for (var i = 0; i < links.length; i++) {
+				if ("describedby".equals(links[i].rel)) {
+					type = links[i].href.substring(9);
+					var p = type.indexOf("?");
+					type = type.substring(0, p);
+				}
+			}
+			if (type !== null) {
+				entry["GRC Type"] = type;
+			}
+		}	
+		
+		var fields = jobj.fields.field;
+		if (fields !== "undefined") {
+			for (var i = 0; i < fields.length; i++) {
+				addGrcField(entry, fields[i]);
+			}	
+		}	
+	} catch(ex) {
+		if (deBug) logmsg("--!!--> OPtoEntry - Error parsing json: " + ex + "\nJSON: " + toJson(jobj));
+	}
+	
+	if (entry.size() === 0) {
+		return null;
+	} else {
+		return entry;
+	}	
+}
+
+function addGrcField(entry, field) {
+	if (typeof field === "undefined" || field == null) { return; }
+	
+	var fieldName = field.name;
+	var fieldValue = field.value;
+	
+	if (typeof fieldName !== "undefined" && fieldName !== null && fieldName.trim().length > 0) {
+
+		fieldName = fieldName.trim();
+
+		try {
+			switch(field.dataType) {
+				case "STRING_TYPE":
+				case "ID_TYPE": 
+									addAttributeValue(entry, fieldName, fieldValue);
+									break;
+				case "INTEGER_TYPE":
+									if (typeof fieldValue !== "undefined") {
+										var intValue = 0;
+										try {
+											intValue = system.toInt(fieldValue);
+										} catch(ex) {
+											intValue = "Error parsing integer value: " + fieldValue;
+										}
+										addAttributeValue(entry, fieldName, intValue);
+									} else {
+										entry[fieldName] = null;
+									}	
+									break;
+				case "ENUM_TYPE": 	
+									if (typeof field.enumValue !== "undefined") {
+										addAttributeValue(entry, fieldName, field.enumValue.name);
+									}	
+									break;
+				case "MULTI_VALUE_ENUM":
+									if (typeof field.multiEnumValue !== "undefined") {
+										var enums = field.multiEnumValue.enumValue;
+										if (typeof enums !== "undefined" && enums.length > 0) {
+											for (var i = 0; i < enums.length; i++) {
+												addAttributeValue(entry, fieldName, enums[i].name, false);
+											}
+										}
+									}	
+									break;
+				case "DATE_TYPE":
+									var dateValue = system.parseDate(fieldValue, "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+									addAttributeValue(entry, fieldName, dateValue);
+									break;
+				case "CURRENCY_TYPE":
+									addAmount(entry, fieldName, "", field.baseAmount, field.baseCurrency);
+									addAmount(entry, fieldName, " Local Amount", field.localAmount, field.localCurrency);
+									break;
+			} 
+		} catch (ex) {
+			if (deBug) logmsg("ERROR", "--!!--> Error parsing GRC field: " + toJson(field) + " - " + ex);
+		}
+	}	
+}
+
+function addAttributeValue(entry, attName, attValue, replace) {
+	if (typeof attName === "undefined" || attName == null) { return; }
+	
+	if (typeof replace === "undefined" || !"false".equalsIgnoreCase(replace)) { replace = true; } 
+		
+	if (typeof attValue === "undefined" || attValue == null) {
+		entry[attName] = null;
+	} else 
+	if (replace) {
+		entry.setAttribute(attName, attValue);
+	} else {	
+		entry.addAttributeValue(attName, attValue);
+	}	
+}
+
+function addAmount(entry, attName, attSuffix, attValue, currency) {
+	if (typeof attName === "undefined" || attName == null) { return; }
+	
+	var doubleVal;
+	try {
+		doubleVal = java.lang.Double.parseDouble(attValue); // TODO use BigDecimal?
+	} catch (ex) {
+		doubleVal = "Error parsing amount: " + attValue + " - " + ex;
+	}
+	
+	addAttributeValue(entry, attName + attSuffix, doubleVal);
+	
+	if (typeof currency !== "undefined" && typeof currency.isoCode !== "undefined") {
+		addAttributeValue(entry, attName + attSuffix + " Currency", currency.isoCode);
+	} 	
+}]]></parameter>
+            <parameter name="url">http://158.85.75.220:10108/grc/api</parameter>
+            <parameter name="user"/>
+            <parameter name="username">OpenPagesAdministrator</parameter>
+            <parameter name="view"/>
+        </Configuration>
+        <ComputeChanges>false</ComputeChanges>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1411492967551</ModTime>
+            <SchemaItem>
+                <Name>Comment</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Created By</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Creation Date</Name>
+                <Syntax>java.util.Date</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Description</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Last Modification Date</Name>
+                <Syntax>java.util.Date</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Last Modified By</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Location</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Name</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Business Entity Chart</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Compliance Owner</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Entity Type</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Executive Owner</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:In RCSA Scope</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Logo URL</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Currency</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Local Amount</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Local Amount Currency</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Orphan</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Resource ID</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1411492967553</ModTime>
+            <SchemaItem>
+                <Name>$doc</Name>
+                <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$json</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$total_rows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Comment</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Created By</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Creation Date</Name>
+                <Syntax>java.util.Date</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Description</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Last Modification Date</Name>
+                <Syntax>java.util.Date</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Last Modified By</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Location</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Name</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Business Entity Chart</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Compliance Owner</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Entity Type</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Executive Owner</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:In RCSA Scope</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Logo URL</Name>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Currency</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Local Amount</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>OPSS-BusEnt:Risk Appetite Local Amount Currency</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Orphan</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Resource ID</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>_id</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>_rev</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>item</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>prices</Name>
+                <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

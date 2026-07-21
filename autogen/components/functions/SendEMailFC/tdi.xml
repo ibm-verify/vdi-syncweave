@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.SendEMailFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.SendEMailFC</parameter>
+				<parameter name="attachments"/>
+				<parameter name="contentType"/>
+				<parameter name="encoding"/>
+				<parameter name="from"/>
+				<parameter name="password"/>
+				<parameter name="recipients"/>
+				<parameter name="replyTo"/>
+				<parameter name="smtpServerHost"/>
+				<parameter name="smtpServerPort">25</parameter>
+				<parameter name="subject"/>
+				<parameter name="useSSL">false</parameter>
+				<parameter name="username"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>status</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>attachments</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>body</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>from</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>recipients</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>cc</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>bcc</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>replyTo</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>smtpServerHost</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>smtpServerPort</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>subject</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.SendEMailFC">
+			<TranslationFile>NLS/idi_fc_sendemail</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>from</ListItem>
+					<ListItem>recipients</ListItem>
+					<ListItem>subject</ListItem>
+					<ListItem>attachments</ListItem>
+					<ListItem>smtpServerHost</ListItem>
+					<ListItem>smtpServerPort</ListItem>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>useSSL</ListItem>
+					<ListItem>replyTo</ListItem>
+					<ListItem>cc</ListItem>
+					<ListItem>bcc</ListItem>
+					<ListItem>contentType</ListItem>
+					<ListItem>encoding</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>smtpServerHost</ListItem>
+				<ListItem>smtpServerPort</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>from</ListItem>
+				<ListItem>recipients</ListItem>
+				<ListItem>replyTo</ListItem>
+				<ListItem>subject</ListItem>
+				<ListItem>attachments</ListItem>
+				<ListItem>contentType</ListItem>
+				<ListItem>encoding</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="attachments">
+				<parameter name="description">SMTP_ATTC_DESC</parameter>
+				<parameter name="label">SMTP_ATTC_LBL</parameter>
+				<parameter name="script">selectMultipleFiles</parameter>
+				<parameter name="scriptLabel">SMTP_ATTC_SLBL</parameter>
+				<parameter name="scripthelp">SMTP_ATTC_SHLP</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="contentType">
+				<parameter name="description">SMTP_CONT_DESC</parameter>
+				<parameter name="label">SMTP_CONT_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="encoding">
+				<parameter name="description">SMTP_ENCD_DESC</parameter>
+				<parameter name="label">SMTP_ENCD_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="from">
+				<parameter name="description">FROM_DESC</parameter>
+				<parameter name="label">FROM_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">SMTP_PASS_DESC</parameter>
+				<parameter name="label">SMTP_PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="recipients">
+				<parameter name="description">RCP_DESC</parameter>
+				<parameter name="label">RCP_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="replyTo">
+				<parameter name="description">RPLT_DESC</parameter>
+				<parameter name="label">RPLT_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="cc">
+				<parameter name="description">CC_DESC</parameter>
+				<parameter name="label">Cc</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="bcc">
+				<parameter name="description">BCC_DESC</parameter>
+				<parameter name="label">Bcc</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="smtpServerHost">
+				<parameter name="description">SMTP_HOST_DESC</parameter>
+				<parameter name="label">SMTP_HOST_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="smtpServerPort">
+				<parameter name="description">SMTP_PORT_DESC</parameter>
+				<parameter name="label">SMTP_PORT_LBL</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="subject">
+				<parameter name="description">SUBJECT_DESC</parameter>
+				<parameter name="label">SUBJECT_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">SMTP_SSL_DESC</parameter>
+				<parameter name="label">SMTP_SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">SMTP_USER_DESC</parameter>
+				<parameter name="label">SMTP_USER_LBL</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="ldapserverconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJQ301I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.TERMINATERCV.INFO" varFormat="Java">
+   Terminate server request received while accepting connections.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ302I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.DUMMY.INFO" varFormat="Java">
+   Creating dummy connection using IP Address 
+   &apos;&apos;<Variable formatSpec="{0}">IP Address</Variable>&apos;&apos; and
+   port &apos;&apos;<Variable formatSpec="{1}">port number</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ303I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.ALREADYTERM.INFO" varFormat="Java">
+   LDAP Server Connector is already terminating. Not sending termination request.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ304I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.SENDINGTERM.INFO" varFormat="Java">
+   Sending termination request to LDAP Server Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ305E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.NO.SERVER.CONNECTOR.AVAILABLE" varFormat="Java">
+   No server Connector available or this Connector is no longer accepting connections.
+   </MsgText>
+   <Explanation> <p>
+   The Connector terminated and is no longer accepting connections
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ306I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.CONNECTOR.ALREADY.INITIALIZED" varFormat="Java">
+   Connector already initialized with a java.net.Socket object.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ307I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.USING.PROVIDE.JAVA.NET.SOCKET.OBJECT" varFormat="Java">
+   Using provide java.net.Socket object for LDAP client session.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ308I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LISTENING.FOR.LDAP.SSL.CONNECTIONS" varFormat="Java">
+   Listening for LDAP SSL connections on port: <Variable formatSpec="{0}">port</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ309I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LISTENING.FOR.LDAP.CONNECTIONS" varFormat="Java">
+   Listening for LDAP connections on port: <Variable formatSpec="{0}">port</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ310E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.NOTSERVER.SESSION.ERROR" varFormat="Java">
+   Server Socket is not open, cannot accept client requests.
+   </MsgText>
+   <Explanation> <p>
+   LDAPServerConnector cannot listen on a specified port and cannot accept client connections.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the parameters used to specify the port of the Server Socket.
+   Verify the port is not already in use.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ311I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.CONNTERMINATED.INFO" varFormat="Java">
+   Connector terminated by external request.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ312E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.NOT.A.CLIENT.SESSION.USE.GETNEXTCLIENT" varFormat="Java">
+   LDAP Server Connector was unable to get the next message because there is no client session.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Use the getNextClient method to get next client session.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ313E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.IOEXCEPTION.WHILE.READING.REQUEST" varFormat="Java">
+   Failed to get the next message. An IOException occurred while reading the
+   next request: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the connection between server and client.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ314E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.INTERNAL.ERROR.LDAPMESSAGE" varFormat="Java">
+   LDAP Server Connector unable to get the next entry.
+   The LDAPMessage object returned a NULL Request object.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ315I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BEGIN.REQUEST.PACKET.DUMP" varFormat="Java">
+   Starting packet dump...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ316I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.END.REQUEST.PACKET.DUMP" varFormat="Java">
+   Finished packet dump.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ317I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BEGIN.SEARCH.RESULT.PACKET.DUMP" varFormat="Java">
+   Start of packet dump of search result...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ318I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.END.SEARCH.RESULT.PACKET.DUMP" varFormat="Java">
+ Finished packet dump of search result.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ319I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BEGIN.RESPONSE.PACKET.DUMP" varFormat="Java">
+   Start of packet dump of response...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ320I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.END.RESPONSE.PACKET.DUMP" varFormat="Java">
+   Finshed packet dump of response.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ321I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.CONNECTION.CLOSED" varFormat="Java">
+   LDAP Server Connector closed the connection.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ322E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.BOOLEAN.WITH.MORE.THAN.ONE.BYTE" varFormat="Java">
+   Unable to get the boolean value from the byte buffer. The byte buffer contained more than one byte.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ323E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.EXPECTED.EXCEPTION" varFormat="Java">
+   The byte comparison failed. Expected the byte
+   value<Variable formatSpec="{0}">hex value</Variable> but found byte
+   value<Variable formatSpec="{1}">hex value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ324I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.BEGIN.PACKET.DUMP" varFormat="Java">
+   Starting packet dump....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ325I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.END.PACKET.DUMP" varFormat="Java">
+   Finished packet dump.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ326E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BINDREQUEST.CAN.ONLY.DO.SIMPLE.BINDS" varFormat="Java">
+   Unknown bind type was specified.  Only simple and SASL binds are currently supported.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a simple or SASL bind on the bind request.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ327E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPCONTROL.UNKNOWN.CONTROL" varFormat="Java">
+   Unable to convert the entry into a control.  An unknown control type was
+   found in the entry: <Variable formatSpec="{0}">control type</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The entry could not be converted to a control because an unknown control type was found in the entry.
+   Only the paged search control is supported.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the paged search control in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ328E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.NOT.A.SEQUENCE.EXCEPTION" varFormat="Java">
+   Unable to parse input message. The input message did not begin with a
+   BER sequence: <Variable formatSpec="{0}">character</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ329E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.UNKNOWN.OPERATION" varFormat="Java">
+   Unable to parse input message. The input message contained an unknown
+   operation: <Variable formatSpec="{0}">operation ID</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ330E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.CANNOT.HANDLE.CONTROL" varFormat="Java">
+   An unknown control type was encountered while parsing the input message:
+   <Variable formatSpec="{0}">control type</Variable>.
+   Control will not be added to the entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ331I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.ADDING.CONTROL" varFormat="Java">
+   Adding control <Variable formatSpec="{0}">object</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ332E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.EXPECTED.LDAPCONTROL" varFormat="Java">
+   Unable to add control.  Object was not of type LDAPControl: <Variable formatSpec="{0}">object</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ333I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.MESSAGEID" varFormat="Java">
+   Message ID of LDAPMessage object: <Variable formatSpec="{0}">message ID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ334I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.LDAPMESSAGE.REQUEST.ENTRY" varFormat="Java">
+   Dumping request entry...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ335E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.SEARCHFILTER.UNKNOWN.FILTER.CODE" varFormat="Java">
+   Unable to parse search filter.  The search filter contained an unknown
+   filter code: <Variable formatSpec="{0}">filter code</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ336I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.HEX.INFO" varFormat="Java">
+   Hexadecimal value: <Variable formatSpec="{0}">hexadecimal value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ337I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.DECIMAL.INFO" varFormat="Java">
+   Decimal value: <Variable formatSpec="{0}">decimal value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ338I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.HEX.AFTERSOMEWORK.INFO" varFormat="Java">
+   Hexadecimal value: <Variable formatSpec="{0}">hexadecimal value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ339I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAPSERVER.BER.DECIMAL.AFTERSOMEWORK.INFO" varFormat="Java">
+   Decimal value: <Variable formatSpec="{0}">decimal value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

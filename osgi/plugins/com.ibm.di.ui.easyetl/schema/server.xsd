@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api">
+
+    <!--
+		xjc -d src -p com.ibm.di.ui.easyetl.bind schema/server.xsd 
+	 -->
+    <complexType name="property">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="value" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="properties">
+    	<sequence>
+    		<element name="type" type="string"></element>
+    		<element name="properties" type="tns:property" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="logging">
+    	<sequence>
+    		<element name="enabled" type="boolean"></element>
+    		<element name="generations" type="int"></element>
+    		<element name="format" type="string"></element>
+    		<element name="level" type="string"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="auth">
+    	<sequence>
+    		<element name="enabled" type="boolean"></element>
+    		<element name="localhost" type="string"></element>
+    		<element name="remotehost" type="string"></element>
+    		<element name="ldapurl" type="string"></element>
+    		<element name="ldapgroup" type="string"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="vmstatus">
+    	<sequence>
+    		<element name="freeMemory" type="long"></element>
+    		<element name="totalMemory" type="long"></element>
+    		<element name="maxMemory" type="long"></element>
+    		<element name="numProcessors" type="int"></element>
+    		<element name="activeThreads" type="int"></element>
+    	</sequence>
+    </complexType>
+    
+    <element name="properties" type="tns:properties"></element>
+    <element name="logging" type="tns:logging"></element>
+    <element name="dashboardSecurity" type="tns:auth"></element>
+    <element name="vmstatus" type="tns:vmstatus"></element>
+
+</schema>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="28" UUID="6bc068bc-3363-405d-8a4f-dc0bd0723f2a" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="Monitor_QRadar" modified="Wed Jun 11 12:30:01 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="Monitor_QRadar">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1402482601892</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1402482601892</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="46" UUID="6dc2b978-5623-4326-ba25-409684d76c8d" created="Thu Apr 25 09:54:43 CEST 2013" createdBy="Administrator" main="Form" modified="Wed Jun 11 12:30:01 CEST 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1398156604222</ModTime>
+        <FormItemNames>
+            <ListItem>hook.qradar.parameter.hostname</ListItem>
+            <ListItem>hook.qradar.parameter.port</ListItem>
+            <ListItem>hook.qradar.parameter.mapFile</ListItem>
+            <ListItem>hook.qradar.parameter.severity</ListItem>
+            <ListItem>hook.qradar.parameter.facility</ListItem>
+            <ListItem>hook.qradar.parameter.dateMask</ListItem>
+            <ListItem>hook.qradar.enabled</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+        </FormSectionNames>
+        <FormItem name="global.logDirectory">
+            <ModTime>1366876655390</ModTime>
+            <parameter name="description">LDAPSYNC.THE.FOLDER.WHERE.LOG.FILES.ARE.WRITTEN.DEFAULT.IS.LDAPSYNCLOGS.IN.THE.TDI.SOLUTION.DIRECTORY</parameter>
+            <parameter name="label">LDAPSYNC.LOG.DIRECTORY</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.enabled">
+            <ModTime>1395753790658</ModTime>
+            <parameter name="label">LDAPSYNC.ENABLED</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.dateMask">
+            <ModTime>1398156604222</ModTime>
+            <parameter name="description">LDAPSYNC.TOOLTIP.QRADAR.DATEMASK</parameter>
+            <parameter name="label">LDAPSYNC.DATE.MASK</parameter>
+            <parameter name="scriptLabel"/>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.facility">
+            <ModTime>1398156500967</ModTime>
+            <Values>
+                <ListItem>kernel</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>mail</ListItem>
+                <ListItem>system daemons</ListItem>
+                <ListItem>security/authorization</ListItem>
+                <ListItem>internal syslogd</ListItem>
+                <ListItem>line printer subsystem</ListItem>
+                <ListItem>network news subsystem</ListItem>
+                <ListItem>UUCP subsystem</ListItem>
+                <ListItem>clock daemon</ListItem>
+                <ListItem>security/authorization messages</ListItem>
+                <ListItem>FTP daemon</ListItem>
+                <ListItem>NTP subsystem</ListItem>
+                <ListItem>log audit (note 1)</ListItem>
+                <ListItem>log alert (note 1)</ListItem>
+                <ListItem>clock daemon (note 2)</ListItem>
+                <ListItem>local0</ListItem>
+                <ListItem>local1</ListItem>
+                <ListItem>local2</ListItem>
+                <ListItem>local3</ListItem>
+                <ListItem>local4</ListItem>
+                <ListItem>local5</ListItem>
+                <ListItem>local6</ListItem>
+                <ListItem>local7</ListItem>
+            </Values>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.TOOLTIP.QRADAR.FACILITY</parameter>
+            <parameter name="label">LDAPSYNC.FACILITY</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.hostname">
+            <ModTime>1398156358287</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.TOOLTIP.QRADAR.HOST</parameter>
+            <parameter name="label">LDAPSYNC.HOSTNAME</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.mapFile">
+            <ModTime>1398156427277</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.TOOLTIP.MAPFILE</parameter>
+            <parameter name="label">LDAPSYNC.MAP.FILE</parameter>
+            <parameter name="script">selectFile</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.SELECT</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.port">
+            <ModTime>1398156376501</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.TOOLTIP.QRADAR.PORT</parameter>
+            <parameter name="label">LDAPSYNC.PORT</parameter>
+        </FormItem>
+        <FormItem name="hook.qradar.parameter.severity">
+            <ModTime>1398156492248</ModTime>
+            <Values>
+                <ListItem>alert</ListItem>
+                <ListItem>critical</ListItem>
+                <ListItem>debug</ListItem>
+                <ListItem>emergency</ListItem>
+                <ListItem>error</ListItem>
+                <ListItem>informational</ListItem>
+                <ListItem>notice</ListItem>
+                <ListItem>warning</ListItem>
+            </Values>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.TOOLTIP.QRADAR.SEVERITY</parameter>
+            <parameter name="label">LDAPSYNC.SEVERITY</parameter>
+            <parameter name="modes"/>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.binaryAttributes">
+            <ModTime>1380534372703</ModTime>
+            <parameter name="description">LDAPSYNC.ENTER.THE.LIST.OF.BINARY.ATTRIBUTES.ONE.LINE.FOR.EACH.ATTRIBUTE.NAME</parameter>
+            <parameter name="label">LDAPSYNC.SPECIFY.ANY.CUSTOM.BINARY.ATTRIBUTES.ONE.PER.LINE</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.pageSize">
+            <parameter name="description">LDAPSYNC.SETTING.A.VALUE.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS</parameter>
+            <parameter name="label">LDAPSYNC.PAGE.SIZE</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="script">checkLDAPPageSize</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.PAGE.SIZE</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.password">
+            <ModTime>1369134649906</ModTime>
+            <parameter name="description">LDAPSYNC.LOGIN.PASSWORD.TO.TDS</parameter>
+            <parameter name="label">LDAPSYNC.PASSWORD</parameter>
+            <parameter name="syntax">PASSWORD</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.searchBase">
+            <ModTime>1383209765421</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">LDAPSYNC.THIS.THE.SPOT.IN.THE.TARGET.SDS.WHERE.DATA.WILL.BE.SYNCHRONIZED.TO</parameter>
+            <parameter name="label">LDAPSYNC.DEFAULT.TARGET.CONTAINER</parameter>
+            <parameter name="script">selectLDAPSyncSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.CONTEXTS</parameter>
+            <parameter name="scripthelp">Browse available suffixes to select the desired one</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.searchFilter">
+            <parameter name="description">LDAPSYNC.LDAP.FILTER.USED.TO.SELECT.ENTRIES.FOR.PROCESSING</parameter>
+            <parameter name="label">LDAPSYNC.SEARCH.FILTER</parameter>
+            <parameter name="script">selectLDAPSearchFilter</parameter>
+            <parameter name="scriptLabel">...</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.url">
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.URL.TO.THE.TARGET.TDS.DIRECTORY.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.LDAP.URL</parameter>
+            <parameter name="syntax">URL</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.user">
+            <parameter name="description">LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.TARGET.TDS.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.USER.LOGIN</parameter>
+            <parameter name="syntax">DN</parameter>
+        </FormItem>
+        <FormItem name="writeback.enabled"/>
+        <FormItem name="writeback.startAt"/>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>hook.qradar.enabled</ListItem>
+                <ListItem>hook.qradar.parameter.hostname</ListItem>
+                <ListItem>hook.qradar.parameter.port</ListItem>
+                <ListItem>hook.qradar.parameter.severity</ListItem>
+                <ListItem>hook.qradar.parameter.facility</ListItem>
+                <ListItem>hook.qradar.parameter.mapFile</ListItem>
+                <ListItem>hook.qradar.parameter.dateMask</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <FormSection name="SDS Connection Settings">
+            <ModTime>1377592444859</ModTime>
+            <parameter name="title"/>
+        </FormSection>
+        <parameter name="title">QRadar Monitor Parameters</parameter>
+        <TranslationFile>ldapsync</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="hook.qradar.parameter.dateMask"/>
+            <parameter name="hook.qradar.parameter.facility"/>
+            <parameter name="hook.qradar.parameter.mapFile">LDAPSync/QRadar.map</parameter>
+            <parameter name="hook.qradar.parameter.severity"/>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings/>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

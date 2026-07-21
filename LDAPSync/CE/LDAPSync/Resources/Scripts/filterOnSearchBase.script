@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="b87a6c94-e2fc-413a-8dd5-1b45496b1c5d" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="filterOnSearchBase" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="filterOnSearchBase">
+        <ModTime>1388405024544</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[targetDN = work.getString("$dn")
+targetDN = cleanDN(targetDN.toLowerCase())
+searchBase = cleanDN(sourceSearchBase.toLowerCase())
+newSuperior = work.getString("newSuperior")
+if (newSuperior != null) {
+	newSuperior = cleanDN(newSuperior.toLowerCase())
+} else {
+	newSuperior = "*none*"
+}
+
+if (!targetDN.endsWith(searchBase) && !newSuperior.endsWith(searchBase)) {
+	if (deBug) logmsg("@@---> skipping entry outside searchbase (" + sourceSearchBase + ") with dn=" + targetDN)	
+	system.exitFlow()	
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

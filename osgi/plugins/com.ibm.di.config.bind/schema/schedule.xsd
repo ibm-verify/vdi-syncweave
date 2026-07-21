@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+
+
+
+
+
+
+	<!--
+		complexType name="ParametersInheritingBinding"> <annotation>
+		<documentation>Represents a list of config parameters which is also
+		allowed to have a reference to another config object whose parameters
+		will be inherited.</documentation> </annotation> <complexContent>
+		<extension base="tns:ParametersBinding"> <attribute name="inheritFrom"
+		type="anyURI" use="optional"></attribute> </extension>
+		</complexContent> </complexType
+	-->
+
+
+
+
+
+
+
+
+	<include schemaLocation="base.xsd"></include>
+
+
+
+
+
+
+
+
+	<complexType name="ALStarterBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+				<sequence>
+					<element name="initParams"
+						type="tns:ParametersBinding" maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="assemblyLine" type="string"
+					use="required">
+				</attribute>
+
+				<attribute name="operation" type="string" use="optional"></attribute>
+				<attribute name="configInstance" type="string"
+					use="optional">
+				</attribute>
+				<attribute name="server" type="string" use="optional"></attribute>
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ALReviverBinding">
+		<complexContent>
+			<extension base="tns:ALStarterBinding">
+				<attribute name="failIfAlDiedIn" type="int"
+					use="optional">
+					<annotation>
+						<documentation>
+							If the AL run is shorter than the specified
+							amount of seconds it will be considered
+							failed and no attempt to restart it will be
+							performed.
+						</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="failureAl" type="string" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ALExecutionScheduleBinding">
+		<complexContent>
+			<extension base="tns:ALStarterBinding">
+				<attribute name="skipExecIfAlRunning" type="boolean"
+					use="optional" default="true">
+					<annotation>
+						<documentation>
+							Don't start the AL if one with the same name
+							is already running.
+						</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="cancelScheduleOnAlFailure"
+					type="boolean" use="optional" default="false">
+				</attribute>
+
+                <attribute name="execTimePattern" type="string" use="required">
+					<annotation>
+						<documentation>
+							A string encoded pattern allowing
+							configuration of the time(s) an AL will be
+							started. The representation
+						</documentation>
+					</annotation>
+				</attribute>
+                <attribute name="failureAl" type="string"></attribute>
+				<attribute name="enabled" type="boolean" use="optional" default="true"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="reviveAl" type="tns:ALReviverBinding" substitutionGroup="tns:config"></element>
+	
+
+    <element name="scheduleAl" type="tns:ALExecutionScheduleBinding" substitutionGroup="tns:config"></element>
+</schema>

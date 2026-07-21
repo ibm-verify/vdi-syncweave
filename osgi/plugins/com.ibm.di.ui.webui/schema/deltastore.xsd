@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api">
+	<include schemaLocation=""></include>
+
+	<complexType name="Store">
+		<sequence>
+			<element name="RowData" type="tns:Rows"></element>
+			<element name="ColumnData" type="tns:RowData"></element>
+		</sequence>
+		<attribute name="Name" type="string"></attribute>
+		<attribute name="Type" type="string"></attribute>
+	</complexType>
+
+	<complexType name="Stores">
+		<sequence>
+			<element name="Stores" type="tns:Store"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+
+
+
+
+	<complexType name="RowData">
+		<sequence>
+			<element name="Value" type="string" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Rows">
+		<sequence>
+			<element name="Data" type="tns:RowData" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<element name="Store" type="tns:Store"></element>
+
+	<element name="Stores" type="tns:Stores"></element>
+</schema>

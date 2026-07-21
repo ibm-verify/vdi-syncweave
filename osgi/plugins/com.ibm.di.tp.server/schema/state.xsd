@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:tns="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ibm.com/xmlns/prod/scmp">
+
+	<!--
+		These types copied from the base schemas. Should reference rather than
+		copy, but they're not in the right place in the base schemas yet
+	-->
+
+	<xsd:element name="op-state" type="tns:enum_OpState">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>
+					Operational State
+						</scmp:display>
+				<scmp:summary>
+					Operational State
+						</scmp:summary>
+				<scmp:description>
+					The operational state of the proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="admin-state" type="tns:enum_AdminState">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Admin State</scmp:display>
+				<scmp:summary>
+					Administrative State
+								</scmp:summary>
+				<scmp:description>
+					The administrative state of the proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:simpleType name="enum_AdminState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="enabled">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Enabled</scmp:display>
+						<scmp:description>
+							Service is enabled.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="disabled">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Disabled</scmp:display>
+						<scmp:description>
+							Service is disabled.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="enum_OpState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="available">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Available</scmp:display>
+						<scmp:description>
+							The service is operational.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="unavailable">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Unavailable</scmp:display>
+						<scmp:description>
+							The service is not operational.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="status_OpState">
+		<xsd:sequence>
+			<xsd:element name="op-state" type="tns:enum_OpState"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Operational State</scmp:display>
+						<scmp:summary>Operational State</scmp:summary>
+						<scmp:description>
+							The operations state of the proxy.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="common-msgid" type="tns:type_CommonMsgID"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Common Code</scmp:display>
+						<scmp:summary>Common reason code</scmp:summary>
+						<scmp:description>
+							The common reason code.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="native-msgid" type="tns:type_NativeMsgID"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Native Code</scmp:display>
+						<scmp:summary>Native reason code</scmp:summary>
+						<scmp:description>
+							The native reason code.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="reason" type="xsd:string" minOccurs="0"
+				maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Reason</scmp:display>
+						<scmp:summary>Reason</scmp:summary>
+						<scmp:description>
+							Textual description of the problem.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:element name="op-status" type="tns:status_OpState">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Operational Status</scmp:display>
+				<scmp:summary>Operational status of proxy</scmp:summary>
+				<scmp:description>
+					The operational status of the service proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<!-- Common types for messages -->
+	<xsd:simpleType name='type_CommonMsgID'>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value='0x[0-9a-fA-F]+' />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name='type_NativeMsgID'>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value='0x[0-9a-fA-F]+' />
+		</xsd:restriction>
+	</xsd:simpleType>
+</schema>

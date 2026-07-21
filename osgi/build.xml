@@ -1,0 +1,1047 @@
+
+<project name="IBM Tivoli Directory Integrator OSGi Plugin Builder" default="build-embedded" basedir=".">
+
+	<!--
+    =========================================================================
+      Properties
+    =========================================================================
+  	-->
+
+	<!-- Import the project setup properties and macros -->
+	<import file="${basedir}/../rules_mk/project_setup.xml" />
+
+	<!-- Import the project setup properties and macros -->
+	<import file="${basedir}/../rules_mk/doc_rules.xml" />
+
+	<dirname file="${root.eclipse_rt_buildfile_updatesite}" property="root.eclipse_rt_pde_scripts" />
+	<dirname file="${root.eclipse_rt_pde_scripts}" property="root.eclipse_rt_pde" />
+
+	<mapper id="osgi.plugins.name.normalizer">
+		<!-- match all the versioned jar files and get only the base name -->
+		<mapper type="regexp" from="^(.*)_\d+\.\d+\.\d+\..+\.jar$$" to="\1.jar" />
+                <mapper type="regexp" from="^(.*)_\d+\..+\.jar$$" to="\1.jar" />
+		<!-- match all the non-versioned jar files, this is a inverted case because above rule will fail -->
+		<mapper type="regexp" from="^([^_]+)\.jar$$" to="\1.jar" />
+	</mapper>
+
+	<mapper id="osgi.3rdparty.plugins.name.normalizer">
+		<mapper type="regexp" from="^(.*)-\d+\.\d+\.\d+\.jar$$" to="\1.jar" />
+	</mapper>
+
+	<description>
+		=========================================================================
+		Macro:    runOSGiPluginBuild
+		Purpose:  Builds an OSGi plugin based on the input given.
+		=========================================================================
+	</description>
+	<macrodef name="runOSGiPluginBuild">
+		<attribute name="buildDirectory" />
+		<attribute name="equinox.launcher.path" />
+		<attribute name="pde.build.path" />
+		<attribute name="eclipse.runtime.path" />
+		<sequential>
+			<!-- execute the ant build script -->
+			<exec executable="java" failonerror="yes">
+				<arg line="-jar" />
+				<arg line="@{equinox.launcher.path}" />
+				<arg line="-application" />
+				<arg line="org.eclipse.ant.core.antRunner" />
+				<arg line="-buildfile" />
+				<arg line="@{pde.build.path}/scripts/build.xml" />
+				<arg line='-Dbuilder="@{buildDirectory}"' />
+				<arg line="-consoleLog" />
+				<arg line="-nosplash" />
+
+				<!-- these properties are usually specified in the build.properties file -->
+
+				<!-- The type of the top level element we are building,  generally "feature" -->
+				<arg line='-DtopLevelElementType=feature' />
+				<!-- The id of the top level element we are building -->
+				<arg line='-DtopLevelElementId="${project.tdi.osgi.plugins.prefix}.feature"' />
+				<arg line='-DrunPackager=false' />
+				<!-- The prefix that will be used in the generated archive -->
+				<arg line='-DarchivePrefix=eclipse' />
+				<!-- The list of {os, ws, arch} configurations to build.  This
+					 value is a '&' separated list of ',' separate triples.  For example,
+					     configs=win32,win32,x86 & linux,motif,x86
+					 By default the value is *,*,* -->
+				<arg line='-Dconfigs="*, *, *"' />
+				<!-- The directory into which the build elements are fetched and where the build takes place. -->
+				<arg line='-DbuildDirectory="@{buildDirectory}"' />
+				<!-- Type of build.  Used in naming the build output.  Typically this value is
+					 one of I, N, M, S, etc.. -->
+				<arg line='-DbuildType=N' />
+				<!-- ID of the build.  Used in naming the build output. -->
+				<arg line='-DbuildId="build"' />
+				<!-- Label for the build.  Used in naming the build output -->
+				<arg line='-DbuildLabel=${project.tdi.osgi.plugins.prefix}' />
+				<!-- Make sure the plugin has a timestamp corresponding to the build start -->
+				<!-- arg line='-DforceContextQualifier=${DSTAMP}${TSTAMP}' / -->
+				<!-- Because we want to avoid the needless manual update of the z/OS build we don't put the timestamp of the build at the end of the name -->
+				<arg line='-DforceContextQualifier=0' />
+				<!-- Set to true if you want the output to be ready for an update jar (no site.xml generated) -->
+				<arg line='-DoutputUpdateJars=true' />
+				<!-- Settings for the base Eclipse components and Java class libraries
+					 against which you are building.
+					 Base location for anything the build needs to compile against.  For example,
+					 in most RCP app or a plug-in,  the baseLocation should be the location of a previously
+					 installed Eclipse against which the application or plug-in code will be compiled and the RCP delta pack. -->
+				<arg line='-DbaseLocation="@{eclipse.runtime.path}"' />
+				<arg line='-Dbaseos=win32' />
+				<arg line='-Dbasews=win32' />
+				<arg line='-Dbasearch=x86' />
+				<!-- this property indicates whether you want the set of plug-ins and features to be considered
+				during the build to be limited to the ones reachable from the features / plugins being built -->
+				<arg line='-DfilteredDependencyCheck=false' />
+				<!-- this property indicates whether the resolution should be done in
+				development mode (i.e. ignore multiple bundles with singletons) -->
+				<arg line='-Dresolution.devMode=true' />
+				<arg line='-DskipBase=true' />
+				<arg line='-DskipMaps=true' />
+				<arg line='-DskipFetch=true' />
+				<arg line='-DlogExtension=.log' />
+				<arg line='-DjavacDebugInfo=true ' />
+				<arg line='-DjavacFailOnError=true' />
+				<arg line='-DjavacVerbose=false' />
+				<arg line='-DjavacSource=1.6' />
+				<arg line='-DjavacTarget=1.6' />
+			</exec>
+
+			<!-- the build output is producing a zip which when extracted produces
+				an eclipse folder with the plugins inside -->
+			<unzip dest="${project.root.export.osgi.build}" src="${project.root.export.osgi.build}/${project.tdi.osgi.plugins.prefix}/${project.tdi.osgi.plugins.prefix}.feature-build.zip" overwrite="true" />
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    copyPluginDeps
+		Purpose:  Copies the specified dependencies (as nested "fileset") to the
+				  "lib" folder of the specified plugin and updates the plugin's
+				  MANIFEST.MF accordingly.
+		=========================================================================
+	</description>
+	<macrodef name="copyPluginDeps">
+		<attribute name="pluginsDir" />
+		<attribute name="plugin" />
+		<element name="dependencies" implicit="true" optional="false" />
+
+		<sequential>
+			<echo message="Creating directory: @{pluginsDir}/@{plugin}/lib" />
+			<mkdir dir="@{pluginsDir}/@{plugin}/lib" />
+
+			<copy todir="@{pluginsDir}/@{plugin}/lib" overwrite="false" flatten="true" verbose="true">
+				<dependencies />
+			</copy>
+
+			<pathconvert property="@{plugin}.cp" pathsep="," dirsep="/">
+				<fileset dir="@{pluginsDir}/@{plugin}/lib" includes="*.jar" />
+				<map from="@{pluginsDir}/@{plugin}/" to="" />
+			</pathconvert>
+
+			<echo message="Setting Bundle-ClassPath to: ${@{plugin}.cp},." />
+			<manifest file="@{pluginsDir}/@{plugin}/META-INF/MANIFEST.MF" mode="update">
+				<attribute name="Bundle-ClassPath" value="${@{plugin}.cp},." />
+			</manifest>
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    excludeDeps
+		Purpose:  Configures the build to skip the packaging of the specified
+				  dependencies. The code automatically looks into the folder
+				  used by the "copyPluginDeps" macrodef. If it is different you
+				  need to specify the relative path from the plugin's root dir.
+		=========================================================================
+	</description>
+	<macrodef name="excludeDeps">
+		<attribute name="pluginsDir" description="This is the dirctory into which the specified plugin could be found. The path must be using forward slashes as dir separators!" />
+		<attribute name="plugin" description="The name of the plugin project in the pluginsDir." />
+		<attribute name="deps" description="The list of jar names to exclude. The list is comma separated" />
+
+		<sequential>
+			<script language="javascript" >
+				<![CDATA[
+			try {
+				load("nashorn:mozilla_compat.js");
+			} catch (e) {
+				// Ignore if we are using Rhino
+			}
+			importClass(java.lang.StringBuilder);
+			importClass(java.io.File);
+			importClass(java.io.FileInputStream);
+			importClass(java.io.FileOutputStream);
+			importClass(java.util.Properties);
+			importClass(org.apache.tools.ant.Project);
+
+			LIBS_DIR = "lib/"
+
+			props = new Properties();
+			fis = null;
+			try {
+				fis = new FileInputStream(new File("@{pluginsDir}/@{plugin}/build.properties"));
+				props.load(fis);
+			} catch (e) {
+				if (e instanceof java.io.FileNotFoundException) {
+					// ignore
+				} else if (e instanceof java.io.Exception) {
+					project.log(e.getMessage(), Project.MSG_ERR);
+				} else {
+					project.log(e, Project.MSG_ERR);
+				}
+			} finally {
+				if (fis != null) {
+					fis.close();
+				}
+			}
+
+			packAll = false;
+			changed = false;
+			incList = new java.util.ArrayList();
+			binIncludes = props.getProperty("bin.includes");
+
+			if (binIncludes != null) {
+				incs = binIncludes.split(",");
+				deps = "@{deps}".split(",");
+
+				// configured to package all
+				for (i = 0; i < incs.length; i++) {
+					isExcluded = false;
+					if (incs[i].equals(LIBS_DIR)) {
+						// we need to list the libs dir and gather the other deps
+						libsDir = new File("@{pluginsDir}/@{plugin}/" + LIBS_DIR);
+
+						if (libsDir.exists()) {
+							libs = libsDir.listFiles();
+							for (l in libs) {
+								if (!libs[l].isDirectory()) {
+									isExcluded = false;
+									for (d in deps) {
+										if (deps[d] != null) {
+											dep = new File(libsDir, deps[d]);
+											if (libs[l].equals(dep)) {
+												deps[d] = null;
+												isExcluded = true;
+												break;
+											}
+										}
+									}
+									if (!isExcluded) {
+										include = LIBS_DIR + libs[l].getName();
+										if (!incList.contains(include)) {
+											incList.add(include);
+											changed = true;
+										}
+									}
+								}
+							}
+						}
+						isExcluded = true;
+					} else {
+						for (d in deps) {
+							if (deps[d] != null && (incs[i].equals(deps[d]) || incs[i].equals(LIBS_DIR + deps[d]))) {
+								isExcluded = true;
+								break;
+							}
+						}
+					}
+					if (!isExcluded && !incList.contains(incs[i])) {
+						incList.add(incs[i]);
+						changed = true;
+					}
+				}
+
+				if (changed) {
+					sb = new StringBuilder();
+
+					for (i = 0; i < incList.size(); i++) {
+						sb.append(incList.get(i));
+						sb.append(',');
+					}
+
+					if (sb.length() > 0) {
+						sb.deleteCharAt(sb.length() - 1);
+					}
+					binIncludes = sb.toString();
+					props.setProperty("bin.includes", binIncludes);
+
+					echo = project.createTask("echo");
+					echo.setMessage("Setting bin.includes to:  " + binIncludes);
+					echo.perform();
+
+					fos = null;
+					try {
+						fos = new FileOutputStream(new File("@{pluginsDir}/@{plugin}/build.properties"));
+						props.store(fos, "Modified by excludeDeps ANT task.");
+					} catch (e) {
+						if (e instanceof java.io.Exception) {
+							project.log(e.getMessage(), Project.MSG_ERR);
+						} else {
+							project.log(e, Project.MSG_ERR);
+						}
+					} finally {
+						if (fos != null) {
+							fos.close();
+						}
+					}
+				}
+			}
+			    ]]>
+			</script>
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    removeBundleClassPath
+		Purpose:  Removes specified JARs from the Bundle-ClassPath in MANIFEST.MF
+		=========================================================================
+	</description>
+	<macrodef name="removeBundleClassPath">
+		<attribute name="pluginsDir" />
+		<attribute name="plugin" />
+		<attribute name="deps" description="Comma-separated list of JAR names to remove from Bundle-ClassPath" />
+		
+		<sequential>
+			<script language="javascript">
+				<![CDATA[
+			try {
+				load("nashorn:mozilla_compat.js");
+			} catch (e) {
+				// Ignore if we are using Rhino
+			}
+			importClass(java.io.File);
+			importClass(java.io.FileInputStream);
+			importClass(java.io.FileOutputStream);
+			importClass(java.util.jar.Manifest);
+			importClass(java.util.jar.Attributes);
+			importClass(org.apache.tools.ant.Project);
+
+			manifestFile = new File("@{pluginsDir}/@{plugin}/META-INF/MANIFEST.MF");
+			fis = null;
+			fos = null;
+			
+			try {
+				fis = new FileInputStream(manifestFile);
+				manifest = new Manifest(fis);
+				attrs = manifest.getMainAttributes();
+				
+				bundleClassPath = attrs.getValue("Bundle-ClassPath");
+				if (bundleClassPath != null) {
+					deps = "@{deps}".split(",");
+					entries = bundleClassPath.split(",");
+					newEntries = new java.util.ArrayList();
+					
+					for (i = 0; i < entries.length; i++) {
+						entry = entries[i].trim();
+						shouldRemove = false;
+						
+						for (d = 0; d < deps.length; d++) {
+							dep = deps[d].trim();
+							if (entry.equals("lib/" + dep) || entry.equals(dep)) {
+								shouldRemove = true;
+								break;
+							}
+						}
+						
+						if (!shouldRemove) {
+							newEntries.add(entry);
+						}
+					}
+					
+					// Rebuild Bundle-ClassPath
+					sb = new java.lang.StringBuilder();
+					for (i = 0; i < newEntries.size(); i++) {
+						if (i > 0) sb.append(",");
+						sb.append(newEntries.get(i));
+					}
+					
+					newBundleClassPath = sb.toString();
+					attrs.putValue("Bundle-ClassPath", newBundleClassPath);
+					
+					echo = project.createTask("echo");
+					echo.setMessage("Updated Bundle-ClassPath to: " + newBundleClassPath);
+					echo.perform();
+					
+					fos = new FileOutputStream(manifestFile);
+					manifest.write(fos);
+				}
+			} catch (e) {
+				if (e instanceof java.lang.Exception) {
+					project.log(e.getMessage(), Project.MSG_ERR);
+				} else {
+					project.log(e, Project.MSG_ERR);
+				}
+			} finally {
+				if (fis != null) fis.close();
+				if (fos != null) fos.close();
+			}
+			    ]]>
+			</script>
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    bulkConvertTMSXMLToProperties
+		Purpose:  Cycles throughout all the TMSXML files for a plugin and calls
+				  convertTMSXMLToProperties for each one of them
+		=========================================================================
+	</description>
+	<macrodef name="bulkConvertTMSXMLToProperties">
+		<attribute name="pluginsDir" />
+		<attribute name="plugin" />
+		<attribute name="tmsXmlBaseName" />
+
+		<sequential>
+			<fileset dir="@{pluginsDir}/@{plugin}" id="@{plugin}.nls" includes="@{tmsXmlBaseName}*.xml" />
+
+			<script language="javascript">
+				<![CDATA[
+		try {
+			load("nashorn:mozilla_compat.js");
+		} catch (e) {
+			// Ignore if we are using Rhino
+		}
+		importClass(java.io.File);
+
+		fs = project.getReference("@{plugin}.nls");
+		ds = fs.getDirectoryScanner(project);
+		srcFiles = ds.getIncludedFiles();
+
+		for (i = 0; i < srcFiles.length; i++) {
+			// get the values via Java API
+			tmsFile = new File(fs.getDir(project), srcFiles[i]);
+
+			macrotask = project.createTask("convertTMSXMLToProperties");
+			macrotask.setDynamicAttribute("tmsxmlfile.loc", tmsFile.getAbsolutePath());
+			macrotask.setDynamicAttribute("propsfile.loc", tmsFile.getAbsolutePath().substring(0, tmsFile.getAbsolutePath().lastIndexOf('.')) + ".properties");
+			macrotask.setDynamicAttribute("logfile.log", project.getProperty("project.root.tmsxml.log"));
+			macrotask.execute();
+		}
+		    ]]>
+			</script>
+
+			<delete>
+				<fileset refid="@{plugin}.nls" />
+			</delete>
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    convertTMSXMLForPlugins
+		Purpose:  Copies the specified dependencies (as nested "fileset") to the
+				  "lib" folder of the specified plugin and updates the plugin's
+				  MANIFEST.MF accordingly.
+		=========================================================================
+	</description>
+	<!-- MUST CONVERT THE PATH TO USE FORWARD SLASHES BECAUSE OTHERWISE THE SCRIPT IN
+		THE MACRODEF IS MISINTERPRETED -->
+	<macrodef name="convertTMSXMLForPlugins">
+		<attribute name="pluginsDir" />
+		<sequential>
+
+			<echo message="Starting TMS XML to Properties conversation for all plugins in: @{pluginsDir}" />
+
+			<script language="javascript">
+				<![CDATA[
+		try {
+			load("nashorn:mozilla_compat.js");
+		} catch (e) {
+			// Ignore if we are using Rhino
+		}
+		importClass(java.io.File);
+		importClass(java.io.FileInputStream);
+		importClass(java.util.jar.Manifest);
+		importClass(org.apache.tools.ant.Project);
+
+		plnsDir = new File("@{pluginsDir}");
+		children = plnsDir.listFiles();
+		for (i in children) {
+			plnDir = children[i];
+			if (plnDir.isDirectory()) {
+				try {
+					fis = new FileInputStream(new File(plnDir, "META-INF/MANIFEST.MF"));
+					man = new Manifest(fis);
+					loc = man.getMainAttributes().getValue("Bundle-Localization");
+
+					if (loc == null) {
+						loc = "OSGI-INF/l10n/bundle";
+					}
+
+					locFile = new File(plnDir, loc + ".xml");
+					if (locFile.exists()) {
+						macrotask = project.createTask("bulkConvertTMSXMLToProperties");
+						macrotask.setDynamicAttribute("pluginsdir", "@{pluginsDir}");
+						macrotask.setDynamicAttribute("plugin", plnDir.getName());
+						macrotask.setDynamicAttribute("tmsxmlbasename", loc);
+						macrotask.execute();
+					} else {
+						project.log("Bundle: " + plnDir.getName() + " - Not localized!");
+					}
+				} catch (e) {
+					if (e instanceof java.lang.Exception) {
+						project.log(e.getMessage(), Project.MSG_ERR);
+					} else {
+						project.log(e, Project.MSG_ERR);
+					}
+				} finally {
+					if (fis != null) {
+						fis.close();
+					}
+				}
+			}
+		}
+	    ]]>
+			</script>
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Macro:    convertTMSXMLForPlugins
+		Purpose:  Copies the specified dependencies (as nested "fileset") to the
+				  "lib" folder of the specified plugin and updates the plugin's
+				  MANIFEST.MF accordingly.
+		=========================================================================
+	</description>
+	<macrodef name="bulkSetBundleVersion">
+		<attribute name="pluginsDir" />
+		<attribute name="version" />
+
+		<sequential>
+			<script language="javascript">
+				<![CDATA[
+		try {
+			load("nashorn:mozilla_compat.js");
+		} catch (e) {
+			// Ignore if we are using Rhino
+		}
+		importClass(java.io.File);
+		importClass(java.io.FileInputStream);
+		importClass(java.io.FileOutputStream);
+		importClass(java.util.jar.Manifest);
+		importClass(org.apache.tools.ant.Project);
+
+		plnsDir = new File("@{pluginsDir}");
+		plns = plnsDir.listFiles();
+
+		for (i in plns) {
+			manifest = new File(plns[i], "META-INF/MANIFEST.MF");
+			fis = null;
+			fos = null;
+			try {
+				fis = new FileInputStream(manifest);
+				man = new Manifest(fis);
+				man.getMainAttributes().putValue("Bundle-Version", "@{version}");
+				fos = new FileOutputStream(manifest);
+				man.write(fos);
+			} catch (e) {
+				if (e instanceof java.lang.Exception) {
+					project.log(e.getMessage(), Project.MSG_ERR);
+				} else {
+					project.log(e, Project.MSG_ERR);
+				}
+			} finally {
+				if (fis != null) {
+					fis.close();
+				}
+				if (fos != null) {
+					fos.close();
+				}
+			}
+		}
+		    ]]>
+			</script>
+
+		</sequential>
+	</macrodef>
+
+	<description>
+		=========================================================================
+		Target:		setupBuildDirectory
+		Purpose:	Prepares the build directory where the build will take place.
+		Result:		After this task completes the provided buildDirectory will
+					have the pde build templates setup.
+		=========================================================================
+	</description>
+
+	<target name="setupWebUI">
+
+		<!-- expand the OneUI release into com.ibm.di.ui.webui/static -->
+		<unzip src="${root.oneui_src}" dest="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static.build" />
+
+		<!-- expand the CodeMirror release into com.ibm.di.ui.webui/static -->
+		<unzip src="${root.codemirror_src}" dest="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static.build" />
+
+		<!-- move all static files over to static.build -->
+		<move
+			file="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static/tdi"
+			todir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static.build"
+		/>
+
+		<!-- Copy EasyETL nls properties to WebUI -->
+		<copy todir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/nls">
+			<fileset dir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.easyetl/nls" />
+		</copy>
+
+		<!-- run the dojo build to generate all packages in the static directory (dojo, dijit, tdi etc) -->
+		<exec osfamily="windows" executable="cmd"
+			dir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui"
+			failonerror="false">
+			<arg value="/c" />
+			<arg value="static.build\\dojo_1.8.1\\util\\buildscripts\\build.bat" />
+		    <arg value="--profile"/>
+		    <arg value="tdi.profile.js"/>
+		</exec>
+
+		<!-- run the dojo build to generate all packages in the static directory (dojo, dijit, tdi etc) -->
+		<exec osfamily="unix" executable="/bin/sh"
+			dir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui"
+			failonerror="false">
+			<arg value="static.build/dojo_1.8.1/util/buildscripts/build.sh" />
+		    <arg value="--profile"/>
+		    <arg value="tdi.profile.js"/>
+		</exec>
+
+                <!-- For some reason the end product requires the constructed
+                     main.js file to also be named as Main.js.  So, we manually
+                     copy the file here. -->
+		<copy file="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static/tdi/main.js" tofile="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static/tdi/Main.js"/>
+
+	</target>
+
+	<target name="setupBuildDirectory" depends="init">
+		<!-- make sure the buildDirectory is cleaned properly -->
+		<delete dir="${project.root.export.osgi.build}" />
+		<mkdir dir="${project.root.export.osgi.build}" />
+		<mkdir dir="${project.root.export.osgi.build.plugins}" />
+		<mkdir dir="${project.root.export.osgi.build}/features" />
+
+		<!-- copy all plugin projects over to the build directory -->
+		<copy todir="${project.root.export.osgi.build.plugins}">
+		<!-- Note: the skip.me files are skipped as they are only provided there to avoid CMVC flaw
+		     of not working with empty directories, e.g. src, but they are needed by the eclipse builder.
+			 This workaround will become useless once TDI source is spread out in OSGi bundles -->
+			<fileset dir="${project.root.osgi}/plugins" includes="*/**" excludes="*/src/skip.me" />
+		</copy>
+
+		<!-- expand the Dojo release into com.ibm.di.ui.easyetl/static -->
+		<unzip src="${root.dojo_src}" dest="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.easyetl/static" />
+
+		<!-- MUST FOLLOW Expand-dojo step: expand the Tivoli Enhanced Dojo widgets on top of Dojo -->
+		<unzip src="${root.ted_src}" dest="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.easyetl/static" />
+
+		<!-- Copy language property files from the CE to Dashboard -->
+		<mkdir dir="${project.root.export.osgi}/easyetl" />
+		<convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/miadmin/tmsfiles/en/miadmin.xml" propsfile.loc="${project.root.export.osgi}/easyetl/miadmin.properties" logfile.log="${project.root.tmsxml.log}"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/es/miadmin_es.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_es.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/de/miadmin_de.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_de.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/fr/miadmin_fr.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_fr.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/it/miadmin_it.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_it.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/ja/miadmin_ja.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_ja.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/ko/miadmin_ko.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_ko.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/pt_BR/miadmin_pt_BR.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_pt_BR.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/zh_CN/miadmin_zh_CN.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_zh_CN.properties"/>
+		<copy file="${project.root.autogen.comp}/miadmin/tmsfiles/zh_TW/miadmin_zh_TW.properties" tofile="${project.root.export.osgi}/easyetl/miadmin_zh_TW.properties"/>
+
+		<!-- Copy the properties files needed over. -->
+		<native2ascii encoding="UTF8" src="${project.root.export.osgi}/easyetl" dest="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.easyetl/nls" includes="miadmin*.properties">
+			<globmapper from="miadmin*.properties" to="plugin*.properties"/>
+		</native2ascii>
+
+		<!-- Prepare the webui directory -->
+		<antcall target="setupWebUI" />
+
+		<!-- set all plugins' version tag to the same value as TDI -->
+		<bulkSetBundleVersion pluginsDir="${project.root.export.osgi.build.plugins}" version="${project.tdi.version}" />
+
+		<!-- cycle all plugins and convert their TMS XML files to properties files -->
+		<convertTMSXMLForPlugins pluginsDir="${project.root.export.osgi.build.plugins}" />
+
+		<!-- copy the eclipse build scripts overt to the build directory -->
+		<copy todir="${project.root.export.osgi.build}" overwrite="true">
+			<fileset dir="${project.root.osgi}" includes="customTargets.xml,allElements.xml,customAssembly.xml" />
+		</copy>
+	</target>
+
+	<description>
+		=========================================================================
+		Target:		setup-embedded
+		Purpose:	copies plugin projects to the build directory and resolves
+					dependentcies.
+		Result:		The plugin projects will be setup and ready for build that
+					would produce the bundles able to run in TDI's OSGi.
+		=========================================================================
+	</description>
+	<target name="setup-embedded" depends="setupBuildDirectory">
+
+		<!-- com.ibm.di.api plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api">
+			<fileset dir="${project.root.export}/jars" includes="diserverapi.jar,diserverapirmi.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api" deps="diserverapi.jar,diserverapirmi.jar" />
+
+		<!-- com.ibm.di.api.impl plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api.impl">
+			<fileset dir="${project.root.export}/jars" includes="diserverapi.jar,diserverapirmi.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api.impl" deps="diserverapi.jar,diserverapirmi.jar" />
+
+		<!-- com.ibm.di.config plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.config">
+			<fileset dir="${project.root.export}/jars" includes="miconfig.jar, mmconfig.jar, diserverapi.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.config" deps="miconfig.jar, mmconfig.jar, diserverapi.jar" />
+
+		<!-- com.ibm.di.log plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.log">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.log" deps="miserver.jar" />
+
+		<!-- com.ibm.di.server.entry plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.server.entry">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.server.entry" deps="miserver.jar" />
+
+		<!-- com.ibm.di.util plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.util">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.util" deps="miserver.jar" />
+
+		<!-- com.ibm.di.systemqueue plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.systemqueue">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+			<fileset dir="${ivy.lib.dir}" includes="javax.jms-api.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.systemqueue" deps="miserver.jar, javax.jms-api.jar" />
+
+		<!-- com.ibm.di.jaxrs plugin depends on: -->
+		<!-- <copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.jaxrs"> -->
+			<!-- <fileset refid="root.jaxrs_fileset" /> -->
+		<!-- </copyPluginDeps> -->
+	
+		<!-- com.ibm.di.jaxrs.storage.atom plugin depends on: Wink data models for Atom/APP -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.jaxrs.storage.atom">
+			<fileset refid="root.wink_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.jaxrs plugin depends on: -->
+		<!-- <copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.jaxrs.jackson"> -->
+			<!-- <fileset refid="root.jaxb_fileset" /> -->
+			<!-- <fileset refid="root.jackson_fileset" /> -->
+		<!-- </copyPluginDeps> -->
+
+		<!-- com.ibm.di.jaxrs.impl plugin depends on: -->
+		<!-- <copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.jaxrs.impl"> -->
+			<!-- <fileset refid="root.wink_fileset" /> -->
+			<!-- <fileset refid="root.jersey_fileset" /> -->
+		<!-- </copyPluginDeps> -->
+
+		<!-- com.ibm.di.log.slf4j plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.log.slf4j">
+			<fileset refid="root.slf4j_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.server depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.server">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.server" deps="miserver.jar" />
+
+		<!-- com.ibm.di.component depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.component">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.component" deps="miserver.jar" />
+
+		<!-- com.ibm.di.connector.taddm plugin depends on: -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.connector.taddm">
+			<fileset dir="${project.adks.lib.nodist}" includes="platform-model.jar, taddm-api-client.jar" />
+			<fileset dir="${project.root.export}/jars" includes="cdm.jar" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.connector.taddm" deps="platform-model.jar, taddm-api-client.jar, cdm.jar" />
+
+		<!-- com.ibm.di.ui.easyetl depends on: miserver.jar/JSONparser + Wink data models for multipart -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.ui.easyetl">
+			<fileset refid="root.jaxb_fileset" />
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar,parsers/JSONParser.jar" />
+			<fileset refid="root.wink_fileset" />
+		</copyPluginDeps>
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.ui.easyetl" deps="miserver.jar,parsers/JSONParser.jar" />
+
+		<!-- com.ibm.tdi.rest depends on: miserver.jar/diserverapi jars -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.tdi.rest">
+			<fileset dir="${project.root.export}/jars" includes="miserver.jar,diserverapi.jar,diserverapirmi.jar" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.api.bind jars -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api.bind">
+			<fileset refid="root.jaxb_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.api.rest jars + Wink data models for Atom/APP/annotations -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.api.rest">
+			<fileset refid="root.jaxb_fileset" />
+			<fileset refid="root.servlet_fileset" />
+			<fileset refid="root.jackson_fileset" />
+			<fileset refid="root.wink_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.tp.server jars + Wink data models for Atom/APP/Synd/annotations -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.tp.server">
+			<fileset refid="root.jaxb_fileset" />
+			<fileset refid="root.wink_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.config.bind jars -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.config.bind">
+			<fileset refid="root.jaxb_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.ui.webui jars + Wink data models for multipart -->
+		<copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.ui.webui">
+			<fileset refid="root.jaxb_fileset" />
+			<fileset refid="root.wink_fileset" />
+		</copyPluginDeps>
+
+		<!-- com.ibm.di.web.common jars (JAXB, Wink, and Jersey for compile-time) -->
+		<!-- Jersey JARs needed for compilation, but excluded from final bundle via excludeDeps -->
+		<!-- <copyPluginDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.web.common">
+			<fileset refid="root.jaxb_fileset" />
+			<fileset refid="root.wink_fileset" />
+			<fileset refid="root.jersey_fileset" />
+			<fileset refid="root.servlet_fileset" />
+			<fileset refid="root.jaxrs_fileset" />
+		</copyPluginDeps> -->
+		
+		<!-- Exclude Jersey JARs from final bundle packaging - they'll be provided by OSGi bundles at runtime -->
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.web.common" deps="jersey-common.jar,jersey-server.jar,jersey-container-servlet.jar,jersey-hk2.jar,jersey-media-json-jackson.jar" />
+		
+		<!-- Remove Jersey JARs from Bundle-ClassPath in MANIFEST.MF -->
+		<removeBundleClassPath pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.di.web.common" deps="jersey-common.jar,jersey-server.jar,jersey-container-servlet.jar,jersey-hk2.jar,jersey-media-json-jackson.jar" />
+		
+		<!-- Re-add Require-Bundle declarations that were overwritten by copyPluginDeps -->
+		<!-- <manifest file="${project.root.export.osgi.build.plugins}/com.ibm.di.web.common/META-INF/MANIFEST.MF" mode="update"> -->
+			<!-- <attribute name="Require-Bundle" value="com.ibm.di.bundle;bundle-version=&quot;1.0.0&quot;,com.ibm.di.api.connection;bundle-version=&quot;1.0.0&quot;,com.ibm.di.util;bundle-version=&quot;1.0.0&quot;,org.server;bundle-version=&quot;[2.41,3.0)&quot;,org.glassfish.jersey.common;bundle-version=&quot;[2.41,3.0)&quot;" /> -->
+		<!-- </manifest> -->
+		<!-- <manifest
+		file="${project.root.export.osgi.build.plugins}/com.ibm.di.web.common/META-INF/MANIFEST.MF"
+		mode="update">
+		<attribute name="Export-Package"
+			value="
+			com.ibm.di.web.common.internal.atom,
+			com.ibm.di.web.common.internal.auth,
+			com.ibm.di.web.common.internal.jaxrs,
+			com.ibm.di.web.common.internal.wink
+			"/>
+		</manifest> -->
+		
+		<excludeDeps pluginsDir="${project.root.export.osgi.build.plugins}" plugin="com.ibm.tdi.rest" deps="miserver.jar,diserverapi.jar,diserverapirmi.jar" />
+	</target>
+
+	<description>
+		=========================================================================
+		Target:		build-embedded
+		Purpose:	Builds all the plugins able to run in the TDI's OSGi container
+		Result:		The plugin bundles will be available in the directory kept in
+					this property: ${project.root.export.osgi.embedded}
+		=========================================================================
+	</description>
+	<target name="build-embedded" depends="setup-embedded">
+		<!-- build the OSGi plugins that runs inside the TDI's JVM -->
+		<runOSGiPluginBuild buildDirectory="${project.root.export.osgi.build}" eclipse.runtime.path="${project.root.export.osgi.runtime}" pde.build.path="${root.eclipse_rt_pde}" equinox.launcher.path="${root.eclipse_rt_launcher}" />
+
+		<copy todir="${project.root.export.osgi.embedded}">
+			<fileset dir="${project.root.export.osgi.build}/eclipse/plugins" includes="*.jar" />
+			<mapper refid="osgi.plugins.name.normalizer" />
+		</copy>
+
+	
+	<!-- Copy Jetty and HTTP service bundles required for embedded OSGi server -->
+	<echo message="Copying Jetty and HTTP service bundles to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="org.eclipse.equinox.http.jetty.jar" />
+			<include name="org.eclipse.equinox.http.servlet.jar" />
+			<include name="org.eclipse.equinox.http.servletbridge.jar" />
+			<include name="org.eclipse.equinox.servletbridge.jar" />
+			<include name="org.osgi.util.pushstream.jar" />
+			<include name="org.osgi.service.log.stream.jar" />
+			<include name="org.eclipse.jetty.http.jar" />
+			<include name="org.eclipse.jetty.io.jar" />
+			<include name="org.eclipse.jetty.security.jar" />
+			<include name="org.eclipse.jetty.server.jar" />
+			<include name="org.eclipse.jetty.servlet.jar" />
+			<include name="org.eclipse.jetty.util.jar" />
+			<include name="org.eclipse.jetty.util.ajax.jar" />
+			<include name="javax.servlet.jar" />
+			<include name="jakarta.servlet-api.jar" />
+		</fileset>
+	</copy>
+	<echo message="Jetty bundles copied successfully" />
+
+		<!-- Copy Jackson OSGi wrapper bundles required for JAX-RS 2.1 support -->
+	<echo message="Copying Jackson OSGi bundles to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="jackson.annotations.jar" />
+			<include name="jackson.core.jar" />
+			<include name="jackson.databind.jar" />
+			<include name="jackson-jaxrs-base.jar" />
+			<include name="jackson-jaxrs-json-provider.jar" />
+			<include name="jackson-module-jaxb-annotations.jar" />
+		</fileset>
+	</copy>
+	<echo message="Jackson OSGi bundles copied successfully" />
+	
+	<!-- Copy JAX-RS API and JPA API OSGi bundles required for JAX-RS 2.1 support -->
+	<echo message="Copying JAX-RS API and JPA API OSGi bundles to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="javax.ws.rs-api.jar" />
+			<include name="javax.persistence-api.jar" />
+		</fileset>
+	</copy>
+	<echo message="JAX-RS API and JPA API OSGi bundles copied successfully" />
+
+	<!-- Copy Jersey runtime bundles (NO Jackson) -->
+	<echo message="Copying Jersey runtime bundles to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="jersey-common.jar" />
+			<include name="jersey-server.jar" />
+			<include name="jersey-container-servlet.jar" />
+			<include name="jersey-hk2.jar" />
+		</fileset>
+	</copy>
+	<echo message="Jersey runtime bundles copied successfully" />
+
+	<!-- Copy supporting dependency OSGi bundles to embedded directory -->
+	<echo message="Copying supporting dependency OSGi bundles to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="javax.annotation-api.jar" />
+			<include name="javax.inject.jar" />
+			<include name="javassist.jar" />
+		</fileset>
+	</copy>
+	<echo message="Supporting dependency OSGi bundles copied successfully" />
+
+	<!-- Copy Wink common OSGi bundle (Atom/APP data models) to embedded directory -->
+	<echo message="Copying Wink common OSGi bundle to embedded directory..." />
+	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
+		<fileset dir="${project.root.export.osgi.runtime}">
+			<include name="org.apache.wink.common.jar" />
+		</fileset>
+	</copy>
+	<echo message="Wink common OSGi bundle copied successfully" />
+
+	</target>
+
+	<!-- ============================================================
+     Third-party OSGi runtime bundles
+     These are true OSGi bundles resolved by PDE, not embedded jars
+     ============================================================ -->
+
+	<target name="init" depends="clean">
+
+		<mkdir dir="${project.root.export.osgi}" />
+		<mkdir dir="${project.root.export.osgi.embedded}" />
+
+		<!-- copy the plugins here with "cleaned" names. -->
+		<mkdir dir="${project.root.export.osgi.runtime}" />
+		<copy todir="${project.root.export.osgi.runtime}">
+			<fileset refid="root.osgi.runtime.fileset" />
+			<mapper refid="osgi.plugins.name.normalizer" />
+		</copy>
+
+		<!-- gather 3rd party non-eclipse plugins on which our code depends -->
+		<copy todir="${project.root.export.osgi.runtime}">
+			<fileset refid="root.jackson_fileset" />
+			<fileset refid="root.jackson_jaxrs_fileset" />
+			<fileset refid="root.jakarta_fileset" />
+			<fileset refid="root.jersey_fileset" />
+			<fileset refid="root.hk2_fileset" />
+			<fileset refid="root.asm_fileset" />
+			<fileset refid="root.spifly_fileset" />
+			<fileset refid="root.jaxrs_fileset" />
+			<fileset refid="root.wink_fileset" />
+			<fileset refid="root.jaxb_fileset" />
+			<fileset refid="root.javassist_fileset" />
+			<fileset refid="root.servlet_fileset" />
+			
+		</copy>
+
+		<copy todir="${project.root.export.osgi.runtime}">
+			<fileset dir="${ivy.lib.dir}/axis-2" includes="xml-apis-1.4.01.jar"/>
+		</copy>
+
+		<!-- Wrap Wink aggregate JAR into a real OSGi bundle -->
+		<echo message="Wrapping Wink aggregate JAR and xml-apis into OSGi bundle..." />
+
+		<pathconvert property="wink.jar.path">
+			<fileset refid="root.wink_fileset" />
+		</pathconvert>
+
+		<jar destfile="${project.root.export.osgi.runtime}/org.apache.wink.common.jar">
+			<zipfileset src="${wink.jar.path}" />
+
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0"/>
+				<attribute name="Bundle-ManifestVersion" value="2"/>
+				<attribute name="Bundle-SymbolicName" value="org.apache.wink.common"/>
+				<attribute name="Bundle-Name" value="Apache Wink Common (Wrapped)"/>
+				<attribute name="Bundle-Version" value="1.0.0"/>
+				<attribute name="Bundle-Vendor" value="Apache Software Foundation"/>
+				<attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.8"/>
+				<attribute name="Export-Package"
+					value="org.apache.wink.common.annotations;version=&quot;1.0.0&quot;,org.apache.wink.common.categories;version=&quot;1.0.0&quot;,org.apache.wink.common.model;version=&quot;1.0.0&quot;,org.apache.wink.common.model.atom;version=&quot;1.0.0&quot;,org.apache.wink.common.model.app;version=&quot;1.0.0&quot;,org.apache.wink.common.model.synd;version=&quot;1.0.0&quot;,org.apache.wink.common.model.multipart;version=&quot;1.0.0&quot;" />
+				<attribute name="Import-Package"
+					value="javax.xml.bind,
+						javax.xml.bind.annotation"/>
+				<attribute name="DynamicImport-Package" value="*"/>
+				<attribute name="Main-Class" value="com.ibm.jaxrs.VersionInfo"/>
+			</manifest>
+		</jar>
+
+		<jar destfile="${project.root.export.osgi.runtime}/javax.xml.api.jar">
+			<zipfileset src="${ivy.lib.dir}/axis-2/xml-apis-1.4.01.jar"/>
+
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0"/>
+				<attribute name="Bundle-ManifestVersion" value="2"/>
+				<attribute name="Bundle-SymbolicName" value="javax.xml.api"/>
+				<attribute name="Bundle-Version" value="1.4.01"/>
+				<attribute name="Bundle-Name" value="XML APIs (Wrapped)"/>
+
+				<attribute name="Export-Package"
+					value="javax.xml.namespace;version=1.0.1,
+						javax.xml.parsers;version=1.4.0,
+						javax.xml.transform;version=1.4.0,
+						javax.xml.validation;version=1.4.0,
+						javax.xml.xpath;version=1.4.0,
+						javax.xml.stream;version=1.0.0,
+						javax.xml.datatype;version=1.4.0,
+						org.w3c.dom;version=3.0.0,
+						org.w3c.dom.ls;version=3.0.0,
+						org.xml.sax;version=2.0.2"/>
+			</manifest>
+		</jar>
+		
+		<copy todir="${project.root.export.osgi.runtime}">
+			<fileset refid="root.slf4j_fileset" />
+			<mapper refid="osgi.3rdparty.plugins.name.normalizer" />
+		</copy>
+		
+	</target>
+
+	<target name="clean">
+		<delete dir="${project.root.export.osgi}" />
+	</target>
+</project>

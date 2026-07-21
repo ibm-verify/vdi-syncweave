@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Schema Server
+Bundle-SymbolicName: com.ibm.di.schema;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: IBM
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.ibm.di.schema.internal
+Import-Package: javax.servlet;version="[2.5,5.0)",
+ javax.servlet.http;version="[2.5,5.0)",
+ javax.ws.rs;version="[2.0,3.0)",
+ javax.ws.rs.core;version="[2.0,3.0)",
+ javax.ws.rs.ext;version="[2.0,3.0)",
+ org.osgi.service.http;version="1.2.1"
+Service-Component: OSGI-INF/schemaComponent.xml, OSGI-INF/rewriterComponent.xml
+Require-Bundle: com.ibm.di.bundle,
+ com.ibm.di.util
+Bundle-ActivationPolicy: lazy

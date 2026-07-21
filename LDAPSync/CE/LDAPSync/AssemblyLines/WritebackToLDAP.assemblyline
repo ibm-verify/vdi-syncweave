@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="3d52fa14-6b1d-4026-9257-d8fabe39fbef" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="WritebackToLDAP" modified="Thu Aug 28 10:41:42 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="WritebackToLDAP">
+        <ModTime>1409215274709</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1394719126451</ModTime>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>onfailure</Name>
+                <Script><![CDATA[defaultErrorHandling("ERROR", false, true)
+notifyWritebackError(error,"WritebackToLDAP")]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[responseLogFile = "WritebackHistory"
+typeOfEntry = "person" // @@TODO only support Person entries
+//flowKey = "Writeback2LDAP"
+flowKey = opEntry.getString("response.flow");
+
+initUtils(flowKey, true); // skip hooks init
+
+jsonEntry = system.newEntry()
+jsonEntry.enableDOM()]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="init cycle" state="Enabled"/>
+                <Component name="modify operation" state="Enabled"/>
+                <Component name="SourceLDAP" state="Simulated"/>
+                <Component name="Send notification to UI" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1409215274709</ModTime>
+            <Script name="init cycle">
+                <ModTime>1392721497155</ModTime>
+                <parameter name="script"><![CDATA[config = opEntry.getString("response.config")
+flow = opEntry.getString("response.flow")
+operation = work.getOperation()
+targetDN = work.getString("targetdn")
+changenumber = work.getString("changenumber")
+changes = ""
+
+jsonEntry.removeAllAttributes()
+jsonEntry.status = "skipped"
+jsonEntry.config = config
+jsonEntry.flow = flow
+jsonEntry.targetdn = targetDN
+jsonEntry.operation = operation
+jsonEntry.changenumber = changenumber
+jsonEntry.adDn = work.getString(auxLinkedDNAttribute)
+jsonEntry.timestamp = new java.util.Date().getTime()]]></parameter>
+            </Script>
+            <Branch name="modify operation">
+                <ModTime>1409215274709</ModTime>
+                <Connector name="SourceLDAP">
+                    <InheritFrom>/Connectors/SourceLDAP</InheritFrom>
+                    <ModTime>1409215274709</ModTime>
+                    <ConnectorMode>Update</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1393939813137</ModTime>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>14107633fc9</Key>
+                            <Attribute>$dn</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$addn</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1409215274709</ModTime>
+                        <Hook name="before_execute">
+                            <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                            <Name>before_execute</Name>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="before_initialize">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <ModTime>1409215274709</ModTime>
+                            <Name>before_initialize</Name>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                        <Hook name="default_fail">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>default_fail</Name>
+                            <Script><![CDATA[defaultErrorHandling("ERROR", false, true)
+notifyWritebackError(error,"WritebackToLDAP")]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="initialize_fail">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>initialize_fail</Name>
+                            <Script><![CDATA[defaultInitErrorHandling("ERROR", false, true)
+notifyWritebackError(error,"WritebackToLDAP")]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="modify_apply">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>modify_apply</Name>
+                            <Script><![CDATA[status = "modify"
+
+changes = ""
+attnames = conn.getAttributeNames()
+for (attname in attnames) {
+	if (changes.length > 0) {
+		changes += ", "
+	}
+	changes += attname
+}
+
+if (changes.length > 0) {
+	jsonEntry.changes = changes
+}
+
+//task.logmsg("\n" + dbgDumpEntry(work))]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="modify_nochange">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>modify_nochange</Name>
+                            <Script>status = "unchanged"</Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="override_add">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>override_add</Name>
+                            <Script><![CDATA[throw resource.getString("LDAPSYNC.WRITEBACK.COULD.NOT.FIND.ENTRY.WITH.DN") 
+		+ ": " 
+		+ work.sourceDN]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                </Connector>
+                <ScriptCondition>return "modify".equals(work.getOperation())</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Script name="Send notification to UI">
+                <ModTime>1382086769890</ModTime>
+                <parameter name="script"><![CDATA[if (changes.length > 0) {
+	jsonEntry.changes = changes	
+	jsonEntry.status = status
+	json = jsonEntry.toJSON()
+	
+	sendCustomNotification("fds.writeback", 
+							config + "/" + flow + "/" + task.getShortName(), 
+							json);
+		
+	logmsg("JSON: " + json)
+		
+	java.lang.System.out.println(">>Writeback>> " + config + "/" 
+									+ flow + "/" + task.getShortName() 
+									+ " - " + json)
+}]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

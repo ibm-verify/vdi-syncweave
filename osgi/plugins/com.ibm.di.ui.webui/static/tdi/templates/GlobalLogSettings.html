@@ -1,0 +1,39 @@
+<div style="margin-left:10px">
+
+	<h3>${nls.assemblyline_tabs_logging_tooltip}</h3>
+	${nls.WebCE_defaultLoggerInfo}
+	<p></p>
+
+	<form dojoType="dijit.form.Form" dojoAttachPoint="_form">
+	<table>
+		<tr>
+			<td><div dojoAttachPoint="_enabled" name="enabled" dojoType="dijit.form.CheckBox"></div> ${nls.WebCE_enableDefaultLogger}:</td>
+		</tr>
+		<tr>
+			<td style="padding-top:8px">${nls.WebCE_maxLogFiles}:</td>
+		</tr>
+		<tr>
+			<td style="padding-top:8px"><div  name="generations" dojoAttachPoint="_maxgenerations" constraints="{min:0,max:64000,places:0}" dojoType="dijit.form.NumberTextBox"></div></td>
+		</tr>
+		<tr>
+			<td style="padding-top:8px"><div dojoAttachPoint="LogSubmitBtn" dojoType="dijit.form.Button" dojoAttachEvent="onClick:updateSettings" label="${nls.Localized_Update}"></div>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<p></p>
+
+	<h3>${nls.miadmin_foldernames_Tombstones}</h3>
+	${nls.WebCE_tombstonesInfo}
+	
+	<p></p>
+	
+	<div>
+	<span dojoAttachPoint="_status"></span>
+	</div>
+	
+	<p></p>
+	
+	<div dojoType="dijit.form.Button" label="" dojoAttachPoint="tsButton" dojoAttachEvent="onClick:activateTombstones"></div>
+	<p></p>
+</div>

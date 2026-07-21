@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.AssemblyLineConnector">
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.AssemblyLineConnector</parameter>
+				<parameter name="customSecurity">false</parameter>
+				<parameter name="mode">2</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="shareLog">false</parameter>
+				<parameter name="simulate.mode">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.AssemblyLineConnector">
+			<TranslationFile>NLS/idi_alconnector</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>assemblyLine</ListItem>
+					<ListItem>operationInit</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>shareLog</ListItem>
+					<ListItem>server</ListItem>
+					<ListItem>config</ListItem>
+					<ListItem>customSecurity</ListItem>
+					<ListItem>simulate.mode</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>assemblyLine</ListItem>
+				<ListItem>operationInit</ListItem>
+				<ListItem>server</ListItem>
+				<ListItem>config</ListItem>
+				<ListItem>customSecurity</ListItem>
+				<ListItem>simulate.mode</ListItem>
+				<ListItem>shareLog</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="assemblyLine">
+				<parameter name="description">AL_DESC</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="label">AL_LABEL</parameter>
+				<parameter name="script">queryServer</parameter>
+				<parameter name="scriptLabel">AL_AL_S_LABEL</parameter>
+				<parameter name="scripthelp">AL_AL_S_HELP</parameter>
+			</FormItem>
+			<FormItem name="config">
+				<parameter name="description">AL_CI_DESC</parameter>
+				<parameter name="label">AL_CI_LABEL</parameter>
+				<parameter name="script">queryConfig</parameter>
+				<parameter name="scriptLabel">AL_CI_S_LABEL</parameter>
+				<parameter name="scripthelp">AL_CI_S_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="customSecurity">
+				<parameter name="description">CUSTOM_SEC_DESC</parameter>
+				<parameter name="label">CUSTOM_SEC_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="operationInit">
+				<parameter name="component">com.ibm.tdi.eclipse.custom.ALFC</parameter>
+				<parameter name="description">OPERATION_INIT_DESC</parameter>
+				<parameter name="label">OPERATION_INIT_LABEL</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="usehyperlabel">false</parameter>
+			</FormItem>
+			<FormItem name="server">
+				<parameter name="description">SERVER_DESC</parameter>
+				<parameter name="label">SERVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="shareLog">
+				<parameter name="description">SHARE_LOG_DESC</parameter>
+				<parameter name="label">SHARE_LOG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="simulate.mode">
+				<parameter name="description">SIMULATE_DESC</parameter>
+				<parameter name="label">SIMULATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function assemblyLine_changed() {
+	cfg = com.ibm.tdi.eclipse.custom.ALFC.getInitSchema(config, form);
+	if ( cfg != null ) {
+		ui = form.getControl("operationInit");
+		ui.updateSchema(cfg);
+	}
+}
+
+function queryServer() {
+	var str = com.ibm.tdi.eclipse.custom.ALFC.selectAL(config, form);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function queryConfig() {
+	var str = com.ibm.tdi.eclipse.custom.ALFC.selectConfig(config, form);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function queryOperation() {
+	str = com.ibm.tdi.eclipse.custom.ALFC.selectOperation(config, form);
+	if ( str != null ) {
+		var name = button.getName();
+		form.setConfig(name, str);
+		form.updateControl(name);
+	}
+}
+
+function server_changed() {
+	var val = form.getConfig ( "server" );
+	var enable = ( val == null || val.equals("") || val.equalsIgnoreCase ("local") );
+	form.getControl ("shareLog").setEnabled (enable);
+}
+
+assemblyLine_changed();
+server_changed();
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

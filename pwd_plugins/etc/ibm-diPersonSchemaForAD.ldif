@@ -1,0 +1,97 @@
+dn: CN=secretKey,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM intercepted password
+adminDisplayName: secretKey
+attributeID: 1.3.18.0.2.4.155
+attributeSyntax: 2.5.5.10
+cn: secretKey
+isSingleValued: TRUE
+lDAPDisplayName: secretKey
+objectClass: attributeSchema
+oMSyntax: 4
+
+dn: CN=ibm-diUserId,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM Directory Integrator data
+adminDisplayName: ibm-diUserId
+attributeID: 1.3.18.0.2.4.3011
+attributeSyntax: 2.5.5.12
+cn: ibm-diUserId
+isSingleValued: FALSE
+lDAPDisplayName: ibm-diUserId
+objectClass: attributeSchema
+oMSyntax: 64
+
+dn: CN=ibm-diPassword,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM Directory Encrypted Password
+adminDisplayName: ibm-diPassword
+attributeID: 1.3.18.0.2.4.3009
+attributeSyntax: 2.5.5.10
+cn: ibm-diPassword
+isSingleValued: FALSE
+lDAPDisplayName: ibm-diPassword
+objectClass: attributeSchema
+oMSyntax: 4
+
+
+dn: CN=ibm-diExtendedData,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM Directory Integrator data
+adminDisplayName: ibm-diExtendedData
+attributeID: 1.3.18.0.2.4.2990
+attributeSyntax: 2.5.5.12
+cn: ibm-diExtendedData
+isSingleValued: TRUE
+lDAPDisplayName: ibm-diExtendedData
+objectClass: attributeSchema
+oMSyntax: 64
+
+dn: CN=ibm-diCustomData,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM Directory Integrator custom data
+adminDisplayName: ibm-diCustomData
+attributeID: 1.3.18.0.2.4.3013
+attributeSyntax: 2.5.5.12
+cn: ibm-diCustomData
+isSingleValued: TRUE
+lDAPDisplayName: ibm-diCustomData
+objectClass: attributeSchema
+oMSyntax: 64
+
+dn: CN=ibm-diTimestamp,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDescription: IBM Directory Integrator timestamp
+adminDisplayName: ibm-diTimestamp
+attributeID: 1.3.18.0.2.4.3015
+attributeSyntax: 2.5.5.11
+cn: ibm-diTimestamp
+isSingleValued: TRUE
+lDAPDisplayName: ibm-diTimestamp
+objectClass: attributeSchema
+oMSyntax: 24
+
+DN:
+changetype: modify
+add: schemaUpdateNow
+schemaUpdateNow: 1
+-
+
+dn: CN=ibm-diPerson,CN=Schema,CN=Configuration,DC=ibmdi,DC=com
+changetype: add
+adminDisplayName: ibm-diPerson
+cn: ibm-diPerson
+governsID: 1.3.18.0.2.6.547
+lDAPDisplayName: ibm-diPerson
+mayContain: secretKey
+mayContain: ibm-diUserId
+mayContain: ibm-diPassword
+mayContain: ibm-diExtendedData
+mayContain: ibm-diCustomData
+mayContain: ibm-diTimestamp
+mustContain: objectClass
+objectClass: classSchema
+objectClassCategory: 1
+rDNAttID: ibm-diUserId
+subClassOf: top
+possSuperiors: organizationalUnit

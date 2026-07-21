@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Feb 06 20:11:28 SGT 2008" version="7.1.1">
+	<Folder name="Loggers">
+		<Logger name="ibmdi.FixedDailyRollingFileAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.FixedDailyRollingFileAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">com.ibm.di.log.FixedDailyRollingFileAppender</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="ibmdi.FixedDailyRollingFileAppender">
+			<TranslationFile>NLS/fixeddailyroller</TranslationFile>
+			<FormItemNames>
+				<ListItem>com.ibm.di.log.FixedDailyRollingFileAppender.File</ListItem>
+				<ListItem>com.ibm.di.log.FixedDailyRollingFileAppender.Append</ListItem>
+				<ListItem>com.ibm.di.log.FixedDailyRollingFileAppender.DatePattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+				<ListItem>com.ibm.di.log.FixedDailyRollingFileAppender.Encoding</ListItem>
+				<ListItem>com.ibm.di.log.FixedDailyRollingFileAppender.FileCount</ListItem>
+			</FormItemNames>
+			<FormItem name="com.ibm.di.log.FixedDailyRollingFileAppender.Append">
+				<parameter name="default">false</parameter>
+				<parameter name="description">FIXEDDAILYROLLER_APPEND_DESC</parameter>
+				<parameter name="label">FIXEDDAILYROLLER_APPEND_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="com.ibm.di.log.FixedDailyRollingFileAppender.DatePattern">
+				<Values>
+					<ListItem>'.'yyyy-MM</ListItem>
+					<ListItem>'.'yyyy-MM-dd</ListItem>
+					<ListItem>'.'yyyy-MM-dd-HH</ListItem>
+					<ListItem>'.'yyyy-MM-dd-HH-mm</ListItem>
+					<ListItem>'.'dd-MM-yyyy</ListItem>
+				</Values>
+				<parameter name="default">'.'yyyy-MM-dd</parameter>
+				<parameter name="description">FIXEDDAILYROLLER_DATEP_DESC</parameter>
+				<parameter name="label">FIXEDDAILYROLLER_DATEP_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="com.ibm.di.log.FixedDailyRollingFileAppender.Encoding">
+				<parameter name="description">FIXEDDAILYROLLER_ENCODING_DESC</parameter>
+				<parameter name="label">FIXEDDAILYROLLER_ENCODING_LABEL</parameter>
+			</FormItem>
+			<FormItem name="com.ibm.di.log.FixedDailyRollingFileAppender.File">
+				<parameter name="description">FIXEDDAILYROLLER_FILE_DESC</parameter>
+				<parameter name="label">FIXEDDAILYROLLER_FILE_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">FIXEDDAILYROLLER_SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">FIXEDDAILYROLLER_SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<FormItem name="com.ibm.di.log.FixedDailyRollingFileAppender.FileCount">
+				<parameter name="description">FIXEDDAILYROLLER_NUMBERFILES_DESC</parameter>
+				<parameter name="label">FIXEDDAILYROLLER_NUMBERFILES_LABEL</parameter>
+			</FormItem>
+			<parameter name="title">FIXEDDAILYROLLER_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

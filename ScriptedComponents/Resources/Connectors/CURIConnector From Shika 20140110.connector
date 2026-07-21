@@ -1,0 +1,1565 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="8f566f72-d17b-4c88-8c56-5956a045d84f" created="Thu Feb 21 13:12:15 EST 2013" createdBy="josha" main="CURIConnector" modified="Thu Feb 21 13:12:15 EST 2013" modifiedBy="josha" project="CURI_OmniTBSM" version="7.1.1">
+    <Connector name="CURIConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1361470335221</ModTime>
+        <ConnectorMode>AddOnly</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="491" UUID="975c5043-1612-42b9-b703-89b979d1f592" created="Tue Jan 10 13:03:36 CET 2012" createdBy="Administrator" main="Form" modified="Sat Feb 16 13:12:16 CET 2013" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <UserComment>&gt;false&lt;</UserComment>
+        <ModTime>1361015757859</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>keepGlobalState</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>conditions</ListItem>
+            <ListItem>baseURL</ListItem>
+            <ListItem>provider</ListItem>
+            <ListItem>user</ListItem>
+            <ListItem>password</ListItem>
+            <ListItem>dataset</ListItem>
+            <ListItem>datasource</ListItem>
+            <ListItem>start</ListItem>
+            <ListItem>count</ListItem>
+            <ListItem>TBSMCollectionParameterSelectedServices</ListItem>
+            <ListItem>TBSMCollectionParameterContainmentServices</ListItem>
+            <ListItem>useDisplayValue</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Dataset</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="ConserveMemory">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Set a variable to conserve memory while iterating through a search view</parameter>
+            <parameter name="label">Conserve Memory</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="FSYSINDX1">
+            <ModTime>1327090502515</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">File System ID1</parameter>
+            <parameter name="syntax">int</parameter>
+        </FormItem>
+        <FormItem name="FSYSINDX2">
+            <ModTime>1327090502515</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">File System ID2</parameter>
+            <parameter name="syntax">int</parameter>
+        </FormItem>
+        <FormItem name="FSYSMOUNT">
+            <ModTime>1327090502515</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">Mount Point</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="FSYSNAME">
+            <ModTime>1327090502515</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">File System Name</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ORIGINNODE">
+            <ModTime>1327090602156</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">Origin Node</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="Refresh">
+            <ModTime>1327090448796</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">Refresh Every</parameter>
+            <parameter name="syntax">map</parameter>
+        </FormItem>
+        <FormItem name="SourceToken">
+            <ModTime>1327090448796</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Managed System Name</parameter>
+            <parameter name="label">Managed System Name</parameter>
+            <parameter name="syntax">map</parameter>
+        </FormItem>
+        <FormItem name="TBSMCollectionParameterContainmentServices">
+            <ModTime>1361008570562</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Controls how the &lt;strong&gt;TBSM Service&lt;/strong&gt; parameter is used.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Not checked:&lt;/strong&gt; single service to visualize (default); &lt;strong&gt;Widgets:&lt;/strong&gt; scalar&lt;li&gt;&lt;strong&gt;Checked:&lt;/strong&gt; collection's origin/parent service. Child services are gathered from the selected service. Each must also satisfy the dataset's criteria.  &lt;strong&gt;Widgets:&lt;/strong&gt; collection | Topology (as grid)&lt;/ul&gt;</parameter>
+            <parameter name="label">Gather Contained Services?</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="TBSMCollectionParameterSelectedServices">
+            <ModTime>1361008570562</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Specific service to include in the collection.  &lt;strong&gt;Enter:&lt;/strong&gt; service instance name for a scalar widget or when gathering contained services.  &lt;strong&gt;Default:&lt;/strong&gt; all services satisfying the dataset's criteria (i.e. based on the same template)</parameter>
+            <parameter name="label">TBSM Service</parameter>
+            <parameter name="syntax">string[]</parameter>
+        </FormItem>
+        <FormItem name="Time">
+            <ModTime>1327090448796</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Time filter</parameter>
+            <parameter name="label">Time filter</parameter>
+            <parameter name="syntax">isodatetime</parameter>
+        </FormItem>
+        <FormItem name="alwaysUseFormula">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Use formula search even if database is full-text indexed (only when View is not specified)</parameter>
+            <parameter name="label">Always use Formula Search</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="automapADPassword">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Map userPassword to unicodePwd for ActiveDirectory password update. Note: Not needed for ADAM.</parameter>
+            <parameter name="label">Auto Map AD Password</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="baseURL">
+            <ModTime>1360846368125</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">for example: http://tip.ibm.com:15210/ibm/tivoli/rest</parameter>
+            <parameter name="label">Provider URL</parameter>
+            <parameter name="script">getProviders</parameter>
+            <parameter name="script2">getCertificate</parameter>
+            <parameter name="scriptLabel">Get Providers</parameter>
+            <parameter name="scriptLabel2">Get SSL Certificate</parameter>
+        </FormItem>
+        <FormItem name="browseParams">
+            <parameter name="label">Get Dataset </parameter>
+        </FormItem>
+        <FormItem name="conditions">
+            <ModTime>1326367397750</ModTime>
+            <parameter name="description">Filter conditions to apply when returning the Dataset</parameter>
+            <parameter name="label">Conditions</parameter>
+        </FormItem>
+        <FormItem name="connectorFlags">
+            <ModTime>1327096251750</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">{ignoreFieldErrors}</parameter>
+            <parameter name="description">Connector flags</parameter>
+            <parameter name="label">Connector Flags</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="count">
+            <ModTime>1327093694640</ModTime>
+            <parameter name="label">Count (for large sets)</parameter>
+        </FormItem>
+        <FormItem name="dataset">
+            <ModTime>1327078585750</ModTime>
+            <Values>
+                <ListItem>* use the Get Datasets button *</ListItem>
+            </Values>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Dataset</parameter>
+            <parameter name="script">getParams</parameter>
+            <parameter name="scriptLabel">Get parameters</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="datasource">
+            <ModTime>1327087705140</ModTime>
+            <Values>
+                <ListItem>* use Get datasources button *</ListItem>
+            </Values>
+            <parameter name="label">Datasource</parameter>
+            <parameter name="script">getDatasets</parameter>
+            <parameter name="scriptLabel">Get Datasets</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="debug">
+            <ModTime>1326357951046</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Check for additional log messages</parameter>
+            <parameter name="label">Detailed Log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="dominoHost">
+            <ModTime>1326358029062</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Domino server TCP/IP address or hostname. You can also specify the IOR:&lt;xxx= string to circumvent automatic discovery of this via HTTP.</parameter>
+            <parameter name="label">Domino Server IP Address</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="dominoLogin">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Internet username</parameter>
+            <parameter name="label">Username</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="dominoPassword">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Internet password</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="dominoSessionType">
+            <ModTime>1326358029062</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">IIOP</parameter>
+            <parameter name="description">The type of session to use</parameter>
+            <parameter name="label">Session Type</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="httpPort">
+            <ModTime>1326358029062</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">80</parameter>
+            <parameter name="description">The port on which the Domino HTTP task is running</parameter>
+            <parameter name="label">HTTP port</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="iiopSSL">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Enables encrypted communications with the Domino server</parameter>
+            <parameter name="label">Use SSL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="jdbcCommit">
+            <ModTime>1326275944250</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">After every database operation</parameter>
+            <parameter name="description">Controls when database transactions are commited. Manual means user must call commit()</parameter>
+            <parameter name="label">Commit</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcDateFormat">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Default date format when converting strings to dates</parameter>
+            <parameter name="label">Date Format</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcDelete">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">SQL Delete statement</parameter>
+            <parameter name="label">SQL Delete</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcDisablePaddingInsert">
+            <ModTime>1326275944265</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Disables padding for the insert operation in the Add only and Delta modes.</parameter>
+            <parameter name="label">Disable padding for Insert</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jdbcDisablePaddingLookup">
+            <ModTime>1326275944265</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Disables padding for the lookup operation in the Update, Lookup, Delete and Delta modes.</parameter>
+            <parameter name="label">Disable padding for Lookup</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jdbcDisablePaddingUpdate">
+            <ModTime>1326275944265</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Disables padding for the update operation in the Update and Delta modes.</parameter>
+            <parameter name="label">Disable padding for Update</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jdbcDriver">
+            <ModTime>1326275944250</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">sun.jdbc.odbc.JdbcOdbcDriver</parameter>
+            <parameter name="description">JDBC Driver Class</parameter>
+            <parameter name="label">JDBC Driver</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcExposeNullValues">
+            <ModTime>1326275944250</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">true</parameter>
+            <parameter name="description">If the checkbox is enabled then null valued attributes return an empty value. If left unchecked then the defined null behavior is followed. The default null behavior will remove the attribute which receives null.</parameter>
+            <parameter name="label">Return null values</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jdbcInsert">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">SQL Insert statement</parameter>
+            <parameter name="label">SQL Insert</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcLogin">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Login user</parameter>
+            <parameter name="label">Username</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcLookup">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">SQL Select for lookups</parameter>
+            <parameter name="label">SQL Lookup</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcPassword">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">undefined</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcPreparedStatement">
+            <ModTime>1326275944250</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">true</parameter>
+            <parameter name="description">Try to precompile SQL Statements, fall back to normal SQL</parameter>
+            <parameter name="label">Use Prepared Statement</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="jdbcProviderParams">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Additional JDBC provider parameters (name:value one for each line)</parameter>
+            <parameter name="label">Extra Provider Parameters</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcSchema">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">undefined</parameter>
+            <parameter name="label">Schema</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcSelect">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">SQL Select for Iterator mode (also used as statement stub (without "WHERE" keyword) for Link Criteria)</parameter>
+            <parameter name="label">SQL Select</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcSessionParameters">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Alter session statements</parameter>
+            <parameter name="label">Alter Session Statements</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcSource">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">JDBC URL</parameter>
+            <parameter name="label">JDBC URL</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcTable">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Database table name</parameter>
+            <parameter name="label">Table Name</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jdbcUpdate">
+            <ModTime>1326287143015</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">SQL Update statement</parameter>
+            <parameter name="label">SQL Update</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="jndiExtraProviderParams">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Additional JNDI provider parameters (name:value one for each line)</parameter>
+            <parameter name="label">Extra Provider Parameters</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="ldapAddAttr">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Add attributes to entry instead of Replace</parameter>
+            <parameter name="label">Add Attributes (instead of replace)</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="ldapAuthenticationMethod">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">Simple</parameter>
+            <parameter name="description">Type of LDAP authentication</parameter>
+            <parameter name="label">Authentication Method</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapBERTrace">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Trace LDAP BER packets to file (useful for debugging).</parameter>
+            <parameter name="label">LDAP Trace File</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapBinaryAttributes">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">List of attributes that are treated as binary (one attribute per line)</parameter>
+            <parameter name="label">Binary Attributes</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapPageSize">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">0</parameter>
+            <parameter name="description"><![CDATA[When paging is used, the LDAP server will return a large data set as a sequence of smaller pieces called pages.
+The page size specifies how many LDAP entries comprise a single page.
+Set the page size to zero to disable paging.
+Note that some LDAP servers do not support paging and will report an error if paging is enabled.]]]]><![CDATA[></parameter>
+            <parameter name="label">Page Size</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapPassword">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Password associated with Login username</parameter>
+            <parameter name="label">Login password</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapReferrals">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">follow</parameter>
+            <parameter name="description">Specifies is referrals are followed, ignored or result in an error/exception (throw).</parameter>
+            <parameter name="label">Referrals</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapReturnAttributes">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">List of attributes to return (one attribute per line). Empty  all</parameter>
+            <parameter name="label">Return attributes</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchBase">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">o=orgname</parameter>
+            <parameter name="description"><![CDATA[Search base in directory. This parameter is only used in Iterator,Lookup,Update and Delete mode,
+ but is visible in all modes to help with schema discovery.]]]]><![CDATA[></parameter>
+            <parameter name="label">Search Base</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchFilter">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">cn=*</parameter>
+            <parameter name="description"><![CDATA[Search filter used when iterating the directory. This parameter is only used in Iterator mode,
+ but is visible in all modes to help with schema discovery.]]]]><![CDATA[></parameter>
+            <parameter name="label">Search Filter</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSearchScope">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">subtree</parameter>
+            <parameter name="description"><![CDATA[* subtree
+	search all levels from search base and below
+
+* onelevel
+	search only immediate children of search base
+
+]]]]><![CDATA[></parameter>
+            <parameter name="label">Search Scope</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSizeLimit">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">0</parameter>
+            <parameter name="description">Max number of entries to return during a search (0  All)</parameter>
+            <parameter name="label">Size Limit</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapSortAttribute">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Sort search/selection on specific attribute</parameter>
+            <parameter name="label">Sort Attribute</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapTimeLimit">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">0</parameter>
+            <parameter name="description">Timeout in seconds (0  Forever)</parameter>
+            <parameter name="label">Time Limit</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapUrl">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">ldap://localhost:389</parameter>
+            <parameter name="description">The LDAP server host/port</parameter>
+            <parameter name="label">LDAP URL</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapUseSSL">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Uses secure sockets layer for communication with LDAP server</parameter>
+            <parameter name="label">Use SSL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="ldapUsername">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Distinguished name for login (leave blank for anonymous)</parameter>
+            <parameter name="label">Login username</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="ldapVLVPageSize">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">0</parameter>
+            <parameter name="description">Specify a page size for Virtual List View iteration</parameter>
+            <parameter name="label">Virtual List View Page Size</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="notesDatabase">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">names.nsf</parameter>
+            <parameter name="description">The database to open</parameter>
+            <parameter name="label">Database</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="notesSearchView">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Database view</parameter>
+            <parameter name="label">Database View</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="notesSelection">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">LotusFormula Selection criteria (Iterator mode only)</parameter>
+            <parameter name="label">Document Selection</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="notesServer">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Domino server name. Leave blank to use session server</parameter>
+            <parameter name="label">Domino Server Name</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="param_ldapUrl">
+            <ModTime>1326203606589</ModTime>
+            <parameter name="label">LDAP Url</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="password">
+            <ModTime>1327078570968</ModTime>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="provider">
+            <ModTime>1327087691828</ModTime>
+            <Values>
+                <ListItem>* use the Get Providers button *</ListItem>
+            </Values>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Provider</parameter>
+            <parameter name="script">getDatasources</parameter>
+            <parameter name="scriptLabel">Get Datasources</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="setOprAttributes">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Enabling this allows setting and modifying operational attributes in IBM Directory Server. </parameter>
+            <parameter name="label">Set Operational Attributes</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="simulateRename">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">If the server does not support rename, simulate it with delete/add operations</parameter>
+            <parameter name="label">Simulate rename</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="start">
+            <ModTime>1327093671734</ModTime>
+            <parameter name="label">Start index (for large sets)</parameter>
+        </FormItem>
+        <FormItem name="supportRichText">
+            <ModTime>1326358029078</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default">false</parameter>
+            <parameter name="description">Enables Domino RichTextItems to be mapped as such in the Entry. Otherwise they will be converted to plain text. WARNING: As RichTextItems are not serializable, enabling this option will cause an exception if an attribute is mapped to another Domino database or if IBM Tivoli Directory Integrator Server is used remotely. </parameter>
+            <parameter name="label">Support RichText items</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="url">
+            <ModTime>1327069084687</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Provider URI</parameter>
+            <parameter name="script">getDatasources</parameter>
+            <parameter name="scriptLabel">Get Parameters</parameter>
+        </FormItem>
+        <FormItem name="useDisplayValue">
+            <ModTime>1361015757859</ModTime>
+            <parameter name="description">This returns the display value of an attribute instead of the actual value</parameter>
+            <parameter name="label">Return displayValue instead of value</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="user">
+            <ModTime>1327078552703</ModTime>
+            <parameter name="label">User id</parameter>
+        </FormItem>
+        <FormItem name="userComment">
+            <ModTime>1326358048609</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Your own comments go here</parameter>
+            <parameter name="label">Comment</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <parameter name="ConserveMemory">false</parameter>
+        <FormSection name="Dataset">
+            <ModTime>1326287358937</ModTime>
+            <FormSectionNames>
+                <ListItem>TBSMCollectionParameterSelectedServices</ListItem>
+                <ListItem>TBSMCollectionParameterContainmentServices</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">true</parameter>
+            <parameter name="title">Provider Dataset Parameters</parameter>
+        </FormSection>
+        <parameter name="FSYSINDX1"/>
+        <parameter name="FSYSINDX2"/>
+        <parameter name="FSYSMOUNT"/>
+        <parameter name="FSYSNAME"/>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>baseURL</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>password</ListItem>
+                <ListItem>provider</ListItem>
+                <ListItem>datasource</ListItem>
+                <ListItem>dataset</ListItem>
+                <ListItem>conditions</ListItem>
+                <ListItem>start</ListItem>
+                <ListItem>count</ListItem>
+                <ListItem>useDisplayValue</ListItem>
+                <ListItem>$GLOBAL.debug</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="ORIGINNODE"/>
+        <parameter name="Refresh"/>
+        <parameter name="SourceToken"/>
+        <parameter name="Time"/>
+        <parameter name="alwaysUseFormula">false</parameter>
+        <parameter name="automapADPassword">false</parameter>
+        <parameter name="baseURL">http://localhost:1098/ibm/tivoli/rest</parameter>
+        <parameter name="connectorFlags">{ignoreFieldErrors}</parameter>
+        <parameter name="dataset">/providers/TDI/datasources/ibmdi.JDBC/datasets/Default</parameter>
+        <parameter name="datasource">/providers/TDI/datasources/ibmdi.JDBC</parameter>
+        <parameter name="debug">undefined</parameter>
+        <parameter name="dominoHost"/>
+        <parameter name="dominoLogin"/>
+        <parameter name="dominoPassword"/>
+        <parameter name="dominoSessionType">IIOP</parameter>
+        <parameter name="formevents"><![CDATA[// 20130214 1353
+function getCertificate () {
+	var url = form.getControl("baseURL").getText();
+//	form.alert("Trying to retrieve cert from " + url)
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+
+
+function write(fname, str) {
+	var bw = new java.io.BufferedWriter(new java.io.FileWriter("C:\\temp\\" + fname))
+//	for (var m in obj.getClass().getMethods()) {
+//		bw.write(m)
+//		bw.newLine()
+//	}
+
+	bw.write(str)
+	bw.newLine()	
+	bw.close()
+}
+
+function makeCall(useURI, errorMsg, callType) {
+	var url
+	var user
+	var password
+	var httpEntry
+	var jsonStr
+	var json
+	var p
+	var p2
+	var embeddedURI
+	var userAndPassword
+	
+	user = form.getControl("user").getText()
+	password = form.getControl("password").getText()
+	url = form.getControl("baseURL").getText()
+	
+	p = useURI.indexOf("|<<")
+	p2 = useURI.indexOf(">>|")
+	if (p > 0 && p2 > 0 && p2 > p) {
+		embeddedURI = useURI.substring(p+3, p2)
+		useURI = embeddedURI + useURI.substring(p2+3)
+	}	
+
+	if (useURI.startsWith("/providers//providers"))
+		useURI = useURI.substring(11)
+		
+//	p = url.indexOf("//")
+//	url = url.substring(0,p+2) + userAndPassword + url.substring(p+2)
+
+//	form.alert("baseURL: " + url)
+//	form.alert("useURI: " + useURI)
+//	form.alert("both combined: " + url + useURI)
+
+	http.setParam("url", url + useURI)
+	http.setParam("username", user)
+	http.setParam("password", password)
+	http.initialize(null)
+	httpEntry = system.newEntry();
+	httpEntry["http.content-type"] = "application/json"
+	httpEntry["http.method"] = "GET"
+	httpEntry["http.accept"] = "application/json"
+
+//	form.alert("@@@ making call to " + http.getParam("url") + " with: \n" + httpEntry.toString()) // @@@
+
+	httpEntry = http.queryReply(httpEntry)
+	
+//	form.alert(httpEntry)
+	
+	if (httpEntry == null) 
+		throw "Communication error * " + errorMsg + " - url used: " url + useURI + " --> return http.body:\n" + jsonStr
+
+	jsonStr = httpEntry.getString("http.bodyAsString")
+	
+//	write("makeCall " + callType + ".txt", "url: " + url // @@@@
+//						+ "\nuser: " + user
+//						+ "\npassword: " + password
+//						+ "\npayload:\n" + httpEntry.toString())
+//	form.alert("@@@ " + callType + "\n" + jsonStr)
+	
+	if (jsonStr == null)
+		throw errorMsg + " (Nothing returned) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+
+//	eval("json=" + jsonStr)
+	try {
+		json = fromJson(jsonStr)
+	} catch (ex) {
+		throw errorMsg + " - Error parsing JSON received: " + ex + "   JSON: " + jsonStr
+	}
+
+	if (typeof(json) == "undefined" || !json || json == null)
+		throw errorMsg + "(Could not parse) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+
+	return json
+}
+
+function updateDropdown(uri, controlName, propertyName, errorMsg) {
+	var json
+	var uri
+	var combo = ""
+	var i
+	var p
+	var val
+	var label
+	var arr
+	
+	json = makeCall(uri, errorMsg, controlName)
+
+	if (!json)
+		return
+			
+	form.getClass()
+	combo = form.getControl(controlName)
+	combo.removeAll()
+
+	if (!json.items) {
+		combo.add(json[propertyName])
+	} else {
+		arr = new java.util.ArrayList()
+		for (i = 0; i < json.items.length; i++) {
+			p = json.items[i]
+			label = p["label"]
+			if (typeof(label) == "undefined")
+				val = p[propertyName]
+			else
+				val = label + " |<<" + p[propertyName] + ">>|"
+//			form.alert(">> provider: " + p.uri)
+			arr.add(val)
+		}
+		
+		arr = arr.toArray()
+		java.util.Arrays.sort(arr)
+
+		for (var a in arr) {
+			combo.add(a)
+		}	
+	}
+	
+	combo.select(0)
+}
+
+function getProviders() {
+	updateDropdown("/providers", "provider", "uri", "No Providers returned")
+}
+
+function getDatasources() {
+	updateDropdown(form.getControl("provider").getText() + "/datasources", 
+					"datasource", "uri", "No Datasources returned")
+}
+
+function getDatasets() {
+	updateDropdown(form.getControl("datasource").getText() + "/datasets", 
+					"dataset", "uri", "No Datasets returned")
+}
+
+
+function getParams() {
+	var params = makeCall(form.getControl("dataset").getText() + "/parameters", 
+							"No Dataset parameters returned",
+							"getParams")
+	var formconfig = form.getFormConfig()
+	var fs
+	var p
+	var fic
+	
+	// create dataset section
+	if( formconfig.getSection("Dataset") == null ) {
+		throw "Connection form is missing the 'Dataset' section!"
+//		fs = new com.ibm.di.config.base.FormSectionImpl()
+//		fs.setName("Dataset")
+//		fs.setTitle("Provider Dataset")
+//		formconfig.addSection(fs)
+	}
+
+	// get fs as section handle
+	fs = formconfig.getSection("Dataset");
+
+	// remove all dataset section fields
+	for(str in fs.getNames()) {
+		formconfig.removeFormItem(str);
+	}
+
+	// remove all params from section dataset
+	fs.getNames().removeAllElements();
+
+	
+	// create a new param_* field and add it to Dataset section
+
+	for (var i = 0; i < params.items.length; i++)  {
+		if (params.items[i].hidden != "true") {
+			p = params.items[i]
+			fic = formconfig.newFormItem(p.id)
+			fic.setLabel(p.label)
+			fic.setSyntax(p.type)
+			fic.setToolTip(p.description)
+			fic.setRequired(p.required != "false")
+			
+			if ( ("!" + p["default"]) != "!undefined" )
+				fic.setDefaultValue(p["default"])
+			else
+				fic.setDefaultValue("")
+			
+			fs.getNames().add(fic.getShortName())
+		}
+	}		
+		
+	form.resetForm();
+	form.initialize();
+}
+
+	]]]]><![CDATA[></parameter>
+        <parameter name="formscript"><![CDATA[if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions")
+	system = new c
+}	
+
+http = system.getConnector("ibmdi.HTTPClient")
+]]]]><![CDATA[></parameter>
+        <parameter name="httpPort">80</parameter>
+        <parameter name="iiopSSL">false</parameter>
+        <parameter name="jdbcCommit">After every database operation</parameter>
+        <parameter name="jdbcDateFormat"/>
+        <parameter name="jdbcDelete"/>
+        <parameter name="jdbcDisablePaddingInsert">false</parameter>
+        <parameter name="jdbcDisablePaddingLookup">false</parameter>
+        <parameter name="jdbcDisablePaddingUpdate">false</parameter>
+        <parameter name="jdbcDriver">sun.jdbc.odbc.JdbcOdbcDriver</parameter>
+        <parameter name="jdbcExposeNullValues">true</parameter>
+        <parameter name="jdbcInsert"/>
+        <parameter name="jdbcLogin"/>
+        <parameter name="jdbcLookup"/>
+        <parameter name="jdbcPassword"/>
+        <parameter name="jdbcPreparedStatement">true</parameter>
+        <parameter name="jdbcProviderParams"/>
+        <parameter name="jdbcSchema"/>
+        <parameter name="jdbcSelect"/>
+        <parameter name="jdbcSessionParameters"/>
+        <parameter name="jdbcSource"/>
+        <parameter name="jdbcTable"/>
+        <parameter name="jdbcUpdate"/>
+        <parameter name="jndiExtraProviderParams"/>
+        <parameter name="ldapAddAttr">false</parameter>
+        <parameter name="ldapAuthenticationMethod">Simple</parameter>
+        <parameter name="ldapBERTrace"/>
+        <parameter name="ldapBinaryAttributes"/>
+        <parameter name="ldapPageSize">0</parameter>
+        <parameter name="ldapPassword"/>
+        <parameter name="ldapReferrals">follow</parameter>
+        <parameter name="ldapReturnAttributes"/>
+        <parameter name="ldapSearchBase">o=orgname</parameter>
+        <parameter name="ldapSearchFilter">cn=*</parameter>
+        <parameter name="ldapSearchScope">subtree</parameter>
+        <parameter name="ldapSizeLimit">0</parameter>
+        <parameter name="ldapSortAttribute"/>
+        <parameter name="ldapTimeLimit">0</parameter>
+        <parameter name="ldapUrl">ldap://localhost:389</parameter>
+        <parameter name="ldapUseSSL">false</parameter>
+        <parameter name="ldapUsername"/>
+        <parameter name="ldapVLVPageSize">0</parameter>
+        <parameter name="notesDatabase">names.nsf</parameter>
+        <parameter name="notesSearchView"/>
+        <parameter name="notesSelection"/>
+        <parameter name="notesServer"/>
+        <parameter name="password">tivoli4ibm</parameter>
+        <parameter name="provider">/providers/TDI</parameter>
+        <parameter name="script"/>
+        <parameter name="setOprAttributes">false</parameter>
+        <parameter name="simulateRename">false</parameter>
+        <parameter name="supportRichText">false</parameter>
+        <parameter name="title">CURI Connector</parameter>
+        <parameter name="url">http://localhost:1098/ibm/tivoli/rest/providers/TDI/datasources/ibmdi.LDAP/datasets/Default</parameter>
+        <parameter name="user">sysadmin</parameter>
+        <parameter name="userComment">&gt;false&lt;</parameter>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="CATEGORY"/>
+            <parameter name="CM"/>
+            <parameter name="CN"/>
+            <parameter name="CPUINDEX"/>
+            <parameter name="DATACENTER"/>
+            <parameter name="DM"/>
+            <parameter name="HRDEVICEI0"/>
+            <parameter name="LOCALPT"/>
+            <parameter name="Limit"/>
+            <parameter name="NWINAME"/>
+            <parameter name="ORIGINNODE"/>
+            <parameter name="PROTOCOL"/>
+            <parameter name="Refresh"/>
+            <parameter name="SourceToken"/>
+            <parameter name="TBSMCollectionParameterContainmentServices"/>
+            <parameter name="TBSMCollectionParameterSelectedServices"/>
+            <parameter name="Time"/>
+            <parameter name="automapADPassword">false</parameter>
+            <parameter name="baseURL"/>
+            <parameter name="conditions"/>
+            <parameter name="connectorFlags">{ignoreFieldErrors}</parameter>
+            <parameter name="count"/>
+            <parameter name="dataset"/>
+            <parameter name="datasource"/>
+            <parameter name="debug"/>
+            <parameter name="jdbcCommit">After every database operation</parameter>
+            <parameter name="jdbcDateFormat"/>
+            <parameter name="jdbcDelete"/>
+            <parameter name="jdbcDisablePaddingInsert">false</parameter>
+            <parameter name="jdbcDisablePaddingLookup">false</parameter>
+            <parameter name="jdbcDisablePaddingUpdate">false</parameter>
+            <parameter name="jdbcDriver">sun.jdbc.odbc.JdbcOdbcDriver</parameter>
+            <parameter name="jdbcExposeNullValues">true</parameter>
+            <parameter name="jdbcInsert"/>
+            <parameter name="jdbcLogin"/>
+            <parameter name="jdbcLookup"/>
+            <parameter name="jdbcPassword"/>
+            <parameter name="jdbcPreparedStatement">true</parameter>
+            <parameter name="jdbcProviderParams"/>
+            <parameter name="jdbcSchema"/>
+            <parameter name="jdbcSelect"/>
+            <parameter name="jdbcSessionParameters"/>
+            <parameter name="jdbcSource">jdbc:odbc:people</parameter>
+            <parameter name="jdbcTable">people</parameter>
+            <parameter name="jdbcUpdate"/>
+            <parameter name="jndiExtraProviderParams"/>
+            <parameter name="ldapAddAttr">false</parameter>
+            <parameter name="ldapAuthenticationMethod">Simple</parameter>
+            <parameter name="ldapBERTrace"/>
+            <parameter name="ldapBinaryAttributes"/>
+            <parameter name="ldapPageSize">0</parameter>
+            <parameter name="ldapPassword"/>
+            <parameter name="ldapReferrals">follow</parameter>
+            <parameter name="ldapReturnAttributes"/>
+            <parameter name="ldapSearchBase">o=orgname</parameter>
+            <parameter name="ldapSearchFilter">cn=*</parameter>
+            <parameter name="ldapSearchScope">subtree</parameter>
+            <parameter name="ldapSizeLimit">0</parameter>
+            <parameter name="ldapSortAttribute"/>
+            <parameter name="ldapTimeLimit">0</parameter>
+            <parameter name="ldapUrl">ldap://localhost:389</parameter>
+            <parameter name="ldapUseSSL">false</parameter>
+            <parameter name="ldapUsername"/>
+            <parameter name="ldapVLVPageSize">0</parameter>
+            <parameter name="password"/>
+            <parameter name="provider"/>
+            <parameter name="script"><![CDATA[/*
+// 2012 11 01 22:07         - returning all data as sub-attributes of the main one (property = 'id')
+// 2012 11 01 17:45 vrs 1.2 - fixed querySchema() to remove duplicate schema items
+// 2012 09 14 17:41 - getNextEntry() adds fields from each entry (in addition to those returned as properties), like 'id'
+// 2012 09 13 13:11 - fixed call to get hashmap.keySet().iterator()
+// 2012 09 13 13:03 - fixed DSFields to DSField
+// 2012 09 13 12:06 - added return of top-level fields (e.g. id, label) with dollar $ prefix
+// 2012 09 13 11:54 - fixed 'use' should be 'user'
+// 2012 09 12 13:30 - fixed hard-coded username/pwd in both Form Event and Connector scripts
+// 2012 03 29 10:00 
+// 2013 01 05 19:35 - added label handing for drop-downs in Form Event Script, as per Robert Uthe's request
+// vrs = "1.3" 	// 20130107 1528 - fixing problems with the label handling code
+// vrs = "1.3.1"	// 20130108 2052 - Attribute returned with Entry as value, including all properties
+vrs = "20130216" // changed parsing to handle Shikha's TBSM feed, and added Use displayValue checkbox, and Detailed Log
+vrs = "20130216.2" // changed parsing to return JSON for valueType == "status"
+vrs = "20130218" // Corrected parsing of valueType == status to return an Entry
+ * */
+
+vrs = "20130218.b" // Corrected parsing of valueType == status to return an Entry with correct value
+
+java.lang.System.out.println("CURI Connector v." + vrs)
+
+
+var baseURL = null
+var datasetURI = null
+var fullURL = null
+var user = null
+var password = null
+var start = null
+var count = null
+var params = null
+var conditions = null
+var entries = null
+var entryCnt = 0
+var jsonString = ""
+var valueField = "value"
+var deBug = false
+var useJSON = null
+
+// attributes for each Entry in the same dataset (Dataset fields - prefixed with $ to avoid overwriting properties)
+var DSField = null
+
+if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions")
+	system = new c
+}	
+
+http = system.getConnector("ibmdi.HTTPClient")
+
+function initialize() {
+	var p
+	var p2
+	var embeddedURI
+
+	deBug = ("true" == connector.getParam("debug"))
+
+//	if (deBug) 
+	/*	useJSON = connector.getParam("userComment") // @@@@@
+	if (useJSON != null && useJSON.trim().length == 0)
+		useJSON = null
+	else
+		useJSON = fromJson(useJSON)*/
+	
+	baseURL = connector.getParam("baseURL")
+	datasetURI = connector.getParam("dataset")
+	
+	p = datasetURI.indexOf("|<<")
+	p2 = datasetURI.indexOf(">>|")
+	if (p > 0 && p2 > 0 && p2 > p) {
+		embeddedURI = datasetURI.substring(p+3, p2)
+		datasetURI = embeddedURI + datasetURI.substring(p2+3)
+	}	
+	
+	fullURL = baseURL + datasetURI
+	user = connector.getParam("user")
+	password = connector.getParam("password")
+	start = connector.getParam("start")
+	count = connector.getParam("count")
+	entries = null
+	
+	var useDisplayValue = connector.getParam("useDisplayValue")
+	
+	if (useDisplayValue == true)
+		valueField = "displayValue"
+	else
+		valueField = "value"
+		
+	if (deBug) java.lang.System.out.println("\n\ninitialize() - \nurl: " + baseURL + "\ndataset uri: " + datasetURI + "\nfull url: " + fullURL)
+	
+	if (!baseURL || baseURL == null || baseURL.trim() == "")
+		throw "Required parameter for the Provider Dataset URL not set."
+	
+	if (baseURL.endsWith("/"))
+		baseURL = baseURL.substring(0,baseURL.length-1)
+		
+//	task.logmsg("initialize() - baseURL: " + baseURL)
+	
+	conditions = connector.getParam("conditions")
+	params = getParams()
+	
+	
+}
+
+function terminate() {
+	baseURL = null
+	entries = null
+}
+
+
+function querySchema() {
+	var url = fullURL + "/columns" + queryStringParams()
+	var p
+	var e
+	var schema
+	var json
+	var attNames
+	
+//	task.logmsg("querySchema() url: " + url)
+	java.lang.System.out.println("querySchema()")
+
+	if (useJSON == null)
+		json = makeCall(url, "No columns returned from Dataset")
+	else
+		return null
+	
+	schema = system.newEntry()
+	for (var i = 0; i < json.items.length; i++)  {
+		p = json.items[i]
+		schema[p.id] = p.valueType
+	}		
+	
+//	java.lang.System.out.println("Got entry:" + schema.toString())
+
+	attNames = schema.getAttributeNames()
+	for (var att in attNames)  {
+		e = system.newEntry()
+		
+		e.name = att
+		e.syntax = schema.getString(att)
+		list.add(e);
+		params.put(p.id, e)
+	}
+		
+	result.setStatus (1);
+}
+
+
+function selectEntries() {
+	var url = fullURL + "/items" + queryStringParams(start, count)
+	var json
+	
+//	java.lang.System.out.println("selectEntries()")
+	
+	if (useJSON != null)
+		json = useJSON
+	else
+		json = makeCall(url, "No columns returned from Dataset")
+	
+	DSField = new java.util.HashMap()
+	
+	for (var o in json)
+		if (typeof(json[o]) != "object")
+			DSField.put(o, json[o])
+	
+	entries = json.items
+	id = entries.id
+	label = entries.label
+	entryCnt = 0
+}
+
+function toEntry(thisProp) {
+	var e = system.newEntry()
+	
+	for (var p in thisProp)
+		e[p] = thisProp[p]
+		
+	return e
+}
+
+function addAttributes(entry, json, depth, attname) {
+	var props = json.properties
+	
+	if (typeof(attname) == "undefined")
+		attname = "?????"
+	
+	if (typeof(depth) == "undefined" || depth <= 0) {
+		for (var o in json)
+			if (typeof(json[o]) != "object")
+				entry[o] = json[o]
+				
+		depth = 0
+	} else {
+		if (typeof(json[valueField]) != "undefined")
+			entry[attname] = json[valueField]
+	}
+	
+	if (typeof(props) != "undefined" && props != null) {
+		for (var i = 0; i < props.length; i++) {
+			thisProp = props[i]
+			
+			if (typeof(thisProp[valueField]) == "object") {
+				if ("status".equals(thisProp.valueType)) {
+					entry[thisProp.id] = toEntry(thisProp)
+					var e = entry.getObject(thisProp.id)
+					e.value = toEntry(thisProp.value)
+				} else
+					addAttributes(entry, thisProp[valueField], depth+1, thisProp.id)
+			}
+			else
+			if (typeof(thisProp[valueField]) != "undefined") {
+				entry[thisProp.id] = thisProp[valueField]
+			}
+			else {
+				java.lang.System.out.println("addAttributes() - parsing problem: " + toJSON(thisProp))
+			}	
+		}
+	}	
+}
+
+function getNextEntry () {
+	var p
+	var i
+	var itr
+	var key
+	var json
+	var val
+
+	if (deBug) java.lang.System.out.println("getNextEntry() - entryCnt: " + entryCnt + "   length: " + entries.length)
+	
+	if (entries == null || entryCnt >= entries.length) {
+		result.setStatus (0);
+		return;
+	}
+
+	json = entries[entryCnt]
+	
+//	addAttributes(entry, json)
+
+	entryCnt++
+		
+	entry["$rowNumber"] = entryCnt
+	entry["$totalRows"] = entries.length
+	
+	// now add fields from the top-level - the message itself
+	itr = DSField.keySet().iterator()
+	while (itr.hasNext()) {
+		key = itr.next()
+		entry["$" + key] = DSField.get(key)
+	}	
+
+	// add fields - apart from properties - for this item
+	addAttributes(entry, json)
+	
+	result.setStatus (1);
+	return entry		
+}
+
+function getParams() {
+	var url = fullURL + "/parameters"
+	var json
+	var p
+	var e
+	var params = new java.util.HashMap()
+	
+	if (useJSON == null)
+		json = makeCall(url, "No parameters returned from Dataset")
+	else
+		return params
+
+	for (var i = 0; i < json.items.length; i++)  {
+		p = json.items[i]
+		e = system.newEntry()
+		e.id = p.id
+		e.label = p.label
+		e.type = p.type
+		e.description = p.description
+		e.required = p.required
+		if ( ("!" + p["default"]) != "!undefined" ) 
+			e["default"] = p["default"]
+		else
+			e["default"] = ""
+
+		params.put(p.id, e)
+	}		
+
+	return params		
+}
+
+function queryStringParams(strt, cnt) {
+	var qs = ""
+	var itr = params.keySet().iterator()
+	var e
+	var pval
+	
+	itr = params.keySet().iterator()
+	
+	while (itr.hasNext()) {
+		e = params.get(itr.next())
+		pval = connector.getParam(e.id.getValue())
+		if (pval && pval != null && pval.trim() != "")
+			if (!qs)
+				qs = "?param_" + e.id + "=" + pval
+			else
+				qs += "&param_" + e.id + "=" + pval
+	}
+	
+	if (conditions && conditions != null && conditions.trim() != "")
+		if (!qs)
+			qs += "conditions=" + conditions
+		else
+			qs += "&conditions=" + conditions
+			
+	if (typeof(strt) != "undefined" && strt != "")
+		qs += "&start=" + strt
+	if (typeof(cnt) != "undefined" && cnt != "")
+		qs += "&count=" + cnt
+    
+    qs += "&properties=all"
+    
+	if (qs.startsWith("&"))
+		qs = "?" + qs.substring(1)
+		
+//java.lang.System.out.println("qs: " + qs)
+
+	return qs
+}
+
+function makeCall(uri, errormsg) {
+	var httpEntry
+	var jsonStr
+	var json
+
+	http.setParam("url", uri)
+	http.setParam("username", user)
+	http.setParam("password", password)
+	http.initialize(null)
+	
+	httpEntry = system.newEntry();
+	httpEntry["http.content-type"] = "application/json"
+	httpEntry["http.method"] = "GET"
+	httpEntry["http.accept"] = "application/json"
+
+	java.lang.System.out.println("uri: " + uri)
+
+	httpEntry = http.queryReply(httpEntry)	
+
+	jsonStr = httpEntry.getString("http.bodyAsString")
+	
+	if (deBug) {
+		java.lang.System.out.println(">>Making call to " + uri + "\n<<Received: " + jsonStr)
+	}
+	// java.lang.System.out.println("json: " + jsonStr)
+	
+	jsonString = jsonStr
+	connector.setParam("jsonString", jsonString)
+	
+	if (jsonStr == null) {
+		throw errormsg + " - HTTP return:\n" + httpEntry.toString()
+	}	
+	else {
+		try {
+			json = fromJson(jsonStr)
+		} catch (ex) {
+			throw errormsg + " - Error parsing JSON received: " + ex + "    JSON: " + jsonStr
+		}	
+//		eval("json=" + jsonStr)
+	}	
+
+	if (typeof(json) == "undefined" || json == null) {
+		throw errormsg + " - HTTP return:\n" + httpEntry.toString()
+	} else
+	if (json.msgSeverity)
+		throw json.msgText + "\nJSON returned:\n" + jsonStr
+	
+	return json
+}
+]]></parameter>
+            <parameter name="setOprAttributes">false</parameter>
+            <parameter name="simulateRename">false</parameter>
+            <parameter name="start"/>
+            <parameter name="url">http://localhost:1098/ibm/tivoli/rest/providers/TDI/datasources/ibmdi.JDBC/datasets/Default</parameter>
+            <parameter name="urlinfo"/>
+            <parameter name="user"/>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>*</Name>
+                <Type>simple</Type>
+                <Simple>*</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>$filteredRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$identifier</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$numRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$rowNumber</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$totalRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>AFFSYS</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>AFFSYS_displayValue</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>MGROUP</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>MGROUP_displayValue</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

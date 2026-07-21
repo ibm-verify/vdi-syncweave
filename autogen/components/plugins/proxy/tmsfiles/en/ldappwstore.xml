@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="ldappwstore" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDKN101I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADDING.PERSON.ENTRY" varFormat="Java">
+   Adding LDAP entry for person with distinguished name
+   &apos;<Variable formatSpec="{0}">distinguished name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN102I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADDED.PERSON.ENTRY" varFormat="Java">
+   Successfully added LDAP entry for person with name
+   &apos;<Variable formatSpec="{0}">person name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN103E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADD.PERSON.ENTRY.FAILED" varFormat="Java">   
+   Failed to add LDAP entry for person with distinguished name &apos;<Variable formatSpec="{0}">distinguished name</Variable>&apos;.
+   An exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+    The LDAP add operation failed. See the error message for details.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operating normally.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN104E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.PASSWORD.ENCRYPTION.FAILED" varFormat="Java">   
+   An exception occurred during password encryption: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A password could not be encrypted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN105E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.PASSWORD.DECRYPTION.FAILED" varFormat="Java">   
+   An exception occurred during password decryption: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A password could not be decrypted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN106E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.CRYPTO.INIT.FAILED" varFormat="Java">   
+   Failed to initialize encryption: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The cryptography module of the LDAP Password Store could not be initialized.
+   </p> </Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN107E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MISSING.REQUIRED.PROPERTY" varFormat="Java">   
+   Missing required property: <Variable formatSpec="{0}">property name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   A required property could not be found in the configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN108E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.CONNECT.FAILED" varFormat="Java">   
+   Failed to connect to the LDAP server. An exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Could not establish connection to the LDAP server. See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN109I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADDING.PASSWORD.VALUES" varFormat="Java">
+   Adding password values for user with distinguished name
+   &apos;<Variable formatSpec="{0}">distinguished name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN110E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADD.VALUES.FAILED.EMPTY.USER" varFormat="Java">   
+   Could not add password values, because the user name is empty.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN111E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADD.VALUES.FAILED.CANNOT.CONNECT" varFormat="Java">   
+   Unable to add password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;
+   because the password store could not connect to the LDAP Server. An exception occurred:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Could not establish connection to the LDAP server. See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN112I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADD.VALUES.NO.PERSON.ENTRY" varFormat="Java">
+   There is no LDAP entry for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;.
+   Will create one.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN113E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.ADD.VALUES.FAILED" varFormat="Java">   
+   Could not add password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   An error occurred while adding password values for the user. See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN114I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.DELETING.PASSWORD.VALUES" varFormat="Java">
+   Deleting password values for user with distinguished name &apos;<Variable formatSpec="{0}">distinguished name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN115E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.DELETE.VALUES.FAILED.EMPTY.USER" varFormat="Java">   
+   Could not delete password values, because the user name is empty.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN116E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.DELETE.VALUES.FAILED.CANNOT.OBTAIN.ORIGINAL.VALUES" varFormat="Java">   
+   Could not delete password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;.
+   Failed to obtain the original list of passwords for the user from the LDAP server:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   When the LDAP Password Store is about to delete password values for a user,
+   it first obtains the existing password values from the LDAP server.
+   This task has failed. See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN117E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.DELETE.VALUES.FAILED.1" varFormat="Java">   
+   Could not delete password values for user
+   &apos;<Variable formatSpec="{0}">user name</Variable>&apos;: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN118E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.DELETE.VALUES.FAILED.2" varFormat="Java">   
+   Could not delete password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN119I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.CHECK.REPOSITORY" varFormat="Java">
+   Checking if the LDAP server is accessible.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN120I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFYING.PASSWORD.VALUES" varFormat="Java">
+   Modifying password values for user with distinguished name &apos;<Variable formatSpec="{0}">distinguished name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN121E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFYING.VALUES.FAILED.EMPTY.USER" varFormat="Java">   
+   Could not modify password values because the user name is empty.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN122I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFYING.PASSWORD.VALUES.EMPTY.PASS.LIST" varFormat="Java">
+   Empty list of passwords found while modifying password values. Will remove the password attribute.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN123I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFY.VALUES.NO.PERSON.ENTRY" varFormat="Java">
+   There is no LDAP entry for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;. Will create one.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN124E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFY.VALUES.FAILED" varFormat="Java">   
+   Could not modify password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN125I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFY.VALUES.COUNT" varFormat="Java">
+   The password values to modify are <Variable formatSpec="{0}">count</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN126I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFY.VALUES.NO.PERSON.ENTRY.2" varFormat="Java">
+   There is no LDAP entry for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;. Will create one.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN127E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.MODIFY.VALUES.FAILED.2" varFormat="Java">   
+   Could not modify password values for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN128I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.REMOVE.PASS.ATTR.NOT.FOUND" varFormat="Java">
+   No password attribute was found while trying to remove the password attribute for user
+   &apos;<Variable formatSpec="{0}">user name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN129E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.REMOVE.PASS.FAILED" varFormat="Java">   
+   Failed to remove password attribute for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN130I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.VERIFYING.LDAP.SUFFIX" varFormat="Java">
+   Verifying LDAP suffix.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN131E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.SUFFIX.DOES.NOT.EXIST" varFormat="Java">   
+   Suffix &apos;<Variable formatSpec="{0}">LDAP suffix</Variable>&apos; does not exist in the LDAP
+   server: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   The configured LDAP suffix is incorrect.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN132E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.VERIFY.SUFFIX.FAILED" varFormat="Java">   
+   An exception occurred while verifying the LDAP suffix: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Unexpected LDAP error is encountered while verifying that the configured LDAP suffix is correct.
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN133W" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.STORE.PASSWORD.NULL.USER" varFormat="Java">   
+   Password values will not be stored in the Password Store, because the user identifier is empty.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Inspect the error logs.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN136W" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.SET.EXT.DATA.NULL.USER" varFormat="Java">   
+   Additional information about a user will not be written to the Password Store because the user identifier is empty.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Inspect the error logs.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN137I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.SET.EXT.DATA.NO.PERSON.ENTRY" varFormat="Java">
+   There is no LDAP entry for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;. Will create one.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKN138E" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.SET.EXT.DATA.FAILED" varFormat="Java">   
+   Could not set additional information for user &apos;<Variable formatSpec="{0}">user name</Variable>&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration of the LDAP Password Store is correct.
+   Verify that the LDAP server is operational.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKN139I" prefix="yes">
+   <MsgText pgmKey="PWSTORE.LDAP.SET.EXT.DATA" varFormat="Java">
+   Setting additional information &apos;<Variable formatSpec="{0}">extra info</Variable>&apos; for user with distinguished name &apos;<Variable formatSpec="{1}">distinguished name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

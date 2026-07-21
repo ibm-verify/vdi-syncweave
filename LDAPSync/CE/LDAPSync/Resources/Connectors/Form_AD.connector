@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="4" UUID="e47df0a3-4cf0-4f16-b44d-d3bef38f64ab" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="Form_AD" modified="Thu Sep 04 09:53:27 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="Form_AD">
+        <InheritFrom>system:/Connectors/ibmdi.NetscapeChangelog</InheritFrom>
+        <ModTime>1409817206824</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1409817206824</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="28" UUID="d9f6c700-b0fa-474a-83ff-06a069220678" created="Thu Apr 11 13:30:19 CEST 2013" createdBy="Administrator" main="Form" modified="Thu Mar 27 14:44:27 CET 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1395927849684</ModTime>
+        <FormItemNames>
+            <ListItem>source.ldap.url</ListItem>
+            <ListItem>source.ldap.user</ListItem>
+            <ListItem>source.ldap.password</ListItem>
+            <ListItem>source.ldap.searchBase</ListItem>
+            <ListItem>source.ldap.pageSize</ListItem>
+            <ListItem>source.ldap.binaryAttributes</ListItem>
+            <ListItem>source.ldap.stateKey</ListItem>
+            <ListItem>source.ldap.useNotifications</ListItem>
+            <ListItem>source.ldap.changelogTimeout</ListItem>
+            <ListItem>source.ldap.secondsForPolling</ListItem>
+            <ListItem>source.changeDetectionType</ListItem>
+            <ListItem>statNotificationsText</ListItem>
+            <ListItem>source.form</ListItem>
+            <ListItem>writeback.enabled</ListItem>
+            <ListItem>mirroring.enabled</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="mirroring.enabled"/>
+        <FormItem name="source.ad.searchBase">
+            <parameter name="Required">true</parameter>
+            <parameter name="default"/>
+            <parameter name="description">LDAPSYNC.THIS.PARAMETER.MUST.BE.SET.TO.THE.ROOT.SUFFIX.OF.THE.AD.DC.OTHERWISE.DELETES.WILL.NOT.BE.CAUGHT.DURING.SYNCHRONIZATION</parameter>
+            <parameter name="label">LDAPSYNC.DC.ROOT.SUFFIX</parameter>
+            <parameter name="script">selectLDAPSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.CONTEXTS</parameter>
+            <parameter name="scripthelp">Browse available suffixes to select the desired one</parameter>
+        </FormItem>
+        <FormItem name="source.changeDetectionType">
+            <ModTime>1366969603687</ModTime>
+            <parameter name="label">LDAPSYNC.CHANGE</parameter>
+        </FormItem>
+        <FormItem name="source.form"/>
+        <FormItem name="source.ldap.binaryAttributes">
+            <ModTime>1380534388453</ModTime>
+            <parameter name="description">LDAPSYNC.ENTER.THE.LIST.OF.BINARY.ATTRIBUTES.ONE.LINE.FOR.EACH.ATTRIBUTE.NAME</parameter>
+            <parameter name="label">LDAPSYNC.SPECIFY.ANY.CUSTOM.BINARY.ATTRIBUTES.ONE.PER.LINE</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.changelogTimeout">
+            <ModTime>1369653356906</ModTime>
+            <parameter name="description">LDAPSYNC.NUMBER.OF.SECONDS.WITHOUT.DETECTING.CHANGES.DURING.POLLING.BEFORE.THE.ENDPOINT.TIMES.OUT.AND.SYNCHRONIZATION.STOPS</parameter>
+            <parameter name="label">LDAPSYNC.SECONDS.BEFORE.TIMEOUT</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.pageSize">
+            <parameter name="description">LDAPSYNC.SETTING.A.VALUE.GT.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS</parameter>
+            <parameter name="label">LDAPSYNC.PAGE.SIZE</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="script">checkLDAPPageSize</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.PAGE.SIZE</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.password">
+            <ModTime>1369652795046</ModTime>
+            <parameter name="description">LDAPSYNC.PASSWORD.USED.TO.AUTHENTICATE.TO.THE.SOURCE.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.PASSWORD</parameter>
+            <parameter name="syntax">PASSWORD</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.searchBase">
+            <ModTime>1369654050406</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="default"/>
+            <parameter name="description">LDAPSYNC.SEARCH.BASE.IN.THE.SOURCE.DIRECTORY</parameter>
+            <parameter name="label">LDAPSYNC.SEARCH.BASE</parameter>
+            <parameter name="script">selectLDAPSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.CONTEXTS</parameter>
+            <parameter name="scripthelp">Browse available suffixes to select the desired one</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.secondsForPolling">
+            <ModTime>1369653418312</ModTime>
+            <parameter name="description">LDAPSYNC.CONTROLS.HOW.OFTEN.THE.ENPOINT.IS.POLLED.FOR.CHANGES</parameter>
+            <parameter name="label">LDAPSYNC.SECONDS.BETWEEN.POLLING</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.stateKey">
+            <ModTime>1369653182359</ModTime>
+            <parameter name="description">LDAPSYNC.KEY.USED.TO.SAVE.CHANGE.STATE.FOR.THIS.SOURCE</parameter>
+            <parameter name="label">LDAPSYNC.CHANGE.STATE.KEY</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.DELETE</parameter>
+            <parameter name="scripthelp">Deletes the current change state.</parameter>
+            <parameter name="syntax">STRING</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.url">
+            <ModTime>1395927849684</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.URL.TO.THE.SOURCE.DIRECTORY.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.LDAP.URL</parameter>
+            <parameter name="modes"/>
+            <parameter name="syntax">URL</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.useNotifications">
+            <ModTime>1369653149906</ModTime>
+            <parameter name="description">LDAPSYNC.ENABLE.TO.SUBSCRIBE.TO.CHANGE.NOTIFICATIONS.OTHERWISE.THE.ENPOINT.WILL.BE.PERIODICALLY.POLLED.FOR.CHANGES</parameter>
+            <parameter name="label">LDAPSYNC.USE.NOTIFICATIONS</parameter>
+            <parameter name="syntax">BOOLEAN</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.user">
+            <ModTime>1395923811901</ModTime>
+            <parameter name="description">LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.SOURCE.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.USER.LOGIN</parameter>
+            <parameter name="syntax">DN</parameter>
+        </FormItem>
+        <FormItem name="statNotificationsText">
+            <ModTime>1368445932343</ModTime>
+            <parameter name="label">LDAPSYNC.IGNORE.THE.NEXT.TWO.PARAMETERS.IF.NOTIFICATIONS.ARE.ENABLED.ABOVE.OTHERWISE.THEY.ARE.REQUIRED</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="writeback.enabled"/>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>source.ldap.pageSize</ListItem>
+                <ListItem>source.ldap.changelogTimeout</ListItem>
+                <ListItem>source.ldap.secondsForPolling</ListItem>
+                <ListItem>source.ldap.stateKey</ListItem>
+                <ListItem>source.ldap.binaryAttributes</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">LDAPSYNC.ADVANCED.OPTIONS</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>source.ldap.url</ListItem>
+                <ListItem>source.ldap.user</ListItem>
+                <ListItem>source.ldap.password</ListItem>
+                <ListItem>source.ldap.searchBase</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"/>
+        <parameter name="title">Active Directory</parameter>
+        <TranslationFile>ldapsync</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="deliveryMode">Changelog</parameter>
+            <parameter name="mirroring.enabled">true</parameter>
+            <parameter name="source.ad.searchBase"/>
+            <parameter name="source.changeDetectionType">AD</parameter>
+            <parameter name="source.form">Form_AD</parameter>
+            <parameter name="source.ldap.binaryAttributes"><![CDATA[jpegPhoto
+objectGUID
+userAccountControl]]></parameter>
+            <parameter name="source.ldap.changelogTimeout">60</parameter>
+            <parameter name="source.ldap.pageSize">500</parameter>
+            <parameter name="source.ldap.password"/>
+            <parameter name="source.ldap.searchBase"/>
+            <parameter name="source.ldap.secondsForPolling">10</parameter>
+            <parameter name="source.ldap.stateKey"/>
+            <parameter name="source.ldap.url"/>
+            <parameter name="source.ldap.useNotifications">false</parameter>
+            <parameter name="source.ldap.user"/>
+            <parameter name="supportsPTA">true</parameter>
+            <parameter name="supportsWriteback">true</parameter>
+            <parameter name="writeback.enabled">true</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="before_getnext">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>before_getnext</Name>
+                <Script/>
+                <Enabled>false</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="autoreconnect">true</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

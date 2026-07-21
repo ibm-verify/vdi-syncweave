@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ibm.com/xmlns/prod/scmp">
+
+	<include schemaLocation="base.xsd" />
+	<include schemaLocation="propertysheet.xsd" />
+
+	<element name="touchpoint">
+		<complexType>
+			<sequence>
+				<element ref="tns:admin-state" minOccurs="0" />
+				<element name="touchpointID" type="string" />
+				<element name="version" type="string" />
+				<element ref="tns:propertySheet" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="touchpoint-status">
+		<complexType>
+			<sequence>
+				<element ref="tns:request-in" minOccurs="0" />
+				<element ref="tns:op-state" />
+				<any minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="destination">
+		<complexType>
+			<sequence>
+				<element ref="tns:request-out" />
+				<element ref="tns:request-error" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

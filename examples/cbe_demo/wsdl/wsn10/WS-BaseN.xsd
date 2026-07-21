@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   Legal Disclaimer
+	
+   Copyright Notice
+	
+   (c)Copyright International Business Machines Corporation,
+      The University of Chicago, Sonic Software Corporation, 
+      SAP AG, Hewlett-Packard Development Company, Akamai Technologies Inc. 
+      and Tibco Software Inc.  2003, 2004  All rights reserved.
+
+-->
+
+<xsd:schema 
+  xmlns="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+  xmlns:wsnt=
+    "http://www.ibm.com/xmlns/stdwip/web-services/WS-BaseNotification"
+  xmlns:wsrp=
+    "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties"
+  targetNamespace=
+    "http://www.ibm.com/xmlns/stdwip/web-services/WS-BaseNotification"   
+  elementFormDefault="qualified"  attributeFormDefault="unqualified">
+
+<!-- ======================== Imports  ============================ -->
+  
+  <xsd:import namespace=
+    "http://schemas.xmlsoap.org/ws/2003/03/addressing"
+              schemaLocation=
+    "WS-Addressing.xsd" 
+  />
+
+  <xsd:import namespace=
+    "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties" 
+              schemaLocation= 
+  "WS-ResourceProperties.xsd" 
+  /> 
+<!-- ================= Topic Expression Container ================= -->
+  <xsd:complexType name="TopicExpressionType" mixed="true">
+    <xsd:sequence>
+      <xsd:any minOccurs="0" maxOccurs="1" processContents="lax" />
+    </xsd:sequence>
+    <xsd:attribute name="dialect" type="xsd:anyURI" />
+  </xsd:complexType>
+
+  <xsd:element name="TopicExpression" 
+               type="wsnt:TopicExpressionType" />
+
+<!-- =============== Resource Property Related  =================== -->
+<!-- ======== Resource Properties for NotificationProducer ======== -->
+  <xsd:element name="Topic" type="wsnt:TopicExpressionType" />
+
+  <xsd:element name="FixedTopicSet" type="xsd:boolean"/>
+
+  <xsd:element name="TopicExpressionDialects" type="xsd:anyURI" />
+
+<!-- ======== Resource Properties for SubscriptionManager ========= --> 
+  <xsd:element name="ConsumerReference" 
+               type="wsa:EndpointReferenceType" />
+  <xsd:element name="UseNotify" 
+               type="xsd:boolean" />
+  <xsd:element name="Precondition" 
+               type="wsrp:QueryExpressionType" />
+  <xsd:element name="Selector" 
+               type="wsrp:QueryExpressionType" />
+  <xsd:element name="SubscriptionPolicy" 
+               type="xsd:anyType" />
+  <xsd:element name="CreationTime" 
+               type="xsd:dateTime" />
+
+</xsd:schema>

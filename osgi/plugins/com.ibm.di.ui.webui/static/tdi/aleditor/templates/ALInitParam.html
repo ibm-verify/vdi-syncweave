@@ -1,0 +1,59 @@
+<div>
+	<div data-dojo-type="idx/layout/HeaderPane" toggleable=false data-dojo-attach-point="Header" style="width:100%; height:100%" title="AssemblyLine Parameter">
+		<div data-dojo-type="dijit/form/Form" form data-dojo-attach-point="Form">
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><div data-dojo-type="dijit/form/TextBox" name="name"></div></td> 
+				</tr>
+			
+				<tr>
+					<td>Type:</td>
+					<td><div data-dojo-type="idx/form/Select" name="syntax">
+						<option selected value="string">String</option>
+						<option value="password">Password</option>
+						<option value="boolean">Checkbox</option>
+					</div> </td>
+				</tr>
+				
+				<tr>
+					<td>Bind to:</td>
+					<td>
+						<div data-dojo-type="idx/form/Select">
+							<option selected value="none"><i>Not bound</i></option>
+							<option value="param">Connector Parameter</option>
+							<option value="script">Custom Script</option>
+						</div> 
+					</td> 
+				</tr>
+				<tr data-dojo-attach-point="connector1">
+					<td>Connector:</td>
+					<td>
+						<div data-dojo-type="idx/form/Select"
+							data-dojo-attach-event="onChange:updateParameterList" 
+							name="bindConn" data-dojo-attach-point="connectorList" ></div>
+					</td>
+				</tr>
+				<tr data-dojo-attach-point="connector2">
+					<td>
+						Parameter:
+					</td>
+					<td>
+						<div data-dojo-type="idx/form/Select" 
+							data-dojo-attach-event="onChange:updateParameterAssignment" 
+							name="bindParam" data-dojo-attach-point="parameterList" ></div>
+					</td>
+				</tr>
+				<tr data-dojo-attach-point="script1">
+					<td> 
+						Script:
+					</td>
+					<td> 
+						<div data-dojo-type="dijit/form/Textarea" cols=40 lines=10 name="bindScript"></div>
+					</td>
+				</tr>
+				
+			</table>
+		</form>
+	</div>
+</div>

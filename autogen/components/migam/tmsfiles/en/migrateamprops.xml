@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="migrategblprops" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDKM101W" prefix="yes">
+   <MsgText pgmKey="COMMAND_ERROR_occurred" varFormat="Java">
+   The command did not complete successfully. See previous messages or error logs for details.
+   </MsgText>
+   <Explanation> <p>
+    One or more errors occurred during the execution of the command.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the previous messages displayed by the tdimigam command, or look at the error
+   logs for more details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM102E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_OPTION_TYPE" varFormat="Java">
+    Unknown value passed for &apos;-op&apos; option.
+   </MsgText>
+   <Explanation> <p>
+    An illegal operation parameter was passed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdimigam command usage for allowed options.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM103E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+   Incorrect command usage.
+   </MsgText>
+   <Explanation> <p>
+   The tdimigam command was invoked by passing unsupported command line options,
+   or unexpected end of argument list was encountered
+   or there was an incorrect usage of the command line options. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdimigam command usage and try invoking the tdisrvctl command with valid
+   arguments.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM104E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+   No value specified for <Variable formatSpec="{0}">option name</Variable> option.
+   </MsgText>
+   <Explanation> <p>
+   The tdimigam command was invoked by passing an option whose value had not been specified.
+   The value is also required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdimigam command usage, and invoke the tdisrvctl command again with
+   the correct option and associated value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM105I" prefix="no">
+   <MsgText pgmKey="QUERY_USAGE" varFormat="Java">
+   <br/>
+   The usage for the command is:
+   <br/>
+   tdimigam -f propfile [-b backfile] [-n newfile] [-v] [-?]<br/>
+   <br/>
+   where:<br/>
+   <pre> -f propfile      The name of the file to migrate</pre><br/>
+   <pre> -b backfile      Back up the original file with the specified name</pre><br/>
+   <pre> -n newfile       Name to give the file that is migrated</pre><br/>
+   <pre> -v               Enable verbose mode</pre><br/>
+   <pre> -?               Prints this usage statement</pre><br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM106I" prefix="yes">
+   <MsgText pgmKey="COMMAND.RETURN.CODE" varFormat="Java">
+   Return Code: <Variable formatSpec="{0}">return code</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM107I" prefix="yes">
+   <MsgText pgmKey="COMMAND.PARSING.OPTIONS" varFormat="Java">
+   Parsing options...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM108I" prefix="yes">
+   <MsgText pgmKey="COMMAND.GENERAL.OPTIONS" varFormat="Java">
+   Options Parsed: <Variable formatSpec="{0}">options</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM109E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+   The <Variable formatSpec="{0}">operator switch</Variable> option occurred more than once.
+   </MsgText>
+   <Explanation> <p>
+   The tdimigam command was invoked with the same parameter passed more than once.
+   Options can be passed only once. Fox example, the user may have passed the 
+   &apos;-b&apos; option twice, which is not allowed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Pass each option only once.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM110E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+   Unknown option <Variable formatSpec="{0}">operator switch</Variable> encountered.
+   </MsgText>
+   <Explanation> <p>
+   The tdimigam command was invoked with an unknown option. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdimigam command usage and invoke the command with the allowed options only.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM111W" prefix="yes">
+   <MsgText pgmKey="COMMAND.ALREADY.REACHED.THE.END.OF.ARGUMENT.LIST" varFormat="Java">
+   Already reached the end of argument list.
+   </MsgText>
+   <Explanation> <p>
+   While parsing the arguments, the tdimigam utility encountered an unexpected end of arguments.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the command usage and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM112E" prefix="yes">
+   <MsgText pgmKey="FILE_OPTION_ABSENT" varFormat="Java">
+   The <Variable formatSpec="{0}">operator switch</Variable> option was not specified.
+   This is a mandatory option.
+   </MsgText>
+   <Explanation> <p>
+   The tdimigam command was invoked without specifying the -op option. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdimigam command usage and invoke the command with the correct and
+   mandatory options specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM113I" prefix="yes">
+   <MsgText pgmKey="COMMAND.START.MIGRATION" varFormat="Java">
+   Starting file migration...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM114E" prefix="yes">
+   <MsgText pgmKey="UNABLE_BACKUP_FILE" varFormat="Java">
+   Unable to perform the migration.  Unable to backup the file <Variable formatSpec="{0}">file name</Variable>
+   to <Variable formatSpec="{1}">file name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the file to migrate could not be backed up.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the specified file to migrate exists and a can be read and written to.  Also, verify
+   you have read permissions on the backup file location.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM115E" prefix="yes">
+   <MsgText pgmKey="FILE_NOREAD_NOEXIST" varFormat="Java">
+   Unable to migrate the file <Variable formatSpec="{0}">file name</Variable>. The
+   file does not exist or cannot be read.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the file to migrate does not exist or could not be read.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the specified file to migrate exists and a can be read and written to.  Also, verify
+   you have read permissions on the backup file location.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM116E" prefix="yes">
+   <MsgText pgmKey="NOT_A_FILE" varFormat="Java">
+   Unable to migrate the file <Variable formatSpec="{0}">file name</Variable>. The
+   file specified is not a file.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the file specified for migration was not a file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the specified file to migrate exists and is a file that can be read and written to. Also, verify
+   you have read permissions on the backup file location.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM117E" prefix="yes">
+   <MsgText pgmKey="FILE_NOWRITE" varFormat="Java">
+   Unable to migrate the file <Variable formatSpec="{0}">file name</Variable>. The
+   file specified cannot be written to.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the file could not be written to.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the specified file to migrate exists and a can be read and written to.  Also, verify
+   you have read permissions on the backup file location.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM118E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME" varFormat="Java">
+   Unable to migrate the file <Variable formatSpec="{0}">file name</Variable>. The
+   file name of the backup file must not be the same name as the file name.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the file to migrate and the file to back up are
+   the same.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a different file names for the file to migrate and the backup file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM119E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME2" varFormat="Java">
+   Unable to migrate the file <Variable formatSpec="{0}">file name</Variable>. The
+   file name of the backup file must not be the same name as the new file.
+   </MsgText>
+   <Explanation> <p>
+   The migration failed because the new file name and the file to back up are
+   the same.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a different file names for the file to backup and the new file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM120E" prefix="yes">
+   <MsgText pgmKey="UNABLE_DELETE_FILE" varFormat="Java">
+   Error deleting file: <Variable formatSpec="{0}">file name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The specified file could not be deleted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the file permitions.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

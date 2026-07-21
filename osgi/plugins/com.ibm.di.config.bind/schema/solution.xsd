@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="al.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+	<include schemaLocation="connector.xsd"></include>
+	<include schemaLocation="function.xsd"></include>
+	<include schemaLocation="parser.xsd"></include>
+	<include schemaLocation="schema.xsd"></include>
+	<include schemaLocation="script.xsd"></include>
+	<include schemaLocation="attr-map.xsd"></include>
+	<include schemaLocation="flow.xsd"></include>
+	<include schemaLocation="props.xsd"></include>
+	<include schemaLocation="log.xsd"></include>
+	<element name="solution" type="tns:SolutionBinding"></element>
+
+	<complexType name="SolutionBinding">
+		<annotation>
+			<documentation>
+				Provides information about the Server.
+			</documentation>
+		</annotation>
+		<sequence>
+
+
+			<element name="context" type="tns:SolutionContextBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element ref="tns:container" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+		<attribute name="idiVersion" type="string" use="optional">
+		</attribute>
+
+		<attribute name="version" type="string" use="optional">
+		</attribute>
+
+		<attribute name="created" type="dateTime" use="optional">
+		</attribute>
+
+		<attribute name="createdBy" type="string" use="optional">
+		</attribute>
+
+		<attribute name="modified" type="dateTime" use="optional">
+		</attribute>
+
+		<attribute name="modifiedBy" type="string" use="optional">
+		</attribute>
+
+	</complexType>
+
+	<complexType name="SolutionLibraryBinding">
+		<sequence>
+			<element name="library" type="tns:ParameterBinding"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+
+
+	<complexType name="SolutionContextBinding">
+		<sequence>
+			<element name="interface" type="tns:SolutionInterfaceBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="log" type="tns:LogBinding" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="libraries" type="tns:SolutionLibraryBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="tombstone" type="tns:ParametersBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="systemStore" type="tns:ParametersBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="instance" type="tns:SolutionInstanceBinding"
+				maxOccurs="1" minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="SolutionInterfaceBinding">
+
+		<sequence>
+			<element name="userComment" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+
+			<element name="al" type="tns:ExposedAlBinding" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+			<element name="property" type="tns:ExposedPropertyBinding"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+		</sequence>
+
+		<attribute name="enabled" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="solutionName" type="string" use="optional"></attribute>
+		<attribute name="healthAl" type="string" use="optional"></attribute>
+		<attribute name="pollInterval" type="int" use="optional"></attribute>
+	</complexType>
+
+
+	<complexType name="SolutionInstanceBinding">
+		<sequence>
+			<element name="autostartALs" type="string" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+
+		</sequence>
+
+	</complexType>
+
+
+	<complexType name="ExposedPropertyBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+
+				<sequence>
+					<element name="userComment" type="string" maxOccurs="1"
+						minOccurs="0"></element>
+				</sequence>
+				<attribute name="label" type="string" use="optional"></attribute>
+				<attribute name="category" type="string" use="optional">
+				</attribute>
+				<attribute name="storeName" type="string" use="optional">
+				</attribute>
+
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ExposedAlBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding"></extension>
+		</complexContent>
+	</complexType>
+</schema>

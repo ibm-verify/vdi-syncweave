@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.MemQueue">
+                        <SupportedModes>AddOnly,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.MemQConnector</parameter>
+				<parameter name="parserOption">useless</parameter>
+				<parameter name="blockingAdd">false</parameter>
+				<parameter name="instanceName"/>
+				<parameter name="jdbcLogin"/>
+				<parameter name="jdbcPassword"/>
+				<parameter name="jdbcSource"/>
+				<parameter name="jdbcTable"/>
+				<parameter name="pageSize">100</parameter>
+				<parameter name="paging">true</parameter>
+				<parameter name="queueName"/>
+				<parameter name="timeout">1000</parameter>
+				<parameter name="watermark">1000</parameter>
+				<parameter name="readLockRelease">After single read</parameter>
+				<parameter name="percentMemoryUsed">50</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.MemQConnector">
+			<TranslationFile>NLS/idi_conn_memq</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>$Mode-Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>queueName</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Iterator-Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>instanceName</ListItem>
+					<ListItem>timeout</ListItem>
+					<ListItem>readLockRelease</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="AddOnly-Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>instanceName</ListItem>
+					<ListItem>watermark</ListItem>
+					<ListItem>pageSize</ListItem>
+					<ListItem>percentMemoryUsed</ListItem>
+					<ListItem>jdbcSource</ListItem>
+					<ListItem>jdbcLogin</ListItem>
+					<ListItem>jdbcPassword</ListItem>
+					<ListItem>jdbcTable</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>instanceName</ListItem>
+				<ListItem>queueName</ListItem>
+				<ListItem>readLockRelease</ListItem>
+				<ListItem>percentMemoryUsed</ListItem>
+				<ListItem>watermark</ListItem>
+				<ListItem>pageSize</ListItem>
+				<ListItem>jdbcSource</ListItem>
+				<ListItem>jdbcLogin</ListItem>
+				<ListItem>jdbcPassword</ListItem>
+				<ListItem>jdbcTable</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="instanceName">
+				<parameter name="description">INSTANCE_DESC</parameter>
+				<parameter name="label">INSTANCE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jdbcLogin">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">USERNAME_DESC</parameter>
+				<parameter name="label">USERNAME_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">PASSWORD_DESC</parameter>
+				<parameter name="label">PASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="jdbcSource">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">DBNAME_DESC</parameter>
+				<parameter name="label">DBNAME_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcTable">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">TABLE_DESC</parameter>
+				<parameter name="label">TABLE_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="pageSize">
+				<parameter name="modes">AddOnly</parameter>
+				<parameter name="description">PAGESIZE_DESC</parameter>
+				<parameter name="label">PAGESIZE_LABEL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">NUMBER</parameter>
+			</FormItem>
+			<FormItem name="queueName">
+				<parameter name="description">QUEUE_DESC</parameter>
+				<parameter name="label">QUEUE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="timeout">
+			        <parameter name="modes">Iterator</parameter>
+				<parameter name="description">TIMEOUT_DESC</parameter>
+				<parameter name="label">TIMEOUT_LABEL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">NUMBER</parameter>
+			</FormItem>
+			<FormItem name="watermark">
+			        <parameter name="modes">AddOnly</parameter>  
+				<parameter name="description">WATERMARK_DESC</parameter>
+				<parameter name="label">WATERMARK_LABEL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">NUMBER</parameter>
+			</FormItem>
+			<FormItem name="percentMemoryUsed">
+			        <parameter name="modes">AddOnly</parameter>
+				<parameter name="description">PERCENTMEMORY_DESC</parameter>
+				<parameter name="label">PERCENTMEMORY_LABEL</parameter>
+				<parameter name="minValue">0</parameter>
+				<parameter name="syntax">NUMBER</parameter>
+			</FormItem> 			
+			<FormItem name="readLockRelease">
+			<Values>
+				<ListItem>After single read</ListItem>
+				<ListItem>End of AL cycle</ListItem>
+				<ListItem>Connector close</ListItem>
+			</Values>
+			<LocalizedValues>
+			<Item>
+			    <Key>After single read</Key>
+				<Value>Localized.After.single.read</Value>
+			</Item>
+			<Item>
+			    <Key>End of AL cycle</Key>
+				<Value>Localized.End.of.AL.cycle</Value>
+			</Item>
+			<Item>
+			    <Key>Connector close</Key>
+				<Value>Localized.Connector.close</Value>
+			</Item>			
+			</LocalizedValues>
+			<parameter name="description">readLockRelease_desc</parameter>
+			<parameter name="label">readLockRelease_label</parameter>
+			<parameter name="syntax">droplist</parameter>
+			<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

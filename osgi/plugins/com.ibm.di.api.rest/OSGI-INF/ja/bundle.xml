@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="com.ibm.di.api.rest" tmsVersion="1.0" xml:lang="ja">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB201E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.HANDLE.CLOSED" varFormat="Java">
+    AssemblyLine ハンドルは既に終了しています。
+   </MsgText>
+   <Explanation> <p>
+	AssemblyLine に対するハンドルが正しくありません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	アプリケーション・ロジックを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB202E" prefix="yes">
+   <MsgText pgmKey="REST.API.OBJECT.UNAVAILABLE" varFormat="Java">
+   リモート・オブジェクトが見つかりませんでした。
+   </MsgText>
+   <Explanation> <p>
+	リモート・オブジェクトにアクセスできません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	オブジェクトのライフサイクルが完了し、ガーベッジ・コレクションが行われた場合に、このメッセージが出力されることがあります。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB203E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.NAME.INVALID" varFormat="Java">
+   指定された AssemblyLine 名が正しくありません。
+   </MsgText>
+   <Explanation> <p>
+	AssemblyLine に割り当てることができない名前が指定されました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	AssemblyLine のネーミング・ポリシーに準拠した名前を指定してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB204E" prefix="yes">
+   <MsgText pgmKey="REST.API.PS.NAME.MISSING" varFormat="Java">
+	<q/>name<q/> パラメーターが指定されていません。
+   </MsgText>
+   <Explanation> <p>
+	タッチポイント・プロバイダーはローカル API を使用するように構成されましたが、この API は現在のランタイムに存在しません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	代わりにリモート・サーバー API を使用するようにタッチポイント・サーバーを構成してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB205E" prefix="yes">
+   <MsgText pgmKey="REST.API.CI.CONFIG.MISSING" varFormat="Java">
+   構成データが指定されていません。
+   </MsgText>
+   <Explanation> <p>
+	既存の構成ファイルへの参照が指定されておらず、構成自体も指定されていません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	ConfigInstance の作成に関する構成データを指定してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB206E" prefix="yes">
+   <MsgText pgmKey="REST.API.CONFIG.MISSING" varFormat="Java">
+    構成データが指定されていません。
+   </MsgText>
+   <Explanation> <p>
+	構成データが指定されていません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	構成ファイルの作成に関する構成データを指定してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB207E" prefix="yes">
+   <MsgText pgmKey="REST.API.HTTP.LISTENER.ERROR" varFormat="Java">
+   リスナーを通知できませんでした: <q/><Variable formatSpec="{0}">listener identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	リモート・サーバーに通知を送信できません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	リモート・サーバーが実行中かどうか、ネットワーク通信が可能かどうかを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB208E" prefix="yes">
+   <MsgText pgmKey="REST.API.SERIALIZATION.ERROR" varFormat="Java">
+   次のオブジェクトを直列化できません: <q/><Variable formatSpec="{0}">object identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	オブジェクトの直列化中にエラーが発生しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	詳しくは、ソースの例外メッセージを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB209E" prefix="yes">
+   <MsgText pgmKey="REST.API.LISTENER.NO.CHANNEL" varFormat="Java">
+    TransportChannel オブジェクトが指定されていません。
+   </MsgText>
+   <Explanation> <p>
+	指定されたリスナー・オブジェクトに TransportChannel オブジェクトが添付されていませんでした。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	送信するリスナー・オブジェクトが、定義されたプロトコルに準拠していることを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB210E" prefix="yes">
+   <MsgText pgmKey="REST.API.JMS.CONFIG.MISSING" varFormat="Java">
+   JMS プロバイダーが構成されていません。
+   </MsgText>
+   <Explanation> <p>
+	構成情報に JMS プロバイダーが指定されていません。
+	ポーリングベースの TransportChannel を使用する場合、メッセージのバッファリングに JMS プロバイダーが使用されます。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	このタイプのメッセージ送信を使用する場合は、正しい JMS プロバイダー構成が指定されていることを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB211I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.ACTIVE" varFormat="Java">
+   REST サーバー API エンジンが開始されました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB212I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.INACTIVE" varFormat="Java">
+   REST サーバー API エンジンが停止しました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

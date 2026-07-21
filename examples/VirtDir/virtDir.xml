@@ -1,0 +1,2361 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by SDI7.2 - 2015-09-30" created="Thu Nov 05 13:47:09 CST 2015" createdBy="root" modified="Thu Nov 05 14:22:37 CST 2015" modifiedBy="root" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="virtDir">
+            <ModTime>1446752891499</ModTime>
+            <LogEnabled>true</LogEnabled>
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+                <parameter name="ScriptEngine">JavaScript</parameter>
+                <parameter name="automapattributes">true</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks>
+                <Hook name="epilog">
+                    <Name>epilog</Name>
+                    <Script/>
+                    <Enabled>false</Enabled>
+                    <DebugBreak>false</DebugBreak>
+                </Hook>
+                <Hook name="epilog2">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <Name>epilog2</Name>
+                    <Script>ldapcon = null</Script>
+                    <Enabled>true</Enabled>
+                </Hook>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="debugInfo" state="Enabled"/>
+                    <Component name="BIND" state="Enabled"/>
+                    <Component name="bindServer" state="Enabled"/>
+                    <Component name="BindAnother" state="Enabled"/>
+                    <Component name="bindSrv2" state="Enabled"/>
+                    <Component name="SEARCH" state="Enabled"/>
+                    <Component name="pagedSearch" state="Enabled"/>
+                    <Component name="pageSrch" state="Enabled"/>
+                    <Component name="simpleSearch" state="Enabled"/>
+                    <Component name="simpleSrch" state="Enabled"/>
+                    <Component name="dumpIt" state="Enabled"/>
+                    <Component name="ADD" state="Enabled"/>
+                    <Component name="addThis" state="Enabled"/>
+                    <Component name="MODIFY" state="Enabled"/>
+                    <Component name="modifyThis" state="Enabled"/>
+                    <Component name="DELETE" state="Enabled"/>
+                    <Component name="delThis" state="Enabled"/>
+                    <Component name="MODRDN" state="Enabled"/>
+                    <Component name="modThisrdn" state="Enabled"/>
+                    <Component name="COMPARE" state="Enabled"/>
+                    <Component name="compareThis" state="Enabled"/>
+                    <Component name="ABANDON" state="Enabled"/>
+                    <Component name="abandon" state="Enabled"/>
+                    <Component name="ldapSrv_listener" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ldapSrv_listener">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAPServer</InheritFrom>
+                    <ConnectorMode>Server</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment>@PROPERTY{VIRTDIT_COMMENTS}</UserComment>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="charset">@PROPERTY{VIRTDIR_CHAR_ENC}</parameter>
+                        <parameter name="debug">@PROPERTY{VIRTDIR_DETAIL_LOG}</parameter>
+                        <parameter name="ldapBinaryAttributes">@PROPERTY{VIRTDIR_BIN_ATTRS}</parameter>
+                        <parameter name="ldapPort">@PROPERTY{VIRTDIR_PORT}</parameter>
+                        <parameter name="ldapUseSSL">@PROPERTY{VIRTDIR_SSL_ON}</parameter>
+                    </Configuration>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>*</Simple>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <Driver>CloudScape</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ldap.abandon</Name>
+                            <Syntax>Integer</Syntax>
+                            <Presence>abandon</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.attributes</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.bindmethod</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>bind</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.compareattribute</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>compare</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.comparevalue</Name>
+                            <Syntax>String|byte array</Syntax>
+                            <Presence>compare</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.controls</Name>
+                            <Syntax>com.ibm.di.eventhandler.ldap.LDAPControl</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.deleteOldRDN</Name>
+                            <Syntax>Boolean</Syntax>
+                            <NativeSyntax>boolean</NativeSyntax>
+                            <Presence>modifyrdn</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.derefalias</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.dn</Name>
+                            <Syntax>String</Syntax>
+                            <NativeSyntax>Distinguished Name</NativeSyntax>
+                            <Presence>bind,add,delete,modify,modifyrdn,compare</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.entry</Name>
+                            <Syntax>Entry</Syntax>
+                            <Presence>add,modify</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.ipaddress</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.messageid</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.newSuperior</Name>
+                            <Syntax>String</Syntax>
+                            <NativeSyntax>Distinguished Name</NativeSyntax>
+                            <Presence>modifyrdn</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.operation</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.pagedsearch.cookie</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.pagedsearch.pagesize</Name>
+                            <Syntax>Integer</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.password</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>(bind, ldap.bindmethod=simple)</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.rdn</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>modifyrdn</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.requestname</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>extended</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.requestvalue</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>extended</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.saslcredentials</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May (bind, ldap.bindmethod=sasl)</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.saslmechanism</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>(bind, ldap.bindmethod=sasl)</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.scope</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.searchbase</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.searchfilter</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.sizelimit</Name>
+                            <Syntax>Integer</Syntax>
+                            <NativeSyntax>Integer</NativeSyntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.timelimit</Name>
+                            <Syntax>Integer</Syntax>
+                            <NativeSyntax>Integer</NativeSyntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.typesonly</Name>
+                            <Syntax>Boolean</Syntax>
+                            <NativeSyntax>boolean</NativeSyntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.version</Name>
+                            <Syntax>Integer</Syntax>
+                            <Presence>bind</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>ldap.matcheddn</Name>
+                            <Syntax>String</Syntax>
+                            <NativeSyntax>LDAP DN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.pagedsearch.cookie</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.pagedsearch.pagesize</Name>
+                            <Syntax>Integer</Syntax>
+                            <Presence>search</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.referrals</Name>
+                            <Syntax>String</Syntax>
+                            <NativeSyntax>LDAP URL</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ldap.status</Name>
+                            <Syntax>String|Integer</Syntax>
+                            <NativeSyntax>integer</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="before_close">
+                            <Name>before_close</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                        <Hook name="before_reply">
+                            <Name>before_reply</Name>
+                            <Script><![CDATA[task.logmsg("BEFORE REPLY");
+task.dumpEntry(conn);
+]]></Script>
+                            <Enabled>true</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance>
+                        <Enabled>false</Enabled>
+                        <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                    </PoolInstance>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="debugInfo">
+                    <ConnectorMode>Script</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration/>
+                    <ConnectorScript><![CDATA[task.logmsg("LDAP OPERATION: " +work.getObject("ldap.operation")); // the current ldap operation.
+task.dumpEntry(work); // dump the work entry
+]]></ConnectorScript>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser/>
+                    <AttributeMap name="Input"/>
+                    <AttributeMap name="Output"/>
+                    <DeltaSettings>
+                        <Driver>BTree</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                    </LinkCriteria>
+                    <Hooks/>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Branch name="BIND">
+                    <Connector name="bindServer">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[task.logmsg("<!--- bindSrv1 ::  try to bind to a specific directory directory --->");
+
+ persistLDAPCreds(work.getObject("ldap.dn"), work.getObject("ldap.password"));
+ var ldapcon = initLDAPConn("1", "Iterator");
+ if( ldapcon == null ) {
+	task.logmsg("<*** ERROR: bindSrv1 :: bind op failed ***>");
+	work.setAttribute("ldap.status", "1");
+ } else {
+		task.logmsg("<!-- Bind succeeded -->");		
+		// set the binddn and passwd in the property store.
+}
+]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Branch name="BindAnother">
+                        <Connector name="bindSrv2">
+                            <ConnectorMode>Script</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration/>
+                            <ConnectorScript><![CDATA[
+ task.logmsg("<!--- bindSrv2 :: try to bind to the second directory server --->");
+ ldapcon = initLDAPConn( "2", "Iterator" );
+ persistLDAPCreds(work.getObject("ldap.dn"), work.getObject("ldap.password"));
+ if( ldapcon == null ) {
+	task.logmsg("<!*** bindSrv2 :: bind failed again ***>");
+ } else {
+		task.logmsg("the ldap.ip is: " +work.getObject("ldap.ipaddress"));
+		task.logmsg("<!-- bindSrv2 :: Bind succeeded -->");	
+		work.setAttribute("ldap.status", "0");
+		work.setAttribute("ldap.ip", work.getObject("ldap.ipaddress"));	
+ }
+]]></ConnectorScript>
+                            <ComputeChanges>true</ComputeChanges>
+                            <DeltaBehavior>0</DeltaBehavior>
+                            <DeltaStrict>true</DeltaStrict>
+                            <Parser/>
+                            <AttributeMap name="Input"/>
+                            <AttributeMap name="Output"/>
+                            <DeltaSettings>
+                                <Driver>BTree</Driver>
+                            </DeltaSettings>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <LinkCriteria>
+                                <MatchAny>false</MatchAny>
+                                <AdvancedLinkMode>false</AdvancedLinkMode>
+                            </LinkCriteria>
+                            <Hooks/>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Conditions>
+                            <BranchCondition>
+                                <LeftHand>ldap.status</LeftHand>
+                                <Operator>equals</Operator>
+                                <RightHand>1</RightHand>
+                                <Negate>false</Negate>
+                                <CaseSensitive>true</CaseSensitive>
+                                <MatchAny>false</MatchAny>
+                            </BranchCondition>
+                        </Conditions>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <ScriptCondition/>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>bind</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="SEARCH">
+                    <Branch name="pagedSearch">
+                        <Connector name="pageSrch">
+                            <ConnectorMode>Script</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration/>
+                            <ConnectorScript><![CDATA[
+task.logmsg("<!-- pagedSearch :: paged search -->");
+task.logmsg("pagedSearch: cookie = #" + work.getString("ldap.pagedsearch.cookie") + "#");
+
+// Make sure we have an AL on our first call
+var cookie = work.getString("ldap.pagedsearch.cookie");
+if ( cookie == null || cookie.length() == 0 ) {
+	task.logmsg("<!-- Starting SearchAL for paged search -->");
+	searchAL = loadSearchAL();
+} else {
+	task.logmsg("<!-- Sending next page in paged search -->");
+}
+
+if ( searchAL == null ) {
+	task.logmsg("<!*** ERROR: no SearchAL exists for paged search -->");
+	work.setAttribute("ldap.status", "1");
+	work.setAttribute("ldap.errormessage", "Paged search continued without a current search AL");
+
+} else {
+
+	// Send next page
+	task.logmsg("<!-- send next page -->");
+	result = sendResults(ldapSrv_listener, work.getString("ldap.pagedsearch.pagesize"));
+
+	// Set cookie if we have more results
+	if ( result )
+		work.setAttribute("ldap.pagedsearch.cookie", "moredata");
+	else
+		work.setAttribute("ldap.pagedsearch.cookie", "");
+
+	// Set status and error messages
+	task.logmsg("<!-- set reply codes -->");
+	setReplyCodes(result);
+}
+]]></ConnectorScript>
+                            <ComputeChanges>true</ComputeChanges>
+                            <DeltaBehavior>0</DeltaBehavior>
+                            <DeltaStrict>true</DeltaStrict>
+                            <Parser/>
+                            <AttributeMap name="Input"/>
+                            <AttributeMap name="Output"/>
+                            <DeltaSettings>
+                                <Driver>BTree</Driver>
+                            </DeltaSettings>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <LinkCriteria>
+                                <MatchAny>false</MatchAny>
+                                <AdvancedLinkMode>false</AdvancedLinkMode>
+                            </LinkCriteria>
+                            <Hooks/>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Conditions>
+                            <BranchCondition>
+                                <LeftHand>ldap.pagedsearch.pagesize</LeftHand>
+                                <Operator>hasValue</Operator>
+                                <Negate>false</Negate>
+                                <CaseSensitive>true</CaseSensitive>
+                                <MatchAny>false</MatchAny>
+                            </BranchCondition>
+                        </Conditions>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <Branch name="simpleSearch">
+                        <Connector name="simpleSrch">
+                            <ConnectorMode>Script</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration/>
+                            <ConnectorScript><![CDATA[
+task.logmsg("<!-- simpleSearch :: simple search -->");
+
+if(work.getObject("ldap.searchbase") != "") {
+	// Make sure we have an AL
+	searchAL = loadSearchAL();
+
+	// Send the search results
+	result = sendResults(ldapSrv_listener, 0);
+
+	// Set status and error messages
+	setReplyCodes(result);
+} else {
+	if(work.getObject("ldap.scope") == "base") {
+		task.logmsg(" --- performing rootdse search --- ");	
+		ldapSrv_listener.connector.putEntry(ldapcon.getServerInfo());		
+	} else {
+	// Make sure we have an AL
+	searchAL = loadSearchAL();
+
+	// Send the search results
+	result = sendResults(ldapSrv_listener, 0);
+
+	// Set status and error messages
+	setReplyCodes(result);
+	}
+}]]></ConnectorScript>
+                            <ComputeChanges>true</ComputeChanges>
+                            <DeltaBehavior>0</DeltaBehavior>
+                            <DeltaStrict>true</DeltaStrict>
+                            <Parser/>
+                            <AttributeMap name="Input"/>
+                            <AttributeMap name="Output"/>
+                            <DeltaSettings>
+                                <Driver>BTree</Driver>
+                            </DeltaSettings>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <LinkCriteria>
+                                <MatchAny>false</MatchAny>
+                                <AdvancedLinkMode>false</AdvancedLinkMode>
+                            </LinkCriteria>
+                            <Hooks/>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Conditions>
+                            <BranchCondition>
+                                <LeftHand>ldap.pagedsearch.pagesize</LeftHand>
+                                <Operator>hasValue</Operator>
+                                <Negate>true</Negate>
+                                <CaseSensitive>true</CaseSensitive>
+                                <MatchAny>false</MatchAny>
+                            </BranchCondition>
+                        </Conditions>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <Connector name="dumpIt">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript>task.logmsg("&lt;!-- operation search --&gt;");</ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>search</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="ADD">
+                    <Connector name="addThis">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[
+task.logmsg("<!--- ldapadd --->");
+ putEntry("1");]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>add</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="MODIFY">
+                    <Connector name="modifyThis">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[
+	task.logmsg("<!--- ldapmodify --->");
+ 	modEntry("1");
+]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>modify</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="DELETE">
+                    <Connector name="delThis">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[	
+	task.logmsg("<!--- ldapmodify --->")
+ 	delEntry("1");
+]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>delete</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="MODRDN">
+                    <Connector name="modThisrdn">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[
+	task.logmsg("<!--- ldap.modrdn --->");
+ 	modRDN("1");
+	
+]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>modifyrdn</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="COMPARE">
+                    <Connector name="compareThis">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[
+	task.logmsg("<!--- ldap.compare --->");
+ 	compare("1");]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>compare</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="ABANDON">
+                    <Connector name="abandon">
+                        <ConnectorMode>Script</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration/>
+                        <ConnectorScript><![CDATA[
+	task.logmsg("<!--- ldap.abandon --->");
+	abanid = work.getObject("ldap.messageid");
+	if ( ldapSrv_listener.connector.isAbandoned(abanid) ) {
+			task.logmsg("REQUEST ABANDONED: " + abanid);
+			searchAL.shutdown();
+		}
+	work.setAttribute("ldap.status", "0");]]></ConnectorScript>
+                        <ComputeChanges>true</ComputeChanges>
+                        <DeltaBehavior>0</DeltaBehavior>
+                        <DeltaStrict>true</DeltaStrict>
+                        <Parser/>
+                        <AttributeMap name="Input"/>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <Driver>BTree</Driver>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <MatchAny>false</MatchAny>
+                            <AdvancedLinkMode>false</AdvancedLinkMode>
+                        </LinkCriteria>
+                        <Hooks/>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>ldap.operation</LeftHand>
+                            <Operator>equals</Operator>
+                            <RightHand>abandon</RightHand>
+                            <Negate>false</Negate>
+                            <CaseSensitive>true</CaseSensitive>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions>
+                <parameter name="assemblyline.ehc.executeProlog">false</parameter>
+                <parameter name="assemblyline.ehc.maxInstance">10</parameter>
+                <parameter name="assemblyline.ehc.minPrepare">5</parameter>
+            </ThreadOptions>
+            <Operations>
+                <Operation name="Default">
+                    <Schema name="Input"/>
+                    <Schema name="Output"/>
+                    <AttributeMap name="Input"/>
+                    <AttributeMap name="Output"/>
+                    <Public>true</Public>
+                </Operation>
+            </Operations>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="searchAL">
+            <ModTime>1446754011671</ModTime>
+            <LogEnabled>true</LogEnabled>
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+                <parameter name="ScriptEngine">JavaScript</parameter>
+                <parameter name="automapattributes">true</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">true</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks>
+                <Hook name="onfailure">
+                    <Name>onfailure</Name>
+                    <Script/>
+                    <Enabled>false</Enabled>
+                    <DebugBreak>false</DebugBreak>
+                </Hook>
+                <Hook name="prolog0">
+                    <Name>prolog0</Name>
+                    <Script/>
+                    <Enabled>false</Enabled>
+                    <DebugBreak>false</DebugBreak>
+                </Hook>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="output" state="Simulated"/>
+                    <Component name="input" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <ModTime>1446754011671</ModTime>
+                <Connector name="input">
+                    <InheritFrom>/Connectors/IDSConnect</InheritFrom>
+                    <ModTime>1446754011671</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="ldapAuthenticationMethod">Anonymous</parameter>
+                        <parameter name="ldapReferrals">follow</parameter>
+                        <parameter name="ldapSearchScope">subtree</parameter>
+                    </Configuration>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <ModTime>1446753949417</ModTime>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <Driver>CloudScape</Driver>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="before_initialize">
+                            <Name>before_initialize</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                        <Hook name="initialize_fail">
+                            <Name>initialize_fail</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance>
+                        <ModTime>1446754011671</ModTime>
+                        <Enabled>true</Enabled>
+                        <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                    </PoolInstance>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Connector name="output">
+                    <InheritFrom>/Connectors/memQ</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Configuration>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <Driver>CloudScape</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions>
+                <parameter name="assemblyline.ehc.executeProlog">false</parameter>
+                <parameter name="assemblyline.ehc.maxInstance">5</parameter>
+            </ThreadOptions>
+            <Operations>
+                <Operation name="Default">
+                    <Schema name="Input"/>
+                    <Schema name="Output"/>
+                    <AttributeMap name="Input"/>
+                    <AttributeMap name="Output"/>
+                    <Public>true</Public>
+                </Operation>
+            </Operations>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors">
+        <Connector name="memQ">
+            <InheritFrom>system:/Connectors/ibmdi.MemQueue</InheritFrom>
+            <ModTime>1446752828946</ModTime>
+            <ConnectorMode>AddOnly</ConnectorMode>
+            <ConnectorState>Enabled</ConnectorState>
+            <Configuration>
+                <InheritFrom>system:/Connectors/ibmdi.MemQueue</InheritFrom>
+                <parameter name="blockingAdd">false</parameter>
+                <parameter name="createNew">true</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="instanceName">@PROPERTY{INSTANCE}</parameter>
+                <parameter name="jdbcLogin"/>
+                <parameter name="jdbcPassword"/>
+                <parameter name="jdbcSource"/>
+                <parameter name="jdbcTable"/>
+                <parameter name="pageSize">0</parameter>
+                <parameter name="paging">true</parameter>
+                <parameter name="queueName">@PROPERTY{QNAME}</parameter>
+                <parameter name="timeout">@PROPERTY{RD_TIMEOUT}</parameter>
+                <parameter name="watermark">@PROPERTY{WATER_MARK}</parameter>
+            </Configuration>
+            <ComputeChanges>true</ComputeChanges>
+            <DeltaBehavior>0</DeltaBehavior>
+            <DeltaStrict>true</DeltaStrict>
+            <Parser>
+                <InheritFrom>[parent]</InheritFrom>
+            </Parser>
+            <AttributeMap name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <AttributeMap name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <DeltaSettings>
+                <WhenToCommit>After every database operation</WhenToCommit>
+                <Driver>CloudScape</Driver>
+            </DeltaSettings>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <LinkCriteria>
+                <InheritFrom>[parent]</InheritFrom>
+                <MatchAny>false</MatchAny>
+                <AdvancedLinkMode>false</AdvancedLinkMode>
+            </LinkCriteria>
+            <Hooks>
+                <InheritFrom>[parent]</InheritFrom>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <Reconnect>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="initreconnect">false</parameter>
+                <parameter name="numberOfRetries">1</parameter>
+                <parameter name="retryDelay">10</parameter>
+                <ReconnectRules/>
+            </Reconnect>
+            <Operations/>
+            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+            <PoolDefinition>
+                <InheritFrom>[parent]</InheritFrom>
+                <Enabled>false</Enabled>
+                <MinPoolSize>0</MinPoolSize>
+                <PurgeInterval>0</PurgeInterval>
+                <InitializeAttempts>1</InitializeAttempts>
+            </PoolDefinition>
+            <PoolInstance/>
+            <InitializeOption>0</InitializeOption>
+        </Connector>
+        <Connector name="IDSConnect">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <ModTime>1446754937412</ModTime>
+            <ConnectorMode>AddOnly</ConnectorMode>
+            <ConnectorState>Enabled</ConnectorState>
+            <Configuration>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="automapADPassword">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="ldapAddAttr">false</parameter>
+                <parameter name="ldapAuthenticationMethod">Anonymous</parameter>
+                <parameter name="ldapPageSize">@PROPERTY{PAGE_SIZE_1}</parameter>
+                <parameter name="ldapPassword">@PROPERTY{BINDPASSWD_1}</parameter>
+                <parameter name="ldapReferrals">@PROPERTY{REF_1}</parameter>
+                <parameter name="ldapReturnAttributes"/>
+                <parameter name="ldapSearchBase">@PROPERTY{SEARCH_BASE_1}</parameter>
+                <parameter name="ldapSearchFilter">@PROPERTY{SEARCH_FLT_1}</parameter>
+                <parameter name="ldapSearchScope">@PROPERTY{SEARCH_SCOPE_1}</parameter>
+                <parameter name="ldapSizeLimit">@PROPERTY{SIZE_LIM_1}</parameter>
+                <parameter name="ldapTimeLimit">@PROPERTY{SEARCH_TIMELIM_1}</parameter>
+                <parameter name="ldapUrl">@PROPERTY{LDAP_URL_1}</parameter>
+                <parameter name="ldapUseSSL">@PROPERTY{USE_SSL_1}</parameter>
+                <parameter name="ldapUsername">@PROPERTY{BINDDN_1}</parameter>
+                <parameter name="ldapVLVPageSize">0</parameter>
+                <parameter name="simulateRename">true</parameter>
+            </Configuration>
+            <ComputeChanges>true</ComputeChanges>
+            <DeltaBehavior>0</DeltaBehavior>
+            <DeltaStrict>true</DeltaStrict>
+            <Parser>
+                <InheritFrom>[parent]</InheritFrom>
+            </Parser>
+            <AttributeMap name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <AttributeMap name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <DeltaSettings>
+                <WhenToCommit>After every database operation</WhenToCommit>
+                <Driver>CloudScape</Driver>
+            </DeltaSettings>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <LinkCriteria>
+                <InheritFrom>[parent]</InheritFrom>
+                <MatchAny>false</MatchAny>
+                <AdvancedLinkMode>false</AdvancedLinkMode>
+            </LinkCriteria>
+            <Hooks>
+                <InheritFrom>[parent]</InheritFrom>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <Reconnect>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="initreconnect">false</parameter>
+                <parameter name="numberOfRetries">1</parameter>
+                <parameter name="retryDelay">10</parameter>
+                <ReconnectRules/>
+            </Reconnect>
+            <Operations/>
+            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+            <PoolDefinition>
+                <InheritFrom>[parent]</InheritFrom>
+                <ModTime>1446754937412</ModTime>
+                <Enabled>false</Enabled>
+                <MinPoolSize>2</MinPoolSize>
+                <MaxPoolSize>10</MaxPoolSize>
+                <PurgeInterval>0</PurgeInterval>
+                <InitializeAttempts>1</InitializeAttempts>
+                <InitializeSleepInterval>0</InitializeSleepInterval>
+            </PoolDefinition>
+            <PoolInstance/>
+            <InitializeOption>0</InitializeOption>
+        </Connector>
+        <Connector name="ADConnect">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <ModTime>1446754942410</ModTime>
+            <ConnectorMode>Iterator</ConnectorMode>
+            <ConnectorState>Enabled</ConnectorState>
+            <Configuration>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="automapADPassword">false</parameter>
+                <parameter name="debug">true</parameter>
+                <parameter name="ldapAddAttr">false</parameter>
+                <parameter name="ldapAuthenticationMethod">Anonymous</parameter>
+                <parameter name="ldapPageSize">@PROPERTY{PAGE_SIZE_2}</parameter>
+                <parameter name="ldapPassword">@PROPERTY{BINDPASSWD_2}</parameter>
+                <parameter name="ldapReferrals">@PROPERTY{REF_2}</parameter>
+                <parameter name="ldapReturnAttributes"/>
+                <parameter name="ldapSearchBase">@PROPERTY{SEARCH_BASE_2}</parameter>
+                <parameter name="ldapSearchFilter">@PROPERTY{SEARCH_FLT_2}</parameter>
+                <parameter name="ldapSearchScope">@PROPERTY{SEARCH_SCOPE_2}</parameter>
+                <parameter name="ldapSizeLimit">@PROPERTY{SIZE_LIM_2}</parameter>
+                <parameter name="ldapTimeLimit">@PROPERTY{SEARCH_TIMELIM_2}</parameter>
+                <parameter name="ldapUrl">@PROPERTY{LDAP_URL_2}</parameter>
+                <parameter name="ldapUseSSL">@PROPERTY{USE_SSL_2}</parameter>
+                <parameter name="ldapUsername">@PROPERTY{BINDDN_2}</parameter>
+                <parameter name="ldapVLVPageSize">0</parameter>
+                <parameter name="simulateRename">true</parameter>
+            </Configuration>
+            <ComputeChanges>true</ComputeChanges>
+            <DeltaBehavior>0</DeltaBehavior>
+            <DeltaStrict>true</DeltaStrict>
+            <Parser>
+                <InheritFrom>[parent]</InheritFrom>
+            </Parser>
+            <AttributeMap name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <AttributeMap name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <DeltaSettings>
+                <ModTime>1446753861652</ModTime>
+                <WhenToCommit>After every database operation</WhenToCommit>
+                <Driver>CloudScape</Driver>
+                <RowLocking>SERIALIZABLE</RowLocking>
+                <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+            </DeltaSettings>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <LinkCriteria>
+                <InheritFrom>[parent]</InheritFrom>
+                <MatchAny>false</MatchAny>
+                <AdvancedLinkMode>false</AdvancedLinkMode>
+            </LinkCriteria>
+            <Hooks>
+                <InheritFrom>[parent]</InheritFrom>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <Reconnect>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="initreconnect">false</parameter>
+                <parameter name="numberOfRetries">1</parameter>
+                <parameter name="retryDelay">10</parameter>
+                <ReconnectRules/>
+            </Reconnect>
+            <Operations/>
+            <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+            <PoolDefinition>
+                <InheritFrom>[parent]</InheritFrom>
+                <ModTime>1446754942410</ModTime>
+                <Enabled>false</Enabled>
+                <MinPoolSize>2</MinPoolSize>
+                <MaxPoolSize>10</MaxPoolSize>
+                <PurgeInterval>0</PurgeInterval>
+                <InitializeAttempts>1</InitializeAttempts>
+                <InitializeSleepInterval>0</InitializeSleepInterval>
+            </PoolDefinition>
+            <PoolInstance/>
+            <InitializeOption>0</InitializeOption>
+        </Connector>
+    </Folder>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts">
+        <Script name="setInputParams">
+            <ModTime>1446752828976</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	setInputParams
+//	Version:	1.0
+//
+// 	Description: 
+//				Set runtime params for the input connector
+/////////////////////////////////////////////////////////////////////////
+function setInputParams( myTcb) {
+
+	task.logmsg("<!-- setInputParameters -->");
+	myTcb.setConnectorParameter("input", "ldapSearchFilter", work.getObject("ldap.searchfilter") );
+	myTcb.setConnectorParameter("input", "ldapSearchScope", getSearchScope(work.getObject("ldap.scope")) );	
+	myTcb.setConnectorParameter("input", "ldapSearchBase", work.getObject("ldap.searchbase") );	
+	myTcb.setConnectorParameter("input", "ldapUsername", getPersistentObject("ldap.dn") );	
+	myTcb.setConnectorParameter("input", "ldapPassword", getPersistentObject("ldap.password") );
+	myTcb.setConnectorParameter("input", "ldapTimeLimit", work.getObject("ldap.timelimit") );
+	myTcb.setConnectorParameter("input", "ldapSizeLimit", work.getObject("ldap.sizelimit") );
+	myTcb.setConnectorParameter("input", "ldapPageSize", work.getObject("ldap.pagedsearch.pagesize") );
+	myTcb.setConnectorParameter("input", "ldapReturnAttributes", getRetAttrList() );
+	
+}]]></parameter>
+        </Script>
+        <Script name="persistLDAPCreds">
+            <ModTime>1446752829007</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	persistLDAPCreds
+//	Version:	1.0
+//
+// 	Description: 
+//				sets a named value to the default persistent store 
+/////////////////////////////////////////////////////////////////////////
+function persistLDAPCreds( binddn, passwd ) {
+	system.setPersistentObject( "ldap.dn", binddn );
+	system.setPersistentObject( "ldap.password", passwd );
+}
+]]></parameter>
+        </Script>
+        <Script name="initLDAPConn">
+            <ModTime>1446752828918</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	initLDAPConn
+//	Version:	1.0
+//
+// 	Description: 
+//				Initializes the LDAPConnector 
+/////////////////////////////////////////////////////////////////////////
+
+function initLDAPConn( name, mode ) {
+
+	var conn = system.getConnector(getTDIProperty("CONN_"+name));
+	// the connector mode for iteration.
+	var connMode = new Packages.com.ibm.di.server.ConnectorMode(mode);
+
+	task.logmsg("the username is: " +work.getObject("ldap.dn"));
+	task.logmsg("<!-- Initializing -->" +getTDIProperty("CONN_"+name));
+	task.logmsg("the username from PS: " +getPersistentObject("ldap.dn"));
+	task.logmsg("the passwd from PS: " +getPersistentObject("ldap.password"));
+	task.logmsg("the ldapurl is: " +getTDIProperty("LDAP_URL_"+name));
+
+	// get the credentials and other attributes from the work entry and try to bind.
+	conn.setParam("ldapUrl", getTDIProperty("LDAP_URL_"+name));
+	conn.setParam("ldapUsername", 		getPersistentObject("ldap.dn"));
+	conn.setParam("ldapPassword", 		getPersistentObject("ldap.password"));
+	if(work.getObject("ldap.bindmethod")!=null){
+		conn.setParam("ldapAuthenticationMethod", 	work.getObject("ldap.bindmethod"));
+	}else{
+		task.logmsg("using simple auth");
+		conn.setParam("ldapAuthenticationMethod", 	"simple");
+	}
+	conn.setParam("ldapSearchbase", 	work.getObject("ldap.searchbase"));
+	conn.setParam("ldapSearchFilter", 	work.getObject("ldap.searchfilter"));
+	conn.setParam("ldapSearchScope", 	work.getObject("ldap.scope"));
+    conn.setParam("ldapTimeLimit", work.getObject("ldap.timelimit"));
+    conn.setParam("ldapSizeLimit", work.getObject("ldap.sizelimit"));
+	
+	try {
+		conn.initialize ( connMode );
+		task.logmsg("<!-- connector Initialized in mode: -->" +mode);
+		return conn;
+	}catch(Ex) {
+		task.logmsg("<!**** initLDAPConn :: LDAPConn failed to initailize: ***>" +Ex);
+		return null;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="getTDIProperty">
+            <ModTime>1446752828964</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getTDIProperty
+//	Version:	1.0
+//
+// 	Description: 
+//				gets a named value from the default property store 
+/////////////////////////////////////////////////////////////////////////
+function getTDIProperty( key ) {
+	return ( main.getMetamergeConfig().getTDIProperties().getProperty( key ) );
+}]]></parameter>
+        </Script>
+        <Script name="getSearchScope">
+            <ModTime>1446752828929</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getSearchScope
+//	Version:	1.0
+//
+// 	Description: 
+//				sets a named value to the default persistent store 
+/////////////////////////////////////////////////////////////////////////
+function getSearchScope( srchScope ) {
+	 if (srchScope.equalsIgnoreCase("base")) {
+		return "baselevel";
+	 } else if (srchScope.equalsIgnoreCase("onelevel")) {
+		return "onelevel";
+	 } else if (srchScope.equalsIgnoreCase("subtree")) {
+	 	return "subtree";
+	 }
+}
+]]></parameter>
+        </Script>
+        <Script name="getRetAttrList">
+            <ModTime>1446752828990</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getReturnAttrList
+//	Version:	1.0
+//
+// 	Description: 
+//				sets a named value to the default persistent store 
+/////////////////////////////////////////////////////////////////////////
+function getRetAttrList() {
+	attrList = work.getAttribute("ldap.attributes").getValuesVector();
+	str = "";
+	for(i = 0 ; i < attrList.size(); i++ ) {
+		str = str + attrList.elementAt(i) + "\r\n";
+	}
+	return str;
+}
+]]></parameter>
+        </Script>
+        <Script name="getPersistentObject">
+            <ModTime>1446752828984</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getPersistentObject
+//	Version:	1.0
+//
+// 	Description: 
+//				sets a named value to the default persistent store 
+/////////////////////////////////////////////////////////////////////////
+function getPersistentObject( key ) {
+	 return (system.getPersistentObject( key ));
+}
+]]></parameter>
+        </Script>
+        <Script name="compare">
+            <ModTime>1446752829014</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	compare
+//	Version:	1.0
+//
+// 	Description: 
+//				compare an entry
+/////////////////////////////////////////////////////////////////////////
+function compare(connName) {
+	var conn = null;
+	task.logmsg("<!-- compare -->");
+	if(ldapcon == null) {
+	 conn = initLDAPConn(connName, "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			conn = ldapcon;
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			conn = initLDAPConn(connName, "Iterator");
+		}
+	}
+	
+	var ent = work.getObject("ldap.entry");
+	
+	if(conn != null) {
+		try {
+			task.logmsg("the compare dn is: " +work.getObject("ldap.dn"));
+			task.logmsg("the compareAttr is: " +work.getObject("ldap.compareAttribute"));
+			task.logmsg("the compareValue is: " + work.getObject("ldap.compareValue"));
+			var res = conn.compare(work.getObject("ldap.dn"), work.getObject("ldap.compareAttribute"), work.getObject("ldap.compareValue"));
+			if ( res == true) {
+				work.setAttribute("errormessage", "Compare True");
+			}else {
+				work.setAttribute("errormessage", "Compare False");
+			}
+			work.setAttribute("ldap.status", "0");
+		} catch(Ex) {
+			
+			task.logmsg("<!**** compare :: Exception during compare operation ***: > " +Ex);
+			work.setAttribute("ldap.status", "1");
+		}
+	} else {
+		task.logmsg("<!*** compare :: connector not initialized for compare operation ***>");
+		work.setAttribute("ldap.status", "1");
+		return 1;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="SearchAL">
+            <ModTime>1446752828955</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[// Utility methods
+// -- The memq connector
+var memQ = null;
+
+var ldap = null;
+
+// -- The search AL
+var searchAL = null;
+
+//
+// -- This function creates the search al instance
+//
+function loadSearchAL() {
+
+	// -- load and init the ldap connector for search
+	if(ldapcon == null) {
+		task.logmsg("ldapcon is null. Initializing the connector");
+		ldap = initLDAPConn("1", "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			ldap = ldapcon;
+			ldap.setParam("ldapSearchFilter", work.getObject("ldap.searchfilter"));
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			ldap = initLDAPConn("1", "Iterator");
+		}
+
+	}
+	if ( ldap == null ) {
+		task.logmsg("no ldapconnector");
+		return;
+	}
+	
+	task.logmsg("<!-- ldapSearchFilter: -->" +work.getObject("ldap.searchfilter"));
+	task.logmsg("<!-- ldapUsername: -->" +work.getObject("ldapUsername"));
+
+	// Load and initialize the MemQConnector
+	memQ = initMemQConnector("ADDOnly");
+	
+	if ( memQ == null ) {
+		task.logmsg("<!*** loadSearchAL :: MemQconnector not initialized for search ***>")
+		return;
+	}
+	
+
+	// -- Create a TCB for the AL to do our search
+	var tcb = system.newTCB("searchAL");
+
+	// -- input connector
+	task.logmsg("the connector name is: " +ldap.getName());
+	tcb.setRuntimeConnector("input", ldap);
+	setInputParams(tcb);
+
+	// handle the ldapcontrols
+	try {
+		ldap.getLdapContext().setRequestControls(getControls());
+	} catch(Ex) {
+		task.logmsg("setRequestControls: " +Ex);
+	}
+
+
+	// -- output connector
+//	tcb.setRuntimeConnector("output", memQ);
+	
+	tcb.setConnectorParameter("output","queueName",memQ.getParam("queueName"));
+
+	// -- Change the max read setting of the al to the size limit requested by the client
+	sizelimit = work.getObject("ldap.sizelimit").intValue();
+	if ( sizelimit >= 0 ) {
+		task.logmsg("-- setting AL maxread = " + sizelimit);
+		tcb.getAssemblyLineConfig().getSettings().setIntegerParameter("maxread", sizelimit);
+	}
+
+	task.logmsg("the ldap connector object is: " +ldap);
+	task.logmsg("the ldap connector object is: " +ldapcon);
+
+	// -- Start the Search AL
+	return main.startAL(tcb);
+}
+
+//
+// -- This function sends the search results from the search al to the ldap client
+//
+function sendResults(ldapServer, maxentries) {
+
+	// -- abandon id
+	abid_s = work.getObject("ldap.messageid");
+    abid = java.lang.Integer.parseInt(abid_s);
+
+	count = 0;
+
+	// Wait for AL to complete and queue to drain
+	while ( searchAL.isAlive() || memQ.hasMore() ) {
+
+		// -- Are we asked to abandon the search operation?
+		if ( ldapSrv_listener.connector.isAbandoned(abid) ) {
+			task.logmsg("REQUEST ABANDONED: " + abid);
+			searchAL.shutdown();
+			break;
+		}
+
+		// -- Entries ready to send?
+		if ( memQ.hasMore() ) {
+			e = memQ.getNextEntry();
+			ldapServer.connector.putEntry(e);
+			count++;
+		}
+
+		// -- Exceeded max count then return true if we have more (or may have more) entries to send
+		if ( maxentries > 0 && count >= maxentries ) {
+			task.logmsg("-- sendReults: read maxentries: " + maxentries);
+			task.logmsg("      hasMore: " + memQ.hasMore());
+			task.logmsg("      isAlive: " + searchAL.isAlive());
+			return memQ.hasMore() || searchAL.isAlive();
+		}
+	}
+
+	memQ.terminate();
+
+	// End of searchAL iteration and no more in queue
+	return false;
+}
+
+function setReplyCodes(finished) {
+	// -- Check AL exit code
+	if ( !finished ) {
+		work.setAttribute("ldap.status", "0");
+		return;
+	}
+
+	err = searchAL.getStats().getError();
+	if ( err != null ) {
+		task.logmsg ("Search failed: " + err);
+		work.setAttribute("ldap.errormessage", err.toString());
+		work.setAttribute("ldap.status", "1"); // -- operations error
+		err.printStackTrace();
+	} else {
+		work.setAttribute("ldap.status", "0");
+	}
+}]]></parameter>
+        </Script>
+        <Script name="getControls">
+            <ModTime>1446752829325</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getControls
+//	Version:	1.0
+//
+// 	Description: 
+//				gets an array of controls
+/////////////////////////////////////////////////////////////////////////
+
+function getControls() {
+
+	ctlsArr = null;
+	
+	if(work.getAttribute("ldap.controls") != null) {
+	
+		ctls = Packages.java.lang.Class.forName("com.ibm.di.eventhandler.ldap.LDAPControl");
+		ctlsArr = Packages.java.lang.reflect.Array.newInstance(ctls, work.getAttribute("ldap.controls").getValues().length);
+	
+		cv = work.getAttribute("ldap.controls").getValues();
+		for ( i = 0; i < cv.length; i++ ) {
+			task.logmsg("cv is: " +cv[i]);
+			ctlsArr[i] = cv[i];
+		}
+		task.logmsg("the controls vector is: " +ctlsArr);
+	} else {
+		task.logmsg("no controls!!!");
+	}
+	task.logmsg("the controls array is: " +ctlsArr);
+	return ctlsArr;
+}]]></parameter>
+        </Script>
+        <Script name="modRDN">
+            <ModTime>1446752829416</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	modRDN
+//	Version:	1.0
+//
+// 	Description: 
+//				modify an RDN
+/////////////////////////////////////////////////////////////////////////
+function modRDN(connName) {
+	task.logmsg("<!-- modRDN -->");
+	var conn = null;
+	if(ldapcon == null) {
+	 conn = initLDAPConn(connName, "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			conn = ldapcon;
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			conn = initLDAPConn(connName, "Iterator");
+		}
+	}
+	var newEnt = system.newEntry();
+	newEnt.addAttributeValue( "$dn", work.getAttribute("ldap.dn"));
+	var ent = work.getObject("ldap.rdn");
+	newEnt.addAttributeValue( "ldap.rdn", ent );
+
+	var searchCriteria = system.newSearchCriteria();
+	searchCriteria.addTemplate("$dn", "=", work.getObject("ldap.dn"));
+	searchCriteria.buildCriteria(newEnt);
+	
+	if(conn != null) {
+		try {
+			task.logmsg("<!-- modRDN :: entry  -->" +newEnt);
+			work.setAttribute("ldap.deleteOldRDN", "true");
+			mydn = getNewDN(work.getObject("ldap.dn"), work.getObject("ldap.rdn"));
+			conn.moveEntry(work.getObject("ldap.dn"), mydn);
+			work.setAttribute("ldap.status", "0");
+			return 0; 
+		} catch(Ex) {
+			task.logmsg("<!**** modRDN :: Exception during ldapmodify operation ***: > " +Ex);
+			work.setAttribute("ldap.status", "1");
+			return 1;
+		}
+	} else {
+		task.logmsg("<!*** modEntry :: connector not initialized for ldapmodify operation ***>");
+		work.setAttribute("ldap.status", "1");
+		return 1;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="modEntry">
+            <ModTime>1446752829423</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	modEntry
+//	Version:	1.0
+//
+// 	Description: 
+//				modify an entry
+/////////////////////////////////////////////////////////////////////////
+
+function modEntry (connName) {
+	var conn = null;
+	if(ldapcon == null) {
+	 conn = initLDAPConn(connName, "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			conn = ldapcon;
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			conn = initLDAPConn(connName, "Iterator");
+		}
+	}
+	var newEnt = system.newEntry();
+	var ent = work.getObject("ldap.entry");
+	var attrnames = ent.getAttributeNames();
+	for ( i = 0; i < attrnames.length; i++ ) {
+		var attr = ent.getAttribute ( attrnames[i] );
+		 if (attr.size() > 1) {
+	     	if (attr.getValue(0) == "replace") {
+				for ( j = 1; j < attr.size(); j++ ) {
+				newEnt.addAttributeValue( attrnames[i], attr.getValue ( j ) );
+				}
+			} else {
+		    var op = 0;
+			for ( j = 0; j < attr.size(); j++ ) {
+			    if (attr.getValue(j) == "add")
+				  op = 1;
+			    else if (attr.getValue(j) == "delete")
+				  op = 2;
+			    else 
+				  newEnt.addAttributeValue( attrnames[i], attr.getValue ( j ), op );
+		    }
+	      }
+		}
+	}
+	/*
+	var ent = work.getObject("ldap.entry");
+	var attrnames = ent.getAttributeNames();
+	for ( i = 0; i < attrnames.length; i++ ) {
+ 		var attr = ent.getAttribute ( attrnames[i] );
+		for ( j = 1; j < attr.size(); j++ ) {
+			newEnt.addAttributeValue( attrnames[i], attr.getValue ( j ) );
+		}
+	}
+	*/
+	var searchCriteria = system.newSearchCriteria();
+	searchCriteria.addTemplate("$dn", "=", work.getAttribute("ldap.dn").getValue());
+	searchCriteria.buildCriteria(newEnt);
+	if(conn != null) {
+		try {
+			conn.modEntry(newEnt, searchCriteria);
+			task.logmsg("<!-- modEntry :: modify entry  -->" +newEnt);
+			work.setAttribute("ldap.status", "0");
+			return 0; 
+		} catch(Ex) {
+			task.logmsg("<!**** modEntry :: Exception during ldapmodify ***: " +Ex);
+			work.setAttribute("ldap.status", "1");
+			return 1;
+		}
+	} else {
+		task.logmsg("<!*** modEntry :: connector not initialized for ldapmodify operation ***>");
+		work.setAttribute("ldap.status", "1");
+		return 1;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="setPersistentObject">
+            <ModTime>1446752829431</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	setPersistentObject
+//	Version:	1.0
+//
+// 	Description: 
+//				sets a named value to the default persistent store 
+/////////////////////////////////////////////////////////////////////////
+function setPersistentObject( key, value ) {
+	system.setPersistentObject( key, value );
+}
+]]></parameter>
+        </Script>
+        <Script name="setLDAPConMOde">
+            <ModTime>1446752829438</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	setLDAPConMode
+//	Version:	1.0
+//
+// 	Description: 
+//				The connector mode for the LDAPConnector.
+/////////////////////////////////////////////////////////////////////////
+function setLDAPConMode( mode ) {
+	var connMode = system.getConnector( new Packages.com.ibm.di.server.ConnectorMode(mode) );
+	return connMode;
+}]]></parameter>
+        </Script>
+        <Script name="putEntry">
+            <ModTime>1446752829445</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	putEntry
+//	Version:	1.0
+//
+// 	Description: 
+//				add an entry to the ldap server. 
+/////////////////////////////////////////////////////////////////////////
+
+function putEntry(connName) {
+
+	task.logmsg("<!-- addThis -->");
+	var conn = null;
+	if(ldapcon == null) {
+	 conn = initLDAPConn(connName, "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			conn = ldapcon;
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			conn = initLDAPConn(connName, "Iterator");
+		}
+	}
+	var newEnt = system.newEntry();
+	var ent = work.getObject("ldap.entry");
+	task.logmsg("<!--- the ldap.entry is --->" +ent);
+	var attrnames = ent.getAttributeNames();
+	for ( i = 0; i < attrnames.length; i++ ) {
+ 		var attr = ent.getAttribute ( attrnames[i] );
+		for ( j = 0; j < attr.size(); j++ ) {
+			newEnt.addAttributeValue( attrnames[i], attr.getValue ( j ) );
+		}
+	}
+	if(conn != null) {
+		try {
+			conn.putEntry(newEnt);
+			task.logmsg("<!-- putEntry :: added entry  -->" +newEnt);
+			work.setAttribute("ldap.status", "0");
+			return 0; 
+		} catch(Ex) {
+			task.logmsg("<!**** putEntry :: Exception during ldapadd operation ***: " +Ex);
+			work.setAttribute("ldap.status", "1");
+			return 1;
+		}
+	} else {
+		task.logmsg("<!*** putEntry :: connector not initialized for ldapadd operation ***>");
+		work.setAttribute("ldap.status", "1");
+		return 1;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="delEntry">
+            <ModTime>1446752829465</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	delEntry
+//	Version:	1.0
+//
+// 	Description: 
+//				modify an entry
+/////////////////////////////////////////////////////////////////////////
+
+function delEntry(connName) {
+	var conn = null;
+	if(ldapcon == null) {
+	 conn = initLDAPConn(connName, "Iterator");
+	} else {
+		// verify that the connector is still ok to use
+		try {
+			ldapcon.getLdapContext().setRequestControls(null);
+			task.logmsg("using the cached connector object: " +ldapcon);
+			conn = ldapcon;
+
+		} catch(Ex) {
+			task.logmsg("Need to re-initialize the connector");
+			ldapcon = null
+			conn = initLDAPConn(connName, "Iterator");
+		}
+	}
+	
+	var newEnt = conn.findEntry("$dn",work.getAttribute("ldap.dn").getValue());
+	var searchCriteria = system.newSearchCriteria();
+	searchCriteria.addTemplate("$dn", "=", work.getAttribute("ldap.dn").getValue());
+	searchCriteria.buildCriteria(newEnt);
+	if(conn != null) {
+		try {
+			conn.deleteEntry(newEnt, searchCriteria);
+			task.logmsg("<!-- delEntry :: added entry  -->" +newEnt);
+			work.setAttribute("ldap.status", "0");
+			return 0; 
+		} catch(Ex) {
+			task.logmsg("<!**** delEntry :: Exception during ldapdelete operation ***: " +Ex);
+			work.setAttribute("ldap.status", "1");
+			return 1;
+		}
+	} else {
+		task.logmsg("<!*** delEntry :: connector not initialized for ldapdelete operation ***>");
+		work.setAttribute("ldap.status", "1");
+		work.setAttribute("ldap.status", "1");
+		return 1;
+	}
+}]]></parameter>
+        </Script>
+        <Script name="initMemQ">
+            <ModTime>1446752829505</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	initMemQConnector
+//	Version:	1.0
+//
+// 	Description: 
+//				Initializes the MemQConnector 
+/////////////////////////////////////////////////////////////////////////
+function initMemQConnector( memmode ) {
+	var connMode = new Packages.com.ibm.di.server.ConnectorMode(memmode);
+	var memq = system.loadConnector("memQ");
+	memq.setParam("queueName", "LDAPSearch-" + task.hashCode());
+    memq.setParam("jdbcTable", "memq");
+	memq.initialize(connMode);
+	return memq;
+}]]></parameter>
+        </Script>
+        <Script name="getNewDN">
+            <ModTime>1446752829512</ModTime>
+            <parameter name="ScriptEngine">JavaScript</parameter>
+            <parameter name="autoInclude">true</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/////////////////////////////////////////////////////////////////////////
+//	function:	getNewDN
+//	Version:	1.0
+//
+// 	Description: 
+//				returns a new dn for the modrdn op
+/////////////////////////////////////////////////////////////////////////
+function getNewDN(olddn, newdn){
+	olddn = String(olddn);
+	newdn = String(newdn);
+	var modrdn = newdn + olddn.substring(olddn.indexOf(","));
+	task.logmsg("the modrdn is: " +modrdn);
+	return modrdn;
+}]]></parameter>
+        </Script>
+    </Folder>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <ModTime>1444716024734</ModTime>
+            <PollInterval>-1</PollInterval>
+            <InstanceID>VirtDir71</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/virtDir.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="_Default">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="autorewrite">false</parameter>
+                    <parameter name="collection">examples/VirtDir/VirtDir.properties</parameter>
+                    <parameter name="collectionType">User-Defined</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="encryption">false</parameter>
+                    <parameter name="password">BlowFish32</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="virtDir">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/virtDir.properties</parameter>
+                    <parameter name="collectionType">virtDir</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
+</MetamergeConfig>

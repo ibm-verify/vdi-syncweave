@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="189433ba-adbb-45f4-a4fc-2f467028d2d1" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="setTaskName" modified="Mon Jan 06 14:11:27 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="setTaskName">
+        <ModTime>1389013886318</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[alFC = thisComponent.getFunction()
+alName = alFC.getParam("assemblyLine")
+tcb = alFC.getTCB()
+tcb.setTaskName(flowKey + "_" + alName)
+
+FCOpEntry = task.getOpEntry()
+if (FCOpEntry != null) {
+	tcb.setOperationInitParams(FCOpEntry)
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 12:27:10 SGT 2009" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.DeltaFC">		
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.DeltaFC</parameter>
+				<parameter name="uniqueAttribute"/>
+				<parameter name="deltaDB"/>
+				<parameter name="iterateDeletedEntries">false</parameter>
+				<parameter name="removeDeletedEntries">false</parameter>
+				<parameter name="returnUnchangedEntries">false</parameter>
+				<parameter name="whenToCommit">After every database operation</parameter>
+				<parameter name="rowLocking">SERIALIZABLE</parameter>
+				<parameter name="fastAlgorithm">true</parameter>
+				<parameter name="allowDuplicateDeltaKeys">false</parameter>
+				<parameter name="changeDetectionMode">DETECT_ALL</parameter>
+				<parameter name="attributeList"/>
+			</Configuration>
+			<Schema name="Input"/>
+			<Schema name="Output"/>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.DeltaFC">
+			<TranslationFile>NLS/idi_fc_delta</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+				    <ListItem>uniqueAttribute</ListItem>
+					<ListItem>deltaDB</ListItem>
+					<ListItem>iterateDeletedEntries</ListItem>
+					<ListItem>removeDeletedEntries</ListItem>
+					<ListItem>returnUnchangedEntries</ListItem>
+					<ListItem>whenToCommit</ListItem>
+					<ListItem>rowLocking</ListItem>
+					<ListItem>fastAlgorithm</ListItem>
+					<ListItem>allowDuplicateDeltaKeys</ListItem>
+					<ListItem>changeDetectionMode</ListItem>
+					<ListItem>attributeList</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>uniqueAttribute</ListItem>
+				<ListItem>deltaDB</ListItem>
+				<ListItem>iterateDeletedEntries</ListItem>
+				<ListItem>removeDeletedEntries</ListItem>
+				<ListItem>returnUnchangedEntries</ListItem>
+				<ListItem>whenToCommit</ListItem>
+				<ListItem>rowLocking</ListItem>
+				<ListItem>fastAlgorithm</ListItem>
+				<ListItem>allowDuplicateDeltaKeys</ListItem>
+				<ListItem>changeDetectionMode</ListItem>
+				<ListItem>attributeList</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="uniqueAttribute">
+				<Values>
+					<ListItem>@ATTRS</ListItem>
+				</Values>
+				<parameter name="label">DELTA_UNIQ_ATTRIB_LABEL</parameter>
+				<parameter name="description">DELTA_UNIQ_ATTRIB_DESC</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="deltaDB">
+				<parameter name="description">DELTA_DB_PATH_DESC</parameter>
+				<parameter name="label">DELTA_DB_PATH_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="script">deleteDelta</parameter>
+				<parameter name="scriptLabel">DELTA_DB_SCR_LABEL</parameter>
+				<parameter name="scripthelp">DELTA_DB_SCR_HELP</parameter>
+			</FormItem>
+			<FormItem name="iterateDeletedEntries">
+				<parameter name="description">DELTA_READ_DEL_DESC</parameter>
+				<parameter name="label">DELTA_READ_DEL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="removeDeletedEntries">
+				<parameter name="description">DELTA_RM_DEL_DESC</parameter>
+				<parameter name="label">DELTA_RM_DEL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="returnUnchangedEntries">
+				<parameter name="description">DELTA_RET_UNCHANGED_DESC</parameter>
+				<parameter name="label">DELTA_RET_UNCHANGED_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="whenToCommit">
+				<Values>
+					<ListItem>After every database operation</ListItem>
+					<ListItem>On end of AL cycle</ListItem>
+					<ListItem>On Connector close</ListItem>
+					<ListItem>No autocommit</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After every database operation</Key>
+						<Value>Localized.AfterEveryDatabaseOperation</Value>
+					</Item>
+					<Item>
+						<Key>On end of AL cycle</Key>
+						<Value>Localized.AfterEndOfALcycle</Value>
+					</Item>
+					<Item>
+						<Key>On Connector close</Key>
+						<Value>Localized.OnConnectorClose</Value>
+					</Item>
+					<Item>
+						<Key>No autocommit</Key>
+						<Value>Localized.NoAutocommit</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="default">After every database operation</parameter>
+				<parameter name="description">DELTA_COMMIT_DESC</parameter>
+				<parameter name="label">DELTA_COMMIT_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="fastAlgorithm">
+				<parameter name="description">DELTA_FAST_DESC</parameter>
+				<parameter name="label">DELTA_FAST_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="allowDuplicateDeltaKeys">
+				<parameter name="description">DELTA_DUPLICATE_DELTA_DESC</parameter>
+				<parameter name="label">DELTA_DUPLICATE_DELTA_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="rowLocking">
+				<Values>
+					<ListItem>READ_UNCOMMITTED</ListItem>
+					<ListItem>READ_COMMITTED</ListItem>
+					<ListItem>REPEATABLE_READ</ListItem>
+					<ListItem>SERIALIZABLE</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>READ_UNCOMMITTED</Key>
+						<Value>Localized.ReadUncommited</Value>
+					</Item>
+					<Item>
+						<Key>READ_COMMITTED</Key>
+						<Value>Localized.ReadCommited</Value>
+					</Item>
+					<Item>
+						<Key>REPEATABLE_READ</Key>
+						<Value>Localized.RepeatableRead</Value>
+					</Item>
+					<Item>
+						<Key>SERIALIZABLE</Key>
+						<Value>Localized.Serializable</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="default">SERIALIZABLE</parameter>
+				<parameter name="description">DELTA_ROW_LOCKING_DESC</parameter>
+				<parameter name="label">DELTA_ROW_LOCKING_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="changeDetectionMode">
+				<Values>
+					<ListItem>IGNORE_ATTRIBUTES</ListItem>
+					<ListItem>DETECT_ATTRIBUTES</ListItem>
+					<ListItem>DETECT_ALL</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>IGNORE_ATTRIBUTES</Key>
+						<Value>Localized.IgnoreAttributes</Value>
+					</Item>
+					<Item>
+						<Key>DETECT_ATTRIBUTES</Key>
+						<Value>Localized.DetectAttributes</Value>
+					</Item>
+					<Item>
+						<Key>DETECT_ALL</Key>
+						<Value>Localized.DetectAll</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="default">DETECT_ALL</parameter>
+				<parameter name="description">DELTA_CHANGE_DETECTION_MODE_DESC</parameter>
+				<parameter name="label">DELTA_CHANGE_DETECTION_MODE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="attributeList">
+				<parameter name="description">DELTA_ATTRIBUTE_LIST_DESC</parameter>
+				<parameter name="label">DELTA_ATTRIBUTE_LIST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>			
+			<parameter name="formevents"><![CDATA[
+importPackage(com.ibm.tdi.eclipse);
+
+function deleteDelta ()
+{
+   var path = form.getConfigValue ("deltaDB");
+   if (path == null || path.length() == 0)
+	  return;
+		
+	  if ( form.prompt (com.ibm.di.fc.DeltaFC.getResHash().getString("DELTAFC.DELETE.DELTA.TABLE.PROMPT", path)) )
+	  {
+	var table = path;
+	if (! table.startsWith("IDI_DS_"))
+	   table = "IDI_DS_" + path;
+		 var str = com.ibm.di.store.StoreFactory.dropTable ( table );
+		 com.ibm.di.store.DeltaSysTable["delete"](path); // ugly way to call delete method
+		 if ( str != null )
+			form.alert ( str );
+		 else
+			form.alert (com.ibm.di.fc.DeltaFC.getResHash().getString("DELTAFC.TABLE.DELETED", path));
+		com.ibm.di.store.StoreFactory.shutdown();
+	  }
+}
+
+function changeDetectionMode_changed(){
+	var value = form.getConfigValue ("changeDetectionMode");
+	var enable = !value.equalsIgnoreCase(com.ibm.di.fc.DeltaFC.PARAM_DETECT_ALL);
+	form.getControl ("attributeList").setEnabled (enable);
+}
+
+changeDetectionMode_changed();]]>
+			</parameter>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

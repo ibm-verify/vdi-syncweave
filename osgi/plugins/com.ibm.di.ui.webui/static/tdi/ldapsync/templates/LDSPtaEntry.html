@@ -1,0 +1,103 @@
+<div style="margin:5px; padding:0; width:98%; xborder:1px solid grey">
+
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="Form">
+	
+		<div style="margin-top:8px;" data-dojo-attach-point="_name">
+			<b>${nls.WebCE_name}</b>
+			<table style="width:100%">	
+				<tr><td width="100%">
+					<div data-dojo-type="dijit/form/ValidationTextBox" regExp="^[A-Z|a-z|0-9|_|-| ]+$" style="width:100%" name="cn"></div>
+				</td></tr>
+			</table>
+		</div>
+		
+		<div style="margin-top:8px;">
+		<b>Security Directory Server</b>
+		</div>
+		<table style="width:100%">	
+			<tr><td style="padding-top:8px">
+				${nls.FDS_targetSubtree}
+			</td></tr>
+			<tr><td width="100%">
+				<div data-dojo-type="dijit/form/ComboBox" label="${nls.FDS_targetSubtree}"
+					aria-label="${nls.FDS_ptaTargetSubtree}" title="${nls.FDS_ptaTargetSubtree}" data-dojo-attach-point="subtree" style="width:100%" name="ibm-slapdptasubtree"></div>
+			</td><td>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:onBrowseSDS">${nls.FDS_select}</div>
+			</td><td>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:onBrowseData">${nls.DataBrowser_title}</div>
+			</td></tr>
+			
+			<tr><td colspan="3" style="padding-top:8px">
+				<div data-dojo-type="idx/form/CheckBox" value='true' name="ibm-slapdptamigratepwd" label="${nls.FDS_ptaCacheEnabled}"
+					title="${nls.FDS_ptaCacheEnabled_tooltip}"></div>
+			</td></tr>
+		</table>
+		
+		<div style="margin-top:16px">
+			<b>${nls.FDS_ptaSourceServer}</b>
+			<p></p>
+			<table>
+			<tr><td colspan="2">
+			${nls.FDS_ptaSourceServerInfo}
+			</td></tr>
+			<tr><td>
+			<div data-dojo-type="dijit/form/DropDownButton">
+				<span>${nls.FDS_ptaSourceServerTemplate}</span>
+				<div data-dojo-type="dijit/Menu" data-dojo-attach-point="templateMenu">
+				</div>
+			</div>
+			</td></tr> 
+			</table>
+		</div>
+		
+		<table style="width:100%">	
+			<tr><td style="padding-top:8px">
+				${nls.WebCE_hostname}
+			</td></tr>
+			<tr><td>
+				<div data-dojo-type="tdi/forms/FormWidget_param_ldapUrl" style="width:100%" name="ibm-slapdptaurl"></div>
+			</td></tr>
+			
+			<tr><td style="padding-top:8px">
+				${nls.FDS_searchBase}
+			</td></tr>
+			<tr><td style="">
+				<div data-dojo-type="dijit/form/TextBox" title="${nls.FDS_ptaSourceSearchBase}" style="width:100%" name="ibm-slapdptasearchbase"></div>
+			</td><td>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:onBrowseTarget">${nls.FDS_select}</div>
+			</td></tr>
+			
+			<tr><td style="padding-top:8px">
+				${nls.WebCE_username}
+			</td></tr>
+			<tr><td style="">
+				<div data-dojo-type="dijit/form/TextBox" title="${nls.FDS_ptaSourceUsername}" style="width:100%" name="ibm-slapdptabinddn"></div>
+			</td></tr>
+			
+			<tr><td style="padding-top:8px">
+				${nls.FDS_password}
+			</td></tr>
+			<tr><td>
+				<div data-dojo-type="dijit/form/TextBox" title="${nls.FDS_ptaSourcePassword}" type="password" style="width:100%" name="ibm-slapdptabindpw"></div>
+			</td></tr>
+
+		</table>
+		
+		<p></p>
+		
+		<table>
+			<tr>
+				<td>
+					<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="_verifyBtn" data-dojo-attach-event="onClick:onVerifyConnection">${nls.ConfigSettingsEditor_TestConnection}</div>
+				</td>
+				<td>
+					<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="_saveBtn" data-dojo-attach-event="onClick:_onSaveEntry">${nls.general_save_label}</div>
+				</td>
+				<td>
+					<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="_deleteBtn" data-dojo-attach-event="onClick:_onDeleteEntry">${nls.general_delete_label}</div>
+				</td>
+			</tr>
+		</table>
+		
+	</div>
+</div>

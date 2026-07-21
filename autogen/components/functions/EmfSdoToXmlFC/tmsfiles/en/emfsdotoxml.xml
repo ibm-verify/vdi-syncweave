@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="emfsdotoxml" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIA001E" prefix="yes">
+   <MsgText pgmKey="INVALID.PERFORM.PARAMETER.TYPE" varFormat="Java">
+   The perform method of the Function Component was not passed an object
+   of type com.ibm.di.entry.Entry. This object is not a valid parameter
+   to pass to perform method.
+   </MsgText>
+   <Explanation> <p>
+   A parameter of type different from com.ibm.di.entry.Entry was passes to the
+   perform method.
+   </p> </Explanation>
+   <OperatorResponse> <p> 
+   Verify that the parameter being manually passed to the perform method
+   of Function Component (for example from a Script Component) is an
+   object of type com.ibm.di.entry.Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA002E" prefix="yes">
+   <MsgText pgmKey="ERROR.CONVERTING.DATA.OBJECTS" varFormat="Java">
+   Error occurred while converting the Data Objects to XML:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The specified error occurred while converting the structure
+   of Data Objects to an XML document.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the data objects are consistent with the XML Schema file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA003E" prefix="yes">
+   <MsgText pgmKey="REQUIRED.PARAMETER.NOT.SET" varFormat="Java">
+   Required Function Component parameter
+   &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos; is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified required Function Component parameter is not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the specified Function Component parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA004E" prefix="yes">
+   <MsgText pgmKey="INVALID.MAPPING.FORMAT" varFormat="Java">
+   Invalid prefix to namespace URI mapping on line
+   &apos;&apos;<Variable formatSpec="{0}">line number</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The format of the prefix to namespace URI mapping is invalid on the specified line.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the namespaceMap parameter of the Function Component.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA005E" prefix="yes">
+   <MsgText pgmKey="XML.SCHEMA.FILE.ERROR" varFormat="Java">
+   An error occurred while processing the XML Schema file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The specified error occurred while processing the XML Schema file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verfiy the XML Schema file is well-formed
+   and valid according to the XML Schema specification.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA006E" prefix="yes">
+   <MsgText pgmKey="INVALID.FEATURE.NAME" varFormat="Java">
+   There is no feature representing the XML element or attribute with name
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The EClass object has no feature representing the XML element or
+   attribute with the specified name.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the names of the Entry Attributes to
+   conform to the XML Schema name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA007E" prefix="yes">
+   <MsgText pgmKey="SIBLINGS.EQUAL.NAMES.AND.NAMESPACES" varFormat="Java">
+   There are siblings from the same namespace with case-insensitive equality in names:
+   &apos;&apos;<Variable formatSpec="{0}">feature name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The element with the specified name has a sibling with a case-insensitive equal name
+   and the elements are from the same namespace.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Change the name of the siblings so there is no case-insensitive equality.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA008E" prefix="yes">
+   <MsgText pgmKey="SIBLINGS.EQUAL.NAMES.NOT.PREFIXED" varFormat="Java">
+   There are siblings from different namespaces with case-insensitive equality in names,
+   and the names are not namespace prefixed:
+   &apos;&apos;<Variable formatSpec="{0}">feature name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The element with the specified name has a sibling with case-insensitive
+   equal name, from a different namespace. The names are not namespace prefixed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Change the name of the siblings or should use the useNamespace parameter so
+   the names are prefixed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA009E" prefix="yes">
+   <MsgText pgmKey="INVALID.XML.ELEMENT" varFormat="Java">
+   The &apos;&apos;<Variable formatSpec="{0}">feature name</Variable>&apos;&apos; XML element
+   or attribute is invalid according to the XML Schema.
+   </MsgText>
+   <Explanation> <p>
+   The specified name is an invalid XML element or attribute according to the XML Schema.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the names of the XML elements and attributes in the
+   names of the Entry Attributes to conform with the XML Schema.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA010E" prefix="yes">
+   <MsgText pgmKey="ELEMENT.ANCESTOR.SIBLINGS" varFormat="Java">
+   The Entry Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   specifies an XML element or attribute with
+   ancestor &apos;&apos;<Variable formatSpec="{1}">feature name</Variable>&apos;&apos;
+   that has a sibling with the same name. 
+   </MsgText>
+   <Explanation> <p>
+   The specified Entry Attribute refers to an XML element or attribute
+   with ancestor that has a sibling with the same name.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Do not specify an XML element or attributes with an ancestor
+   that has a sibling with the same name.  Remove the specified Entry Attribute
+   from the mapping or ensure that the XML element or attribute has no ancestor with
+   a sibling with the same name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA011E" prefix="yes">
+   <MsgText pgmKey="NO.ROOT.IN.SCHEMA" varFormat="Java">
+   The XML Schema does not define a root element.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the XML Schema defines a root element and if it does not, the XML Schema
+   should be changed to define a root element.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA012I" prefix="yes">
+   <MsgText pgmKey="XML.SCHEMA.PARSED" varFormat="Java">
+   The XML Schema has been successfully parsed and an Ecore model has been created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA013I" prefix="yes">
+   <MsgText pgmKey="ENTRY.ATTRIBUTES.APPLIED" varFormat="Java">
+   The Entry Attributes have been successfully applied to the data structure.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA014I" prefix="yes">
+   <MsgText pgmKey="COMPONENT.PARAMETER.INITIALIZED" varFormat="Java">
+   The parameter &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos;
+   initialized with a value of &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA015E" prefix="yes">
+   <MsgText pgmKey="XML.SCHEMA.FILE.ERROR2" varFormat="Java">
+   An error occurred while processing the XML Schema file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;:
+   &apos;&apos;<Variable formatSpec="{1}">diagnostic message</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The error occurred while processing the XML Schema file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the XML Schema file is well-formed
+   and valid according to the XML Schema specification.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA016E" prefix="yes">
+   <MsgText pgmKey="XML.SCHEMA.FILE.ERROR3" varFormat="Java">
+   An error occurred while processing the XML Schema file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The error occurred while processing the XML Schema file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the XML Schema file is well-formed
+   and valid according to the XML Schema specification.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA017E" prefix="yes">
+   <MsgText pgmKey="XML.SCHEMA.FILE.ERROR4" varFormat="Java">
+   An error occurred while processing the XML Schema file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The specified error occurred while processing the XML Schema file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the XML Schema file is well-formed
+   and valid according to the XML Schema specification.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA018I" prefix="yes">
+   <MsgText pgmKey="CONVERT.TO.XML.INFO" varFormat="Java">
+   The XML that results from conversion from the DOM Element to XML is: <Variable formatSpec="{0}">xml data</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+<Message ID="CTGDIA019E" prefix="yes">
+   <MsgText pgmKey="VALUE.ENUMERATION.NOT.ALLOWED" varFormat="Java">
+   Invalid value encountered in attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Function Component encountered an invalid value for an Enumeration data type in the Attribute Map.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the value set for the specified attribute is valid according to the xml schema being used by the
+   Function Component.
+   </p> </OperatorResponse>
+</Message>
+</TMSSource>

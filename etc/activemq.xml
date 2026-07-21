@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:amq="http://activemq.apache.org/schema/core"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!-- 
+        The <broker> element is used to configure the ActiveMQ broker. 
+    -->
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="./ActivemqDataStore" useShutdownHook="true" useJmx="true">
+
+        <!-- 
+            The managementContext is used to configure how ActiveMQ is exposed in 
+            JMX. By default, ActiveMQ uses the MBean server that is started by 
+            the JVM. For more information, see: 
+            
+            http://activemq.apache.org/jmx.html 
+        -->
+        <managementContext>
+            <managementContext createConnector="true" connectorPort="1099"/>
+        </managementContext>
+		
+		<!-- 
+			The sslContext element allows a broker specific set of SSL properties to be configured.
+			Here are specified the location of the keyStore and the trustStore and their associated passwords.
+			This part is commented since ActiveMQ can use directly the javax.net.ssl
+			properties used by SDI and specified in the solution.properties file.
+			Besides, in the current implementation of ActiveMQ, there is no way to encrypt the password.
+			So for a security reason, this part should not be used.
+			
+		-->	
+		<!--sslContext>
+			<sslContext 
+				keyStore="file:./serverapi/testadmin.jks" keyStorePassword="password"
+				trustStore="file:./serverapi/testadmin.jks" trustStorePassword="password"/>
+		</sslContext-->
+
+		<!-- 
+            Configure message persistence for the broker. The default persistence
+            mechanism is the KahaDB store (identified by the kahaDB tag). 
+            For more information, see: 
+            
+            http://activemq.apache.org/persistence.html 
+        -->
+        <persistenceAdapter>
+			<kahaDB directory="./ActivemqDataStore/kahadb" journalMaxFileLength="32mb" checksumJournalFiles="true" checkForCorruptJournalFiles="true"/>
+			<!--amqPersistenceAdapter syncOnWrite="false" directory="./activemq-data" maxFileLength="32 mb"/-->
+        </persistenceAdapter>
+
+        <!-- 
+            The transport connectors expose ActiveMQ over a given protocol to
+            clients and other brokers. For more information, see: 
+            
+            http://activemq.apache.org/configuring-transports.html 
+        -->
+        <transportConnectors>
+			<!--
+				The IP address 0.0.0.0 allows users to connect to ActiveMQ through 127.0.0.1, localhost and the IP the actual address of the machine.
+				To allow connections only from the local machine, the address can be set to 127.0.0.1 or localhost.
+			-->
+			<!-- changing uri from 0.0.0.0 to localhost for security purpose -->
+            <transportConnector name="openwire" uri="tcp://localhost:61616"/>
+            <!--transportConnector name="ssl" uri="ssl://localhost:61617?transport.needClientAuth=true"/-->
+            <!--transportConnector name="stomp" uri="stomp://localhost:61613"/-->
+        </transportConnectors>
+    </broker>
+	
+	
+</beans>

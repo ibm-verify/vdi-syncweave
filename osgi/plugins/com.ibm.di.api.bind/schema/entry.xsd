@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns:pref="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<import schemaLocation="../config/al.xsd"
+		namespace="http://www.ibm.com/xmlns/prod/tdi/72/config"></import>
+	<element name="entry" type="tns:Entry"></element>
+
+	<complexType name="Entry">
+		<sequence>
+			<element name="property" type="tns:EntryProperty" minOccurs="0"
+				maxOccurs="unbounded">
+			</element>
+			<element name="attribute" type="tns:EntryAttribute"
+				minOccurs="0" maxOccurs="unbounded">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="EntryProperty">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="name" type="string" use="required"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="EntryAttribute">
+		<sequence>
+			<element name="property" type="tns:AttributeProperty"
+				minOccurs="0" maxOccurs="unbounded">
+			</element>
+			<choice maxOccurs="unbounded" minOccurs="0">
+				<element maxOccurs="unbounded" minOccurs="0" ref="tns:value">
+				</element>
+				<element maxOccurs="unbounded" minOccurs="0" ref="tns:attribute">
+				</element>
+				<element maxOccurs="unbounded" minOccurs="0" ref="tns:Entry">
+				</element>
+			</choice>
+		</sequence>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="namespace" type="anyURI" use="optional"></attribute>
+		<attribute name="protect" type="boolean" use="optional"
+			default="false">
+		</attribute>
+	</complexType>
+
+	<complexType name="AttributeProperty">
+		<simpleContent>
+			<extension base="tns:EntryProperty">
+				<attribute name="namespace" type="string" use="optional">
+				</attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<element name="taskCallBlock" type="tns:TaskCallBlock"></element>
+
+	<complexType name="TaskCallBlock">
+		<complexContent>
+			<extension base="tns:Entry">
+				<sequence>
+
+					<element ref="pref:assemblyLine" maxOccurs="1" minOccurs="0"></element>
+					<element name="runtime" type="tns:TcbRuntime" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="iwe" type="tns:Entry" maxOccurs="1"
+						minOccurs="0">
+					</element>
+
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="TcbRuntime">
+		<sequence>
+			<element name="initParam" type="tns:Entry"></element>
+			<!--  element name="initParam" type="tns:TcbInitParam" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>  -->
+			<element name="components" type="tns:TcbComponents"
+				maxOccurs="1" minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="mode" type="string" use="optional"></attribute>
+		<attribute name="operation" type="string" use="optional"></attribute>
+	</complexType>
+
+	<complexType name="TcbInitParam">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="name" type="string" use="optional"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="TcbComponents">
+		<sequence>
+			<element name="component" type="tns:TcbComponent" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="TcbComponent">
+		<sequence>
+			<element name="parameter" type="tns:TcbParameter" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="enabled" type="boolean" use="optional"
+			default="true">
+		</attribute>
+	</complexType>
+
+	<complexType name="TcbParameter">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="protect" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="name" type="string" use="required"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="AttributeValue">
+		<simpleContent>
+			<extension base="string"></extension>
+		</simpleContent>
+	</complexType>
+	<element name="value" type="tns:AttributeValue"></element>
+	<element name="attribute" type="tns:EntryAttribute"></element>
+</schema>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="9ebb7a51-bc82-4f2d-8572-52941027e351" created="Thu Dec 12 14:03:46 CET 2013" createdBy="stadheim" main="UI_GetSDSAdminPort" modified="Wed Apr 12 10:20:06 CEST 2017" modifiedBy="Administrator" project="RestartSDS" version="7.1.1">
+    <AssemblyLine name="UI_GetSDSAdminPort">
+        <ModTime>1491985205205</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="TDS" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1491985205205</ModTime>
+            <Connector name="TDS">
+                <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                <ModTime>1491985205205</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1491985205205</ModTime>
+                    <parameter encrypted="true" name="ldapPassword">@SUBSTITUTE{javascript return task.getOpEntry().getString("target.ldap.password");}</parameter>
+                    <parameter name="ldapSearchBase">cn=Admin,cn=configuration</parameter>
+                    <parameter name="ldapSearchFilter">objectclass=*</parameter>
+                    <parameter name="ldapSearchScope">baselevel</parameter>
+                    <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.url")}</parameter>
+                    <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.getOpEntry().getString("target.ldap.user");}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1386854559631</ModTime>
+                    <AttributeMapItem>
+                        <Name>adminPort</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPort</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>adminPortSSL</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdSecurePort</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <UniqueAttribute/>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <NativeSyntax>MUST/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdInvalidLine</Name>
+                        <NativeSyntax>MAY/Directory String/This attribute will be prepended to the beginning of any configuration attribute for which the value is invalid. This allows invalid configuration settings to be identified with a simple search for ibm-slapdInvalidLine=*.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdMigrationInfo</Name>
+                        <NativeSyntax>MAY/Directory String/Information used to control migration of a component.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdPort</Name>
+                        <NativeSyntax>MUST/INTEGER/TCP/IP port used for non-SSL connections. Can not have the same value as ibm-slapdSecurePort. (IP ports are unsigned, 16-bit integers in the range 1 - 65535)</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdSecurePort</Name>
+                        <NativeSyntax>MAY/INTEGER/TCP/IP port used for SSL connections. Can not have the same value as ibm-slapdPort. (IP ports are unsigned, 16-bit integers in the range 1 - 65535)</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer"/>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <ModTime>1386853908378</ModTime>
+                <SchemaItem>
+                    <Name>target.ldap.password</Name>
+                    <Presence>Required</Presence>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>target.ldap.url</Name>
+                    <Presence>Required</Presence>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>target.ldap.user</Name>
+                    <Presence>Required</Presence>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

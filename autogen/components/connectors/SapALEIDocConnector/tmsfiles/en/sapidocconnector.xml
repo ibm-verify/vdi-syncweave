@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="sapidocconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+* as any other source/text files generated from this file.    *
+***************************************************************
+-->
+
+<Message ID="CTGDIK301I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0001" varFormat="Java">
+   Started JCo IDoc Server and listening for requests.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK302E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0002" varFormat="Java">
+   Unable to initialize the Connector.  Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the exception message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK303E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0003" varFormat="Java">
+   The &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos; parameter must
+   be set to use the SAP IDocs Connector.
+   </MsgText>
+   <Explanation> <p>
+   A value is required for this RFC Connection parameter for either the RFC Server
+   or RFC Client connection.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the required parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK304I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0004" varFormat="Java">
+   Optional RFC Connection parameter
+   &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos;
+   set with the value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK305I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0005" varFormat="Java">
+   Connector configuration parameter &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos;
+   set with the value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK306I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0006" varFormat="Java">
+   Checking if TID Manager for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   is available for processing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK307E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0007" varFormat="Java">
+   No TID Manager found for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Connector IDoc Inbound queue has a key of the given transaction identifier
+   but has not had a TID Manager object created.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   An internal error occurred.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK308I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0008" varFormat="Java">
+   TID Manager for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   is available for processing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK309W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0009" varFormat="Java">
+   Provided poll time value is 0 or less. Single request will be processed only.
+   </MsgText>
+   <Explanation> <p>
+   The Connector will operate in standard Iterator mode. Only one IDoc request will
+   be processed by the Connector. After all the IDocs have been place in the AssemblyLine as
+   IBM Security Verify Directory Integrator entries, the Connector will return null to exit Iterator mode.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that this was an intentional action. If not the poll time must be greater then
+   zero.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK310I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0010" varFormat="Java">
+   Polling for next the IDoc request in getNextEntry method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK311E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0011" varFormat="Java">
+   Exception generated while polling.
+   </MsgText>
+   <Explanation> <p>
+   Unexpected error has occurred in Thread.sleep(pollTime).
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Restart the AssemblyLine of the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK312E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0012" varFormat="Java">
+   Null Entry found in the Entry list of the TID Manager for TID
+   &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Unexpected error has occurred. Null entries should not be possible in a
+   TID Manager.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   An internal error occurred.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK313W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0013" varFormat="Java">
+   No TID provided with this RFM call. Manually removing the TID Manager to complete
+   the TID Management cycle.
+   </MsgText>
+   <Explanation> <p>
+   An RFM request has been processed by the Connector, where no transaction identifier
+   was provided.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No response required. RFM Entry will be place on AL the same as is done for IDoc entries.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK314I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0014" varFormat="Java">
+   No Parser Attached to the Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK315I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0015" varFormat="Java">
+   Finished processing TID Manager for TID
+   &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   . TID ready for confirmation.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK316E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0016" varFormat="Java">
+   The getNextEntry method returned null in Iterator mode with a valid poll time.
+   </MsgText>
+   <Explanation> <p>
+   The modified Iterator mode to act as a Server has failed. Exception has been thrown
+   to prevent standard Iterator mode taking place.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   An internal error occurred.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK317W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0017" varFormat="Java">
+   Entry contains no XML attributes to parse.
+   </MsgText>
+   <Explanation> <p>
+   An XML Parser has been attached but there are no XML valued attributes available.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   An internal error occurred.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK318I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0018" varFormat="Java">
+   Attempting to parse XML content with attached Parser.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK319W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0019" varFormat="Java">
+   The attached Parser returned a null Entry.
+   </MsgText>
+   <Explanation> <p>
+   A Parser has been attached but no entry with parsed attributes was produced.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that an XML Parser was used, and that the parser was configured correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK320E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0020" varFormat="Java">
+   Unable to parse the XML.  Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the exception message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK321W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0021" varFormat="Java">
+   Exception occurred while generating schema:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the exception message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK322E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0022" varFormat="Java">
+   Unable to start the JCo IDoc Server.
+   </MsgText>
+   <Explanation> <p>
+   The Connector was not able to start the internal JCo IDoc Server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be caused by invalid Config parameters.
+   Verify the Config parameters of the Connector are set properly.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK323I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0023" varFormat="Java">
+   Polling for next IDoc request in getNextClient method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK324I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0024" varFormat="Java">
+   The onCheckTID method was called for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;.
+.  TID Management already in progress for this TID.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK325I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0025" varFormat="Java">
+   The onCheckTID method was called for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;.
+   TID Management beginning now for this TID. Next handleRequest method call will begin the inbound processing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK326I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0026" varFormat="Java">
+   TID Manager for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   is not yet confirmed. Current status is 
+   &apos;&apos;<Variable formatSpec="{1}">status</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK327I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0027" varFormat="Java">
+   TID Manager for TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   is now confirmed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK328I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0028" varFormat="Java">
+   The handleRequest method was invoked. Current TID value is
+   &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   . Incoming IDoc list request contains
+   &apos;&apos;<Variable formatSpec="{1}">number of IDocs</Variable>&apos;&apos; IDocs.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK329E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0029" varFormat="Java">
+   Unable to convert IDoc request into a IBM Security Verify Directory Integrator entry.
+   The writeIDocToTDIEntry method returned null IDoc Entry.
+   </MsgText>
+   <Explanation> <p>
+   The functionality in the Connector that converts a JCoIDoc.Document object to
+   a IBM Security Verify Directory Integrator Entry object has failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK330E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0030" varFormat="Java">
+   No value provided for current transaction identifier. This list of IDocs will
+   not be processed.
+   </MsgText>
+   <Explanation> <p>
+   The Connector received a handleRequest method callback without a prior
+   onCheckTID method call.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK331E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0031" varFormat="Java">
+   Current TID &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   already has a TID Manager and is being processed. Ignoring this request.
+   </MsgText>
+   <Explanation> <p>
+   The Connector received a second handleRequest  method callback for a
+   particular transaction identifier.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK332E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0032" varFormat="Java">
+   No IDoc Entries available. Ignoring request for TID
+   &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The Connector received a handleRequest method callback for a particular
+   transaction identifier but no IDocs were contained in that request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK333I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0033" varFormat="Java">
+   Created TID Manager for TID
+   &apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;
+   with &apos;&apos;<Variable formatSpec="{1}">number of IDoc entries</Variable>&apos;&apos;
+   IDoc entries for processing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK334E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0034" varFormat="Java">
+   Unable to convert IDoc request into a IBM Security Verify Directory Integrator entry. The Connector
+   received a null JCoIDoc.Document object.
+   </MsgText>
+   <Explanation> <p>
+   The Connector encountered a null IDoc object.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector. 
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK335I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0035" varFormat="Java">
+   The handleRequest method was invoked. Current TID value is
+   &apos;&apos;<Variable formatSpec="{0}">TID value</Variable>&apos;&apos;. Incoming RFM request is
+   &apos;&apos;<Variable formatSpec="{1}">RFM name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK336W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0036" varFormat="Java">
+   No TID received with this RFM request. Defaulting for TID Management processing.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a request that contains a SAP client Remote Function Call. No
+   transaction identifier has been provided with the request so the Connector will use a
+   dummy value for the purposes of TID Management.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No response required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK337I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0037" varFormat="Java">
+   RFM as XML: [&apos;&apos;<Variable formatSpec="{0}">TID</Variable>&apos;&apos;].
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK338E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0038" varFormat="Java">
+   Unable to convert RFM request into a IBM Security Verify Directory Integrator entry. No RFMs
+   provided in request.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a request that should contain a SAP client Remote Function
+   Call, but the Connector was not able to produce a IBM Security Verify Directory Integrator Entry for
+   the RFM.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK339E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0039" varFormat="Java">
+   Unable to convert RFM request into a IBM Security Verify Directory Integrator entry. The JCO.Function
+   object received was null.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a request that contained a null JCO.Function object. This
+   should not happen a may indicate a problem in the JCo middleware or the Connector configuration.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The problem may be an issue with the JCo middleware.
+   Verify the JCo middleware is installed properly with all dependent libaries.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK340I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0040" varFormat="Java">
+   Storing RFM request as XML file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK341E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0041" varFormat="Java">
+   Failed to read RFM request XML file
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   into IBM Security Verify Directory Integrator Entry. No contents found in file.
+   </MsgText>
+   <Explanation> <p>
+   The Connector stores RFM as a file that contains their XML form as part of RFM
+   processing. This message indicates that no XML content was available from the file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   An internal error occurred.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK342E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0042" varFormat="Java">
+   Failed to process RFM XML file.
+   Exception occurred:  <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Connector stores RFM as a file that contains their XML form as part of RFM
+   processing. This message indicates an exception occurred while handling the file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the exception message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK343E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0043" varFormat="Java">
+   An exception occurred. Exception trapped from JCo Server with Program ID of
+   &apos;&apos;<Variable formatSpec="{0}">Program ID</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Connector uses an exception listener to trap internal JCo exceptions. The exception message
+   indicates the type of exception trapped.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the exception message from the JCo Server in the message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK344E" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0044" varFormat="Java">
+   An error was encountered.  An error message was trapped from JCo Server with Program ID of
+   &apos;&apos;<Variable formatSpec="{0}">Program ID</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">error message</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The Connector uses an error message listener to trap internal JCo error messages when
+   an error is encountered.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the error message from the JCo Server in the message for additional information on how to respond.
+   Attempt to restart the AssemblyLine containing this Connector.
+   If the problem persists, contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK345I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0045" varFormat="Java">
+   State Change occurred for JCo Server with Program ID of
+   &apos;&apos;<Variable formatSpec="{0}">Program ID</Variable>&apos;&apos;.
+   Previous State: &apos;&apos;<Variable formatSpec="{1}">old state</Variable>&apos;&apos;
+   New State: &apos;&apos;<Variable formatSpec="{2}">new state</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK346I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0046" varFormat="Java">
+   Trace message trapped from JCo Server.
+   Trace Level: &apos;&apos;<Variable formatSpec="{0}">trace level</Variable>&apos;&apos;
+   Trace Message: &apos;&apos;<Variable formatSpec="{1}">trace message</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK347W" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0047" varFormat="Java">
+  File was not able to be deleted: 
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK348I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0048" varFormat="Java">
+   Import parameter: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK349I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0049" varFormat="Java">
+   The import parameter is a structure.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK350I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0050" varFormat="Java">
+   The import parameter is a table.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK351I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0051" varFormat="Java">
+   The import parameter is a simple field.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK352I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0052" varFormat="Java">
+   No Input Fields required for this RFM.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK353I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0053" varFormat="Java">
+   RFM export Paramters:<br/>--------------------
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK354I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0054" varFormat="Java">
+   The export parameter is a structure.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK355I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0055" varFormat="Java">
+   The export parameter is a simple field.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK356I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0056" varFormat="Java">
+   No Export Fields returned for this RFM.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK357I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0057" varFormat="Java">
+  RFM table Paramters:<br/>--------------------
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK358I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0058" varFormat="Java">
+   Rows found for table: &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK359I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0059" varFormat="Java">
+   No rows found for table: &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK360I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0060" varFormat="Java">
+  Field &apos;&apos;<Variable formatSpec="{0}">field name</Variable>&apos;&apos; has string value &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK362I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0062" varFormat="Java">
+     Field &apos;&apos;<Variable formatSpec="{0}">field name</Variable>&apos;&apos; has raw value &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK364I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0064" varFormat="Java">
+   A bad field value passed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK365I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0065" varFormat="Java">
+  Input is a Record. Record fields are as follows:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK366I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0066" varFormat="Java">
+   Record field: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK367I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0067" varFormat="Java">
+  Input is a table. Table records are as follows:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK368I" prefix="yes">
+   <MsgText pgmKey="SAP_ALEIDOC_0068" varFormat="Java">
+  Input is a structure. Structure records are as follows:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Label ID="CTGDIK369I">
+   <LabelText pgmKey="SAP_ALEIDOC_0069" varFormat="Java">
+   Unknown state. State ID Integer value: <Variable formatSpec="{0}">trace level</Variable>.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK370I">
+   <LabelText pgmKey="SAP_ALEIDOC_0070" varFormat="Java">
+   The server has been stopped. State ID: JCO.STATE_STOPPED.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK371I">
+   <LabelText pgmKey="SAP_ALEIDOC_0071" varFormat="Java">
+   The server has been started. State ID: JCO.STATE_STARTED.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK372I">
+   <LabelText pgmKey="SAP_ALEIDOC_0072" varFormat="Java">
+   The server has been temporarily suspended. State ID: JCO.STATE_SUSPENDED.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK373I">
+   <LabelText pgmKey="SAP_ALEIDOC_0073" varFormat="Java">
+   The server is listening for an incoming requests. State ID: JCO.STATE_LISTENING.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK374I">
+   <LabelText pgmKey="SAP_ALEIDOC_0074" varFormat="Java">
+   The server is currently processing an incoming request. State ID: JCO.STATE_BUSY.
+   </LabelText>
+</Label>
+
+<Label ID="CTGDIK375I">
+   <LabelText pgmKey="SAP_ALEIDOC_0075" varFormat="Java">
+   The incoming request is a transaction. State ID: JCO.STATE_TRANSACTION.
+   </LabelText>
+</Label>
+
+</TMSSource>

@@ -1,0 +1,501 @@
+/* REXX */
+/******************************************************************  */
+/*Licensed Materials - Property of IBM                               */
+/*                                                                   */
+/*Source File Name = TDIEXEC                                         */
+/*                                                                   */
+/*(C) COPYRIGHT IBM Corp. 2004, 2006 All Rights Reserved             */
+/*                                                                   */
+/*US Government Users Restricted Rights - Use, duplication or        */
+/*disclosure restricted by GSA ADP Schedule Contract with IBM Corp.  */
+/*********************************************************************/
+/******************************************************************  */
+/*  This REXX exec must be made available to the background APPC     */
+/*  transaction to execute commands on behalf of the Tivoli          */
+/*  Directory Integrator.                                    */
+/*                                                                   */
+/*  Do not modify, except under the direction of support personnel.  */
+/*                                                                   */
+/******************************************************************  */
+
+ DEBUG = NO  /* YES for debugging, NO for no debugging */
+
+ /********************************************************************/
+ /*  Get psuedonym definition file for REXX for the LU6.2 Verbs      */
+ /*  sys1.sieahdr.h(atbpbrex)                                        */
+ /********************************************************************/
+
+"alloc f(datain) da('sys1.sieahdr.h(atbpbrex)') shr reuse"
+"execio * diskr datain (stem  linelist.  finis"
+do x = 1 to linelist.0
+  interpret linelist.x
+end
+drop linelist.
+"free f(datain)"
+
+ /********************************************************************/
+ /*                                                                  */
+ /* Initialization                                                   */
+ /*                                                                  */
+ /********************************************************************/
+
+      CONV_ID                = "00000000"
+
+      ACCESS_TOKEN           = 0;
+      RECEIVE_LENGTH          = 4096;
+      BUFFER = "HERE IS A BUFFER XX";
+      FILL                   = atb_fill_buffer;
+
+      PARTNER_LU_NAME        = '                 ';
+      PARTNER_LU_NAME_LENGTH = length(PARTNER_LU_NAME);
+      /* When Partner_LU_Name is left blank, the partner TP
+         runs on the base LU. */
+
+      RETURN_CODE            = 99999
+
+      NOTIFY_TYPE = 0
+      SEND_TYPE = atb_buffer_data;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Mainline                                                        */
+ /*                                                                  */
+ /********************************************************************/
+    CALL Get_Conv;                   /* Get conversation             */
+
+    IF Return_Code = atb_ok THEN     /* If OK so far...              */
+      CALL Get_Prop;                 /* Get TP Properties            */
+
+    IF Return_Code = atb_ok THEN     /* If OK so far...              */
+      CALL Get_Type;                 /* Get conversation type        */
+
+    do until Return_Code \= atb_ok
+      RECEIVE_LENGTH          = 4096;
+      CALL Receive_and_Wait;         /* Receive and wait             */
+      IF Return_Code = atb_ok THEN     /* If OK so far...              */
+      do
+
+        buffer = substr(buffer, 1, receive_length);
+        if debug = "YES" then say buffer
+
+        drop cmdout.
+        junk = outtrap(cmdout., '*');   /* trap command output */
+
+        buffer;                          /* execute the given command */
+        saverc = rc;
+
+        junk = outtrap(off);             /* stop outtrap */
+
+        buffer = saverc||"//"
+        if debug = "YES" then say saverc
+
+        do  xout = 1 to cmdout.0
+          buffer = buffer||"15"x ||cmdout.xout
+          if debug = "YES" then say cmdout.xout
+        END;
+
+        CALL Send_Data;                /* send the response            */
+        if Return_Code \= atb_ok then
+        do
+          call atbckrc return_code;
+          exit;
+        end
+      end;
+    end
+    if return_code \= ATB_DEALLOCATED_NORMAL then do
+      CALL Dealloc;                  /* Confirmed                    */
+    end
+
+    if debug = "YES" then SAY 'ITIMCMD done';
+
+    EXIT;
+
+ /*------------------------------------------------------------------*/
+ /*                                                                  */
+ /*  Subroutines.                                                    */
+ /*                                                                  */
+ /*------------------------------------------------------------------*/
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Get conversation                                                */
+ /*                                                                  */
+ /********************************************************************/
+
+ Get_conv: procedure,
+ expose   conversation_id conversation_type partner_lu_name,
+          mode_name sync_level conversation_correlator,
+          return_code atb_ok atb_mapped_conversation debug
+
+  ADDRESS LU62 'ATBGETC CONVERSATION_ID',
+               'CONVERSATION_TYPE PARTNER_LU_NAME MODE_NAME',
+               'SYNC_LEVEL CONVERSATION_CORRELATOR',
+               'RETURN_CODE'
+
+    IF Conversation_type \= atb_mapped_conversation THEN
+      DO;
+        say 'Invalid conversation_type from GETC';
+      END;
+
+
+    IF Return_Code \= atb_ok THEN    /* If get conversation was
+                                        unsuccessful                 */
+      DO;                            /* Send message and return code */
+        say ' Get conversation failed';
+        call ATBCKRC return_code
+        say ' '
+      END;
+    ELSE if debug = "YES" then
+      do
+        say ' Get conversation succeeded';
+        say ' Mode Name used is 'mode_name;
+        say ' Conversation_ID is 'conversation_id;
+        say ' Partner_LU_Name is 'partner_lu_name;
+        say ' Conversation correlator is 'conversation_correlator;
+        say ' '
+      END;
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Get TP Properties                                               */
+ /*                                                                  */
+ /********************************************************************/
+
+ Get_Prop: procedure,
+ expose   own_tp_name_length own_tp_name own_fully_qualified_lu_name,
+          user_id profile luw_id return_code atb_ok debug
+
+
+  ADDRESS LU62   'ATBGETP OWN_TP_NAME_LENGTH',
+          'OWN_TP_NAME',
+          'OWN_FULLY_QUALIFIED_LU_NAME',
+          'USER_ID PROFILE LUW_ID',
+          'RETURN_CODE'
+
+    IF Return_Code \= atb_ok THEN    /* If get properties was
+                                        unsuccessful                 */
+      DO;                            /* Send message and return code */
+        say 'Get properties failed';
+        call atbckrc return_code
+        say ' '
+      END;
+    ELSE if debug = "YES" then       /* operation was successful     */
+      DO;
+        say ' Get properties succeeded';
+        say ' Own TP Name is 'own_tp_name;
+        say ' TP Name length is 'own_tp_name_length;
+        say ' Own LU name is 'own_fully_qualified_lu_name;
+        say ' User_id is 'user_id;
+        say ' Profile is 'profile;
+        say ' LUW id is 'luw_id;
+        say ' '
+      END;
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Get conversation type                                           */
+ /*                                                                  */
+ /********************************************************************/
+
+ Get_Type: procedure,
+ expose   conversation_id conversation_type,
+          return_code atb_ok atb_mapped_conversation debug
+
+  ADDRESS LU62   'ATBGETT CONVERSATION_ID',
+          'CONVERSATION_TYPE RETURN_CODE'
+
+    IF Conversation_type \= atb_mapped_conversation THEN
+      DO;
+       SAY 'Invalid conversation_type from GETT';
+      END;
+
+    IF Return_Code \= atb_ok THEN    /* If get type was
+                                        unsuccessful                 */
+      DO;                            /* Send message and return code */
+        say ' Get type failed';
+        call atbckrc return_code
+        say ' '
+      END;
+    ELSE if debug = "YES" then       /* operation was successful     */
+      DO;
+        say ' Get type succeeded';
+        say ' '
+      END;
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Receive                                                         */
+ /*                                                                  */
+ /********************************************************************/
+
+ Receive_and_Wait : procedure,
+ expose   conversation_id fill receive_length access_token  buffer,
+          status_received data_received  request_to_send_received,
+          notify_type return_code atb_ok  atb_data_received,
+          atb_complete_data_received  atb_no_status_received,
+          atb_deallocated_normal debug
+
+  ADDRESS LU62   'ATBRCVW CONVERSATION_ID',
+          'FILL RECEIVE_LENGTH ACCESS_TOKEN',
+          'BUFFER STATUS_RECEIVED DATA_RECEIVED',
+          'REQUEST_TO_SEND_RECEIVED NOTIFY_TYPE',
+          'RETURN_CODE'
+
+   if debug = "YES" then
+   do
+     say ' ';
+     say 'RCVW status_received = 'status_received;
+     say 'RCVW data_received = 'data_received;
+     say 'RCVW request_to_send_received = 'request_to_send_received;
+   end
+
+   IF Return_Code = atb_ok THEN
+   DO;
+     IF Data_Received = atb_incomplete_data_received THEN
+     DO;
+        say 'Incomplete data received from RCVW';
+        say 'Data_Received is 'Data_Received;
+     END;
+   END;
+    IF Return_Code \= atb_ok &,
+       Return_code \= atb_deallocated_normal THEN
+      DO;                            /* Send message and return code */
+        say "Receive and wait, RC =" return_code
+        call atbckrc return_code
+      END;
+    ELSE if debug = "YES" then       /* operation was successful     */
+     DO;
+       say ' Receive and wait succeeded';
+       say ' ';
+     END;
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  Send data                                                       */
+ /*                                                                  */
+ /********************************************************************/
+
+ Send_Data: procedure,
+ expose   conversation_id send_type send_length access_token,
+          buffer request_to_send_received notify_type,
+          return_code atb_ok atb_program_error_purging debug
+
+  send_length = length(buffer);
+
+  ADDRESS LU62   'ATBSEND CONVERSATION_ID',
+          'SEND_TYPE SEND_LENGTH ACCESS_TOKEN',
+          'BUFFER REQUEST_TO_SEND_RECEIVED',
+          'NOTIFY_TYPE RETURN_CODE'
+
+    if debug = "YES" then
+    do
+      say ' ';
+      say ' Request to send received is 'request_to_send_received;
+      say ' Return_code is 'return_code;
+    end
+
+    IF (Return_Code = atb_ok) THEN
+      do
+        if debug = "YES" then
+          DO;
+           say ' Send data succeeded';
+           say ' ';
+          END;
+      END;
+    ELSE
+      IF  (Return_Code = atb_program_error_purging)  THEN
+        DO;
+         say ' Send data, expected RC program_error_purging';
+         say ' ';
+        END;
+      ELSE
+        DO;                           /* Send message and return code */
+          say ' Send data failed';
+          call atbckrc return_code
+        END;
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  deallocate                                                      */
+ /*                                                                  */
+ /********************************************************************/
+
+ Dealloc: procedure,
+ expose   conversation_id,
+          dealloc_type,
+          notify_type,
+          return_code,
+          atb_ok atb_deallocate_sync_level,
+          debug
+
+  dealloc_type = atb_deallocate_sync_level
+
+  ADDRESS LU62   'ATBDEAL CONVERSATION_ID DEALLOC_TYPE',
+          'NOTIFY_TYPE RETURN_CODE'
+
+  if debug = "YES" then
+  do
+    say ' ';
+    say ' Deallocate Return_code is 'return_code;
+  end
+
+
+ return;
+
+ /********************************************************************/
+ /*                                                                  */
+ /*  atbckrc                                                         */
+ /*                                                                  */
+ /********************************************************************/
+ATBCKRC: procedure expose debug
+
+ parse arg return_code
+
+ SELECT
+
+   WHEN (return_code =0)
+     then if debug = "YES" then         /* OK                        */
+       do
+         Say  ' Return code 0 - OK'
+       end;
+
+   WHEN (return_code=1)
+    then do                            /* Allocate Failure no retry  */
+      Say  ' Return code 1 - Allocate Failure no retry'
+    end;
+
+   WHEN (return_code=2)
+    then do;                           /* Allocate Failure retry     */
+      Say  ' Return code 2 - Allocate Failure retry'
+    end;
+
+   WHEN (return_code=3)
+    then do                            /* Conversation Type mismatch */
+      Say  ' Return code 3 - Conversation Type mismatch'
+    end;
+
+   WHEN (return_code=6)
+    then do                            /* Security not valid         */
+      Say  ' Return code 6 - Security not valid'
+    end;
+
+   WHEN (return_code=8)
+    then do                            /* Sync Level not supported   */
+      Say  ' Return code 8 - Sync Level not supported'
+    end;
+
+   WHEN (return_code=9)
+    then do                            /* TP Name not recognized     */
+      Say  ' Return code 9 - TP Name not recognized'
+    end;
+
+   WHEN (return_code=10)
+    then do                            /* TP not avail no retry      */
+      Say  ' Return code 10 - TP not avail no retry'
+    end;
+
+   WHEN (return_code=11)
+    then do                            /* TP not avail retry         */
+      Say  ' Return code 11 - TP not avail retry'
+    end;
+
+   WHEN (return_code=17)
+    then do                            /* Deallocated Abend          */
+      Say  ' Return code 17 - Deallocated Abend'
+    end;
+
+   WHEN (return_code=30)
+    then do                            /* Deallocated Abend Svc      */
+      Say  ' Return code 30 - Deallocated Abend Svc'
+    end;
+
+   WHEN (return_code=31)
+    then do                            /* Deallocated Abend Timer    */
+      Say  ' Return code 31 - Deallocated Abend Timer'
+    end;
+
+   WHEN (return_code=32)
+    then do                            /* SVC Error no truncation    */
+      Say  ' Return code 32 - SVC Error no Truncation'
+    end;
+
+   WHEN (return_code=33)
+    then do                            /* SVC Error Purging          */
+      Say  ' Return code 33 - SVC Error Purging'
+    end;
+
+   WHEN (return_code=34)
+    then do                            /* SVC Error Truncated        */
+      Say  ' Return code 34 - SVC Error Truncated'
+    end;
+
+   WHEN (return_code=18)
+    then do                            /* Deallocated Normal         */
+      Say  ' Return code 18 - Deallocated Normal'
+    end;
+
+   WHEN (return_code=19)
+    then do                            /* Parameter Error            */
+      Say  ' Return code 19 - Parameter Error'
+    end;
+
+   WHEN (return_code=20)
+    then do                            /* Product specific error     */
+      Say  ' Return code 20 - Product specific error'
+    end;
+
+   WHEN (return_code=21)
+    then do                            /* Program error no trunc     */
+      Say  ' Return code 21 - Program error no trunc'
+    end;
+
+   WHEN (return_code=22)
+    then do                            /* Program error purging      */
+      Say  ' Return code 22 - Program error purging'
+    end;
+
+   WHEN (return_code=23)
+    then do                            /* Program error trunc        */
+      Say  ' Return code 23 - Program error trunc'
+    end;
+
+   WHEN (return_code=24)
+    then do                            /* Program parameter check    */
+      Say  ' Return code 24 - Program parameter check'
+    end;
+
+   WHEN (return_code=25)
+    then do                            /* Program state check        */
+      Say  ' Return code 25 - Program state check'
+    end;
+
+   WHEN (return_code=26)
+    then do                            /* Resource failure no retry  */
+      Say  ' Return code 26 - Resource failure no retry'
+    end;
+
+   WHEN (return_code=27)
+    then do                            /* Resource failure retry     */
+      Say  ' Return code 27 - Resource failure retry'
+    end;
+
+   WHEN (return_code=28)
+    then do                            /* Unsuccessful               */
+      Say  ' Return code 28 - Unsuccessful'
+    end;
+
+   OTHERWISE
+     do                            /* unknown                    */
+      Say  ' Unknown return code = 'return_code
+     end;
+ END;                                  /* End SELECT                 */

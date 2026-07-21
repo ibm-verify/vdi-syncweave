@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="3" UUID="6bcac6fc-67ce-4002-9de3-67d9218a4f77" created="Tue Dec 17 13:23:44 CET 2013" createdBy="stadheim" main="PTA_Servers" modified="Thu Jan 09 10:43:34 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    <AssemblyLine name="PTA_Servers">
+        <ModTime>1389260612938</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="ReadPTA" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1389260612938</ModTime>
+            <Connector name="ReadPTA">
+                <InheritFrom>/Connectors/FlowSettings</InheritFrom>
+                <ModTime>1389260612938</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="ldapPassword">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.password")}</parameter>
+                    <parameter name="ldapSearchBase">cn=Passthrough Authentication, cn=Configuration</parameter>
+                    <parameter name="ldapSearchFilter">objectclass=ibm-slapdPta</parameter>
+                    <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.url")}</parameter>
+                    <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.user")}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <ModTime>1387283069892</ModTime>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>$dn</Name>
+                        <Type>advanced</Type>
+                        <Script>return "cn=" + constructCN() + ", cn=Passthrough Authentication, cn=configuration";</Script>
+                        <Simple>$dn</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>cn</Name>
+                        <Type>advanced</Type>
+                        <Modify>false</Modify>
+                        <Script>return constructCN();</Script>
+                        <Simple>cn</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtaAttrMapping</Name>
+                        <Type>advanced</Type>
+                        <Script>work["ibm-slapdPtaAttrMapping"]</Script>
+                        <Simple>ibm-slapdPtaAttrMapping:</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtaBindDN</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPtaBindDN</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtaSearchBase</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPtaSearchBase</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtaSubtree</Name>
+                        <Type>advanced</Type>
+                        <Modify>false</Modify>
+                        <Script>work["ibm-slapdPtaSubtree"]</Script>
+                        <Simple>ibm-slapdPtaSubtree:</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtaURL</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPtaURL</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ibm-slapdPtabindPW</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPtabindPW</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>objectClass</Name>
+                        <Type>advanced</Type>
+                        <Modify>false</Modify>
+                        <Script><![CDATA[return [
+	"ibm-slapdConfigEntry",
+	"ibm-slapdPta",
+	"ibm-slapdPtaExt"
+];]]></Script>
+                        <Simple>objectClass</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <ModTime>1387283049637</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <LinkCriteriaItem>
+                        <Key>13d8d0fd900</Key>
+                        <Attribute>ibm-slapdPtaSubtree</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>$ibm-slapdPtaSubtree</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <Hook name="default_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>default_fail</Name>
+                        <Script><![CDATA[if(typeof(work) == "undefined" || work == null) {
+	initError = error;
+} else {
+	work.merge(error);
+}]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>initialize_fail</Name>
+                        <Script><![CDATA[if(typeof(work) == "undefined" || work == null) {
+	initError = error;
+} else {
+	work.merge(error);
+}]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1387283049637</ModTime>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="itimagentconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+<Message ID="CTGDIR301I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.PASSWORD.NOT.SPECIFIED.WILL.USE" varFormat="Java">
+   Password not specified. Will use empty string value for password.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR302E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.REQUIRED.PARAMETER.MISSING" varFormat="Java">
+   Required parameter is missing: <Variable formatSpec="{0}">parameter name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The specified parameter of the ITIM Agent Connector should be checked.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR303I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.SELECTENTRIES.WILL.PERFORM.AGENT.SEARCH.WITH.FILTER" varFormat="Java">
+   The selectEntries method will perform Agent search with filter:
+   <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR304I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.SELECTENTRIES.SEARCH.RETURNED.AT" varFormat="Java">
+   The selectEntries method&apos;s search returned at least one Entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR305I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.SELECTENTRIES.NO.ENTRIES.RETURNED" varFormat="Java">
+   No Entries returned by search in the selectEntries method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR306I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.GETNEXTENTRY.NO.MORE.ENTRIES.TO" varFormat="Java">
+   The getNextEntry method has no more Entries to return.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR307E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.PUTENTRY.COULD.NOT.ADD.NEW.ENTRY" varFormat="Java">
+   The putEntry method could not add new Entry.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Could not create the new JNDI Entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the DN attribute $dn in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR308E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.NO.NAMING.ATTRIBUTE.SPECIFIED" varFormat="Java">
+   Unable to add Entry. The naming attribute $dn was not specified in Entry.
+   </MsgText>
+   <Explanation> <p>
+   The DN attribute $dn is null.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the DN attribute $dn in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR309E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.ENTRY.FOR.MODIFICATION" varFormat="Java">
+   Unable to modify the Entry because the Entry to modify was not found.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the Search Criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR310E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.MISSING.ENTRY.FOR.MODIFICATION" varFormat="Java">
+   The modEntry was unable to modify the Entry because the aOldEntry parameter passed in
+   was null.
+   </MsgText>
+   <Explanation> <p>
+   The parameter aOldEntry of the method modEntry is null.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the old entry parameter and verify that value is not null.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR311I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.NO.DISTINGUISHED.NAME" varFormat="Java">
+   No distinguished name was given to the modEntry method. Will use the existing one.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR312E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.MISSING.NAMING.ATTRIBUTE" varFormat="Java">
+   Unable to modify entry. The entry is missing the naming attribute.
+   </MsgText>
+   <Explanation> <p>
+   No distinguished name attribute existing in the old Entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the entry attribute $dn.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR313I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.RENAME.ENTRY.FROM.TO" varFormat="Java">
+   Rename entry from <Variable formatSpec="{0}">old DN</Variable> to <Variable formatSpec="{1}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR314I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.IGNORING.ATTRIBUTE" varFormat="Java">
+   Ignoring attribute <Variable formatSpec="{0}">attribute ID</Variable>.
+   It is empty and does not exist in the current Entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR315I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.NO.MODIFICATION.ITEMS.FOR.ENTRY" varFormat="Java">
+   No modification items for entry: <Variable formatSpec="{0}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR316E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.NO.MODIFICATION.ITEMS" varFormat="Java">
+   The entry will not be modified. There are no modification items.
+   </MsgText>
+   <Explanation> <p>
+   The modification items count is zero.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the contents of the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR317E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.MODENTRY.ERROR.BUILDING.MODIFICATION.ITEMS" varFormat="Java">
+   Unable to modify entry. Exception occurred while building ModificationItems object:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An exception was encountered when the method modEntry tried to modify the Entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Analyse the exception.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR318E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.ERROR.DELETION.OF.MULTIPLE.ENTRIES" varFormat="Java">
+   Deletion of multiple entries not yet supported by the deleteEntry method.
+   </MsgText>
+   <Explanation> <p>
+   The method deleteEntry is called with no entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Invoke the method deleteEntry with a valid entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR319E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.DELETEENTRY.DELETEENTRY.CALLED.WITH.NO.ATTRIBUTE" varFormat="Java">
+   The deleteEntry method was called with no $dn attribute in the Entry.
+   </MsgText>
+   <Explanation> <p>
+   There is no DN attribute in the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the DN attribute $dn in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR320I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.SEARCH.FOR.CHECKDN" varFormat="Java">
+   Searching for Entry with $dn equal to <Variable formatSpec="{1}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR321I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.DID.NOT.RETURN.ANY.ENTRIES" varFormat="Java">
+   Search for <Variable formatSpec="{0}">DN</Variable> did not return any entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR322I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.ENTRY.FOUND" varFormat="Java">
+   The findEntry method found the Entry: <Variable formatSpec="{0}">entry</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR323I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.COULD.NOT.ADD.FOUND.ENTRY" varFormat="Java">
+   The findEntry method could not add found entry: <Variable formatSpec="{0}">entry</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR324I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.NULL.ENTRY.RETURNED" varFormat="Java">
+   NULL entry returned by findEntry method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR325E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.PARTIALRESULTEXCEPTION" varFormat="Java">
+   Could not find a JNDI Entry with the given search criteria:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An PartialResultException is encountered when trying to find the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the search criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR326E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.NAMENOTFOUNDEXCEPTION" varFormat="Java">
+   Could not find a JNDI Entry with the given search criteria:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An NameNotFoundException is encountered when trying to find the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the search criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR327I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.FILTER.IN.BASE" varFormat="Java">
+   The findEntry method search using the filter <Variable formatSpec="{0}">filter</Variable>
+   on the base DN <Variable formatSpec="{1}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR328I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.DID.NOT.RETURN.ANY.ENTRIES.2" varFormat="Java">
+   Search for Entries using the filter <Variable formatSpec="{0}">filter</Variable>
+   did not return any entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR329I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.ENTRY.FOUND.2" varFormat="Java">
+   The findEntry method found the Entry: <Variable formatSpec="{0}">entry</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR330I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.COULD.NOT.ADD.FOUND.ENTRY.2" varFormat="Java">
+   The findEntry method could not add found entry: <Variable formatSpec="{0}">entry</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR331I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.NULL.ENTRY.RETURNED.2" varFormat="Java">
+   NULL entry returned by findEntry method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR332E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.PARTIALRESULTEXCEPTION.2" varFormat="Java">
+   Could not find a JNDI Entry with the given search criteria:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An PartialResultException is encountered when trying to find the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the search criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR333E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.FINDENTRY.NAMENOTFOUNDEXCEPTION.2" varFormat="Java">
+   Could not find a JNDI Entry with the given search criteria:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An NameNotFoundException is encountered when trying to find the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the search criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR334I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.ADDDNFROMCRITERIA.VECTOR.INSTANCE" varFormat="Java">
+   addDNFromCriteria: Vector instance.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR335I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.ADDDNFROMCRITERIA.SEARCHCRITERIA" varFormat="Java">
+   addDNFromCriteria: SearchCriteria instance.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR336I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.ADDDNFROMCRITERIA.SEARCHCRITERIARSCSEARCH" varFormat="Java">
+   The addDNFromCriteria method was passed an SearchCriteria.rscSearch instance object.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR337E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.CANNOT.MIX.DN.MATCHING.WITH.OTHER" varFormat="Java">
+   Cannot mix $dn matching with other attributes in a search.
+   </MsgText>
+   <Explanation> <p>
+   The method addDnFromCriteria encountered a SearchCriteria object equals to $dn.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the values in the object creteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR338I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.ADDDNFROMCRITERIA.ADD.DN.VALUE" varFormat="Java">
+   The addDNFromCriteria method will add DN value to list: <Variable formatSpec="{0}">search filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIR339E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.UNKNOWN.OBJECT.TYPE.IN.SEARCH.FILTER" varFormat="Java">
+   Unknown object type in search filter: <Variable formatSpec="{0}">class name</Variable>:
+   <Variable formatSpec="{1}">search filter</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The object in search filter must be an instance of Vector or SearchCriteria.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the search filter specified is an instance of Vector or SearchCriteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIR340W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.ITIMAGENT.EXCEPTION.ON.TERMINATE" varFormat="Java">
+   Exception occured while trying to terminate: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An NamingException is encountered when trying to terminate the Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

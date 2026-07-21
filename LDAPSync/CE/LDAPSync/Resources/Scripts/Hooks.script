@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="534" UUID="6b8d0585-e1e1-448b-a31c-d95c98c13725" created="Sun Feb 02 17:39:28 CET 2014" createdBy="Administrator" main="Hooks" modified="Mon Apr 18 13:43:19 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Hooks">
+        <ModTime>1460979798376</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+     Earlier history at bottom of file
+var Hooks_vrs = "7.2 SSE 20140322 1248" // Changed handling of opEntry to Hook ALs so params do not get shared
+var Hooks_vrs = "7.2 SSE 20140324 1147" // Finishing off monitoring hooks
+var Hooks_vrs = "7.2 SSE 20140325 1323" // hooksManager.standardHooksEnabled disabled by default. 
+var Hooks_vrs = "7.2 SSE 20140325 1418" // Calling custom monitor before any other Hook
+ *  *  *  * */
+var Hooks_vrs = "7.2 SSE 20140326 1234" // Change custom monitor behavior as specified by Johan
+
+task.logmsg("Hooks vrs. " + Hooks_vrs);
+
+var sysFunc = system.newObject("com.ibm.di.function.SystemFunctions");
+var ldapSyncCI = main.getServer("LDAPSync");
+var defaultHookAL = { 	"hook.qradar" : "monitorQRadar",
+						"hook.snmp" : "monitorSNMP",
+						"hook.customMonitor" : "monitorCustom" }; 
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+var validPropParts = {
+	validObjects : ["al", "enabled", "settings", "connector"],
+	validTypes : ["person", "group", "container"],
+	validOperations : ["add", "modify", "delete", "unchanged"],
+	validStati : ["success", "failed", "skipped"]
+}
+
+// --- Hook Object
+
+function Hook(hookName, initParams, hookMgr) {
+	this.hookName = hookName;
+	this.alFC = null;
+	this.lastALProp = null;
+	this.hooksManager = null;
+	
+	this.enabled = false;
+	
+	// functions
+	this.reset = function(hookName) { // terminated and reset properties
+		this.terminate();
+		
+		this.alFC = null;
+		this.alName = null;
+		this.alSettings = null;
+		this.enabled = false;
+	}
+	
+	this.hookEnabled = function() { // determines if hook enabled by reading props
+		var pval = this.getHookProperty(this.hookName, false, "enabled");
+		return "true".equals(pval);
+	}
+
+	this.getALName = function(alPropName) { 
+		var pname = this.getHookPropertyName(alPropName, null, "al");
+		var alname = getALName(pname);
+
+		if (alname === null && typeof defaultHookAL[this.hookName] !== "undefined") {
+			alname = defaultHookAL[this.hookName];
+		}
+		
+		return alname;
+	}
+	
+	this.propertyType = [".parameter.", ".mapFile"],
+	
+	this.hookSettings = function() { // returns Entry with settings (attributes) for various hooks types
+		var hookName = this.hookName;
+		var attNames = opEntry.getAttributeNames();
+		var entry = system.newEntry();
+		var useHookName;
+		var hookNameParts = system.splitString(hookName, ".");
+		
+		for (var name in attNames) {
+			var p = -1;
+			var fromPos;
+			
+			for (var whichPart = 0; whichPart < this.propertyType.length && p < 0; whichPart++) {
+				p = name.indexOf(this.propertyType[whichPart]);
+				
+				if (p >= 0) {
+					p = -1;
+					for (var i = hookNameParts.length-1; i > 0 && p < 0; i--) {
+						useHookName = hookNameParts[0] + "." + hookNameParts[1];
+						for (var j = 2; j <= i; j++) {
+							useHookName += "." + hookNameParts[j];
+						}
+
+						p = name.toLowerCase().indexOf((useHookName.toLowerCase() + this.propertyType[whichPart]).toLowerCase());
+					}
+
+					if (p >= 0) {
+						p = name.toLowerCase().indexOf(this.propertyType[whichPart].toLowerCase());
+						if (whichPart == 0) {
+							fromPos = p + this.propertyType[whichPart].length;
+						} else {
+							fromPos = p + 1; // get past the dot (.)
+						}
+						entry.setAttribute(name.substring(fromPos), opEntry[name]);
+					}
+				}
+			}	
+		}
+		return entry;
+	}	
+
+	this.splitPropParts = function(pname) {
+		var pnameLC = pname ? pname.toLowerCase() : "hook.?name?.?arg1?.?arg2?.?arg3?.?arg4?";
+		if (!pnameLC.startsWith("hook.")) {
+			pnameLC = "hook." + pnameLC;
+		}
+
+		var parts = pnameLC.split('.');
+
+		var hookId = parts[1];
+		var object = null;
+		var type = null;
+		var status = null;
+		var operation = null;
+		
+		// look for type
+		var posType = -99;
+		for (var i = 2; i < parts.length && posType < 0; i++) {
+			if (validPropParts.validTypes.contains(parts[i])) {
+				posType = i;
+				type = parts[i];
+				if ("user".equalsIgnoreCase(type)) {
+					type = "person";
+				}
+			}
+		}
+		
+		// look for operation
+		var posOp = -99;
+		for (var i = 2; i < parts.length && posOp < 0; i++) {
+			if (validPropParts.validOperations.contains(parts[i])) {
+				posOp = i;
+				operation = parts[i];
+			}
+		}
+		
+		// look for status
+		var posStatus = -99;
+		for (var i = 2; i < parts.length && posStatus < 0; i++) {
+			if (validPropParts.validStati.contains(parts[i])) {
+				posStatus = i;
+				status = parts[i];
+			}
+		}	
+		
+		// look for object
+		var posObj = -99;
+		for (var i = 2; i < parts.length && posObj < 0; i++) {
+			if (validPropParts.validObjects.contains(parts[i])) {
+				posObj = i;
+				object = parts[i];
+			}
+		}
+		
+		rest = "";
+		var pos = Math.max(2, Math.max(posObj, Math.max(posType, posOp)));
+		
+		for (var i = pos+1; i < parts.length; i++) {
+			rest += (rest.length == 0) ? parts[i] : "." + parts[i];
+		}
+		
+		var propParts = { 	hookId: hookId, 
+							object : object,
+							operation : operation, 
+							type : type, 
+							status : status,
+							rest : rest,
+							startOfRest : pos, 
+							parts : parts };
+
+		return propParts; 
+	}
+	
+	this.toString = function(propParts, level, useObject) {
+		if (typeof level === "undefined" || level > 3) { level = 3 } 
+		if (typeof useObject === "undefined") { useObject = propParts.object } 
+
+		var hName;
+		if (propParts.hookId == "on") {
+			hName = propParts.hookId
+					+ ((propParts.status && level > 0) ? "." + propParts.status : "")
+					+ ((propParts.operation && level > 2) ? "." + propParts.operation : "")
+					+ ((propParts.type && level > 1) ? "." + propParts.type : "")
+					+ (useObject ? "." + useObject : "")
+					+ (propParts.rest ? "." + propParts.rest : "");
+		} else {
+			hName = "hook." + propParts.hookId
+					+ ((propParts.status && level > 0) ? "." + propParts.status : "")
+					+ ((propParts.type && level > 1) ? "." + propParts.type : "")
+					+ ((propParts.operation && level > 2) ? "." + propParts.operation : "")
+					+ (useObject ? "." + useObject : "")
+					+ (propParts.rest ? "." + propParts.rest : "");
+		}	
+					
+		return hName;
+	}
+	
+	this.getHookProperty = function(pname, defval, useHookObject /* string value, e.g. 'myhook' */) {
+		defval = defval || null;
+		useHookObject = useHookObject || null;
+
+		var useHookName;
+		var cnt = 3;
+		var p;
+
+		this.lastALProp = pname;
+		
+		do {
+			useHookName = this.toString(this.propParts, cnt--, useHookObject).replace(/.user/, ".person");
+			pval = getProperty(useHookName);
+		} while (cnt > 0 && pval === null);
+		
+		if (pval !== null) {
+			this.lastALProp = useHookName;
+		}	
+		
+		return pval;
+	}
+	
+	this.getHookPropertyName = function(pname, defval, useHookObject) {
+		defval = defval || null;
+		useHookObject = useHookObject || null;
+
+		var pval = this.getHookProperty(pname, defval, useHookObject);
+		return this.lastALProp;
+	}
+	
+	
+	this.reinitialize = function() {
+		if (typeof(enabled) === "undefined") { enabled = true; }
+		this.initialized = false;
+		this.initialize()
+	}
+	
+	this.initialize = function() { // initialize this Hook
+		if (this.initialized) { return; }
+		
+		var errorMsg;
+
+//		if (deBug) { logmsg("-----> hook init start - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+
+		this.reset();
+
+		this.hooksManager = hookMgr || null;		
+		this.propParts = this.splitPropParts(this.hookName);
+
+		
+		this.enabled = this.hookEnabled();
+		
+//		if (deBug) { logmsg("-----> hook init AL setup - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+
+		if (this.enabled) {
+			try {
+				this.alName = this.getALName(this.hookName);
+				this.setupAL();
+			} catch (ex) {
+				this.alFC = null;
+				this.initialized = true;
+				this.enabled = false;
+				logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.SETTING.UP.HOOK.AL") + ": " + this.hookName + " - " + ex);
+				addToStats(flowKey, "error", "error");
+				try {
+					alFC.terminate();
+				} catch (ex) {
+					// do nothing
+					var i = 42; // debug BP spot
+				}
+	//			if (deBug) { logmsg("hook init error - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+			}
+			
+	//		if (deBug) { logmsg("-----> hook init complete - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+		}
+
+		this.initialized = true;
+	}
+	
+	this.setupAL = function() {
+		var alFCMap = null;
+		var saveIt = false;
+		var shareEnabled = false;
+		
+		if (this.alName !== null) {
+			if (this.hooksManager !== null) {
+				if (typeof this.hooksManager.alFCMap === "undefined" || this.hooksManager.alFCMap === null) {
+					this.hooksManager.alFCMap = new java.util.concurrent.ConcurrentHashMap();
+				}	
+				
+				alFCMap = this.hooksManager.alFCMap;
+				shareEnabled = this.hooksManager.shareALsEnabled;
+			}
+
+			if (alFCMap !== null && shareEnabled) {
+				var oldAL = alFCMap.get(this.alName);
+				if (oldAL !== null) {
+					this.alFC = oldAL;
+				}
+			}
+
+			if (this.alFC === null) {
+				this.alFC = system.getFunction("ibmdi.AssemblyLineFC");
+/* removing this		
+				var fcConfig = ldapSyncCI.getFunction("Hook_ALFC");
+				this.alFC = task.loadConnector(fcConfig);
+*/
+/*
+				// set up the output map to the IWE of the Hook AL
+				var pname = this.getHookPropertyName(this.hookName, null, "map");
+				var map = getPropertyObject(pname);
+				if (map !== null && map instanceof com.ibm.di.config.interfaces.AttributeMapConfig) {
+					try {
+						this.alFC.getConfiguration().setAttributeMap(map, false);
+					} catch (ex) {
+						// throw resource.getString("LDAPSYNC.ERROR.DEFINING.MAP.FOR.HOOK.AL") + ": " + this.hookName + " - " + ex; 
+						logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.DEFINING.HOOK.MAP") 
+									+ ": " + this.hookName + " - " + ex);
+						addToStats(flowKey, "error", "error");
+					}	
+				}
+*/	
+//				var func = this.alFC.getFunction();
+				var func = this.alFC;
+				func.setParam("assemblyLine", this.alName);
+				func.setParam("shareLog", "true");
+	
+				func.setParam("mode", "2"); // Manual mode
+	
+				this.tcb = func.getTCB();
+				passGlobalVariablesViaTCB(this.tcb);
+				this.tcb.setTaskName(flowKey + "_" + this.hookName + "_" + this.alName);
+
+				var FCOpEntry = system.newEntry();
+				FCOpEntry.merge(task.getOpEntry());
+
+				this.alSettings = this.hookSettings(this.hookName);
+				if (this.alSettings !== null && this.alSettings.size() > 0) {
+					FCOpEntry.merge(this.alSettings);
+				}
+				
+				FCOpEntry["$hookName"] = this.hookName;
+				
+				this.tcb.setOperationInitParams(FCOpEntry);
+				
+				this.alFC.initialize(null);
+				
+				saveIt = true;
+			}
+		
+			if (saveIt && this.alFC !== null && alFCMap !== null) {
+				alFCMap.put(this.alName, this.alFC);
+			}
+		}	
+	}
+	
+	this.invoke = function(entry) { // execute this Hook (e.g. call AL)
+		if (!this.initialized) { this.initialize(true); }
+		if (!this.enabled) { return null; }
+
+		if (this.alFC === null) { return null; }  
+		var hookEntry = entry || system.newEntry();
+		var retEntry = null;
+		
+		hookEntry.setAttribute("$hookName", this.hookName);
+		if (typeof error !== "undefined") {
+			hookEntry.setAttribute("$error", error);
+		}
+		
+		hookEntry.setAttribute("$where", where());
+		if (typeof isSync === "undefined") {
+			isSync = getBooleanProperty("synchronize", false);
+		}
+		
+		if (isSync) {
+			hookEntry.setAttribute("$syncType", "incremental");
+		} else {
+			hookEntry.setAttribute("$syncType", "initial");
+		}
+		
+		// refresh hook settings
+		this.alSettings = this.hookSettings(this.hookName);
+		if (this.alSettings !== null && this.alSettings.size() > 0) {
+//			this.alFC.getContext().getOpEntry().merge(this.alSettings);
+			hookEntry.merge(this.alSettings);
+		}
+		
+		// remove passwords
+		
+		try {
+			if (deBug) { logmsg("-----> hook invoke - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+
+//			retEntry = this.alFC.callreply(hookEntry);
+//			java.lang.System.out.println(this.hookName + ".invoke() - $level: " + passEntry["$level"]);
+			retEntry = this.alFC.perform(hookEntry);
+		} catch (ex) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.INVOKING.HOOK") + ": " + this.hookName + " - " + ex);
+			addToStats(flowKey, "error", "error");
+			this.terminate();
+		}	
+		return retEntry;
+	}
+	
+	this.terminate = function() { // close this Hook (and AL)
+//		if (deBug) { logmsg("=====> hook terminate - " + this.hookName + "   AL: " + this.alName + " / " + this.alFC); } 
+		if (this.alFC == null || this.alName == null) { return null; }
+		 
+		try {
+			if (deBug) { logmsg("=====> terminate - stopping AL: " + this.alName); } 
+			this.alFC.terminate();
+		} catch (ex) {
+			// do nothing
+//			if (deBug) { logmsg("*****> Error terminating AL: " + ex); } 
+		}
+		
+		
+		var alFCMap = this.hooksManager.alFCMap;
+		if (alFCMap !== null) {
+			var oldAL = alFCMap.get(this.alName);
+			if (oldAL !== null) {
+				alFCMap.remove(this.alName);
+			}
+		}
+		
+		this.initialized = false;
+		this.alFC = null;
+	}
+	
+	// first-time initialization
+	this.initialize();
+	
+	return this;
+}
+
+// --- Hooks - manages collection of Hook objects
+
+function Hooks(simulate) {
+	this.FDS_Hooks = null;
+	this.dummyHook = null;
+	this.tcb = task.getTCB();
+	this.metaPropsHdlr = null;
+	this.activeHooks = new java.util.concurrent.ConcurrentHashMap();
+	this.standardHooksEnabled = false;
+	this.simulate = false;
+	this.shareALsEnabled = false;
+	
+	this.reset = function(simulate) { // close down, reset properties
+		if (typeof(simulate) != "undefined") { simulate = false; }
+
+		this.shutdown();
+
+//		this.FDS_Hooks = this.tcb.get("$FDS_Hooks");
+		if (this.FDS_Hooks === null) {
+			this.FDS_Hooks = new java.util.concurrent.ConcurrentHashMap();
+//			this.tcb.setAttribute("$FDS_Hooks", this.FDS_Hooks);
+		}	
+		
+		this.FDS_Hooks.clear();
+		this.simulate = simulate;
+		this.initialized = false;
+		this.standardHooksEnabled = false;
+	}
+
+	this.reportHookErrors = function (errors, msg) {
+		if (typeof(errors) === "undefined" || errors === null || errors.size() == 0) {
+			return;
+		};
+	
+//		var keys = errors.keySet().toArray();
+		var keys = new java.util.HashSet(errors.keySet()).toArray();
+		for (var key in keys) {
+			logmsg("ERROR", msg + ": " + key + " - " + errors.get(key).toString())
+			addToStats(flowKey, "error", "error");
+		}
+	
+		throw errors.get(keys[0]);
+	}
+
+	this.initialize = function(simulate) { // init hook manager
+		if (this.initialized) { return; } 
+		if (typeof(simulate) === "undefined") { simulate = false; }
+		if (simulate) { return; }
+
+		this.reset(simulate);
+
+		this.standardHooksEnabled = "true".equalsIgnoreCase(getProperty("hook.postoperation.enabled"));
+		this.shareALsEnabled = !"false".equalsIgnoreCase(getProperty("hooks.share.al.enabled"));
+		
+		if (this.metaPropsHdlr === null) {
+			this.metaPropsHdlr = new MetaPropsHandler(this);
+		}	
+
+		if (typeof this.dummyHook == "undefined" || this.dummyHook === null) {
+			this.dummyHook = this.addHook("_dummyHook");
+		}	
+
+		var errors = new java.util.concurrent.ConcurrentHashMap();
+
+//		this.reportHookErrors(errors, resource.getString("LDAPSYNC.ERROR.LOADING.HOOK"));
+		
+		this.initialized = true;
+	}
+	
+	this.checkReply = function(hookName, entry) {
+		if (typeof(entry) === "undefined" || entry === null || "hook.error".equals(hookName)) {
+			return;
+		}
+		
+		var error = entry.getObject("$error");
+	
+		if (error !== null && !"ok".equals(error.status.getValue())) {
+			throw "[Hook: " + hookName + "] " + error.toString();
+		}
+	}
+
+	this.getALName = function(hookName) { // @@TODO replace this?
+		var pval = this.dummyProp.getALName(hookName);
+		return pval;
+	}
+	
+	this.getHookProperty = function(pname, defval, useHookObject) { // navigate property trees
+		if (typeof this.dummyHook === "undefined" || this.dummyHook === null) { return null; } 
+		useHookObject = useHookObject || null;
+
+		return this.dummyHook.getHookProperty(pname, defval, useHookObject);
+		return pval;
+	}
+	
+
+	this.addHook = function(hookName, initParamsEntry, failIfHookAlreadyExists) { // add new hook
+		if (typeof(failIfHookAlreadyExists) === "undefined") { failIfHookAlreadyExists = true; }
+		
+		if (this.FDS_Hooks === null) { return null; }  
+		
+		var hookEntry = system.newEntry();
+		
+		if (typeof(initParamsEntry) !== "undefined" && initParamsEntry !== null) {
+			hookEntry.merge(initParamsEntry);
+		}	
+		
+		var oldHook = this.getHook(hookName);
+		if (oldHook !== null && failIfHookAlreadyExists) {
+			throw "Hook already exists: " + hookName + "\nEntry passed: ----\n" + initParamsEntry.toString() + "\n-----\n"
+		}
+
+		var hook = new Hook(hookName, initParamsEntry, this);
+		this.FDS_Hooks.put(hookName, hook);
+		return hook;
+	}
+	
+	this.getHook = function(hookName, createIfNeeded, initParamsEntry) { // find (or make) a hook
+		if (typeof initParamsEntry === "undefined") { initParamsEntry = null; }
+		if (typeof createIfNeeded === "undefined") { createIfNeeded = false; }
+		
+		if (this.FDS_Hooks === null) {
+			return null;
+		}
+		
+		var hook = this.FDS_Hooks.get(hookName);
+		if (hook === null && createIfNeeded) {
+			hook = this.addHook(hookName, initParamsEntry, true);
+		}
+		
+		return hook;
+	}
+	
+	this.invoke = function(hookName, passEntry, throwErrors, isMonitoringHook) { // invoke a hook for me
+		if (typeof throwErrors === "undefined") { throwErrors = false; }
+		if (typeof isMonitoringHook === "undefined") { isMonitoringHook = false; } 
+
+		var retEntry = null;
+		
+		if (!hookName.startsWith("hook.")) { hookName = "hook." + hookName; } 
+
+		if (!this.standardHooksEnabled && !isMonitoringHook) { return null; } 
+		
+		if (this.activeHooks.get(hookName) !== null) {
+			return retEntry; // just ignore it. Happens with errors in error Hook ALs
+//			throw resource.getString("LDAPSYNC.HOOK.CALLED.SIMULTANEOUSLY") + ": " + hookName;
+		}
+
+		if (this.FDS_Hooks === null || this.simulate) { return null; } 
+		
+		var hookEntry = system.newEntry();
+		if (typeof(passEntry) !== "undefined") { 
+			hookEntry.merge(passEntry); 
+		}
+		
+		if (!this.initialized) {
+			this.initialize(true);
+		}
+
+		this.activeHooks.put(hookName, new java.util.Date());
+
+		// get hook, creating if not found		
+		var hook = this.getHook(hookName, true);
+		if (!hook.enabled) {
+			return null;	
+		}
+			
+		try {
+			// execute the hook
+			retEntry = hook.invoke(hookEntry);
+			
+			// check it's return payload
+			this.checkReply(hookName, retEntry);
+
+			this.activeHooks.remove(hookName);
+		} catch (ex) {
+			hook.terminate();
+			this.activeHooks.remove(hookName);
+			if (throwErrors) {
+				throw ex;
+			}
+		}
+		
+		return retEntry;
+	}
+
+	this.closeHook = function(key, errors) {
+		if (this.FDS_Hooks === null) { return; }	
+	
+		var hook = this.FDS_Hooks.get(key);
+		if (hook === null) { return; }
+	
+//		if (deBug) { logmsg("-----> closing Hook - " + key); } 
+	
+		try {
+			hook.terminate();
+		} catch (ex) {
+			// do nothing
+//			if (deBug) { logmsg("*****> error closing hook: " + ex); } 
+		}
+
+
+		this.FDS_Hooks.remove(key);
+	}
+
+	this.shutdown = function() {
+		if (deBug) { logmsg(".....> shutting down Hook Manager..."); }
+		 
+		this.initialized = false;
+		if (this.FDS_Hooks === null) { return; }	
+		
+		// go through FDS_Hooks and terminate them
+		var errors = new java.util.concurrent.ConcurrentHashMap();
+//		var keys = this.FDS_Hooks.keySet().toArray();
+		var keys = new java.util.HashSet(this.FDS_Hooks.keySet()).toArray();
+		for (var key in keys) {
+			this.closeHook(key, errors);
+		}
+		
+		this.FDS_Hooks = null;
+		this.reportHookErrors(errors, resource.getString("LDAPSYNC.ERROR.LOADING.HOOK"));
+	}
+	
+	this.initialize(simulate || false);
+	
+	return this;
+}
+
+// --- MetaPropsHandler
+//
+//  handles expansion of meta-properties, like hook.postoperation.person.al
+//  only need one instance, done when a new Hooks() is created
+//
+MetaPropsHandler = function(hooks) {
+	this.initialized = false;
+	this.hooks = hooks;
+	this.opEntry = task.getOpEntry();
+
+	this.initialize = function() {
+		if (this.initialized) {
+			return;
+		}
+		
+		this.expandMetaProperties();		
+		this.initialized = true;
+	}
+	
+	this.expandMetaProperties = function() {
+		var pstatus, ptype, operation = "";
+		var propBuf = new java.lang.StringBuffer();
+	
+		// handle old hook.postoperation properties	
+		this.copyProps("hook.postoperation",
+						"hook.afterwrite.success" );
+
+		// now the old on.<status>.<operation>.<type> hook props						
+		for (var poi = 0; poi < validPropParts.validOperations.length; poi++) {
+			poperation = validPropParts.validOperations[poi];
+
+			for (var pti = 0; pti < validPropParts.validTypes.length; pti++) {
+				ptype = validPropParts.validTypes[pti];
+
+				for (var psi = 0; psi < validPropParts.validStati.length; psi++) {
+					pstatus = validPropParts.validStati[psi];
+			
+					this.copyProps("on." + pstatus + "." + poperation + "." + ptype,
+									"hook.afterwrite." + pstatus + "." + ptype + "." + poperation);
+				}
+			}
+		}
+		
+		// Now to handle the singleal property. This translates to a hookset: PostOperations
+		// e.g. hook.afterwrite.success.singleal.al
+		
+		if ("true".equals(getProperty("hook.afterwrite.success.singleal"))) {
+			this.copyProps("hook.afterwrite.success.person", 
+						"hook.afterwrite.success.group", false, false);
+		}	
+	}	
+
+	this.copyProps = function(fromProp, toProp, failOnDuplicate, copyEnabledFlag) {
+		if (typeof failOnDuplicate == "undefined") { failOnDuplicate = false; } 
+		if (typeof copyEnabledFlag == "undefined") { copyEnabledFlag = true; } 
+		var ptype, poperation, pstatus, p;
+		var opPropNames = opEntry.getAttributeNames();
+		
+		fromProp = fromProp.toLowerCase();
+		toProp = toProp.toLowerCase();
+
+		p = toProp.indexOf("hook.");
+		if (p < 0) {
+			toProp = "hook." + toProp;
+		}
+		
+		for (var i = 0; i < opPropNames.length; i++) {
+			var fromNameLC = opPropNames[i].toLowerCase();
+			p = fromNameLC.indexOf(fromProp);
+			if (p < 0) {
+				p = fromNameLC.indexOf("hook." + fromProp);
+			}
+			if (p >= 0) {
+				var rest = fromNameLC.substring(p + fromProp.length);
+				var toName = toProp + rest;
+				var newVal = this.opEntry.getString(fromNameLC);
+				var oldVal = this.opEntry.getString(toProp + rest);
+				
+				if (toName.toLowerCase().indexOf("enabled") > 0 && !copyEnabledFlag) {
+					continue;
+				}
+				
+				if (newVal !== null) {
+					if (oldVal !== newVal && failOnDuplicate) {
+						throw "metaProps.copyProps() - Duplicate toProp: " + toProp + rest 
+								+ "   current value: " + oldVal + "   new:" + newVal;
+					}
+					
+					if (deBug) logmsg("metaProps.copyProps() - " + toProp + rest + " -> " + newVal);
+					var newPropName = toProp + rest;
+					newPropName = newPropName.replace(/.user/, ".person");
+					this.opEntry.setAttribute(newPropName, newVal);
+				}	
+			}
+		}
+	}
+	
+	// initialization code for Hooks object
+	
+	this.initialize();
+	
+	return this;
+}
+
+// Hooks support functions ---------------------
+
+var hooksManager = null;
+var hooksFrameworkEnabled = true;
+
+function setupHooksManager() {
+	hooksFrameworkEnabled = !"false".equalsIgnoreCase(getProperty("hooks.enabled"));
+	
+	if (simulate || false || !hooksFrameworkEnabled) { return null; } 
+	
+	if ("WB_WritebackMain".equals(flowKey)) {
+		hooksFrameworkEnabled = false;
+		return null;
+	}
+
+	if (hooksManager !== null) {
+		return hooksManager;
+	}
+
+	var tcb = task.getTCB();
+	hooksManager = tcb.getObject("$hooksManager");
+	if (hooksManager === null) {
+		if (deBug) { logmsg("\n^^^^^> setUphooksManager"); } 
+		hooksManager = new Hooks();
+	}
+	tcb.setAttribute("$hooksManager", hooksManager);
+	
+	return hooksManager;
+}
+
+function invokeHook(hookName, passEntry, msg, isMonitoringHook) {
+	var retEntry = null;
+//	if (deBug) { logmsg("\n^^^^^> invokeHook - " + hookName); } 
+	if (typeof isMonitoringHook === "undefined") { isMonitoringHook = false; } 
+	if (typeof simulate === "undefined") { simulate = false; }
+	if (simulate || (!hooksFrameworkEnabled && !isMonitoringHook)) { return null; } 
+	if (typeof msg === "undefined" || msg.trim() == 0) { msg = resource.getString("LDAPSYNC.ERROR.INVOKING.HOOK"); }
+
+	var hookEntry = system.newEntry();
+	if (typeof passEntry === "undefined") { 
+		if (typeof work !== "undefined") {
+			hookEntry.merge(work);
+		}	
+	} else {
+		hookEntry.merge(passEntry);
+	}
+	
+	if (hooksManager === null) {
+		setupHooksManager();
+	}
+	
+	if (!hooksFrameworkEnabled) {
+		return null;
+	}
+	
+	if (!hookName.toLowerCase().startsWith("hook.")) {
+		hookName = "hook." + hookName;
+	}
+	
+	// call custom monitoring hook first
+	if (!isMonitoringHook) {
+		try {
+			hookEntry["$hookToBeCalled"] = hookName;
+			hooksManager.invoke("hook.custommonitor", hookEntry, false, true);
+		} catch (ex) {
+			handleHookError(hookName, ex, msg);
+		}
+	}
+	
+	try {
+		hookEntry["$hookName"] = hookName;
+		retEntry = hooksManager.invoke(hookName, hookEntry, false, isMonitoringHook);
+		
+		if (typeof retEntry === "undefined") {
+			retEntry = null;
+		}
+
+		// check for flow-control attributes
+		if (retEntry !== null && typeof work !== "undefined") {
+			skipEntry = work["$skipEntry"] = "true".equalsIgnoreCase(retEntry.getString("$skipentry"));
+			work["$stopFlow"] = "true".equalsIgnoreCase(retEntry.getString("$stopFlow"));
+		}
+	} catch (ex) {
+		retEntry = null;
+		handleHookError(hookName, ex, msg);
+	}	
+	return retEntry;
+}
+
+function closeAllHooks() {
+	if (simulate || false) { return true; } 
+
+	if (hooksManager === null) {
+		return true;
+	}	
+	
+	if (deBug) { logmsg("\n^^^^^> closeAllHooks"); } 
+	hooksManager.shutdown();
+	hooksManager = null;
+	task.getTCB().setAttribute("$hooksManager", null);
+	
+	return true;
+}
+
+function handleHookError(hookName, ex, msg) {
+	if (typeof msg === "undefined" || msg.trim().length == 0) { msg = ""; } else { msg = " - "; }  
+	setException(ex, hookName);
+	var cname = "<???>";
+	try {
+		cname = thisConnector.getName();
+	} catch (ex) {
+		// do nothing
+	}
+	
+	try {
+		cname = thisComponent.getName();
+	} catch (ex) {
+		// do nothing
+	}
+
+	errorMsg = flowKey + "_" + cname + msg
+				+ " (" + hookName + ")" 
+				+ " - exception: " + ex
+	
+	addToStats(flowKey, "error", "error");
+	if (typeof(typeOfEntry) != "undefined" && typeOfEntry !== null) {
+		addToStats(flowKey, typeOfEntry, "error")
+	}	
+		
+	logmsg("ERROR", errorMsg)
+	
+	error.exception = ex;
+	error.message = ex.toString();
+	defaultErrorHandling("ERROR");
+}
+/*
+var Hooks_vrs = "20140203 1632"
+var Hooks_vrs = "20140205 1345" // passing in Hook called to called AL - $hook
+var Hooks_vrs = "20140210 1248" // added error hook
+var Hooks_vrs = "20140219 1329" // changed handling of hook errors (report and continue)
+var Hooks_vrs = "20140220 1453" // ensured special passed attributes are prepended with $
+var Hooks_vrs = "20140226 1458" // fixed a bug in copyProps()
+var Hooks_vrs = "20140227 1113" // passing $syncType to Hook ALs in IWE
+var Hooks_vrs = "20140228 1449" // changed Hooks to handle passing of AttMap config
+var Hooks_vrs = "20140303 1101" // continued on passing maps to Hook ALs
+var Hooks_vrs = "20140304 1531" // finished hook handling
+var Hooks_vrs = "20140305 1344" // fixed hook problem with passing Init params to called AL
+var Hooks_vrs = "20140310 1921" // still working on Hook bugs (init params, some hooks not working)
+var Hooks_vrs = "20140311 2049" // Fixed Hook framework (incl. error hook) - disabled attmap handling
+var Hooks_vrs = "20140312 1003" // Disabled AL sharing between hooks
+var Hooks_vrs = "20140312 2046" // Change Hook closing logic
+var Hooks_vrs = "20140313 1407" // Corrected passing of hook params - reverted to using FC directly
+var Hooks_vrs = "7.2 SSE 20140314 1034" // Fixing beforewrite hook problem
+var Hooks_vrs = "7.2 SSE 20140314 1208" // Fixing (again) parameter passing to ISAM plugin
+var Hooks_vrs = "7.2 SSE 20140319 1224" // Fixing (finally) parameter passing to ISAM plugin
+var Hooks_vrs = "7.2 SSE 20140320 1417" // Changed singleal handling for afterwrite Hooks
+var Hooks_vrs = "7.2 SSE 20140321 1056" // Working on monitoring hooks. invokeHook passes work if no entry argument found.
+var Hooks_vrs = "7.2 SSE 20140321 1406" // More work on monitoring hooks
+*/]]></parameter>
+    </Script>
+</MetamergeConfig>

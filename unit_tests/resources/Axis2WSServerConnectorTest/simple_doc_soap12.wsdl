@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://www.example.org/simple_doc/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="simple_doc" targetNamespace="http://www.example.org/simple_doc/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/simple_doc/">
+      <xsd:element name="name" type="xsd:string" />
+      <xsd:element name="age" type="xsd:int" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAgeRequest">
+    <wsdl:part element="tns:name" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAgeResponse">
+    <wsdl:part element="tns:age" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="simple_doc">
+    <wsdl:operation name="getAge">
+      <wsdl:input message="tns:getAgeRequest"/>
+      <wsdl:output message="tns:getAgeResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="simple_docSOAP" type="tns:simple_doc">
+    <soap:binding style="document" transport="http://www.w3.org/2003/05/soap/bindings/http/"/>
+    <wsdl:operation name="getAge">
+      <soap:operation soapAction="http://www.example.org/simple_doc/getAge"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="simple_doc">
+    <wsdl:port binding="tns:simple_docSOAP" name="simple_docSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

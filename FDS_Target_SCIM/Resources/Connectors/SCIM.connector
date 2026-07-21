@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="2e1b3fd2-128d-493c-bb3d-0d3fe382e7e2" created="Tue Jun 02 12:02:46 CEST 2015" createdBy="Administrator" main="SCIM" modified="Wed Aug 05 13:55:41 CEST 2015" modifiedBy="Administrator" project="FDS_Target_SCIM" version="7.1.1">
+    <Connector name="SCIM">
+        <InheritFrom>system:/Connectors/ibmdi.SCIMConnector</InheritFrom>
+        <ModTime>1438775741273</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1438775741273</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="5" UUID="61cdfa73-cdd3-404d-afee-878fb27f5c38" created="Thu May 28 21:02:36 CEST 2015" createdBy="Administrator" main="Form" modified="Wed Aug 05 13:55:41 CEST 2015" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1432840187036</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>ServerURL</ListItem>
+            <ListItem>Endpoint</ListItem>
+            <ListItem>Password</ListItem>
+            <ListItem>Username</ListItem>
+            <ListItem>oauth.enabled</ListItem>
+            <ListItem>oauth.url</ListItem>
+            <ListItem>oauth.client_id</ListItem>
+            <ListItem>oauth.client_secret</ListItem>
+            <ListItem>oauth.grant_type</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="AttributeFilter">
+            <parameter name="description">AttributeFilter.desc</parameter>
+            <parameter name="label">AttributeFilter.label</parameter>
+        </FormItem>
+        <FormItem name="Endpoint">
+            <Values>
+                <ListItem>user</ListItem>
+                <ListItem>group</ListItem>
+            </Values>
+            <parameter name="label">Endpoint.label</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="ModifyMethod">
+            <Values>
+                <ListItem>METHOD_0</ListItem>
+                <ListItem>METHOD_1</ListItem>
+            </Values>
+            <parameter name="description">ModifyMethod.desc</parameter>
+            <parameter name="indexbased">true</parameter>
+            <parameter name="label">ModifyMethod.label</parameter>
+            <parameter name="modes">Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="Password">
+            <parameter name="description">Username.desc</parameter>
+            <parameter name="label">Password.label</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="ServerURL">
+            <parameter name="Required">true</parameter>
+            <parameter name="description">URL.desc</parameter>
+            <parameter name="label">URL.label</parameter>
+        </FormItem>
+        <FormItem name="SortBy">
+            <Values>
+                <ListItem>@SCHEMA</ListItem>
+            </Values>
+            <parameter name="description">SortByDesc</parameter>
+            <parameter name="label">SortByLabel</parameter>
+            <parameter name="modes">Iterator,Lookup</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="SortOrder">
+            <ModTime>1432839835989</ModTime>
+            <Values>
+                <ListItem>ascending</ListItem>
+                <ListItem>descending</ListItem>
+            </Values>
+            <parameter name="label">SortOrderLabel</parameter>
+            <parameter name="modes">Iterator,Lookup</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="Tenant">
+            <parameter name="description">Tenant.desc</parameter>
+            <parameter name="label">Tenant.label</parameter>
+        </FormItem>
+        <FormItem name="Username">
+            <parameter name="description">Username.desc</parameter>
+            <parameter name="label">Username.label</parameter>
+        </FormItem>
+        <FormItem name="oauth.client_id">
+            <ModTime>1432840083467</ModTime>
+            <parameter name="label">OAuth Client ID</parameter>
+        </FormItem>
+        <FormItem name="oauth.client_secret">
+            <ModTime>1432840187036</ModTime>
+            <parameter name="label">OAuth Client secret</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="oauth.enabled">
+            <ModTime>1432839845520</ModTime>
+            <parameter name="label">OAuth enabled</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="oauth.grant_type">
+            <ModTime>1432840093170</ModTime>
+            <Values>
+                <ListItem>Password</ListItem>
+                <ListItem>Client credentials</ListItem>
+            </Values>
+            <parameter name="description">For password credentials are taken from username/password above</parameter>
+            <parameter name="label">OAuth Grant type</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="oauth.url">
+            <ModTime>1432839887110</ModTime>
+            <parameter name="description">HTTP endpoint where access token request is sent</parameter>
+            <parameter name="label">OAuth URL</parameter>
+        </FormItem>
+        <FormItem name="proxy">
+            <parameter name="description">proxy_desc</parameter>
+            <parameter name="label">proxy_label</parameter>
+        </FormItem>
+        <FormItem name="proxyPassword">
+            <parameter name="description">proxy_pass_desc</parameter>
+            <parameter name="label">proxy_pass_label</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="proxyUsername">
+            <parameter name="description">proxy_user_desc</parameter>
+            <parameter name="label">proxy_user_label</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>ModifyMethod</ListItem>
+                <ListItem>AttributeFilter</ListItem>
+                <ListItem>SortBy</ListItem>
+                <ListItem>SortOrder</ListItem>
+                <ListItem>proxy</ListItem>
+                <ListItem>proxyUsername</ListItem>
+                <ListItem>proxyPassword</ListItem>
+                <ListItem>Tenant</ListItem>
+                <ListItem>$GLOBAL.debug</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>ServerURL</ListItem>
+                <ListItem>Endpoint</ListItem>
+                <ListItem>Username</ListItem>
+                <ListItem>Password</ListItem>
+                <ListItem>oauth.enabled</ListItem>
+                <ListItem>oauth.url</ListItem>
+                <ListItem>oauth.grant_type</ListItem>
+                <ListItem>oauth.client_id</ListItem>
+                <ListItem>oauth.client_secret</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="title">Connector.Title</parameter>
+        <TranslationFile>NLS/idi_conn_scim</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="Endpoint"><![CDATA[@SUBSTITUTE{javascript endpoint = connectorParam("scim.endpoint", "user/");
+if (!endpoint.endsWith("/")) {
+    endpoint = endpoint + "/";
+}
+return endpoint;}]]></parameter>
+            <parameter name="ModifyMethod">1</parameter>
+            <parameter name="Password">@SUBSTITUTE{javascript return connectorParam("scim.password");}</parameter>
+            <parameter name="ServerURL">@SUBSTITUTE{javascript return connectorParam("scim.url");}</parameter>
+            <parameter name="Tenant">@SUBSTITUTE{javascript return connectorParam("scim.tenant");}</parameter>
+            <parameter name="Username">@SUBSTITUTE{javascript return connectorParam("scim.user");}</parameter>
+            <parameter name="oauth.client_id">@SUBSTITUTE{javascript return connectorParam("oauth.client_id");}</parameter>
+            <parameter name="oauth.client_secret">@SUBSTITUTE{javascript return connectorParam("oauth.client_secret");}</parameter>
+            <parameter name="oauth.enabled">@SUBSTITUTE{javascript return connectorParam("oauth.enabled");}</parameter>
+            <parameter name="oauth.url">@SUBSTITUTE{javascript return connectorParam("oauth.url");}</parameter>
+            <parameter name="script"><![CDATA[// System for Cross-Domain Identity Management (SCIM) Connector
+//
+
+// For pagination, specify the desired number of search results per page when iterating
+PAGE_SIZE = 0;
+
+RESOLVER = com.ibm.di.server.ResourceHash.getHash("scimconnector")
+
+BASE_URL = connector.getParam("ServerURL")
+if (BASE_URL == null || BASE_URL.length() == 0)
+	throw RESOLVER.getString("SCIMCONNECTOR.NO.SERVER.URL")
+
+if (!BASE_URL.endsWith("/"))
+	BASE_URL += "/";
+
+OAUTH = null;
+
+function initialize() {
+	httpClient = system.loadConnector("ibmdi.HTTPClient");
+	httpClient.initialize(null)
+	httpClient.setParam("proxy", connector.getParam("proxy"));
+	httpClient.setParam("proxyPassword", connector.getParam("proxyPassword"));
+	httpClient.setParam("proxyUsername", connector.getParam("proxyUsername"));
+}
+
+function selectEntries() {
+	result.setStatus(1)
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null || endPoint.length() == 0) {
+        main.logmsg("SCIM Endpoint: " + endPoint);
+        if(BASE_URL.toLowerCase().endsWith("user/") || BASE_URL.toLowerCase().endsWith("users/")) {
+            endPoint = "";
+        } else {
+            result.setStatus (2);
+            result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+            return;        
+        }
+	}
+	var url = BASE_URL + endPoint;
+	if (PAGE_SIZE > 0)
+		url = addToUrl(url, "count", PAGE_SIZE)
+	var reply = sendRequest("GET", url, null, null);
+	if (! verifyReply(reply, false)) {
+		if (responseCode == "404") {
+			if (result.getMessage() != null)
+				connector.debug("selectEntries: " + result.getMessage())
+			result.setStatus(1)
+		}
+		selectedEntries = new Array()
+		totalResults = 0
+	} else {
+		selectedEntries = resultArray;
+	}
+	selectIndex = 0
+	resultsReceived = selectedEntries.length
+}
+
+function getNextEntry() {
+	if (selectIndex >= selectedEntries.length) {
+		reselectEntries()
+	}
+
+	if (selectIndex >= selectedEntries.length) {
+		result.setStatus (0);
+		return;
+	}
+
+	result.setStatus(1);
+	entry.merge(selectedEntries[selectIndex])
+	selectIndex++;
+}
+
+function reselectEntries() {
+	if (resultsReceived >= totalResults)
+		return;
+
+	var url = BASE_URL + connector.getParam("Endpoint")
+	if (PAGE_SIZE > 0)
+		url = addToUrl(url, "count", PAGE_SIZE)
+	url = addToUrl(url, "startIndex", resultsReceived + 1)
+	var reply = sendRequest("GET", url, null, null);
+	if (!verifyReply(reply, false)) {
+		if (result.getMessage() != null)
+			connector.debug("reselectEntries: " + result.getMessage())
+		selectedEntries = new Array()
+		totalResults = resultsReceived
+	} else {
+		selectedEntries = resultArray;
+	}
+	selectIndex = 0
+	resultsReceived += selectedEntries.length
+}
+
+function putEntry ()
+{
+	result.setStatus(1);
+	findEndPoint();
+	if (endPoint == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		result.setStatus(2)
+		return;
+	}
+	var reply = sendRequest("POST", BASE_URL + endPoint, entry.toJSON(), null)
+	verifyReply(reply, true);
+}
+
+function modEntry ()
+{
+	result.setStatus(1);
+	findEndPoint();
+	if (endPoint == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		result.setStatus(2)
+		return;
+	}
+
+	var id = null;
+	if (old != null)
+		id = old.getString("id")
+	if (id == null)
+		id = getIDFromSearchEntry();
+	if (id == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ID"))
+		result.setStatus(2)
+		return;
+	}
+	
+	var reply;
+	var url = BASE_URL + endPoint + "/" + id;
+	var method = connector.getParam("ModifyMethod")
+	if (method == "1") {
+		reply = sendRequest("PUT", url, entry.toJSON(), null)
+	} else {
+		reply = sendRequest("PATCH", url, entry.toJSON(), null)
+	}
+
+	verifyReply(reply, true);
+}
+
+function deleteEntry ()
+{
+	var id = getIDFromSearchEntry();
+	if (id == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ID"))
+		result.setStatus(2)
+		return;
+	}
+	var url = BASE_URL + endPoint + "/" + id;
+	var reply = sendRequest("DELETE", url, null, null);
+	if (verifyReply(reply, false) && resultArray.length == 1) {
+		entry.merge(resultArray[0])
+	}
+}
+
+function findEntry ()
+{
+	connector.clearFindEntries();
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null) {
+		result.setStatus(2)
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		return;
+	}
+	var url = BASE_URL + endPoint;
+	var filter = createFilterFromSearch();
+	var id = getIDFromFilter(filter);
+	if (id != null) {
+		if (!url.endsWith("/")) {
+			url += "/" + id
+		} else {
+			url += id
+		}
+	} else {
+		url += "?filter=" + filter
+	}
+
+	var reply = sendRequest("GET", url, null, null);
+	if (! verifyReply(reply, false)) {
+		if (responseCode == "404")
+			result.setStatus(0);
+		return;
+	}
+
+	if (resultArray.length == 1) {
+		result.setStatus(1)
+		entry.merge(resultArray[0])
+		return;
+	}
+	result.setStatus(0)
+	for (var i = 0; i < resultArray.length; i++) {
+		if (!connector.addFindEntry(resultArray[i]))
+			return;
+	}
+	return;
+}
+
+function querySchema ()
+{
+	result.setStatus (1);
+
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null || endPoint.length() == 0)
+		return;
+	if (endPoint.endsWith("s"))
+		endPoint = endPoint.substring(0, endPoint.length() - 1);
+
+	var reply = sendRequest("GET", BASE_URL + "Schemas/" + endPoint, null, "")
+	var body = reply.getString("http.bodyAsString")
+	if (body == null)
+		return;
+
+	try {
+		answer = com.ibm.di.entry.Entry.fromJSON(body)
+	} catch (err) {
+		return;
+	}
+
+	var attributes = answer["Attributes.Attributes"];
+	if (attributes == null || ! (attributes instanceof org.w3c.dom.NodeList))
+		return;
+
+	populateSchema(attributes, true)
+	populateSchema(attributes, false)
+	result.setStatus (0)
+}
+
+function populateSchema(attributes, input) {
+	schema = config.getSchema(input)
+	for (var a in attributes) 	{
+		var name = a.name.getValue()
+		var sic = schema.newItem(name)
+		setSchemaValues(sic, a)
+		var subAttrs = a.subAttributes
+		if (subAttrs != null) {
+			var children = sic.getChildSchemaList()
+			if (a.multiValued != null && "true".equalsIgnoreCase(a.multiValued.getValue())) {
+				children = getSubSchemaItem(children, name).getChildSchemaList()
+			}
+			for (var sub in subAttrs) {
+				var s = getSubSchemaItem(children, sub.name.getValue())
+				setSchemaValues(s, sub)
+			}
+		}
+	}
+}
+
+function getSubSchemaItem(children, name) {
+	var s = children.getConfig(name)
+	if (s == null) {
+		s = new com.ibm.di.config.base.SchemaItemConfigImpl()
+		s.init()
+		s.setName(name)
+		s.setAttributeName(name)
+		children.addConfig(s)
+	}
+	return s
+}
+
+function setSchemaValues(sic, a) {
+	if (a.type != null)
+		sic.setExternalSyntax(a.type.getValue())
+	if (a.required != null && "true".equalsIgnoreCase(a.required.getValue())) {
+		sic.setPresenceFlag("Required")
+	}	
+}
+
+function sendRequest(method, url, body, aFilter, isRetry) {
+	var orgurl = url;
+	var request = system.newEntry();
+	request.setAttribute("http.method", method)
+    request.setAttribute("http.Accept", "application/json")
+    if(method == "POST" || method =="PUT")
+        request.setAttribute("http.Content-Type", "application/json");
+
+	//
+	// -- Always check access token if we are doing OAuth2
+	//
+	if(connector.getParam("oauth.enabled") == "true") {
+        var url2 = new java.net.URL(url);
+        // -- This code should not really be necessary
+        if(true) {
+            request.setAttribute("http.X-Forwarded-Host", url2.getHost())
+        }
+
+		var oauthToken = getOAuthAccessToken();
+        var query = url2.getQuery();
+        url = addToUrl(url, "access_token", oauthToken);
+	}
+	
+	if (aFilter == null) {
+		aFilter = connector.getParam("AttributeFilter")
+	}
+	if (aFilter != null && aFilter.length() > 0) {
+		url = addToUrl(url, "attributes", aFilter);
+	}
+
+	var sortBy = connector.getParam("SortBy")
+	if (sortBy != null && sortBy.length > 0) {
+		url = addToUrl(url, "sortBy", sortBy);
+		var sortOrder = connector.getParam("SortOrder")
+		if (sortOrder != null && sortOrder.length > 0) {
+			url = addToUrl(url, "sortOrder", sortOrder);
+		}
+	}
+	request.setAttribute("http.url", url)
+	connector.debug("URL = " + url)
+	
+	//
+	// -- If we use OAuth2 and pass the authentication in the headers
+	// -- we should not overwrite with user/pass as these are used in
+	// -- the call to obtain the access token in the first place.
+	//
+	setRequestAttribute(request, "Username", "http.remote_user");
+	setRequestAttribute(request, "Password", "http.remote_pass");
+	setRequestAttribute(request, "Tenant", "http.TenantName");
+
+	if (body != null)
+		request.setAttribute("http.body", body)
+
+	if(connector.debugMode()) {
+	    task.logmsg("SCIM.sendRequest - request");
+    	task.dump(request);
+    }
+
+	// var resp = httpClient.queryReply(request);
+	var resp = null;
+	try {
+		resp = httpClient.queryReply(request);
+	} catch(err) {
+		if(!isRetry && err.getClass().getName() == "java.util.NoSuchElementException") {
+			task.logmsg("Bad response from server - assuming expired token")
+			OAUTH.response = null;
+			httpClient.initialize(null);
+			return sendRequest(method, orgurl, body, aFilter, true);
+		} else {
+			// retry failed
+			throw err;
+		}
+	}
+	if(connector.debugMode()) {
+	    task.logmsg("SCIM.sendRequest - response");
+    	task.dump(resp);
+    }
+
+    return resp;
+}
+
+function addToUrl(url, name, value) {
+	var sep = (url.indexOf("?")>0) ? "&" : "?";
+	return url + sep + name + "=" + value;
+} 
+
+function setRequestAttribute(request, param, attr) {
+	var s = connector.getParam(param);
+	if (s != null && s.length() > 0)
+		request.setAttribute(attr, s);
+}
+
+function createResultArray(answer) {
+	resultArray = new Array()
+	resultIndex = 0
+
+	if (answer == null)
+		return;
+
+	totalResults = answer["totalResults"]
+	if (totalResults != null)
+		totalResults = parseInt(totalResults)
+	else
+		totalResults = 0
+	if (isNaN(totalResults))
+		totalResults = 0
+
+	var resources = answer["Resources.Resources"];
+	if (resources == null) {
+		resultArray.push(answer)
+	} else if ( resources instanceof org.w3c.dom.NodeList) {
+		for (var r in resources) {
+			resultArray.push(node2entry(r))
+		}	
+	}
+}
+
+function node2entry(r) {
+	var e = system.newEntry();
+	for (var c in r.getChildNodes()) {
+		e.setAttribute(c)		
+	}
+	return e
+}
+
+function createFilterFromSearch() {
+	var filter = search.getScriptFilter();
+	if (filter != null)
+		return filter;
+	return createFilter(search)
+}
+
+function createFilter(sc) {
+	filter = "";
+	var criteria = sc.getCriteria();
+	for (var i = 0; i < criteria.size(); i++) {
+        var obj = criteria.get(i);
+
+        if (obj instanceof com.ibm.di.server.SearchCriteria) {
+        	filter += "(" + createFilter(obj) + ")"
+        } else {
+        	filter += convertName(obj.name);
+        	var match = obj.match;
+        	if (match == 61)
+        		filter += " eq ";
+        	else if (match == 60)
+        		filter += " lt ";
+        	else if (match == 8804)
+        		filter += " le ";
+        	else if (match == 62)
+        		filter += " gt ";
+        	else if (match == 8805)
+        		filter += " ge ";
+        	else if (match == 126)
+        		filter += " co ";
+        	else if (match == 94)
+        		filter += " sw ";
+        	else 
+        		throw RESOLVER.getString("SCIMCONNECTOR.UNSUPP.OP")
+//        		 "Unsupported operator in Link Criteria"
+
+         	filter += quote(obj.value);
+		}
+
+		if (i + 1 < criteria.size()) {
+			if (sc.getType() == 1)
+				filter += " and "
+			else
+				filter += " or "
+		}
+	}	
+	return filter;
+}
+
+function convertName(s) {
+	var i = s.indexOf(".")
+	if (i < 0)
+		return s;
+	var pref = s.substring(0, i)
+	var suff = s.substring(i+1)
+	if (suff.startsWith(pref + "."))
+		return suff
+	return s        
+}
+
+function quote(s) {
+	var ret = "\"";
+	for (var j = 0; j < s.length; j++) {
+		var c = s.charAt(j)
+		if (c == "\"")
+			ret += "\\\"";
+		else
+			ret += c;
+	}
+	return ret + "\"";
+}
+
+function getIDFromFilter(filter) {
+	var id = null;
+	if (filter.startsWith("id eq ")) {
+		id = filter.substring(7, filter.length() - 1)
+		if (id.indexOf('"') >= 0)
+			id = null;
+	}
+	return id;
+}
+
+function getIDFromSearchEntry() {
+	findEndPoint();
+
+	var id = (entry != null ? entry.getString("id") : null);
+	if (id != null)
+		return id;
+	
+	var filter = createFilterFromSearch();
+	id = getIDFromFilter(filter);
+	if (id != null)
+		return id;
+	
+	var url = BASE_URL + endPoint + "?filter=" + filter
+	if (!verifyReply(sendRequest("GET", url, null, "id"), false))
+		return null;
+	
+	if (resultArray.length == 1)
+		id = resultArray[0].getString("id")
+	return id;
+}
+
+function findEndPoint() {
+	endPoint = null;
+	if (entry != null && entry["Endpoint"] != null) {
+		endPoint = entry.getString("Endpoint")
+		entry.removeAttribute("Endpoint")
+	}	
+	if (endPoint == null || endPoint.length() == 0)
+		endPoint = connector.getParam("Endpoint");
+}
+
+function verifyReply(reply, addReply) {
+	var answer = null
+	var msg = null
+
+    // -- this is a global variable!!!
+    responseCode = null;
+
+	if (reply != null) {
+		var body = reply.getString("http.bodyAsString");
+		if (body != null && body.length() > 0) {
+			try {
+				answer = com.ibm.di.entry.Entry.fromJSON(body)
+				msg = answer["Errors.Errors.description"];
+                responseCode = answer.getString("Errors.Errors.code");
+				if (typeof(entry) != "undefined" && entry != null) {
+					entry.id = answer["id"];
+					if (addReply)
+						entry.replyEntry = answer;
+				}
+			} catch (err) {
+				msg = "Unable to parse body: " + body;		
+			}
+		}
+
+        // -- got responsecode from scim payload?
+        if(responseCode == null)
+    		responseCode = reply.getString("http.responseCode")
+		if (responseCode != null && responseCode.startsWith("2") && (msg == null || answer != null)) {
+			createResultArray(answer)
+			return true;
+		}
+
+		if (msg == null) 
+			msg = reply["http.responseMsg"]
+		if (answer instanceof com.ibm.di.entry.Attribute)
+			msg = msg.getValue();
+		result.setMessage(msg != null ? msg : "")
+	} else {
+		responseCode = "";
+		result.setMessage("No response")
+	}
+	result.setStatus(2)
+	return false
+}
+
+function terminate() {
+	if (httpClient != null)
+		httpClient.terminate()
+	httpClient = null;
+}
+
+/**
+ * This function requests an access token based on the parameters passed in the constructor.
+ * 
+ * var url = "https://......./oauth/oauth20/token";
+ * var params = {
+ * 		grant_type:"client_credentials",
+ * 		client_id:"<client id>",
+ * 		client_secret:"<client secret>"
+ * }
+ * 
+ * // when requesting grant_type=password we also need username/password as in
+ * var passwordParams = {
+ * 		grant_type:"password",
+ * 		client_id:"<client id>",
+ * 		client_secret:"<client secret>",
+ * 		username:"user name",
+ * 		password:"password"
+ * }
+ * 
+ * 
+ * var oauth = new OAuth2(url, params);
+ * try {
+ * 		var token = oauth.requestToken();
+ * 		..... // use token
+ * } catch(error) {
+ * 		task.logmsg("Error: " + error);
+ * }
+ * 
+ */
+
+function OAuth2(tokenUrl, params) {
+
+	//
+	// -- http client connector
+	//
+	this.httpClient = system.loadConnector("ibmdi.HTTPClient");
+	this.httpClient.initialize(null);
+
+	//
+	// -- Token request parameters
+	//
+	this.tokenParams = params;
+	this.url = tokenUrl;
+
+	//
+	// -- Returns form-urlencoded string of an object
+	//
+	this.urlEncode = function (obj) {
+		var arr = [];
+		for(var f in obj) {
+			arr.push(f + "=" + obj[f]);
+		}
+		return arr.join("&");
+	}
+	
+	/**
+ 	 * Returns the access token if we have an access token that hasn't expired
+ 	 */
+	this.getToken = function() {
+		return this.response ? this.response.access_token : null;
+	}
+	
+	//
+	// -- Sends a request to get a new access token
+	// -- @return String Access token
+	// -- @throws Exception
+	//
+	this.requestToken = function () {
+
+        // -- If we already have a valid token return that
+        if(this.getToken() != null) {
+			if(connector.debugMode()) {
+                task.logmsg("OAuth: returning current token");
+            }
+            return this.getToken();
+        }
+
+		//
+		// -- Create request entry object
+		//
+		var request = system.newEntry();
+		request["http.body"] = this.urlEncode(this.tokenParams);
+		request["http.method"] = "POST";
+		request["http.url"] = this.url;
+		request["http.content-type"] = "application/x-www-form-urlencoded";
+
+		if(connector.debugMode()) {
+			task.logmsg("Request AccessToken: url=" + this.url);
+			task.logmsg(request.toJSON());
+		}	
+		
+		//
+		// -- Send token request
+		//
+		var response = this.httpClient.queryReply(request);
+		if(connector.debugMode()) {
+            task.logmsg("Request Access Token Response");
+            task.logmsg("" + response);
+        }
+		if(response && response["http.bodyAsString"] != null) {
+			var json = response["http.bodyAsString"].getValue();
+			this.response = fromJson(json);
+			if(this.response.error) {
+				var err = "Error: " + this.response.error + ": " + this.response.error_description;
+				this.response = null;
+				throw err;
+			}
+		}
+		return this.getToken();
+	}
+};
+
+function getOAuthAccessToken() {
+	if(OAUTH == null) {
+		var params = {};
+		var type = connector.getParam("oauth.grant_type");
+		if(type == "password") {
+			params.grant_type = "password";
+			params.username = connector.getParam("Username");
+			params.password = connector.getParam("Password");
+		} else {
+			params.grant_type = "client_credentials";
+		}
+		params.client_id = connector.getParam("oauth.client_id");
+		params.client_secret = connector.getParam("oauth.client_secret");
+		if(connector.debugMode()) {
+			task.logmsg("Create OAuth2 request");
+			task.logmsg(toJson(params));
+		}
+		OAUTH = new OAuth2(connector.getParam("oauth.url"), params);
+	}
+	return OAUTH.requestToken();
+}
+]]></parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

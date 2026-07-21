@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.CastorXMLToJava">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.castorbind.CastorXMLToJava</parameter>
+				<parameter name="attributeSpecs"/>
+				<parameter name="inputXMLType">String</parameter>
+				<parameter name="mappingFile">file:etc/di_castor_mapping.xml</parameter>
+				<parameter name="simulate">Enabled</parameter>
+			</Configuration>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.castorbind.CastorXMLToJava">
+			<TranslationFile>NLS/idi_fc_castor_xml_to_java</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>mappingFile</ListItem>
+					<ListItem>attributeSpecs</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>inputXMLType</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>mappingFile</ListItem>
+				<ListItem>attributeSpecs</ListItem>
+				<ListItem>inputXMLType</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="attributeSpecs">
+				<parameter name="description">AS_DESC</parameter>
+				<parameter name="label">AS_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="inputXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">IT_DESC</parameter>
+				<parameter name="label">IT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="mappingFile">
+				<parameter name="description">MF_DESC</parameter>
+				<parameter name="label">MF_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

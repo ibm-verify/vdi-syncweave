@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpserver" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB101E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.READ.ERROR" varFormat="Java">
+	Could not read object from storage. The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	This is an internal error. An error occurred while reading an object from storage.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB102E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.WRITE.ERROR" varFormat="Java">
+	Could not write object <q/><Variable formatSpec="{0}">Java object</Variable><q/> to storage. The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	This is an internal error. An error occurred while writing an object to storage.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message. Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB103E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.DOES.NOT.EXIST" varFormat="Java">
+	The storage location <q/><Variable formatSpec="{0}">folder name</Variable><q/> does not exist and could not be created.
+   </MsgText>
+   <Explanation> <p>
+	The configured storage folder does not exist. An attempt to create it was unsuccessful.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB104E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.NOT.FOLDER" varFormat="Java">
+	The storage location <q/><Variable formatSpec="{0}">file name</Variable><q/> exists but is not a folder.
+   </MsgText>
+   <Explanation> <p>
+	The storage location must be a folder.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB105E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.READ.CONTENT.FILE" varFormat="Java">
+   Could not read the value for key <q/><Variable formatSpec="{0}">key name</Variable><q/> from file <q/><Variable formatSpec="{1}">file name</Variable><q/>. The error is: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	The storage file which holds the value for the specified key could not be read.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message. Check the file system permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB106E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.MKDIRS" varFormat="Java">
+   Could not create folders for path <q/><Variable formatSpec="{0}">folder path</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism could not create file system directory structure.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the file system permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB107E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.NOT.FOLDER" varFormat="Java">
+   <q/><Variable formatSpec="{0}">file name</Variable><q/> already exists and is not a folder.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism expects that the specified file is a folder.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB108E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.WRITE.CONTENT.FILE" varFormat="Java">
+   Could not write to file <q/><Variable formatSpec="{0}">file name</Variable><q/>. The error is: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism could not write data to the specified file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB109E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.EMPTY" varFormat="Java">
+   Key must not be empty.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism cannot work with empty keys.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB110E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.SINGLE.SLASH" varFormat="Java">
+   Key must not be a single slash.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a key to be a single slash. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB111E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CONSECUTIVE.SLASHES" varFormat="Java">
+   Key must not be contain consecutive slashes: <q/><Variable formatSpec="{0}">key name</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a key to contain consecutive slashes.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB112E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.BACK.SLASHES" varFormat="Java">
+   Key must not contain back slashes: <q/><Variable formatSpec="{0}">key name</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a key to contain back slashes.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB113E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CURLY.BRACKETS" varFormat="Java">
+   Key must not contain curly brackets: <q/><Variable formatSpec="{0}">key name</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a key to contain curly brackets.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB114E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.SINGLE.DOT" varFormat="Java">
+   Component of a key must not be a single dot: <q/><Variable formatSpec="{0}">key component</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a component of a key to be a single dot.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB115E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.DOUBLE.DOTS" varFormat="Java">
+   Component of a key must not be double dots: <q/><Variable formatSpec="{0}">key component</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism does not allow a component of a key to be double dots.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB116E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.CANNOT.DELETE.FILE" varFormat="Java">
+   Could not delete file <q/><Variable formatSpec="{0}">file name</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The storage mechanism failed to delete the specified file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the file system permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB117W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.MISSING.LOCAL.API" varFormat="Java">
+   No Local Server API detected.
+   </MsgText>
+   <Explanation> <p>
+	A Touchpoint Provider was configured to use the Local API, which is not 
+	present in the current runtime.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Configure the Touchpoint Server to use the Remote Server API instead.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB118E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.IVALID.HOST.OR.PORT" varFormat="Java">
+   Invalid host(<q/><Variable formatSpec="{0}">actual host provided</Variable><q/>) 
+   or port(<q/><Variable formatSpec="{1}">actual port provided</Variable><q/>) value.
+   </MsgText>
+   <Explanation> <p>
+	See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide correct values in order to be able to connect to the remote server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB119E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.ERROR.CONNECTING.TO.SERVER" varFormat="Java">
+   Error connecting to server: <q/><Variable formatSpec="{0}">server name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Could not establish a connection to the remote server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check that the remote Touchpoint Provider is up and running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB120E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.PARAMETER" varFormat="Java">
+   Missing parameter value: <q/><Variable formatSpec="{0}">parameter name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	The Touchpoint Server configuration is missing a required parameter.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide the missing parameter value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB121E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.CREATING.SESSION" varFormat="Java">
+   Could not create session to the remote server: <q/><Variable formatSpec="{0}">server name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	See exception message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the remote server is up and running and that the Touchpoint Server has all necessary
+	configurations correctly set.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB122E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.IN.COMMUNICATION" varFormat="Java">
+   An error has occurred during the communication with the remote server:
+   <q/><Variable formatSpec="{0}">server name</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	See exception message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the Touchpoint Server configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB123W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.ERROR.READING.STASH" varFormat="Java">
+   Unable to read the Stash file. Reason: <q/><Variable formatSpec="{0}">underlying implementation message</Variable><q/> 
+   </MsgText>
+   <Explanation> <p>
+	See the message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	No action necessary.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB124I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.STASH.FILE.AREADY.READ" varFormat="Java">
+   The Stash file has already been read. Using the encryption settings from the solution.properties file.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB125I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.ENCRYPTION.SETTINGS" varFormat="Java">
+   Touchpoint Server configuration is missing encryption settings. Using the encryption settings from the solution.properties file.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB126E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.DEFAULT.ENCRYPTION.SETTINGS" varFormat="Java">
+   No encryption settings specified in solution.properties.
+   </MsgText>
+   <Explanation> <p>
+	The solution.properties is missing the encryption settings that the Touchpoint Server requires.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide encryption settings in order for the encryption of passwords to work.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB127E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.CONNECTOR.FROM.TOUCHPOINT.TEMPLATE" varFormat="Java">
+   Missing connector <q/><Variable formatSpec="{0}">connector name</Variable><q/> not found in 
+   template <q/><Variable formatSpec="{1}">path to template file</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	The provided Touchpoint Template is missing the required connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the Touchpoint Template and make sure the connector is there.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB128E" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.ERROR.SERIALIZING.ELEMENT" varFormat="Java">
+   Unable to create xml element: {<Variable formatSpec="{0}">element namespace</Variable>}<Variable formatSpec="{1}">element local name</Variable>
+   </MsgText>
+   <Explanation> <p>
+	See the provided exception message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message. Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB129W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.COULD.NOT.READ.FILE" varFormat="Java">
+   Could not read Touchpoint Server configuration file(<q/><Variable formatSpec="{0}">file name</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	See the provided exception message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the specified configuration file is readable.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB130W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.NOT.SPECIFIED" varFormat="Java">
+   Missing property: <q/>tp.server.config<q/>.
+   </MsgText>
+   <Explanation> <p>
+	The path to the Touchpoint Server configuration file is not specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide the path to the configuration file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB131W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.ERROR.RESTORING.STATE" varFormat="Java">
+   Could not restore persisted state.
+   </MsgText>
+   <Explanation> <p>
+	See the provided exception message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the persistence store is readable/writable by the Touchpoint Server application.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB132W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.ENTRY.STATE" varFormat="Java">
+   Missing state for Entry resource: <q/><Variable formatSpec="{0}">entry resource url</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Expected Entry resource state to be available in the persistence store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the persistence store is readable/writable by the Touchpoint Server application.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB133W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.FEED.STATE" varFormat="Java">
+   Missing state for Feed resource: <q/><Variable formatSpec="{0}">feed resource url</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Expected Feed resource state to be available in the persistence store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the persistence store is readable/writable by the Touchpoint Server application.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB134I" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.DISABLED" varFormat="Java">
+   Touchpoint Server persistence store is disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB135E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.ERROR.CREATING.NODE" varFormat="Java">
+   Error creating Touchpoint Provider(<q/><Variable formatSpec="{0}">server name</Variable><q/>) Entry resource.
+   </MsgText>
+   <Explanation> <p>
+	The Touchpoint Server is unable to create resource based on the provided configuration.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the particular Touchpoint Provider configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB136E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.FACING.CONFIG" varFormat="Java">
+   Missing Touchpoint Instance Client/Service Entry resource configuration data.
+   </MsgText>
+   <Explanation> <p>
+	The user has not provided the required configuration when creating Client/Service(-facing) Entry resource.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide the required configuration data.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB137E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.ENTRY.CATEGORY" varFormat="Java">
+   Entry resource (<q/><Variable formatSpec="{0}">entry resource url</Variable><q/>) is missing the required Touchpoint Type category.
+   </MsgText>
+   <Explanation> <p>
+	The persisted Entry resource must contain a Touchpoint Type specific category.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message. Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB138E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.TYPE.IS.NOT.ON.SERVER" varFormat="Java">
+   The Touchpoint Type (<q/><Variable formatSpec="{0}">category name</Variable><q/>) was not found on the 
+   server<q/><Variable formatSpec="{1}">server name</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	The required Touchpoint Type is missing from the server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check that the type exists on the server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB139E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.INSTANCE.CONFIG" varFormat="Java">
+   Missing Touchpoint Instance Entry resource configuration data.
+   </MsgText>
+   <Explanation> <p>
+	The user has not provided the required configuration when creating a Touchpoint Instance Entry resource.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide the required configuration data.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB140E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.INSTANCE.ID.ALREADY.EXISTS" varFormat="Java">
+   A Touchpoint Instance with ID <q/><Variable formatSpec="{0}">instance id</Variable><q/> is already present on the server.
+   </MsgText>
+   <Explanation> <p>
+	The Touchpoint Server could not restore resources with duplicate IDs.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	See error message. Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB141E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.FACING.ENTRY.ALREADY.EXISTS" varFormat="Java">
+   A Touchpoint Instance Service/Client Entry (<q/><Variable formatSpec="{0}">resource relative url</Variable><q/>) already exists.
+   </MsgText>
+   <Explanation> <p>
+	The Touchpoint Server could not create resources because one already exists.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the resource does not exist before creating it.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="ldapconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJQ001I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SSLINFO" varFormat="Java">
+   Using LDAP SSL connection. Ensure TCP port number is changed accordingly.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ002I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.USING.SIMPLE.AUTHENTICATION" varFormat="Java">
+   Username specified, using Simple authentication.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ003I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.USING.ANONYMOUS.BIND" varFormat="Java">
+   Using Anonymous bind.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ004I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NO.USERNAME.SPECIFIED.USING.ANONYMOUS" varFormat="Java">
+   No username specified, using Anonymous bind.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NEXT.EXTRA.PARAMETER" varFormat="Java">
+   Next extra parameter: <Variable formatSpec="{0}">parameter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ006I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.JNDI.EXTRA.PARAM.NO.COLON.SEPARATOR.IN.LINE" varFormat="Java">
+   Parsed a JNDI extra parameter with no colon separator in the line: <Variable formatSpec="{0}">parameter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.JNDI.PROVIDER.PARAM" varFormat="Java">
+   JNDI Provider Parameter: parameter name=<Variable formatSpec="{0}">parameter name</Variable>,
+   parameter value=<Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ008I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SETTING.BINARY.ATTRIBUTES.TO" varFormat="Java">
+   Setting binary attributes to: <Variable formatSpec="{0}">attribute value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NO.BINARY.ATTRIBUTES.SPECIFIED.USING.DEFAULT" varFormat="Java">
+   No binary attributes specified using default: <Variable formatSpec="{0}">attribute names</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.CANNOT.PERFORM.VIRTUALLISTVIEW.SEARCH" varFormat="Java">
+   Cannot perform VirtualListView search without sort attribute specified.
+   </MsgText>
+   <Explanation> <p>
+   The ldapVLVPageSize and dapSortAttribute attributes are dependant.
+   If the user specifies ldapVLVPageSize to perform VirtualListView search,
+   the ldapSortAttribute must be specified also.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid sort attribute value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ011I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.USING.VIRTUAL.LIST.VIEW" varFormat="Java">
+   Using Virtual List View. The sort attribute is <Variable formatSpec="{0}">attribute name</Variable>
+   and page size is <Variable formatSpec="{1}">page size</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REQUESTING.SORT.CONTROL.FOR.ATTRIBUTE" varFormat="Java">
+   Requesting Sort Control for attribute <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ013I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.LDAP.RETURN.ATTRIBUTES" varFormat="Java">
+   Dumping LDAP return attributes...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ014I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ATTRIBUTES" varFormat="Java">
+    Attribute: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.USING.PAGED.SEARCH.CONTROL.PAGE.SIZE" varFormat="Java">
+   Using &apos;Paged Search&apos; control: The page size is set to <Variable formatSpec="{0}">page size</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ016W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.LDAP.SERVER.DOES.NOT.CONFIRM.WARNING" varFormat="Java">
+    The LDAP server did not confirm that it supports &apos;Paged Search&apos; control.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required. The Paged Search control may be ignored by the LDAP server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ017I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.SEARCH.IN" varFormat="Java">
+   The selectEntries method will search the LDAP server for entries using the search base 
+   <Variable formatSpec="{0}">DN</Variable> and the search filter
+   &apos;&apos;<Variable formatSpec="{1}">search filter</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ019I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.HASMORE" varFormat="Java">
+   Entries were returned from the search.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ020I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.NO.ENTRIES.RETURNED" varFormat="Java">
+   No entries returned from the search
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.RETURNS.NULL.ENTRIES" varFormat="Java">
+   The selectEntries method will return a NULL value for the entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.RETURNS.NO.ENTRIES" varFormat="Java">
+   The selectEntries method will return no entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ023I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.PARTIALRESULTEXCEPTION.IGNORED" varFormat="Java">
+   A PartialResultException occurred and will be ignored.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ024I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REQUEST.NEXT.VLV" varFormat="Java">
+   Request the next page using Virtual List View Control at offset
+   <Variable formatSpec="{0}">index</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ025W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.LDAP.GETNEXT.RETURNS.PARTIAL.RESULT" varFormat="Java">
+  PartialResultException occurred while retrieving the next entry from the LDAP server.
+  LDAP server does not support paged results.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check LDAP server documentation to see if it supports paged results
+   or set the attribute ldapPageSize to 0.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ026E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.PUTENTRY.NO.DISTINGUISHED.NAME" varFormat="Java">
+   The putEntry method failed because no distinguished name ($dn attribute) was
+   specified in entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the $dn attribute to the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ027E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.DELTA.MODIFY.NO.DN.PROVIDED" varFormat="Java">
+   Unable to modify the entry. A delta modify occurred and no distinguished name
+   ($dn attribute) was provided in the conn entry or the link criteria.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the $dn attribute to the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ028I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MODIFYENTRY.NO.DISTINGUISHED.NAME" varFormat="Java">
+   No distinguished name ($dn attribute ) was given.  The existing distinguished name
+   will be used to modify the entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ029E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MODENTRY.NO.DISTINGUISHED.NAME.NO.EXISTING.ENTRY" varFormat="Java">
+   Unable to modify the entry. No distinguished name ($dn attribute) was given and
+   no existing entry was found.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the $dn attribute to the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ030I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.RENAME.ENTRY" varFormat="Java">
+   Renaming entry from &apos;&apos;<Variable formatSpec="{0}">old DN</Variable>&apos;&apos; 
+   to &apos;&apos;<Variable formatSpec="{1}">new DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ031I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.WILL.TRY.MANUAL.MOVE.OF.ENTRY" varFormat="Java">
+   Initial rename of entry was unsuccessful. A manual move of entry will be attempted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ032I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.WILL.NOT.TRY.MANUAL.MOVE.OF.ENTRY" varFormat="Java">
+   Initial rename of entry was unsuccessful.  A manual move of entry will not be attempted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ033I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVING.MODIFY.ITEM" varFormat="Java">
+   The modify operation on attribute <Variable formatSpec="{0}">attribute name</Variable> will
+   be ignored.  The attribute value would have been removed if the attribute was present
+   in the current entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ034E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ATTRIBUTEVALUE.WITH.UNDEFINED.OPERATION.CODE" varFormat="Java">
+   Unable to modify the entry.  The attribute <Variable formatSpec="{0}">attribute name</Variable>
+   at index <Variable formatSpec="{1}">index</Variable> was specified to be modified but had an
+   attribute value with an undefined operation code.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the attribute values of the modify work entry contains a valid operation code.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ035I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.IGNORING.AV.UNCHANGED.VALUE" varFormat="Java">
+   The attribute <Variable formatSpec="{1}">attribute name</Variable> will not be modified.
+   The operation code for attribute value
+   &apos;&apos;<Variable formatSpec="{0}">attribute value</Variable>&apos;&apos;
+   was unchanged.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ036I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NO.MODIFICATION.ITEMS.FOR.ENTRY" varFormat="Java">
+   The entry <Variable formatSpec="{0}">DN</Variable> will not be modified because there were no
+   modification operations specified on the entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ038E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MODENTRY.ERROR.BUILDING.MODIFICATIONITEM" varFormat="Java">
+   LDAP Connector was unable to modify the entry.  An exception occured while creating a ModificationItem
+   object that is used to modify the entry: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check all attributes and attribute values specified to be modified in the Entry.
+   See the exception for more information on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ039I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.CONNECTOR.MODIFICATION.LIST" varFormat="Java">
+   Dumping LDAP Connector Modification List...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ040I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MODS" varFormat="Java">
+   Modification item: <Variable formatSpec="{0}">modification item</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ041I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ASTERISKS" varFormat="Java">
+   Finished dumping LDAP Connector Modification List.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ042I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ATTRIBUTE.ALREADY.EXISTS.WITH.GIVEN.VALUE" varFormat="Java">
+   Attribute already exists with given value: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ043E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.DELETEENTRY.CALLED.WITH.NO.DN.OR.LINKCRITERIA" varFormat="Java">
+   The deleteEntry method was called with no &apos;$dn&apos; attribute or link-criteria.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the required $dn is an attribute in the Entry or presence of
+   link criteria.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ044I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SEARCH.FOR.DN" varFormat="Java">
+   Searching for $dn = <Variable formatSpec="{0}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ045I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.OBJECT.FOUND" varFormat="Java">
+   Object found for <Variable formatSpec="{0}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ046E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FINDENTRY.PARTIALRESULTEXCEPTION" varFormat="Java">
+   Unable to find the Entry. The findEntry method encountered a PartialResultException:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The error indicates the result being returned
+   are partial, and that the operation cannot be completed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ047I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FINDENTRY.WHERE.FILTER.IN.BASE" varFormat="Java">
+   LDAP Connector will look for Entry using the filter <Variable formatSpec="{0}">filter</Variable> on
+   the base DN <Variable formatSpec="{1}">DN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ048E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FINDENTRY.PARTIALRESULTEXCEPTION2" varFormat="Java">
+   Unable to find the Entry. The findEntry method encountered a PartialResultException:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The error indicates the result being returned
+   are partial, and that the operation cannot be completed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ049E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FINDENTRY.NAMENOTFOUNDEXCEPTION" varFormat="Java">
+   Unable to find the Entry. The findEntry method encountered a NameNotFoundException:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The error indicates the named component cannot be resolved
+   because it is not bound.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ050E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.AD.UNICODE.PASSWORD.IS.NOT.A.MULTIVALUE" varFormat="Java">
+   Unable to convert the entry to a set of attributes. The AD unicode password is not a
+   multi-value field (ref AutoMapADPassword).
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the AD unicode password.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ051I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ATTRIBUTE.USERPASSWORD.WAS.ENCODED.AND.AUTOMAPPED" varFormat="Java">
+   The Attribute &apos;userPassword&apos; was encoded and auto-mapped to &apos;unicodePwd&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ052I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.IGNORING.UNCHANGED.ATTRIBUTE" varFormat="Java">
+   Ignoring unchanged attribute:<Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ053I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVING.EMPTY.STRING.VALUE" varFormat="Java">
+   Removing empty string value for attribute <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ055I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVING.EMPTY.ATTRIBUTE" varFormat="Java">
+   Removing empty attribute: <Variable formatSpec="{0}">attribute ID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ056E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FATAL.EXCEPTION" varFormat="Java">
+   Unable to move the Entry. Exeception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ057E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MOVEENTRY.REMOVED.BUT.FAILED.TO.ADD.AGAIN" varFormat="Java">
+   The moveEntry method removed the Entry &apos;&apos;<Variable formatSpec="{0}">DN</Variable>&apos;&apos;
+   but failed to add it again during rename.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the LDAP server is still active and attempt to modify the entry again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ058I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SUCCESSFULLY.MOVED" varFormat="Java">
+   Successfully moved entry &apos;&apos;<Variable formatSpec="{0}">DN</Variable>&apos;&apos;
+   to &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ059I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.DOING.A.COMPARE.OF.DN" varFormat="Java">
+   Doing a compare of DN <Variable formatSpec="{0}">DN</Variable> using
+   filter <Variable formatSpec="{1}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ060I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.COMPARISON.IS.TRUE" varFormat="Java">
+   Comparison is true using filter <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ061I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.COMPARISON.IS.FALSE" varFormat="Java">
+   Comparison is false using filter <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ062I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.MODIFICATION.WAS.SUCCESSFUL" varFormat="Java">
+   The modification was successful.  The attribute value was added.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ063E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.ATTRIBUTE.ALREADY.EXISTS.WITH.GIVEN.VALUE" varFormat="Java">
+   Attribute already exists with given value: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ064E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.MODIFICATION.FAILED" varFormat="Java">
+   The modification failed. An exception occurred while
+   trying to add an attribute value:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ065I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REPLACE.MODIFICATION.WAS.SUCCESSFUL" varFormat="Java">
+   The modification was successful.  The attribute value was replaced.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ066E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REPLACE.ATTRIBUTE.ALREADY.EXISTS.WITH.GIVEN.VALUE" varFormat="Java">
+   Attribute already exists with given value: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ067E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REPLACE.MODIFICATION.FAILED" varFormat="Java">
+   The modification failed. An exception occurred while tring to replace an
+   attribute value: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ068I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVE.MODIFICATION.WAS.SUCCESSFUL" varFormat="Java">
+   The modification was successful.  The attribute value was removed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ069E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVE.MODIFICATION.FAILED" varFormat="Java">
+   The modification failed. An exception occurred while tring to remove an
+   attribute value: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ070I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVEALL.MODIFICATION.WAS.SUCCESSFUL" varFormat="Java">
+   The modification was successful. All attribute values were removed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ071E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.REMOVEALL.MODIFICATION.FAILED" varFormat="Java">
+   The modification failed. An exception occurred while tring to remove all the
+   attribute values: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ072I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.END.OF.PAGE" varFormat="Java">
+   The page result size: <Variable formatSpec="{0}">result size</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ073I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.END.OF.PAGE.UNKNOWN" varFormat="Java">
+   The page result size is unknown.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ074E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SORTED.VIEW.DID.NOT.COMPLETE.SUCCESSFULLY.ERROR" varFormat="Java">
+   Virtual List View Sort did not complete successfully.
+   The return code returned was <Variable formatSpec="{0}">return code</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ075I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VLV.LIST.SIZE" varFormat="Java">
+   Virtual List View List Size: <Variable formatSpec="{0}">size</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ076I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VLV.TARGET.OFFSET" varFormat="Java">
+   Virtual List View Target Offset: <Variable formatSpec="{0}">offset</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ077I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.MY.TARGET.OFFSET" varFormat="Java">
+   Target Offset: <Variable formatSpec="{0}">offset</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ078I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VIRTUAL.LIST.VIEW.CHANGED.RESULT.SET.SIZE" varFormat="Java">
+   Virtual List View changed result set size from 
+   <Variable formatSpec="{0}">size</Variable> to 
+   <Variable formatSpec="{1}">size</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ079I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VLV.CONTEXT.ID.IS.NULL" varFormat="Java">
+   Virtual List View Context ID is NULL.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ080I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NEXT.SCHEMA.CLASS" varFormat="Java">
+   Getting the next Schema class.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ081I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.CLASSDEFINITION.FOR" varFormat="Java">
+   The object class <Variable formatSpec="{0}">object class</Variable>
+   attributes: <Variable formatSpec="{1}">attributes</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ082W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.UNABLE.TO.QUERY.SERVER.INFORMATION" varFormat="Java">
+   Unable to query server information:
+   <Variable formatSpec="{0}">error message</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The LDAP Server does not support querying server information.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ083I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SERVER.DOES.NOT.TELL.US.SUPPORTED.CONTROLS" varFormat="Java">
+   The LDAP server does not tell us about it&apos;s supported controls.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ085I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SERVER.DOES.NOT.TELL.US.SUPPORTED.EXTENSIONS" varFormat="Java">
+   The LDAP server does not tell us about it&apos;s supported extensions.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ086I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.BEGIN.LDAP.SERVER.INFORMATION" varFormat="Java">
+   Dumping LDAP Server Information...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ087W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.UNABLE.TO.GET.SERVER.INFO" varFormat="Java">
+   Unable to get server information.
+   </MsgText>
+   <Explanation> <p>
+   The LDAP Server does not support querying server information.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ088I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SUPPORTED.CONTROLS.INFO" varFormat="Java">
+   Supported Controls of LDAP Server:
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ089I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SUPPORTED.CONTROLS" varFormat="Java">
+     Control <Variable formatSpec="{0}">control name</Variable>:
+     <Variable formatSpec="{1}">boolean</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ090I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NAMING.CONTEXTS.USE.IN.YOUR.SEARCH.BASE.PARAMETER" varFormat="Java">
+   Naming Contexts (use in your search base parameter).
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ091I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NO.INFO.ON.NAMING.CONTEXTS" varFormat="Java">
+    No info on the naming contexts.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ092I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.NAMINGCONTEXTS.VALUES" varFormat="Java">
+   Naming context at index<Variable formatSpec="{0}">index</Variable>:
+   <Variable formatSpec="{1}">naming context</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ093I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.END.LDAP.SERVER.INFORMATION" varFormat="Java">
+   Finished dumping LDAP Server Information.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ094I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.DN.FROM.CRITERIA.VECTOR.INSTANCE" varFormat="Java">
+   The feature object passed to the addDNFromCriteria method is an instance of class Vector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ095I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.DN.FROM.CRITERIA.SEARCH.CRITERIA" varFormat="Java">
+   The feature object passed to the addDNFromCriteria method is an instance of class SearchCriteria.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ096I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.DN.FROM.CRITERIA.SEARCH.RSCSEARCH" varFormat="Java">
+   The feature object passed to the addDNFromCriteria method is an instance of class SearchCriteria.rscSearch.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ097E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.CANNOT.MIX.DN.MATCHING.WITH.OTHER.ATTR" varFormat="Java">
+   Cannot mix $dn matching with other attributes in a search.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ098I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.ADD.DN.FROM.CRITERIA.ADD.DN.VALUE" varFormat="Java">
+   Add DN value: 
+   &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ099E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.UNKNOWN.OBJECT.TYPE.IN.SEARCH.FILTER" varFormat="Java">
+   Unknown object type in search filter:
+   <Variable formatSpec="{0}">class name</Variable>:
+   <Variable formatSpec="{1}">object</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The type of the object in the filter is not supported.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Use one of the supported types.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ100E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.EXCEPTION.IN.LDAPCONNECTOR.REBIND" varFormat="Java">
+   LDAP Connector is unable to rebind to the LDAP server.
+   </MsgText>
+   <Explanation> <p>
+   All attempts to reauthenticate using the currently
+   open connection but underlying reconnect function failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the connection to the server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ101E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.COLON.1" varFormat="Java">
+   Failed to query the schema on the search DN
+   <Variable formatSpec="{0}">DN</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An NameNotFoundException is encountered.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ102E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.COLON.2" varFormat="Java">
+   Failed to get the attribute syntax on the search DN
+   <Variable formatSpec="{0}">DN</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ103E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VIRTUAL.LISTVIEW.CONTROL.CLASS.MISSING" varFormat="Java">
+   The VirtualListViewControl class cannot be loaded.
+   </MsgText>
+   <Explanation><p>
+   An appropriate JAR library (which contains the VirtualListViewControl class) needs to be provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ104E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VIRTUAL.LISTVIEW.CONTROL.METHOD.MISSING" varFormat="Java">
+   The VirtualListViewControl class does not provide the required interface.
+   </MsgText>
+   <Explanation><p>
+   A required method was not found in the currently loaded VirtualListViewControl class.
+   Possibly a wrong version of this class was provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ105E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VIRTUAL.LISTVIEW.RESPONSE.CONTROL.CLASS.MISSING" varFormat="Java">
+   The VirtualListViewResponseControl class cannot be loaded.
+   </MsgText>
+   <Explanation><p>
+   An appropriate JAR library (which contains the VirtualListViewResponseControl class)
+   needs to be provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ106E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.VIRTUAL.LISTVIEW.RESPONSE.CONTROL.METHOD.MISSING" varFormat="Java">
+   The VirtualListViewResponseControl class does not provide the required interface.
+   </MsgText>
+   <Explanation><p>
+   A required method was not found in the currently loaded VirtualListViewResponseControl class.
+   Possibly a wrong version of this class was provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ107W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.SELECTENTRIES.SEARCH.EXC" varFormat="Java">
+   The selectEntries method was unable to perform the search.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ108W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.COMPARE.SEARCH.EXC" varFormat="Java">
+   The compare method was unable to perform the search.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ109W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.QUERY.SCHEMA.WARNING" varFormat="Java">
+   Error while quering schema.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ110W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.CANNOT.CLOSE.CONTEXT" varFormat="Java">
+   Cannot close the connection to the LDAP Server.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ111W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.FINDENTRY.NAMENOTFOUNDEXCEPTION2" varFormat="Java">
+   Unable to find the Entry. The findEntry method encountered a NameNotFoundException:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The error indicates the named component cannot be resolved
+   because it is not bound.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJQ112W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.LDAP.LDAPURL.NULL" varFormat="Java">
+    The LDAP <q/>ldapUrl<q/> name is not provided.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJQ113W" prefix="yes">
+   <MsgText pgmKey="UNABLE.TO.PARSE.URL" varFormat="Java">
+    The Distinguished Name <Variable formatSpec="{0}">url</Variable>
+    cannot be parsed as a URL.
+   </MsgText>
+   <Explanation> <p>
+   The LDAP server returned a Distinguished Name marked as a URL,
+   but it cannot be parsed as a URL.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="xmlparser2" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJZ301I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.USING.DEFAULT.ENCODING" varFormat="Java">
+   No character encoding was specified. 
+   The system will fall back to the default encoding: <Variable formatSpec="{0}">Character Set</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ302I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.INIT.INPUT" varFormat="Java">
+   Initializing the XML Parser for reading...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ303I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.INIT.OUTPUT" varFormat="Java">
+   Initializing the XML Parser for writing...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ304I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.ELEMENT.FOUND" varFormat="Java">
+   The XML Parser has found an element.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ305I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.ELEMENT.NOT.FOUND" varFormat="Java">
+   The XML Parser could not find any elements.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ306I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.END.OF.DOCUMENT.REACHED" varFormat="Java">
+   The XML Parser has reached the end of the XML document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ307W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.HELPER.UNSUPPORTED.NOTATION" varFormat="Java">
+	Invalid path: the notation &apos;//&apos; is not supported. The path will be ignored.
+   </MsgText>
+   <Explanation> <p>
+	The XML Parser does not understand path expressions that contain the string &apos;//&apos;.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the configuration path of the XML Parser does not contain the string &apos;//&apos;.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ308W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.INVALID.EMPTY.PATH" varFormat="Java">
+	Invalid path: at least a single element name must be specified when the parser is in Input mode. The path will be ignored.
+   </MsgText>
+   <Explanation> <p>
+	The XML Parser requires at least one valid path to be configured for navigation througout the document.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the configuration path of the XML Parser is a valid expression.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ309W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.HELPER.IGNORE.NS.MAP" varFormat="Java">
+	The entry: &apos;<Variable formatSpec="{0}">Prefix=Namespace</Variable>&apos; is an invalid prefix to namespace definition.
+	This entry will be ignored.
+   </MsgText>
+   <Explanation> <p>
+	The XML Parser has a specific syntax for declaring namespaces, and the entered string appears to be invalid.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure that the namespace definition string contains a valid expression.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ310E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.HELPER.INVALID.PATH" varFormat="Java">
+	The path: &apos;<Variable formatSpec="{0}">part of the XPath</Variable>&apos; is invalid.
+   </MsgText>
+   <Explanation> <p>
+	The path entered is invalid and the XML Parser cannot continue until the error is corrected.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   make sure that the field for declaring attributes is properly configured.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Message with ID="CTGDJZ311E" was deleted -->
+
+<Message ID="CTGDJZ312E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.NOINPUT.ERROR" varFormat="Java">
+	Failed to read XML because the input stream was not found.
+   </MsgText>
+   <Explanation> <p>
+	This error might appear if the XML Parser is not properly initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the XML Parser is properly initialized.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ313E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.NOOUTPUT.ERROR" varFormat="Java">
+	Failed to write XML because the output stream was not found.
+   </MsgText>
+   <Explanation> <p>
+	This error might appear if the XML Parser is not properly initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the XML Parser is properly initialized.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Removed Message with ID="CTGDJZ314E" -->
+
+<Message ID="CTGDJZ315E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.NO.PREFIX.DECLARED" varFormat="Java">
+	The prefix &apos;<Variable formatSpec="{0}">Prfix</Variable>&apos; is not declared for this context.
+   </MsgText>
+   <Explanation> <p>
+	The field for declaring attributes must declare the prefix correctly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the prefix is declared correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ316E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.HELPER.NO.VALID.PATH.LEFT" varFormat="Java">
+	None of the configured paths is a valid one.
+   </MsgText>
+   <Explanation> <p>
+	The XML Parser ignores all invalid paths. If the XML Parser has no valid paths, this exception will be thrown.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the navigation path is properly configured.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ317E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.UNSUPPORTED.WILDCARD.IN.ENTRY.TAG" varFormat="Java">
+	An unsupported wildcard in the Entry Tag was specified.
+   </MsgText>
+   <Explanation> <p>
+	See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that a correct value is specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ318E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.MISSING.REQUIRED.TAG.NAMES" varFormat="Java">
+	Both the Entry Tag and the Value Tag parameters are required when the Wrap/Unwrap Entry option is enabled.
+   </MsgText>
+   <Explanation> <p>
+	See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Set values to both the Entry Tag and the Value Tag fields.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ319E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.UNSUPPORTED.WILDCARD.IN.VALUE.TAG" varFormat="Java">
+	An unsupported wildcard in the Value Tag was specified.
+   </MsgText>
+   <Explanation> <p>
+	See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that a correct value is specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ320E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.SCHEMA.ELEMENT.NOT.FOUND" varFormat="Java">
+	The element was not found in the specified schema. Element name: <Variable formatSpec="{0}">name</Variable>
+   </MsgText>
+   <Explanation> <p>
+	The user has entered an element that was not found in the specified schema or in its included schemas.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the element path and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ321W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.WARNING.ELEMENT.WITHOUT.NS" varFormat="Java">
+   The element: &apos;<Variable formatSpec="{0}">element name</Variable>&apos; has no namespaceURI.
+   The XML Parser found the prefix bound to a namespaceURI. The element&apos;s prefix and local name will be used when writing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ322W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.WARNING.PROPERTY.WITHOUT.NS" varFormat="Java">
+   The attriubte: &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos; has no namespaceURI.
+   The XML Parser found the prefix bound to a namespaceURI. The attribute&apos;s prefix and local name will be used when writing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ323W" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.WARNING.NO.PREFIX.DECLARATION.FOUND" varFormat="Java">
+   The prefix: &apos;<Variable formatSpec="{0}">prefix</Variable>&apos; is not bound to a namespace. 
+   The parser will use the element&apos;s/attribute&apos;s local name only and will ignore the prefix when writing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ324I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.DECODER.BOM.FOUND" varFormat="Java">
+   A Byte Order Mark (BOM) was found. Using encoding: &apos;<Variable formatSpec="{0}">encoding name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ325I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.DECODER.XML.ENC.FOUND" varFormat="Java">
+   The encoding attribute of the XML declaration was found.
+   Using encoding: &apos;<Variable formatSpec="{0}">encoding name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ326I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.DECODER.ENC.NOT.FOUND" varFormat="Java">
+   No encoding found! Using default encoding: &apos;<Variable formatSpec="{0}">encoding name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ327I" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.NULL.ENTRY.PASSED" varFormat="Java">
+	A NULL Entry object was passed to the &apos;writeEntry&apos; method of the XML Parser. The method call was ignored.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Removed Message with ID="CTGDJZ328E" -->
+
+<Message ID="CTGDJZ329E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.UNSUPPORTED.XPATH" varFormat="Java">
+	The specified path is unsupported: &apos;<Variable formatSpec="{0}">xpath.expr value</Variable>&apos;
+   </MsgText>
+   <Explanation> <p>
+	This exception is thrown if the schema discovery mechanism encounters a path that contains a wildcard.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check whether you have configured a path that contains a wildcard.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ330E" prefix="yes">
+   <MsgText pgmKey="XML.PARSER.2.INVALID.XML.CHARACTER.FOUND.IN.ENTRY.TAG" varFormat="Java">
+	An unsupported xml character in the Entry Tag was specified.
+   </MsgText>
+   <Explanation> <p>
+	See error message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that a correct value is specified.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

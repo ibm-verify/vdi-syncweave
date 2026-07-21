@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="72" UUID="6bcac6fc-67ce-4002-9de3-67d9218a4f77" created="Tue Dec 17 13:23:44 CET 2013" createdBy="stadheim" main="UI_LDAP" modified="Wed May 06 17:28:52 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<AssemblyLine name="UI_LDAP">
+        <ModTime>1430926132226</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="maxread"><![CDATA[@SUBSTITUTE{javascript var val = task.getOpEntry().getString("count");
+if(!val) {
+	val = "50";
+}
+return val;}]]></parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <ModTime>1430926132226</ModTime>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <ModTime>1430926132226</ModTime>
+                <Name>onfailure</Name>
+                <Script><![CDATA[if (error && error != null) {
+	work.merge(error);	
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[function getAttributeSyntaxes(schema, attr, syntaxEntry) {
+	if(attr != null) {
+		for(var i = 0; i < attr.size(); i++) {
+			var name = attr.getValue(i);
+			if(syntaxEntry[name] == null) {
+				syntaxEntry[name] = getAttributeSyntax(schema, name);
+			}	
+		}
+	}
+}
+
+function getAttributeSyntax(schema, attr) {
+	var result=schema.lookup("AttributeDefinition/" + attr);
+	var e = system.newEntry();
+	if(result != null) {
+		result = result.getAttributes("").getAll();
+		while(result.hasMore()) {
+			var av = result.next();
+			for(i = 0; i < av.size(); i++) {
+				e.addAttributeValue(av.getID(), av.get(i));
+			}	
+			if(av.getID() == "SYNTAX") {
+				var str = SchemaLDAP.connector.mapAttributeSyntax(av.get(0));
+				if(str != null)
+					e.addAttributeValue("SyntaxString", str);
+			}
+		}
+	}
+	return e;
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="IF_Update" state="Enabled"/>
+                <Component name="AddLDAP" state="Disabled"/>
+                <Component name="Schema" state="Enabled"/>
+                <Component name="SchemaLDAP" state="Enabled"/>
+                <Component name="QuerySchema" state="Enabled"/>
+                <Component name="Read" state="Enabled"/>
+                <Component name="ReadLDAP" state="false"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1392717621222</ModTime>
+            <Branch name="IF_Update">
+                <ModTime>1390559621335</ModTime>
+                <Connector name="AddLDAP">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <ModTime>1390559621335</ModTime>
+                    <ConnectorMode>Delta</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="ldapPassword">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.password")}</parameter>
+                        <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchbase")}</parameter>
+                        <parameter name="ldapSearchFilter">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchfilter")}</parameter>
+                        <parameter name="ldapSearchScope">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchscope")}</parameter>
+                        <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.url")}</parameter>
+                        <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.user")}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>1438b31e5bc</Key>
+                            <Attribute>$dn</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$$dn</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Hook name="default_fail">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>default_fail</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+                <ScriptCondition>return work.getOperation() != "generic";</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Branch name="Schema">
+                <ModTime>1392717621222</ModTime>
+                <Connector name="SchemaLDAP">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <ModTime>1392717380476</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Passive</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="ldapPassword">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.password")}</parameter>
+                        <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return ""}</parameter>
+                        <parameter name="ldapSearchFilter">objectclass=*</parameter>
+                        <parameter name="ldapSearchScope">baselevel</parameter>
+                        <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.url")}</parameter>
+                        <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.user")}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$dn</Name>
+                            <Type>advanced</Type>
+                            <Script>return "cn=" + constructCN() + ", cn=Passthrough Authentication, cn=configuration";</Script>
+                            <Simple>$dn</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cn</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script>return constructCN();</Script>
+                            <Simple>cn</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaAttrMapping</Name>
+                            <Type>advanced</Type>
+                            <Script>work["ibm-slapdPtaAttrMapping"]</Script>
+                            <Simple>ibm-slapdPtaAttrMapping:</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaBindDN</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaBindDN</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaSearchBase</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaSearchBase</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaSubtree</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script>work["ibm-slapdPtaSubtree"]</Script>
+                            <Simple>ibm-slapdPtaSubtree:</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaURL</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaURL</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtabindPW</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtabindPW</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>objectClass</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script><![CDATA[return [
+	"ibm-slapdConfigEntry",
+	"ibm-slapdPta",
+	"ibm-slapdPtaExt"
+];]]></Script>
+                            <Simple>objectClass</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Hook name="close_fail">
+                            <Name>close_fail</Name>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+                <Script name="QuerySchema">
+                    <ModTime>1392717621222</ModTime>
+                    <parameter name="script"><![CDATA[//
+// -- Get schema dir context
+//
+SchemaLDAP.checkInitialize();
+ctx = SchemaLDAP.connector.getLdapContext();
+clsname = work.getString("objectclasses");
+schema = ctx.getSchema("");
+
+// -- clear work entry
+work.removeAllAttributes();
+
+// -- list all classes?
+if(clsname == "*") {
+	result=schema.lookup("classDefinition").list("");
+	while(result && result.hasMore()) {
+		obj = result.next();
+		work.addAttributeValue("objectclasses", obj.getName());
+	}
+	
+} else if(clsname != null) {
+	var attrSyntax = system.newEntry();
+	var classArray = [clsname];
+	var useSup = true;
+	if(clsname.indexOf(",") > 0) {
+		classArray = clsname.split(",");
+		useSup = false;
+	}
+	
+	while(classArray.length > 0) {
+		var nextClass = classArray.pop();
+			
+		result=schema.lookup("classDefinition/" + nextClass);
+		if(result != null) {
+			result = result.getAttributes("").getAll();
+			var e = system.newEntry();
+			while(result.hasMore()) {
+				var attr = result.next();
+				for(i = 0; i < attr.size(); i++)
+					e.addAttributeValue(attr.getID(), attr.get(i));
+				if(attr.getID() == "SUP" && useSup) {
+					classArray.push(attr.get(0));
+				}
+			}
+			getAttributeSyntaxes(schema, e.MAY, attrSyntax);
+			getAttributeSyntaxes(schema, e.MUST, attrSyntax);
+			work.setAttribute(e.getString("NAME"), e);
+		}
+	}
+	work.setAttribute("__syntax__", attrSyntax)	
+}]]></parameter>
+                </Script>
+                <Conditions>
+                    <BranchCondition>
+                        <LeftHand>objectclasses</LeftHand>
+                        <Operator>hasValue</Operator>
+                        <RightHand/>
+                        <Negate>false</Negate>
+                        <CaseSensitive>false</CaseSensitive>
+                        <MatchAny>false</MatchAny>
+                    </BranchCondition>
+                </Conditions>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>1</Type>
+            </Branch>
+            <Branch name="Read">
+                <ModTime>1392368644581</ModTime>
+                <Connector name="ReadLDAP">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <ModTime>1392368644581</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="ldapPassword">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.password")}</parameter>
+                        <parameter name="ldapReturnAttributes"><![CDATA[@SUBSTITUTE{javascript var attr = task.opEntry.getString("target.ldap.attributes")
+if(attr != null && attr != "")
+	return attr;
+else
+	return null;}]]></parameter>
+                        <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchbase")}</parameter>
+                        <parameter name="ldapSearchFilter">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchfilter")}</parameter>
+                        <parameter name="ldapSearchScope">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.searchscope")}</parameter>
+                        <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.url")}</parameter>
+                        <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.opEntry.getString("target.ldap.user")}</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$dn</Name>
+                            <Type>advanced</Type>
+                            <Script>return "cn=" + constructCN() + ", cn=Passthrough Authentication, cn=configuration";</Script>
+                            <Simple>$dn</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cn</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script>return constructCN();</Script>
+                            <Simple>cn</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaAttrMapping</Name>
+                            <Type>advanced</Type>
+                            <Script>work["ibm-slapdPtaAttrMapping"]</Script>
+                            <Simple>ibm-slapdPtaAttrMapping:</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaBindDN</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaBindDN</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaSearchBase</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaSearchBase</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaSubtree</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script>work["ibm-slapdPtaSubtree"]</Script>
+                            <Simple>ibm-slapdPtaSubtree:</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtaURL</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtaURL</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ibm-slapdPtabindPW</Name>
+                            <Type>simple</Type>
+                            <Simple>ibm-slapdPtabindPW</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>objectClass</Name>
+                            <Type>advanced</Type>
+                            <Modify>false</Modify>
+                            <Script><![CDATA[return [
+	"ibm-slapdConfigEntry",
+	"ibm-slapdPta",
+	"ibm-slapdPtaExt"
+];]]></Script>
+                            <Simple>objectClass</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Hook name="default_fail">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>default_fail</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>2</Type>
+            </Branch>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

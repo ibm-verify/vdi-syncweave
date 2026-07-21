@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+	<include schemaLocation="base.xsd"></include>
+	<complexType name="LogBinding">
+		<sequence>
+			<element name="item" type="tns:LogItemBinding" maxOccurs="unbounded"
+				minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="LogItemBinding">
+		<complexContent>
+			<extension base="tns:ParametersBinding"></extension>
+		</complexContent>
+	</complexType>
+
+
+
+</schema>

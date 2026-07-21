@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Tue Sep 29 13:45:10 SGT 2009" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.InitITRegistryFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.itregistry.InitITRegistryFC</parameter>
+				<parameter name="classType">cdm:process.ManagementSoftwareSystem</parameter>
+				<parameter name="cdmVersion"></parameter>
+				<parameter name="bookName"></parameter>
+				<parameter name="refresh">false</parameter>
+				<parameter name="useITRegistryCdm">true</parameter>				
+				<parameter name="jdbcUrl"></parameter>
+				<parameter name="jdbcDriver"></parameter>
+				<parameter name="dbUsername"></parameter>
+				<parameter name="dbPassword"></parameter>				
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$mssGuid</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>			
+			</Schema>
+			<Schema name="Output">
+			<SchemaItem>
+					<Name>$itRegistryBookName</Name>
+					<Syntax>string</Syntax>
+			</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.itregistry.InitITRegistryFC">
+			<TranslationFile>NLS/idi_fc_inititregistryfc</TranslationFile>
+			<Validators>
+				<ListItem type="map" name="output">com.ibm.di.cdm.jar.CDMComponentAttributesValidator</ListItem>
+			</Validators>
+			<parameter name="title">INIT_ITREGISTRY_FC_TITLE</parameter>
+			<parameter name="description">INIT_ITREGISTRY_FC_DESC</parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>cdmVersion</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>bookName</ListItem>
+					<ListItem>refresh</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>cdmVersion</ListItem>
+					<ListItem>bookName</ListItem>
+					<ListItem>refresh</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="cdmVersion">
+				<parameter name="description">INIT_ITREGISTRY_FC_CDM_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_CDM_LABEL</parameter>
+				<parameter name="script">getCdmVersion2</parameter>
+				<parameter name="scriptLabel">INIT_ITREGISTRY_FC_CHECKCDM_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">INIT_ITREGISTRY_FC_CHECKCDM_SCRIPT_DESC</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="bookName">
+				<parameter name="description">INIT_ITREGISTRY_FC_BOOKNAME_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_BOOKNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="refresh">			
+				<parameter name="description">INIT_ITREGISTRY_FC_REFRESH_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_REFRESH_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useITRegistryCdm">			
+				<parameter name="description">INIT_ITREGISTRY_FC_USEITREGISTRYCDM_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_USEITREGISTRYCDM_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jdbcUrl">
+				<parameter name="description">INIT_ITREGISTRY_FC_JDBCURL_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_JDBCURL_LABEL</parameter>
+				<parameter name="script">checkDbConnection2</parameter>
+				<parameter name="scriptLabel">INIT_ITREGISTRY_FC_QUERYDB_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">INIT_ITREGISTRY_FC_QUERYDB_SCRIPT_HELP</parameter>			
+				<parameter name="syntax">string</parameter>
+			</FormItem>			
+			<FormItem name="jdbcDriver">
+				<parameter name="description">INIT_ITREGISTRY_FC_JDBCDRIVER_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_JDBCDRIVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbUsername">
+				<parameter name="description">INIT_ITREGISTRY_FC_DBUSERNAME_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_DBUSERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>			
+			<FormItem name="dbPassword">
+				<parameter name="description">INIT_ITREGISTRY_FC_DBPASSWORD_DESC</parameter>
+				<parameter name="label">INIT_ITREGISTRY_FC_DBPASSWORD_LABEL</parameter>
+				<parameter name="syntax">Password</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

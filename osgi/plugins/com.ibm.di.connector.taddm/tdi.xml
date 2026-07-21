@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Aug 25 12:00:00 SGT 2010"
+	version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TADDMConnector">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update,Delta</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.osgi.ConnectorDelegate</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="artifactType">CI</parameter>
+				<parameter name="idmlMode">false</parameter>
+				<parameter name="depth">3</parameter>
+				<parameter name="hostname" />
+				<parameter name="port" />
+				<parameter name="username" />
+				<parameter name="password" />
+				<parameter name="taddmSDK" />
+				<parameter name="mssName" />
+				<parameter name="mqlSelect" />
+				<parameter name="fetchSize" />
+				<parameter name="domainAttrs">false</parameter>
+				<parameter name="extendedAttrs">false</parameter>
+				<parameter name="explicitRelns">false</parameter>
+				<parameter name="mssAttrs">false</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+		</Connector>
+		<Connector name="ibmdi.TADDMCDConnector">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.osgi.ChangeDetectionConnectorDelegate</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="artifactType">CI</parameter>
+				<parameter name="idmlMode">false</parameter>
+				<parameter name="depth">3</parameter>
+				<parameter name="hostname" />
+				<parameter name="port" />
+				<parameter name="username" />
+				<parameter name="password" />
+				<parameter name="taddmSDK" />
+				<parameter name="created">true</parameter>
+				<parameter name="updated">true</parameter>
+				<parameter name="deleted">true</parameter>
+				<parameter name="stateKeyPersistence">End of cycle</parameter>
+				<parameter name="pollInterval">180</parameter>
+				<parameter name="useSSL">false</parameter>
+				<parameter name="domainAttrs">false</parameter>
+				<parameter name="extendedAttrs">false</parameter>
+				<parameter name="mssAttrs">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+
+	<Folder name="Forms">
+		<Form name="ibmdi.TADDMConnector">
+			<TranslationFile>NLS/idi_conn_taddm</TranslationFile>
+			<Validators>
+				<ListItem type="map" name="output">com.ibm.di.server.validate.taddm.TADDMValidator</ListItem>
+			</Validators>
+			<parameter name="title">TADDM_CONNECTOR_TITLE</parameter>
+			<parameter name="description">CONN_DESC</parameter>
+			<parameter name="formevents"><![CDATA[
+				function idmlMode_changed () {
+					var val = form.getConfig("idmlMode");
+					var checkBox =  form.getControl("explicitRelns");
+					if ( val == null || checkBox == null) {
+						return;
+					} 
+					if ( val.equalsIgnoreCase("true") ) {
+						checkBox.setEnabled(true);
+					} else {
+						checkBox.setEnabled(false);
+					}
+				}
+				idmlMode_changed ();
+			]]></parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+				<ListItem>ExtraAttributes</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+					<ListItem>idmlMode</ListItem>
+					<ListItem>depth</ListItem>
+					<ListItem>hostname</ListItem>
+					<ListItem>port</ListItem>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>taddmSDK</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>mssName</ListItem>
+					<ListItem>mqlSelect</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>fetchSize</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="ExtraAttributes">
+				<parameter name="title">ExtraAttributes</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>domainAttrs</ListItem>
+					<ListItem>extendedAttrs</ListItem>
+					<ListItem>explicitRelns</ListItem>
+					<ListItem>mssAttrs</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>artifactType</ListItem>
+				<ListItem>classType</ListItem>
+				<ListItem>idmlMode</ListItem>
+				<ListItem>depth</ListItem>
+				<ListItem>hostname</ListItem>
+				<ListItem>port</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>taddmSDK</ListItem>
+				<ListItem>mssName</ListItem>
+				<ListItem>mqlSelect</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>fetchSize</ListItem>
+				<ListItem>domainAttrs</ListItem>
+				<ListItem>extendedAttrs</ListItem>
+				<ListItem>explicitRelns</ListItem>
+				<ListItem>mssAttrs</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="artifactType">
+				<Values>
+					<ListItem>CI</ListItem>
+					<ListItem>RELATIONSHIP</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>CI</Key>
+						<Value>TADDM_CONN_CI</Value>
+					</Item>
+					<Item>
+						<Key>RELATIONSHIP</Key>
+						<Value>TADDM_CONN_RELATIONSHIP</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">TADDM_CONN_ARTIFACTTYPE_DESC</parameter>
+				<parameter name="label">TADDM_CONN_ARTIFACTTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="classType">
+				<parameter name="description">TADDM_CONN_CLASSTYPE_DESC</parameter>
+				<parameter name="label">TADDM_CONN_CLASSTYPE_LABEL</parameter>
+				<parameter name="script">getTADDMTypes</parameter>
+				<parameter name="scriptLabel">TADDM_CONN_CLASSTYPE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CONN_CLASSTYPE_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="idmlMode">
+				<parameter name="description">TADDM_CONN_IDMLMODE_DESC</parameter>
+				<parameter name="label">TADDM_CONN_IDMLMODE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="depth">
+				<parameter name="description">TADDM_CONN_DEPTH_DESC</parameter>
+				<parameter name="label">TADDM_CONN_DEPTH_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="hostname">
+				<parameter name="description">TADDM_CONN_HOSTNAME_DESC</parameter>
+				<parameter name="label">TADDM_CONN_HOSTNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="port">
+				<parameter name="description">TADDM_CONN_PORT_DESC</parameter>
+				<parameter name="label">TADDM_CONN_PORT_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">TADDM_CONN_USERNAME_DESC</parameter>
+				<parameter name="label">TADDM_CONN_USERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">TADDM_CONN_PASSWORD_DESC</parameter>
+				<parameter name="label">TADDM_CONN_PASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="taddmSDK">
+				<parameter name="description">TADDM_CONN_TADDMSDK_DESC</parameter>
+				<parameter name="label">TADDM_CONN_TADDMSDK_LABEL</parameter>
+				<parameter name="script">selectDirectory</parameter>
+				<parameter name="scriptLabel">TADDM_CONN_TADDMSDK_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CONN_TADDMSDK_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="mssName">
+				<parameter name="description">TADDM_CONN_MSS_DESC</parameter>
+				<parameter name="label">TADDM_CONN_MSS_LABEL</parameter>
+				<parameter name="script">getMSS</parameter>
+				<parameter name="scriptLabel">TADDM_CONN_MSS_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CONN_MSS_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="mqlSelect">
+				<parameter name="description">TADDM_CONN_MQLSELECT_DESC</parameter>
+				<parameter name="label">TADDM_CONN_MQLSELECT_LABEL</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.MQLStatementEditor</parameter>
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="script">selectTADDMSearchFilter</parameter>
+				<parameter name="scriptLabel">TADDM_CONN_MQL_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CONN_MQL_SCRIPT_HELP</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">TADDM_CONN_USESSL_DESC</parameter>
+				<parameter name="label">TADDM_CONN_USESSL_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="fetchSize">
+				<parameter name="description">TADDM_CONN_FETCHSIZE_DESC</parameter>
+				<parameter name="label">TADDM_CONN_FETCHSIZE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="modes">Iterator,Lookup,Delete</parameter>
+			</FormItem>
+			<FormItem name="domainAttrs">
+				<parameter name="description">TADDM_CONN_DOMAINATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CONN_DOMAINATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">Iterator,Lookup,Delete</parameter>
+			</FormItem>
+			<FormItem name="extendedAttrs">
+				<parameter name="description">TADDM_CONN_EXTENDEDATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CONN_EXTENDEDATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">Iterator,Lookup,Delete</parameter>
+			</FormItem>
+			<FormItem name="explicitRelns">
+				<parameter name="description">TADDM_CONN_EXPLICITATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CONN_EXPLICITATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">Iterator,Lookup,Delete</parameter>
+			</FormItem>
+			<FormItem name="mssAttrs">
+				<parameter name="description">TADDM_CONN_MSSATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CONN_MSSATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">Iterator,Lookup,Delete</parameter>
+			</FormItem>
+		</Form>
+		<Form name="ibmdi.TADDMCDConnector">
+			<TranslationFile>NLS/idi_conn_taddmcd</TranslationFile>
+			<parameter name="title">TADDM_CD_CONNECTOR_TITLE</parameter>
+			<parameter name="description">CONN_DESC</parameter>
+			<parameter name="formevents" />
+			<parameter name="formscript"><![CDATA[
+	function getServerTime(){
+		var connector = form.loadConnector();
+		form.alert(connector.getDelegate().getServerTime());
+	}
+]]></parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+				<ListItem>ExtraAttributes</ListItem>
+			</FormSectionNames>
+			<FormItemNames>
+				<ListItem>artifactType</ListItem>
+				<ListItem>classType</ListItem>
+				<ListItem>idmlMode</ListItem>
+				<ListItem>depth</ListItem>
+				<ListItem>hostname</ListItem>
+				<ListItem>port</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>taddmSDK</ListItem>
+				<ListItem>iteratorStateKey</ListItem>
+				<ListItem>startAt</ListItem>
+				<ListItem>created</ListItem>
+				<ListItem>updated</ListItem>
+				<ListItem>deleted</ListItem>
+				<ListItem>stateKeyPersistence</ListItem>
+				<ListItem>pollInterval</ListItem>
+				<ListItem>maximumWaitTime</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>domainAttrs</ListItem>
+				<ListItem>extendedAttrs</ListItem>
+				<ListItem>mssAttrs</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+					<ListItem>idmlMode</ListItem>
+					<ListItem>depth</ListItem>
+					<ListItem>hostname</ListItem>
+					<ListItem>port</ListItem>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>taddmSDK</ListItem>
+					<ListItem>iteratorStateKey</ListItem>
+					<ListItem>startAt</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>created</ListItem>
+					<ListItem>updated</ListItem>
+					<ListItem>deleted</ListItem>
+					<ListItem>stateKeyPersistence</ListItem>
+					<ListItem>pollInterval</ListItem>
+					<ListItem>maximumWaitTime</ListItem>
+					<ListItem>useSSL</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="ExtraAttributes">
+				<parameter name="title">ExtraAttributes</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>domainAttrs</ListItem>
+					<ListItem>extendedAttrs</ListItem>
+					<ListItem>mssAttrs</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItem name="artifactType">
+				<Values>
+					<ListItem>CI</ListItem>
+					<ListItem>RELATIONSHIP</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>CI</Key>
+						<Value>TADDM_CD_CONN_CI</Value>
+					</Item>
+					<Item>
+						<Key>RELATIONSHIP</Key>
+						<Value>TADDM_CD_CONN_RELATIONSHIP</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">TADDM_CD_CONN_ARTIFACTTYPE_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_ARTIFACTTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="classType">
+				<parameter name="description">TADDM_CD_CONN_CLASSTYPE_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_CLASSTYPE_LABEL</parameter>
+				<parameter name="script">getTADDMTypes</parameter>
+				<parameter name="scriptLabel">TADDM_CD_CONN_CLASSTYPE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CD_CONN_CLASSTYPE_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="idmlMode">
+				<parameter name="description">TADDM_CD_CONN_IDMLMODE_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_IDMLMODE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="depth">
+				<parameter name="description">TADDM_CD_CONN_DEPTH_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_DEPTH_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="hostname">
+				<parameter name="description">TADDM_CD_CONN_HOSTNAME_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_HOSTNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="port">
+				<parameter name="description">TADDM_CD_CONN_PORT_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_PORT_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">TADDM_CD_CONN_USERNAME_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_USERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">TADDM_CD_CONN_PASSWORD_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_PASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="taddmSDK">
+				<parameter name="description">TADDM_CD_CONN_TADDMSDK_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_TADDMSDK_LABEL</parameter>
+				<parameter name="script">selectDirectory</parameter>
+				<parameter name="scriptLabel">TADDM_CD_CONN_TADDMSDK_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CD_CONN_TADDMSDK_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="iteratorStateKey">
+				<parameter name="description">TADDM_CD_CONN_STATE_KEY_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_STATE_KEY_LABEL</parameter>
+				<parameter name="script">deleteIteratorStateKey</parameter>
+				<parameter name="scriptLabel">TADDM_CD_CONN_DELETE_BUTTON_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CD_CONN_DELETE_BUTTON_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="startAt">
+				<Values>
+					<ListItem>01/01/1970 00:00:00</ListItem>
+					<ListItem>EOD</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>EOD</Key>
+						<Value>Localized.EOD</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">TADDM_CD_CONN_STARTAT_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_STARTAT_LABEL</parameter>
+				<parameter name="script">getServerTime</parameter>
+				<parameter name="scriptLabel">TADDM_CD_CONN_SERVER_TIME_LABEL</parameter>
+				<parameter name="scripthelp">TADDM_CD_CONN_SERVER_TIME_HELP</parameter>
+				<parameter name="syntax">DROPEDIT</parameter>
+			</FormItem>
+			<FormItem name="created">
+				<parameter name="description">TADDM_CD_CONN_CREATED_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_CREATED_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="updated">
+				<parameter name="description">TADDM_CD_CONN_UPDATED_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_UPDATED_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="deleted">
+				<parameter name="description">TADDM_CD_CONN_DELETED_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_DELETED_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="startDate">
+				<parameter name="description">TADDM_CD_CONN_STARTDATE_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_STARTDATE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="stateKeyPersistence">
+				<Values>
+					<ListItem>After read</ListItem>
+					<ListItem>End of cycle</ListItem>
+					<ListItem>Manual</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After read</Key>
+						<Value>Localized.After.read</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">TADDM_CD_CONN_STATE_KEY_PERSIST_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_STATE_KEY_PERSIST_LABEL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="pollInterval">
+				<parameter name="description">TADDM_CD_CONN_POLLINTERVAL_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_POLLINTERVAL_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="maximumWaitTime">
+				<parameter name="description">TADDM_CD_CONN_TIMEOUT_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_TIMEOUT_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">TADDM_CD_CONN_USESSL_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_USESSL_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="domainAttrs">
+				<parameter name="description">TADDM_CD_CONN_DOMAINATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_DOMAINATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="extendedAttrs">
+				<parameter name="description">TADDM_CD_CONN_EXTENDEDATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_EXTENDEDATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="mssAttrs">
+				<parameter name="description">TADDM_CD_CONN_MSSATTRS_DESC</parameter>
+				<parameter name="label">TADDM_CD_CONN_MSSATTRS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

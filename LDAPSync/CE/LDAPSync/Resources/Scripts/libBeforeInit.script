@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="6" UUID="c3ca9ca7-215a-4c94-bb90-07fbe276f2b1" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="libBeforeInit" modified="Thu Aug 28 10:38:32 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="libBeforeInit">
+        <ModTime>1409215112069</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[logmsg(resource.getString("LDAPSYNC.INITIALIZING.CONNECTOR") + ": " + thisConnector.getName());
+
+// set up to retrieve all membership attribute available
+if (typeof filterOnGroups !== "undefined" && filterOnGroups) {
+	thisConnector.connector.setParam("ldapReturnAttributes", "*\nibm-allGroups\nmemberOf\ngroupMembership");
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

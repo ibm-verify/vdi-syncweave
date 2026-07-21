@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="sapuserregconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIK001E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0001" varFormat="Java">
+   The SAP ABAP Application Server User Registry Connector failed to create an instance of the
+   Security Verify Directory Integrator Function Component
+   &apos;&apos;<Variable formatSpec="{0}">Function Component Name</Variable>&apos;&apos;.
+   This failure may have been caused by incorrect installation of the Function Component
+   or an incorrect Function Component name.
+   </MsgText>
+   <Explanation> <p>
+   The SAP ABAP Application Server User Registry Connector internally creates and uses an instance of the named
+   Function Component to enable communication to the SAP ABAP AS system.  The Connector was unable
+   to create an instance of this Function Component.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   To correct this problem, ensure that the named Function Component has been correctly installed.
+   Ensure the jar file containing the Function Component implementation is located in the 
+   jars/functions.  Check that the SAP Java Connector has been correctly deployed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK002E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0002" varFormat="Java">
+   An error has been detected while initializing the Function Component
+   &apos;&apos;<Variable formatSpec="{0}">Function Component name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The SAP ABAP Application Server User Registry Connector internally creates and uses an instance of the named
+   Function Component to enable communication to the SAP ABAP AS system.  Before using the Function
+   Component, the Connector needs to call the initialize method of the Function Component.  The
+   Connector initializes the Function Component with the configuration parameter information
+   defined for the Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the configuration information defined for the Connector is correct.  Check that
+   the SAP Java Connector has been correctly deployed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK003E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0003" varFormat="Java">
+   An XSL transformation has failed.  Ensure that a valid XML value has been supplied for
+   the &apos;sapUserXml&apos; attribute.  The source XSL file name is
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The XSL transformation defined in the named file has returned an empty XML result document.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the transform has been applied to an XML request document, check that the XML request 
+   value is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK005E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0005" varFormat="Java">
+   The XSL files for the Connectors&apos; putEntry method have not been configured.
+   Ensure these files have been configured.  If this error continues, try removing and adding
+   the Connector to the AssemblyLine in the correct mode.
+   </MsgText>
+   <Explanation> <p>
+   The putEntry method is called by the AssemblyLine when a Connector has been deployed
+   in AddOnly mode.  The SAP User Connector requires XSL stylesheets to process RFC requests
+   responses executed against the target SAP system.  In this case, the Connector was unable 
+   to read the required XSL stylesheets that it uses when deployed in AddOnly mode.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the XSL stylesheet files associated with Add Mode StyleSheets configuration parameter
+   are correct.  Try specifying the fully qualified path name of the XSL stylesheets.  Ensure
+   the XSL stylesheets have read permissions set.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK006E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0006" varFormat="Java">
+   The XSL files for the Connectors&apos; modEntry method have not been configured. Ensure
+   these files have been configured.  If this error continues, try removing and adding
+   the Connector to the AssemblyLine in the correct mode.
+   </MsgText>
+   <Explanation> <p>
+   The modEntry method is called by the AssemblyLine when a Connector has been deployed
+   in Update mode.  The SAP User Connector requires XSL stylesheets to process RFC requests
+   responses executed against the target SAP system.  In this case, the Connector was unable 
+   to read the required XSL stylesheets that it uses when deployed in Update mode.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the XSL stylesheet files associated with Update Mode StyleSheets configuration parameter
+   are correct.  Try specifying the fully qualified path name of the XSL stylesheets.  Ensure
+   the XSL stylesheets have read permissions set.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK007E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0007" varFormat="Java">
+   The XSL files for the Connectors&apos; deleteEntry method have not been configured.
+   Ensure these files have been configured.  If this error continues, try removing and adding
+   the Connector to the AssemblyLine in the correct mode.
+   </MsgText>
+   <Explanation> <p>
+   The deleteEntry method is called by the AssemblyLine when a Connector has been deployed
+   in Delete mode.  The SAP User Connector requires XSL stylesheets to process RFC requests
+   responses executed against the target SAP system.  In this case, the Connector was unable 
+   to read the required XSL stylesheets that it uses when deployed in Delete mode.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the XSL stylesheet files associated with Delete Mode StyleSheets configuration parameter
+   are correct.  Try specifying the fully qualified path name of the XSL stylesheets.  Ensure
+   the XSL stylesheets have read permissions set.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK008E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0008" varFormat="Java">
+   The configured XSL file named
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   does not exist.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has attempted to read the named XSL stylesheet file.  This file does not exist
+   in the specified location on the file system.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the XSL stylesheet file name is correct and exists.  XSL stylesheet file names are specified
+   using Connector parameters and differ based on the Connector mode.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK009E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0009" varFormat="Java">
+   The configured XSL file named &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   is not a valid file. A possible cause of this error might be that the configured
+   name is actually a directory.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has attempted to read the named XSL stylesheet file.  This file does not exist
+   in the specified location on the file system or is not a valid file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the XSL stylesheet file name is correct and exists.  XSL stylesheet file names are specified
+   using Connector parameters and differ based on the Connector mode.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK010E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0010E" varFormat="Java">
+   The configured XSL file named &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   is not readable.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has attempted to read the named XSL stylesheet file.  This file is not readable.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the file has read permissions set.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK011E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0011E" varFormat="Java">
+   The configuration parameter named &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   is missing. The configured Connector mode requires additonal configuration of this parameter.
+   Ensure these values have been configured.  If this error continues, try removing and adding
+   the Connector to the AssemblyLine in the correct mode.  See the IBM Security Verify Directory Integrator
+   Users Guide  for specific details.
+   </MsgText>
+   <Explanation> <p>
+   The named Connector configuration parameter is missing.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Supply a value for the Connector configuration parameter.  Refer to the IBM Security Verify Directory Integrator
+   Users Guide  for details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK012E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0012" varFormat="Java">
+   The Attribute named &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; is not
+   present, or does not have a value, in the Entry supplied.  This attribute must be present in the
+   Connector entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Modify the Connector attribute mappings or client code.  See the IBM Security Verify Directory Integrator
+   Users Guide for details regarding supported Connector attributes and values.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK013W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0013" varFormat="Java">
+   No search criteria have been defined for the Connectors&apos;&apos; findEntry method.  This
+   method will return null to indicate no objects found.
+   </MsgText>
+   <Explanation> <p>
+   Link criteria a typically needed for Connectors in Update, Delete, and Lookup mode.  The Link
+   Criteria is used to obtain the current details of a given object instance in the target system.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the Connector is not behaving as expected, try specifying the Link Criteria.  See the
+   IBM Security Verify Directory Integrator Users Guide  for details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK014W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0014" varFormat="Java">
+   An XSL transform was performed before calling an SAP RFC. The result of the XSL transform was an
+   empty document. An empty transform result typically occurs when mandatory XPath or Parameters
+   are missing; for example, sapUserName.  The RFC call will not be performed.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the Connector is not behaving an expected, ensure the Connector entry contains the necessary 
+   attributes with associated XML values.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK015W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0015" varFormat="Java">
+   The XSL transform defined in file &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   resulted in an empty XML document. An empty transform result typically occurs when
+   mandatory XPath or Parameters are missing, e.g. sapUserName. The RFC call was not performed.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   If the Connector is not behaving an expected, ensure the Connector entry contains the necessary 
+   attributes with associated XML values.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK016W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0016" varFormat="Java">
+   Some application level errors and warnings have been detected while creating the SAP ABAP AS user.
+   The operation may be incomplete.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a response from the SAP system which indicates that some request
+   data or application state might be incorrect.  This status is typically indicated in the 
+   RFC parameter named RETURN.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the target SAP system and target application are functioning correctly.  Ensure the
+   request data values mapped onto the Connector are valid with respect to SAP business logic.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK017W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0017" varFormat="Java">
+   Some application level errors and warnings have been detected while deleting the SAP ABAP AS user.
+   The operation may be incomplete.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a response from the SAP system which indicates that some request
+   data or application state might be incorrect.  This status is typically indicated in the 
+   RFC parameter named RETURN.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the target SAP system and target application are functioning correctly.  Ensure the
+   request data values mapped onto the Connector are valid with respect to SAP business logic.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK018W" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0018" varFormat="Java">
+   Some application level errors and warnings have been detected while updating the SAP ABAP AS user.
+   The operation may be incomplete.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has received a response from the SAP system which indicates that some request
+   data or application state might be incorrect.  This status is typically indicated in the 
+   RFC parameter named RETURN.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure the target SAP system and target application are functioning correctly.  Ensure the
+   request data values mapped onto the Connector are valid with respect to SAP business logic.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK019E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0019" varFormat="Java">
+   The Connector detected an exception during initialization.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK020E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0020" varFormat="Java">
+   The Connector detected an exception while performing a schema query.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK021E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0021" varFormat="Java">
+   The Connector detected an exception while adding an entry.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK022E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0022" varFormat="Java">
+   The Connector detected an exception while deleting an entry.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK023E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0023" varFormat="Java">
+   The Connector detected an exception while modifying an entry.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK024E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0024" varFormat="Java">
+   The Connector detected an exception while attempting to find an entry.
+   The message is: &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+    <Explanation> <p>
+    See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK025E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0025" varFormat="Java">
+   The Connector detected an exception while selecting entries in preparation for
+   iterator mode processing.  The message is:
+   &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK026E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0026" varFormat="Java">
+   The Connector detected an exception while iterating through the known entries.
+   The number of entries successfully processed before the exception
+   was <Variable formatSpec="{0}">number of entries</Variable>.
+   The message is: &apos;&apos;<Variable formatSpec="{1}">exception</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See exception stack trace.  Check for earlier errors or warnings in the log.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK027E" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0027" varFormat="Java">
+   No XSL style sheet files have been configured for the Connector running in
+   &apos;&apos;<Variable formatSpec="{0}">Connector mode</Variable>&apos;&apos; mode.
+   This mode requires XSL style sheets to be defined.  See the IBM Verify Directory
+   Integrator Users Guide for specific details.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Correct the Connector configuration parameters related to XSL
+   stylesheet specifications.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIK028I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0028" varFormat="Java">
+   The findEntry method is returning null.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK029I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0029" varFormat="Java">
+   The findEntry method is returning the initialized entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK030I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0030" varFormat="Java">
+   The findEntry method is returning null.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK031I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0031" varFormat="Java">
+   Adding message to error list: &apos;&apos;<Variable formatSpec="{0}">message</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK032I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0032" varFormat="Java">
+   Adding message to warning list: &apos;&apos;<Variable formatSpec="{0}">message</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK033I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0033" varFormat="Java">
+   Extracting the return data from element named &apos;&apos;<Variable formatSpec="{0}">tag name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK034I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0034" varFormat="Java">
+   Creating AbapErrorInfo object: message=&apos;&apos;<Variable formatSpec="{0}">message</Variable>&apos;&apos;,
+   error number=&apos;&apos;<Variable formatSpec="{1}">error number</Variable>&apos;&apos;,
+   error flag=&apos;&apos;<Variable formatSpec="{2}">error flag</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK035I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0035" varFormat="Java">
+   The XML element to return is a table style element: &apos;&apos;<Variable formatSpec="{0}">boolean</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK036I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0036" varFormat="Java">
+   The result of pre RFC XSL call is: &apos;&apos;<Variable formatSpec="{0}">string</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK037I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0037" varFormat="Java">
+   The result of RFC call is: &apos;&apos;<Variable formatSpec="{0}">string</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIK038I" prefix="yes">
+   <MsgText pgmKey="SAPR3_UR_0038" varFormat="Java">
+   Executing function for XSL file: &apos;&apos;<Variable formatSpec="{0}">file</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="12" UUID="1f097a5c-7473-4695-abae-3740bdbfc236" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="Target_TDS" modified="Mon Feb 10 11:51:45 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="Target_TDS">
+        <InheritFrom>/Connectors/FlowSettings</InheritFrom>
+        <ModTime>1392029503962</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1390382604014</ModTime>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <InheritFrom>[no inheritance]</InheritFrom>
+            <ModTime>1392029503962</ModTime>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="default_fail">
+                <InheritFrom>/Scripts/libDefaultOnError</InheritFrom>
+                <Name>default_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="initialize_fail">
+                <InheritFrom>/Scripts/libInitError</InheritFrom>
+                <Name>initialize_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="autoreconnect">true</parameter>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

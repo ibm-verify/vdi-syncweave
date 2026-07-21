@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Square_definitionName" targetNamespace="ns:Square_thisNamespace" xmlns:tns="ns:Square_thisNamespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <message name="SquareResponse">
+    <part name="square" type="xsd:int"/>
+  </message>
+  <message name="SquareRequest">
+    <part name="number" type="xsd:int"/>
+  </message>
+  <portType name="Square_definitionNamePortType">
+    <operation name="Square">
+      <input message="tns:SquareRequest"/>
+      <output message="tns:SquareResponse"/>
+    </operation>
+  </portType>
+  <binding name="Square_definitionNameBinding" type="tns:Square_definitionNamePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Square">
+      <soap:operation soapAction="ns:Square_thisNamespace#Square" style="rpc"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="ns:Square_thisNamespace"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="ns:Square_thisNamespace"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Square_definitionNameService">
+    <port name="tns:Square_definitionNamePort" binding="tns:Square_definitionNameBinding">
+      <soap:address location="https://localhost:9998/"/>
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp"
+	elementFormDefault="qualified"
+	targetNamespace='http://www.ibm.com/xmlns/prod/scmp'>
+
+	<!--
+		EVENT DEFINITIONS
+	-->
+
+	<xsd:include schemaLocation="scmp.xsd"></xsd:include>
+
+	<xsd:element name='event'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="common-msgid" type="scmp:type_CommonMsgID" />
+				<xsd:element name="native-msgid" type="scmp:type_NativeMsgID" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

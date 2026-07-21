@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Thu Oct 31 14:13:13 EST 2002" createdBy="borrelli" modified="Fri Nov 15 12:17:46 EST 2002" modifiedBy="Administrator" version="1.0">
+<Folder name="AssemblyLines">
+<AssemblyLine name="Bracket To XML">
+<Settings>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<IOSettings>
+<InputParameters/>
+<OutputParameters/>
+</IOSettings>
+<Connectors>
+<Connector name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/script_parser/input_1.txt</parameter>
+<parameter name="parser">/Parsers/BracketParser</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>/Parsers/BracketParser</InheritFrom>
+<parameter name="characterSet"/>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+<Connector name="Ouptput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/script_parser/output_1.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+</Connectors>
+</AssemblyLine>
+<AssemblyLine name="XML To Bracket">
+<Settings>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<IOSettings>
+<InputParameters/>
+<OutputParameters/>
+</IOSettings>
+<Connectors>
+<Connector name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/script_parser/input_2.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+<Connector name="Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/script_parser/output_2.txt</parameter>
+<parameter name="parser">/Parsers/BracketParser</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>/Parsers/BracketParser</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema/>
+<LinkCriteria>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+</Connector>
+</Connectors>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers">
+<Parser name="BracketParser">
+<InheritFrom>system:/Parsers/ibmdi.ScriptParser</InheritFrom>
+<parameter name="characterSet"/>
+<parameter name="description"/>
+<parameter name="script"><![CDATA[function readEntry ()
+{
+	var inpLine = inp.readLine ();
+	if ( inpLine == null ) {
+		result.setStatus ( 0 );
+		result.setMessage ( "End of input" );
+		return;
+	}
+
+	var line = String ( inpLine );
+	var current_index = 0;
+	while ( current_index < line.length ) {
+		var indOfColon = line.indexOf ( ":", current_index );
+		var indOfComma = line.indexOf ( ",", current_index );
+		if ( indOfComma == -1 ) {
+			indOfComma = line.length - 1;
+		}
+		var parsedLine = line.substr ( indOfColon + 1, indOfComma - indOfColon - 1 );
+		var name = line.substr ( current_index + 1, indOfColon - current_index - 1 );
+		current_index = indOfComma + 1;
+		entry.addAttributeValue ( name, parsedLine );
+	}
+	result.setStatus ( 1 );
+}
+
+
+function writeEntry ()
+{	
+	out.write( "[" );
+	var names = entry.getAttributeNames ();
+    for ( var i = 0; i < names.length; i++ ) 
+	{
+    	var attribute = entry.getAttribute ( names[i] );
+        for ( var j = 0; j < attribute.size (); j++ ) {
+           	out.write ( attribute.getName () + ":" + attribute.getValue ( j ) + 
+						( ( i < ( names.length -1 ) || j < ( attribute.size () -1 ) ) ? ", " : "" ) );
+		}
+    }
+    out.write ( "]" );
+	out.newLine ();
+	out.flush ();
+}]]></parameter>
+</Parser>
+</Folder>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts">
+<Script name="Global">
+<parameter name="autoInclude">true</parameter>
+<parameter name="script"><![CDATA[//
+// This script is automatically included in all assembly lines with JavaScript selected
+//
+
+function today ()
+{
+	var dt = new java.util.Date();
+	return dt.toString();
+}
+]]></parameter>
+<parameter name="scriptEngine">javascript</parameter>
+</Script>
+</Folder>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<ExternalProperties>
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</MetamergeConfig>

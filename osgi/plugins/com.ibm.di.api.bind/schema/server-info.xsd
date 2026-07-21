@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+
+	<element name="serverInfo" type="tns:ServerInfo"></element>
+
+	<complexType name="ServerInfo">
+        <annotation>
+        	<documentation>Provides information about the Server.</documentation>
+        </annotation>
+        <sequence>
+			<element name="serverId" type="string">
+				<annotation>
+					<documentation>The Server ID defined in the
+						solution.properties/global.properties. Users are responsible for
+						keeping this unique between Server instances.</documentation>
+				</annotation>
+			</element>
+			<element name="serverVersion" type="string">
+				<annotation>
+					<documentation>The Server version. An example: 10.0.0.6-03/23/2011</documentation>
+				</annotation></element>
+			<element name="ipAddress" type="string">
+				<annotation>
+					<documentation>The IP Address of the server.</documentation>
+				</annotation></element>
+			<element name="hostname" type="string">
+				<annotation>
+					<documentation>The server Hostname if one was resolved.</documentation>
+				</annotation></element>
+			<element name="operatingSystem" type="string">
+				<annotation>
+					<documentation>The version and type of the Operating System on which the Server is running.</documentation>
+				</annotation></element>
+			<element name="serverBootTime" type="dateTime">
+				<annotation>
+					<documentation>The time when the Server started.</documentation>
+				</annotation></element>
+		</sequence>
+	</complexType>
+</schema>

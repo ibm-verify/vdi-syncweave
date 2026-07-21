@@ -1,0 +1,2032 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="tdisrvctl" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDJB001W" prefix="yes">
+   <MsgText pgmKey="COMMAND_ERROR_occurred" varFormat="Java">
+   The command did not complete successfully. See previous messages or error logs for details.
+   </MsgText>
+   <Explanation> <p>
+    One or more errors occurred during the execution of the command.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the previous messages displayed by the tdisrvctl command, or look at the error
+   logs for more details.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB002E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_OPTION_TYPE" varFormat="Java">
+    Unknown value passed for &apos;-op&apos; option.
+   </MsgText>
+   <Explanation> <p>
+    An illegal operation parameter was passed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl command usage for allowed options.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB003E" prefix="yes">
+   <MsgText pgmKey="TOMBSTONE_UNSUPPORTED" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname</Variable> does not support Tombstones.<br/>
+   Tombstone support is not available in pre-6.1 servers.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command tried obtaining Tombstones from a pre-6.1 server.
+   Tombstone support has been introduced from v6.1 onward.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a version 6.1 or later server for viewing Tombstones.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB004E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+   Incorrect command usage.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by passing unsupported command line options,
+   or unexpected end of argument list was encountered
+   or there was an incorrect usage of the command line options. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl command usage and try invoking the tdisrvctl command with valid
+   arguments.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB005E" prefix="yes">
+   <MsgText pgmKey="TOMB_MANAGER_UNAVAIL" varFormat="Java">
+   Unable to get Tombstone manager.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was unable to connect to the Tombstone manager in the remote
+   server. Probable reason being that the Tombstone feature was incorrectly configured on the 
+   server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the remote server API and Tombstone manager settings on the remote server and try executing
+   the tdisrvctl command again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB006E" prefix="yes">
+   <MsgText pgmKey="ONE_CONFIG_ALLOWED" varFormat="Java">
+   Only a single Config can be specified.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by passing multiple Configs as a parameter to an option
+   which allows only a single Config to be specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Invoke the tdisrvctl command by passing only a single Config at a time.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB007E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+   No value specified for <Variable formatSpec="{0}">option name</Variable> option.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by passing an option whose value had not been specified.
+   The value is also required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl command usage, and invoke the tdisrvctl command again with
+   the correct option and associated value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB008E" prefix="yes">
+  <MsgText pgmKey="ONE_AL_ALLOWED" varFormat="Java">
+  Only a single AssemblyLine can be specified.
+  </MsgText>
+  <Explanation> <p>
+  The tdisrvctl command was invoked by passing multiple AssemblyLines as a parameter to
+  an option which allows only a single AssemblyLine to be specified.
+  </p> </Explanation>
+  <OperatorResponse> <p>
+  Invoke the tdisrvctl command by passing only a single AssemblyLine at a time. Check
+  the tdisrvctl command usage.
+  </p> </OperatorResponse>
+</Message>
+
+<!-- Message &apos;CTGDJB009E&apos;was removed in IBM Security Verify Directory Integrator 7.0-->
+
+<Message ID="CTGDJB010E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_AGE_VAL" varFormat="Java">
+   The value for the age option has to be an integer greater than zero (days).
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by passing a non-integer or a negative value for the 
+   age (in days) option.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Invoke the tdisrvctl command by passing a valid integer (greater than 0) for the specified option 
+   of Tombstone.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB011E" prefix="yes">
+   <MsgText pgmKey="CONFLICTING_TOMB_OPT" varFormat="Java">
+   Conflicting Tombstone option passed. Use keyword &apos;all&apos; or specify a set
+   of Tombstone attributes.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command with Tombstone option was invoked with contradictory options.
+   Cannot ask for &apos;all&apos; attributes and &apos;specific&apos; attributes together. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Either specify the specific Tombstone attibutes that should be displayed,
+   or ask to be shown all attributes. Not both. See tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB012E" prefix="yes">
+   <MsgText pgmKey="ALL_OPT_LAST" varFormat="Java">
+   The &apos;all&apos; keyword should be the last argument passed.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command with Tombstone option was invoked with incorrect options.
+   The &apos;all&apos; keyword has to be the last argument passed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Message with ID &apos; CTGDJB013E&apos;is removed in IBM Security Verify Directory Integrator 7.0.-->
+
+<Message ID="CTGDJB014E" prefix="yes">
+   <MsgText pgmKey="OPT_MANDATORY" varFormat="Java">
+   The <Variable formatSpec="{0}">option switch</Variable> option is mandatory.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked with a mandatory option not specified.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB015E" prefix="yes">
+   <MsgText pgmKey="NOT_FOUND_CONFIG" varFormat="Java">
+   Could not locate Config <Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Unable to locate the Config specified by user.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the Config name specified is correct and exists on the remote machine.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB016I" prefix="yes">
+   <MsgText pgmKey="CONNECTED_SRV" varFormat="Java">
+   Connected to server <Variable formatSpec="{0}">hostname and port</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB017I" prefix="yes">
+   <MsgText pgmKey="CONFIG_STARTED" varFormat="Java">
+   Config started: <Variable formatSpec="{0}">Config name</Variable> 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB018I" prefix="yes">
+   <MsgText pgmKey="CONFIG_ALREADY_RUNNING" varFormat="Java">
+   Config already running: <Variable formatSpec="{0}">Config name</Variable> 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB019E" prefix="yes">
+   <MsgText pgmKey="CONFIG_NOT_START" varFormat="Java">
+   Could not start Config: <Variable formatSpec="{0}">Config name</Variable> 
+   </MsgText>
+   <Explanation> <p>
+   Unable to start Config. An internal error occurred because the remote
+   IBM Security Verify Directory Integrator server was not properly setup or the configuration
+   was incorrect. This may also occur because the configuration file was password
+   protected, and the user did not specify a password in the tdisrvctl command. Also,
+   if the Config path is incorrect or not fully qualified, tdisrvctl will not be able to 
+   locate the Config.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdisrvctl command error logs for help. Verify the configuration on
+   remote server is properly set up. Additionally, verify the Config file is password
+   protected. If so, then specify the password in the tdisrvctl start option using the
+   -e switch. Also, ensure that the fully qualified path of the Config file is mentioned exactly 
+   as it appears on the remote machine.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB020I" prefix="yes">
+   <MsgText pgmKey="AL_ALREADY_RUNNING" varFormat="Java">
+   AssemblyLine running: <Variable formatSpec="{0}">AssemblyLine name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB021I" prefix="yes">
+   <MsgText pgmKey="AL_STARTED" varFormat="Java">
+   AssemblyLine started: <Variable formatSpec="{0}">AssemblyLine name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB022E" prefix="yes">
+   <MsgText pgmKey="AL_NOT_FOUND" varFormat="Java">
+   AssemblyLine <Variable formatSpec="{0}">AssemblyLine name</Variable> not found.
+   </MsgText>
+   <Explanation> <p>
+   Unable to find user specified AssemblyLine. The Assembly Name passed may
+   be incorrect or misspelled.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the AssemblyLine specified exists in the configuration on the remote server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB023E" prefix="yes">
+   <MsgText pgmKey="ALS_NOT_STARTED" varFormat="Java">
+   Could not start AssemblyLines on the server
+   <Variable formatSpec="{0}">hostname and port</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Some exceptions occurred while starting the AssemblyLines.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the Configurations and AssemblyLines are correctly set up on the remote server.
+   Also check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Messages with ID &apos;CTGDJB024I&apos;,&apos;CTGDJB025I&apos;,&apos;CTGDJB026E&apos; and &apos;CTGDJB027E&apos; are removed in IBM Security Verify Directory Integrator 7.0.-->
+
+<Message ID="CTGDJB028E" prefix="yes">
+   <MsgText pgmKey="CONFIG_NOT_RUNNING" varFormat="Java">
+   The Config <Variable formatSpec="{0}">Config name</Variable> is not loaded.
+   </MsgText>
+   <Explanation> <p>
+   The user specified stopping of components of a configuration which is already not
+   loaded on the server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the Configuration name is correct.
+   Also check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB029I" prefix="yes">
+   <MsgText pgmKey="CONFIG_STOPPED" varFormat="Java">
+   Config stopped: <Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB030E" prefix="yes">
+  <MsgText pgmKey="STOP_CONFIG_ERR" varFormat="Java">
+  Could not stop Config: <Variable formatSpec="{0}">Config name</Variable>.
+  </MsgText>
+  <Explanation> <p>
+  Some exceptions occurred while stopping the configuration.
+  </p> </Explanation>
+  <OperatorResponse> <p>
+  Check the tdisrvctl error logs for more information on the errors.
+  </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB031I" prefix="yes">
+   <MsgText pgmKey="AL_STOPPED" varFormat="Java">
+   AssemblyLine stopped: <Variable formatSpec="{0}">AssemblyLine name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB032E" prefix="yes">
+   <MsgText pgmKey="ERR_STOP_AL" varFormat="Java">
+   Could not stop AssemblyLine: <Variable formatSpec="{0}">AssemblyLine name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Some exceptions occurred while stopping the AssemblyLine.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB033E" prefix="yes">
+   <MsgText pgmKey="AL_ALREADY_STOPPED" varFormat="Java">
+   AssemblyLine already stopped: <Variable formatSpec="{0}">AssemblyLine name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The user specified AssemblyLine is already not running.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB034E" prefix="yes">
+   <MsgText pgmKey="STOP_ALS_ERR" varFormat="Java">
+   Error occurred while stopping AssemblyLines.
+   </MsgText>
+   <Explanation> <p>
+   Some exceptions occurred while stopping the AssemblyLines.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Messages with ID &apos;CTGDJB035I&apos;,&apos;CTGDJB036E&apos;,&apos;CTGDJB037E&apos; and &apos;CTGDJB038E&apos; are removed in IBM Security Verify Directory Integrator 7.0.-->
+
+<Message ID="CTGDJB039E" prefix="yes">
+   <MsgText pgmKey="SRV_CONNECT_ERR" varFormat="Java">
+   Cannot connect to server <Variable formatSpec="{0}">hostname and port</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Unable to connect to server. This error might occur for one or more of the following reasons:
+   If the server is not running, or the machine on which the server is running is not accessible, or
+   the remote server API engine over RMI is not running, or if remote server API accepts only
+   SSL connections, and the SSL parameters / certificates in the trust and key stores may be incorrect.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl error logs for more information on the reason for
+   connection errors. Try connecting again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB040I" prefix="yes">
+   <MsgText pgmKey="SRV_SHUTDOWN" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname and port</Variable> has been shutdown.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB041I" prefix="yes">
+   <MsgText pgmKey="CONFIG_RELOADED" varFormat="Java">
+   Config <Variable formatSpec="{0}">Config name</Variable> reloaded.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB042E" prefix="yes">
+   <MsgText pgmKey="CONFIG_RELOAD_STOPPED" varFormat="Java">
+   Config <Variable formatSpec="{0}">Config name</Variable> is not running.
+   </MsgText>
+   <Explanation> <p>
+   The user tried reloading a Config that is not running / loaded.
+   Only already loaded Configs can be reloaded. If the Config
+   is not loaded, then start the Config instead of trying to reload it.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Give the tdisrvctl -op start command instead of reload command, or check 
+   the name of the Config.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB043E" prefix="yes">
+   <MsgText pgmKey="CONFIG_RELOAD_ERR" varFormat="Java">
+   One or more Configs could not be reloaded on the server <Variable formatSpec="{0}">hostname and port</Variable>.
+   Check the previous messages or error logs for details.
+   </MsgText>
+   <Explanation> <p>
+   There were some errors encountered while reloading Configs. One or more Configs failed to 
+   reload. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the tdisrvctl command error logs for details on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB044I" prefix="yes">
+   <MsgText pgmKey="ALL_CONFIGS_RELOADED" varFormat="Java">
+   All the specified Configs have been successfully reloaded on the
+   server <Variable formatSpec="{0}">hostname and port</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB045E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+   The <Variable formatSpec="{0}">operator switch</Variable> option occurred more than once.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked with the same parameter passed more than once.
+   Options can be passed only once. Fox example, the user may have passed the 
+   &apos;-h&apos; option twice, which is not allowed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Pass each option only once.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB046E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+   Unknown option <Variable formatSpec="{0}">operator switch</Variable> encountered.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked with an unknown option. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdisrvctl command usage and invoke the command with the allowed options only.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB047E" prefix="yes">
+   <MsgText pgmKey="OP_SWITCH_ABSENT" varFormat="Java">
+   The <Variable formatSpec="{0}">operator switch</Variable> option was not specified.
+   This is a mandatory option.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked without specifying the -op option. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the tdisrvctl command usage and invoke the command with the correct and
+   mandatory options specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB048E" prefix="yes">
+   <MsgText pgmKey="CONFIG_ALL_NOT_ALLOWED" varFormat="Java">
+   It is mandatory to specify Config. &apos;all&apos; keyword is not allowed with -c option.
+   </MsgText>
+   <Explanation> <p>
+   Instead of passing the Config name, the user asked for ALL Configs. This is not allowed.
+   User must specify the configuration name.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the explicit Config name when invoking the tdisrvctl command. See
+   tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB049I" prefix="no">
+   <MsgText pgmKey="GEN_CMD_USAGE" varFormat="Java">
+   <br/>
+   Usage: <br/>
+   tdisrvctl [general_options] -op operation [operation_specific_options]<br/>
+   <br/>
+   general_options:<br/>
+   <pre> -h  host            remote server IP address or hostname(default is localhost)</pre><br/>
+   <pre> -K  keystore        name of the SSL key database file</pre><br/>
+   <pre> -p  port            port number(default is 1099)</pre><br/>
+   <pre> -P  key_pwd         key file password</pre><br/>
+   <pre> -s  dir             Specifies the working directory where the solution directory is located.</pre><br/>
+   <pre> -T  truststore      name of the SSL trust store database file</pre><br/>
+   <pre> -u  userID          username(for custom authentication)</pre><br/>
+   <pre> -v                  run in verbose mode</pre><br/>
+   <pre> -w  user_pwd        user password(for custom authentication)</pre><br/>
+   <pre> -W  trust_pwd       trust file password</pre><br/>
+   <pre> -?                  display command usage</pre><br/>
+   <br/>
+   <br/>
+   operation:<br/>
+   <pre> event               send custom notification event</pre><br/>
+   <pre> prop                manage Config properties</pre><br/>
+   <pre> queryop             query an AssemblyLine for operations</pre><br/>
+   <pre> reload              reload running Configs</pre><br/>
+   <pre> report              generate Config report or list Configs on remote server</pre><br/>
+   <pre> shutdown            shut down the server</pre><br/>
+   <pre> srvinfo             view IBM Security Verify Directory Integrator server information</pre><br/>
+   <pre> status              view status of Configs or AssemblyLines </pre><br/>
+   <pre> start               start specific Config or AssemblyLines </pre><br/>
+   <pre> stop                stop specific Config or AssemblyLine </pre><br/>
+   <pre> tombstone           view Tombstone entries for specific Config or AssemblyLine </pre><br/>
+   <pre> deletetombstone     delete a tombstone entry</pre><br/>
+   <pre> debug               debug components in a running AssemblyLine</pre><br/>
+   <br/>
+   To get help for a specific operation:<br/>
+   tdisrvctl -op operation -?<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB050I" prefix="no">
+   <MsgText pgmKey="RELOAD_USAGE" varFormat="Java">
+   <br/>
+   The usage for reload operation is:
+   <br/>
+   tdisrvctl [general_options] -op reload -c config_list<br/>
+   <br/>
+   where:<br/>
+   <pre> -c config_list    comma separated list of Configs to reload</pre><br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB051I" prefix="no">
+   <MsgText pgmKey="SHUTDOWN_USAGE" varFormat="Java">
+   <br/>
+   The usage for shutdown operation is:
+   <br/>
+   tdisrvctl [general_options] -op shutdown [-o return_code] [-f]<br/>
+   <br/>
+   where:<br/>
+   <pre> -o return_code    shutdown server with specified return code</pre><br/>
+   <pre> -f                force a controlled shutdown and exit all AssemblyLines</pre><br/>
+   <br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB052I" prefix="no">
+   <MsgText pgmKey="SRVINFO_USAGE" varFormat="Java">
+   <br/>
+   The usage for srvinfo operation is:
+   <br/>
+   tdisrvctl [general_options] -op srvinfo<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB053I" prefix="no">
+   <MsgText pgmKey="STATUS_USAGE" varFormat="Java">
+   <br/>
+   The usage for status operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op status [-c config_list | all]</pre><br/>
+   <pre>                                       [-r AL_list     | all]</pre><br/>
+   <pre>                                       [-listen ]</pre><br/>
+   <br/>
+   where:<br/>
+   <pre> -c config_list   comma separated list of Configs  or keyword &apos;all&apos;</pre><br/>
+   <pre> -r AL_list       comma separated list of ALs or keyword &apos;all&apos;</pre><br/>
+   <pre> -listen          start receiving the logs of a running Config or AssemblyLine</pre><br/>
+   <br/>
+   Example: <br/>
+   To see the status of all loaded Configs and ALs <br/>
+   tdisrvctl [general_options] -op status<br/>
+   <br/>
+   To see the status of all running ALs<br/>
+   tdisrvctl [general_options] -op status -r all<br/>
+   <br/>
+   To see the status of all components of a particular loaded Config<br/>
+   tdisrvctl [general_options] -op status -c Config.xml -r all <br/>
+   <br/>
+   Note: <br/>
+   - The keyword &apos;all&apos; indicates all Configs or AssemblyLines.<br/>
+   - The -listen option requires exactly one Config or AssemblyLine to be specified.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB054I" prefix="no">
+   <MsgText pgmKey="START_USAGE" varFormat="Java">
+   <br/>
+   The usage for the start operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op start -c config</pre><br/>
+   <pre>                               [-e password]</pre><br/>
+   <pre>                               [-r AL_list | all]</pre><br/>
+   <pre>                               [-s ]</pre><br/>
+   <pre>                               [-r AL_list -alop opname [{attr1:value1;attr2:value2;attrN:valueN}]|</pre><br/>
+   <pre>                                -f filename]</pre><br/>
+   <pre>			       [-m config_run_name -o storeName1=value1, storeName2=value2, storenameN=valueN]</pre><br/>	
+   <pre>			       [-t ]</pre><br/>	
+   <pre>			       [-listen ]</pre><br/>
+   <pre>			       [-sync ]</pre><br/>   
+   <br/>
+   where:<br/>
+   <pre> -c     config              name of config to start</pre><br/>
+   <pre> -e     password            password of the config file if it is password protected</pre><br/>
+   <pre> -r     AL_list             comma separated list of AssemblyLines to start or keyword &apos;all&apos;</pre><br/>
+   <pre> -s     simulate mode       run AssemblyLine in simulate mode</pre><br/>
+   <pre> -alop  opname              AssemblyLine operation with required attributes and their values</pre><br/>
+   <pre> -f     filename            filename to specify the operations</pre><br/>
+   <pre> -m     config run name     run name of config </pre><br/>
+   <pre> -o     property file list  comma separated list of property store names and values</pre><br/>
+   <pre> -t                         start a temporary Config</pre><br/>
+   <pre> -listen                    receive the logs of the specified Config or AssemblyLine</pre><br/>
+   <pre> -sync                      execute AssemblyLine synchronously</pre><br/>
+   <br/>
+   Note: <br/>
+   - The -c option is mandatory. <br/>
+   - The keyword &apos;all&apos; indicates all AssemblyLines.<br/>
+   - The -t option expects the Config specified in the -c option to be located on the client machine.<br/>
+   - The -listen option requires exactly one Config or AssemblyLine to be specified.<br/>
+   - The -listen option executes an AssemblyLine synchronously. There is no need to combine it with the -sync option.
+   - The -sync option requires exactly one AssemblyLine to be specified.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB055I" prefix="no">
+   <MsgText pgmKey="STOP_USAGE" varFormat="Java">
+   <br/>
+   The usage for stop operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op stop -c config</pre><br/>
+   <pre>                                    [-r AL_list | all]</pre><br/>
+   <pre>                                    [-f]</pre><br/>
+   <br/>
+   where:<br/>
+   <pre> -c config     name of Config </pre><br/>
+   <pre> -r AL_list    comma separated list of ALs to stop or keyword &apos;all&apos; </pre><br/>
+   <pre> -f            force a controlled shutdown of AssemblyLines</pre><br/>
+  <br/>
+   Note: <br/>
+   - The -c option is mandatory. <br/>
+   - The keyword &apos;all&apos; indicates all AssemblyLines.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB056I" prefix="no">
+   <MsgText pgmKey="TOMBSTONE_USAGE" varFormat="Java">
+   <br/>
+   The usage for tombstone operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op tombstone -c config </pre><br/>
+   <pre>                                         [-r AL_name]</pre><br/>
+   <pre>                                         [-age n]</pre><br/>
+   <pre>                                         [[attribute_list] | all ]</pre><br/>
+   <br/>
+   where:<br/>
+   <pre> -age n             display tombstone record for the last &apos;n&apos; days</pre><br/>
+   <pre>                    (default is 1 day)</pre><br/>
+   <pre> -c   config        name of Config </pre><br/>
+   <pre> -r   AL_name       name of Aseembly Line  </pre><br/>
+   <pre> all                show all Tombstone attributes</pre><br/>
+   <br/>
+   attribute_list:<br/>
+   <pre> -ct                component type</pre><br/>
+   <pre> -cn                component name</pre><br/>
+   <pre> -cfg               configuration name</pre><br/>
+   <pre> -guid              Tombstone entry&apos;s guid</pre><br/>
+   <pre> -et                event type</pre><br/>
+   <pre> -ex                exit code</pre><br/>
+   <pre> -stime             component&apos;s start time</pre><br/>
+   <pre> -ctime             Tombstone create time</pre><br/>
+   <pre> -desc              error description</pre><br/>
+   <pre> -um                user message</pre><br/>
+   <pre> -stat              statistics (valid for ALs only)</pre><br/>
+   <br/>
+   Example:<br/>
+   To see the last 2 days Tombstone entries (all attributes) for Config C1.xml<br/>
+   tdisrvctl [general_options] -op tombstone -c C1.xml -age 2 all<br/><br/>
+   Note: <br/>
+   - The -c option is mandatory. <br/>
+   - Only one of the -r or -t option is allowed. Not both.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB057E" prefix="yes">
+   <MsgText pgmKey="CONFIG_NOT_LOADED_ERR" varFormat="Java">
+   The Config <Variable formatSpec="{0}">Config name</Variable> is not loaded on the
+   server <Variable formatSpec="{1}">hostname and port</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   A Config that is not loaded on the server was specified for the &apos;report&apos; option.
+   Reports can only be generated if the specified Config is loaded on the server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the Config name specified is correct and that the Config is loaded on the server. Use the 
+   tdisrvctl &apos;status&apos; option to obtain a list of the currently loaded Configs on the server.
+   Alternatively, load the Config on the server and then fire the tdisrvctl command with the &apos;report&apos; option.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB058I" prefix="yes">
+   <MsgText pgmKey="CONFIG_FOLDER_EMPTY" varFormat="Java">
+   The Config folder on server <Variable formatSpec="{0}">hostname and port</Variable> is empty.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB059I" prefix="no">
+   <MsgText pgmKey="REPORT_USAGE" varFormat="Java">
+   <br/>
+   The usage for report operation is:
+   <br/>
+   tdisrvctl [general_options] -op report [-c config | -l]<br/>
+   <br/>
+   where:<br/>
+   <pre> -c config     name of the Config whose report is to be generated</pre><br/>
+   <pre> -l            list the Configs in the remote server&apos;s Config folder</pre><br/>
+   <br/>
+   Note: <br/>
+   - The specified Config must be already loaded on the remote server.<br/>
+   - Only one of the -c or -l option is allowed. Not both.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB060E" prefix="yes">
+   <MsgText pgmKey="CONFIG_FOLDER_UNSUPPORTED" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname</Variable> does not support &apos;config&apos; folder.
+   The &apos;config&apos; folder support is not available in pre-6.1 servers.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command tried obtaining Config listing from a pre-6.1 server.
+   &apos;config&apos; folder support has been introduced from v6.1 onwards.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a v6.1 or later server for obtaining listing of Configs in the &apos;config&apos; folder.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB061I" prefix="no">
+   <MsgText pgmKey="EVENT_NOTIFICATION_USAGE" varFormat="Java">
+   <br/>
+   The usage for event operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op event -e event_name [-s source]</pre><br/>
+   <pre>                                                    [-d data]</pre><br/>
+   <br/>
+   <br/>
+   where:<br/>
+   <pre> -e event_name     name of the event to send</pre><br/>
+   <pre> -s source         the name of the source invoking the</pre><br/>
+   <pre>                   event (default tdisrvctl)</pre><br/>
+   <pre> -d data           the data (message) to be passed to an </pre><br/>
+   <pre>                   event listener (default is null)</pre><br/>
+   <br/>
+   Note: <br/>
+   - All events sent from tdisrvctl (-e option) are automatically prefixed by the string <q/>user<q/>.<br/>
+   <br/>
+   Example: <br/>
+   To send an event <q/>user.process.X.completed<q/> from <q/>admin<q/> <br/>
+   tdisrvctl -h hostname -op event -e <q/>process.X.completed<q/> -s admin -d <q/>Admin triggered event<q/>.<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB062I" prefix="yes">
+   <MsgText pgmKey="EVENT_NOTIFICATION_SUCCESSFUL" varFormat="Java">
+    The event <Variable formatSpec="{0}">event name</Variable> successfully sent.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB063I" prefix="no">
+   <MsgText pgmKey="CONFIG_PROPERTIES_USAGE" varFormat="Java">
+   <br/>
+   The usage for prop operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op prop -c config [-l] | </pre><br/>
+   <pre>          [ [-o store] [[-g key | all]  |  [-s key=value [-e]] | [-d key]] ] </pre><br/>
+   <br/>
+   where:<br/>
+   <pre> -c config     name of the Config to use</pre><br/>
+   <pre> -l            list all the configured property stores</pre><br/>
+   <pre> -o            name of the property store to use</pre><br/>
+   <pre> -g key        get the value of the specified key (or keyword &apos;all&apos;</pre><br/>
+   <pre>               implying get all keys)</pre><br/>
+   <pre> -s key=value  set the key to the specified value</pre><br/>
+   <pre> -e            encrypt the value when putting in the store (can </pre><br/>
+   <pre>               be used with -s option only) </pre><br/>
+   <pre> -d key        delete the specified key from the store</pre><br/>
+   Note: <br/>
+   - The -c option is mandatory. The specified Config should be a loaded Config on the remote server.<br/>
+   - The -l, -g, -s, and -d options are mutually exclusive, and cannot be used together.<br/>
+   - The -e option can be used with only the -s option.<br/>
+   - The -o option is mandatory when using the -d option.<br/>
+   <br/>
+   Examples: <br/>
+   To list all property stores for Config C1.xml <br/>
+   tdisrvctl -op prop -c C1.xml -l<br/>
+   <br/>
+   To get all properties for Config C1.xml<br/>
+   tdisrvctl -op prop -c C1.xml -g all<br/>
+   <br/>
+   To get all properties for Config C1.xml from store MyStore<br/>
+   tdisrvctl -op prop -c C1.xml -o MyStore -g all<br/>
+   <br/>
+   To set a property MY_PROP to value MY_VALUE for Config C1.xml in store MyStore
+   and mark it as protected<br/>
+   tdisrvctl -op prop -c C1.xml -o MyStore -s <q/>MY_PROP=MY_VALUE<q/> -e<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB064E" prefix="yes">
+   <MsgText pgmKey="PROP_OPTIONS_MUTUALLY_EXCLUSIVE" varFormat="Java">
+   Only one of the options -l, -g, -s, and -d can be specified. They cannot
+   occur together.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked with options that are not allowed together.
+   For example, the -l option is used for specifying the list of property stores, and hence cannot
+   be used along with the -o option.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the usage of the tdisrvctl <q/>prop<q/> option and invoke the command with the appropriate
+   arguments passed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB065E" prefix="yes">
+   <MsgText pgmKey="PROP_STORE_REQD" varFormat="Java">
+   The property store (-o option) is not specified.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command prop option was invoked without specifying the property store
+   (-o option).
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the usage of the tdisrvctl <q/>prop<q/> option and invoke the command with the appropriate
+   arguments passed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB066E" prefix="yes">
+   <MsgText pgmKey="PROP_STORE_NOT_FOUND" varFormat="Java">
+   Property store <Variable formatSpec="{0}">property store name</Variable> does not exist.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command prop option was invoked with a property store name that does not
+   exist (or was misspelled). 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Fire the tdisrvctl command with prop option and -l switch to see the list of available property
+   stores.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB067I" prefix="yes">
+   <MsgText pgmKey="PROP_KEY_NOT_FOUND" varFormat="Java">
+   The property key <Variable formatSpec="{0}">property key</Variable> does not exist.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command prop option was invoked with a property key name that does not
+   exist (or was misspelled). 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the property key name, or view all the available properties by using the -g option with
+   the <q/>all<q/> keyword.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB068E" prefix="yes">
+   <MsgText pgmKey="REMOTE_CLIENT_NOTIFICATION_UNSUPPORTED" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname</Variable> does not support remote client event notification.
+   This feature is not available in pre-6.1 servers.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was used to send an event notification to a pre-6.1 server.
+   User event notification support has been introduced from v6.1 onwards.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a v6.1 or later server for sending remote client event notifications.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB069E" prefix="yes">
+   <MsgText pgmKey="TDIP_PROPERTIES_UNSUPPORTED" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname</Variable> does not support common APIs
+   for IBM Security Verify Directory Integrator Property management. This feature is not available in
+   pre-6.1 servers.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was used for property store management of a pre-6.1 server.
+   Common APIs for IBM Security Verify Directory Integrator property store management were introduced
+   from version 6.1 onwards.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a version 6.1 or later server for remote IBM Security Verify Directory Integrator property
+   store management.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB070I" prefix="yes">
+   <MsgText pgmKey="PROPERTY_SET_SUCCESS" varFormat="Java">
+   The property <Variable formatSpec="{0}">key name</Variable> has been set and committed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB071I" prefix="yes">
+   <MsgText pgmKey="PROPERTY_DELETE_SUCCESS" varFormat="Java">
+   The property <Variable formatSpec="{0}">key name</Variable> successfully deleted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB072I" prefix="no">
+   <MsgText pgmKey="QUERY_USAGE" varFormat="Java">
+   <br/>
+   The usage for query operation is:
+   <br/>
+   tdisrvctl [general_options] -op queryop -c config -r AL_name<br/>
+   <br/>
+   where:<br/>
+   <pre> -c config        name of a loaded configuration</pre><br/>
+   <pre> -r AL_name       valid AssemblyLine in the specified configuration</pre><br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB073I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.RETURN.CODE" varFormat="Java">
+   Return Code: <Variable formatSpec="{0}">return code</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB074I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.WHETHER.TOMBSTONE.IS.SUPPORTED" varFormat="Java">
+   Determining whether Tombstone is supported.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB075I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.SERVER.VERSION" varFormat="Java">
+   Server version: <Variable formatSpec="{0}">version</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB076I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.START.DATE" varFormat="Java">
+   Start Date:<Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB077I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.END.DATE" varFormat="Java">
+   End Date  :<Variable formatSpec="{0}">date</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB078I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.CONFIG.ID" varFormat="Java">
+   Config ID :<Variable formatSpec="{0}">Config ID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB079I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.NUMBER.OF.TOMBSTONES.FOUND" varFormat="Java">
+   Number of Tombstones found: <Variable formatSpec="{0}">number of tombstones</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB080I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.WHETHER.REMOTE.CLIENT.IS.SUPPORTED" varFormat="Java">
+   Determining whether remote client event notification is supported.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB081I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.SERVER.VERSION.2" varFormat="Java">
+   Server version: <Variable formatSpec="{0}">version</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB082I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.WHETHER.TDIP.PROPERTIES.IS.SUPPORTED" varFormat="Java">
+   Determining whether IBM Security Verify Directory Integrator Properties is supported.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB083I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.SERVER.VERSION.3" varFormat="Java">
+   Server version: <Variable formatSpec="{0}">version</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB084I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.DISPLAYPROPERTYSTORELIST" varFormat="Java">
+   In displayPropertyStoreList method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB085I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.DISPLAYPROPERTYVALUES" varFormat="Java">
+   In displayPropertyValues method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB086I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.SETTDIPROPERTYVALUE" varFormat="Java">
+   In setTDIPropertyValue method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB087I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.DELETETDIPROPERTY" varFormat="Java">
+   In deleteTDIProperty method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB088I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.THE.SERVER.IS" varFormat="Java">
+   The server is: <Variable formatSpec="{0}">server name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB089E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.CONFIG.INSTANCE.NOT.STARTED" varFormat="Java">
+   Config instance not started.  Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB090I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.VIEWSERVERINFORMATION" varFormat="Java">
+   In viewServerInformation method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB091I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.SENDEVENTNOTIFICATION" varFormat="Java">
+   In sendEventNotification method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB092I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.VIEWSTATUS" varFormat="Java">
+   In viewStatus method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB093I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.STARTCOMPONENTS" varFormat="Java">
+   In startComponents method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB094I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.STOPCOMPONENTS" varFormat="Java">
+   In stopComponents method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB095I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.VIEWALLALSTATUS" varFormat="Java">
+   In viewAllALStatus method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB096I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.NO.OF.RUNNING.CONFIGS" varFormat="Java">
+   Number of running Configs:<Variable formatSpec="{0}">number of Configs</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Message with ID &apos;CTGDJB097I&apos; is removed in IBM Security Verify Directory Integrator 7.0.-->
+
+<Message ID="CTGDJB098I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.NO.OF.RUNNING.CONFIGS.2" varFormat="Java">
+   Number of running Configs:<Variable formatSpec="{0}">number of Configs</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB099I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ATTEMPTING.TO.CONNECT.TO.TDI.SERVER" varFormat="Java">
+   Attempting to connect to IBM Security Verify Directory Integrator server: <Variable formatSpec="{0}">hostname</Variable>:
+   <Variable formatSpec="{1}">port</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB100I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.USING.CUSTOM.AUTHENTICATION" varFormat="Java">
+   Using custom authentication. Username: <Variable formatSpec="{0}">username</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Message &apos;CTGDJB101I&apos;was removed in IBM Security Verify Directory Integrator 7.1-->
+
+<Message ID="CTGDJB102I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.SHUTDOWNSERVER.2" varFormat="Java">
+   In shutdownServer method. Return code <Variable formatSpec="{0}">return_code</Variable> passed to method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB103I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.WHETHER.CONFIG.FOLDER.FEATURE.IS.SUPPORTED" varFormat="Java">
+   Determining whether Config folder feature is supported.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB104I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.SERVER.VERSION.4" varFormat="Java">
+   Server version: <Variable formatSpec="{0}">version</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB105I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.RELOADCONFIGS" varFormat="Java">
+   In reloadConfigs method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB106W" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.DUPLICATE.ARGUMENT" varFormat="Java">
+   Duplicate argument: &apos;&apos;<Variable formatSpec="{0}">token</Variable>&apos;&apos;. Argument is ignored.
+   </MsgText>
+   <Explanation> <p>
+   The user passed duplicate arguments while calling the command. The command has discarded the extraneous ones.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Refer the help for command, and pass appropriate command line parameters while invoking the command.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB107I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.PARSING.GENERAL.OPTIONS" varFormat="Java">
+   Parsing general options.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB108I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.GENERAL.OPTIONS" varFormat="Java">
+   General Options: <Variable formatSpec="{0}">options</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB109E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.DETERMINE.SERVER.VERSION" varFormat="Java">
+   Unable to determine server version. Cannot continue.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to determine the IBM Security Verify Directory Integrator server version.
+   It needs to know this to detect whether Tombstone Manager is present or not. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the remote IBM Security Verify Directory Integrator server version that you are connecting to
+   using tdisrvctl. The tombstone support has been introduced in the IBM Security Verify Directory Integrator
+   6.0 version of the product.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB110E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.OBTAIN.TOMBSTONES" varFormat="Java">
+   Unable to obtain Tombstones.
+   </MsgText>
+   <Explanation> <p>
+   Some exception occured while trying to obtain tombstones. This could be 
+   because of some error in connecting to the remote IBM Security Verify Directory Integrator server,
+   or because of some other error while communicating with the
+   IBM Security Verify Directory Integrator server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the error logs for other error messages, or try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB111E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.INVALID.AGE" varFormat="Java">
+   Invalid age: <Variable formatSpec="{0}">age value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by passing a non-integer or a negative value for the 
+   age (in days) option.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Invoke the tdisrvctl command by passing a valid integer (greater than 0) for the specified option 
+   of Tombstone.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB112E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.PROCESSING.SHUTDOWN" varFormat="Java">
+   Error while processing shutdown return code.
+   </MsgText>
+   <Explanation> <p>
+   There was an error in converting the shutdown code into an integer value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the passed shutdown code is an integer value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB113E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.DETERMINE.SERVER.VERSION.2" varFormat="Java">
+   Unable to determine server version. Cannot continue.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to determine the server version, so as to detect
+   if event notification APIs are supported in this particular server release or not.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a v6.1 or later server for sending remote client event notifications.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB114E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.OBTAIN.LIST.OF.PROPERTY.STORES" varFormat="Java">
+   Error while trying to obtain list of property stores for Config: <Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an internal error while trying to obtain the list of configured
+   property stores from the remote IBM Security Verify Directory Integrator server. This may have occured because
+   the property store list in the remote server has got corrupted, or maybe an incompatible version
+   of the remote IBM Security Verify Directory Integrator server is being used.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check if the property stores list can be correctly seen in the ibmditk. Also, check the Problem
+   Determination Guide for problems related to the property store. Ensure that the version of tdisrvctl
+   and the version of the remote IBM Security Verify Directory Integrator server match. The property store feature
+   has been introduced in version 6.1 of IBM Security Verify Directory Integrator.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB115E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.OBTAIN.LIST.OF.PROPERTY.STORES.2" varFormat="Java">
+   Error while trying to obtain list of property stores for Config: <Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an internal error while trying to obtain the list of configured
+   property stores from the remote IBM Security Verify Directory Integrator server. This may have occured because
+   the property store list in the remote server has got corrupted, or maybe an incompatible version
+   of the remote IBM Security Verify Directory Integrator server is being used.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check if the property stores list can be correctly seen in the ibmditk. Also, check the Problem
+   Determination Guide for problems related to the property store. Ensure that the version of tdisrvctl
+   and the version of the remote IBM Security Verify Directory Integrator server match. The property store feature
+   has been introduced in version 6.1 of IBM Security Verify Directory Integrator.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB116E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.TRYING.TO.OBTAIN.PROPERTY.FOR.CONFIG" varFormat="Java">
+   Error while trying to obtain property for Config:<Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an internal error while trying to obtain the properties of a 
+   particular store from the remote IBM Security Verify Directory Integrator server. This may have occured because
+   the property store list in the remote server has got corrupted, or maybe an incompatible version
+   of the remote IBM Security Verify Directory Integrator server is being used.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check if the property values can be correctly seen in the ibmditk. Also, check the Problem
+   Determination Guide for problems related to the property store. Ensure that the version of tdisrvctl
+   and the version of the remote IBM Security Verify Directory Integrator server match. The property store feature
+   has been introduced in version 6.1 of IBM Security Verify Directory Integrator. Also have a look at the output
+   messages of the tdisrvctl command.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB117E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.TRYING.TO.SET.PROPERTY.FOR.CONFIG" varFormat="Java">
+   Error while trying to set property for Config:<Variable formatSpec="{0}">Config name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an internal error while trying to set a property in a 
+   particular store in the remote IBM Security Verify Directory Integrator server. This may have occured
+   because the property store in the remote server has got corrupted, or maybe an incompatible version
+   of the remote IBM Security Verify Directory Integrator server is being used.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check if the property values can be correctly set in the ibmditk. Also, check the Problem
+   Determination Guide for problems related to the property store. Ensure that the version of tdisrvctl
+   and the version of the remote IBM Security Verify Directory Integrator server match. The property store feature
+   has been introduced in version 6.1 of IBM Security Verify Directory Integrator. Also have a look at the output messages of the
+   tdisrvctl command. Try again.
+   </p> </OperatorResponse></Message>
+
+<Message ID="CTGDJB118E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.TRYING.TO.DELETE.PROPERTY" varFormat="Java">
+   Error while trying to delete property 
+   &apos;&apos;<Variable formatSpec="{0}">key name</Variable>&apos;&apos;
+   for Config:<Variable formatSpec="{1}">Config name</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an internal error while trying to delete a property in a 
+   particular store in the remote IBM Security Verify Directory Integrator server. This may have occured because
+   the property store  in the remote server has got corrupted, or maybe an incompatible version of
+   the remote IBM Security Verify Directory Integrator server is being used. This would also happen in-case the particular property store
+   is READ-ONLY.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check if the property values can be correctly set in the ibmditk. Also, check the Problem
+   Determination Guide for problems related to the property store. Ensure that the version of tdisrvctl
+   and the version of the remote IBM Security Verify Directory Integrator server match. The property store feature
+   has been introduced in version 6.1 of IBM Security Verify Directory Integrator. Also have a look at the output
+   messages of the tdisrvctl command. Ensure that the particular property store is not READ-ONLY. Try again.
+   </p>
+   </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB119E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.THE.KEY.VALUE.FORMAT.SHOULD.HAVE.BEEN.SPECIFIED" varFormat="Java">
+   The KEY=VALUE format should have been specified for <Variable formatSpec="{0}">property key and value</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked incorrectly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the command usage and try again. Very double quotes are used to group arguments that have spaces.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB120E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.SERVERINFO.IS.NULL" varFormat="Java">
+   Unable to retrieve server information.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encontered an internal error while trying to obtain the remote
+   IBM Security Verify Directory Integrator server host details. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the remote IBM Security Verify Directory Integrator server is of version 6.0 or above.
+   Also ensure that there are no connection errors while connecting to IBM Security Verify Directory Integrator
+   server, and the IBM Security Verify Directory Integrator server has its remote server API
+   engine is turned on.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB121E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.SENDINGCUSTOMNOTIFICATION" varFormat="Java">
+   Error while sending custom event notification:
+   event name=<Variable formatSpec="{0}">event name</Variable>,
+   event source=<Variable formatSpec="{1}">event source</Variable>,
+   event data=<Variable formatSpec="{2}">event data</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an error while trying to send a custom notification event.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Have a look at the log trace, or the server logs to find out the problem. Ability to send
+   custom notification was added in IBM Security Verify Directory Integrator version 6.1. Ensure that you
+   are using a compatible  version of IBM Security Verify Directory Integrator server. Try sending the
+   event again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB122E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.GET.CONFIG.INFO.STOP.THE.CONFIG" varFormat="Java">
+   Unable to get the Config info or stop the Config.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to obtain handle to the remote Config to stop. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception, or previous messages. Also have a look at the server logs.
+   Try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB123E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.GET.DETAILS.FOR.ASSEMBLY.LINES" varFormat="Java">
+   Unable to get details for AssemblyLines.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for AssemblyLines. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The AssemblyLine or the Config could also
+   be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<!--The message with ID &apos;CTGDJB124E&apos; is deleted in IBM Security Verify Directory Integrator 7.0-->
+
+<Message ID="CTGDJB125E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.GET.LIST.OF.ALL.RUNNING.CONFIGS" varFormat="Java">
+   Unable to get list of all running Configs.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility encountered an error while trying to obtain the list of all running configs.
+   This may happen because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the tdisrvctl and remote IBM Security Verify Directory Integrator server versions match. Also look
+   into the exception trace and the server logs. Try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB126E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.GET.LIST.OF.ALL.CONFIGS" varFormat="Java">
+   Unable to get list of all Configs.
+   </MsgText>
+   <Explanation> <p>
+   An internal error occured while trying to obtain the list of all configs. This occurred
+   because of m_Session.listAllConfigurations() method threw an error. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the tdisrvctl and remote IBM Security Verify Directory Integrator server versions match. Also
+   look into the exception trace and the server logs. Try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB127E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.GETTING.ASSEMBLY.LINE.DETAILS" varFormat="Java">
+   Error while getting assembly line details.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for AssemblyLines. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The AssemblyLine or the
+   Config could also be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB128E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.GETTING.CONNECTOR.LIBRARY.DETAILS" varFormat="Java">
+   Error while getting Connector library details.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for Connector Library. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The Config could also be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB129E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.GETTING.PARSER.LIBRARY.DETAILS" varFormat="Java">
+   Error while getting Parser library details.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for Parser Library. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The Config could also
+   be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB130E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.GETTING.SCRIPT.LIBRARY.DETAILS" varFormat="Java">
+   Error while getting script library details.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for Script Library. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The Config could also
+   be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB131E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.GETTING.FUNCTION.LIBRARY.DETAILS" varFormat="Java">
+   Error while getting function library details.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to get details for Function Library. This may happen
+   because the IBM Security Verify Directory Integrator server version does not match the tdisrvctl
+   utility version, or some other internal server error occured. The Config could also
+   be corrupted.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the exception trace, or the command output. Also check the server logs.
+   Try again. 
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB132E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.DETERMINE.SERVER.VERSION.3" varFormat="Java">
+   Unable to determine server version. Cannot continue.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl utility was unable to determine the server version, so as to detect
+   if config folder feature is supported in this particular server release or not.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a v6.1 or later server for viewing configs in the config folder.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB133E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.UNABLE.TO.GET.LIST.OF.ALL.CONFIGS.2" varFormat="Java">
+   Unable to get list of all Configs.
+   </MsgText>
+   <Explanation> <p>
+   An internal error occured while trying to obtain the list of all configs. This occurred
+   because of Session.listAllConfigurations() method threw an error. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the tdisrvctl and remote IBM Security Verify Directory Integrator server versions match.
+   Also look into the exception trace and the server logs. Try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB134E" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ERROR.WHILE.RETRIEVING.LIST.OF.LOADED.CONFIGS" varFormat="Java">
+   Error while retrieving list of loaded Configs.
+   </MsgText>
+   <Explanation> <p>
+   An internal error occured while trying to obtain the list of all loaded configs on the remote
+   IBM Security Verify Directory Integrator server. This occured because Session.getConfigInstances() method
+   threw an error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the tdisrvctl and remote IBM Security Verify Directory Integrator server versions match.
+   Also look into the exception trace and server logs. Try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB135W" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.ALREADY.REACHED.THE.END.OF.ARGUMENT.LIST" varFormat="Java">
+   Already reached the end of argument list.
+   </MsgText>
+   <Explanation> <p>
+   While parsing the arguments, the tdisrvctl utility encountered an unexpected end of arguments.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the command usage and try again.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB136I" prefix="yes">
+   <MsgText pgmKey="ARGUMENT_PASSED" varFormat="Java">
+   Argument at index <Variable formatSpec="{0}">index</Variable>: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB137I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.THE.CONFIGURATION.IS" varFormat="Java">
+   Configuration: <Variable formatSpec="{0}">configuration name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB138E" prefix="yes">
+   <MsgText pgmKey="AL_NOT_FOUND_FOR_OPERATION" varFormat="Java">
+   AssemblyLine <Variable formatSpec="{0}">AssemblyLine name</Variable> not found.
+   </MsgText>
+   <Explanation> <p>
+   Unable to find user specified AssemblyLine. The Assembly Name passed may
+   be incorrect or misspelled.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the AssemblyLine specified exists in the configuration on the remote server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB139I" prefix="yes">
+   <MsgText pgmKey="NO_OPERATIONS_AVAILABLE_INFORMATION" varFormat="Java">
+   No operations exposed by the AssemblyLine.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB140E" prefix="yes">
+   <MsgText pgmKey="CONFIG_NOT_LOADED" varFormat="Java">
+   The Config <Variable formatSpec="{0}">Config name</Variable> is not loaded.
+   </MsgText>
+   <Explanation> <p>
+   The Config specified for the &apos;queryop&apos; option is not loaded on  the server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the Config name is correct.
+    </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB141E" prefix="yes">
+   <MsgText pgmKey="DELETE_TOMBSTONE_UNSUPPORTED" varFormat="Java">
+   The server <Variable formatSpec="{0}">hostname</Variable> does not support deletion of tombstones.<br/>
+   Delete tombstone support is not available in pre-7.0 servers.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command tried deleting tombstones from a pre-7.0 server.
+   Deletion of  tombstones  has been introduced from v7.0 onward.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Connect to a version 7.0 or later server for deleting tombstones.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB142I" prefix="no">
+   <MsgText pgmKey="DELETE_TOMBSTONE_USAGE" varFormat="Java">
+   <br/>
+   The usage for the tombsone deletion  operation is:
+   <br/>
+   tdisrvctl [general_options] -op deletetombstone -guid 'GUID # ' <br/>
+   <br/>
+   where:<br/>
+   <pre> -guid 'GUID # '  is the unique identifier for the tombstone to be deleted.</pre><br/>
+   <br/>
+   Note: <br/>
+      - GUID for a tombstone can be obtained by viewing a tombstone<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+ 
+ 
+ <Message ID="CTGDJB143I" prefix="yes">
+    <MsgText pgmKey="TOMBSTONE_DELETED" varFormat="Java">
+    Tombstone with guid  <Variable formatSpec="{0}"> GUID</Variable> successfully deleted. 
+    </MsgText>
+    <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB144I" prefix="yes">
+   <MsgText pgmKey="TEMP_PASS_NOT_ALLOWED" varFormat="Java">
+   Temp configs cannot be run with password specified.
+   </MsgText>
+   <Explanation> <p>
+   The tdisrvctl command was invoked by specifying the -t (temp config) option in a combination 
+   with the -e (password) option, but temp configs cannot be started with a password.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Remove either the -t or -e option in order to successfully run the command.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB145E" prefix="yes">
+   <MsgText pgmKey="ASSEMBLY_LINE_ALL_NOT_ALLOWED" varFormat="Java">
+   It is mandatory to specify an AssemblyLine name. &apos;<Variable formatSpec="{0}">keyword</Variable>&apos; keyword is not allowed.
+   </MsgText>
+   <Explanation> <p>
+   Instead of passing the AssemblyLine name, the user asked for ALL AssemblyLines. This is not allowed.
+   User must specify the AssemblyLine name.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the explicit AssemblyLine name when invoking the tdisrvctl command. See
+   tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB146E" prefix="yes">
+   <MsgText pgmKey="OPTION_NOT_ALLOWED_FOR_OPERATION" varFormat="Java">
+   Option &apos;<Variable formatSpec="{0}">option</Variable>&apos; is not allowed for operation &apos;<Variable formatSpec="{1}">option</Variable>&apos;. 
+   </MsgText>
+   <Explanation> <p>
+   The user specified an option which is not supported for the specified operation.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See tdisrvctl command usage.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB147I" prefix="yes">
+   <MsgText pgmKey="LISTENING.AL" varFormat="Java">
+   Listening for AssemblyLine messages... 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB148I" prefix="yes">
+   <MsgText pgmKey="LISTENING.CI" varFormat="Java">
+   Listening for Config messages... 
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB149I" prefix="yes">
+   <MsgText pgmKey="REMOTESERVERCOMMAND.IN.DEBUGCOMPONENTS" varFormat="Java">
+   In debugComponents method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB150E" prefix="yes">
+   <MsgText pgmKey="ASSEMBLY_LINE_NOT_RUNNING" varFormat="Java">
+   The AssemblyLine <Variable formatSpec="{0}">AL name</Variable> is not running.
+   </MsgText>
+   <Explanation> <p>
+   The user specified debugging of components of an AssemblyLine that is not running 
+   on the server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the AssemlyLine name is correct.
+   Also check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB151E" prefix="yes">
+   <MsgText pgmKey="COMPONENT_COULD_NOT_SET_DEBUG_MODE" varFormat="Java">
+   Could not set debug mode to <Variable formatSpec="{0}">component name</Variable> component.
+   </MsgText>
+   <Explanation> <p>
+   The user specified a component that does not exist in the specified AssemblyLine.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check whether the component name is correct.
+   Also check the tdisrvctl error logs for more information on the errors.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJB152I" prefix="no">
+   <MsgText pgmKey="DEBUG_USAGE" varFormat="Java">
+   <br/>
+   The usage for the debug operation is:
+   <br/>
+   <pre>tdisrvctl [general_options] -op debug -c config -r assembly_line</pre><br/>
+   <pre>                               [-alc al_component]</pre><br/>
+   <pre>                               -on/off</pre><br/>
+   <br/>
+   where:<br/>
+   <pre> -c     config              config instance ID</pre><br/>
+   <pre> -r     assembly_line       name of the AssemblyLine</pre><br/>
+   <pre> -alc   al_component        name of the AssemblyLine component</pre><br/>
+   <pre> -on                        flag to enable debug mode</pre><br/>
+   <pre> -off                       flag to disable debug mode</pre><br/>
+   <br/>
+   Note: <br/>
+   - The -c and -r options are mandatory and require exactly one Config/AssemblyLine to be specified.<br/>
+   - If -alc option is not specified all components in the specified AssemblyLine will be affected.<br/>
+   <br/>
+   Examples: <br/>
+   To view the Debug mode value of the components in the AssemblyLines of a specified Config<br/>
+   tdisrvctl -op report -c config<br/>
+   <br/>
+   To enable the debug mode for all components in the running AssemblyLine al2<br/>
+   tdisrvctl -op debug -c config_name -r al2 -on<br/>
+   <br/>
+   To disable the debug mode for specified components in the running AssemblyLine al3<br/>
+   tdisrvctl -op debug -c config_name -r al3 -alc fread,httpServer,myconn -off<br/>
+   <br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB153I" prefix="yes">
+   <MsgText pgmKey="AL.COMPLETE" varFormat="Java">
+   AssemblyLine <Variable formatSpec="{0}">AssemblyLine name</Variable> completed successfully.<br/>
+   Statistics: <Variable formatSpec="{1}">AssemblyLine statistics</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB154I" prefix="yes">
+   <MsgText pgmKey="AL.ERROR" varFormat="Java">
+   AssemblyLine <Variable formatSpec="{0}">AssemblyLine name</Variable> failed with exception: <Variable formatSpec="{1}">exception</Variable><br/>
+   Statistics: <Variable formatSpec="{2}">AssemblyLine statistics</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB155I" prefix="yes">
+   <MsgText pgmKey="AL.LAST.ENTRY" varFormat="Java">
+   Last AssemblyLine Entry: <Variable formatSpec="{0}">Entry object</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJB156W" prefix="yes">
+   <MsgText pgmKey="AL.LAST.ENTRY.ERROR" varFormat="Java">
+   Could not retrieve last AssemblyLine Entry: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The last Entry of the executed AssemblyLine cannot be retrieved from the Server. Probably it contains
+   Attribute values which do not implement the java.io.Serializable interface.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the configuration of the AssemblyLine.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- LABELS -->
+
+<Label ID="CTGDJ0001I">
+   <LabelText pgmKey="TDI_SERVER_INFO" varFormat="Java">
+   <br/>
+   IBM Security Verify Directory Integrator Server Information<br/>
+   ======================<br/>
+   <pre>IP Address           : </pre><Variable formatSpec="{0}">IP Address</Variable><br/>
+   <pre>Port                 : </pre><Variable formatSpec="{1}">port</Variable><br/>
+   <pre>Hostname             : </pre><Variable formatSpec="{2}">hostname</Variable><br/>
+   <pre>Version              : </pre><Variable formatSpec="{3}">version number</Variable><br/>
+   <pre>Server Boot Time     : </pre><Variable formatSpec="{4}">time stamp</Variable><br/>
+   <pre>Server Reload Time   : </pre><Variable formatSpec="{5}">time stamp</Variable><br/>
+   <pre>Operating System     : </pre><Variable formatSpec="{6}">operating system</Variable><br/>
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0002I">
+   <LabelText pgmKey="RUNNING" varFormat="Java">
+   RUNNING
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0003I">
+   <LabelText pgmKey="STOPPED" varFormat="Java">
+   STOPPED
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0004I">
+   <LabelText pgmKey="CONFIG_HEADING" varFormat="Java">
+   --- Configs ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0005I">
+   <LabelText pgmKey="AL_HEADING" varFormat="Java">
+   --- AssemblyLines ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0006I">
+   <LabelText pgmKey="EH_HEADING" varFormat="Java">
+   --- EventHandlers ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0007I">
+   <LabelText pgmKey="CONFIG_REPORT_HEADING" varFormat="Java">
+   CONFIG REPORT<br/>
+   =============
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0008I">
+   <LabelText pgmKey="CONFIG_LABEL" varFormat="Java">
+   Config
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0009I">
+   <LabelText pgmKey="NONE" varFormat="Java">
+   None
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0010I">
+   <LabelText pgmKey="NAME_LABEL" varFormat="Java">
+   Name
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0011I">
+   <LabelText pgmKey="COMMENT_LABEL" varFormat="Java">
+   Comment
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0012I">
+   <LabelText pgmKey="AL_COMP_HEADING" varFormat="Java">
+   --- Components in AssemblyLine <Variable formatSpec="{0}">number of Components</Variable> ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0013I">
+   <LabelText pgmKey="ENABLED" varFormat="Java">
+   Enabled
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0014I">
+   <LabelText pgmKey="DISABLED" varFormat="Java">
+   Disabled
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0015I">
+   <LabelText pgmKey="MODE_LABEL" varFormat="Java">
+   Mode
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0016I">
+   <LabelText pgmKey="STATE_LABEL" varFormat="Java">
+   State
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0017I">
+   <LabelText pgmKey="TEMPLATE_LABEL" varFormat="Java">
+   Template
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0018I">
+   <LabelText pgmKey="PARSER_LABEL" varFormat="Java">
+   Parser
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0019I">
+   <LabelText pgmKey="CONN_LIBRARY_HEADING" varFormat="Java">
+   --- Connector Library ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0020I">
+   <LabelText pgmKey="PARSER_LIBRARY_HEADING" varFormat="Java">
+   --- Parser Library ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0021I">
+   <LabelText pgmKey="SCRIPT_LIBRARY_HEADING" varFormat="Java">
+   --- Script Library ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0022I">
+   <LabelText pgmKey="SCRIPT_INCLUDE_AUTOMATICALLY" varFormat="Java">
+   Auto
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0023I">
+   <LabelText pgmKey="SCRIPT_INCLUDE_MANUAL" varFormat="Java">
+   Manual
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0024I">
+   <LabelText pgmKey="SCRIPT_INCLUDE_LABEL" varFormat="Java">
+   Include
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0025I">
+   <LabelText pgmKey="FUNCTION_LIBRARY_HEADING" varFormat="Java">
+   --- Function Library ---
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0026I">
+   <LabelText pgmKey="REPORT_GENERATED_DATE_TIME" varFormat="Java">
+   Report generated on <Variable formatSpec="{0}">time stamp</Variable>
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0027I">
+   <LabelText pgmKey="LIST_CONFIG_HEADING" varFormat="Java">
+   List of Configs<br/>
+   ===============
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0028I">
+   <LabelText pgmKey="TOTAL_LABEL" varFormat="Java">
+   Total
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0029I">
+   <LabelText pgmKey="NOT_FOUND" varFormat="Java">
+   NOT FOUND
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0030I">
+   <LabelText pgmKey="PASSIVE" varFormat="Java">
+   Passive
+   </LabelText>
+</Label>
+
+<Label ID="CTGDJ0031I">
+   <LabelText pgmKey="DEBUG_LABEL" varFormat="Java">
+   Debug
+   </LabelText>
+</Label>
+
+</TMSSource>

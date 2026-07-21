@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="idschglogconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJR001W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.PAGESIZE.WARN" varFormat="Java">
+   The &apos;pageSize&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   Will not use paging.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pageSize parameter in the Connector if paging needs to be enabled.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR002W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.NEGPAGESIZE.WARN" varFormat="Java">
+   The &apos;pageSize&apos; parameter set to a negative value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   Will not use paging.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pageSize parameter in the Connector if paging needs to be enabled.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.NODIRCONEXT.EXCEP" varFormat="Java">
+   Unable to initialize Connector because a connection to the directory server could
+   not be established or the search at base DN <Variable formatSpec="{0}">DN</Variable>
+   was not valid.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the directory server is running and that the ldapSearchBase parameter
+   is set to a valid value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR004W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.NOSTARTCHGNUMBER.INFO" varFormat="Java">
+   Cannot set starting change number to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The change number specified in the nsChangenumber parameter could not be used
+   to set the starting change number.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the nsChangenumber parameter is set to a valid change number.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.STARTCHANGE.INFO" varFormat="Java">
+   Starting with change number set to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and the &apos;iteratorStateKey&apos; was set to
+   &apos;&apos;<Variable formatSpec="{1}">state value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR006I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.BLOCK.FOR.NOTIFICATIONS" varFormat="Java">
+   Block for notifications ...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR007W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.THREAD.INTERUPTED" varFormat="Java">
+   Thread interupted: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An InterruptedException is encountered when executing the
+   method &apos;blockForNotifications&apos;.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR008I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.TIMEOUT.WAITING.FOR.NEXT.CHANGED" varFormat="Java">
+   Timeout waiting for next changed entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.LDAP.SEARCH.QUERY" varFormat="Java">
+   LDAP search query set to &apos;&apos;<Variable formatSpec="{0}">filter</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.READ" varFormat="Java">
+   Getting the next changelog entry: <Variable formatSpec="{0}">CN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR011I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.GOT.NEXT.CHANGELOG" varFormat="Java">
+   Got next changelog entry: <Variable formatSpec="{0}">CN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.ENTRY.NOT.FOUND.IN.CHANGELOG" varFormat="Java">
+   Entry not found in Changelog: <Variable formatSpec="{0}">CN</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR013I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.SKIPPING.AND.TRYING.NEXT" varFormat="Java">
+   Skipping and trying next changelog entry: <Variable formatSpec="{0}">change number</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.PARTIAL.RESULT.EXCEPTION.CAUGHT" varFormat="Java">
+   Unable to get next search result. PartialResultException occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The method getNextSearchResult fails trying to get the next search result.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.GET.NEXT.PAGE" varFormat="Java">
+   Get next page: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR016E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.ENTRY.DOES.NOT.CONTAIN.A.VALID.CHANGELOG.ENTRY" varFormat="Java">
+   The entry does not contain a valid changelog entry (changes attribute missing) for
+   operation: <Variable formatSpec="{0}">operation type</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Put a valid &apos;changes&apos; attribute in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR017E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.UNABLE.TO.PARSE.CHANGES.ATTRIBUTE" varFormat="Java">
+   LDIF Parser could not parse &apos;changes&apos; attribute from the entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Put a valid &apos;changes&apos; attribute in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.COULD.NOT.RETRIEVE.LAST.CHANGE.NUMBER.I" varFormat="Java">
+   The attributes does not contain &apos;lastchangenumber&apos; attribute.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR019E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.COULD.NOT.RETRIEVE.LAST.CHANGE.NUMBER.E" varFormat="Java">
+   Could not retrieve the last change number.
+   </MsgText>
+   <Explanation> <p>
+   Attributes do not contain &apos;lastchangenumber&apos; attribute.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.ERROR.COULD.NOT.STORE.THE.CHANGENUMBER.VALUE.IN.SYSTEM.STORE" varFormat="Java">
+   Could not store the change number value in the System Store.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The method storeChangenumberForNextSynch fails trying to set a property in the System Store.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the System Store.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.CURRENT.CHANGENUMBER.VALUE.IS" varFormat="Java">
+   The current change number value is: <Variable formatSpec="{0}">change number</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.NAMING.EXCEPTION.THROWN" varFormat="Java">
+   A NamingExceptionEvent occurred: <Variable formatSpec="{0}">event</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR023I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.NOTIFICATION.RECEIVED" varFormat="Java">
+   A notification event was received: <Variable formatSpec="{0}">event</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJR024E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.RESTART.INFO.DOES.NOT.CONTAIN.ATTRIBUTE" varFormat="Java">
+   Restart info does not contain &apos;changeNumber&apos; attribute.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR025W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.TERMINATE.EXC" varFormat="Java">
+   Exception occurred while terminating the Connector: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJR026W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.IDSCHGLG.EMPTY.ITERATORSTATEKEY" varFormat="Java">
+   The iterator state key is not specified. No state will be stored. The Start At parameter&apos;s value will be used.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iterator state key if you want the state of the changelog connector to be saved.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

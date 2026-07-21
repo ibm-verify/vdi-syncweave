@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Mon Oct 12 13:45:10 SGT 2009" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.DataCleanserFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.dcs.DataCleanserFC</parameter>
+				<parameter name="cdmAttributeType"></parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$cleansedString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$cdmAttributeType</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$inputString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>				
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.dcs.DataCleanserFC">
+			<TranslationFile>NLS/idi_fc_datacleanserfc</TranslationFile>
+			<parameter name="title">DCS_FC_TITLE</parameter>
+			<parameter name="description">DCS_FC_DESC</parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>cdmAttributeType</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>cdmAttributeType</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="cdmAttributeType">
+				<parameter name="description">DCS_FC_STRING_ATTRIBUTE_TYPES_DESC</parameter>
+				<parameter name="label">DCS_FC_STRING_ATTRIBUTE_TYPES_LABEL</parameter>
+				<parameter name="script">getAttributeTypes</parameter>
+				<parameter name="scriptLabel">DCS_FC_GET_STRING_ATTRIBUTE_TYPES_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">DCS_FC_GET_STRING_ATTRIBUTE_TYPES_SCRIPT_DESC</parameter>
+				<parameter name="syntax">string</parameter>				
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

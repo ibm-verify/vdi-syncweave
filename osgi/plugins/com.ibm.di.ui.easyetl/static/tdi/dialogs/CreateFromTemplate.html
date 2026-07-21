@@ -1,0 +1,54 @@
+<div style="margin:10px">
+	<div>
+	${nls.WebCE_createSolutionInfo}
+	</div>
+	<p></p>
+
+	<form dojoAttachPoint="Form" id="form01" method="POST" action="/etl/templates" enctype="multipart/form-data">
+		<table cellspacing="5">
+			<tr>
+				<td valign="top">
+					<label>
+						<div dojoType="dijit.form.RadioButton" name="soltype" checked="false" dojoAttachPoint="configCombo" dojoAttachEvent="onChange:_toggleSolutionCombo"></div>
+						${nls.WebCE_installedSolution}
+					</label>
+				</td>
+				<td>
+					<select dojoType="dijit.form.ComboBox" disabled="true" dojoAttachPoint="solution" name="configName">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<label>
+						<div dojoType="dijit.form.RadioButton" name="soltype" checked="false" dojoAttachEvent="onChange:_toggleTemplateCombo"></div>
+						${nls.WebCE_template}
+					</label>
+				</td>
+				<td>
+					<select dojoType="dijit.form.ComboBox" disabled="true" dojoAttachPoint="template" name="templateName">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<label>
+						<div dojoType="dijit.form.RadioButton" name="soltype" checked="true" dojoAttachEvent="onChange:_toggleP2PCombo"></div>
+						${nls.miadmin_servername_Default}
+					</label>
+				</td>
+				<td>
+					${nls.WebCE_simpleP2P}
+				</td>
+			</tr>
+			<tr>
+				<td>${nls.WebCE_solutionName}:</td>
+				<td>
+					<div dojoType="dijit.form.ValidationTextBox" required="true" regExp="[\w]+" type="text" dojoAttachPoint="Solution" name="solutionname"></div>
+					<div dojoAttachPoint="_sendButton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:submitFile"/>${nls.WebCE_ok}
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+</div>

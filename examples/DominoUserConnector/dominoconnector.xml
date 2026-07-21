@@ -1,0 +1,1603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:12:07 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:12:07 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="AddNReg">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="input_fs">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/DominoUserConnector/addreg.csv</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="csvColumns">LastName;REG_Perform;REG_IdFile;REG_UserPw;REG_CertifierIDFile;REG_CertPassword</parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+<AttributeMapItem>
+<Name>LastName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>LastName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_CertPassword</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_CertPassword</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_CertifierIDFile</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_CertifierIDFile</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_IdFile</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_IdFile</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_Perform</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_Perform</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_UserPw</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_UserPw</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<InheritFrom>[no inheritance]</InheritFrom>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_CertPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_CertifierIDFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_IdFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_Perform</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_UserPw</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_CertPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_CertifierIDFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_IdFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_Perform</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>REG_UserPw</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[no inheritance]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[no inheritance]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Add_Domino">
+<InheritFrom>system:/Connectors/ibmdi.DominoUsersConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="nabDatabase">names.nsf</parameter>
+<parameter name="password">password</parameter>
+<parameter name="useFTSearch">false</parameter>
+<parameter name="userName">admin</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>LastName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>LastName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_CertPassword</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_CertPassword</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_CertifierIDFile</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_CertifierIDFile</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_IdFile</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_IdFile</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_Perform</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_Perform</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>REG_UserPw</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>REG_UserPw</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="IterateALL">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterate_domino">
+<InheritFrom>system:/Connectors/ibmdi.DominoUsersConnector</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="nabDatabase">names.nsf</parameter>
+<parameter name="password">password</parameter>
+<parameter name="useFTSearch">false</parameter>
+<parameter name="userName">admin</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<InheritFrom>[no inheritance]</InheritFrom>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>$Revisions</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>$UpdatedBy</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullNameLanguage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullNameSort</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Assistant</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AvailableForDirSync</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CalendarDomain</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CellPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Certificate</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CheckPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Children</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>City</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ClientType</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Comment</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CompanyName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>DER_IsEnabled</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Department</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>DocumentAccess</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>EmployeeID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>EncryptIncomingMail</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FirstName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Form</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HTTPPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomeFAXPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomePostalAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>InternetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>JobTitle</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LocalAdmin</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Location</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailDomain</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailServer</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailSystem</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Manager</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MessageStorage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MiddleInitial</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>NetUserName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OU</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeCity</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeCountry</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeFAXPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficePhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeState</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeStreetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeZIP</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Owner</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordChangeDate</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordChangeInterval</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordDigest</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordGracePeriod</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PersonalID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PhoneNumber_6</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PostalAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Profiles</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltCommonName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltFullNameLanguage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltOrgUnit</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PublicKey</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SametimeServer</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ShortName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Spouse</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>State</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Street</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>StreetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Suffix</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Title</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Type</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>WebSite</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Zip</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ccMailLocation</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ccMailUserName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>country</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>x400Address</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>$Revisions</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>$UpdatedBy</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullNameLanguage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AltFullNameSort</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Assistant</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>AvailableForDirSync</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CalendarDomain</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CellPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Certificate</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CheckPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Children</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>City</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ClientType</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Comment</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CompanyName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>DER_IsEnabled</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Department</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>DocumentAccess</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>EmployeeID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>EncryptIncomingMail</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FirstName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Form</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HTTPPassword</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomeFAXPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomePostalAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>InternetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>JobTitle</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LocalAdmin</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Location</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailDomain</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailFile</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailServer</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MailSystem</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Manager</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MessageStorage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MiddleInitial</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>NetUserName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OU</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeCity</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeCountry</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeFAXPhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficePhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeState</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeStreetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>OfficeZIP</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Owner</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordChangeDate</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordChangeInterval</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordDigest</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PasswordGracePeriod</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PersonalID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PhoneNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PhoneNumber_6</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PostalAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Profiles</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltCommonName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltFullNameLanguage</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ProposedAltOrgUnit</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>PublicKey</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SametimeServer</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ShortName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Spouse</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>State</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Street</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>StreetAddress</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Suffix</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Title</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Type</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>WebSite</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Zip</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ccMailLocation</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ccMailUserName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>country</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>x400Address</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[no inheritance]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[no inheritance]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="output_fs2">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/DominoUserConnector/IterateALL_out.txt</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<InheritFrom>[no inheritance]</InheritFrom>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[no inheritance]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[no inheritance]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="UpdateRec">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="input_fs">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/DominoUserConnector/updaterec.csv</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="csvColumns">LastName;FullName</parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+<AttributeMapItem>
+<Name>FullName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>FullName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>LastName</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<InheritFrom>[no inheritance]</InheritFrom>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>FullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+<SchemaItem>
+<Name>FullName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LastName</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[no inheritance]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[no inheritance]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="update_dom">
+<InheritFrom>system:/Connectors/ibmdi.DominoUsersConnector</InheritFrom>
+<ConnectorMode>Update</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="nabDatabase">names.nsf</parameter>
+<parameter name="password">password</parameter>
+<parameter name="useFTSearch">false</parameter>
+<parameter name="userName">admin</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>FullName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>FullName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>LastName</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<LinkCriteriaItem>
+<Key>f172f32e16</Key>
+<Attribute>LastName</Attribute>
+<Operator>equals</Operator>
+<Value>$LastName</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="DeleteRec">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="DomDelete">
+<InheritFrom>system:/Connectors/ibmdi.DominoUsersConnector</InheritFrom>
+<ConnectorMode>Delete</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="nabDatabase">names.nsf</parameter>
+<parameter name="password">password</parameter>
+<parameter name="useFTSearch">false</parameter>
+<parameter name="userName">admin</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<LinkCriteriaItem>
+<Key>f172f7be02</Key>
+<Attribute>LastName</Attribute>
+<Operator>equals</Operator>
+<Value>idiuser2</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

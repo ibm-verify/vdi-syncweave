@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpserver" tmsVersion="1.0" xml:lang="pt-BR">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB101E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.READ.ERROR" varFormat="Java">
+	Não foi possível ler o objeto do armazenamento. O erro é: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Esse é um erro interno. Ocorreu um erro interno ao ler um objeto do armazenamento.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB102E" prefix="yes">
+   <MsgText pgmKey="JAXRS.PROVIDER.SERIALIZER.WRITE.ERROR" varFormat="Java">
+	Não foi possível gravar o objeto <q/><Variable formatSpec="{0}">objeto Java</Variable><q/> no armazenamento. O erro é: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Esse é um erro interno. Ocorreu um erro ao gravar um objeto no armazenamento.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro. Entre em contato com o suporte IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB103E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.DOES.NOT.EXIST" varFormat="Java">
+	A localização do armazenamento <q/><Variable formatSpec="{0}">nome da pasta</Variable><q/> não existe e não pôde ser criada.
+   </MsgText>
+   <Explanation> <p>
+	A pasta de armazenamento configurada não existe. Uma tentativa de criá-la não foi bem-sucedida.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se a configuração está correta.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB104E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.LOCATION.NOT.FOLDER" varFormat="Java">
+	A localização do armazenamento <q/><Variable formatSpec="{0}">nome do arquivo</Variable><q/> existe, mas não é uma pasta.
+   </MsgText>
+   <Explanation> <p>
+	A localização do armazenamento deve ser uma pasta.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se a configuração está correta.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB105E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.READ.CONTENT.FILE" varFormat="Java">
+   Não foi possível ler o valor da chave <q/><Variable formatSpec="{0}">nome da chave</Variable><q/> do arquivo <q/><Variable formatSpec="{1}">nome do arquivo</Variable><q/>. O erro é: <Variable formatSpec="{2}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	O arquivo de armazenamento que contém o valor para a chave especificada não pôde ser lido.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro. Verifique as permissões do sistema de arquivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB106E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.MKDIRS" varFormat="Java">
+   Não foi possível criar pastas para o caminho <q/><Variable formatSpec="{0}">caminho de pasta</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não pôde criar a estrutura de diretório do sistema de arquivos.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique as permissões do sistema de arquivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB107E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.NOT.FOLDER" varFormat="Java">
+   <q/><Variable formatSpec="{0}">nome do arquivo</Variable><q/> já existe e não é uma pasta.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento espera que o arquivo especificado seja uma pasta.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB108E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.ERROR.WRITE.CONTENT.FILE" varFormat="Java">
+   Não foi possível gravar no arquivo <q/><Variable formatSpec="{0}">nome do arquivo</Variable><q/>. O erro é: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não pôde gravar dados no arquivo especificado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB109E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.EMPTY" varFormat="Java">
+   A chave não deve estar vazia.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não pode trabalhar com chaves vazias.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB110E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.BE.SINGLE.SLASH" varFormat="Java">
+   A chave não deve ser uma barra única.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que uma chave seja uma barra única. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB111E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CONSECUTIVE.SLASHES" varFormat="Java">
+   A chave não deve conter barras consecutivas: <q/><Variable formatSpec="{0}">nome da chave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que uma chave contenha barras consecutivas.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB112E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.BACK.SLASHES" varFormat="Java">
+   A chave não deve conter barras invertidas: <q/><Variable formatSpec="{0}">nome da chave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que uma chave contenha barras invertidas.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB113E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.CANNOT.CONTAIN.CURLY.BRACKETS" varFormat="Java">
+   A chave não deve conter colchetes: <q/><Variable formatSpec="{0}">nome da chave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que uma chave contenha colchetes.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB114E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.SINGLE.DOT" varFormat="Java">
+   O componente de uma chave não deve ser um ponto único: <q/><Variable formatSpec="{0}">componente de chave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que um componente de uma chave seja um ponto único.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB115E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.KEY.COMPONENT.CANNOT.BE.DOUBLE.DOTS" varFormat="Java">
+   O componente de uma chave não deve ser pontos duplos: <q/><Variable formatSpec="{0}">componente de chave</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento não permite que um componente de uma chave seja pontos duplos.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB116E" prefix="yes">
+   <MsgText pgmKey="RAW.DATA.FS.STORAGE.CANNOT.DELETE.FILE" varFormat="Java">
+   Não foi possível excluir o arquivo <q/><Variable formatSpec="{0}">nome do arquivo</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O mecanismo de armazenamento falhou ao excluir o arquivo especificado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique as permissões do sistema de arquivos.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB117W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.MISSING.LOCAL.API" varFormat="Java">
+   Nenhuma API de Servidor Local foi detectada.
+   </MsgText>
+   <Explanation> <p>
+	Um Provedor de Ponto de Contato foi configurado para usar a API Local, que não está
+	presente no tempo de execução atual.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Configure o Servidor de Ponto de Contato para, em seu lugar, usar a API do Servidor Remoto.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB118E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.IVALID.HOST.OR.PORT" varFormat="Java">
+   Valor inválido de host (<q/><Variable formatSpec="{0}">host real fornecido</Variable><q/>)
+   ou porta (<q/><Variable formatSpec="{1}">porta real fornecida</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de erro.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça os valores corretor para poder conectar-se ao servidor remoto.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB119E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONNECTION.ERROR.CONNECTING.TO.SERVER" varFormat="Java">
+   Erro ao conectar-se ao servidor: <q/><Variable formatSpec="{0}">nome do servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Não foi possível estabelecer uma conexão ao servidor remoto.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se o Provedor de Ponto de Contato remoto está ativo e em execução.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB120E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.PARAMETER" varFormat="Java">
+   Valor de parâmetro ausente: <q/><Variable formatSpec="{0}">nome do parâmetro</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Está faltando um parâmetro obrigatório na configuração do Servidor de Ponto de Contato.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça o valor de parâmetro ausente.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB121E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.CREATING.SESSION" varFormat="Java">
+   Não foi possível criar sessão no servidor remoto: <q/><Variable formatSpec="{0}">nome do servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de exceção.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se o servidor remoto está ativo e em execução e se o Servidor de Ponto de
+ Contato tem todas as configurações necessárias definidas corretamente.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB122E" prefix="yes">
+   <MsgText pgmKey="CONN.PROVIDER.ERROR.IN.COMMUNICATION" varFormat="Java">
+   Ocorreu um erro durante a comunicação com o servidor remoto:
+   <q/><Variable formatSpec="{0}">nome do servidor</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de exceção.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração do Servidor de Ponto de Contato.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB123W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.ERROR.READING.STASH" varFormat="Java">
+   Impossível ler o arquivo Stash. Razão: <q/><Variable formatSpec="{0}">mensagem de implementação subjacente</Variable><q/> 
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Nenhuma ação é necessária.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB124I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.STASH.FILE.AREADY.READ" varFormat="Java">
+   O arquivo Stash já foi lido. Usando as configurações de criptografia do arquivo solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB125I" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.ENCRYPTION.SETTINGS" varFormat="Java">
+   Está faltando definições de criptografia na configuração do Servidor de Ponto de Contato. Usando as configurações de criptografia do arquivo solution.properties.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB126E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.DEFAULT.ENCRYPTION.SETTINGS" varFormat="Java">
+   Nenhuma configuração de criptografia especificada em solution.properties.
+   </MsgText>
+   <Explanation> <p>
+	Está faltando solution.properties nas configurações de criptografia exigidas pelo Servidor de Ponto de Contato.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça as configurações de criptografia para que a criptografia de senhas funcione.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB127E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.CONFIG.MISSING.CONNECTOR.FROM.TOUCHPOINT.TEMPLATE" varFormat="Java">
+   Conector ausente <q/><Variable formatSpec="{0}">nome do conector</Variable><q/> não encontrado no
+   modelo <q/><Variable formatSpec="{1}">caminho para arquivo de modelo</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Está faltando o conector obrigatório no Modelo de Ponto de Contato fornecido.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique o Modelo de Ponto de Contato e certifique-se de que o conector esteja presente.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB128E" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.ERROR.SERIALIZING.ELEMENT" varFormat="Java">
+   Impossível criar elemento xml: {<Variable formatSpec="{0}">espaço de nomes do elemento</Variable>}<Variable formatSpec="{1}">nome local do elemento</Variable>
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de exceção fornecida.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro. Entre em contato com o suporte IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB129W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.COULD.NOT.READ.FILE" varFormat="Java">
+   Não foi possível ler o arquivo de configuração do Servidor de Ponto de Contato (<q/><Variable formatSpec="{0}">nome do arquivo</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de exceção fornecida.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se o arquivo de configuração especificado é legível.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB130W" prefix="yes">
+   <MsgText pgmKey="TP.CONFIG.NOT.SPECIFIED" varFormat="Java">
+   Propriedade ausente: <q/>tp.server.config<q/>.
+   </MsgText>
+   <Explanation> <p>
+	O caminho para o arquivo de configuração do Servidor de Ponto de Contato não foi especificado.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça o caminho para o arquivo de configuração.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB131W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.ERROR.RESTORING.STATE" varFormat="Java">
+   Não foi possível restaurar o estado persistido.
+   </MsgText>
+   <Explanation> <p>
+	Consulte a mensagem de exceção fornecida.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Certifique-se de que o armazenamento de persistência seja legível/gravável pelo aplicativo do Servidor de Ponto de Contato.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB132W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.ENTRY.STATE" varFormat="Java">
+   Estado ausente para o recurso de Entrada: <q/><Variable formatSpec="{0}">url do recurso de entrada</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Esperava-se que o estado do recurso de Entrada estivesse disponível no armazenamento de persistência.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Certifique-se de que o armazenamento de persistência seja legível/gravável pelo aplicativo do Servidor de Ponto de Contato.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB133W" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.MISSING.FEED.STATE" varFormat="Java">
+   Estado ausente para o recurso de Feed: <q/><Variable formatSpec="{0}">url do recurso de feed</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Esperava-se que o estado do recurso de Feed estivesse disponível no armazenamento de persistência.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Certifique-se de que o armazenamento de persistência seja legível/gravável pelo aplicativo do Servidor de Ponto de Contato.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB134I" prefix="yes">
+   <MsgText pgmKey="TP.PERSISTENCE.DISABLED" varFormat="Java">
+   O armazenamento de persistência do Servidor de Ponto de Contato está desativado.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB135E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.ERROR.CREATING.NODE" varFormat="Java">
+   Erro ao criar o recurso de Entrada do Provedor de Ponto de Contato (<q/><Variable formatSpec="{0}">nome do servidor</Variable><q/>).
+   </MsgText>
+   <Explanation> <p>
+	O Servidor de Ponto de Contato não pode criar o recurso com base na configuração fornecida.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique a configuração específica do Provedor de Ponto de Contato.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB136E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.FACING.CONFIG" varFormat="Java">
+   Está faltando dados de configuração no recurso de Entrada do Serviço/Cliente de Instância de Ponto de Contato.
+   </MsgText>
+   <Explanation> <p>
+	O usuário não forneceu a configuração necessária ao criar o recurso de Entrada do Cliente/Serviço(-facing).
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça os dados de configuração necessários.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB137E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.ENTRY.CATEGORY" varFormat="Java">
+   Falta no recurso de Entrada (<q/><Variable formatSpec="{0}">url do recurso de entrada</Variable><q/>) a categoria obrigatória de Tipo de Ponto de Contato.
+   </MsgText>
+   <Explanation> <p>
+	O recurso de Entrada persistido deve conter uma categoria específica de Tipo de Ponto de Contato.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro. Entre em contato com o suporte IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB138E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.TYPE.IS.NOT.ON.SERVER" varFormat="Java">
+   O Tipo de Ponto de Contato (<q/><Variable formatSpec="{0}">nome da categoria</Variable><q/>) não foi encontrado no
+   servidor <q/><Variable formatSpec="{1}">nome do servidor</Variable><q/>.
+   </MsgText>
+   <Explanation> <p>
+	O Tipo de Ponto de Contato obrigatório está faltando no servidor.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verifique se o tipo existe no servidor.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB139E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.MISSING.INSTANCE.CONFIG" varFormat="Java">
+   Estão faltando dados de configuração do recurso de Entrada da Instância de Ponto de Contato.
+   </MsgText>
+   <Explanation> <p>
+	O usuário não forneceu a configuração necessária ao criar um recurso de Entrada da Instância de Ponto de Contato.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Forneça os dados de configuração necessários.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB140E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.INSTANCE.ID.ALREADY.EXISTS" varFormat="Java">
+   Uma Instância de Ponto de Contato com o ID <q/><Variable formatSpec="{0}">id da instância</Variable><q/> já está presente no servidor.
+   </MsgText>
+   <Explanation> <p>
+	O Servidor de Ponto de Contato não pôde restaurar recursos com IDs duplicados.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Consulte a mensagem de erro. Entre em contato com o suporte IBM.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB141E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.RESOURCE.FACING.ENTRY.ALREADY.EXISTS" varFormat="Java">
+   Uma Entrada de Cliente/Serviço da Instância de Ponto de Contato (<q/><Variable formatSpec="{0}">url relativa do recurso</Variable><q/>) já existe.
+   </MsgText>
+   <Explanation> <p>
+	O Servidor de Ponto de Contato não pôde criar os recursos porque já existe um.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Certifique-se de que o recurso não exista antes de criá-lo.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

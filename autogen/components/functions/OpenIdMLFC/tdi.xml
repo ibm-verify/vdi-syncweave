@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Thu Sep 10 16:00:00 SGT 2009" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.OpenIdMLFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.idml.OpenIdMLFC</parameter>
+				<parameter name="storeIdML">0</parameter>
+				<parameter name="directoryName"/>
+				<parameter name="applicationCode"/>
+				<parameter name="hostname"/>
+				<parameter name="cdmVersion"/>
+				<parameter name="bookName"/>
+				<parameter name="refresh">false</parameter>
+				<parameter name="validate">false</parameter>
+				<parameter name="useITRegistryCdm">false</parameter>
+				<parameter name="jdbcUrl"/>
+				<parameter name="jdbcDriver"/>
+				<parameter name="dbUsername"/>
+				<parameter name="dbPassword"/>
+			</Configuration>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$idmlBookName</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>applicationCode</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.idml.OpenIdMLFC">
+			<TranslationFile>NLS/idi_fc_openidmlfc</TranslationFile>
+			<parameter name="title">OPEN_IDML_FC_TITLE</parameter>
+			<parameter name="description">FUNCTION_DESC</parameter>
+			<parameter name="formevents"><![CDATA[
+				function storeIdML_changed () {
+					var value = form.getConfig("storeIdML");
+					if ( value != null ) {
+						if (value.equalsIgnoreCase("1") ) {
+							form.getControl("directoryName").setEnabled(false);
+							form.getControl("directoryName").setText("");
+						} else {
+							form.getControl("directoryName").setEnabled(true);
+						}
+					}
+				}
+				function useITRegistryCdm_changed () {
+					var val = form.getConfig("useITRegistryCdm");
+					if ( val != null ) {
+						var enable = false;
+						if ( val.equalsIgnoreCase("true") ) {
+							enable = true;
+						} else {
+							enable = false;
+							form.getControl("jdbcUrl").setText("");
+							form.getControl("jdbcDriver").setText("");
+							form.getControl("dbUsername").setText("");
+							form.getControl("dbPassword").setText("");
+						}
+						form.getControl("jdbcUrl").setEnabled(enable);
+						form.getControl("jdbcDriver").setEnabled(enable);
+						form.getControl("dbUsername").setEnabled(enable);
+						form.getControl("dbPassword").setEnabled(enable);
+					}
+				}
+				storeIdML_changed ();
+				useITRegistryCdm_changed ();
+			]]></parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>storeIdML</ListItem>
+					<ListItem>directoryName</ListItem>
+					<ListItem>applicationCode</ListItem>
+					<ListItem>hostname</ListItem>
+					<ListItem>cdmVersion</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>bookName</ListItem>
+					<ListItem>refresh</ListItem>
+					<ListItem>validate</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>storeIdML</ListItem>
+					<ListItem>directoryName</ListItem>
+					<ListItem>applicationCode</ListItem>
+					<ListItem>hostname</ListItem>
+					<ListItem>cdmVersion</ListItem>
+					<ListItem>bookName</ListItem>
+					<ListItem>refresh</ListItem>
+					<ListItem>validate</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="storeIdML">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>OPEN_IDML_FC_ASFILE</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>OPEN_IDML_FC_INMEMORY</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">OPEN_IDML_FC_STOREIDML_DESC</parameter>
+				<parameter name="indexbased">true</parameter>
+				<parameter name="label">OPEN_IDML_FC_STOREIDML_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="directoryName">
+				<parameter name="description">OPEN_IDML_FC_DIR_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_DIR_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="applicationCode">
+				<parameter name="description">OPEN_IDML_FC_APPLCODE_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_APPLCODE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="hostname">
+				<parameter name="description">OPEN_IDML_FC_HOSTNAME_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_HOSTNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="cdmVersion">
+				<parameter name="description">OPEN_IDML_FC_CDM_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_CDM_LABEL</parameter>
+				<parameter name="script">getCdmVersion2</parameter>
+				<parameter name="scriptLabel">OPEN_IDML_FC_CHECKCDM_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">OPEN_IDML_FC_CHECKCDM_SCRIPT_DESC</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="bookName">
+				<parameter name="description">OPEN_IDML_FC_BOOK_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_BOOK_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="refresh">
+				<parameter name="description">OPEN_IDML_FC_REFRESH_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_REFRESH_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="validate">
+				<parameter name="description">OPEN_IDML_FC_VALIDATE_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_VALIDATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useITRegistryCdm">
+				<parameter name="description">OPEN_IDML_FC_USEITREGISTRYCDM_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_USEITREGISTRYCDM_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jdbcUrl">
+				<parameter name="description">OPEN_IDML_FC_JDBCURL_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_JDBCURL_LABEL</parameter>
+				<parameter name="script">checkDbConnection2</parameter>
+				<parameter name="scriptLabel">OPEN_IDML_FC_QUERYDB_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">OPEN_IDML_FC_QUERYDB_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">OPEN_IDML_FC_JDBCDRIVER_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_JDBCDRIVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbUsername">
+				<parameter name="description">OPEN_IDML_FC_DBUSERNAME_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_DBUSERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbPassword">
+				<parameter name="description">OPEN_IDML_FC_DBPASSWORD_DESC</parameter>
+				<parameter name="label">OPEN_IDML_FC_DBPASSWORD_LABEL</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

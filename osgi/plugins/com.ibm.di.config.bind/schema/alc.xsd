@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="parser.xsd"></include>
+	<include schemaLocation="schema.xsd"></include>
+	<include schemaLocation="attr-map.xsd"></include>
+	<include schemaLocation="hook.xsd"></include>
+	
+	<complexType name="ALComponentBinding" abstract="true">
+		<annotation>
+			<documentation>
+				Represents a config object holding a configuration
+				data
+				and also attributes which are only valid for a component
+				configurable in the AL.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:NamedBinding">
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="CompositeALComponentBinding" abstract="false">
+		<complexContent>
+			<extension base="tns:ALComponentBinding">
+				<sequence>
+					<element ref="tns:compositeConfig" maxOccurs="1" minOccurs="0">
+					</element>
+					<element ref="tns:component" maxOccurs="unbounded"
+						minOccurs="0"></element>
+				</sequence>
+				<attribute name="state" type="tns:ALComponentStateEnum"
+					use="optional" default="Enabled">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ComplexALComponentBinding" abstract="false">
+		<complexContent>
+			<extension base="tns:ALComponentBinding">
+				<sequence>
+					<element ref="tns:complexConfig" maxOccurs="1"
+						minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="state" type="tns:ComplexALComponentStateEnum"
+					use="optional" default="Enabled">
+				</attribute>
+				<attribute name="initialize" type="tns:ALComponentInitializeEnum"
+					use="optional" default="onStartup">
+				</attribute>
+				<attribute name="sandboxRecord" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="sandboxPlayback" type="boolean" use="optional"
+					default="false">
+				</attribute>
+
+				<attribute name="simulateState" type="tns:ALComponentSimulateStateEnum"
+					use="optional" default="Simulated"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SimpleALComponentBinding" abstract="false">
+		<complexContent>
+			<extension base="tns:ALComponentBinding">
+				<sequence>
+					<element ref="tns:simpleConfig" maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="state" type="tns:ALComponentStateEnum"
+					use="optional" default="Enabled">
+				</attribute>
+				<attribute name="simulateState" type="tns:ALComponentStateEnum"
+					use="optional" default="Enabled"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="ALComponentStateEnum">
+		<restriction base="string">
+			<enumeration value="Enabled"></enumeration>
+			<enumeration value="Disabled"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="PassiveToBaseDif">
+		<restriction base="string">
+			<enumeration value="Passive"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ComplexALComponentStateEnum">
+		<union memberTypes="tns:ALComponentStateEnum tns:PassiveToBaseDif">
+		</union>
+	</simpleType>
+
+	<simpleType name="ALComponentInitializeEnum">
+		<restriction base="string">
+			<enumeration value="onStartup"></enumeration>
+			<enumeration value="onConfigModify"></enumeration>
+			<enumeration value="onFirstUse"></enumeration>
+			<enumeration value="onEveryUse"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="ALComponentsBinding">
+		<annotation>
+			<documentation>
+				Represents the container holding the set of
+				ALComponents. This could be for example Feed Container
+				or Flow
+				Container.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:NamedBinding">
+
+				<sequence>
+					<element ref="tns:component" maxOccurs="unbounded"
+						minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="ALComponentSimulateStateEnum">
+		<union memberTypes="tns:ALComponentStateEnum tns:SimToBaseDifEnum">
+		</union>
+	</simpleType>
+
+	<simpleType name="SimToBaseDifEnum">
+		<restriction base="string">
+			<enumeration value="Simulated"></enumeration>
+			<enumeration value="Proxy"></enumeration>
+			<enumeration value="Scripted"></enumeration>
+		</restriction>
+	</simpleType>
+
+
+
+	<complexType name="SimpleComponentBinding" abstract="true">
+		<complexContent>
+			<extension base="tns:InheritingBinding"></extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ComplexComponentBinding" abstract="true">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="userComment" type="string"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+                    <element name="rawConfig" type="tns:JavaClassBinding" maxOccurs="1" minOccurs="0"></element>
+                    <element ref="tns:parser" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element ref="tns:schema" maxOccurs="unbounded"
+						minOccurs="0">
+					</element>
+
+                    <element ref="tns:map" maxOccurs="unbounded" minOccurs="0">
+					</element>
+                    <element name="hooks" type="tns:HooksBinding" maxOccurs="1" minOccurs="0">
+					</element>
+                    <element name="reconnect" type="tns:ReconnectBinding" maxOccurs="1" minOccurs="0"></element>
+                </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="component" type="tns:ALComponentBinding"></element>
+
+	<element name="complexConfig" type="tns:ComplexComponentBinding"
+		substitutionGroup="tns:config"></element>
+
+	<element name="simpleConfig" type="tns:SimpleComponentBinding"
+		substitutionGroup="tns:config"></element>
+
+	<element name="compositeConfig" type="tns:CompositeComponentBinding"
+		substitutionGroup="tns:config"></element>
+
+	<complexType name="CompositeComponentBinding" abstract="true">
+		<complexContent>
+			<extension base="tns:InheritingBinding"></extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ReconnectBinding">
+
+		<sequence>
+			<element name="rule" type="tns:ReconnectRuleBinding"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+
+		</sequence>
+		<attribute name="onInitializationError" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="onConnectionError" type="boolean" use="optional"
+			default="false">
+		</attribute>
+
+		<attribute name="numberOfRetries" type="int" use="optional"></attribute>
+		<attribute name="retryDelay" type="int" use="optional"></attribute>
+		<attribute name="autoSkipForward" type="boolean" use="optional"
+			default="false">
+		</attribute>
+	</complexType>
+
+	<complexType name="ReconnectRuleBinding">
+		<attribute name="action" type="string"></attribute>
+		<attribute name="exceptionClass" type="string"></attribute>
+		<attribute name="exceptionMsgRegEx" type="string"></attribute>
+	</complexType>
+
+
+	<element name="complex" type="tns:ComplexALComponentBinding" substitutionGroup="tns:component"></element>
+	
+    <element name="composite" type="tns:CompositeALComponentBinding" substitutionGroup="tns:component"></element>
+
+    <element name="simple" type="tns:SimpleALComponentBinding" substitutionGroup="tns:component"></element>
+</schema>

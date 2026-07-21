@@ -1,0 +1,31 @@
+#############################################################################################
+# Each reconnect rule must be placed on a single line.
+# The format of a rule is the following:
+#
+# <connector_class>:<connector_name>:<exception_class>:<action>:<regular_expression>
+#
+# where
+#   <connector_class> is the fully qualified name of the Java class of the Connector
+#   <connector_name> is the name of the Connector as inserted in the AssemblyLine
+#   <exception_class> is the fully qualified name of the Java class of the exception
+#   <action> can be either 'error' or 'reconnect'
+#   <regular_expression> is a Java regular expression as described in the JavaDoc of 
+#                   the java.util.regex.Pattern class.
+#
+# Notes:
+#   - Each part except the action can be empty. If a part is empty that means match-all.
+#   - Each part is mandatory even if it is empty the surrounding colons must be present. 
+#                   Consequently on each line there must be at least 4 colons - each 
+#                   colon separating two adjacent parts of the rule. At least 4, because
+#                   the regular expression may contain colons too.
+#   - No redundant white space is allowed.
+#   - The regular expression starts just after the fourth colon and spans till the end of 
+#                   the line.
+#
+#
+# Example rules :
+#
+# com.ibm.di.connector.MyConnector:NameOfMyConnector:java.io.IOException:error:.*\Wfatal\W.*
+# ::java.io.IOException:reconnect:
+#
+#############################################################################################

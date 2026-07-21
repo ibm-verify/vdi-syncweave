@@ -1,0 +1,77 @@
+<div>
+
+	<div data-dojo-attach-point="messageArea"></div>
+
+	<div data-dojo-attach-point="ptaEnabled">
+		<h3>${nls.FDS_ptaStep1}</h3>
+		<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="Form1">
+			<table>
+				<tr>
+					<td>${nls.WebCE_username}</td>
+					<td><div data-dojo-type="dijit/form/TextBox" name="user1"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.WebCE_password}</td>
+					<td><div data-dojo-type="dijit/form/TextBox" type="password" name="pass1"></div></td>
+					<td><div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:verifyEP">${nls.NewIncludeWizard_verify_label}</div></td>
+				</tr>
+			</table>
+		</div>
+	
+		<h3>${nls.FDS_ptaStep2}</h3>
+		<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:getPTARecords">${nls.FDS_reloadPta}</div>
+		<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="Form2" style="margin-top:10px">
+			<div data-dojo-attach-point="ptaStatus"></div>
+			<table>
+				<tr>
+					<td><div data-dojo-type="dijit/form/CheckBox" id="${id}Enabled" name="enabled" data-dojo-attach-event="onClick:writePTA"></div>
+						<label for="${id}Enabled">${nls.FDS_enabled}</label>
+					</td>
+					<td></td>
+				<tr>
+					<td>${nls.FDS_targetSubtree}<td>
+					<td><div data-dojo-type="dijit/form/ValidationTextBox" 
+						placeholder="${nls.FDS_ptaSubtreePlaceholder}" required="true" style="width:50em" name="ibm-slapdptasubtree"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.FDS_attributeMapping}<td>
+					<td><div data-dojo-type="dijit/form/ValidationTextBox" required="true" style="width:50em" name="ibm-slapdptaattrmapping"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.FDS_sourceSubtree}<td>
+					<td><div data-dojo-type="dijit/form/ValidationTextBox" required="true" style="width:50em" name="ibm-slapdptasearchbase"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.FDS_sourceBindDn}<td>
+					<td><div data-dojo-type="dijit/form/ValidationTextBox" required="true" style="width:50em" name="ibm-slapdptabinddn"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.FDS_sourceBindPassword}<td>
+					<td><div data-dojo-type="dijit/form/ValidationTextBox" required="true" type="password" style="width:50em" name="ibm-slapdptabindpw"></div></td>
+				</tr>
+			</table>
+		</div>
+		
+		<h3>${nls.FDS_ptaStep3}</h3>
+		<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:restartTDS">${nls.FDS_restartSDS}</div>
+	
+		<h3>${nls.FDS_ptaStep4}</h3>
+		<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="Form4">
+			<table>
+				<tr>
+					<td>${nls.WebCE_username}</td>
+					<td><div data-dojo-type="dijit/form/TextBox" name="user4"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.WebCE_password}</td>
+					<td><div data-dojo-type="dijit/form/TextBox" type="password" name="pass4"></div></td>
+					<td><div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:verifyPTA">${nls.NewIncludeWizard_verify_label}</div></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<div data-dojo-attach-point="ptaDisabled" style="display:none">
+		<div style="position:relative; top:40%"><center><i>${nls.FDS_ptaNotAvailable}</i></center></div>
+	</div>
+</div>

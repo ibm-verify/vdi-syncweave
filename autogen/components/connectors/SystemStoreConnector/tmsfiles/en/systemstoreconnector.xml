@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="systemstoreconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIH101E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.MISSING.CREATETABLE" varFormat="Java">
+   The System Store Connector cannot initialize because the create table statement is missing.
+   </MsgText>
+   <Explanation> <p>
+   The System Store Connector cannot initialize because it cannot
+   determine the proper <q/>create table<q/> statement for the database it is
+   configured to use.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the createTable parameter and make sure the proper <q/>create table<q/>
+   statement is specified.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH102W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SETCOMMIT.WARN" varFormat="Java">
+   Unable to set the commit mode in the System Store Connector to
+   &apos;&apos;<Variable formatSpec="{0}">commit mode</Variable>&apos;&apos;.
+   Continuing, but a valid value should be set for the &apos;pesCommit&apos; parameter.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the pesCommit parameter in the 
+   System Store Connector is set to a valid value.  See the IBM Security Verify Directory Integrator
+   Reference Guide for information on valid parameter values for the System Store Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH103W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.TERMBAD.WARN" varFormat="Java">
+   An exception was encountered while terminating the System Store Connector:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH104I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.ENTRY.NOKEY" varFormat="Java">
+   Entry found without a value for the key attribute
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH105E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.MISSING.KEYATTRIBUTE" varFormat="Java">
+   Required Connector parameter &apos;keyAttribute&apos; is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified Connector parameter keyAttribute is required,
+   but not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter keyAttribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH106E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.ADDENTRY.NULL" varFormat="Java">
+   Unable to add the entry because a null Entry object was passed into the
+   putEntry method.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the entries being passed into the
+   putEntry method are valid and are not null.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH107E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NODML.ADDENTRY" varFormat="Java">
+   Unable to add entry because DML Operations are not allowed on the table
+   &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;
+   </MsgText>
+   <Explanation> <p>
+   An attempt was made to add an entry on a table where DML Operations
+   are not allowed.  DML Operations are not allowed on the following
+   tables: Delta, CPR, Property store or the Systable.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the table the entry is added to is not
+   one of the following types of tables: Delta, CPR, Property store or the Systable.
+   The dbTableName parameter is where the table name is configured in the
+   System Store Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH108E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NODML.MODENTRY" varFormat="Java">
+   Unable to modify entry because DML Operations are not allowed on the table
+   &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   An attempt was made to modify an entry on a table where DML Operations
+   are not allowed.  DML Operations are not allowed on the following
+   tables: Delta, CPR, Property store or the Systable.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the table the entry is being modified in is not
+   one of the following types of tables: Delta, CPR, Property store or the Systable.
+   The dbTableName parameter is where the table name is configured in the
+   System Store Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH109E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NODML.DELETEENTRY" varFormat="Java">
+   Unable to delete entry because DML Operations are not allowed on the table
+   &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   An attempt was made to delete an entry on a table where DML Operations
+   are not allowed.  DML Operations are not allowed on the following
+   tables: Delta, CPR, Property store or the Systable.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the table the entry is being delete from is not
+   one of the following types of tables: Delta, CPR, Property store or the Systable.
+   The dbTableName parameter is where the table name is configured in the
+   System Store Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH110E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.MODENTRY.NULL" varFormat="Java">
+   Unable to modify the entry because a null Entry object was passed into the
+   modEntry method.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the entries being passed into the
+   modEntry method are valid and are not null.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH111E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.KEYATTRMISSING.ADDENTRY" varFormat="Java">
+    The entry cannot be added because the keyAttribute attribute
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   in the entry has a value of NULL.
+   </MsgText>
+   <Explanation> <p>
+   Attempted to add an entry that did not have the required
+   keyAttribute attribute.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the entries being passed to the System Store Connector
+   have the keyAttribute attribute set and that the System Store Connector is
+   configured with the correct keyAttribute parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH112E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.KEYATTRMISSING.MODENTRY" varFormat="Java">
+    The entry cannot be modified because the keyAttribute attribute
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   in the entry has a value of NULL.
+   </MsgText>
+   <Explanation> <p>
+   Attempted to modify an entry that did not have the required
+   keyAttribute attribute.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the entries being passed to the System Store Connector
+   have the keyAttribute attribute set and that the System Store Connector is
+   configured with the correct keyAttribute parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH113E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.MODENTRY.EXCEP" varFormat="Java">
+   Unable to modify the entry because of a search key mismatch. The
+   search criteria supplied was
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   and the keyAttribute configured in the Connector is 
+   &apos;&apos;<Variable formatSpec="{1}">attribute name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Tried to search for an entry with a search criteria that did not
+   match the configured keyAttribute of the System Store Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the search criteria is scoped to match
+   on the same keyAttribute parameter that is configured in the
+   System Store Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH114I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.FINDENTRYPS.INFO" varFormat="Java">
+   Preparing and executing the query SQL statement to find an entry:
+   <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH115W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NOPREPARED.STATEMENT.WARNING" varFormat="Java">
+   Prepared SQL statement to find entry failed: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH116W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.PREPSTATEMENT.NOTUSE.WARNING" varFormat="Java">
+   The prepared SQL statement to delete an entry will not be used.
+   Exception encountered: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH117E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.EXECUTE.SQL.ERROR" varFormat="Java">
+   The selectEntries method failed. Cannot execute
+   SQL Statement: <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Error occurred while executing the specified SQL statement.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify correct SQL Statement.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH118I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NOENTRIES.FROM.SELECT.INFO" varFormat="Java">
+   No more entries to retrieve from SQL search results.
+   </MsgText>
+   <NoHelp/>
+</Message>
+ 
+<Message ID="CTGDIH119E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.CANNOTBUILD.ADVANCED.ERROR" varFormat="Java">
+   Cannot build where clause (Advanced Link Mode).
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+ 
+<Message ID="CTGDIH120I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.ENTER.BUILD.ENTRY.INFO" varFormat="Java">
+   Attempting to build an entry in the System Store Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH121I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SAVEMETA.INFO" varFormat="Java">
+   Saving Meta Data. Saving column &apos;&apos;<Variable formatSpec="{0}">column name</Variable>&apos;&apos;
+   of column type &apos;&apos;<Variable formatSpec="{1}">column type</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+ 
+ <Message ID="CTGDIH122I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.COLUMN.NAME.INFO" varFormat="Java">
+   Retrieving attribute value based on the column name
+   &apos;&apos;<Variable formatSpec="{0}">column name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH123I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.GET.CHAR.VARCHAR.INFO" varFormat="Java">
+   Retrieved attribute of type &apos;CHAR/VARCHAR&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+ 
+ <Message ID="CTGDIH124I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.GET.LONGVARBINARY.INFO" varFormat="Java">
+   Retrieved attribute of type &apos;LONGVARBINARY&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+ <Message ID="CTGDIH125I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.GET.DECIMAL.INTEGER.INFO" varFormat="Java">
+   Retrieved attribute of type &apos;DECIMAL/INTEGER&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH126I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NULL.VALUE.FOR.INT.INFO" varFormat="Java">
+   Retrieved NULL value for INT: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+ 
+ <Message ID="CTGDIH127I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.GET.OBJECT.WARNING" varFormat="Java">
+   Retrieved attribute value of type &apos;OBJECT&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH128I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.RESULT.CLASS.INFO" varFormat="Java">
+   Set value of attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; to
+   &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;.
+   The class type of the attribute is &apos;&apos;<Variable formatSpec="{2}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH129I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.RESULT.BASIC.INFO" varFormat="Java">
+   Set value of attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; to
+   &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;.
+   The class type of the attribute is &apos;basic&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH130I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.RESULT.NULL.INFO" varFormat="Java">
+   Set value of attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   to &apos;null&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH131I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.EXIT.BUILD.ENTRY.INFO" varFormat="Java">
+   Successfully built an entry in the System Store Connector.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH132I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SETPSVALUE.INFO" varFormat="Java">
+   Preparing to set prepared SQL statement value with attribute name
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; and
+   attribute value
+   &apos;&apos;<Variable formatSpec="{1}">attribute value</Variable>&apos;&apos;.
+   The index is set to &apos;&apos;<Variable formatSpec="{2}">index</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH133E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NOMETADATA.DESCR.ERROR" varFormat="Java">
+   No Meta Data description for attribute being set in the prepared SQL statement:
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The user tried to get the type of a column that does not exists. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify an attribute name that matches a column name in the Meta Data.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH134W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SETNULLPSVALUE.WARNING" varFormat="Java">
+   Set prepared SQL statement value for attribute to null: 
+   index=&apos;&apos;<Variable formatSpec="{0}">index</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH135W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.VALCLASS.INFO" varFormat="Java">
+   Java Class name of attribute value: 
+   &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH136I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.VALTYPE.INFO" varFormat="Java">
+   Type of attribute value: 
+   &apos;&apos;<Variable formatSpec="{0}">attribute value type</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH137I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.LONGVARCHAR.INFO" varFormat="Java">
+   Set &apos;LONGVARCHAR&apos; value:
+   &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH138I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.VARCHAR.INFO" varFormat="Java">
+   Set &apos;VARCHAR&apos; value: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH139I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.OTHERVALUE.INFO" varFormat="Java">
+   Set &apos;OTHER&apos; value: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH140I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NUMVALUE.INFO" varFormat="Java">
+   Set &apos;INTEGER/TINYINT/SMALLINT&apos; value: &apos;&apos;<Variable formatSpec="{0}">value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH141W" prefix="yes">
+  <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.PARSINT.WARNING" varFormat="Java">
+  Exception caught while parsing Integer from &apos;INTEGER/TINYINT/SMALLINT&apos; value: 
+  &apos;&apos;<Variable formatSpec="{0}">exception</Variable>&apos;&apos;
+  </MsgText>
+   <Explanation> <p>
+   The value being parsed is not an Integer.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH142I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.UNHANDLED.TYPE.INFO" varFormat="Java">
+   Set value for an unhandled type &apos;&apos;<Variable formatSpec="{0}">type</Variable>&apos;&apos; 
+   as a string on column &apos;&apos;<Variable formatSpec="{1}">column name</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH143W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SQL.WARN.WARNING" varFormat="Java">
+   SQL warning encountered from prepared SQL statement:
+   <Variable formatSpec="{0}">warning message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH144I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.FINDENTRY" varFormat="Java">
+   findEntry method will use SQL statment: <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH145I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.DELETEENTRY" varFormat="Java">
+   deleteEntry method will use SQL statment: <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH146I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.DELETE.RETURNED" varFormat="Java">
+   The delete operation returned <Variable formatSpec="{0}">return code</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH147I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SELECTENTRIES.SQL" varFormat="Java">
+   selectEntries method will use SQL statment: <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH148I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.NO.ENTRIES.FROM.SELECTENTRIES" varFormat="Java">
+   No entries from selectEntries method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH149I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.PREPARED.STATEMENT.SQL" varFormat="Java">
+   Prepared statement: <Variable formatSpec="{0}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH150E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.MISSING.TABLENAME.ERROR" varFormat="Java">
+   The table name is not specified.
+   </MsgText>
+   <Explanation> <p>
+   The field &apos;&apos;Table Name&apos;&apos; in the Connector configuration is empty. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Provide the table name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH151E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.CREATE.TABLENAME.ERROR" varFormat="Java">
+   Error: <Variable formatSpec="{1}">error message</Variable> occured while creating the table <Variable formatSpec="{0}">Table Name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The error occured while creating the table in the system store DB.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Take the necessary action as per the exception.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH152E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.TABLENAME.LETTER.FIRST" varFormat="Java">
+   The table name does not begin with a letter.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;&apos;Table Name&apos;&apos; must start with a letter.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Provide a table name starting with a letter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH153E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.TABLENAME.ALPHANUMERIC" varFormat="Java">
+   The table name is not alphanumeric.
+   </MsgText>
+   <Explanation> <p>
+   The &apos;&apos;Table Name&apos;&apos; must only contain letters, digits or underscore.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Provide a valid table name.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH154W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.UNABLE.TO.CLOSE" varFormat="Java">
+   An exception occured while trying to close the database connection: <Variable formatSpec="{0}">exception message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A database access error may had occured. See the exception message for details.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH155W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SYSTEMSTORE.SQL.PREPARED.STATEMENT.EXCEPTION" varFormat="Java">
+   The following sql exception has occured while using PreparedStatement <Variable formatSpec="{0}">exception message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A database access error may had occured. See the exception message for details.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action required.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Legal Disclaimer
+
+    Copyright Notice
+
+   (c) Copyright Computer Associates International, Inc., 
+       Fujitsu Limited, Hewlett-Packard Development Company, 
+       International Business Machines Corporation and 
+       The University of Chicago 2003, 2004. All Rights Reserved. 
+
+-->
+
+<wsdl:definitions name="WS-ResourceProperties"
+  xmlns="http://schemas.xmlsoap.org/wsdl/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+  xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsrp=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties" 
+  targetNamespace=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties" 
+>
+  
+<!-- ===================== Types Definitions ====================== -->
+   <wsdl:types>
+     <xsd:schema 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+        targetNamespace=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties">
+
+       <xsd:include schemaLocation=
+ "WS-ResourceProperties.xsd"
+       /> 
+       
+       <xsd:import 
+            namespace=
+            "http://schemas.xmlsoap.org/ws/2003/03/addressing"
+            schemaLocation=
+            "WS-Addressing.xsd" 
+       />
+               
+      
+<!-- ==== Common fault information to carry in all fault messages ==== -->       
+       <xsd:complexType name="BaseFaultType">
+          <xsd:sequence>
+             <xsd:element name="Timestamp" type="xsd:dateTime" 
+                      minOccurs="1" maxOccurs="1"/>
+             <xsd:element name="Originator" type="wsa:EndpointReferenceType" 
+                      minOccurs="0" maxOccurs="1"/>
+             <xsd:element name="ErrorCode" 
+                      minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                   <xsd:complexContent mixed="true">
+                      <xsd:extension base="xsd:anyType">
+                         <xsd:attribute name="dialect" type="xsd:anyURI"
+                                    use="required"/>
+                      </xsd:extension>
+                   </xsd:complexContent>
+                </xsd:complexType>      
+             </xsd:element>
+             <xsd:element name="Description" type="xsd:string" 
+                      minOccurs="0" maxOccurs="unbounded"/>
+             <xsd:element name="FaultCause" type="wsrp:BaseFaultType" 
+                      minOccurs="0" maxOccurs="unbounded"/> 
+          </xsd:sequence>
+       </xsd:complexType>
+
+<!-- ========== Message Types for GetResourceProperty  ============ -->
+       
+       <xsd:element name="GetResourcePropertyRequest" 
+                    type="xsd:QName" />
+
+       <xsd:element name="GetResourcePropertyResponse" >
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:any  minOccurs="0" maxOccurs="unbounded" />
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+
+      <xsd:complexType name="ResourceUnknownFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="ResourceUnknownFault" 
+                   type="wsrp:ResourceUnknownFaultType"/>
+
+      <xsd:complexType name="InvalidResourcePropertyQNameFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="InvalidResourcePropertyQNameFault" 
+                   type="wsrp:InvalidResourcePropertyQNameFaultType"/>
+
+
+<!-- ====== Message Types for GetMultipleResourceProperties ======= -->       
+       <xsd:element name="GetMultipleResourcePropertiesRequest">
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element name="ResourceProperty" type="xsd:QName" 
+                          minOccurs="1" maxOccurs="unbounded" />
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+ 
+       <xsd:element name="GetMultipleResourcePropertiesResponse">
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:any  minOccurs="0" maxOccurs="unbounded" />
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+
+<!-- ========= Message Types for SetResourceProperties =========== -->
+ 
+       <xsd:complexType name="SetRequestComponentType" >
+       </xsd:complexType>
+         
+       <xsd:element name="SetRequestComponent" 
+                    type="wsrp:SetRequestComponentType" 
+                    abstract="true" />
+         
+        <xsd:complexType name="InsertType">
+           <xsd:complexContent>
+              <xsd:extension base="wsrp:SetRequestComponentType">
+                <xsd:sequence>
+                    <xsd:any processContents="lax"
+                             minOccurs="1" maxOccurs="1" />
+                </xsd:sequence>
+             </xsd:extension>
+          </xsd:complexContent>
+       </xsd:complexType>
+       <xsd:element name="Insert" 
+                    type="wsrp:InsertType"
+                    substitutionGroup="wsrp:SetRequestComponent" />
+         
+       <xsd:complexType name="UpdateType">
+          <xsd:complexContent>
+             <xsd:extension base="wsrp:SetRequestComponentType">
+                <xsd:sequence>
+                   <xsd:any minOccurs="1" maxOccurs="1" 
+                            processContents="lax" />
+                </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
+       </xsd:complexType>
+       <xsd:element name="Update" 
+                    type="wsrp:UpdateType"
+                    substitutionGroup="wsrp:SetRequestComponent" />
+         
+       <xsd:complexType name="DeleteType">
+          <xsd:complexContent>
+             <xsd:extension base="wsrp:SetRequestComponentType">
+                <xsd:attribute name="ResourceProperty" 
+                               type="xsd:QName"/>
+             </xsd:extension>
+          </xsd:complexContent>
+       </xsd:complexType>
+       <xsd:element name="Delete" 
+                    type="wsrp:DeleteType"
+                    substitutionGroup="wsrp:SetRequestComponent" />
+        
+       <xsd:element name="SetResourceProperties">
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element ref="wsrp:SetRequestComponent" 
+                          minOccurs="1" maxOccurs="unbounded" />
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+
+      <xsd:element name="SetRespourcePropertiesResponse" >
+         <xsd:complexType />
+      </xsd:element>
+
+      <xsd:complexType
+               name="InvalidSetResourcePropertiesRequestContentFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="InvalidSetResourcePropertiesRequestContentFault" 
+               type="wsrp:InvalidSetResourcePropertiesRequestContentFaultType"/>
+
+      <xsd:complexType name="UnableToModifyResourcePropertyFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="UnableToModifyResourcePropertyFault" 
+                   type="wsrp:UnableToModifyResourcePropertyFaultType"/>
+
+      <xsd:complexType name="SetResourcePropertyRequestFailedFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="SetResourcePropertyRequestFailedFault" 
+                   type="wsrp:SetResourcePropertyRequestFailedFaultType"/>
+
+
+<!-- ========= Message Types for QueryResourceProperties ========== -->         
+       
+       <xsd:element name="QueryResourcePropertiesRequest" >
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element ref="wsrp:QueryExpression" 
+                          minOccurs="1" maxOccurs="1"/>
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+ 
+       <xsd:element name="QueryResourcePropertiesResponse" >
+         <xsd:complexType>
+           <xsd:complexContent mixed="true">
+             <xsd:restriction base="xsd:anyType">
+               <xsd:sequence>
+                 <xsd:any processContents="lax" 
+                          minOccurs="1" maxOccurs="unbounded"/>
+               </xsd:sequence>
+             </xsd:restriction>
+           </xsd:complexContent>
+         </xsd:complexType>
+       </xsd:element>        
+
+      <xsd:complexType name="UnknownQueryExpressionDialectFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="UnknownQueryExpressionDialectFault" 
+                   type="wsrp:UnknownQueryExpressionDialectFaultType"/>
+
+      <xsd:complexType name="InvalidQueryExpressionFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="InvalidQueryExpressionFault" 
+                   type="wsrp:InvalidQueryExpressionFaultType"/>
+
+      <xsd:complexType name="QueryEvaluationErrorFaultType">
+         <xsd:complexContent>
+            <xsd:extension base="wsrp:BaseFaultType"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="QueryEvaluationErrorFault" 
+                   type="wsrp:QueryEvaluationErrorFaultType"/>
+
+
+     </xsd:schema>
+   </wsdl:types>
+   
+<!-- ===================== GetResourceProperty ==================== 
+  GetResourceProperty(QName)
+  returns: any
+-->
+  <wsdl:message name="GetResourcePropertyRequest">
+    <wsdl:part name="GetResourcePropertyRequest" 
+               element="wsrp:GetResourcePropertyRequest" />
+  </wsdl:message>
+  
+  <wsdl:message name="GetResourcePropertyResponse">
+    <wsdl:part name="GetResourcePropertyResponse" 
+               element="wsrp:GetResourcePropertyResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="ResourceUnknownFault">
+     <part name="ResourceUnknownFault"
+           element="wsrp:ResourceUnknownFault" />
+  </wsdl:message> 
+
+  <wsdl:message name="InvalidResourcePropertyQNameFault">
+     <part name="InvalidResourcePropertyQNameFault"
+           element="wsrp:InvalidResourcePropertyQNameFault" />
+  </wsdl:message> 
+
+<!-- ==============GetMultipleResourceProperties ================== 
+  GetMultipleResourceProperties(list of QName)
+  returns: sequence of any
+-->
+  <wsdl:message name="GetMultipleResourcePropertiesRequest">
+    <wsdl:part name="GetMultipleResourcePropertiesRequest" 
+               element="wsrp:GetMultipleResourcePropertiesRequest" />
+  </wsdl:message>
+  
+  <wsdl:message name="GetMultipleResourcePropertiesResponse">
+    <wsdl:part name="GetMultipleResourcePropertiesResponse" 
+               element="wsrp:GetMultipleResourcePropertiesResponse" />
+  </wsdl:message>
+
+<!-- ================= SetResourceProperties ====================== 
+  SetResourceProperties(
+  { insert (any) |
+    update@QName (any) |
+    delete@QName } + 
+  )
+  returns: empty
+-->
+  <wsdl:message name="SetResourcePropertiesRequest">
+    <wsdl:part name="SetResourcePropertiesRequest" 
+               element="wsrp:SetResourceProperties" />
+  </wsdl:message>
+  
+  <wsdl:message name="SetResourcePropertiesResponse">
+  </wsdl:message>
+  
+  <wsdl:message name="InvalidSetResourcePropertiesRequestContentFault">
+     <part name="InvalidSetResourcePropertiesRequestContentFault"
+           element="wsrp:InvalidSetResourcePropertiesRequestContentFault" />
+  </wsdl:message> 
+
+  <wsdl:message name="UnableToModifyResourcePropertyFault">
+     <part name="UnableToModifyResourcePropertyFault"
+           element="wsrp:UnableToModifyResourcePropertyFault" />
+  </wsdl:message> 
+
+  <wsdl:message name="SetResourcePropertyRequestFailedFault">
+     <part name="SetResourcePropertyRequestFailedFault"
+           element="wsrp:SetResourcePropertyRequestFailedFault" />
+  </wsdl:message> 
+
+<!-- ================ QueryResourceProperties ===================== 
+  QueryResourceProperties(QueryExpression)
+  returns: any
+-->
+  <wsdl:message name="QueryResourcePropertiesRequest">
+    <wsdl:part name="QueryResourcePropertiesRequest" 
+               element="wsrp:QueryResourcePropertiesRequest" />
+  </wsdl:message>
+  
+  <wsdl:message name="QueryResourcePropertiesResponse">
+    <wsdl:part name="QueryResourcePropertiesResponse" 
+               element="wsrp:QueryResourcePropertiesResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="UnknownQueryExpressionDialectFault">
+     <part name="UnknownQueryExpressionDialectFault"
+           element="wsrp:UnknownQueryExpressionDialectFault" />
+  </wsdl:message> 
+
+  <wsdl:message name="InvalidQueryExpressionFault">
+     <part name="InvalidQueryExpressionFault"
+           element="wsrp:InvalidQueryExpressionFault" />
+  </wsdl:message> 
+
+  <wsdl:message name="QueryEvaluationErrorFault">
+     <part name="QueryEvaluationErrorFault"
+           element="wsrp:QueryEvaluationErrorFault" />
+  </wsdl:message> 
+
+<!-- =================== PortType Definitions ===================== -->
+  <wsdl:portType name="GetResourceProperty">  
+    <wsdl:operation name="GetResourceProperty">
+      <wsdl:input  name="GetResourcePropertyRequest" 
+                   message="wsrp:GetResourcePropertyRequest" />
+      <wsdl:output name="GetResourcePropertyResponse" 
+                   message="wsrp:GetResourcePropertyResponse" />
+      <wsdl:fault  name="ResourceUnknownFault" 
+                   message="wsrp:ResourceUnknownFault" />
+      <wsdl:fault  name="InvalidResourcePropertyQNameFault" 
+                   message="wsrp:InvalidResourcePropertyQNameFault" />     
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:portType name="GetMultipleResourceProperties">
+    <wsdl:operation name="GetMultipleResourceProperties">
+      <wsdl:input  name="GetMultipleResourcePropertiesRequest" 
+                   message="wsrp:GetMultipleResourcePropertiesRequest" />
+      <wsdl:output name="GetMultipleResourcePropertiesResponse" 
+                   message="wsrp:GetMultipleResourcePropertiesResponse" />
+      <wsdl:fault  name="ResourceUnknownFault" 
+                   message="wsrp:ResourceUnknownFault" />
+      <wsdl:fault  name="InvalidResourcePropertyQNameFault" 
+                   message="wsrp:InvalidResourcePropertyQNameFault" />     
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:portType name="SetResourceProperties"> 
+    <wsdl:operation name="SetResourceProperties">
+      <wsdl:input  name="SetResourcePropertiesRequest" 
+                   message="wsrp:SetResourcePropertiesRequest" />
+      <wsdl:output name="SetResourcePropertiesResponse" 
+                   message="wsrp:SetResourcePropertiesResponse" />
+      <wsdl:fault  name="ResourceUnknownFault" 
+                   message="wsrp:ResourceUnknownFault" />
+      <wsdl:fault  name="InvalidSetResourcePropertiesRequestContentFault" 
+               message="wsrp:InvalidSetResourcePropertiesRequestContentFault" />     
+      <wsdl:fault  name="UnableToModifyResourcePropertyFault" 
+                   message="wsrp:UnableToModifyResourcePropertyFault" />
+      <wsdl:fault  name="InvalidResourcePropertyQNameFault" 
+                   message="wsrp:InvalidResourcePropertyQNameFault" />     
+      <wsdl:fault  name="SetResourcePropertyRequestFailedFault" 
+                   message="wsrp:SetResourcePropertyRequestFailedFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:portType name="QueryResourceProperties">
+    <wsdl:operation name="QueryResourceProperties">
+      <wsdl:input  name="QueryResourcePropertiesRequest" 
+                   message="wsrp:QueryResourcePropertiesRequest" />
+      <wsdl:output name="QueryResourcePropertiesResponse" 
+                   message="wsrp:QueryResourcePropertiesResponse" />
+      <wsdl:fault  name="ResourceUnknownFault" 
+                   message="wsrp:ResourceUnknownFault" />
+      <wsdl:fault  name="InvalidResourcePropertyQNameFault" 
+                   message="wsrp:InvalidResourcePropertyQNameFault" />     
+      <wsdl:fault  name="UnknownQueryExpressionDialectFault" 
+                   message="wsrp:UnknownQueryExpressionDialectFault" />
+      <wsdl:fault  name="InvalidQueryExpressionFault" 
+                   message="wsrp:InvalidQueryExpressionFault" />
+      <wsdl:fault  name="QueryEvaluationErrorFault" 
+                   message="wsrp:QueryEvaluationErrorFault" />
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+</wsdl:definitions>

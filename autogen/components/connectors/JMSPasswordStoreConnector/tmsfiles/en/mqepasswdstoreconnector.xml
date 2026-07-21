@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="mqepasswdstoreconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- NOTE: 
+	The messages with id: 
+		CTGDJM001I, 
+		CTGDJM002W, 
+		CTGDJM011E, 
+		CTGDJM012I,
+		CTGDJM013I 
+	have been removed because of the IBM Security Verify Directory Integrator 7.0 - FN-72 item. -->
+
+<Message ID="CTGDJM003I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.NOKYPASSWD.INFO" varFormat="Java">
+   KeyStore certificate password is NULL or empty. Will use keystore password to
+   get private key.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM004I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.STORAGENOTIFICATION.NOTSPEC.INFO" varFormat="Java">
+   The parameter &apos;storageNotification&apos; was not specified so no notification servers
+   will be set.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM005E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.INVALIDSTORAGE.FORMAT" varFormat="Java">
+   Unable to notify Storage notification server &apos;&apos;<Variable formatSpec="{0}">server URL</Variable>&apos;&apos;
+   because the format is not valid.  The expected format is &apos;&lt;host&gt;:&lt;port&gt;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the storage notification servers in the storageNotification
+   parameter are formatted correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM006E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.INVALIDSTORAGEURL.FORMAT" varFormat="Java">
+   Unable to notify Storage notification server &apos;&apos;<Variable formatSpec="{0}">server URL</Variable>&apos;&apos;
+   because the port &apos;&apos;<Variable formatSpec="{0}">server URL</Variable>&apos;&apos; in the URL is not valid.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the storage notification servers in the storageNotification
+   parameter are formatted correctly and have valid port numbers.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM007E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.COULD.NOT.NOTIFY.THE.STORAGE.COMPONENT" varFormat="Java">
+   Could not notify the Storage Component at <Variable formatSpec="{0}">notification server</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Could not connect to Storage Component. The port is not open.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the storage notification server in the storageNotification
+   parameter are formatted correctly and have valid port numbers.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM008W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.WILL.START.OFFLINE.MODE" varFormat="Java">
+   JMS Password Store Connector will start in &apos;offline&apos; mode:
+    - messages already transferred to the local MQe QueueManager will be retrieved;
+    - if in the meantime the JMS Storage Component is started,
+      any new messages will be transferred and delivered by the Connector.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.THE.STORAGE.COMPONENT" varFormat="Java">
+   The Storage Component at <Variable formatSpec="{0}">notification server</Variable> is successfully
+   notified for the Connector startup.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ERROR.CLOSING.NOTIFICATION.CONNECTION.TO.STORAGE.COMPONENT" varFormat="Java">
+   Error closing the notification connection to the Storage Component:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An I/O error occurs when closing the socket.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM014I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.GETNEXTENTRY.RECEIVED.MESSAGE.OF.TYPE" varFormat="Java">
+   The getNextEntry method received message of type:
+   <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM015E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.EXCEPTION.WHILE.CLOSING.QUEUE.CONNECTION" varFormat="Java">
+   Exception while closing queue connection:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   If the JMS provider fails to stop message delivery and close
+   the connection due to an internal error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM016E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.INVALID.MESSAGE.TYPE" varFormat="Java">
+   Invalid message type. Received message type of class
+   <Variable formatSpec="{0}">class name</Variable> but expected class type was TextMessage.
+   </MsgText>
+   <Explanation> <p>
+   The Connector expected TextMessage, but received other message type.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check messages types on the server
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM017I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ATTRIBUTE.UPDATETYPE" varFormat="Java">
+   &apos;UpdateType&apos; field retrieved from message.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ATTRIBUTE.USERID" varFormat="Java">
+   &apos;UserId&apos; field retrieved from message.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM019I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ATTRIBUTE.PASSWORDCOUNT" varFormat="Java">
+   &apos;PasswordCount&apos; field retrieved from message.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.INCORRECT.PASSWORD.UPDATE.MESSAGE.FORMAT" varFormat="Java">
+   Incorrect password update message format.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check messages format on the server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ATTRIBUTE.PASSWORD" varFormat="Java">
+   &apos;Passwords&apos; value retrieved from message.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.ATTRIBUTE.CREATED.NOVALUES" varFormat="Java">
+   Attribute &apos;Passwords&apos; created with no values.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJM023E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.COULD.NOT.PARSE.PASSWORD.UPDATE.MESSAGE" varFormat="Java">
+   Could not parse password update message.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check messages format on the server.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM024E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.MESSAGE.CONTAINS.INVALID.UPDATE.TYPE" varFormat="Java">
+   Message contains invalid update type: <Variable formatSpec="{0}">type</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJM025E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MQEPASSWDSTORE.PKCS7.AND.ENCRYPTION" varFormat="Java">
+   Unable to use both PKCS7 and the encryption from releases prior to IBM Security Verify Directory Integrator 6.1.1
+   at the same time.
+   </MsgText>
+   <Explanation> <p>
+   Invalid values for: &apos;usePkcs7&apos; and &apos;decryptMessages&apos; parameters. Both are set to TRUE.
+   Only one of them can be chosen at the same time. Either PKCS7 or the encryption from releases
+   prior to IBM Security Verify Directory Integrator can be used but not both at the same time.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   See the configuration of the JMS PasswordStore Connector and set only one of these parameters to true.
+   The setting match the ones set at the Store.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- Deleted message with id CTGDJM026E. -->
+
+<!-- Deleted message with id CTGDJM027I. -->
+
+<!-- Deleted message with id CTGDJM028I. -->
+
+<!-- Deleted message with id CTGDJM029I. -->
+
+<!-- Deleted message with id CTGDJM030E. -->
+
+<!-- Deleted message with id CTGDJM031I. -->
+
+<!-- Deleted message with id CTGDJM032E. -->
+
+<!-- Deleted message with id CTGDJM033W. -->
+
+<!-- Deleted message with id CTGDJM034I. -->
+
+<!-- Deleted message with id CTGDJM035E. -->
+
+</TMSSource>

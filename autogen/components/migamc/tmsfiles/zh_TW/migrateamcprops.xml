@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="migrateamcprops" tmsVersion="1.0" xml:lang="zh-TW">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDKM301I" prefix="yes">
+   <MsgText pgmKey="COMMAND.START.MIGRATION" varFormat="Java">
+   正在啟動檔案移轉...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM302I" prefix="yes">
+   <MsgText pgmKey="COMMAND.PARSING.OPTIONS" varFormat="Java">
+   正在剖析選項...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM303E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+   <Variable formatSpec="{0}">operator switch</Variable> 選項發生了數次。
+   </MsgText>
+   <Explanation> <p>
+   已呼叫 tdimigamc 指令，且多次傳遞相同的參數。
+   選項只能傳送一次。例如，使用者可能傳送了兩次 &apos;-b&apos; 選項，但這是不被接受的。   </p> </Explanation>
+   <OperatorResponse> <p>
+   每個選項只傳送一次。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM304E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+   未針對 <Variable formatSpec="{0}">option name</Variable> 選項指定任何值。
+   </MsgText>
+   <Explanation> <p>
+   已傳送未指定值的選項來呼叫 tdimigamc 指令。
+   這個值也是必要的。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請檢查 tdimigamc 指令用法，然後以正確的選項和相關的值重新呼叫 tdisrvctl 指令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM305E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+   指令用法不正確。
+   </MsgText>
+   <Explanation> <p>
+   已傳遞不受支援的指令行選項來呼叫 tdimigamc 指令，
+   或發現非預期的引數清單結尾，或是指令行選項的用法不正確。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請檢查 tdimigamc 指令用法，然後嘗試以有效的引數來呼叫 tdisrvctl 指令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM306E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+   發現了不明的選項 <Variable formatSpec="{0}">operator switch</Variable>。
+   </MsgText>
+   <Explanation> <p>
+   已透過不明的選項來呼叫 tdimigamc 指令。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請參閱 tdimigamc 指令用法，並只以允許的選項來呼叫指令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM307E" prefix="yes">
+   <MsgText pgmKey="FILE_OPTION_ABSENT" varFormat="Java">
+   未指定 <Variable formatSpec="{0}">operator switch</Variable> 選項。   這是必要的選項。
+   </MsgText>
+   <Explanation> <p>
+   已呼叫 tdimigamc 指令，但未指定 -op 選項。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請參閱 tdimigamc 指令用法，然後指定正確且必要的選項來呼叫指令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM308I" prefix="yes">
+   <MsgText pgmKey="COMMAND.GENERAL.OPTIONS" varFormat="Java">
+   已剖析的選項：<Variable formatSpec="{0}">options</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM309E" prefix="yes">
+   <MsgText pgmKey="ERROR_WHILE_INITIALIZING_MIGRATION" varFormat="Java">
+   讀取 XML 內容檔時發生 <Variable formatSpec="{0}">error</Variable> 錯誤。
+   </MsgText>
+   <Explanation> <p>
+   載入 XML 內容檔時發生錯誤。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請參閱日誌以取得其他資訊。請驗證 migamc.jar 檔位於類別路徑中。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM310E" prefix="yes">
+   <MsgText pgmKey="FILE_NOREAD_NOEXIST" varFormat="Java">
+   無法移轉 <Variable formatSpec="{0}">file name</Variable> 檔。檔案不存在或無法讀取。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為要移轉的檔案不存在或無法讀取。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請驗證要移轉的檔案存在，且可以讀取和寫入。另外，也請驗證您有備份檔位置的讀取許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM311E" prefix="yes">
+   <MsgText pgmKey="NOT_A_FILE" varFormat="Java">
+   無法移轉 <Variable formatSpec="{0}">file name</Variable> 檔。指定的檔案不是檔案。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為指定移轉的檔案不是檔案。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請驗證要移轉的檔案存在，且是可以讀取和寫入的檔案。另外，也請驗證您有備份檔位置的讀取許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM312E" prefix="yes">
+   <MsgText pgmKey="FILE_NOWRITE" varFormat="Java">
+   無法移轉 <Variable formatSpec="{0}">file name</Variable> 檔。指定的檔案無法寫入。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為檔案無法寫入。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請驗證要移轉的檔案存在，且可以讀取和寫入。另外，也請驗證您有備份檔位置的讀取許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM313E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME" varFormat="Java">
+   無法移轉 <Variable formatSpec="{0}">file name</Variable> 檔。備份檔的檔名不能與檔名相同。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為要移轉的檔案和要備份的檔案相同。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   對於要移轉的檔案和備份檔，請指定不同的檔名。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM314E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME2" varFormat="Java">
+   無法移轉 <Variable formatSpec="{0}">file name</Variable> 檔。備份檔的檔名不能與新檔同名。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為新檔名和要備份的檔案相同。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   對於要備份的檔案和新檔案，請指定不同的檔名。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM315E" prefix="yes">
+   <MsgText pgmKey="UNABLE_BACKUP_FILE" varFormat="Java">
+   無法執行移轉。無法將 <Variable formatSpec="{0}">file name</Variable> 檔備份至 <Variable formatSpec="{1}">file name</Variable>。
+   </MsgText>
+   <Explanation> <p>
+   移轉失敗，因為無法備份要移轉的檔案。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   請驗證要移轉的檔案存在，且可以讀取和寫入。另外，也請驗證您有備份檔位置的讀取許可權。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM316I" prefix="yes">
+   <MsgText pgmKey="ADDING_NEW_PROPERTIES" varFormat="Java">
+   正在新增內容...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM317I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_ADDING_NEW_PROPERTIES" varFormat="Java">
+   已完成新增內容。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM318I" prefix="yes">
+   <MsgText pgmKey="STARTED_WITH_MODIFICATION" varFormat="Java">
+   已開始以新的值修改舊的內容，並將舊的內容標示成註解....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM319I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_WITH_MODIFICATION" varFormat="Java">
+   已完成以新的值修改舊的內容，並將舊的內容標示成註解。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM320I" prefix="yes">
+   <MsgText pgmKey="COMMENTING_UNWANTED_PROPERTIES" varFormat="Java">
+   正在開始將舊的內容標示成註解....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM321I" prefix="yes">
+   <MsgText pgmKey="NUMBER_OF_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   要標示成註解的舊內容數為 <Variable formatSpec="{0}">number of properties</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM322I" prefix="yes">
+   <MsgText pgmKey="NO_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   版本 <Variable formatSpec="{0}">release version</Variable> 沒有要移除的舊內容。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM323I" prefix="yes">
+   <MsgText pgmKey="NO_NEW_PROPERTIES_ADDED" varFormat="Java">
+   版本 <Variable formatSpec="{0}">release version</Variable> 沒有要新增的新內容。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM324I" prefix="yes">
+   <MsgText pgmKey="UPDATING_PROPERTIES" varFormat="Java">
+   正在更新內容....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM325I" prefix="yes">
+   <MsgText pgmKey="EXIT_CODE_OF_MIGRATION" varFormat="Java">
+   移轉已完成，結束碼為 <Variable formatSpec="{0}">exit code</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM326I" prefix="yes">
+   <MsgText pgmKey="FILE_DELETED" varFormat="Java">
+   已順利刪除 <Variable formatSpec="{0}">file name</Variable> 檔。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM327I" prefix="yes">
+   <MsgText pgmKey="FAILED_TO_DELETE_FILE" varFormat="Java">
+   無法刪除 <Variable formatSpec="{0}">file name</Variable> 檔。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM328I" prefix="yes">
+   <MsgText pgmKey="INITIALIZING_MIGRATION_LOADING_PROPERTIES" varFormat="Java">
+   正在起始設定移轉，載入 <Variable formatSpec="{0}">xml prop file</Variable> 內容檔。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM329I" prefix="yes">
+   <MsgText pgmKey="NO_PROPERTIES_TO_UPDATE" varFormat="Java">
+   新版本沒有內容需要在舊版本中更新。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

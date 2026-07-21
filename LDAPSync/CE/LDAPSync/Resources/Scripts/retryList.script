@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="210" UUID="6c4a2c0b-dff3-473b-a0c6-256cb5241bf6" created="Thu Feb 12 13:22:31 CET 2015" createdBy="Administrator" main="retryList" modified="Mon Dec 07 12:25:49 CET 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="retryList">
+        <ModTime>1449487546796</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// retryList maintains a list of items that failed to be written to the target,
+// allows the list to be processed prior to normal Endpoint read operations.
+
+flowKey = "RetryList";
+
+RetryList = function(flowKey, entryType, clearTheList) {
+	this.filename = "LDAPSync/<flowID>_retryList.json";
+	this.list = null;
+	this.keys = null;
+	this.index = 0;
+	
+	// Adds an entry to the RetryList, along with error and operation
+	// The params object argument should have the following properties:
+	// {
+	// 		dn, // the entry in question that was not written to the target
+	// 		error // the error message (string) that caused this failure
+	//		operation // the delta operation of this entry: add, modify, delete or generic
+	//		entry // the source entry (SDI Entry object like work and conn) 
+	//		that was not sync'ed successfully.
+	// }
+	this.add = function(params) {
+		if (!saveRetryList || simulate) {
+			return;
+		}
+		
+		var useDN = params.dn || "";
+		useDN = useDN.toLowerCase().trim();
+		
+		var item = this.list.get(useDN);
+		if (item == null) {
+			item = {
+						dn : params.dn,
+						error : params.error,
+						operation : params.operation,
+						when : params.when || new java.util.Date().getTime(),
+						entry : params.entry ? this.serializeEntry(params.entry) : null
+					}	
+					
+			this.list.put(useDN, item);	
+		} else {
+//			logmsg("WARN", resource.getString("LDAPSYNC.ITEM.ALREADY.IN.RETRYLIST") + ": " + toJson(item));
+			item.when = new java.util.Date().getTime();
+			item.error = params.error;
+			item.entry = this.serializeEntry(params.entry);
+		}
+		
+		this.saveList();
+	}
+	
+	// Returns the next object from the retryList, returning null if none are left
+	this.next = function(removeReadItems) {
+		if (typeof removeReadItems == "undefined") { removeReadItems = true; } 
+		
+		if (simulate) { return null; } 
+		
+		if (this.keys == null) {
+			this.keys = this.list.keySet().toArray();
+			java.util.Arrays.sort(this.keys);
+			this.index = 0;
+		}
+		
+		if (this.index >= this.keys.length) {
+			return null;
+		} else {
+			var item = this.list.get(this.keys[this.index++]);
+			if (removeReadItems) {
+				this.remove(item.dn);
+			}
+			
+			item.entry = this.deserializeEntry(item.entry);
+			item.entry["$dn"] = item.dn;
+			
+			return item;
+		}	
+	}
+	
+	// Sets index back to 0
+	this.restartList = function() {
+		this.index = 0;
+	}
+	
+	// Removes the object identified by the 'key' from the list
+	this.remove = function(key) { // returns true or false
+		if (simulate) { return; } 
+	
+		key = key.toLowerCase().trim();
+		var item = this.list.get(key);
+		
+		if (item != null) {
+			this.list.remove(key);
+			this.saveList();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	// Clears/deletes the retryList
+	this.clearList = function() {
+		if (simulate) { return; } 
+
+		system.deleteFile(this.filename);
+	}	
+		
+	// Reads in the retryList
+	this.readList = function() {
+		if (simulate) { return; } 
+		
+		try {
+			var file = system.openFileForInput(this.filename);
+			
+			do {
+				var line = file.readLine();
+				if (line == null) {
+					break;
+				}
+				
+				try {
+					var jobj = fromJson(line);
+					this.add({	dn: jobj.dn, 
+								operation: jobj.operation,
+								error: jobj.error,
+								entry: jobj.entry ? this.deserializeEntry(jobj.entry) : null,
+								when: jobj.when});
+				} catch (ex) {
+					logmsg("WARN", resource.getString("LDAPSYNC.ERROR.READING.RETRYLIST.LINE") + ": '" + line + "' - " + ex);
+				}	
+			} while (line != null);
+		} catch (ex) {
+			if (String(ex).toLowerCase().indexOf("filenotfound") < 0) {
+				logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.READING.RETRYLIST") + " - " + ex); 
+			}	
+		}	
+		
+		try {
+			file.close();
+		} catch (ex) {
+			// do nothing
+		}	
+	}
+	
+	// Writes the retryList to persistent store. Note that this function can be called
+	// multiple times, since it re-writes the entire list each time.
+	this.saveList = function() {
+		if (simulate) { return; } 
+		
+		if (!saveRetryList) {
+			return;
+		}
+
+		try {
+			var file = openOutputFile(this.filename);
+			var keys = this.list.keySet().toArray();
+			java.util.Arrays.sort(keys);
+			
+			for (var i = 0; i < keys.length; i++) {
+				try {
+					file.write(toJson(this.list.get(keys[i])));
+					file.newLine();
+				} catch (ex) {
+					logmsg("WARN", resource.getString("LDAPSYNC.ERROR.SAVING.RETRYLIST.ITEM") + ": " + keys[i]
+						+ " = " + this.list.get(keys[i]) + " - " + ex);
+				}	
+			}
+			
+		} catch (ex) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.SAVING.RETRYLIST") + " - " + ex);
+		}	
+		
+		try {
+			file.close();
+		} catch (ex) {
+			// do nothing
+		}	
+	}
+	
+	// toString method
+	this.toString = function() {
+		if (simulate) { return; } 
+
+		var strBuf = new java.lang.StringBuffer();
+		var keys = this.list.keySet().toArray();
+		java.util.Arrays.sort(keys);
+		
+		for (var i = 0; i < keys.length; i++) {
+			strBuf.append("\n" + keys[i] + ": " + jobj2str(this.list.get(keys[i])));			
+		}
+		
+		return strBuf.toString() + "\n";
+	}
+	
+	// toJSON method
+	this.toJson = function() {
+		var strBuf = new java.lang.StringBuffer();
+		var keys = this.list.keySet().toArray();
+		java.util.Arrays.sort(keys);
+		
+		for (var i = 0; i < keys.length; i++) {
+			strBuf.append(toJson(this.list.get(keys[i])) + "\n");			
+		}
+		
+		return strBuf.toString();
+	}
+	
+	// For initializing the retryList object
+	this.initialize = function() {
+		if (simulate) { return; } 
+
+		this.filename = "LDAPSync/logs/" + flowKey + "_" + entryType.toLowerCase() + "_retrylist.json";
+		this.list = new java.util.concurrent.ConcurrentHashMap();
+		this.keys = null;
+		if (clearTheList) {
+			this.clearList();
+		} else {
+			this.readList();
+		}
+		
+		task.getTCB()["$retryList"] = this;
+			
+		return this;
+	}
+	
+	// Convert entry to LDIF string
+	this.toLDIF = function(argEntry) {
+		if (typeof argEntry == "undefined" || argEntry == null) {
+			return "";
+		}
+		var entry = system.newEntry();
+		entry.merge(argEntry);
+
+		var typeOfEntry = entry.getString("$typeOfEntry");
+		var attNames = entry.getAttributeNames();
+		for (var name in attNames) {
+			if (name.startsWith("$") && !name.equals("$dn")) {
+				entry.removeAttribute(name);
+			}
+		}
+		
+		
+		if ("person".equals(typeOfEntry)) {
+			entry["objectClass"] = "person";
+		} else
+		if ("group".equals(typeOfEntry)) {
+			entry["objectClass"] = "group";
+		} else 
+		if ("container".equals(typeOfEntry)) {
+			entry["objectClass"] = "container";
+		}
+
+		var ldifParser = system.getParser("ibmdi.LDIF");
+		var sw = java.io.StringWriter();
+		ldifParser.setOutputStream(sw);
+		ldifParser.initParser();
+		ldifParser.writeEntry(entry);
+		ldifParser.closeParser();
+		return sw.toString();
+	}
+	
+	// Convert LDIF string to entry
+	this.fromLDIF = function(ldifString) {
+		var entry;
+		if (typeof ldifString == "undefined" || ldifString == null || ldifString.trim().length == 0) {
+			return null;
+		}
+		
+		var ldifParser = system.getParser("ibmdi.LDIF");
+		var sw = java.io.StringReader(ldifString);
+		ldifParser.setInputStream(sw);
+		ldifParser.initParser();
+		try {
+			entry = ldifParser.readEntry();
+		} catch (ex) {
+			entry = null;			
+		}	
+		ldifParser.closeParser();
+
+		var dn = entry["$dn"];
+		var dnval = "";
+		for (var i = 0; i < dn.size() && dnval == null && dnval.length == 0; i++) {
+			dnval = dn.getValue(i);
+		}
+		entry["$dn"] = dnval;
+		
+		return entry;
+	}
+	
+	// Serializes and Entry, including delta tags
+	this.serializeEntry = function(entry) {
+		return this.toLDIF(entry);
+	}
+	
+	// Serializes and Entry, including delta tags
+	this.deserializeEntry = function(entryString) {
+		return this.fromLDIF(entryString);
+	}
+	
+	// call initialize() function and return 'this'	
+	return this.initialize();
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

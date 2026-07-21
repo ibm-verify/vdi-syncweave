@@ -1,0 +1,1308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Jan 11 17:43:10 EET 2006" createdBy="stoiko.avdjiev" modified="Thu Feb 02 11:17:12 EET 2006" modifiedBy="stoiko.avdjiev" version="1.2">
+<Folder name="AssemblyLines">
+<AssemblyLine name="A_times_B_FlexibleWebService">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="WSReceiverServer">
+<InheritFrom>system:/Connectors/ibmdi.WSReceiverServerConnector</InheritFrom>
+<ConnectorMode>Server</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="requireClientAuth">false</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="tagOpEntry">false</parameter>
+<parameter name="tcpPort">9998</parameter>
+<parameter name="useSSL">true</parameter>
+<parameter name="userComment"/>
+<parameter name="webServiceLocation">https://localhost:9998/</parameter>
+<parameter name="wsdlToGenFileName">a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>host</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>host</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>requestedResource</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>requestedResource</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapAction</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapAction</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapRequest</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapRequest</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wsdlRequested</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>wsdlRequested</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>responseContentType</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>responseContentType</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapResponse</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapResponse</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="dumpWork">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[main.logmsg("work: " + work);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Branch name="wsdlRequest">
+<Connector name="readWSDL">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[work.setAttribute("responseContentType", "text/xml");
+
+var wsdl = WSReceiverServer.connector.readFile("examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl");
+work.setAttribute("soapResponse", wsdl);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Conditions>
+<BranchCondition>
+<LeftHand>wsdlRequested</LeftHand>
+<Operator>equals</Operator>
+<RightHand>true</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+<Branch name="soapRequest">
+<Function name="A_times_B_SoapToJava">
+<InheritFrom>system:/Functions/ibmdi.AxisSoapToJava</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>a</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>return</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>return</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapRequest</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="A_times_B">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[main.logmsg("work: " + work);
+
+var attrA = work.getAttribute("a");
+var a = attrA.getValue(0);
+var attrB = work.getAttribute("b");
+var b = attrB.getValue(0);
+main.logmsg("a: " + a);
+main.logmsg("a.getClass(): " + a.getClass());
+main.logmsg("b: " + b);
+main.logmsg("b.getClass(): " + b.getClass());
+
+var a_plus_b = (new java.lang.Double(a)).doubleValue() + (new java.lang.Double(b)).doubleValue();
+main.logmsg("a_plus_b: " + a_plus_b);
+a_plus_b = new java.lang.Double(a_plus_b);
+main.logmsg("a_plus_b: " + a_plus_b);
+
+var a_times_b = (new java.lang.Double(a)).doubleValue() * (new java.lang.Double(b)).doubleValue();
+main.logmsg("a_times_b: " + a_times_b);
+a_times_b = new java.lang.Double(a_times_b);
+main.logmsg("a_times_b: " + a_times_b);
+
+work.setAttribute("a_plus_b", a_plus_b);
+work.setAttribute("a_times_b", a_times_b);
+
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Function name="A_times_B_JavaToSoap">
+<InheritFrom>system:/Functions/ibmdi.AxisJavaToSoap</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="mode">Response</parameter>
+<parameter name="operationParamList">a_times_b a_plus_b</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="mode">Response</parameter>
+<parameter name="operationParamList">a_times_b a_plus_b</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>soapResponse</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>a_plus_b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a_plus_b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>a_times_b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a_times_b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Conditions>
+<BranchCondition>
+<LeftHand>wsdlRequested</LeftHand>
+<Operator>equals</Operator>
+<RightHand>false</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+</ContainerDF>
+<ThreadOptions>
+<parameter name="assemblyline.ehc.options">1</parameter>
+</ThreadOptions>
+<Operations>
+<Operation name="Default">
+<Schema name="Input">
+<SchemaItem>
+<Name>a</Name>
+<NativeSyntax>java.lang.Double</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>b</Name>
+<NativeSyntax>java.lang.Double</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>a_plus_b</Name>
+<NativeSyntax>java.lang.Double</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>a_times_b</Name>
+<NativeSyntax>java.lang.Double</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+</Schema>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+<AssemblyLine name="Square_SimpleClient">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[var entry = system.newEntry();
+entry.setAttribute("number", new java.lang.Integer(5));
+task.setWork(entry);]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Function name="EasyInvokeWebService">
+<InheritFrom>system:/Functions/ibmdi.AxisEasyInvokeSoapWS</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="operationParamList">number</parameter>
+<parameter name="soapOperation">Square</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/square_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="complexTypes"/>
+<parameter name="debug">true</parameter>
+<parameter name="operationParamList">number</parameter>
+<parameter name="soapOperation">Square</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/square_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>return</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>return</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>number</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>number</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="PrintResult">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[main.logmsg("======== RESULT ========");
+var resAttr = work.getAttribute("return");
+main.logmsg(resAttr.getValue(0));
+main.logmsg("======== END OF RESULT ========");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="Default">
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+<AssemblyLine name="Square_SimpleWebService">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>onfailure</Name>
+<Script/>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="EasyWSServer">
+<InheritFrom>system:/Connectors/ibmdi.AxisEasyWSServerConnector</InheritFrom>
+<ConnectorMode>Server</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="requireClientAuth">false</parameter>
+<parameter name="soapOperation">Square</parameter>
+<parameter name="tagOpEntry">false</parameter>
+<parameter name="tcpPort">9998</parameter>
+<parameter name="useSSL">true</parameter>
+<parameter name="userComment"/>
+<parameter name="webServiceLocation">http://localhost:9998/</parameter>
+<parameter name="wsdlFile">examples/ws_tutorial/math_ws_ssl/square_ssl.wsdl</parameter>
+<parameter name="wsdlToGenFileName">ttt.wsdl</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>host</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>host</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>requestObjArray</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>requestObjArray</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>requestedResource</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>requestedResource</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapAction</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapAction</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapFault</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapFault</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapRequest</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapRequest</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapResponse</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapResponse</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wsdlRequested</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>wsdlRequested</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>responseContentType</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>responseContentType</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>responseObjArray</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>responseObjArray</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapFault</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapFault</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>soapResponse</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>soapResponse</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wsdlRequested</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>wsdlRequested</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Branch name="soapRequest">
+<Connector name="Square">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[var attr = work.getAttribute("requestObjArray");
+var rarray = attr.getValue(0);
+var number = rarray[0];
+main.logmsg("number : " + number + " " + number.getClass().getName());
+var square = (new java.lang.Integer(number)).intValue()*(new java.lang.Integer(number)).intValue();
+main.logmsg("square : " + square);
+squareInt = new java.lang.Integer(square);
+var obj = new java.lang.Object();
+var responseObjArray = java.lang.reflect.Array.newInstance(obj.getClass(), 1);
+responseObjArray[0] = squareInt;
+main.logmsg("squareInt : " + squareInt);
+work.setAttribute("responseObjArray", responseObjArray);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Conditions>
+<BranchCondition>
+<LeftHand>wsdlRequested</LeftHand>
+<Operator>equals</Operator>
+<RightHand>false</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+<Connector name="dumpWork">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[main.logmsg("work: " + work);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+</ContainerDF>
+<ThreadOptions>
+<parameter name="assemblyline.ehc.options">1</parameter>
+</ThreadOptions>
+<Operations>
+<Operation name="Default">
+<Schema name="Input">
+<SchemaItem>
+<Name>number</Name>
+<NativeSyntax>java.lang.Integer</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>square</Name>
+<NativeSyntax>java.lang.Integer</NativeSyntax>
+<Presence>0</Presence>
+</SchemaItem>
+</Schema>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+<AssemblyLine name="A_times_B_FlexibleClient">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[var entry = system.newEntry();
+entry.setAttribute("a", new java.lang.Double(5.0));
+entry.setAttribute("b", new java.lang.Double(6.0));
+task.setWork(entry);]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Function name="SquareJavaToSoap">
+<InheritFrom>system:/Functions/ibmdi.AxisJavaToSoap</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="operationParamList">a b</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="operationParamList">a b</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>a</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Function name="InvokeWebService">
+<InheritFrom>system:/Functions/ibmdi.InvokeSoapWS</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="headerAndBodyTagsPresent">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="inputXMLType">String</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="headerAndBodyTagsPresent">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="inputXMLType">String</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Function name="SquareSoapToJava">
+<InheritFrom>system:/Functions/ibmdi.AxisSoapToJava</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="mode">Response</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="mode">Response</parameter>
+<parameter name="soapOperation">A_times_B_FlexibleWebService</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/ws_tutorial/math_ws_ssl/a_times_b_ssl.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>a_plus_b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a_plus_b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>a_times_b</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>a_times_b</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="PrintResult">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[main.logmsg("work: " + work);
+main.logmsg("======== RESULT ========");
+
+var a_plus_b_Attr = work.getAttribute("a_plus_b");
+var a_plus_b = a_plus_b_Attr.getValue(0);
+main.logmsg("a_plus_b: " + a_plus_b);
+
+var a_times_b_Attr = work.getAttribute("a_times_b");
+var a_times_b = a_times_b_Attr.getValue(0);
+main.logmsg("a_times_b: " + a_times_b);
+
+main.logmsg("======== END OF RESULT ========");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="Default">
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

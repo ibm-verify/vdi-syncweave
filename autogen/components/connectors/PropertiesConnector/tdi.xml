@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Properties">
+                        <SupportedModes>AddOnly,Iterator,Update,Lookup,Delete</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.PropertiesConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="autorewrite">false</parameter>
+				<parameter name="cipher"/>
+				<parameter name="collection"/>
+				<parameter name="collectionType">User-Defined</parameter>
+				<parameter name="createCollection">true</parameter>
+				<parameter name="encryption"/>
+				<parameter name="secret"/>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.PropertiesConnector">
+			<TranslationFile>NLS/idi_conn_properties</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>collection</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>createCollection</ListItem>
+					<ListItem>encryption</ListItem>
+					<ListItem>cipher</ListItem>
+					<ListItem>secret</ListItem>
+					<ListItem>keyAlias</ListItem>
+					<ListItem>autorewrite</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>collection</ListItem>
+				<ListItem>createCollection</ListItem>
+				<ListItem>encryption</ListItem>
+				<ListItem>cipher</ListItem>
+				<ListItem>secret</ListItem>
+				<ListItem>autorewrite</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="autorewrite">
+				<parameter name="description">autorewrite_desc</parameter>
+				<parameter name="label">autorewrite_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="cipher">
+				<parameter name="description">cipher_desc</parameter>
+				<parameter name="label">cipher_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="collection">
+				<parameter name="description">collection_desc</parameter>
+				<parameter name="label">collection_label</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">coll_script_label</parameter>
+				<parameter name="scripthelp">coll_script_help</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="collectionType">
+				<Values>
+					<ListItem>Java-Properties</ListItem>
+					<ListItem>Global-Properties</ListItem>
+					<ListItem>Solution-Properties</ListItem>
+					<ListItem>System-Properties</ListItem>
+					<ListItem>User-Defined</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Global-Properties</Key>
+						<Value>Localized.Global-Properties</Value>
+					</Item>
+					<Item>
+						<Key>Java-Properties</Key>
+						<Value>Localized.Java-Properties</Value>
+					</Item>
+					<Item>
+						<Key>Solution-Properties</Key>
+						<Value>Localized.Solution-Properties</Value>
+					</Item>
+					<Item>
+						<Key>System-Properties</Key>
+						<Value>Localized.System-Properties</Value>
+					</Item>
+					<Item>
+						<Key>User-Defined</Key>
+						<Value>Localized.User-Defined</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">collectiontype_desc</parameter>
+				<parameter name="label">collectiontype_label</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="createCollection">
+				<parameter name="description">createcoll_desc</parameter>
+				<parameter name="label">createcoll_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="encryption">
+				<parameter name="description">encryption_desc</parameter>
+				<parameter name="label">encryption_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="secret">
+				<parameter name="description">secret_desc</parameter>
+				<parameter name="label">secret_label</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="keyAlias">
+				<parameter name="description">keyAlias_desc</parameter>
+				<parameter name="label">keyAlias_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+			<parameter name="formevents"><![CDATA[
+try {
+	alias = form.getConfig("keyAlias")
+	control = form.getControl("keyAlias")
+	control.setItems(com.ibm.di.api.security.CryptoUtils.getKeyStoreAliases())
+	if (alias != null)
+		control.setText(alias)
+} catch (e) {}
+
+function keyAlias_changed() {
+	var val = form.getConfig("keyAlias");
+	var enable = val == null || val.equals("");
+	form.getControl("secret").setEnabled(enable);
+}
+
+keyAlias_changed();
+]]></parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

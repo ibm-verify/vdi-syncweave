@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Mon Jun 10 02:00:00 SGT 2013" version="7.1.1">
+  <Folder name="Connectors">
+    <Connector name="ibmdi.SCIMConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <SupportedModes>Iterator,AddOnly,Lookup,Delete,Update</SupportedModes>
+	<ConnectorMode>Iterator</ConnectorMode>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="Endpoint">Users</parameter>
+            <parameter name="ModifyMethod">0</parameter>
+            <parameter name="parserOption">Useless</parameter>
+            <parameter name="script"><![CDATA[// System for Cross-Domain Identity Management (SCIM) Connector
+//
+
+// For pagination, specify the desired number of search results per page when iterating
+PAGE_SIZE = 0;
+
+RESOLVER = com.ibm.di.server.ResourceHash.getHash("scimconnector")
+
+URLEncoder = java.net.URLEncoder
+
+BASE_URL = connector.getParam("ServerURL")
+if (BASE_URL == null || BASE_URL.length() == 0)
+	throw RESOLVER.getString("SCIMCONNECTOR.NO.SERVER.URL")
+
+if (!BASE_URL.endsWith("/"))
+	BASE_URL += "/";
+
+function initialize() {
+	httpClient = system.loadConnector("ibmdi.HTTPClient");
+	httpClient.setParam("proxy", connector.getParam("proxy"));
+	httpClient.setParam("proxyPassword", connector.getParam("proxyPassword"));
+	httpClient.setParam("proxyUsername", connector.getParam("proxyUsername"));
+	httpClient.setParam("characterSet", connector.getParam("characterSet"));
+	httpClient.initialize(null)
+}
+
+function selectEntries() {
+	result.setStatus(1)
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null || endPoint.length() == 0) {
+		result.setStatus (2);
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		return;
+	}
+	var url = BASE_URL + endPoint;
+	if (PAGE_SIZE > 0)
+		url = addToUrl(url, "count", PAGE_SIZE)
+	var iFilter = connector.getParam("IteratorFilter")
+	if (iFilter != null && iFilter.length() > 0) {
+		url = addToUrl(url, "filter", iFilter);
+	}
+	var reply = sendRequest("GET", url, null, null);
+	if (! verifyReply(reply, false)) {
+		if (responseCode == "404") {
+			if (result.getMessage() != null)
+				connector.debug("selectEntries: " + result.getMessage())
+			result.setStatus(1)
+		}
+		selectedEntries = new Array()
+		totalResults = 0
+	} else {
+		selectedEntries = resultArray;
+	}
+	selectIndex = 0
+	resultsReceived = selectedEntries.length
+}
+
+function getNextEntry() {
+	if (selectIndex >= selectedEntries.length) {
+		reselectEntries()
+	}
+
+	if (selectIndex >= selectedEntries.length) {
+		result.setStatus (0);
+		return;
+	}
+
+	result.setStatus(1);
+	entry.merge(selectedEntries[selectIndex])
+	selectIndex++;
+}
+
+function reselectEntries() {
+	if (resultsReceived >= totalResults)
+		return;
+
+	var url = BASE_URL + connector.getParam("Endpoint")
+	if (PAGE_SIZE > 0)
+		url = addToUrl(url, "count", PAGE_SIZE)
+	url = addToUrl(url, "startIndex", resultsReceived + 1)
+	var iFilter = connector.getParam("IteratorFilter")
+	if (iFilter != null && iFilter.length() > 0) {
+		url = addToUrl(url, "filter", iFilter);
+	}
+	var reply = sendRequest("GET", url, null, null);
+	if (!verifyReply(reply, false)) {
+		if (result.getMessage() != null)
+			connector.debug("reselectEntries: " + result.getMessage())
+		selectedEntries = new Array()
+		totalResults = resultsReceived
+	} else {
+		selectedEntries = resultArray;
+	}
+	selectIndex = 0
+	resultsReceived += selectedEntries.length
+}
+
+function putEntry ()
+{
+	result.setStatus(1);
+	findEndPoint();
+	if (endPoint == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		result.setStatus(2)
+		return;
+	}
+	var reply = sendRequest("POST", BASE_URL + endPoint, entry, null)
+	verifyReply(reply, true);
+}
+
+function modEntry ()
+{
+	result.setStatus(1);
+	findEndPoint();
+	if (endPoint == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		result.setStatus(2)
+		return;
+	}
+
+	var id = null;
+	if (old != null)
+		id = old.getString("id")
+	if (id == null)
+		id = getIDFromSearchEntry();
+	if (id == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ID"))
+		result.setStatus(2)
+		return;
+	}
+	
+	var reply;
+	var url = BASE_URL + endPoint + "/" + id;
+	var method = connector.getParam("ModifyMethod")
+	reply = sendRequest(method == "1" ? "PUT" : "PATCH", url, entry, null)
+
+	verifyReply(reply, true);
+}
+
+function deleteEntry ()
+{
+	var id = getIDFromSearchEntry();
+	if (id == null) {
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ID"))
+		result.setStatus(2)
+		return;
+	}
+	var url = BASE_URL + endPoint + "/" + id;
+	var reply = sendRequest("DELETE", url, null, null);
+	if (verifyReply(reply, false) && resultArray.length == 1) {
+		entry.merge(resultArray[0])
+	}
+}
+
+function findEntry ()
+{
+	connector.clearFindEntries();
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null) {
+		result.setStatus(2)
+		result.setMessage(RESOLVER.getString("SCIMCONNECTOR.NO.ENDPOINT"))
+		return;
+	}
+	var url = BASE_URL + endPoint;
+	var filter = createFilterFromSearch();
+	var id = getIDFromFilter(filter);
+	if (id != null) {
+		url += "/" + id
+	} else {
+		url += "?filter=" + URLEncoder.encode(filter, "UTF-8")
+	}
+
+	var reply = sendRequest("GET", url, null, null);
+	if (! verifyReply(reply, false)) {
+		if (responseCode == "404")
+			result.setStatus(0);
+		return;
+	}
+
+	if (resultArray.length == 1) {
+		result.setStatus(1)
+		entry.merge(resultArray[0])
+		return;
+	}
+	result.setStatus(0)
+	for (var i = 0; i < resultArray.length; i++) {
+		if (!connector.addFindEntry(resultArray[i]))
+			return;
+	}
+	return;
+}
+
+function querySchema ()
+{
+	result.setStatus (1);
+
+	var endPoint = connector.getParam("Endpoint");
+	if (endPoint == null || endPoint.length() == 0)
+		return;
+	if (endPoint.endsWith("s"))
+		endPoint = endPoint.substring(0, endPoint.length() - 1);
+
+	var reply = sendRequest("GET", BASE_URL + "Schemas/" + endPoint, null, "")
+	var body = reply.getString("http.bodyAsString")
+	if (body == null)
+		return;
+
+	try {
+		answer = com.ibm.di.entry.Entry.fromJSON(body)
+	} catch (err) {
+		return;
+	}
+
+	var attributes = answer["Attributes.Attributes"];
+	if (attributes == null || ! (attributes instanceof org.w3c.dom.NodeList))
+		return;
+
+	populateSchema(attributes, true)
+	populateSchema(attributes, false)
+	result.setStatus (0)
+}
+
+function populateSchema(attributes, input) {
+	schema = config.getSchema(input)
+	for (var a in attributes) 	{
+		var name = a.name.getValue()
+		var sic = schema.newItem(name)
+		setSchemaValues(sic, a)
+		var subAttrs = a.subAttributes
+		if (subAttrs != null) {
+			var children = sic.getChildSchemaList()
+			if (a.multiValued != null && "true".equalsIgnoreCase(a.multiValued.getValue())) {
+				children = getSubSchemaItem(children, name).getChildSchemaList()
+			}
+			for (var sub in subAttrs) {
+				var s = getSubSchemaItem(children, sub.name.getValue())
+				setSchemaValues(s, sub)
+			}
+		}
+	}
+}
+
+function getSubSchemaItem(children, name) {
+	var s = children.getConfig(name)
+	if (s == null) {
+		s = new com.ibm.di.config.base.SchemaItemConfigImpl()
+		s.init()
+		s.setName(name)
+		s.setAttributeName(name)
+		children.addConfig(s)
+	}
+	return s
+}
+
+function setSchemaValues(sic, a) {
+	if (a.type != null)
+		sic.setExternalSyntax(a.type.getValue())
+	if (a.required != null && "true".equalsIgnoreCase(a.required.getValue())) {
+		sic.setPresenceFlag("Required")
+	}	
+}
+
+function sendRequest(method, url, body, aFilter) {
+	var request = system.newEntry();
+	request.setAttribute("http.method", method)
+
+	if (aFilter == null) {
+		aFilter = connector.getParam("AttributeFilter")
+	}
+	if (aFilter != null && aFilter.length() > 0) {
+		url = addToUrl(url, "attributes", aFilter);
+	}
+
+	var sortBy = connector.getParam("SortBy")
+	if (sortBy != null && sortBy.length > 0) {
+		url = addToUrl(url, "sortBy", sortBy);
+		var sortOrder = connector.getParam("SortOrder")
+		if (sortOrder != null && sortOrder.length > 0) {
+			url = addToUrl(url, "sortOrder", sortOrder);
+		}
+	}
+	request.setAttribute("http.url", url)
+	connector.debug("URL = " + url)
+	
+	setRequestAttribute(request, "Username", "http.remote_user");
+	setRequestAttribute(request, "Password", "http.remote_pass");
+	setRequestAttribute(request, "Tenant", "http.TenantName");
+
+	if (body != null) {
+		request.setAttribute("http.Content-Type", "application/scim+json")
+
+		// Custom http attributes
+		var http = body.getAttribute("http");
+		if (http != null) {
+			while (http.hasChildNodes()) {
+				var node = http.getFirstChild();
+				request.setAttribute("http." + node.getName(), node.getValue());
+				http.removeChild(node)
+			}
+			body.removeAttribute("http")
+		}
+
+		request.setAttribute("http.body", body.toJSON())
+	}
+
+	return httpClient.queryReply(request);
+}
+
+function addToUrl(url, name, value) {
+	var sep = (url.indexOf("?")>0) ? "&" : "?";
+	return url + sep + name + "=" + URLEncoder.encode(value, "UTF-8");
+} 
+
+function setRequestAttribute(request, param, attr) {
+	var s = connector.getParam(param);
+	if (s != null && s.length() > 0)
+		request.setAttribute(attr, s);
+}
+
+function createResultArray(answer) {
+	resultArray = new Array()
+	resultIndex = 0
+
+	if (answer == null)
+		return;
+
+	totalResults = answer["totalResults"]
+	if (totalResults != null)
+		totalResults = parseInt(totalResults)
+	else
+		totalResults = 0
+	if (isNaN(totalResults))
+		totalResults = 0
+
+	var resources = answer["Resources.Resources"];
+	if (resources == null) {
+		resultArray.push(answer)
+	} else if ( resources instanceof org.w3c.dom.NodeList) {
+		for (var r in resources) {
+			resultArray.push(node2entry(r))
+		}	
+	} else if (resources instanceof com.ibm.di.entry.Attribute) {
+		resultArray.push(node2entry(resources));
+	}
+}
+
+function node2entry(r) {
+	var e = system.newEntry();
+	for (var c in r.getChildNodes()) {
+		e.setAttribute(c)		
+	}
+	return e
+}
+
+function createFilterFromSearch() {
+	var filter = search.getScriptFilter();
+	if (filter != null)
+		return filter;
+	return createFilter(search)
+}
+
+function createFilter(sc) {
+	filter = "";
+	var criteria = sc.getCriteria();
+	for (var i = 0; i < criteria.size(); i++) {
+        var obj = criteria.get(i);
+
+        if (obj instanceof com.ibm.di.server.SearchCriteria) {
+        	filter += "(" + createFilter(obj) + ")"
+        } else {
+        	filter += convertName(obj.name);
+        	var match = obj.match;
+        	if (match == 61)
+        		filter += " eq ";
+        	else if (match == 60)
+        		filter += " lt ";
+        	else if (match == 8804)
+        		filter += " le ";
+        	else if (match == 62)
+        		filter += " gt ";
+        	else if (match == 8805)
+        		filter += " ge ";
+        	else if (match == 126)
+        		filter += " co ";
+        	else if (match == 94)
+        		filter += " sw ";
+        	else 
+        		throw RESOLVER.getString("SCIMCONNECTOR.UNSUPP.OP")
+//        		 "Unsupported operator in Link Criteria"
+
+         	filter += quote(obj.value);
+		}
+
+		if (i + 1 < criteria.size()) {
+			if (sc.getType() == 1)
+				filter += " and "
+			else
+				filter += " or "
+		}
+	}	
+	return filter;
+}
+
+function convertName(s) {
+	var i = s.indexOf(".")
+	if (i < 0)
+		return s;
+	var pref = s.substring(0, i)
+	var suff = s.substring(i+1)
+	if (suff.startsWith(pref + "."))
+		return suff
+	return s        
+}
+
+function quote(s) {
+	var ret = "\"";
+	for (var j = 0; j < s.length; j++) {
+		var c = s.charAt(j)
+		if (c == "\"")
+			ret += "\\\"";
+		else
+			ret += c;
+	}
+	return ret + "\"";
+}
+
+function getIDFromFilter(filter) {
+	var id = null;
+	if (filter.startsWith("id eq ")) {
+		id = filter.substring(7, filter.length() - 1)
+		if (id.indexOf('"') >= 0)
+			id = null;
+	}
+	return id;
+}
+
+function getIDFromSearchEntry() {
+	findEndPoint();
+
+	var id = (entry != null ? entry.getString("id") : null);
+	if (id != null)
+		return id;
+	
+	var filter = createFilterFromSearch();
+	id = getIDFromFilter(filter);
+	if (id != null)
+		return id;
+	
+	var url = BASE_URL + endPoint + "?filter=" + URLEncoder.encode(filter, "UTF-8");
+	if (!verifyReply(sendRequest("GET", url, null, "id"), false))
+		return null;
+	
+	if (resultArray.length == 1)
+		id = resultArray[0].getString("id")
+	return id;
+}
+
+function findEndPoint() {
+	endPoint = null;
+	if (entry != null && entry["Endpoint"] != null) {
+		endPoint = entry.getString("Endpoint")
+		entry.removeAttribute("Endpoint")
+	}	
+	if (endPoint == null || endPoint.length() == 0)
+		endPoint = connector.getParam("Endpoint");
+}
+
+function verifyReply(reply, addReply) {
+	var answer = null
+	var msg = null
+
+	if (reply != null) {
+		var body = reply.getString("http.bodyAsString");
+		if (body != null && body.length() > 0) {
+			try {
+				answer = com.ibm.di.entry.Entry.fromJSON(body)
+				msg = answer["Errors.Errors.description"];
+				if (typeof(entry) != "undefined" && entry != null) {
+					entry.id = answer["id"];
+					if (addReply)
+						entry.replyEntry = answer;
+				}
+			} catch (err) {
+				msg = "Unable to parse body: " + body;		
+			}
+		}
+
+		responseCode = reply.getString("http.responseCode")
+		if (responseCode != null && responseCode.startsWith("2") && (msg == null || answer != null)) {
+			createResultArray(answer)
+			return true;
+		}
+
+		if (msg == null) 
+			msg = reply["http.responseMsg"]
+		if (answer instanceof com.ibm.di.entry.Attribute)
+			msg = msg.getValue();
+		result.setMessage(msg != null ? msg : "")
+	} else {
+		responseCode = "";
+		result.setMessage("No response")
+	}
+	result.setStatus(2)
+	return false
+}
+
+function terminate() {
+	if (httpClient != null)
+		httpClient.terminate()
+	httpClient = null;
+}]]></parameter>
+	    <parameter name="supportsSkipLookup">true</parameter>
+        </Configuration>
+    </Connector>
+  </Folder>
+  <Folder name="Forms">
+    <Form name="com.ibm.di.connector.ScriptConnector.ibmdi.SCIMConnector">
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>ServerURL</ListItem>
+            <ListItem>Endpoint</ListItem>
+            <ListItem>Password</ListItem>
+            <ListItem>Username</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="Endpoint">
+            <Values>
+                <ListItem>Users</ListItem>
+                <ListItem>Groups</ListItem>
+            </Values>
+            <parameter name="label">Endpoint.label</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="Password">
+            <parameter name="description">Username.desc</parameter>
+            <parameter name="label">Password.label</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="ServerURL">
+            <parameter name="Required">true</parameter>
+            <parameter name="description">URL.desc</parameter>
+            <parameter name="label">URL.label</parameter>
+        </FormItem>
+        <FormItem name="Username">
+            <parameter name="description">Username.desc</parameter>
+            <parameter name="label">Username.label</parameter>
+        </FormItem>
+        <FormItem name="Tenant">
+            <parameter name="description">Tenant.desc</parameter>
+            <parameter name="label">Tenant.label</parameter>
+        </FormItem>
+        <FormItem name="AttributeFilter">
+            <parameter name="description">AttributeFilter.desc</parameter>
+            <parameter name="label">AttributeFilter.label</parameter>
+        </FormItem>
+        <FormItem name="IteratorFilter">
+            <parameter name="description">IteratorFilter.desc</parameter>
+            <parameter name="label">IteratorFilter.label</parameter>
+            <parameter name="modes">Iterator</parameter>
+        </FormItem>
+        <FormItem name="ModifyMethod">
+            <parameter name="description">ModifyMethod.desc</parameter>
+            <parameter name="label">ModifyMethod.label</parameter>
+            <parameter name="modes">Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+            <parameter name="indexbased">true</parameter>
+	    <Values>
+	    	<ListItem>METHOD_0</ListItem>
+	    	<ListItem>METHOD_1</ListItem>
+	    </Values>
+        </FormItem>
+	<FormItem name="proxy">
+		<parameter name="description">proxy_desc</parameter>
+		<parameter name="label">proxy_label</parameter>
+	</FormItem>
+	<FormItem name="proxyUsername">
+		<parameter name="description">proxy_user_desc</parameter>
+		<parameter name="label">proxy_user_label</parameter>
+	</FormItem>
+	<FormItem name="proxyPassword">
+		<parameter name="description">proxy_pass_desc</parameter>
+		<parameter name="label">proxy_pass_label</parameter>
+		<parameter name="syntax">password</parameter>
+	</FormItem>
+	<FormItem name="SortOrder">
+	    <parameter name="label">SortOrderLabel</parameter>
+	    <parameter name="modes">Iterator,Lookup</parameter>
+	    <parameter name="syntax">droplist</parameter>
+	    <Values>
+		<ListItem>ascending</ListItem>
+		<ListItem>descending</ListItem>
+	    </Values>
+	</FormItem>
+	<FormItem name="SortBy">
+		<parameter name="description">SortByDesc</parameter>
+		<parameter name="label">SortByLabel</parameter>
+      		<parameter name="modes">Iterator,Lookup</parameter>
+		<parameter name="syntax">dropedit</parameter>
+		<Values>
+	   	 	<ListItem>@SCHEMA</ListItem>
+		</Values>
+	</FormItem>
+	<FormItem name="characterSet">
+		<parameter name="description">characterSet_desc</parameter>
+		<parameter name="label">characterSet_label</parameter>
+	</FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>ModifyMethod</ListItem>
+                <ListItem>AttributeFilter</ListItem>
+		<ListItem>IteratorFilter</ListItem>
+		<ListItem>SortBy</ListItem>
+		<ListItem>SortOrder</ListItem>
+		<ListItem>proxy</ListItem>
+		<ListItem>proxyUsername</ListItem>
+		<ListItem>proxyPassword</ListItem>
+		<ListItem>Tenant</ListItem>
+		<ListItem>characterSet</ListItem>
+                <ListItem>$GLOBAL.debug</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>ServerURL</ListItem>
+                <ListItem>Endpoint</ListItem>
+                <ListItem>Username</ListItem>
+                <ListItem>Password</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="title">Connector.Title</parameter>
+        <TranslationFile>NLS/idi_conn_scim</TranslationFile>
+    </Form>
+  </Folder>
+</MetamergeConfig>

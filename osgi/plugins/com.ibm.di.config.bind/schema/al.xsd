@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+
+
+
+
+
+	<include schemaLocation="base.xsd"></include>
+
+	<include schemaLocation="hook.xsd"></include>
+
+	<include schemaLocation="connector.xsd"></include>
+	<include schemaLocation="function.xsd"></include>
+	<include schemaLocation="parser.xsd"></include>
+	<include schemaLocation="script.xsd"></include>
+	<include schemaLocation="attr-map.xsd"></include>
+	<include schemaLocation="flow.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+	<include schemaLocation="log.xsd"></include>
+	<element name="assemblyLine" type="tns:AssemblyLineBinding"
+		substitutionGroup="tns:config">
+	</element>
+
+	<complexType name="AssemblyLineBinding">
+		<annotation>
+			<documentation>
+				This is the AssemblyLine config object.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:NamedBinding">
+
+				<sequence>
+					<element name="settings" type="tns:ParametersBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="hooks" type="tns:HooksBinding" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="sandbox" type="tns:ALSandboxBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="simulation" type="tns:ALSimulationBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="logging" type="tns:LogBinding" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="threading" type="tns:ParametersBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="operations" type="tns:ALOperationsBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="initParams" type="tns:ALInitParamsBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="null" type="tns:NullBinding" maxOccurs="1"
+						minOccurs="0">
+					</element>
+
+					<element name="container" type="tns:ALComponentsBinding"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
+	<complexType name="ALSimulationBinding">
+		<annotation>
+			<documentation>
+				Contains the configuration of the Simulation aspect of
+				the AL.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="proxy" type="tns:ProxyALBinding" maxOccurs="1"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ALOperationsBinding">
+		<annotation>
+			<documentation>
+				Contains the configuration of the Operations aspect of
+				the AL
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="operation" type="tns:ALOperationBinding"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ALOperationBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+				<sequence>
+					<element name="schema" type="tns:SchemaBinding" maxOccurs="unbounded"
+						minOccurs="0">
+					</element>
+
+
+					<element name="attributeMap" type="tns:AttributeMapBinding"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+
+
+
+
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
+	<complexType name="ALInitParamsBinding">
+		<annotation>
+			<documentation>
+				Contains the configuration of the Initialization
+				aspect
+				of the AL
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="schema" type="tns:SchemaBinding" maxOccurs="1"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ALSandboxBinding">
+		<attribute name="identifier" type="string"></attribute>
+	</complexType>
+
+	<complexType name="ProxyALBinding">
+		<attribute name="server" type="string" use="optional"></attribute>
+		<attribute name="configInstance" type="string" use="optional"></attribute>
+		<attribute name="assemblyLine" type="string" use="required"></attribute>
+		<attribute name="mode" use="optional" default="Sync"
+			type="tns:ProxyALModeEnum">
+
+		</attribute>
+		<attribute name="debug" type="boolean" use="optional"
+			default="false"></attribute>
+	</complexType>
+	<simpleType name="ProxyALModeEnum">
+		<restriction base="string">
+			<enumeration value="Sync"></enumeration>
+			<enumeration value="Async"></enumeration>
+			<enumeration value="Manual"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>

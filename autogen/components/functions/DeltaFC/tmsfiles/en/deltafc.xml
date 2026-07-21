@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="deltafc" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIZ901E" prefix="yes">
+   <MsgText pgmKey="DELTAFC.KEY.ATTRIB.NOTDEFINED" varFormat="Java">
+   Delta key attribute not defined.
+   </MsgText>
+   <Explanation> <p>
+   In order for the Delta mechanism to be able to uniquely identify each entry,
+   a unique attribute must be specified to use as the Delta key.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the Delta configuration.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIZ902E" prefix="yes">
+   <MsgText pgmKey="DELTAFC.INVALID.PERFORM.PARAMETER.TYPE" varFormat="Java">
+   The perform method of the Function Component was not passed an object of
+   type com.ibm.di.entry.Entry. This object is not a valid parameter to pass
+   to the perform method.
+   </MsgText>
+   <Explanation> <p>
+   A parameter of type different from com.ibm.di.entry.Entry was passed to the
+   perform method.
+   </p> </Explanation>
+   <OperatorResponse> <p> 
+   Verify that the parameter being manually passed to the perform method
+   of a Function Component (for example from a Script Component) is an
+   object of type com.ibm.di.entry.Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIZ903E" prefix="yes">
+   <MsgText pgmKey="DELTAFC.DUPLICATE.DELTA.KEY" varFormat="Java">
+   DELTA: Duplicate delta key:  <Variable formatSpec="{0}">key value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The sequence id of the entry with the specified key is not consistent with the
+   sequence id for the Delta Table from the Delta Systable.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the Delta Store is not corrupted and if the problem persists contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIZ904I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.NEW.ENTRY.KEY" varFormat="Java">
+   DELTA: new entry, key = <Variable formatSpec="{0}">key value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ905I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.MODIFIED.ENTRY.KEY" varFormat="Java">
+   DELTA: modified entry, key = <Variable formatSpec="{0}">key value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ906I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.NO.CHANGES.KEY" varFormat="Java">
+   DELTA: No changes, key = <Variable formatSpec="{0}">key value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ907I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.SKIPPING.UNCHANGED.ENTRY" varFormat="Java">
+   DELTA: skip next unchanged entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ908I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.BEGIN.ITERATION.OF.DELETED.ENTRIES" varFormat="Java">
+   DELTA: Iterating through deleted entries.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ909I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.GET.NEXT.DELETED.ENTRY" varFormat="Java">
+   DELTA: get next deleted entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ910I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.REMOVE.DELETED.ENTRY" varFormat="Java">
+   DELTA: Remove deleted entry, key = <Variable formatSpec="{0}">key value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ911W" prefix="yes">
+   <MsgText pgmKey="DELTAFC.ENTRY.WITH.MANY.VALUES.FOR.KEY.ATTRIBUTE" varFormat="Java">
+   DELTA: The Key Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   contains more than one value. <Variable formatSpec="{1}">Number of values</Variable> values were found.
+   </MsgText>
+   <Explanation> <p>
+   A key Attribute should contain only one value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the key Attribute(s) contain only one value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIZ912I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.ENTRY.WITHOUT.VALUE.FOR.KEY.ATTRIBUTE" varFormat="Java">
+   DELTA: Entry without value for key attribute = <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ913W" prefix="no">
+   <MsgText pgmKey="DELTAFC.DELETE.DELTA.TABLE.PROMPT" varFormat="Java">
+   Delete table <Variable formatSpec="{0}">table name</Variable>?
+   </MsgText>
+   <Explanation> <p>
+   The delete operation will delete the delta table and commit the change. The
+   operation is permanent and there is no possible rollback of this transaction.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Confirm if the delta table is to be deleted and proceed with the operation.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIZ914I" prefix="no">
+   <MsgText pgmKey="DELTAFC.TABLE.DELETED" varFormat="Java">
+   Table <Variable formatSpec="{0}">table name</Variable> deleted.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ915I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.USING.DERBY.DELTA" varFormat="Java">
+    Using Derby Delta: tableName=<Variable formatSpec="{0}">table name</Variable>,
+    database=<Variable formatSpec="{1}">database URL</Variable>.
+   </MsgText>
+  <NoHelp/>
+</Message>
+
+<Message ID="CTGDIZ916I" prefix="yes">
+   <MsgText pgmKey="DELTAFC.USING.KEY" varFormat="Java">
+   Delta component using unique key <Variable formatSpec="{0}">key name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

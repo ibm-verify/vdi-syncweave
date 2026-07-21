@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="88925902-856a-4a69-bc2c-476a325dc012" created="Wed Oct 16 09:46:42 CEST 2013" createdBy="Administrator" main="SyslogServerConnector" modified="Mon Jan 13 11:12:11 CET 2014" modifiedBy="Administrator" project="LogManagement" version="7.1.1">
+    <Connector name="SyslogServerConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1389607931375</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1389607931375</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="d8f4bedd-a8df-4fd5-9a7d-554a9eb5fa8f" created="Tue Mar 12 15:48:35 CET 2013" createdBy="Administrator" main="Form" modified="Mon Jan 13 11:12:11 CET 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1389607927572</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>keepGlobalState</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>includePrologs</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>port</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="port">
+            <ModTime>1363099751359</ModTime>
+            <parameter name="label">Port</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>port</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <FormSection name="port"/>
+        <parameter name="title">Syslog Server Connector</parameter>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[//
+// Syslogd POC connector. This connector creates a UDP socket
+//
+
+debug = true
+
+// syslogd messages are sent on port 514 by default
+socket = null;
+
+// datagram packet
+packet = null;
+
+// severity codes
+severity = [
+	"0 Emergency: system is unusable",
+	"1 Alert: action must be taken immediately",
+	"2 Critical: critical conditions",
+	"3 Error: error conditions",
+	"4 Warning: warning conditions",
+	"5 Notice: normal but significant condition",
+	"6 Informational: informational messages",
+	"7 Debug: debug-level messages",
+];
+
+// facility codes
+facility = [
+	"0 kernel",
+	"1 user",
+	"2 mail",
+	"3 system daemons",
+	"4 security/authorization",
+	"5 internal syslogd",
+	"6 line printer subsystem",
+	"7 network news subsystem",
+	"8 UUCP subsystem",
+	"9 clock daemon",
+	"10 security/authorization messages",
+	"11 FTP daemon",
+	"12 NTP subsystem",
+	"13 log audit (note 1)",
+	"14 log alert (note 1)",
+	"15 clock daemon (note 2)",
+	"16 local0",
+	"17 local1",
+	"18 local2",
+	"19 local3",
+	"20 local4",
+	"21 local5",
+	"22 local6",
+	"23 local7",
+];
+
+function logmsg(msg) {
+	if (debug)
+		java.lang.System.out.println(msg)
+	try {
+		task.logmsg(msg)
+	} catch (ex) {
+		main.logmsg(msg)
+	}	
+}
+
+function getPort() {
+	var str = connector.getParam("port")
+	var port = 0
+	try {
+		port = java.lang.Integer.parseInt(str)
+	} catch (ex) {
+		port = 9514
+	}
+	return port
+}
+
+function selectEntries() {
+	var port = getPort()
+	logmsg("Listening to port " + port)
+	socket = new java.net.DatagramSocket(port);
+	
+	var buf = new java.io.ByteArrayOutputStream();
+	for(i = 0; i< 4096; i++)
+		buf.write(0);
+		
+	packet = java.net.DatagramPacket(buf.toByteArray(), buf.size());
+}
+
+function getNextEntry () {
+	
+	// Read next UDP packet
+	socket.receive(packet);
+	
+	// Create a string from the bytes received
+	var str = new java.lang.String(packet.getData(), 0, packet.getLength());
+	
+	// Add the packet and the entire string read for good measure
+	entry.setAttribute("rawstring", str);
+	entry.setAttribute("packet", packet);
+
+	// Parse syslog entry:
+	//
+	//	<PRI><TIME-STAMP><HOSTNAME><MSG>
+	//
+	// 	<27>Jul 27 00:30:13 Shelob newsyslog[24155]: logfile turned over
+	//
+	//
+	
+	var index = str.indexOf(">");
+	if(index != -1) {
+		// Facility and severity (facility (5bits)  + severity(3bits) = priority code)
+		var pri = str.substring(1, index);
+		var fac = pri >> 3;
+		var sev = pri & 7;
+		entry.setAttribute("severity", severity[sev]);
+		entry.setAttribute("facility", facility[fac]);
+		
+		// Timestamp (fixed format: Mmm Dd hh:mm:ss)
+		var pos = new java.text.ParsePosition(index+1);
+		var tsd = new java.text.SimpleDateFormat("MMMM d HH:mm:ss").parse(str, pos);
+		entry.setAttribute("timestamp", tsd);
+		
+		// Hostname
+		str = str.substring(pos.getIndex()).trim();
+		index = str.indexOf(" ");
+		entry.setAttribute("host", str.substring(0, index));
+		
+		// Message
+		entry.setAttribute("message", str.substring(index+1));
+	}
+	
+}
+
+function querySchema() {
+	var fields = ["rawstring", "packet", "host", "message", "severity", "facility"];
+	for(f in fields) {
+		var e = new com.ibm.di.entry.Entry();
+		e.addAttributeValue("name", fields[f]);
+		list.add(e);
+	}		
+	result.setStatus (1);
+}
+
+function terminate() {
+	if(socket != null) {
+		socket.close();
+		socket = null;
+	}
+}
+]]></parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

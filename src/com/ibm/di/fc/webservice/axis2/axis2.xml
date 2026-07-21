@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Minimal Axis2 configuration for Axis2 1.8.2
+  ~ This configuration excludes the local transport which was removed in 1.8.2
+  -->
+<axisconfig name="AxisJava2.0">
+    
+    <!-- ================================================= -->
+    <!-- Parameters -->
+    <!-- ================================================= -->
+    <parameter name="hotdeployment">false</parameter>
+    <parameter name="hotupdate">false</parameter>
+    <parameter name="enableMTOM">false</parameter>
+    <parameter name="enableSwA">false</parameter>
+    
+    <!-- ================================================= -->
+    <!-- Transport Outs -->
+    <!-- ================================================= -->
+    
+    <!-- HTTP Transport Sender -->
+    <transportSender name="http" class="org.apache.axis2.transport.http.impl.httpclient4.HTTPClient4TransportSender">
+        <parameter name="PROTOCOL">HTTP/1.1</parameter>
+        <parameter name="Transfer-Encoding">chunked</parameter>
+        <parameter name="SO_TIMEOUT">60000</parameter>
+        <parameter name="CONNECTION_TIMEOUT">60000</parameter>
+    </transportSender>
+    
+    <!-- HTTPS Transport Sender -->
+    <transportSender name="https" class="org.apache.axis2.transport.http.impl.httpclient4.HTTPClient4TransportSender">
+        <parameter name="PROTOCOL">HTTP/1.1</parameter>
+        <parameter name="Transfer-Encoding">chunked</parameter>
+        <parameter name="SO_TIMEOUT">60000</parameter>
+        <parameter name="CONNECTION_TIMEOUT">60000</parameter>
+    </transportSender>
+    
+    <!-- ================================================= -->
+    <!-- Phases -->
+    <!-- ================================================= -->
+    <phaseOrder type="InFlow">
+        <phase name="Transport"/>
+        <phase name="Addressing"/>
+        <phase name="Security"/>
+        <phase name="PreDispatch"/>
+        <phase name="Dispatch"/>
+        <phase name="RMPhase"/>
+        <phase name="OpPhase"/>
+        <phase name="OperationInPhase"/>
+    </phaseOrder>
+    
+    <phaseOrder type="OutFlow">
+        <phase name="OperationOutPhase"/>
+        <phase name="RMPhase"/>
+        <phase name="OpPhase"/>
+        <phase name="PolicyDetermination"/>
+        <phase name="MessageOut"/>
+        <phase name="Security"/>
+    </phaseOrder>
+    
+    <phaseOrder type="InFaultFlow">
+        <phase name="Transport"/>
+        <phase name="Addressing"/>
+        <phase name="Security"/>
+        <phase name="PreDispatch"/>
+        <phase name="Dispatch"/>
+        <phase name="RMPhase"/>
+        <phase name="OpPhase"/>
+        <phase name="OperationInFaultPhase"/>
+    </phaseOrder>
+    
+    <phaseOrder type="OutFaultFlow">
+        <phase name="OperationOutFaultPhase"/>
+        <phase name="RMPhase"/>
+        <phase name="OpPhase"/>
+        <phase name="PolicyDetermination"/>
+        <phase name="MessageOut"/>
+        <phase name="Security"/>
+    </phaseOrder>
+    
+</axisconfig>

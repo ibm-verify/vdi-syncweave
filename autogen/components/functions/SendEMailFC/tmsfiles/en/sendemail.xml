@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="sendemail" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIF001E" prefix="yes">
+   <MsgText pgmKey="INVALID.PERFORM.PARAMETER.TYPE" varFormat="Java">
+   The perform method of the Function Component was not passed an object
+   of type com.ibm.di.entry.Entry. This object is not a valid parameter
+   to pass to perform method.
+   </MsgText>
+   <Explanation> <p>
+   A parameter of type different from com.ibm.di.entry.Entry was passes to the
+   perform method.
+   </p> </Explanation>
+   <OperatorResponse> <p> 
+   Verify that the parameter being manually passed to the perform method
+   of Function Component (for example from a Script Component) is an
+   object of type com.ibm.di.entry.Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIF002E" prefix="yes">
+   <MsgText pgmKey="ENTRY.ATTRIBUTE.NOT.PRESENT" varFormat="Java">
+   The Entry Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   is not present in the Entry.
+   </MsgText>
+   <Explanation> <p>
+   The required Entry Attribute is not present in the IBM Security Verify Directory Integrator Entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verfiy the specified Entry Attribute is properly
+   mapped to the connection Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIF003E" prefix="yes">
+   <MsgText pgmKey="REQUIRED.PARAMETER.NOT.SET" varFormat="Java">
+   The required Function Component parameter &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos;
+   is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified required Function Component parameter is not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the specified Function Component parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIF004E" prefix="yes">
+   <MsgText pgmKey="NO.PARAMETER.OR.ATTRIBUTE" varFormat="Java">
+   The following Function Component parameter was not set or its
+   corresponding Entry Attribute was not mapped:
+   &apos;&apos;<Variable formatSpec="{0}">parameter name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the specified Function Component parameter
+   or make sure the corresponding Entry Attribute is mapped.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIF005I" prefix="yes">
+   <MsgText pgmKey="COMPONENT.PARAMETER.INITIALIZED" varFormat="Java">
+   The parameter <Variable formatSpec="{0}">parameter name</Variable> was initialized with the value: 
+   &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

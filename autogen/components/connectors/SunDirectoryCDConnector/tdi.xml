@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.NetscapeChangelog">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.NetscapeChangelogConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="batchRetrieval">false</parameter>
+				<parameter name="deliveryMode">Changelog</parameter>
+				<parameter name="iteratorStateKey"/>
+				<parameter name="jndiExtraProviderParams"/>
+				<parameter name="ldapAuthenticationMethod">Simple</parameter>
+				<parameter name="ldapPassword"/>
+				<parameter name="ldapSearchBase">cn=changelog</parameter>
+				<parameter name="ldapUrl">ldap://localhost:389</parameter>
+				<parameter name="ldapUseSSL">false</parameter>
+				<parameter name="ldapUsername"/>
+				<parameter name="mergeMode">Return only changed data</parameter>
+				<parameter name="nsChangenumber">1</parameter>
+				<parameter name="nsSleepInterval">60</parameter>
+				<parameter name="nsTimeout">0</parameter>
+				<parameter name="stateKeyPersistence">End of cycle</parameter>
+				<parameter name="useNotifications">false</parameter>
+			</Configuration>
+			<Reconnect>
+				<ReconnectRules>
+					<Rule>
+						<parameter name="exceptionClass">javax.naming.ServiceUnavailableException</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+				</ReconnectRules>
+			</Reconnect>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.NetscapeChangelogConnector">
+			<TranslationFile>NLS/idi_conn_sundirectorycd</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>ldapUrl</ListItem>
+					<ListItem>ldapUsername</ListItem>
+					<ListItem>ldapPassword</ListItem>
+					<ListItem>iteratorStateKey</ListItem>
+					<ListItem>nsChangenumber</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ldapSearchBase</ListItem>
+					<ListItem>jndiExtraProviderParams</ListItem>
+					<ListItem>ldapAuthenticationMethod</ListItem>
+					<ListItem>ldapUseSSL</ListItem>
+					<ListItem>stateKeyPersistence</ListItem>
+					<ListItem>mergeMode</ListItem>
+					<ListItem>deliveryMode</ListItem>
+					<ListItem>useNotifications</ListItem>
+					<ListItem>batchRetrieval</ListItem>
+					<ListItem>nsTimeout</ListItem>
+					<ListItem>nsSleepInterval</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>ldapUrl</ListItem>
+				<ListItem>ldapUsername</ListItem>
+				<ListItem>ldapPassword</ListItem>
+				<ListItem>ldapAuthenticationMethod</ListItem>
+				<ListItem>ldapUseSSL</ListItem>
+				<ListItem>ldapSearchBase</ListItem>
+				<ListItem>jndiExtraProviderParams</ListItem>
+				<ListItem>iteratorStateKey</ListItem>
+				<ListItem>nsChangenumber</ListItem>
+				<ListItem>stateKeyPersistence</ListItem>
+				<ListItem>mergeMode</ListItem>
+				<ListItem>deliveryMode</ListItem>
+				<ListItem>useNotifications</ListItem>
+				<ListItem>batchRetrieval</ListItem>
+				<ListItem>nsTimeout</ListItem>
+				<ListItem>nsSleepInterval</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="batchRetrieval">
+				<parameter name="description">BATCH_DESC</parameter>
+				<parameter name="label">BATCH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="deliveryMode">
+				<Values>
+					<ListItem>Changelog</ListItem>
+					<ListItem>Realtime</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Changelog</Key>
+						<Value>Localized.Changelog</Value>
+					</Item>
+					<Item>
+						<Key>Realtime</Key>
+						<Value>Localized.Realtime</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">DELIVERY_MODE_DESC</parameter>
+				<parameter name="label">DELIVERY_MODE_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="iteratorStateKey">
+				<parameter name="description">STATE_KEY_DESC</parameter>
+				<parameter name="label">STATE_KEY_LBL</parameter>
+				<parameter name="script">deleteIteratorStateKey</parameter>
+				<parameter name="scriptLabel">STATE_KEY_BTN_LBL</parameter>
+				<parameter name="scripthelp">STATE_KEY_BTN_HLP</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jndiExtraProviderParams">
+				<parameter name="description">EXTRA_PARAMS_DESC</parameter>
+				<parameter name="label">EXTRA_PARAMS_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="ldapAuthenticationMethod">
+				<Values>
+					<ListItem>Anonymous</ListItem>
+					<ListItem>Simple</ListItem>
+					<ListItem>CRAM-MD5</ListItem>
+					<ListItem>SASL</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Anonymous</Key>
+						<Value>Localized.Anonymous</Value>
+					</Item>
+					<Item>
+						<Key>CRAM-MD5</Key>
+						<Value>Localized.CRAM-MD5</Value>
+					</Item>
+					<Item>
+						<Key>SASL</Key>
+						<Value>Localized.SASL</Value>
+					</Item>
+					<Item>
+						<Key>Simple</Key>
+						<Value>Localized.Simple</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">AUTH_METHOD_DESC</parameter>
+				<parameter name="label">AUTH_METHOD_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="ldapPassword">
+				<parameter name="description">PASS_DESC</parameter>
+				<parameter name="label">PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="ldapSearchBase">
+				<parameter name="default"/>
+				<parameter name="description">SEARCH_BASE_DESC</parameter>
+				<parameter name="label">SEARCH_BASE_LBL</parameter>
+				<parameter name="script">selectLDAPSearchBase</parameter>
+				<parameter name="scriptLabel">EVT_BASE_BTN_LBL</parameter>
+				<parameter name="scripthelp">EVT_BASE_BTN_HLP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ldapUrl">
+				<parameter name="description">LDAPURL_DESC</parameter>
+				<parameter name="label">LDAPURL_LBL</parameter>
+				<parameter name="syntax">URL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ldapUseSSL">
+				<parameter name="description">SSL_DESC</parameter>
+				<parameter name="label">SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="ldapUsername">
+				<parameter name="description">USERNAME_DESC</parameter>
+				<parameter name="label">USERNAME_LBL</parameter>
+				<parameter name="syntax">DN</parameter>
+			</FormItem>
+			<FormItem name="mergeMode">
+				<Values>
+					<ListItem>Merge changelog and changed data</ListItem>
+					<ListItem>Return only changed data</ListItem>
+					<ListItem>Return both</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Merge changelog and changed data</Key>
+						<Value>Localized.DefaultMerge</Value>
+					</Item>
+					<Item>
+						<Key>Return both</Key>
+						<Value>Localized.BothSeparated</Value>
+					</Item>
+					<Item>
+						<Key>Return only changed data</Key>
+						<Value>Localized.OnlyChanges</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">MERGE_MODE_DESC</parameter>
+				<parameter name="label">MERGE_MODE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="nsChangenumber">
+				<Values>
+					<ListItem>EOD</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>EOD</Key>
+						<Value>Localized.EOD</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">CNUMBER_DESC</parameter>
+				<parameter name="label">CNUMBER_LBL</parameter>
+				<parameter name="script">getLastNSChangeNumber</parameter>
+				<parameter name="scriptLabel">CNUMBER_BTN_LBL</parameter>
+				<parameter name="scripthelp">CNUMBER_BTN_HLP</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="nsSleepInterval">
+				<parameter name="description">SLEEP_INTERVAL_DESC</parameter>
+				<parameter name="label">SLEEP_INTERVAL_LBL</parameter>
+			</FormItem>
+			<FormItem name="nsTimeout">
+				<parameter name="description">TIMEOUT_DESC</parameter>
+				<parameter name="label">TIMEOUT_LBL</parameter>
+			</FormItem>
+			<FormItem name="stateKeyPersistence">
+				<Values>
+					<ListItem>After read</ListItem>
+					<ListItem>End of cycle</ListItem>
+					<ListItem>Manual</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After read</Key>
+						<Value>Localized.After.read</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">STATE_KEY_PERSIST_DESC</parameter>
+				<parameter name="label">STATE_KEY_PERSIST_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<FormItem name="useNotifications">
+				<parameter name="description">USE_NOTIFICATIONS_DESC</parameter>
+				<parameter name="label">USE_NOTIFICATIONS_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+var configObj = form.getConfigObject();
+
+if (!configObj.hasParameter("mergeMode")){
+	if(configObj.getMetamergeConfig().getConfigVersion().compareTo("7.0") < 0) {
+		form.setConfig("mergeMode", "Merge changelog and changed data");
+		form.updateControl("mergeMode");
+	}
+}
+
+function nsSleepInterval_focusout() {
+	checkMinMax("nsSleepInterval",  "nsTimeout", true);
+}
+function nsTimeout_focusout() {
+	checkMinMax("nsSleepInterval",  "nsTimeout", false);
+}
+function checkMinMax(p1, p2, mm) {
+	min = 0;
+	max = 0;
+	try {
+		min = java.lang.Integer.parseInt(form.getConfig(p1));
+	} catch(ign) {}
+	try {
+		max = java.lang.Integer.parseInt(form.getConfig(p2));
+	} catch(ign) {}
+	
+	if(min > max && max > 0) {
+		if(mm) {
+			form.setConfig(p2, form.getConfig(p1));
+			form.updateControl(p2);
+		} else {
+			form.setConfig(p1, form.getConfig(p2));
+			form.updateControl(p1);
+		}
+	}
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

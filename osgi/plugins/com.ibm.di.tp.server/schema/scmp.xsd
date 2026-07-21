@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema targetNamespace="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Base type for all SCMP resources -->
+    <xsd:complexType name="base-resource">
+    </xsd:complexType>
+
+	<!-- Base type for all SCMP server resources -->
+    <xsd:complexType name="server-resource">
+        <xsd:complexContent>
+            <xsd:extension base="tns:base-resource"> 
+                <xsd:sequence maxOccurs="unbounded">
+		            <xsd:element name="organization" type="xsd:string" minOccurs="0" maxOccurs="1">
+        		        <xsd:annotation>
+                		    <xsd:appinfo>
+                        		<scmp:display>Organization</scmp:display>
+		                        <scmp:summary>Organization Identifier</scmp:summary>
+        		                <scmp:description>Optional organization information.</scmp:description>
+                		    </xsd:appinfo>
+		                </xsd:annotation>
+		            </xsd:element>
+        		    <xsd:element name="location" type="xsd:string" minOccurs="0" maxOccurs="1">
+                		<xsd:annotation>
+                    		<xsd:appinfo>
+                        		<scmp:display>Location</scmp:display>
+                        		<scmp:summary>Location Identifier</scmp:summary>
+                        		<scmp:description>Optional location information.</scmp:description>
+                    		</xsd:appinfo>
+		                </xsd:annotation>
+        		    </xsd:element>
+		            <xsd:element name="contact" type="xsd:string" minOccurs="0" maxOccurs="1">
+        		        <xsd:annotation>
+                		    <xsd:appinfo>
+                        		<scmp:display>Contact</scmp:display>
+		                        <scmp:summary>Responsible Contact</scmp:summary>
+        		                <scmp:description>An optional contact person.</scmp:description>
+                		    </xsd:appinfo>
+		                </xsd:annotation>
+            		</xsd:element>
+        		</xsd:sequence>
+                    
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+	<!-- Common types for messages -->
+	<xsd:simpleType name='type_CommonMsgID'>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value='0x[0-9a-fA-F]+'/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name='type_NativeMsgID'>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value='0x[0-9a-fA-F]+'/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	<!-- Elements for use in xsd:appinfo metadata to describe SCMP artifacts -->
+	<xsd:element name="display" type="xsd:string"/>
+	<xsd:element name="summary" type="xsd:string"/>
+	<xsd:element name="description" type="xsd:string"/>
+	
+	<!-- Error document format -->
+	
+
+
+	<xsd:complexType name="type_error">
+		<xsd:sequence>
+			<xsd:element name="creation-time" type="xsd:dateTime"
+				maxOccurs="1" minOccurs="1">
+                <xsd:annotation>
+                	<xsd:documentation>Timestamp for the error</xsd:documentation>
+                </xsd:annotation>
+			</xsd:element>
+			<xsd:element name="code" maxOccurs="1" minOccurs="1">
+                <xsd:annotation>
+                	<xsd:documentation>Six digit code that defines the error</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[0-9]{6}" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="details" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                	<xsd:documentation>Zero or more name/value pairs containing specific details of the error.  The number of details, their names and interpretation are defined for each error code.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="detail" minOccurs="1" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="name"
+										type="xsd:string" minOccurs="1" maxOccurs="1" />
+									<xsd:element name="value"
+										type="xsd:string" minOccurs="1" maxOccurs="1" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="native-msgid" type="xsd:string"
+				maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                	<xsd:documentation>The servers native message ID for the error, if applicable. </xsd:documentation>
+                </xsd:annotation>
+			</xsd:element>
+			<xsd:element name="summary" type="xsd:string" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>A human-readable description of the problem, if available.</xsd:documentation>
+				</xsd:annotation></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

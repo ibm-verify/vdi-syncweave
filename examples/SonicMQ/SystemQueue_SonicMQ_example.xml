@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Thu Jun 29 14:13:54 EEST 2006" createdBy="deyan.popov" modified="Thu Jun 29 14:14:03 EEST 2006" modifiedBy="deyan.popov" version="1.2">
+<Folder name="AssemblyLines">
+<AssemblyLine name="add_to_systemqueue">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="addToSQ">
+<InheritFrom>system:/Connectors/ibmdi.SystemQueueConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="queueName">SampleQ1</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>label</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = "This is a test SystemQueue message.";</Script>
+<Simple>label</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>mytimestamp</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = new java.util.Date().toString();</Script>
+<Simple>mytimestamp</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+<AssemblyLine name="read_from_systemqueue">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">true</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="readFromSQ">
+<InheritFrom>system:/Connectors/ibmdi.SystemQueueConnector</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="queueName">SampleQ1</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer"/>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

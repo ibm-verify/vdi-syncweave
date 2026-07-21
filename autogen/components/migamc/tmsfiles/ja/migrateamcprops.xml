@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="migrateamcprops" tmsVersion="1.0" xml:lang="ja">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDKM301I" prefix="yes">
+   <MsgText pgmKey="COMMAND.START.MIGRATION" varFormat="Java">
+   ファイルのマイグレーションを開始します...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM302I" prefix="yes">
+   <MsgText pgmKey="COMMAND.PARSING.OPTIONS" varFormat="Java">
+   オプションを解析しています...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM303E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+<Variable formatSpec="{0}">operator switch</Variable> オプションが複数回指定されています。
+   </MsgText>
+   <Explanation> <p>
+tdimigamc コマンドの呼び出し時に、同じパラメーターが複数回渡されました。
+オプションは 1 回のみ渡すことができます。例えば、ユーザーが「-b」オプションを 2 回渡す操作は許可されません。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+各オプションを 1 回のみ渡してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM304E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+<Variable formatSpec="{0}">option name</Variable> オプションに値が指定されていません。
+   </MsgText>
+   <Explanation> <p>
+tdimigamc コマンドの呼び出し時に渡されたオプションに、値が指定されていませんでした。
+値も必要です。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+tdimigamc コマンドの使用法を調べ、正しいオプションと関連値を指定して tdisrvctl コマンドを再度呼び出してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM305E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+コマンドの使用法が誤っています。
+   </MsgText>
+   <Explanation> <p>
+tdimigamc コマンドの呼び出し時にサポートされていないコマンド行オプションが渡されたか、予期しない引数リストの終わりが検出されたか、またはコマンド行オプションの使用法が誤っています。
+
+   </p> </Explanation>
+   <OperatorResponse> <p>
+tdimigamc コマンドの使用法を調べ、有効な引数を指定して tdisrvctl コマンドを呼び出してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM306E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+不明なオプション <Variable formatSpec="{0}">operator switch</Variable> が検出されました。
+   </MsgText>
+   <Explanation> <p>
+tdimigamc コマンドの呼び出し時に、不明なオプションが指定されていました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+tdimigamc コマンドの使用法を確認してから、許可されているオプションのみを指定してこのコマンドを呼び出してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM307E" prefix="yes">
+   <MsgText pgmKey="FILE_OPTION_ABSENT" varFormat="Java">
+<Variable formatSpec="{0}">operator switch</Variable> オプションが指定されていませんでした。これは必須オプションです。
+   </MsgText>
+   <Explanation> <p>
+tdimigamc コマンドの呼び出し時に、-op オプションが指定されていませんでした。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+tdimigamc コマンドの使用法を確認してから、必須オプションを正しく指定してこのコマンドを呼び出してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM308I" prefix="yes">
+   <MsgText pgmKey="COMMAND.GENERAL.OPTIONS" varFormat="Java">
+   解析されたオプション: <Variable formatSpec="{0}">options</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM309E" prefix="yes">
+   <MsgText pgmKey="ERROR_WHILE_INITIALIZING_MIGRATION" varFormat="Java">
+   XML プロパティー・ファイルの読み取り中にエラー <Variable formatSpec="{0}">error</Variable> が発生しました。
+   </MsgText>
+   <Explanation> <p>
+   XML プロパティー・ファイルのロード中にエラーが発生しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+       追加情報についてはログを参照してください。
+migamc.jar ファイルがこのクラスパスにあることを確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM310E" prefix="yes">
+   <MsgText pgmKey="FILE_NOREAD_NOEXIST" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> をマイグレーションできませんでした。ファイルが存在していないか、または読み取ることができません。
+   </MsgText>
+   <Explanation> <p>
+   マイグレーションするファイルが存在しないか、読み取ることができなかったため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   マイグレーション対象として指定したファイルが存在すること、およびそれが読み書き可能なファイルであることを確認してください。ユーザーにバックアップ・ファイル・ロケーションの読み取り許可があることも確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM311E" prefix="yes">
+   <MsgText pgmKey="NOT_A_FILE" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> をマイグレーションできませんでした。指定されたファイルは、ファイルではありません。
+   </MsgText>
+   <Explanation> <p>
+   マイグレーション対象として指定されたファイルがファイルではなかったため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   マイグレーション対象として指定したファイルが存在すること、およびそれが読み書き可能なファイルであることを確認してください。ユーザーにバックアップ・ファイル・ロケーションの読み取り許可があることも確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM312E" prefix="yes">
+   <MsgText pgmKey="FILE_NOWRITE" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> をマイグレーションできませんでした。指定されたファイルは、書き込むことができません。
+   </MsgText>
+   <Explanation> <p>
+   ファイルに書き込むことができなかったため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   マイグレーション対象として指定したファイルが存在すること、およびそれが読み書き可能なファイルであることを確認してください。ユーザーにバックアップ・ファイル・ロケーションの読み取り許可があることも確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM313E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> をマイグレーションできませんでした。バックアップ・ファイルのファイル名をこのファイル名と同じ名前にすることはできません。
+   </MsgText>
+   <Explanation> <p>
+   マイグレーションするファイルとバックアップするファイルが同じであるため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   マイグレーションするファイルおよびバックアップ・ファイルには別々のファイル名を指定してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM314E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME2" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> をマイグレーションできませんでした。バックアップ・ファイルのファイル名を新規ファイルと同じ名前にすることはできません。
+   </MsgText>
+   <Explanation> <p>
+   新規ファイル名とバックアップするファイルが同じであるため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   バックアップするファイルおよび新規ファイルには別々のファイル名を指定してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM315E" prefix="yes">
+   <MsgText pgmKey="UNABLE_BACKUP_FILE" varFormat="Java">
+   マイグレーションを実行できませんでした。ファイル <Variable formatSpec="{0}">file name</Variable> を <Variable formatSpec="{1}">file name</Variable> にバックアップできませんでした。
+   </MsgText>
+   <Explanation> <p>
+   マイグレーションするファイルをバックアップできなかったため、マイグレーションは失敗しました。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   マイグレーション対象として指定したファイルが存在すること、およびそれが読み書き可能なファイルであることを確認してください。ユーザーにバックアップ・ファイル・ロケーションの読み取り許可があることも確認してください。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM316I" prefix="yes">
+   <MsgText pgmKey="ADDING_NEW_PROPERTIES" varFormat="Java">
+   新規プロパティーを追加しています...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM317I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_ADDING_NEW_PROPERTIES" varFormat="Java">
+   新規プロパティーの追加が完了しました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM318I" prefix="yes">
+   <MsgText pgmKey="STARTED_WITH_MODIFICATION" varFormat="Java">
+   新規値による旧プロパティーの変更および旧プロパティーのコメント化が開始されました....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM319I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_WITH_MODIFICATION" varFormat="Java">
+   新規値による旧プロパティーの変更および旧プロパティーのコメント化が完了しました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM320I" prefix="yes">
+   <MsgText pgmKey="COMMENTING_UNWANTED_PROPERTIES" varFormat="Java">
+   旧プロパティーのコメント化を開始しています....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM321I" prefix="yes">
+   <MsgText pgmKey="NUMBER_OF_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   コメント化される旧プロパティーの数は <Variable formatSpec="{0}">number of properties</Variable> です。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM322I" prefix="yes">
+   <MsgText pgmKey="NO_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   リリース <Variable formatSpec="{0}">release version</Variable> のために削除される旧プロパティーはありません。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM323I" prefix="yes">
+   <MsgText pgmKey="NO_NEW_PROPERTIES_ADDED" varFormat="Java">
+   リリース <Variable formatSpec="{0}">release version</Variable> のために追加された新規プロパティーはありません。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM324I" prefix="yes">
+   <MsgText pgmKey="UPDATING_PROPERTIES" varFormat="Java">
+   プロパティーを更新しています....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM325I" prefix="yes">
+   <MsgText pgmKey="EXIT_CODE_OF_MIGRATION" varFormat="Java">
+   マイグレーションは完了し、終了コードは <Variable formatSpec="{0}">exit code</Variable> でした。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM326I" prefix="yes">
+   <MsgText pgmKey="FILE_DELETED" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> が正常に削除されました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM327I" prefix="yes">
+   <MsgText pgmKey="FAILED_TO_DELETE_FILE" varFormat="Java">
+   ファイル <Variable formatSpec="{0}">file name</Variable> の削除に失敗しました。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM328I" prefix="yes">
+   <MsgText pgmKey="INITIALIZING_MIGRATION_LOADING_PROPERTIES" varFormat="Java">
+   マイグレーションを初期化し、<Variable formatSpec="{0}">xml prop file</Variable> プロパティー・ファイルをロードしています。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM329I" prefix="yes">
+   <MsgText pgmKey="NO_PROPERTIES_TO_UPDATE" varFormat="Java">
+   旧リリースから更新する必要があるプロパティーは新規リリースにはありません。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

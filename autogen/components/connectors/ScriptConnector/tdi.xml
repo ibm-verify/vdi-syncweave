@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sat Dec 08 15:58:13 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.ScriptConnector">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update,Delta,CallReply</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.ScriptConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="includePrologs"/>
+				<parameter name="keepGlobalState">true</parameter>
+				<parameter name="script"><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+	counter = 0;
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}
+
+function querySchema ()
+{
+	var e = new com.ibm.di.entry.Entry();
+	e.addAttributeValue("name","counter");
+	e.addAttributeValue("syntax","Number");
+	list.add(e);
+	result.setStatus (1);
+}
+]]></parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.ScriptConnector">
+			<TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.script</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>keepGlobalState</ListItem>
+					<ListItem>$GLOBAL.includeFiles</ListItem>
+					<ListItem>includePrologs</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>$GLOBAL.script</ListItem>
+				<ListItem>keepGlobalState</ListItem>
+				<ListItem>$GLOBAL.includeFiles</ListItem>
+				<ListItem>includePrologs</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.help</ListItem>
+			</FormItemNames>
+			<FormItem name="includePrologs">
+				<parameter name="description">pro_desc</parameter>
+				<parameter name="label">pro_label</parameter>
+				<parameter name="script">selectGlobalProlog</parameter>
+				<parameter name="scriptLabel">pro_script_label</parameter>
+				<parameter name="scripthelp">pro_script_help</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="keepGlobalState">
+				<parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+				<parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="taddmconnector" tmsVersion="1.0" xml:lang="it">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJN051I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.INITIALIZED" varFormat="Java">   
+   Il parametro &apos;<Variable formatSpec="{0}">nome parametro</Variable>&apos; è stato inizializzato con il valore: &apos;<Variable formatSpec="{1}">valore</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN052E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   Il parametro &apos;<Variable formatSpec="{0}">nome
+parametro</Variable>&apos; non è stato fornito.
+   </MsgText>
+   <Explanation><p>
+   Il parametro specificato è richiesto dal connettore TADDM e deve essere fornito.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un valore per questo parametro.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN053E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NEGATIVE.INTEGER.PARAMETER" varFormat="Java">
+   Il parametro &apos;<Variable formatSpec="{0}">nome param</Variable>&apos; accetta solo valori interi positivi.   
+   </MsgText>
+   <Explanation><p>
+   Questo parametro supporta solo valori interi positivi. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un valore intero positivo per questo parametro o lasciare il campo vuoto.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN054I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.COLLATION.HOME.SET" varFormat="Java">   
+   La directory home di raccolta è impostata su &apos;<Variable formatSpec="{0}">directory</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN055I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CONNECTING" varFormat="Java">   
+   Connessione a TADDM in corso...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN056I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.ID" varFormat="Java">   
+   Apertura di una sessione con l'ID sessione fornito: &apos;<Variable formatSpec="{0}">id sessione</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN057I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.CREDENTIALS" varFormat="Java">   
+   Apertura di una sessione con le credenziali fornite.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN058E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.SESSION.ID" varFormat="Java">
+   La stringa fornita &apos;<Variable formatSpec="{0}">id</Variable>&apos; non è un ID sessione valido.   
+   </MsgText>
+   <Explanation><p>
+   Solo numeri lunghi possono essere utilizzati come ID sessione TADDM. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un numero lungo valido per l'ID sessione.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN059I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.TADDM" varFormat="Java">   
+   Esecuzione della query di TADDM utilizzando la query MQL: <Variable formatSpec="{0}">query</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN060I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.ALL.ITEMS" varFormat="Java">   
+   Verrà eseguita la query di tutti gli elementi TADDM.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN061E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.ENTRY.PROVIDED" varFormat="Java">
+   Nessuna voce fornita.
+   </MsgText>
+   <Explanation><p>
+   È richiesta una voce valida.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire una voce valida.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN062E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.GUID.IN.ENTRY" varFormat="Java">
+   Nessun Guid trovato nella voce fornita.
+   </MsgText>
+   <Explanation><p>
+   Per eliminare un oggetto modello in TADDM, è necessario che il suo Guid sia noto.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verificare se l'attributo fornito contiene l'attributo di sistema Guid.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN063I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.ALL.OBJECTS.DELETED" varFormat="Java">   
+   Sono stati eliminati solo <Variable formatSpec="{0}">conteggio effettivo</Variable> oggetti su <Variable formatSpec="{1}">conteggio previsto</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN064E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.QUERYING.TADDM" varFormat="Java">
+   Si è verificato un errore durante l'esecuzione della query di TADDM. L'MQL utilizzato è: <Variable formatSpec="{0}">query</Variable>.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'esecuzione di questa operazione.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN065E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.FAILED" varFormat="Java">
+   L'operazione di eliminazione non è riuscita.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'eliminazione degli oggetti modello.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN066I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.OBJECTS" varFormat="Java">   
+   Eliminazione di <Variable formatSpec="{0}">conteggio</Variable> Guid.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN067E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.GUID" varFormat="Java">
+   Il Guid fornito &apos;<Variable formatSpec="{0}">guid</Variable>&apos; non è valido.
+   </MsgText>
+   <Explanation><p>
+   Si è verificato un errore durante l'analisi della stringa Guid fornita ad un Guid TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Controllare il Guid fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN068E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.FAILED" varFormat="Java">
+   L'operazione di aggiunta non è riuscita.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'aggiunta dell'oggetto modello fornito.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN069I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION" varFormat="Java">   
+   Aggiunta di un nuovo elemento a TADDM in corso...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN070I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION.SUCCESS" varFormat="Java">   
+   L'elemento è stato aggiunto correttamente. Il relativo Guid è <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN071E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERY.FAILED" varFormat="Java">
+   Fornire i valori per i parametri Tipo di classe e Profondità.
+   </MsgText>
+   <Explanation><p>
+   Gli utenti devono fornire questi parametri nella configurazione del connettore, per potere utilizzare la funzionalità dello schema di query.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire il parametro obbligatorio.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN072E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.NO.CLASS.TYPE" varFormat="Java">
+   Non è stato trovato alcun tipo di classe CDM nella query MQL fornita.
+   </MsgText>
+   <Explanation><p>
+   Ciascuna query MQL TADDM deve essere indirizzata ad uno o più tipi di elemento.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un tipo di classe nella query.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN073E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.INVALID.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   Non è stato trovato alcun tipo di classe dell'elemento correlato nel nome dell'attributo implicito.
+   </MsgText>
+   <Explanation><p>
+   I nomi degli attributi impliciti conformi a IdML sono formati da un tipo di relazione e da un tipo di classe correlato.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un tipo di classe correlato nella query.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN074I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   Acquisizione degli attributi del dominio per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN075I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   Impossibile acquisire gli attributi del dominio per l'elemento <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN076I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   Non è stato trovato alcun attributo del dominio per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN077I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   Acquisizione degli attributi MSS per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN078I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   Impossibile acquisire gli attributi MSS per l'elemento <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN079I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MSS.ATTRIBUTES" varFormat="Java">   
+   Non è stato trovato alcun attributo MSS per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN080I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLIC.ATTRIBUTE.DETECTED" varFormat="Java">   
+   L'elemento <Variable formatSpec="{0}">tipo</Variable> ha causato un ciclo. Pertanto, solo il relativo Guid <Variable formatSpec="{1}">guid</Variable>
+è stato aggiunto come <Variable formatSpec="{2}">nome attributo</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN081I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADDING.ATTRIBUTES.RECURSIVELY" varFormat="Java">   
+   Aggiunta ricorsiva di attributi di tipo <Variable formatSpec="{0}">tipo</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN082I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIPPING.ATTRIBUTE" varFormat="Java">   
+   L'elemento dal tipo <Variable formatSpec="{0}">tipo</Variable> con Guid <Variable formatSpec="{1}">guid</Variable> viene ignorato, perché non corrisponde ad alcuna delle regole di denominazione definite.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN083I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   Acquisizione degli attributi estesi per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN084I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   Non è stato trovato alcun attributo esteso per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN085I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   Impossibile acquisire gli attributi estesi per l'elemento <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN086I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXPLICITRELN.ATTRIBUTES" varFormat="Java">   
+   Acquisizione delle relazioni esplicite per l'elemento <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN087I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.FORWARD.EXPLICIT.RELNS" varFormat="Java">   
+   Sono state trovate <Variable formatSpec="{0}">conteggio</Variable> relazioni esplicite di inoltro dall'elemento <Variable formatSpec="{1}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN088I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.BACKWARD.EXPLICIT.RELNS" varFormat="Java">   
+   Sono state trovate <Variable formatSpec="{0}">conteggio</Variable> relazioni esplicite di inversione per l'elemento <Variable formatSpec="{1}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN089I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXPLICIT.RELNS" varFormat="Java">   
+   Impossibile acquisire le relazioni esplicite per l'elemento <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{0}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN090I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ALREADY.ADDED" varFormat="Java">   
+   La relazione esplicita <Variable formatSpec="{0}">tipo relazione</Variable> (Guid <Variable formatSpec="{1}">guid relazione</Variable>) con l'elemento <Variable formatSpec="{2}">guid</Variable> è già stata aggiunta.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN091I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ADDED.SUCCESSFULLY" varFormat="Java">   
+   La relazione esplicita <Variable formatSpec="{0}">tipo relazione</Variable> (Guid <Variable formatSpec="{1}">guid relazione</Variable>) con l'elemento <Variable formatSpec="{2}">guid</Variable> è stata aggiunta correttamente.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN092I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.RELATED.ITEM" varFormat="Java">   
+   Impossibile acquisire i dettagli per l'elemento correlato <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN093I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTE.METADATA" varFormat="Java">   
+   Impossibile acquisire i metadati per gli attributi estesi della classe <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN094E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.TADDM.CLASS.TYPE" varFormat="Java">
+   Tipo di classe TADDM sconosciuto: &apos;<Variable formatSpec="{0}">tipo</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   Il tipo di classe selezionato non è supportato da TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un tipo di classe differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN095E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   Impossibile acquisire il nome dell'attributo &apos;<Variable formatSpec="{0}">nome attributo</Variable>&apos; conforme a IdML dalla classe &apos;<Variable formatSpec="{1}">tipo di classe</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   Non vi sono sufficienti metadati per acquisire un nome conforme a IdML per questo attributo.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Questo attributo non è supportato in modalità IdML.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN096E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTES" varFormat="Java">
+   Errore durante il controllo degli attributi della classe &apos;<Variable formatSpec="{0}">tipo di classe</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante la verifica degli attributi della classe.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN097E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CDM.CLASS.TYPE" varFormat="Java">
+   Tipo di classe CDM sconosciuto: &apos;<Variable formatSpec="{0}">tipo</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   Il tipo di classe selezionato non è supportato da TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un tipo di classe differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN098E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.ATTRIBUTE.NAME" varFormat="Java">
+   Attributo non supportato &apos;<Variable formatSpec="{0}">nome attributo</Variable>&apos; per la classe &apos;<Variable formatSpec="{1}">tipo di classe</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   L'attributo selezionato non è supportato da TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un attributo differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN099E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IDML.ATTRIBUTE.NAME" varFormat="Java">
+   L'attributo &apos;<Variable formatSpec="{0}">nome attributo</Variable>&apos; non è supportato in modalità IdML.
+   </MsgText>
+   <Explanation><p>
+   Questo attributo non può essere utilizzato in modalità IdML.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un attributo differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN100E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IMPLICIT.ATTRIBUTE.NAME" varFormat="Java">
+   Non è stato trovato alcun attributo implicito corrispondente ai criteri forniti. Deve corrispondere ad una relazione &apos;<Variable formatSpec="{0}">tipo relazione</Variable>&apos; dal tipo di elemento &apos;<Variable formatSpec="{1}">tipo1</Variable>&apos; al tipo di elemento &apos;<Variable formatSpec="{2}">tipo2</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   Questo attributo non può essere utilizzato in modalità TADDM nativa.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un attributo differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN101I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">   
+   È stato fornito un attributo di sistema &apos;ciclo&apos; con valore &apos;<Variable formatSpec="{0}">valore</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN102I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CLASS.TYPE.OVERWRITTEN" varFormat="Java">   
+   Il tipo di classe Oggetto modello viene sovrascritto da &apos;<Variable formatSpec="{0}">tipo1</Variable>&apos; in &apos;<Variable formatSpec="{1}">tipo2</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN103E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">
+   Attributo &apos;ciclo&apos; sconosciuto trovato nell'elemento &apos;<Variable formatSpec="{0}">nome</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   L'ID ciclo fornito non corrisponde ad alcuno degli altri elementi sul percorso di questo elemento nella struttura gerarchica.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un attributo ciclo corretto.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN104E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MODEL.OBJECT.WITH.GUID.FOUND" varFormat="Java">
+   Non è stato trovato alcun oggetto modello dalla classe &apos;<Variable formatSpec="{0}">tipo di classe</Variable>&apos; con ID &apos;<Variable formatSpec="{1}">guid</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   È stato fornito un elemento, indicando solo il relativo ID. Pertanto, il connettore ha tentato di eseguire una query di TADDM per individuare ulteriori dettagli per tale elemento. Tuttavia, non è stato restituito alcun oggetto modello.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Controllare se l'ID fornito è corretto. In alternativa, provare a fornire gli attributi di denominazione per quell'elemento, invece di specificare solo il relativo ID.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN105E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.ATTRIBUTE.TYPE" varFormat="Java">
+   Impossibile rilevare il tipo di attributo &apos;<Variable formatSpec="{0}">nome attributo</Variable>&apos; dalla classe &apos;<Variable formatSpec="{1}">tipo di classe</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   Non è possibile determinare il tipo di questo attributo utilizzando il JAR dall'SDK TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un attributo differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN106E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.INTEGER.PARAMETER" varFormat="Java">
+   Il parametro &apos;<Variable formatSpec="{0}">nome param</Variable>&apos; non è un numero intero valido.   
+   </MsgText>
+   <Explanation><p>
+   Questo parametro deve essere un numero intero. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un valore intero per questo parametro oppure lasciare il campo vuoto.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN107E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.VALID.RELATIONSHIP" varFormat="Java">
+   Il tipo di classe &apos;<Variable formatSpec="{0}">tipo di classe</Variable>&apos; non è una relazione valida.
+   </MsgText>
+   <Explanation><p>
+   Il tipo di classe specificato non è una relazione CDM supportata.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un tipo di classe differente.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN108E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.CLASS.TYPE" varFormat="Java">
+   Il tipo di classe non è stato fornito.  
+   </MsgText>
+   <Explanation><p>
+   Non è stato fornito alcun tipo di classe nella UI del connettore né nella relativa Mappa di output.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire il tipo di classe nella UI del connettore o mediante l'attributo $classType nella Mappa di output.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN109I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.GUID.IN.CRITERIA" varFormat="Java">   
+   Nei criteri di ricerca è stato trovato il guid &apos;<Variable formatSpec="{0}">guid</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN110E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.FAILED" varFormat="Java">
+   L'operazione di aggiornamento non è riuscita.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'aggiornamento dell'oggetto modello fornito.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN111I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION" varFormat="Java">   
+   Aggiornamento di un elemento esistente in TADDM in corso...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN112I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION.SUCCESS" varFormat="Java">   
+   L'elemento è stato aggiornato correttamente. Il relativo Guid è <Variable formatSpec="{0}">guid</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN113E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.FIND.MODEL.OBJECT" varFormat="Java">
+   Si è verificato un errore durante l'esecuzione della query di TADDM per il Guid: <Variable formatSpec="{0}">guid</Variable>. È stata generata la seguente eccezione: <Variable formatSpec="{1}">messaggio dell'eccezione</Variable>.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante la ricerca di un oggetto modello con il Guid fornito.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN114I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIP.READONLY.ATTRIBUTE" varFormat="Java">   
+   L'attributo <Variable formatSpec="{0}">attributo</Variable> viene ignorato, perché non può essere impostato sull'oggetto modello.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN115I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.REVERSE.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   Impossibile trovare l'inverso dell'attributo &apos;<Variable formatSpec="{0}">nome attr</Variable>&apos; della classe &apos;<Variable formatSpec="{1}">tipo di classe</Variable>&apos; nella classe &apos;<Variable formatSpec="{2}">tipo di classe selezionato</Variable>&apos;
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN151E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.FINDING.CHANGE" varFormat="Java">   
+   Si è verificato un errore durante l'esecuzione della query di TADDM per individuare le modifiche di tipo &apos;<Variable formatSpec="{0}">tipo di modifica</Variable>&apos; con la query &apos;<Variable formatSpec="{1}">query taddm</Variable>.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'esecuzione di questa operazione.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN152E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.UNSUPPORTED.DATE.FORMAT" varFormat="Java">   
+   La data &apos;<Variable formatSpec="{0}">stringa della data</Variable>&apos; non è scritta nel formato richiesto &apos;gg/MM/aaaa HH:mm:ss&apos;.
+   </MsgText>
+   <Explanation><p>
+   Il valore fornito non corrisponde al formato previsto.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Fornire un valore di data nel formato corretto.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN153I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.QUERYING.TADDM.FOR.CHANGES" varFormat="Java">
+   Esecuzione della query di TADDM per individuare le modifiche nell'intervallo da &apos;<Variable formatSpec="{0}">data di partenza</Variable>&apos; a &apos;<Variable formatSpec="{1}">data di arrivo</Variable>&apos; con la query &apos;<Variable formatSpec="{2}">query taddm</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN154I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.CHANGES.FOUND" varFormat="Java">   
+   È stato trovato un totale di <Variable formatSpec="{0}">conteggio</Variable> modifiche.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN155I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGES.FOUND" varFormat="Java">   
+   Non è stata trovata alcuna modifica.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN156I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.WAITING" varFormat="Java">   
+   Il connettore attenderà <Variable formatSpec="{0}">numero di secondi</Variable> secondi prima di eseguire nuovamente il polling di TADDM per rilevare le modifiche.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN157E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGE.TYPE.SELECTED" varFormat="Java">   
+   Non è stato selezionato alcun tipo di modifica nella configurazione del connettore. È necessario specificare almeno uno dei seguenti tipi: Crea, Aggiorna o Elimina.
+   </MsgText>
+   <Explanation><p>
+   Per un corretto funzionamento, è necessario che il connettore sia configurato in modo da rilevare almeno un tipo di modifica.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Selezionare uno o più tipi di modifica nella sezione Avanzate del connettore.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN158I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.STATE.FOUND" varFormat="Java">
+   La data di avvio dell'iteratore &apos;<Variable formatSpec="{0}">data</Variable>&apos; è stata ripristinata dall'archivio proprietà.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN159I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.STATE.FOUND" varFormat="Java">   
+   Nell'archivio proprietà non è stata trovata alcuna data di avvio dell'iteratore.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN160I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.START.DATE" varFormat="Java">   
+   Il rilevamento delle modifiche verrà eseguito a partire dalla data &apos;<Variable formatSpec="{0}">data</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN161I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.SKIPPING.CHANGE" varFormat="Java">
+   Un evento modifica viene ignorato perché non corrisponde alle regole di denominazione.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN162I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.TIMEOUT.EXPIRED" varFormat="Java">
+   Il timeout configurato è scaduto. Il connettore verrà chiuso subito.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN163E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.GETTING.SERVER.TIME" varFormat="Java">   
+   Impossibile acquisire l'ora locale del server TADDM.
+   </MsgText>
+   <Explanation><p>
+   L'API TADDM ha restituito un errore durante l'acquisizione dell'ora locale sul server TADDM.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Per i dettagli, verificare che tutti i parametri di connessione siano corretti e controllare il messaggio dell'eccezione TADDM fornito.
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/curi" xmlns:tns="http://www.example.org/curi" elementFormDefault="qualified">
+
+	<!--
+		xjc -d src -p com.ibm.di.ui.curi.bind schema/curi.xsd 
+	 -->
+	 
+	<complexType name="ProviderItem">
+		<sequence>
+			<element name="id" type="string"></element>
+			<element name="label" type="string"></element>
+			<element name="baseUrl" type="string"></element>
+			<element name="uri" type="anyURI"></element>
+			<element name="useFIPS" type="boolean" default="false"></element>
+			<element name="datasetsUri" type="anyURI"></element>
+			<element name="datasourcesUri" type="string"></element>
+			<element name="remote" type="boolean"></element>
+			<element name="type" type="string"></element>
+			<element name="description" type="string"></element>
+			<element name="sso" type="boolean" default="false"></element>
+			<element name="externalProviderId" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Provider">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="filteredRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<sequence>
+				<element name="items" type="tns:ProviderItem" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+
+	<complexType name="Datasource">
+		<sequence>
+			<element name="uri" type="anyURI"></element>
+			<element name="id" type="string"></element>
+			<element name="type" type="string"></element>
+			<element name="datasourceUri" type="anyURI"></element>
+			<element name="datasetsUri" type="anyURI"></element>
+			<element name="description" type="string"></element>
+			<element name="label" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Datasources">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="filteredRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<element name="identifier" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:Datasource" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Dataset">
+		<sequence>
+			<element name="providerId" type="string"></element>
+			<element name="datasourceId" type="string"></element>
+			<element name="id" type="string"></element>
+			<element name="type" type="string"></element>
+			<element name="uri" type="anyURI"></element>
+			<element name="label" type="string"></element>
+			<element name="viewType" type="string"></element>
+			<element name="itemCount" type="int"></element>
+			<element name="linkCount" type="int"></element>
+			<element name="relationshipCount" type="int"></element>
+			<element name="eventsEnabled" type="boolean"></element>
+			<element name="itemsUri" type="anyURI"></element>
+			<element name="linksUri" type="anyURI"></element>
+			<element name="relationshipsUri" type="anyURI"></element>
+			<element name="itemStylesUri" type="anyURI"></element>
+			<element name="linkStylesUri" type="anyURI"></element>
+			<element name="relationshipStylesUri" type="anyURI"></element>
+			<element name="statusUri" type="anyURI"></element>
+			<element name="columnsUri" type="anyURI"></element>
+			<element name="tasksUri" type="anyURI"></element>
+			<element name="description" type="string"></element>
+			<element name="eventId" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Datasets">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="filteredRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<element name="identifier" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:Dataset" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetParameterValue">
+		<sequence>
+			<element name="label" type="string"></element>
+			<element name="value" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetParameter">
+		<sequence>
+			<element name="id" type="string"></element>
+			<element name="description" type="string"></element>
+			<element name="hidden" type="boolean"></element>
+			<element name="label" type="string"></element>
+			<element name="required" type="boolean"></element>
+			<element name="type" type="string"></element>
+			<element name="default" type="string"></element>
+			<element name="min" type="int"></element>
+			<element name="max" type="int"></element>
+			<element name="uri" type="anyURI"></element>
+			<sequence>
+				<element name="values" type="tns:DatasetParameterValue" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetParameters">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<element name="identifier" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:DatasetParameter" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetColumn">
+		<sequence>
+			<element name="id" type="string"></element>
+			<element name="label" type="string"></element>
+			<element name="description" type="string"></element>
+			<element name="valueType" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetColumns">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<element name="filteredRows" type="int"></element>
+			<element name="identifier" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:DatasetColumn" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<!-- 
+{
+   "description": "44",
+   "id": "44",
+   "label": "44",
+   "properties": [
+      {
+         "displayValue": "WebContainer : 3",
+         "id": "threadName",
+         "label": "threadName",
+         "value": "WebContainer : 3",
+         "valueState": "ok",
+         "valueType": "string"
+      },
+   ],
+   "tooltip": "44",
+   "type": "object",
+   "typeLabel": "object",
+   "uri": "\/providers\/tip\/datasets\/jvm-threads\/items\/44"
+}	
+	 -->
+	 
+	<complexType name="DatasetItemProperty">
+		<sequence>
+			<element name="displayValue" type="string"></element>
+			<element name="id" type="string"></element>
+			<element name="label" type="string"></element>
+			<element name="value" type="string"></element>
+			<element name="valueState" type="string"></element>
+			<element name="valueType" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetItem">
+		<sequence>
+			<element name="id" type="string"></element>
+			<element name="label" type="string"></element>
+			<element name="type" type="string"></element>
+			<element name="typeLabel" type="string"></element>
+			<element name="tooltip" type="string"></element>
+			<element name="uri" type="anyURI"></element>
+			<sequence>
+				<element name="properties" type="tns:DatasetItemProperty" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DatasetItems">
+		<sequence>
+			<element name="numRows" type="int"></element>
+			<element name="totalRows" type="int"></element>
+			<element name="filteredRows" type="int"></element>
+			<element name="identifier" type="string"></element>
+			<sequence>
+				<element name="items" type="tns:DatasetItem" minOccurs="0" maxOccurs="unbounded"></element>
+			</sequence>
+		</sequence>
+	</complexType>
+	
+	<element name="Provider" type="tns:Provider"></element>
+</schema>

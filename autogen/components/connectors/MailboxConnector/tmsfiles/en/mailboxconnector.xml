@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="mailboxconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJN001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.MISSING.MAILSERVER" varFormat="Java">
+   Required Connector parameter &apos;mailServer&apos; is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified Connector parameter mailServer is required,
+   but not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter mailServer.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN002E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.MISSING.MAILUSER" varFormat="Java">
+   Required Connector parameter &apos;mailUser&apos; is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified Connector parameter mailUser is required,
+   but not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter mailUser.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.MISSING.MAILFOLDER" varFormat="Java">
+   Required Connector parameter &apos;mailFolder&apos; is not set.
+   </MsgText>
+   <Explanation> <p>
+   The specified Connector parameter mailFolder is required for Addonly mode,
+   but not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter mailFolder.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN004E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.INVALID.POLLINTERVAL" varFormat="Java">
+   The &apos;pollInterval&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.  The default
+   value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos; will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pollInterval parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN005E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.INVALID.POLLINTERVAL2" varFormat="Java">
+   The &apos;pollInterval&apos; parameter set to an invalid value
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.  The default
+   value &apos;&apos;<Variable formatSpec="{1}">parameter value</Variable>&apos;&apos; will be used instead.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid pollInterval parameter in the Connector if
+   the default value is not wanted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN006E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.BAD.PORT" varFormat="Java">
+   The port specified as part of the &apos;mailServer&apos; parameter must be a
+   numeric value.  Exception encountered while try to parse out port:
+   <Variable formatSpec="{0}">parameter value</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a valid mailServer parameter in the Connector 
+   and ensure the port portion specified is numeric.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.FOLDEROPEN.INFO" varFormat="Java">
+   Opened mail folder &apos;&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;&apos;
+   in read and write mode.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN008E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.FOLDERNOTEXIST.EXCEP" varFormat="Java">
+   Unable to initialize Mailbox Connector. The mail folder
+   &apos;&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;&apos; does
+   not exist on the mail server.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter mailFolder to a folder
+   that exists on the mail server being connected to.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.SSLINIT.INFO" varFormat="Java">
+   Initializing SSL settings.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CLOSEEXCEPT.INFO" varFormat="Java">
+   Disconnecting from mail server but exception was encountered while
+   closing the mailbox: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN011W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CREATEENTRY.WARN" varFormat="Java">
+   Mail message at index &apos;&apos;<Variable formatSpec="{0}">index number</Variable>&apos;&apos;
+   could have been deleted from the mail server and could not be retrieved. Error
+   encountered while creating an Entry from a javax.mail.Message object:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the mail message was deleted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN012E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.NOTSUPPORTEDATTR.EXCEP" varFormat="Java">
+   The findEntry method could not process request because it was passed
+   a search criteria one or more attributes it does not support.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the attributes for the search criteria are
+   supported attributes.  Use the following Supported attributes list :
+   mail.messagenumber, mail.from, mail.to, mail.cc, mail.subject, and mail.messageid.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN013E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.DELETE.MORETHANONE.EXCEP" varFormat="Java">
+   Unable to delete entry because more than one entry found to potentially remove.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the search criteria sent to the deleteEntry method
+   will result in only a single Entry being returned to delete.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.DELETE.NOTFOUND.EXCEP" varFormat="Java">
+   Unable to delete entry because the specified entry to delete could not be found.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the search criteria sent to the deleteEntry method
+   will result in only a single Entry being returned to delete.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN015E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.DELETE.ATTRMISSING.EXCEP" varFormat="Java">
+   Unable to delete entry because the specified entry does not have the required
+   property &apos;mail.message&apos;.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that entry being deleted has the mail.message property.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN016I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.FOLDERNOEXPUNDGE.INFO" varFormat="Java">
+   Folder does not support the expunge method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN017W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.DELETEENTRY.WARN" varFormat="Java">
+   Mail message at index &apos;&apos;<Variable formatSpec="{0}">index number</Variable>&apos;&apos;
+   could have been deleted from the mail server and could not be deleted. Error
+   encountered while creating an Entry from a javax.mail.Message object:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the mail message was deleted.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN018E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.POP3.NOT.SUPPORT.APPEND" varFormat="Java">
+   POP3 protocol does not support appending of messages.
+   </MsgText>
+   <Explanation> <p>
+   The Mailbox Connector cannot be used in Addonly mode for POP3 server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Use the Connector in Addonly mode with another protocol(for example, IMAP).
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN019I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.POP3.SET.TO.INBOX" varFormat="Java">
+   Mail Folder is automatically set to &apos;&apos;INBOX&apos;&apos; for POP3 protocol.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CHECK.AUTOCREATE.FOLDER.EXCEP" varFormat="Java">
+   Mail Folder &apos;&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;&apos; does not
+   exist on the mail server and parameter &apos;createFolder&apos; is set to false.
+   </MsgText>
+   <Explanation> <p>
+   The supplied mail folder does not exist on the mail server and the parmater for auto-creation &apos;createFolder&apos; is set to false.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Supply an existing mail folder or set the &apos;createFolder&apos; parameter to true.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.FOLDER.CREATED" varFormat="Java">
+   The mail folder &apos;&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;&apos; did not exist on mail server and was automatically created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.DOES.NOT.HOLD.MESSAGES" varFormat="Java">
+   The mail folder &apos;&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;&apos; was searched for messages, but none were found.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN022E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CANNOT.ADD.IN.UPDATE.MODE" varFormat="Java">
+   The Mailbox Connector cannot find mail matching the specified Link Criteria.
+   </MsgText>
+   <Explanation> <p>
+   The Connector did not find a message corresponding to the Link criteria. The Connector tried to add the message, but adding a message is not available in &apos;Update mode&apos;.    
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the looked-up mail message exists on the store.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN023E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.NO.ENTRY" varFormat="Java">
+   No Entry is supplied in the output map for &apos;update&apos; or &apos;add&apos; operation.
+   </MsgText>
+   <Explanation> <p>
+   The input Entry object supplied for &apos;update&apos; or &apos;add&apos; operation is null.     
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that an Entry is supplied correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN024E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.MESSAGE.FORMAT.NOT.SUPPORTED" varFormat="Java">
+   Message in Attribute &apos;<Variable formatSpec="{0}">message</Variable>&apos; is not in appropriate format.
+   </MsgText>
+   <Explanation> <p>
+   The supplied object is of type different from &apos;javax.mail.Message&apos; &apos;javax.mail.Message[]&apos;.    
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the supplied object is of the appropriate type.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN025E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.APPEND.MESSAGE.EXCP" varFormat="Java">
+   An Error occurred when appending the message to the specified folder:&apos;<Variable formatSpec="{0}">Exception</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   An internal error occurred while executing the javax.mail.Folder.appendMessage() method.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No response needed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN026I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.MESSAGES.ADDED" varFormat="Java">
+   The supplied messages were successfully added to the folder:&apos;<Variable formatSpec="{0}">folder name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN027E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.UPDATE.NOTFOUND.EXCEP" varFormat="Java">
+   Unable to update entry, because the specified entry to update could not be found.
+   </MsgText>
+   <Explanation> <p>
+   See message.    
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the search criteria sent to the modEntry method
+   will result in only a single Entry being returned to update.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN028E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.UPDATE.ATTRMISSING.EXCEP" varFormat="Java">
+   Unable to update entry, because the specified entry to update does not contain the message.
+   </MsgText>
+   <Explanation> <p>
+   See message.    
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the &apos;mail.message&apos; Attribute is mapped correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN029I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.SEARCH.SUBFOLDERS" varFormat="Java">
+   Searching folder: &apos;<Variable formatSpec="{0}">folder name</Variable>&apos; for subfolders.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN030I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.NO.SUBFOLDERS" varFormat="Java">
+   No subfolders were found in folder: &apos;<Variable formatSpec="{0}">folder name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN031I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.FOLDER.NOT.EXIST" varFormat="Java">
+   The folder: &apos;<Variable formatSpec="{0}">folder name</Variable>&apos; does not exist on the store.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN032I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CANNOT.BE.OPENED" varFormat="Java">
+   The folder: &apos;<Variable formatSpec="{0}">folder name</Variable>&apos; cannot be opened.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN033I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.SEARCH.NAMESPACE" varFormat="Java">
+   Serching folders in namespaces: &apos;<Variable formatSpec="{0}">folder name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN034E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CREATE.FOLDER.EXCP" varFormat="Java">
+   The folder:&apos;<Variable formatSpec="{0}">folder name</Variable>&apos; cannot be created successfully.
+   </MsgText>
+   <Explanation> <p>
+   The javax.mail.Folder.create() method failed, when attempting to create the specified folder.     
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that a folder can be created at the specified location and that the user has the necessary permissions.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN035E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CANNOT.SET.FLAG" varFormat="Java">
+   The value for flag:&apos;<Variable formatSpec="{0}">flag name</Variable>&apos; was not updated due to the following error:
+   &apos;<Variable formatSpec="{1}">Exception</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   A MessagingException was thrown when trying to update a message flag. A reason might be that the store does not support this type of flag.     
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the store supports this type of flag.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN036I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.CANNOT.SET.POP3.RECENT" varFormat="Java">
+   POP3 Messages do not support &apos;Flags.Flag.RECENT&apos;, therefore the Flag is not updated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN037E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.MAILBOX.POP3.NOTINBOX.EXCEP" varFormat="Java">
+   Unable to initialize Mailbox Connector. The Mailbox Connector supports only the &apos;INBOX&apos; folder when the POP3 protocol is chosen.
+   </MsgText>
+   <Explanation> <p>
+   The POP3 protocol supports only &apos;INBOX&apos; folder on the server side, therefore when the Connector is in POP3 mode, you cannot specify another mail folder.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the Connector parameter mailProtocol to &apos;IMAP&apos; or supply &apos;INBOX&apos; as the value for the mailFolder parameter.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

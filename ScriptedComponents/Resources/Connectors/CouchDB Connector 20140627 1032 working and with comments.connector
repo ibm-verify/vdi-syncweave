@@ -1,0 +1,1750 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="708" UUID="03b28606-d3bd-4841-884d-48936fc96b7e" created="Mon May 26 12:36:10 CEST 2014" createdBy="Administrator" main="CouchDB Connector" modified="Fri Jun 27 10:32:19 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <Connector name="CouchDB Connector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1403857938348</ModTime>
+        <ConnectorMode>Lookup</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1403857938348</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="151" UUID="a8ad3eb7-a05b-4a69-b5c2-397f536ac120" created="Sun Jun 01 21:17:26 CEST 2014" createdBy="Administrator" main="Form" modified="Wed Jun 25 12:34:08 CEST 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1403692447713</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>keepGlobalState</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>includePrologs</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>user</ListItem>
+            <ListItem>password</ListItem>
+            <ListItem>database</ListItem>
+            <ListItem>pagesize</ListItem>
+            <ListItem>deBug</ListItem>
+            <ListItem>descending</ListItem>
+            <ListItem>view</ListItem>
+            <ListItem>reduce</ListItem>
+            <ListItem>grouplevel</ListItem>
+            <ListItem>generateviews</ListItem>
+            <ListItem>createoninit</ListItem>
+            <ListItem>deleteonclose</ListItem>
+            <ListItem>returnas</ListItem>
+            <ListItem>enabletempview</ListItem>
+            <ListItem>map</ListItem>
+            <ListItem>url</ListItem>
+            <ListItem>startkey</ListItem>
+            <ListItem>endkey</ListItem>
+            <ListItem>includeDesignDocs</ListItem>
+            <ListItem>dbtype</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="createoninit">
+            <ModTime>1401651110445</ModTime>
+            <parameter name="description">Enable to have the Database created if it does not already exist.</parameter>
+            <parameter name="label">Create Database if not found</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="database">
+            <ModTime>1402784860360</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">CouchDB database to access.</parameter>
+            <parameter name="label">Database</parameter>
+            <parameter name="script">queryDatabases</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="dbtype">
+            <ModTime>1403692392561</ModTime>
+            <Values>
+                <ListItem>CouchDB</ListItem>
+                <ListItem>Cloudant</ListItem>
+            </Values>
+            <parameter name="description">The type of CouchDB system, for example: CouchDB or Cloudant</parameter>
+            <parameter name="label">CouchDB Type</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="deBug">
+            <ModTime>1401650878867</ModTime>
+            <parameter name="description">Enable to provide debugging messages in the log output and console.</parameter>
+            <parameter name="label">Debug log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="deleteonclose">
+            <ModTime>1401651145645</ModTime>
+            <parameter name="description">Enable to have the Connector delete the databse when it closes.</parameter>
+            <parameter name="label">Delete on close</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="descending">
+            <ModTime>1402907157856</ModTime>
+            <parameter name="description">Enable to return the Documents of the view in descending order. Otherwise the order will be ascending.</parameter>
+            <parameter name="label">Descending</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="enabletempview">
+            <ModTime>1401652243838</ModTime>
+            <parameter name="description">Enable to enable creation of temporary views. Otherwise LinkCriteria Attribute must be 'key' (key of the selected view).</parameter>
+            <parameter name="label">Allow ad-hoc query</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="endkey">
+            <ModTime>1402907127520</ModTime>
+            <parameter name="description">The last key value for the returned data set, based on the sort direction (ascending/descending).</parameter>
+            <parameter name="label">End key</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="generateviews">
+            <ModTime>1402829837915</ModTime>
+            <Values>
+                <ListItem>Do not generate</ListItem>
+                <ListItem>After every write operation</ListItem>
+                <ListItem>On connector close</ListItem>
+            </Values>
+            <parameter name="description">Set when views should be updated.</parameter>
+            <parameter name="label">Generate views</parameter>
+            <parameter name="modes">AddOnly,Delete,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="grouplevel">
+            <ModTime>1401699410305</ModTime>
+            <Values>
+                <ListItem>Do not group</ListItem>
+                <ListItem>1</ListItem>
+                <ListItem>2</ListItem>
+                <ListItem>3</ListItem>
+                <ListItem>4</ListItem>
+                <ListItem>5</ListItem>
+                <ListItem>6</ListItem>
+                <ListItem>7</ListItem>
+                <ListItem>8</ListItem>
+                <ListItem>9</ListItem>
+            </Values>
+            <parameter name="description">Select to the key index to group on.</parameter>
+            <parameter name="label">Group level</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="host">
+            <ModTime>1401650519625</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The hostname or IP address of the CouchDB server</parameter>
+            <parameter name="label">Host</parameter>
+        </FormItem>
+        <FormItem name="includeDesignDocs">
+            <ModTime>1403608041897</ModTime>
+            <parameter name="description">Should Design Docs be handled by connector operations</parameter>
+            <parameter name="label">Read/write Design Docs</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="map">
+            <ModTime>1401712244303</ModTime>
+            <parameter name="description">Enter Javascript definition of the map() function. This parameter is optional and overrides the View setting.</parameter>
+            <parameter name="label">map() function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="pagesize">
+            <ModTime>1402907168053</ModTime>
+            <parameter name="description">The number of Documents to return for each read request. Default is 100.</parameter>
+            <parameter name="label">Page size</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="password">
+            <ModTime>1401651396440</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Password for the login User name</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="port">
+            <ModTime>1402779290980</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The CouchDB port. Default is 5984.</parameter>
+            <parameter name="label">Port</parameter>
+            <parameter name="script2">getCertificate</parameter>
+            <parameter name="scriptLabel2">Get SSL Certificate</parameter>
+        </FormItem>
+        <FormItem name="reduce">
+            <ModTime>1401651531285</ModTime>
+            <parameter name="description">Enable to use the Reduce function in the view.</parameter>
+            <parameter name="label">Use Reduce function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="returnas">
+            <ModTime>1403692392573</ModTime>
+            <Values>
+                <ListItem>Flat Entry (note that some Attributes may be Javascript objects)</ListItem>
+                <ListItem>Hierarchical Entry</ListItem>
+            </Values>
+            <parameter name="description">Select how Documents are returned as Entry objects</parameter>
+            <parameter name="label">Return Document as</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="ssl">
+            <ModTime>1401650704078</ModTime>
+            <parameter name="description">Enable if CouchDB requires an SSL connection.</parameter>
+            <parameter name="label">Use SSL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="startkey">
+            <ModTime>1402907133736</ModTime>
+            <parameter name="description">The first key value for the returned data set, based on the sort direction (ascending/descending).</parameter>
+            <parameter name="label">Start key</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+        </FormItem>
+        <FormItem name="url">
+            <ModTime>1403525215285</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The url to the database service.</parameter>
+            <parameter name="label">URL</parameter>
+        </FormItem>
+        <FormItem name="user">
+            <ModTime>1401651393459</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">The user name for authentication to CouchDB</parameter>
+            <parameter name="label">User</parameter>
+        </FormItem>
+        <FormItem name="view">
+            <ModTime>1402907148695</ModTime>
+            <parameter name="description">Name of the MapReduce view to read from. This parameter is ignored if a map() function is defined.</parameter>
+            <parameter name="label">View name</parameter>
+            <parameter name="modes">Iterator,Lookup,Update,Delete</parameter>
+            <parameter name="script">queryViews</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>descending</ListItem>
+                <ListItem>startkey</ListItem>
+                <ListItem>endkey</ListItem>
+                <ListItem>returnas</ListItem>
+                <ListItem>pagesize</ListItem>
+                <ListItem>includeDesignDocs</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>url</ListItem>
+                <ListItem>database</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>password</ListItem>
+                <ListItem>view</ListItem>
+                <ListItem>dbtype</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+                <ListItem>deBug</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[// 20140615 0027
+
+function getCertificate () {
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+
+
+function getViews() {
+	var database = getParam("database");
+	var views = new Array();
+
+	var reply = makeRequest({verb: "GET",
+							 url: database + '/_all_docs?startkey="_design/"&endkey="_design0"'});
+
+	if (!reply || !reply.rows || reply.rows.length == 0) {
+		return views;
+	}
+	
+	var ddocs = reply.rows;
+
+	for (var i = 0; i < ddocs.length; i++) {
+		reply =  makeRequest({verb: "GET",
+							 url: database + "/" + ddocs[i].id});
+	
+		if (reply && reply.views) {
+			for (var v in reply.views) {
+				views[views.length] = ddocs[i].id + "/_view/" + v;
+
+//				if (deBug) form.alert("View #" + views.length + ": " + ddocs[i].id + "/_view/" + v);
+
+			}
+		}
+	}	
+	
+	views.sort();
+	
+	return views;
+}
+
+function makeRequest(params) {
+	var verb = params.verb;
+	var url = params.url;
+	var body = params.body;
+	var ctype = params.ctype;
+	var where = params.where;
+	var rev = params.rev;
+	var authenticating = params.authenticating;
+	var dbtype = getParam("dbtype");
+	var baseurl = fixUrl({url: getParam("url"), dbtype: dbtype});
+	var user = getParam("user");
+	var password = getParam("password");
+
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (where == null) { where = ""; } 
+	if (rev != null) { rev = "?rev=" + rev } else { rev = "" };
+/*
+	if (url.indexOf("_all_docs") > 0) {
+		url = "http://localhost/" + url
+	} else
+*/
+	if (url.toLowerCase().indexOf(baseurl.toLowerCase()) < 0) {
+		url = baseurl + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		method = "POST";
+		requestEntry["http.body"] = body;
+	}
+	
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url + rev);
+
+	requestEntry["http.Content-Type"] = ctype;
+	requestEntry["http.Accept"] = "application/json";
+	requestEntry["http.Connection"] = "keep-alive";
+	requestEntry["http.remote_user"] = user;
+	requestEntry["http.remote_pass"] = password;
+
+//	requestEntry["http.Accept-Encoding"] = "gzip, deflate";
+//	requestEntry["http.Accept-Language"] = "en-US,en;q=0.5";
+//	requestEntry["http.User-Agent"] = "IBM Security Verify Directory Integrator";
+//	requestEntry["http.Authorization"] = "BASIC " + system.base64Encode(String(user + ":" + password).getBytes());
+	
+	if (cookies.size() > 0) {
+		requestEntry["X-CouchDB-WWW-Authenticate"] = "Cookie";
+		requestEntry.merge(cookies);
+	}	
+
+	if (deBug) {
+		logDetails({"msg" : message["Request to"] + " " + dbtype, 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype, 
+					"where" : where});
+	}
+
+	var retry = 0;
+	var maxRetry = 2;
+	var retEntry = null;
+	
+	do {
+		try {	
+			retEntry = http.queryReply(requestEntry);
+		} catch (ex) {
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				if (retry == 0) {
+					getCertificate();
+				} else {	
+					throwException("You must restart the SDI server in order for the imported certificate to be trusted.")
+				}
+			} else {
+				throw ex;
+			}	
+		}
+		
+		retry++;
+	} while (retEntry === null && retry < maxRetry);
+	
+	if (deBug) {
+		logDetails({"msg" : message["Response from"] + " " + dbtype, 
+				    "entry" : retEntry});
+	}
+	
+	var reply = parseReply(retEntry);
+	
+	checkForErrors(reply);
+	
+	return reply;
+}
+
+function throwException(msg) {
+	throw new java.lang.IllegalArgumentException(msg);
+}
+
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		connector.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+function getParam(pname, required) {
+	if (typeof required === "undefined") { required = true; }
+	var ctrl = form.getControl(pname);
+	if (ctrl == null && required) {
+		throwException(message["Required parameter not set"] + ": " + pname);
+	}
+	
+	pval = ctrl.getText();
+	
+	if (pval === null && required) {
+		throwException(message["Required parameter not set"] + ": " + pname);
+	} 
+	
+	return pval;
+}
+
+function parseReply(replyEntry) {
+	if (replyEntry === null) { return; } 
+	
+	var body = replyEntry.getString("http.bodyAsString");
+	var reply = fromJson(body);
+	
+	var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+	if (setCookie !== null) {
+		for (var i = 0; i < setCookie.size(); i++) {
+			var thisCookie = setCookie.getValue(i);
+			var p = thisCookie.indexOf("=");
+			if (p > 0) {
+				cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+			}
+		}	
+	}
+	
+	return reply;
+}
+
+function fixUrl(params) {
+	var url = params.url;
+	var dbtype = params.dbtype;
+	var protocolSpes = "http:";
+	var auth = "";
+	
+	if (url.startsWith("http")) {
+		var p = url.indexOf("/");
+		if (p > 0) {
+			protocolSpes = url.substring(0, p);
+			var p2 = url.indexOf("/", p+1);
+			if (p2 == (p+1)) {
+				url = url.substring(p2+1);
+			} else {
+				throwException(message["Invalid format for URL parameter"] + ": " + url);
+			}
+		}
+	}
+
+	if (!url.endsWith("/")) {
+		return protocolSpes + "//" + auth + url + "/";
+	} else {
+		return protocolSpes + "//" + auth + url;
+	}
+}
+
+function queryDatabases() {
+	var uri = "_all_dbs";
+	var controlName = "database";
+	
+	var jobj = makeRequest({verb : "GET",
+						url : uri, 
+						where : "updateDatabases"}); 
+
+	form.getClass();
+	var combo = form.getControl(controlName);
+	combo.removeAll();
+
+	if (!jobj) {
+		return;
+	}	
+			
+	var arr = new java.util.ArrayList();
+	for (var i = 0; i < jobj.length; i++) {
+		arr.add(jobj[i]);
+	}
+	
+	arr = arr.toArray();
+	java.util.Arrays.sort(arr);
+
+	for (var a in arr) {
+		combo.add(a);
+	}	
+	
+	combo.select(0);
+}
+
+function queryViews() {
+	var uri = "_all_dbs";
+	var controlName = "view";
+	
+	var views = getViews();
+
+	form.getClass();
+	var combo = form.getControl(controlName);
+	combo.removeAll();
+
+	if (!views) {
+		return;
+	}	
+
+	if (deBug) form.alert(views);
+			
+	var arr = new java.util.ArrayList();
+	for (var i = 0; i < views.length; i++) {
+		arr.add(views[i]);
+	}
+	
+	arr = arr.toArray();
+	java.util.Arrays.sort(arr);
+
+	for (var a in arr) {
+		combo.add(a);
+	}	
+	
+	combo.select(0);
+}
+
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				if (a.indexOf("http.") >= 0 && 
+					!("http.bodyAsString".equalsIgnoreCase(a)
+						|| "http.bodyAsBytes".equalsIgnoreCase(a)) ) {
+					s += " " + a + ": " + obj[a] + "\n";
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	form.alert(s.toString());
+}
+
+function checkForErrors(jsonReply) {
+	if (jsonReply.error != null) {
+		var msg = "reply.error: " + jsonReply.error;
+		if (jsonReply.reason != null) {
+			msg += " - reply.reason: " + jsonReply.reason;	
+		}
+		
+		if ("not_found".equals(jsonReply.error)) {
+			msg = message["Database or document not found"]	+ " - " + msg;
+		}
+		throwException(message["Error from CouchDB"] + ": " + msg);
+	}
+}
+
+function authenticate() {
+	var user = getParam("user");
+	var password = getParam("password");
+	var reply = makeRequest({verb : "POST", 
+							 url : "_session", 
+							 body : "name=" + user + "&password=" + password, 
+							 ctype : "application/x-www-form-urlencoded", 
+							 where : "authenticate",
+							 authenticating : true});
+	authenticated = true;
+}]]]]><![CDATA[></parameter>
+        <parameter name="formscript"><![CDATA[var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["CouchDB Connector vrs."] = "CouchDB Connector vrs.";
+message["Response from"] = "Response from";
+message["Request to"] = "Request to";
+message["Unnamed entry"] = "Unnamed entry";
+message["Error from"] = "Error from";
+message["Database or document not found"] = "Database or document not found";
+message["The URL does not reference a valid service"] = "The URL does not reference a valid service";
+message["Only the 'key' attribute can be use for Link Criteria when temporary views are disabled."] = "Only the 'key' attribute can be use for Link Criteria when temporary views are disabled.";
+message["Unrecognized operator for Link Criteria"] = "Unrecognized operator for Link Criteria";
+message["Link Criteria as Javascript"] = "Link Criteria as Javascript";
+message["Mandatory property of document to modify is missing"] = "Mandatory property of document to modify is missing";
+message["Document with this _id already exists"] = "Document with this _id already exists";
+message["Invalid format for URL parameter"] = "Invalid format for URL parameter";
+message["Unable to parse JSON return from"] = "Unable to parse JSON return from";
+
+if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions");
+	system = new c;
+}	
+
+var http = system.getConnector("ibmdi.HTTPClient");
+var requestEntry = system.newEntry();
+var cookies = system.newEntry();
+var deBug = false;
+var authenticated = false;
+http.initialize(null);]]]]><![CDATA[></parameter>
+        <parameter name="title">CouchDB Connector</parameter>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="database"/>
+            <parameter name="dbtype">CouchDB</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="grouplevel">Do not group</parameter>
+            <parameter name="host">127.0.0.1</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="pagesize">100</parameter>
+            <parameter encrypted="true" name="password"/>
+            <parameter name="port">5984</parameter>
+            <parameter name="returnas">Flat Entry (note that some Attributes may be Javascript objects)</parameter>
+            <parameter name="script"><![CDATA[// CouchDB Script connector
+//
+/*
+ * This connector uses REST calls to work with a CouchDB (or Cloudant) data service.
+ * It supports the following Connector Modes by implementing the relevant Connector Interface
+ * functions:
+ * 
+ * 	  (general)		-	initialize() & terminate
+ *	  Iterator		-	selectEntries() & getNextEntry()
+ *    AddOnly		- 	putEntry()
+ * 	  Lookup		- 	findEntry()
+ *    Update		-	findEntry(), putEntry() & modEntry()
+ *    Delete		- 	findEntry() & deleteEntry()
+ * 
+ * All REST calls are handled by the makeRequest() function. In the case of SSL, the client
+ * certificate will be automatically requested from the service and imported into the TDI
+ * keystore.
+ * 
+ * The Connector Interface functions are defined at the start of this script, while
+ * all service functions appear at the end.
+*/
+// 
+//var version = "20140526 1237" // started
+//var version = "20140614 2300" // replace host/port with url parameter
+//var version = "20140623 1049" // added Delete mode
+var version = "20140624 1453" // added Cloudant support
+
+// Global variables defined here
+//
+var http = system.getConnector("ibmdi.HTTPClient");
+var baseurl, paramurl, user, password, database, view, pagesize, startkey, endkey, handleDDocs, dbtype;
+var list, listCnt, totalCnt, startkey, total_rows;
+var current = system.newEntry();
+var cookies = system.newEntry();
+var requestEntry = system.newEntry();
+var deBug = true;
+var initialized = false;
+var selectUrl = "";
+
+// Messages returned by the Connector are kept in an Array and set here to make it
+// simpler to localize this component later.
+//
+var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["CouchDB Connector vrs."] = "CouchDB Connector vrs.";
+message["Response from"] = "Response from";
+message["Request to"] = "Request to";
+message["Unnamed entry"] = "Unnamed entry";
+message["Error from"] = "Error from";
+message["Database or document not found"] = "Database or document not found";
+message["The URL does not reference a valid service"] = "The URL does not reference a valid service";
+message["Only the 'key' attribute can be use for Link Criteria when temporary views are disabled."] = "Only the 'key' attribute can be use for Link Criteria when temporary views are disabled.";
+message["Unrecognized operator for Link Criteria"] = "Unrecognized operator for Link Criteria";
+message["Link Criteria as Javascript"] = "Link Criteria as Javascript";
+message["Mandatory property of document to modify is missing"] = "Mandatory property of document to modify is missing";
+message["Document with this _id already exists"] = "Document with this _id already exists";
+message["Invalid format for URL parameter"] = "Invalid format for URL parameter";
+message["Unable to parse JSON return from"] = "Unable to parse JSON return from";
+
+
+// ----------------------------------------------------------------------
+// Connector Interface functions
+//
+// initialize(), terminate(), selectEntries(), getNextEntry(), findEntry(), putEntry(), modEntry and deleteEntry()
+// ----------------------------------------------------------------------
+
+// Called when the Connector initializes.
+// It displays the version, and if not already initialized it resets the
+// global variables, refreshes their values from the Connection parameter settings
+// initializes the HTTP connector used for all comms with CouchDB,
+// and then verifies that it is indeed a CouchDB service referenced by
+// the url parameter. Finally it makes an authentication call.
+//
+function initialize() {
+	logmsg(message["CouchDB Connector vrs."] + " " + version);
+
+	if (initialized) {
+		terminate();
+	}
+	
+	// reset variables
+	resetConnector();
+
+	// get values from the Connection parameters
+	refreshParameters();
+	
+	// initialize the HTTP connector (global variable)
+	http.terminate();
+	http.initialize(null);
+	
+	// verify that this is a CouchDB service
+	verifyCouchDB();
+
+	// autheticate using user name & password, returning AuthSession cookie
+	// note that this is done here so that initialization will fail if something
+	// is incorrect in the parameters, or if the CouchDB service is unavailable or
+	// not working.
+	authenticate();
+		
+	// set the connector state to: initialized
+	initialized = true;
+}	
+
+// Called during the initialization phase of an Iterator Connector, this function
+// is called once when the Connector fires up. It will apply parameter settings
+// in order to make a top-level query and return the total number of documents
+// in this result set.
+//
+// Normally selectEntries() does not have any arguments. However, this version
+// does since it is used by other functions to search for documents. It does not
+// actually create or return a result set since this is handled when documents
+// are read using getNextEntry().
+//
+function selectEntries(docId) {
+	var useUrl;
+	list = null;
+	listCnt = 0;
+	totalCnt = 0;
+	total_rows = 0;
+	
+	// apply Connection parameters to the Connector variables
+	refreshParameters()
+	
+	// define the reply variable as null
+	var reply = null;
+/*	
+ * removed for now
+ * 
+	if (map != null && map.trim().length > 0) {
+		view = "_temp_view";
+		makeTempView(map);
+	}
+*/
+	// if a document _id has been passed in then assume this is a 
+	// query to return a single item. Otherwise, apply the view setting.
+	//
+	if (!docId || docId == null) {
+		selectUrl = "";
+		useUrl = database + "/" + view;
+	} else {
+		selectUrl = database + "/" + docId;
+		useUrl = selectUrl;
+	}
+	
+	// make the HTTP request
+	//
+	reply = makeRequest({"verb" : "GET", 
+						 "url" : useUrl + "?limit=0", 
+						 "where" : "selectEntries"});	
+	
+	// if a reply is returned and it contains the total_rows property,
+	// then save this in the global variable.
+	//
+	if (reply && reply.total_rows) {
+		total_rows = reply.total_rows;
+	}
+}
+
+// Called once each cycle for an Iterator Connector to return the next document
+// in the result set created by selectEntries(). Due to the nature of CloudDB
+// this version implements paging (controlled by the Page Size parameter) in order
+// to control the amount of memory used.
+//
+function getNextEntry() {
+	var doc;
+	
+	// empty 'entry' (which is the Connector's 'conn' entry)
+	entry.removeAllAttributes();
+	
+	// this loop implements the paging logic.
+	do {
+		// if no result set (the list variable) has been returned, or the index (listCnt)
+		// has advanced past the last document in the list then a new query is made to 
+		// retrieve the next page of documents.
+		//
+		if (list === null || listCnt == list.length) {
+			if (list !== null && listCnt == list.length) {
+				if (pagesize < list.length) {
+					startkey = '"' + list[pagesize].id + '"';
+				} else {
+					startkey = "$$EOD$$";
+				}	
+			}
+	
+			// if we have not reached the end of the database/view then query for
+			// the next page of documents.
+			//
+			if (!"$$EOD$$".equals(startkey)) {
+				getNextPage();
+			}	
+		}
+
+		// If there are more documents to return	
+		if (list !== null && listCnt < list.length) {
+	
+			// get the current item and increment index and total count
+			var item = list[listCnt];
+			listCnt++;
+			totalCnt++;
+			
+			// if the current item contains a 'doc' property then 
+			if (item.doc != null) {
+				doc = item.doc;
+			}
+		}
+		
+		i = 42;
+	} while ((doc == null || (!handleDDocs && doc._id.startsWith("_design/"))) 
+				&& !"$$EOD$$".equals(startkey) && selectUrl == "")	
+		
+	// if a doc was found, then return it, else signal End of Data (EOD)
+	if (doc && (handleDDocs || !doc._id.startsWith("_design/"))) {
+		var hEntry = doc2Entry(doc);
+		
+		entry.merge(hEntry);
+	
+		result.setStatus(1);
+		return entry;
+	} else {
+		result.setStatus(0);
+		return null;
+	}
+}
+
+// Called for AddOnly mode to create a new document
+//
+function putEntry() {
+	var e;
+	
+	// turn 'entry' into a Javascript object
+	var doc = entry2Doc(entry);
+	
+	// first look to see if this doc exists already, and if so throw the 'already exists' error
+	try {
+		selectEntries(doc._id);
+		var e = getNextEntry();
+		if (e !== null) {
+			throwException(message["Document with this _id already exists"] + ": " + doc._id);
+		}
+	} catch (e) {
+		// doc was already deleted
+	}	
+	
+	// add the document to CouchDB
+	var id = addDocument(doc, doc._id);
+	
+	// return the _id property of the newly created document. This can be accessed in
+	// the After Add Hook
+	entry["_id"] = id;
+}
+
+// Called for Lookup, Update and Delete modes. It uses Link Criteria to return a subset
+// of documents read by a query to CouchDB.
+//
+// Note that since adhoc querying is not recommended for a MapReduce data service, filtering
+// is performed in the code here based on the Link Criteria set.
+//
+function findEntry() {
+	var jscriteria = null;
+	var docId = null;
+	var e = null;
+	var entriesFound = new Array();
+	
+	// This connector maintains its own 'current' Entry. Here it is cleared.
+	current.removeAllAttributes();
+	
+	// Retrieve Link Criteria set (after it has been evaluated to resolve references to
+	// Work Entry attributes). If it contains a single criteria that searches for the
+	// _id property then make this a Read operation instead of a search.
+	//
+	var crit = search.getCriteria();
+	if (crit.size() == 1 && crit[0].match == search.EXACT &&
+		("id".equalsIgnoreCase(crit[0].name) || "_id".equalsIgnoreCase(crit[0].name))) {
+		docId = crit[0].value
+	} else {
+		// convert the criteria to a Javascript representation that can be eval'ed in the read loop below
+		jscriteria = criteria2JS(search);
+	}	
+
+	// use selectEntries() to perform the initial top-level search
+	selectEntries(docId);
+
+	// this loop returns entries and filters based on Link Criteria
+	do {
+		// get the next entry
+		e = getNextEntry();
+		if (e === null) {
+			continue;
+		}
+		
+		// get the $doc attribute which hs the Javascript object for this document
+		// the 'doc' variable is used in the jscriteria script created from the
+		// Link Criteria.
+		var doc = e.getObject("$doc");
+		if (jscriteria == null || eval(jscriteria)) {
+			// if the critera script resolves to true, or is not set - for example
+			// when only a single document is read, then add to the collection of
+			// entries found.
+			//
+			var newE = system.newEntry();
+			newE.merge(e);
+			entriesFound[entriesFound.length] = newE;
+		}
+		
+	} while (e !== null)
+	
+	// if any documents matched the criteria then handle the return
+	if (entriesFound.length > 0) {
+		result.setStatus(1);
+		// if only one match was found, return a single entry
+		if (entriesFound.length == 1) {
+			entry.merge(entriesFound[0]);
+		} else {
+			// in case multiple matches were found, return these using addFindEntry()
+			for (var i = 0; i < entriesFound.length; i++) {
+				connector.addFindEntry(entriesFound[i]);
+			}
+		}
+	} else {
+		result.setStatus(0);
+	}
+	
+	// if an entry was found, save it in current
+	if (entry !== null && entry.size() > 0) {
+		current.merge(entry);
+	}
+	
+	// return the entry	
+	return entry;
+}
+
+// Called by Update mode when the Lookup operation found a match
+//
+function modEntry() {
+	var doc = entry2Doc(entry);
+	var id = writeDocument({doc: doc, id: doc._id, isDelete: false});
+}
+
+// Called by Delete mode when the Lookup operation found a match
+function deleteEntry() {
+	var doc = entry2Doc(entry);
+	var id = writeDocument({doc: doc, id: doc._id, isDelete: true});
+}
+
+// Called when the Connector is shut down, typically during the AL shutdown phase
+function terminate() {
+	resetConnector();
+	
+	try {
+		http.terminate();
+	} catch (ex) {
+		// do nothing
+	}
+}
+
+// ----------------------------------------------------------------------
+// Service Functions that support the Connector Interface functions
+// ----------------------------------------------------------------------
+
+// verifies that the params reference a valid CouchDB instance
+//
+function verifyCouchDB() {
+	var reply = makeRequest({"verb" : "GET", "where" : "verifyCouchDB", ctype: "text/html"});
+	if (reply.couchdb == null) {
+		throwException(message["The URL does not reference a valid service"])
+	}
+}
+
+// requests the client cert from the service and installs it into the SDI keystore
+function getCertificate () {
+	var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(baseurl, 443);
+}
+
+// examine the reply from CouchDB for any errors returned
+//
+function checkForErrors(jsonReply) {
+	if (jsonReply.error != null) {
+		var msg = "reply.error: " + jsonReply.error;
+		if (jsonReply.reason != null) {
+			msg += " - reply.reason: " + jsonReply.reason;	
+		}
+		
+		if ("not_found".equals(jsonReply.error)) {
+			msg = message["Database or document not found"]	+ " - " + jsonReply.error + msg;
+		}
+		throwException(message["Error from"] + " " + dbtype + ": " + msg);
+	}
+}
+
+// makes the authentication call to CouchDB
+function authenticate() {
+	var reply = makeRequest({"verb" : "POST", 
+							 "url" : "_session", 
+							 "body" : "name=" + user + "&password=" + password, 
+							 "ctype" : "application/x-www-form-urlencoded", 
+							 "where" : "authenticate"});
+}
+
+// workhorse function that handles all comms with CouchDB. It accepts a single
+// argument that is a Javascript object containing the properties set in the first
+// lines of the function. Note that many of these properties are optional and that
+// default values are set by the script is not specified.
+//
+function makeRequest(params) {
+	var verb = params.verb;		// HTTP method, e.g. GET, POST, PUT, ...
+	var url = params.url;		// url for the request. May be partial (only the path & query string params)
+	var body = params.body;		// HTTP body to be passed for the request
+	var ctype = params.ctype;	// Content-Type of the HTTP body
+	var where = params.where;	// where this method is called from - for debugging purposes
+	var rev = params.rev;		// the _rev property of an existing document, required for update and delete
+
+	// set default values for missing params/properties
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (where == null) { where = ""; } 
+	if (rev != null) { rev = "?rev=" + rev } else { rev = "" };
+
+	// prepend the base url if not found in the url passed to the function
+	if (url.toLowerCase().indexOf(baseurl.toLowerCase()) < 0) {
+		url = baseurl + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		requestEntry["http.body"] = body;
+	}
+	
+	// set Connector parameters
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url + rev);
+
+	// prepare the request Entry (used for POST/PUT calls)
+	requestEntry["http.Content-Type"] = ctype;
+	requestEntry["http.Accept"] = "application/json";
+	requestEntry["http.Connection"] = "keep-alive";
+	requestEntry["http.remote_user"] = user;
+	requestEntry["http.remote_pass"] = password;
+
+// commented out for now
+//
+//	requestEntry["http.Accept-Encoding"] = "gzip, deflate";
+//	requestEntry["http.Accept-Language"] = "en-US,en;q=0.5";
+//	requestEntry["http.User-Agent"] = "IBM Security Verify Directory Integrator";
+//	requestEntry["http.Authorization"] = "BASIC " + system.base64Encode(String(user + ":" + password).getBytes());
+	
+	// add any cookies received on previous calls
+	if (cookies.size() > 0) {
+		requestEntry["X-CouchDB-WWW-Authenticate"] = "Cookie";
+		requestEntry.merge(cookies);
+	}	
+
+	// if Detailed Log is enabled then write request details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Request to"] + " " + dbtype, 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype, 
+					"where" : where});
+	}
+
+	var retry = 0;
+	var maxRetry = 2;
+	var retEntry = null;
+	
+	// this loop makes the actual request. If an SSL handshake error occurs, attempt to retrieve
+	// and import the client certificate and inform the user that TDI must be restarted.
+	//
+	do {
+		try {	
+			retEntry = http.queryReply(requestEntry);
+		} catch (ex) {
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				if (retry == 0) {
+					getCertificate();
+				} else {	
+					throwException("You must restart the SDI server in order for the imported certificate to be trusted.")
+				}
+			} else {
+				throw ex;
+			}	
+		}
+		
+		retry++;
+	} while (retEntry === null && retry < maxRetry);
+	
+	// if Detailed Log is enabled, write reply details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Response from"] + " " + dbtype, 
+				    "entry" : retEntry});
+	}
+	
+	// parse the reply from CouchDB
+	var reply = parseReply(retEntry);
+	
+	// handle any errors
+	checkForErrors(reply);
+	
+	return reply;
+}
+
+// wrapper function for throwing exceptions. Otherwise exceptions throw will be 'script' exceptions
+function throwException(msg) {
+	throw new java.lang.IllegalArgumentException(msg);
+}
+
+// wrapper function for writing log messages
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	// if Detailed Log is enabled then log output is also sent to the stdout
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		task.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+// wrapper function for retrieving Connector parameter settings and handling
+// mandatory settings that are not found.
+function getParam(pname, required) {
+	if (typeof required === "undefined") { required = true; }
+	var pval = connector.getParam(pname);
+	
+	if (pval === null && required) {
+		throwException(message["Required parameter not set"] + ": " + pname);
+	} 
+	
+	return pval;
+}
+
+// parses the return JSON payload
+function parseReply(replyEntry) {
+	if (replyEntry === null) { return; } 
+	
+	var body = replyEntry.getString("http.bodyAsString");
+	
+	try {
+		// use the JS Engine fromJson() function to turn the JSON payload into a Javascript object
+		var reply = fromJson(body);
+	} catch (ex) {
+		throwException(message["Unable to parse JSON return from"] + " " + dbtype + "\n" + replyEntry.toString);
+	}	
+
+	// save any cookies passed back	
+	var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+	if (setCookie !== null) {
+		for (var i = 0; i < setCookie.size(); i++) {
+			var thisCookie = setCookie.getValue(i);
+			var p = thisCookie.indexOf("=");
+			if (p > 0) {
+				cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+			}
+		}	
+	}
+	
+	return reply;
+}
+
+// converts a document to an SDI Entry
+// the 'doc' argument must be a Javascript object
+function doc2Entry(doc) {
+	var e = system.newEntry();
+
+	if (typeof doc === "undefined" || doc == null) {
+		return e;
+	}
+	
+	// if the returnas is 'flat entry' then return a standard Entry, otherwise return an hierarchical Entry
+	if (returnas.startsWith("flat")) {
+		for (var prop in doc) {
+			e[prop] = doc[prop];
+		}
+	} else {
+		e = entry.fromJSON(toJson(doc));
+	}	
+	
+	// add the special attributes returned by this connector
+	e["$doc"] = doc;
+	e["$json"] = toJson(doc);
+	e["$docs_in_view"] = total_rows;
+	
+	return e;
+}
+
+// converts an SDI entry to a Javascript object
+function entry2Doc(entry) {
+	var json = entry.getString("$json");
+	var doc = entry.getObject("$doc");
+	
+	// first check if $doc returns a Javascript object to use
+	if (doc == null && json !== null && json.trim() != "") {
+		// else, if $json is passed in then use this
+		doc = fromJson(json);
+	}
+	
+	// otherwise, convert the Entry to a Javascript object
+	if (doc == null) {
+		var docEntry = system.newEntry();
+		docEntry.merge(entry);
+		var attNames = docEntry.getAttributeNames();
+		for (var name in attNames) {
+			// remove the special attributes ($doc, $json and $docs_in_view) before conversion
+			if (name.startsWith("$")) {
+				docEntry.removeAttribute(name);
+			}
+		}
+		
+		// use Entry.toJSON() to convert the entry to a JS object, and then the JS Engine fromJson() to create
+		// JS object
+		//
+		doc = fromJson(docEntry.toJSON());
+	}	
+
+	return doc;
+}
+
+// Makes the PUT request to create a new document
+function addDocument(doc, id) {
+	if (doc == null) {
+		return;
+	}
+	
+	var reply;
+	var url = database;
+
+	// if a doc id is passed then do a PUT request using the id in the url
+	if (typeof id === "string" && id.trim() !== "") {
+		reply = makeRequest({verb : "PUT", 
+							 url : url + "/" + id, 
+							 body : toJson(doc), 
+							 where :"addDocument"});
+	} else {
+		// otherwise POST the new document and let CouchDB generate the doc._id
+		reply = makeRequest({verb : "POST", 
+							 url : url, 
+							 body : toJson(doc), 
+							 where : "addDocument"});
+	}
+
+	
+	if (reply !== null) {
+		return reply["_id"];
+	}
+}
+
+// wrapper function to return a required property from doc1, and if not found then from doc2
+// and throw an exception if the property is missing
+//
+function getProp(pname, doc1, doc2, where) {
+	// handle missing arguments
+	if (!doc1) {doc1 = {};}
+	if (!doc2) {doc2 = {};} 
+	if (!where) {where = ""} else {where = "(" + where + ") ";}
+
+	var pval = doc1[pname];
+	
+	if (!pval) {
+		pval = doc2[pname];
+	}
+	
+	if (!pval) {
+		throw where + message["Mandatory property of document to modify is missing"] + ": " + pname;
+	}
+	
+	return pval;
+}
+
+// wrapper function to handle both modify and delete requests
+function writeDocument(params) {
+	var doc = params.doc;
+	var id = params.id;
+	var deleteEntry = params.isDelete;
+
+	if (doc == null) {
+		return;
+	}
+	
+	var reply;
+	var url = database;
+	var id = getProp("_id", doc, current, "modEntry");
+	var rev = getProp("_rev", doc, current, "modEntry");
+		
+	doc._rev = rev;
+	
+	if (deleteEntry) {
+		// if delete operation then make the DELETE request
+		reply = makeRequest({verb : "DELETE", 
+							 url : url + "/" + id, 
+							 body : toJson(doc), 
+							 rev : doc._rev,
+							 where :"deleteEntry"});
+	} else {
+		// otherwise modify an existing document
+		reply = makeRequest({verb : "PUT", 
+							 url : url + "/" + id, 
+							 body : toJson(doc), 
+							 rev : doc._rev,
+							 where :"modEntry"});
+	}
+}
+
+// return the next page from the selected view
+function getNextPage() {
+	var reply
+	var qp = "";
+//	var useView = "_all_docs";
+	var useView = view;
+	var useUrl = "";
+	
+	// if the selectUrl has not been set then query for the next page
+	if (selectUrl) {
+		// startkey and endkey are used to return the result set in pages
+		if (startkey != null && startkey != "") {
+			qp += "startkey=\"" + startkey + "\"&";
+		}
+			
+		if (endkey != null && endkey != "") {
+			qp += "endkey=\"" + endkey + "\"&";
+		}
+			
+		// limit the query to the specified pagesize
+		qp = "?" + qp + "limit=" + (pagesize+1);
+	
+		// if the sort order is descending then append the query param
+		if (descending) {
+			qp += "&descending=true"
+		}
+	
+		if (view != null && view.trim().length > 0) {
+			useView = view;
+		}
+		
+		useUrl = database + "/" + useView + qp + "&include_docs=true";
+	} else {
+		// otherwise use the selectUrl
+		useUrl = selectUrl + "?include_docs=true";
+	}
+	
+	reply = makeRequest({"verb" : "GET", 
+						 "url" : useUrl, 
+						 "where" : "getNextPage"});
+	
+	// if the reply contains multiple docs then prepare to iterate over this list
+	if (reply.rows != null) {
+		list = reply.rows;
+	} else
+	// otherwise return the single doc returned
+	if (reply._id != null) {
+		list = new Array();
+		list[0] = {doc: reply};
+	}
+	
+	// initialize the list index
+	listCnt = 0;
+}
+
+// converts Link Criteria to a Javascript expression used by findEntry() to filter returned documents
+function criteria2JS(search) {
+	var crit;
+	var type = search.getType();
+	var js = "";
+	var bool = "&&";
+	if (type == search.SEARCH_OR) {
+		bool = "||";
+	}
+	
+	// for each criteria, append to the JS expression
+	for (var i = 0; i < search.size(); i++) {
+		crit = search.getCriteria(i);
+
+		if (js.length == 0) {
+			js = "(" + crit2JS(crit);
+		} else {
+			js += bool + crit2JS(crit);
+		}	
+	}
+	
+	js += ")";
+	
+	// if Detailed Log is enabled then write the converted Link Criteria to the log
+	if (deBug) {
+		logmsg("\n---------> criteria2JS - " + message["Link Criteria as Javascript"] + ": " + js)
+	}
+	
+	return js;
+}
+
+// converts a single criteria to a JS expression
+function crit2JS(crit) {
+	if (typeof crit === "undefined" || crit == null) {
+		return "";
+	}	
+	
+	var js = "";
+	var code = crit.match;
+	var op1 = "doc." + crit.name;
+	var op2 = crit.value;
+	var not = crit.negate;
+	var exists = "((" + op1 + ") && ";
+	if (not) { exists = "((!" + op1 + ") || " };
+	
+	switch (code) {
+		case com.ibm.di.server.SearchCriteria.EXACT: 
+			if (not) { js = exists + "(" + op1 + " != '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " == '" + op2 + "'))" };
+			break;
+		case com.ibm.di.server.SearchCriteria.GREATER_THAN: 
+			if (not) { js = exists + "(" + op1 + " <= '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " > '" + op2 + "'))"; } 
+			break;
+		case com.ibm.di.server.SearchCriteria.GREATER_THAN_OR_EQUAL: 
+			if (not) { js = exists + "(" + op1 + " < '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " >= '" + op2 + "'))"; } 
+			break;
+		case com.ibm.di.server.SearchCriteria.LESS_THAN: 
+			if (not) { js = exists + "(" + op1 + " >= '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " < '" + op2 + "'))"; } 
+			break;
+		case com.ibm.di.server.SearchCriteria.LESS_THAN_OR_EQUAL: 
+			if (not) { js = exists + "(" + op1 + " > '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " <= '" + op2 + "'))"; } 
+			break;
+		case com.ibm.di.server.SearchCriteria.NOT_STRING: 
+			if (not) { js = exists + "(" + op1 + " != '" + op2 + "'))" } 
+			else { js = exists + "(" + op1 + " != '" + op2 + "'))"; } 
+			break;
+		case com.ibm.di.server.SearchCriteria.FINAL_STRING:
+			if (not) { js = "!"; }
+			js += exists + "(" + op1 + ".endsWith('" + op2 + "')))";
+			break;
+		case com.ibm.di.server.SearchCriteria.INITIAL_STRING: 
+			if (not) { js = "!"; }
+			js += exists + "(" + op1 + ".startsWith('" + op2 + "')))";
+			break;
+		case com.ibm.di.server.SearchCriteria.SUBSTRING: 
+			js = exists + "(" + op1 + ".indexOf('" + op2 + "')";
+			if (not) { 
+				js += " < 0))";
+			} else {
+				js += " >= 0))";
+			}	
+			break;
+		default: throwException(message["Unrecognized operator for Link Criteria"] + ": " + code);
+	}
+	
+	return js;
+}
+
+// check the format of the url setting and append with forward slash if missing
+function fixUrl(params) {
+	var url = params.url;
+	var user = params.user;
+	var password = params.password;
+	var dbtype = params.dbtype;
+	var protocolSpes = "http:";
+	var auth = "";
+	
+	if (url.startsWith("http")) {
+		var p = url.indexOf("/");
+		if (p > 0) {
+			protocolSpes = url.substring(0, p);
+			var p2 = url.indexOf("/", p+1);
+			if (p2 == (p+1)) {
+				url = url.substring(p2+1);
+			} else {
+				throwException(message["Invalid format for URL parameter"] + ": " + url);
+			}
+		}
+	}
+/*	
+ * commented out - not required
+ * 
+	if (dbtype && "Cloudant".equalsIgnoreCase(dbtype) && user && password) {
+		auth = user.trim() + ":" + password.trim() + "@";
+	}
+*/	
+	if (!url.endsWith("/")) {
+		return protocolSpes + "//" + auth + url + "/";
+	} else {
+		return protocolSpes + "//" + auth + url;
+	}
+}
+
+// refresh global variables from the connector Connection parameter settings
+function refreshParameters() {
+	// get all parameter settings
+	dbtype = getParam("dbtype", false);
+	user = getParam("user", false);
+	password = getParam("password", false);
+	paramurl = getParam("url");
+	baseurl = fixUrl({url: paramurl, user: user, password: password, dbtype: dbtype});
+	database = getParam("database");
+	pagesize = getParam("pagesize", false);
+	deBug = "true".equals(getParam("deBug", false));
+	descending = "true".equals(getParam("descending", false));
+	view = getParam("view", false);
+	startkey = getParam("startkey", false);
+	endkey = getParam("endkey", false);
+	handleDDocs = "true".equals(getParam("includeDesignDocs", false));
+	returnas = getParam("returnas", false);
+
+//	map = getParam("map", false);
+//	ssl = "true".equals(getParam("ssl", false));
+//	createoninit = "true".equals(getParam("createoninit", false));
+//	deleteonclose = "true".equals(getParam("deleteonclose", false));
+//	grouplevel = getParam("grouplevel", false);
+//	generateviews = getParam("generateviews", false);
+//	enabletempview = "true".equalsIgnoreCase(getParam("enabletempview", false));
+//	reduce = "true".equals(getParam("reduce", false));
+
+	if (!dbtype || dbtype == null || dbtype.toLowerCase().length == 0) {
+		dbtype = "CouchDB";
+	}
+	
+	if (returnas == null) { 
+		returnas = "flat"; 
+	} else {
+		returnas = returnas.toLowerCase();
+	} 
+	
+	if (!system.isValidInt(pagesize)) {
+		// not a valid number
+		pagesize = 100;
+	} else {
+		pagesize = pagesize*1.0;
+	}
+	
+	if (view == null || view.trim().length == 0) {
+		view = "_all_docs";
+	}
+	
+	if (view == null || view.trim() == "") {
+		view = null;
+	} else {
+		view = view.trim();
+	}
+}
+
+// reset global variables that control connector behavior
+function resetConnector() {
+	initialized = false;
+	view = null;
+	list = null;
+	listCnt = 0;
+	startkey = "";
+	endkey = "";
+	cookies.removeAllAttributes();
+	current.removeAllAttributes();
+	selectUrl = "";
+}
+
+// write request or reply details to the log
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				// include all "http.*" attributes, except bodyAsBytes
+				if (a.indexOf("http.") >= 0
+					&& !"http.bodyAsBytes".equalsIgnoreCase(a) ) {
+					s += " " + a + ": " + obj[a] + "\n";
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	logmsg(s.toString());
+}
+
+
+]]></parameter>
+            <parameter name="url"/>
+            <parameter name="user"/>
+            <parameter name="view"/>
+        </Configuration>
+        <ComputeChanges>false</ComputeChanges>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </AttributeMap>
+        <DeltaSettings>
+            <ModTime>1401625276934</ModTime>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1402999860405</ModTime>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1402907979179</ModTime>
+            <SchemaItem>
+                <Name>$doc</Name>
+                <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$json</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$total_rows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>_id</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>_rev</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>item</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>prices</Name>
+                <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401625277220</ModTime>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

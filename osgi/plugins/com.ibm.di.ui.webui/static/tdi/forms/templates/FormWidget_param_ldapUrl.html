@@ -1,0 +1,32 @@
+<div style='width:100%;border-radius:8px; border-width:1px; border-style:solid; border-color:lightgray;'>
+	<table class="dijitReset" style="padding:1em; width:100%">
+		<tr>
+			<td>
+				${nls.WebCE_hostname}
+			</td>
+			<td>
+				<div data-dojo-type='dijit/form/TextBox'
+				title="${nls.WebCE_ldaphost}" 
+				style='width:100%' data-dojo-attach-event='onChange:_onChange' intermediateChanges=true data-dojo-attach-point='Hostname'></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				${nls.FDS_tcpPort}
+			</td>
+			<td>
+				<div data-dojo-type='dijit/form/ValidationTextBox' pattern="\d*"
+					title="${nls.WebCE_ldapport}" 
+					invalidMessage="Enter port number - only numeric digits allowed"
+					style='width:6em' data-dojo-attach-event='onChange:_onChange' intermediateChanges=true data-dojo-attach-point='Port'></div>
+			</td>
+		</tr><tr>
+		</tr><tr>
+			<td colspan="2">
+				<div data-dojo-type='idx/form/CheckBox'
+					title="${nls.WebCE_ldapssl}" 
+					label="${nls.FDS_useSSL}" data-dojo-attach-event='onChange:_onChange' data-dojo-attach-point='SSL'></div>
+			</td>
+		</tr>
+	</table>
+</div>

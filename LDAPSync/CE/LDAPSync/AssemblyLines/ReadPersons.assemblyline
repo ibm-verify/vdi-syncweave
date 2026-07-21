@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="45" UUID="6af37fd1-d9ce-4df4-b5ad-9c80eb806c98" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="ReadPersons" modified="Wed May 06 10:38:54 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="ReadPersons">
+        <ModTime>1430901520089</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="prolog0">
+                <InheritFrom>/Scripts/libPrologHook</InheritFrom>
+                <Name>prolog0</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="SourceLDAP" state="Enabled"/>
+                <Component name="Source is AD" state="Enabled"/>
+                <Component name="Update delta for AD pwdLastSet" state="Simulated"/>
+                <Component name="Add sourceLDAP" state="Enabled"/>
+                <Component name="Read Persons" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1430901520089</ModTime>
+            <Connector name="Read Persons">
+                <InheritFrom>/Connectors/SourceLDAP</InheritFrom>
+                <ModTime>1430901520089</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1409214970610</ModTime>
+                    <parameter name="ldapSearchFilter">@SUBSTITUTE{javascript return "objectClass=person"}</parameter>
+                    <parameter name="ldapTimeLimit">0</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1408004898138</ModTime>
+                    <AttributeMapItem>
+                        <Name>$lastChangeState</Name>
+                        <Type>advanced</Type>
+                        <Script>lastChangeState;</Script>
+                        <Simple>$lastChangeState</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1430901520089</ModTime>
+                    <Enabled><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></Enabled>
+                    <UniqueAttribute>$dn</UniqueAttribute>
+                    <FilePath><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT"
+opEntry = task.getOpEntry()
+return opEntry.getString("$deltaStore")}]]></FilePath>
+                    <ReadDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></ReadDeleted>
+                    <RemoveDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></RemoveDeleted>
+                    <DeltaFastAlgorithm>true</DeltaFastAlgorithm>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>REPEATABLE_READ</RowLocking>
+                    <ChangeDetectionMode>IGNORE_ATTRIBUTES</ChangeDetectionMode>
+                    <AttributeList>$lastChangeState</AttributeList>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>audio</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>businessCategory</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>carLicense</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>departmentNumber</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>description</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>destinationIndicator</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>displayName</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeeNumber</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeeType</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>facsimileTelephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>givenName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>homePhone</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>homePostalAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>initials</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>internationaliSDNNumber</Name>
+                        <NativeSyntax>MAY/IA5 String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>jpegPhoto</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>l</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>labeledUri</Name>
+                        <NativeSyntax>MAY/IA5 String/Uniform Resource Identifier with optional label</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mail</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>manager</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mobile</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>o</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ou</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>owner</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>pager</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>photo</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>physicalDeliveryOfficeName</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postOfficeBox</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postalAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postalCode</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>preferredDeliveryMethod</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>preferredLanguage</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>registeredAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>roomNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>secretary</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>seeAlso</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>sn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>st</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>street</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>teletexTerminalIdentifier</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telexNumber</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>title</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uniqueMember</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userCertificate</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userPKCS12</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userPassword</Name>
+                        <NativeSyntax>MAY/Octet String{128}/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userSMIMECertificate</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>x121Address</Name>
+                        <NativeSyntax>MAY/IA5 String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>x500UniqueIdentifier</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>facsimileTelephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>givenName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>l</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mail</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ou</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>roomNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>sn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1428998692727</ModTime>
+                    <Hook name="after_getnext">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>after_getnext</Name>
+                        <Script/>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="after_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>after_initialize</Name>
+                        <Script><![CDATA[var serverInfo = ldap.getServerInfo();
+var lastChangeState = serverInfo.getString("highestCommittedUSN");
+if (lastChangeState === null) {
+	lastChangeState = serverInfo.getString("lastchangenumber");
+	// try to add one to the last changenumber -> the next change
+	try {
+		lastChangenumber = system.toInt(lastChangeState);
+		lastChangenumber++;
+		lastChangeState = String(lastChangenumber);
+	} catch (ex) {
+		// do nothing		
+	}
+}]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_execute">
+                        <Name>before_execute</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_getnext">
+                        <Name>before_getnext</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="before_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_initialize</Name>
+                        <Script><![CDATA[//Refer: Utils->prepareObjectClasses()
+searchFilter = "(objectClass="+getProperty("source.userObjectClass")+")";
+ldap = thisConnector.connector;
+
+if (cloudSync) {
+	searchFilter = "(|" + searchFilter + "(objectClass=user)(objectClass=person))";
+}
+
+logmsg("> " + resource.getString("LDAPSYNC.MIGRATING.PERSON.ENTRIES.USING.SEARCH.FILTER") + ": "+searchFilter);
+ldap.setParam("ldapSearchFilter",searchFilter);
+
+// set up to retrieve all membership attribute available
+if (typeof filterOnGroups !== "undefined" && filterOnGroups) {
+	thisConnector.connector.setParam("ldapReturnAttributes", "*\nibm-allGroups\nmemberOf\ngroupMembership");
+}]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <Name>default_fail</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <Name>initialize_fail</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1409257202838</ModTime>
+            <Connector name="SourceLDAP">
+                <InheritFrom>/Connectors/SourceLDAP</InheritFrom>
+                <ModTime>1409131615567</ModTime>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Passive</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="ldapSearchFilter">@SUBSTITUTE{javascript return "objectClass=person"}</parameter>
+                    <parameter name="ldapTimeLimit">0</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>$lastChangeState</Name>
+                        <Type>advanced</Type>
+                        <Script>lastChangeState;</Script>
+                        <Simple>$lastChangeState</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <Enabled><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></Enabled>
+                    <UniqueAttribute>$dn</UniqueAttribute>
+                    <FilePath><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT"
+opEntry = task.getOpEntry()
+return opEntry.getString("$deltaStore")}]]></FilePath>
+                    <ReadDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></ReadDeleted>
+                    <RemoveDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></RemoveDeleted>
+                    <DeltaFastAlgorithm>true</DeltaFastAlgorithm>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>REPEATABLE_READ</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>audio</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>businessCategory</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>carLicense</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>departmentNumber</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>description</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>destinationIndicator</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>displayName</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeeNumber</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeeType</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>facsimileTelephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>givenName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>homePhone</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>homePostalAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>initials</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>internationaliSDNNumber</Name>
+                        <NativeSyntax>MAY/IA5 String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>jpegPhoto</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>l</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>labeledUri</Name>
+                        <NativeSyntax>MAY/IA5 String/Uniform Resource Identifier with optional label</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mail</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>manager</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mobile</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>o</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ou</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>owner</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>pager</Name>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>photo</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>physicalDeliveryOfficeName</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postOfficeBox</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postalAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>postalCode</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>preferredDeliveryMethod</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>preferredLanguage</Name>
+                        <NativeSyntax>MAY/Directory String/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>registeredAddress</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>roomNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>secretary</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>seeAlso</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>sn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>st</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>street</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Telephone Number/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>teletexTerminalIdentifier</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telexNumber</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>title</Name>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uniqueMember</Name>
+                        <NativeSyntax>MAY/DN/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userCertificate</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userPKCS12</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userPassword</Name>
+                        <NativeSyntax>MAY/Octet String{128}/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>userSMIMECertificate</Name>
+                        <NativeSyntax>MAY/Binary/inetOrgPerson attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>x121Address</Name>
+                        <NativeSyntax>MAY/IA5 String/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>x500UniqueIdentifier</Name>
+                        <NativeSyntax>MAY/Binary/Standard LDAP attribute type</NativeSyntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>facsimileTelephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>givenName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>l</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mail</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ou</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>roomNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>sn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telephoneNumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1409058482392</ModTime>
+                    <Hook name="before_initialize">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>before_initialize</Name>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <Name>default_fail</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <Name>initialize_fail</Name>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Branch name="Source is AD">
+                <ModTime>1409257202838</ModTime>
+                <Function name="Update delta for AD pwdLastSet">
+                    <InheritFrom>system:/Functions/ibmdi.DeltaFC</InheritFrom>
+                    <ModTime>1409257202838</ModTime>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="after_functioncall">
+                            <Name>after_functioncall</Name>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="before_functioncall">
+                            <Name>before_functioncall</Name>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                        <Hook name="default_fail">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Name>default_fail</Name>
+                            <Script>task.dumpEntry(error);</Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1409257202838</ModTime>
+                        <parameter name="attributeList">pwdLastSet</parameter>
+                        <parameter name="changeDetectionMode">DETECT_ATTRIBUTES</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="deltaDB"><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT";
+opEntry = task.getOpEntry();
+return opEntry.getString("$deltaStore");}]]></parameter>
+                        <parameter name="rowLocking">REPEATABLE_READ</parameter>
+                        <parameter name="uniqueAttribute">objectGUIDStr</parameter>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>member</Name>
+                            <Type>simple</Type>
+                            <Simple>member</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>objectGUIDStr</Name>
+                            <Type>simple</Type>
+                            <Simple>objectGUIDStr</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                </Function>
+                <ScriptCondition><![CDATA[return "ad".equalsIgnoreCase(changeDetectionType) &&
+		work.member !== null;]]></ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Script name="Add sourceLDAP">
+                <ModTime>1409058438525</ModTime>
+                <parameter name="script">work.setAttribute("$sourceLDAP", SourceLDAP.connector);</parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

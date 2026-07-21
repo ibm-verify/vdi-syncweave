@@ -1,0 +1,1573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2007-07-27" created="Tue Jul 31 17:43:34 EEST 2007" createdBy="bratan.bratanov" modified="Wed Aug 01 14:56:55 EEST 2007" modifiedBy="bratan.bratanov" version="7.0">
+<Folder name="AssemblyLines">
+<AssemblyLine name="zxW7FileConnector">
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>epilog2</Name>
+<Script/>
+<Enabled>false</Enabled>
+</Hook>
+<Hook>
+<Name>onsuccess</Name>
+<Script/>
+<Enabled>false</Enabled>
+</Hook>
+<Hook>
+<Name>prolog0</Name>
+<Script/>
+<Enabled>false</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Branch name="IF putEntry">
+<Connector name="init &amp; incr eventCount">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[if (typeof(eventCount) != "undefined") {
+	eventCount++; 	// if this has not been defined yet then
+			// we end up in the else branch to init
+			// the various variables.
+} else {
+	// Initialize some variables for use later. Note that the
+	// fixPath() function is define below in this Hook
+	//
+	var eventCount = 0;
+	var opentry = task.getOpEntry(); // Contains AL init parameters
+	var insightImportDir = fixPath(task.getOpEntry().getString("1. Insight Import directory"));
+	var fileCreationDir = fixPath(task.getOpEntry().getString("2. File creation directory"));
+	var eventMax = task.getOpEntry().getObject("3. How many events per file");
+
+	if (system.isValidInt(eventMax))
+		eventMax = Number(eventMax)
+	else
+		eventMax = 0;
+	
+	var timeBeforeMove = task.getOpEntry().getObject("4. Minutes before sending events to Insight");
+
+	if (system.isValidInt(timeBeforeMove))
+		timeBeforeMove = Number(timeBeforeMove)
+	else
+		timeBeforeMove = 0;
+
+	var deadline = new java.util.Date().getTime() + timeBeforeMove*1000*60;
+
+	var importFilePrefix = task.getOpEntry().getString("5. Prefix for W7 import files");
+	if (importFilePrefix == null)
+		importFilePrefix = "AuditEventsFromTDI_";
+
+/* For debugging
+	task.logmsg("\n\n ********************* Setting default parameter values *********************\n\n");
+	insightImportDir = "HowTos\\Insight_W7\\Insight Import Dir\\";
+	fileCreationDir = "HowTos\\Insight_W7\\W7 Creation Dir/";
+	eventMax = 100;
+*/
+
+	// set output Path for Connector to temp file in temp dir
+	//
+	tempEventFilepath = fileCreationDir + "/TempEvents.csv";
+	W7FileConnector.connector.setParam("filePath", tempEventFilepath);
+
+	// Print version message with param info
+	//
+	task.logmsg("** W7FileConnector v0.9 **");
+	task.logmsg("**  Insight import dir: " + insightImportDir);
+	task.logmsg("**   File creation dir: " + fileCreationDir);
+	task.logmsg("**     Events per move: " + eventMax);
+	task.logmsg("** Prefix for W7 files: " + importFilePrefix);
+
+}
+
+// Define functions used later in the AL
+//
+
+// Move the file from the fileCreationDir to the insightImportDir.
+// Returns true if file was moved, otherwise false (or exception)
+//
+function moveFile(fromPath) {
+	var paths = system.splitString(fromPath, "/");
+	var toPath = insightImportDir + "/" + importFilePrefix + new java.util.Date().getTime() + ".csv";
+
+	var fromFile = new java.io.File(fromPath);
+	var toFile = new java.io.File(toPath);
+	task.logmsg("== Moving file from: " + fromFile);
+	if (fromFile.exists()) {
+		if (fromFile.renameTo(toFile))
+			task.logmsg("== Moving file to: " + toFile)
+		else
+			task.logmsg("ERROR", "\n\n!!!! ------- COULD NOT MOVE FILE: " + fromFile + " ------- !!!!\n\n");
+	}
+}
+
+// Removes "/" or "\" from the path 
+//
+function fixPath(path) {
+	if (path == null)
+		path = new java.lang.String("")
+	else if (path.endsWith("\\") || path.endsWith("/"))
+		path = path.substring(0,insightImportDir.length()-1);
+
+	return path;
+}
+
+]]></ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Connector name="set filepath">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[/*
+task.logmsg("...writing event " + (eventCount+1) + " " +
+		work.getString("onwhatname"));
+*/
+W7FileConnector.connector.setParam("filePath", tempEventFilepath);]]></ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Connector name="W7FileConnector">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">arf.csv</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"/>
+<parameter name="csvColumnSeparator">,</parameter>
+<parameter name="csvColumns"><![CDATA[when
+whorealname
+whologonname
+whatverb
+whatnoun
+whatsuccess
+wheretype
+wherename
+wherefromtype
+wherefromname
+wheretotype
+wheretoname
+onwhattype
+onwhatpath
+onwhatname
+info
+]]></parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">true</parameter>
+<parameter name="debug">true</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<AttributeMapItem>
+<Name>info</Name>
+<Type>simple</Type>
+<Simple>info</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>simple</Type>
+<Simple>onwhatname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>simple</Type>
+<Simple>onwhatpath</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>simple</Type>
+<Simple>onwhattype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>simple</Type>
+<Simple>whatnoun</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>simple</Type>
+<Simple>whatsuccess</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>simple</Type>
+<Simple>whatverb</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>simple</Type>
+<Simple>when</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>simple</Type>
+<Simple>wherefromname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>simple</Type>
+<Simple>wherefromtype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>simple</Type>
+<Simple>wherename</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>simple</Type>
+<Simple>wheretoname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>simple</Type>
+<Simple>wheretotype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>simple</Type>
+<Simple>wheretype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>simple</Type>
+<Simple>whologonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>simple</Type>
+<Simple>whorealname</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<AttributeMapItem>
+<Name>info</Name>
+<Type>simple</Type>
+<Simple>info</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("onwhatname");</Script>
+<Simple>onwhatname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>simple</Type>
+<Simple>onwhatpath</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("onwhattype");</Script>
+<Simple>onwhattype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("whatnoun");</Script>
+<Simple>whatnoun</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>simple</Type>
+<Simple>whatsuccess</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>simple</Type>
+<Simple>whatverb</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>simple</Type>
+<Simple>when</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>simple</Type>
+<Simple>wherefromname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>simple</Type>
+<Simple>wherefromtype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>simple</Type>
+<Simple>wherename</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>simple</Type>
+<Simple>wheretoname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>simple</Type>
+<Simple>wheretotype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>simple</Type>
+<Simple>wheretype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>simple</Type>
+<Simple>whologonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>simple</Type>
+<Simple>whorealname</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<Hook>
+<Name>after_close</Name>
+<Script><![CDATA[if (typeof(tempEventFilepath) != "undefined") {
+	moveFile(tempEventFilepath);
+}
+]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<Enabled>false</Enabled>
+<MinPoolSize>0</MinPoolSize>
+<PurgeInterval>0</PurgeInterval>
+<InitializeAttempts>1</InitializeAttempts>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>1</InitializeOption>
+</Connector>
+<Branch name="IF time to flush and move file">
+<Connector name="Flush and move file">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[W7FileConnector.connector.terminate();
+moveFile(W7FileConnector.connector.getParam("filePath"));
+
+
+]]></ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Connector name="Re-initialize Connector">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[W7FileConnector.connector.setParam("filePath", tempEventFilepath);
+W7FileConnector.connector.initialize(null);]]></ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<ScriptCondition><![CDATA[moveIt = false;
+
+// First I check the Events Per File (if set)
+//
+if (eventMax > 0)
+	moveIt = (eventCount % eventMax) == 0;
+
+// Now I check to see if the Time Before Move is set, and if so,
+// if the deadline is passed.
+//
+if (timeBeforeMove > 0) {
+	moveIt = (new java.util.Date().getTime() > deadline);
+	if (moveIt)
+		deadline = new java.util.Date().getTime() + timeBeforeMove * 1000 * 60;
+}
+
+ret.value = moveIt;
+]]></ScriptCondition>
+<Conditions/>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+<ScriptCondition><![CDATA[ret.value = task.getOpEntry().getString("$operation") == "putEntry";]]></ScriptCondition>
+<Conditions/>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+<Branch name="ELSE">
+<Connector name="Got called!!!">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript>task.logmsg("\n\n\n\n                      *********** GOT CALLED ******************\n\n\n");</ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Conditions/>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>2</Type>
+</Branch>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="putEntry">
+<Schema name="Input">
+<SchemaItem>
+<Name>info</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatpath</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhattype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatnoun</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatsuccess</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatverb</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>when</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromtype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherename</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretoname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretotype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whologonname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whorealname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>info</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatpath</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhattype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatnoun</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatsuccess</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatverb</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>when</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromtype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherename</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretoname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretotype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whologonname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whorealname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+</Schema>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>info</Name>
+<Type>simple</Type>
+<Simple>info</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>simple</Type>
+<Simple>onwhatname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>simple</Type>
+<Simple>onwhatpath</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>simple</Type>
+<Simple>onwhattype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>simple</Type>
+<Simple>whatnoun</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>simple</Type>
+<Simple>whatsuccess</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>simple</Type>
+<Simple>whatverb</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>simple</Type>
+<Simple>when</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>simple</Type>
+<Simple>wherefromname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>simple</Type>
+<Simple>wherefromtype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>simple</Type>
+<Simple>wherename</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>simple</Type>
+<Simple>wheretoname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>simple</Type>
+<Simple>wheretotype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>simple</Type>
+<Simple>wheretype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>simple</Type>
+<Simple>whologonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>simple</Type>
+<Simple>whorealname</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>info</Name>
+<Type>simple</Type>
+<Simple>info</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>simple</Type>
+<Simple>onwhatname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>simple</Type>
+<Simple>onwhatpath</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>simple</Type>
+<Simple>onwhattype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>simple</Type>
+<Simple>whatnoun</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>simple</Type>
+<Simple>whatsuccess</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>simple</Type>
+<Simple>whatverb</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>simple</Type>
+<Simple>when</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>simple</Type>
+<Simple>wherefromname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>simple</Type>
+<Simple>wherefromtype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>simple</Type>
+<Simple>wherename</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>simple</Type>
+<Simple>wheretoname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>simple</Type>
+<Simple>wheretotype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>simple</Type>
+<Simple>wheretype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>simple</Type>
+<Simple>whologonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>simple</Type>
+<Simple>whorealname</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<Public>true</Public>
+</Operation>
+<Operation name="Default">
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+<InitParams>
+<Schema name="AssemblyLineInitParams">
+<SchemaItem>
+<Name>1. Insight Import directory</Name>
+<NativeSyntax>String</NativeSyntax>
+</SchemaItem>
+<SchemaItem>
+<Name>2. File creation directory</Name>
+<NativeSyntax>String</NativeSyntax>
+</SchemaItem>
+<SchemaItem>
+<Name>3. How many events per file</Name>
+<NativeSyntax>Number</NativeSyntax>
+</SchemaItem>
+<SchemaItem>
+<Name>4. Minutes before sending events to Insight</Name>
+<NativeSyntax>Number</NativeSyntax>
+</SchemaItem>
+<SchemaItem>
+<Name>5. Prefix for W7 import files</Name>
+<NativeSyntax>String</NativeSyntax>
+</SchemaItem>
+</Schema>
+</InitParams>
+</AssemblyLine>
+<AssemblyLine name="notification2W7">
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="maxread">35</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="notificator">
+<InheritFrom>/Connectors/notificator</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="connectionType">local</parameter>
+<parameter name="url">rmi://127.0.0.1:1099/SessionFactory</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>event.userData.clientIP</Name>
+<Type>advanced</Type>
+<Script>ret.value = conn.getAttribute("event.userData.clientIP");</Script>
+<SubstitutionTemplate>{conn.event.userData.clientIP}</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.hostname</Name>
+<Type>advanced</Type>
+<Script>ret.value = conn.getAttribute("event.userData.hostname");</Script>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="W7FileConnector">
+<InheritFrom>/Connectors/W7FileConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="$initialize.1. Insight Import directory">TDIAudit\Insight_W7\Insight Import Dir</parameter>
+<parameter name="$initialize.2. File creation directory">TDIAudit\Insight_W7\W7 Creation Dir</parameter>
+<parameter name="$initialize.3. How many events per file">100</parameter>
+<parameter name="$initialize.4. Minutes before sending events to Insight">0</parameter>
+<parameter name="$initialize.5. Prefix for W7 import files">TDI_Audit_Events_</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>info</Name>
+<Type>advanced</Type>
+<Script><![CDATA[if((work.getAttribute("event.type").getValue()).equals("di.server.api.authenticate")) {
+	ret.value = ("Type of authentication:"+work.getAttribute("event.id").getValue());
+} else {
+	ret.value = ("Authorization in:"+work.getAttribute("event.userData.authorizationClass").getValue()+
+				"."+work.getAttribute("event.userData.authorizationMethod").getValue());
+}]]></Script>
+<Simple>Title</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.name");</Script>
+<Simple>FullName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.path");</Script>
+<Simple>Title</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.session.type");</Script>
+<Simple>Title</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>advanced</Type>
+<Script><![CDATA[if((work.getAttribute("event.type").getValue()).equals("di.server.api.authenticate")) {	
+ret.value = "user";
+} else {
+var charArray = work.getAttribute("event.userData.authorizationMethod").getValue().toCharArray();
+	var i;
+	for(i=0;i<charArray.length;i++){
+		if(charArray[i]>='A' && charArray[i]<='Z')
+			break;
+	}
+ 	ret.value = work.getAttribute("event.userData.authorizationMethod").getValue().substring(i,charArray.length);
+}]]></Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>advanced</Type>
+<Script><![CDATA[if((work.getAttribute("event.userData.success").getValue()).equalsIgnoreCase("true")) {
+	ret.value = "success";
+} else {
+	ret.value = "failure";
+}]]></Script>
+<Simple>event.userData.success</Simple>
+<SubstitutionTemplate>OK</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>advanced</Type>
+<Script><![CDATA[if(work.getAttribute("event.type").getValue().equals("di.server.api.authenticate")) {
+	ret.value = "authenticate";
+} else {
+	var charArray = work.getAttribute("event.userData.authorizationMethod").getValue().toCharArray();
+	var i;
+	for(i=0;i<charArray.length;i++){
+		if(charArray[i]>='A' && charArray[i]<='Z')
+			break;
+	}
+	ret.value = work.getAttribute("event.userData.authorizationMethod").getValue().substring(0,i);
+}
+]]></Script>
+<SubstitutionTemplate><![CDATA[
+]]></SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>advanced</Type>
+<Script><![CDATA[var date = work.getAttribute("event.userData.eventDate").getValue(0);
+var sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+var cal = java.util.Calendar.getInstance();
+
+cal.setTime(date);
+var time = (cal.get(java.util.Calendar.ZONE_OFFSET) + cal.get(java.util.Calendar.DST_OFFSET))/ (60 * 1000);
+var nf = java.text.NumberFormat.getInstance();
+nf.setMaximumFractionDigits(0);
+nf.setMinimumIntegerDigits(2);
+var formated = sdf.format(date) + "+" + nf.format(time / 60) + ":"+ nf.format(time % 60);
+ret.value = formated;]]></Script>
+<Simple>event.dateCreated</Simple>
+<SubstitutionTemplate>NOW</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.clientIP");</Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>advanced</Type>
+<Script><![CDATA[if(work.getAttribute("event.userData.session.type").getValue().equals("LocalSession")){
+	var a = work.getAttribute("event.userData.os.name").getValue();
+ 	var b = work.getAttribute("event.userData.os.version").getValue();
+	ret.value = a+" "+b;
+}]]></Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.hostname");</Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.hostname");</Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>advanced</Type>
+<Script><![CDATA[var a = work.getAttribute("event.userData.os.name").getValue();
+var b = work.getAttribute("event.userData.os.version").getValue();
+ret.value = a+" "+b;]]></Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>advanced</Type>
+<Script><![CDATA[var a = work.getAttribute("event.userData.os.name").getValue();
+var b = work.getAttribute("event.userData.os.version").getValue();
+ret.value = a+" "+b;]]></Script>
+<Simple>event.userData.os.name</Simple>
+<SubstitutionTemplate>{work.wheretype}</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.logonname");</Script>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("event.userData.logonname");</Script>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+<InitParams>
+<Schema name="AssemblyLineInitParams"/>
+</InitParams>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors">
+<Connector name="W7FileConnector">
+<InheritFrom>system:/Connectors/ibmdi.AssemblyLineConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="$initialize.1. Insight Import directory"/>
+<parameter name="$initialize.2. File creation directory"/>
+<parameter name="$initialize.2. How many events per file">5</parameter>
+<parameter name="$initialize.3. File creation directory">C:\Documents and Settings\no010196\My Documents\TDI\HowTos\Insight_W7\W7 Creation Dir</parameter>
+<parameter name="$initialize.3. How many events per file"/>
+<parameter name="$initialize.4. Prefix for W7 import files">EventsFromTDI_</parameter>
+<parameter name="assemblyLine">zxW7FileConnector</parameter>
+<parameter name="debug">false</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>info</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("info");</Script>
+<Simple>info</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatname</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("onwhatname");</Script>
+<Simple>onwhatname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhatpath</Name>
+<Type>simple</Type>
+<Simple>onwhatpath</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>onwhattype</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("onwhattype");</Script>
+<Simple>onwhattype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatnoun</Name>
+<Type>advanced</Type>
+<Script>ret.value = work.getAttribute("whatnoun");</Script>
+<Simple>whatnoun</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatsuccess</Name>
+<Type>simple</Type>
+<Simple>whatsuccess</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whatverb</Name>
+<Type>simple</Type>
+<Simple>whatverb</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>when</Name>
+<Type>simple</Type>
+<Simple>when</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromname</Name>
+<Type>simple</Type>
+<Simple>wherefromname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherefromtype</Name>
+<Type>simple</Type>
+<Simple>wherefromtype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wherename</Name>
+<Type>simple</Type>
+<Simple>wherename</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretoname</Name>
+<Type>simple</Type>
+<Simple>wheretoname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretotype</Name>
+<Type>simple</Type>
+<Simple>wheretotype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>wheretype</Name>
+<Type>simple</Type>
+<Simple>wheretype</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whologonname</Name>
+<Type>simple</Type>
+<Simple>whologonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>whorealname</Name>
+<Type>simple</Type>
+<Simple>whorealname</Simple>
+</AttributeMapItem>
+<NullBehavior>Value</NullBehavior>
+<NullBehaviorValue>-</NullBehaviorValue>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>info</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhatpath</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>onwhattype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatnoun</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatsuccess</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whatverb</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>when</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherefromtype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wherename</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretoname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretotype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>wheretype</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whologonname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>whorealname</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+<Enabled>false</Enabled>
+<MinPoolSize>0</MinPoolSize>
+<PurgeInterval>0</PurgeInterval>
+<InitializeAttempts>1</InitializeAttempts>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+<Connector name="notificator">
+<InheritFrom>system:/Connectors/ibmdi.ServerNotificationsConnector</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="connectionType">remote</parameter>
+<parameter name="customNotifications"><![CDATA[di.server.api.authenticate
+di.server.api.authorize.*]]></parameter>
+<parameter name="debug">false</parameter>
+<parameter name="hasCustomNotifications">true</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>event.configInstanceId</Name>
+<Type>simple</Type>
+<Simple>event.configInstanceId</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.id</Name>
+<Type>simple</Type>
+<Simple>event.id</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.type</Name>
+<Type>simple</Type>
+<Simple>event.type</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.authorizationClass</Name>
+<Type>advanced</Type>
+<Script>ret.value = conn.getAttribute("event.userData.authorizationClass");</Script>
+<Simple>event.userData.authorizationClass</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.authorizationMethod</Name>
+<Type>simple</Type>
+<Simple>event.userData.authorizationMethod</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.clientIP</Name>
+<Type>simple</Type>
+<Simple>event.userData.clientIP</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.eventDate</Name>
+<Type>simple</Type>
+<Simple>event.userData.eventDate</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.hostname</Name>
+<Type>simple</Type>
+<Simple>event.userData.hostname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.logonname</Name>
+<Type>simple</Type>
+<Simple>event.userData.logonname</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.name</Name>
+<Type>simple</Type>
+<Simple>event.userData.name</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.os.name</Name>
+<Type>simple</Type>
+<Simple>event.userData.os.name</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.os.version</Name>
+<Type>simple</Type>
+<Simple>event.userData.os.version</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.path</Name>
+<Type>simple</Type>
+<Simple>event.userData.path</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.session.type</Name>
+<Type>simple</Type>
+<Simple>event.userData.session.type</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event.userData.success</Name>
+<Type>simple</Type>
+<Simple>event.userData.success</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+<Enabled>false</Enabled>
+<MinPoolSize>0</MinPoolSize>
+<PurgeInterval>0</PurgeInterval>
+<InitializeAttempts>1</InitializeAttempts>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+</Connector>
+</Folder>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart>
+<ParameterList>
+<parameter name="Name">AssemblyLines/notification2W7</parameter>
+</ParameterList>
+</AutoStart>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+<SolutionInterface name="SolutionInterface"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

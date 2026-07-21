@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:26:30 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:26:30 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="grabTrap">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="maxread">5</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>epilog</Name>
+<Script><![CDATA[// This call is here to force the metamerge integrator server to die when we are finished.
+// It is needed if you want the ALs to be run from the commandline with Metamrege Integrator and not have it hanging around ...
+// This has nothing to do with the snmp-example 
+main.shutdownServer();]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="SNMP">
+<InheritFrom>system:/Connectors/ibmdi.SNMP</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="snmpCommunity">public</parameter>
+<parameter name="snmpGetSetHost"></parameter>
+<parameter name="snmpGetSetPort">161</parameter>
+<parameter name="snmpMode">Trap Listener</parameter>
+<parameter name="snmpOID">1.1.1.1.1.1.1.3.0</parameter>
+<parameter name="snmpTrapPort">5488</parameter>
+<parameter name="snmpTrapTimeout">100000</parameter>
+<parameter name="snmpVersion">V1</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>message</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>1.1.1.1.1.1.1.3.0</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>timestamp</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>snmp.timestamp</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<SchemaItem>
+<Name>1.1.1.1.1.1.1.3.0</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>smp.notify.enterprise</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.community</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.genericID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.specificID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.timestamp</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>1.1.1.1.1.1.1.3.0</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>smp.notify.enterprise</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.community</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.genericID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.specificID</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>snmp.timestamp</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>get_ok</Name>
+<Script>main.dump(conn);</Script>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Ack">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/snmpTrap/snmpTrap.txt</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.CSV</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">true</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>log</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = "Ok, received a trap";</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="sendTrap">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog0</Name>
+<Script><![CDATA[
+system.sleep(5);  // Let grabTrap start so someone listens to us ...
+i = 1;
+while (i <= 5) {
+// 5488 is port number, must match in configuration of grabTrap.
+// '42000' is the value to send along with oid '1.1.1.1.1.1.1.3.0'
+   if (!system.snmpTrap("localhost", 5488, "1.1.1.1.1.1.1.3.0", "42000")) {
+	   main.logmsg("No trap sent"); }
+   else 
+		main.logmsg("sent a trap");
+   system.sleep(1);
+	i++;
+}
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer"/>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

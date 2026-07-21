@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+	<xsd:complexType name="proxy-link-type">
+		<xsd:complexContent>
+			<xsd:extension base="tns:base-resource">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="proxy-link" type="tns:proxy-link-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Share Link</scmp:display>
+                <scmp:summary>Share Link</scmp:summary>
+                <scmp:description>
+                    A Proxy Link maintains the linkage between two Service Groups within
+                    a Service Domain, where one is a proxy of the other.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

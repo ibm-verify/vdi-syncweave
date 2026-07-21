@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.ComplexTypesGenerator">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.webservice.ComplexTypesGenerator</parameter>
+				<parameter name="autoGenJavaSrcFiles">true</parameter>
+				<parameter name="jarFile"/>
+				<parameter name="jdkPath"/>
+				<parameter name="wsdlToJavaOptions"/>
+				<parameter name="wsdlUrl"/>
+			</Configuration>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.webservice.ComplexTypesGenerator">
+			<TranslationFile>NLS/idi_fc_complextypesgen</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>jarFile</ListItem>
+					<ListItem>jdkPath</ListItem>
+					<ListItem>autoGenJavaSrcFiles</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>wsdlToJavaOptions</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>wsdlUrl</ListItem>
+				<ListItem>wsdlToJavaOptions</ListItem>
+				<ListItem>jarFile</ListItem>
+				<ListItem>jdkPath</ListItem>
+				<ListItem>autoGenJavaSrcFiles</ListItem>
+			</FormItemNames>
+			<FormItem name="autoGenJavaSrcFiles">
+				<parameter name="description">AGJSF_DESC</parameter>
+				<parameter name="label">AGJSF_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="script">genComplexTypes</parameter>
+				<parameter name="scriptLabel">RSB_SLBL</parameter>
+				<parameter name="scripthelp">RSB_SHLP</parameter>
+			</FormItem>
+			<FormItem name="jarFile">
+				<parameter name="description">JF_DESC</parameter>
+				<parameter name="label">JF_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdkPath">
+				<parameter name="description">JP_DESC</parameter>
+				<parameter name="label">JP_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="wsdlToJavaOptions">
+				<parameter name="description">WTJO_DESC</parameter>
+				<parameter name="label">WTJO_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="wsdlUrl">
+				<parameter name="description">WU_DESC</parameter>
+				<parameter name="label">WU_LBL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">WU_SLBL</parameter>
+				<parameter name="scripthelp">WU_SHLP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+function genComplexTypes () {
+	var fc = form.loadFunction();
+	var wsdlUrl = form.getConfigValue("wsdlUrl");
+	var wsdlToJavaOptions = form.getConfigValue("wsdlToJavaOptions");
+	if (wsdlUrl == null || wsdlUrl.equals("")) {
+		util.messageError(form.translate("WUMNBE"));
+		return;
+	}
+	var jdkPath = form.getConfigValue("jdkPath");
+	var jarFile = form.getConfigValue("jarFile");
+	if (jarFile == null || jarFile.equals("")) {
+		util.messageError(form.translate("JFMNBE"));
+		return;
+	}
+	var autoGenJavaSrcFiles = form.getConfigValue("autoGenJavaSrcFiles");
+	form.setWaitCursor();
+	try {
+		fc.generateComplexTypes(wsdlUrl, wsdlToJavaOptions, jdkPath, jarFile, java.lang.Boolean.valueOf(autoGenJavaSrcFiles).booleanValue());
+		form.setNormalCursor();
+		form.alert(form.translate("JFSG"));
+	} catch(e) {
+		form.setNormalCursor();
+		util.messageError(e.toString());
+	}
+}]]></parameter>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

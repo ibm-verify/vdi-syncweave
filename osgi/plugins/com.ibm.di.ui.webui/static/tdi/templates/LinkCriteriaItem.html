@@ -1,0 +1,35 @@
+<div style="padding-top:10px">
+	<div dojoType="idx.widget.EditController" dojoAttachPoint="editController"></div>
+	&nbsp;
+	<div dojoType="idx.form.Link" dojoAttachEvent="onClick:onDelete" class="idxEditControllerEditLink">Delete</div>
+	<div dojoType="idx.grid.PropertyGrid" 
+		 data-dojo-attach-point="grid"
+	     data="{}"
+	     properties="attribute,operator,value"
+	     editController="this.editController">
+	     
+	  <!-- Attribute  -->
+	  <div dojoType="idx.grid.PropertyFormatter" propertyName="attribute" properties="attribute">
+	    <div dojoType="dijit.form.TextBox"></div>
+	  </div>
+	  
+	  <!-- Operator  -->
+	  <div dojoType="idx.grid.PropertyFormatter" propertyName="operator" properties="operator">
+	    <div dojoType="dijit.form.Select">
+	    	<option value="equals">equal to</option>
+	    	<option value="less">less than</option>
+	    	<option value="greater">greater than</option>
+	    	<option value="gequal">greater or equal to</option>
+	    	<option value="lequal">less or equal to</option>
+	    	<option value="startswith">starts with</option>
+	    	<option value="endswith">ends with</option>
+	    	<option value="contains">contains</option>
+	    </div>
+	  </div>
+	  
+	  <!-- Value  -->
+	  <div dojoType="idx.grid.PropertyFormatter" propertyName="value" properties="value">
+	    <div dojoType="dijit.form.TextBox"></div>
+	  </div>
+	</div>
+</div>

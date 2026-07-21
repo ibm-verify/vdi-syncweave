@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SapALEIDocConnector">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.sapr3.aleidoc.SapALEIDocConnector</parameter>
+				<parameter name="conn.client.max">5</parameter>
+				<parameter name="conn.client.optional"/>
+				<parameter name="conn.idoc.jco.trace">0</parameter>
+				<parameter name="conn.idoc.jco.tracelevel">0</parameter>
+				<parameter name="conn.idoc.jco.tracepath"/>
+				<parameter name="conn.idoc.parsexml">0</parameter>
+				<parameter name="conn.idoc.xmlonly">1</parameter>
+				<parameter name="conn.rfm.xml">0</parameter>
+				<parameter name="conn.server.optional"/>
+				<parameter name="conn.server.poll">60</parameter>
+				<parameter name="jco.client.ashost"/>
+				<parameter name="jco.client.client">000</parameter>
+				<parameter name="jco.client.gwhost"/>
+				<parameter name="jco.client.gwserv">sapgw00</parameter>
+				<parameter name="jco.client.lang">EN</parameter>
+				<parameter name="jco.client.passwd"/>
+				<parameter name="jco.client.sysnr">00</parameter>
+				<parameter name="jco.client.user"/>
+				<parameter name="jco.server.gwhost"/>
+				<parameter name="jco.server.gwserv">sapgw00</parameter>
+				<parameter name="jco.server.progid">SapALEIDocConnector</parameter>
+				<parameter name="jco.server.unicode">0</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.sapr3.aleidoc.SapALEIDocConnector">
+			<TranslationFile>NLS/idi_conn_sapr3idoc</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jco.server.gwhost</ListItem>
+					<ListItem>jco.server.gwserv</ListItem>
+					<ListItem>jco.server.progid</ListItem>
+					<ListItem>jco.client.gwserv</ListItem>
+					<ListItem>jco.client.gwhost</ListItem>
+					<ListItem>jco.client.client</ListItem>
+					<ListItem>jco.client.user</ListItem>
+					<ListItem>jco.client.passwd</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jco.client.lang</ListItem>
+					<ListItem>jco.server.unicode</ListItem>
+					<ListItem>conn.server.optional</ListItem>
+					<ListItem>conn.server.poll</ListItem>
+					<ListItem>jco.client.ashost</ListItem>
+					<ListItem>jco.client.sysnr</ListItem>
+					<ListItem>conn.client.max</ListItem>
+					<ListItem>conn.client.optional</ListItem>
+					<ListItem>conn.idoc.xmlonly</ListItem>
+					<ListItem>conn.rfm.xml</ListItem>
+					<ListItem>conn.idoc.parsexml</ListItem>
+					<ListItem>conn.idoc.jco.trace</ListItem>
+					<ListItem>conn.idoc.jco.tracelevel</ListItem>
+					<ListItem>conn.idoc.jco.tracepath</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>jco.server.gwhost</ListItem>
+				<ListItem>jco.server.gwserv</ListItem>
+				<ListItem>jco.server.progid</ListItem>
+				<ListItem>jco.server.unicode</ListItem>
+				<ListItem>conn.server.optional</ListItem>
+				<ListItem>conn.server.poll</ListItem>
+				<ListItem>jco.client.client</ListItem>
+				<ListItem>jco.client.user</ListItem>
+				<ListItem>jco.client.passwd</ListItem>
+				<ListItem>jco.client.lang</ListItem>
+				<ListItem>jco.client.ashost</ListItem>
+				<ListItem>jco.client.sysnr</ListItem>
+				<ListItem>jco.client.gwserv</ListItem>
+				<ListItem>jco.client.gwhost</ListItem>
+				<ListItem>conn.client.max</ListItem>
+				<ListItem>conn.client.optional</ListItem>
+				<ListItem>conn.idoc.xmlonly</ListItem>
+				<ListItem>conn.rfm.xml</ListItem>
+				<ListItem>conn.idoc.parsexml</ListItem>
+				<ListItem>conn.idoc.jco.trace</ListItem>
+				<ListItem>conn.idoc.jco.tracelevel</ListItem>
+				<ListItem>conn.idoc.jco.tracepath</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="conn.client.max">
+				<parameter name="description">SAPIDOC_CL_MAX_CONN_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_MAX_CONN_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="conn.client.optional">
+				<parameter name="description">SAPIDOC_CL_OPTIONAL_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_OPTIONAL_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="conn.idoc.jco.trace">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_NO</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_YES</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_IDOC_JCO_TRACE_DESC</parameter>
+				<parameter name="label">SAPIDOC_IDOC_JCO_TRACE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="conn.idoc.jco.tracelevel">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+					<ListItem>2</ListItem>
+					<ListItem>3</ListItem>
+					<ListItem>4</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_T0</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_T1</Value>
+					</Item>
+					<Item>
+						<Key>2</Key>
+						<Value>SAPIDOC_T2</Value>
+					</Item>
+					<Item>
+						<Key>3</Key>
+						<Value>SAPIDOC_T3</Value>
+					</Item>
+					<Item>
+						<Key>4</Key>
+						<Value>SAPIDOC_T4</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_IDOC_JCO_TRACELEVEL_DESC</parameter>
+				<parameter name="label">SAPIDOC_IDOC_JCO_TRACELEVEL_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="conn.idoc.jco.tracepath">
+				<parameter name="description">SAPIDOC_IDOC_JCO_TRACEPATH_DESC</parameter>
+				<parameter name="label">SAPIDOC_IDOC_JCO_TRACEPATH_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="conn.idoc.parsexml">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_NO</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_YES</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_PARSE_XML_DESC</parameter>
+				<parameter name="label">SAPIDOC_PARSE_XML_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="conn.idoc.xmlonly">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_NO</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_YES</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_IDOC_XML_ONLY_DESC</parameter>
+				<parameter name="label">SAPIDOC_IDOC_XML_ONLY_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="conn.rfm.xml">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_NO</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_YES</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_RFM_XML_DESC</parameter>
+				<parameter name="label">SAPIDOC_RFM_XML_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="conn.server.optional">
+				<parameter name="description">SAPIDOC_SRVR_OPTIONAL_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_OPTIONAL_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="conn.server.poll">
+				<parameter name="description">SAPIDOC_SRVR_POLL_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_POLL_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jco.client.ashost">
+				<parameter name="description">SAPIDOC_CL_AHOST_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_AHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jco.client.client">
+				<parameter name="description">SAPIDOC_CL_CLIENT_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_CLIENT_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.client.gwhost">
+				<parameter name="description">SAPIDOC_CL_GWHOST_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_GWHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.client.gwserv">
+				<parameter name="description">SAPIDOC_CL_GWSERV_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_GWSERV_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.client.lang">
+				<parameter name="description">SAPIDOC_CL_LANG_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_LANG_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jco.client.passwd">
+				<parameter name="description">SAPIDOC_CL_PWD_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_PWD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.client.sysnr">
+				<parameter name="description">SAPIDOC_CL_SYSNR_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_SYSNR_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jco.client.user">
+				<parameter name="description">SAPIDOC_CL_USER_DESC</parameter>
+				<parameter name="label">SAPIDOC_CL_USER_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jco.server.gwhost">
+				<parameter name="description">SAPIDOC_SRVR_GWHOST_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_GWHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.server.gwserv">
+				<parameter name="description">SAPIDOC_SRVR_GWSERV_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_GWSERV_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.server.progid">
+				<parameter name="description">SAPIDOC_SRVR_PROGID_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_PROGID_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jco.server.unicode">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>SAPIDOC_NO</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>SAPIDOC_YES</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SAPIDOC_SRVR_UNICODE_DESC</parameter>
+				<parameter name="label">SAPIDOC_SRVR_UNICODE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

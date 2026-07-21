@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Oct 16 09:46:42 CEST 2013" version="7.1.1">
+  <Folder name="Connectors">
+    <Connector name="ibmdi.SyslogServerConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <SupportedModes>Iterator</SupportedModes>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="script"><![CDATA[//
+// Syslogd POC connector. This connector creates a UDP socket
+//
+
+debug = true
+RESOLVER = com.ibm.di.server.ResourceHash.getHash("syslogserverconnector")
+
+// syslogd messages are sent on port 514 by default
+socket = null;
+
+// datagram packet
+packet = null;
+
+// severity codes
+severity = [
+	"0 Emergency: system is unusable",
+	"1 Alert: action must be taken immediately",
+	"2 Critical: critical conditions",
+	"3 Error: error conditions",
+	"4 Warning: warning conditions",
+	"5 Notice: normal but significant condition",
+	"6 Informational: informational messages",
+	"7 Debug: debug-level messages",
+];
+
+// facility codes
+facility = [
+	"0 kernel",
+	"1 user",
+	"2 mail",
+	"3 system daemons",
+	"4 security/authorization",
+	"5 internal syslogd",
+	"6 line printer subsystem",
+	"7 network news subsystem",
+	"8 UUCP subsystem",
+	"9 clock daemon",
+	"10 security/authorization messages",
+	"11 FTP daemon",
+	"12 NTP subsystem",
+	"13 log audit (note 1)",
+	"14 log alert (note 1)",
+	"15 clock daemon (note 2)",
+	"16 local0",
+	"17 local1",
+	"18 local2",
+	"19 local3",
+	"20 local4",
+	"21 local5",
+	"22 local6",
+	"23 local7",
+];
+
+function getPort() {
+	var str = connector.getParam("port")
+	var port = 0
+	try {
+		port = java.lang.Integer.parseInt(str)
+	} catch (ex) {
+		port = 9514
+	}
+	return port
+}
+
+function selectEntries() {
+	var port = getPort()
+	connector.logmsg(RESOLVER.getString("LISTENING.PORT", port));
+	socket = new java.net.DatagramSocket(port);
+	
+	var buf = new java.io.ByteArrayOutputStream();
+	for(i = 0; i< 4096; i++)
+		buf.write(0);
+		
+	packet = java.net.DatagramPacket(buf.toByteArray(), buf.size());
+}
+
+function getNextEntry () {
+	
+	// Read next UDP packet
+	socket.receive(packet);
+	
+	// Create a string from the bytes received
+	var str = new java.lang.String(packet.getData(), 0, packet.getLength());
+	
+	// Add the packet and the entire string read for good measure
+	entry.setAttribute("rawstring", str);
+	entry.setAttribute("packet", packet);
+
+	// Parse syslog entry:
+	//
+	//	<PRI><TIME-STAMP><HOSTNAME><MSG>
+	//
+	// 	<27>Jul 27 00:30:13 Shelob newsyslog[24155]: logfile turned over
+	//
+	//
+	
+	var index = str.indexOf(">");
+	if(index != -1) {
+		// Facility and severity (facility (5bits)  + severity(3bits) = priority code)
+		var pri = str.substring(1, index);
+		var fac = pri >> 3;
+		var sev = pri & 7;
+		entry.setAttribute("severity", severity[sev]);
+		entry.setAttribute("facility", facility[fac]);
+		
+		// Timestamp (fixed format: Mmm Dd hh:mm:ss)
+		var pos = new java.text.ParsePosition(index+1);
+		var tsd = new java.text.SimpleDateFormat("MMMM d HH:mm:ss").parse(str, pos);
+		entry.setAttribute("timestamp", tsd);
+		
+		// Hostname
+		str = str.substring(pos.getIndex()).trim();
+		index = str.indexOf(" ");
+		entry.setAttribute("host", str.substring(0, index));
+		
+		// Message
+		entry.setAttribute("message", str.substring(index+1));
+	}
+	
+}
+
+function querySchema() {
+	var fields = ["rawstring", "packet", "host", "message", "severity", "facility"];
+	for(f in fields) {
+		var e = new com.ibm.di.entry.Entry();
+		e.addAttributeValue("name", fields[f]);
+		list.add(e);
+	}		
+	result.setStatus (1);
+}
+
+function terminate() {
+	if(socket != null) {
+		socket.close();
+		socket = null;
+	}
+}
+]]></parameter>
+        </Configuration>
+    </Connector>
+  </Folder>
+  <Folder name="Forms">
+    <Form name="com.ibm.di.connector.ScriptConnector.ibmdi.SyslogServerConnector">
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>port</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="port">
+            <parameter name="label">Port.label</parameter>
+            <parameter name="syntax">Number</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>port</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="title">Connector.Title</parameter>
+        <TranslationFile>NLS/idi_conn_syslog_server</TranslationFile>
+    </Form>
+  </Folder>
+</MetamergeConfig>

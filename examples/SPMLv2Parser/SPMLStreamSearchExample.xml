@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2007-12-17" created="Tue Jul 24 18:01:16 EEST 2007" createdBy="kaloyan.kolev" modified="Fri Jan 11 17:18:08 EET 2008" modifiedBy="bratan.bratanov" version="7.0">
+<Folder name="AssemblyLines">
+
+
+<AssemblyLine name="SendSearchRequest">
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<SimulationConfig>
+<SimulationStates>
+<Component name="searchResponse" state="Simulated"/>
+<Component name="client" state="Enabled"/>
+</SimulationStates>
+<ProxySettings/>
+<Hooks/>
+</SimulationConfig>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="client">
+<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="includeFiles"/>
+<parameter name="script"><![CDATA[// Custom script connector that is more memory efficient 
+// when we are talking about the search responses.
+
+var socket = null;
+
+// set to true if the server is accepting SSL connections
+var useSSL = false;
+
+// information for the TCP server we are connecting to
+var host = "localhost";
+var port = 100;
+
+var parser = new com.ibm.di.parser.SPMLv2Parser();
+
+function selectEntries()
+{
+	if (useSSL) 
+		socket = java.net.ssl.SSLSocketFactory.getDefault().createSocket(host, port);
+	else 
+		socket = new java.net.Socket(host, port);
+
+	os = socket.getOutputStream();
+	
+	//specify a source file, where the request is read from
+	src = java.io.FileInputStream("examples/SPMLv2Parser/SearchRequest.xml");
+	temp = java.io.ByteArrayOutputStream();
+
+	var c = src.read();
+
+	while (c != -1) {
+		temp.write(c);
+		c = src.read()
+	}
+
+	bytes = temp.toByteArray();
+	temp = null;
+
+	// use an HTTP-like headers to tell the TCP server what is comming.
+	// the fist number that ends with '\n' is the length of the SPML request.
+	head = java.lang.Integer.toString(bytes.length);
+	os.write(head.getBytes("UTF-8"));
+	os.write(10); 		// '\n'
+
+	// write the SPML request.
+	os.write(bytes);
+	
+	// make sure everithing is sent
+	os.flush();
+	
+	// close the file since we do not need it any more...
+	src.close();
+
+	// This encoding is the encoding of the Response SPML that is comming back from the server.
+	parser.setParam("characterSet","UTF-8");
+	parser.setDebug(true);
+
+	// in the Script Connector the "connector" variable is a reference to the Java Connector instance (i.e. this).
+	connector.setParser(parser);
+	connector.initParser(socket.getInputStream(), null);
+}
+
+// using this method the client will retrieve a single searchResponse, not all of the responses.
+function getNextEntry ()
+{
+	readed = parser.readEntry(); 
+	if (readed != null)
+		entry.merge(readed);
+	else
+		result.setStatus(0);
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}
+
+function terminate(){
+	socket.close();
+	parser.closeParser();
+}
+]]></parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>*</Name>
+<Type>simple</Type>
+<Simple>*</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>spml.operation</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>spml.operation.type</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>spml.resultEntries</Name>
+<Syntax>com.ibm.di.entry.Entry</Syntax>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+<BranchType>0</BranchType>
+<ChildComponents/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="searchResponse">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/SPMLv2Parser/SearchResponse.xml</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.SPMLv2Parser</InheritFrom>
+<parameter name="debug">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>spml.operation</Name>
+<Type>simple</Type>
+<Simple>spml.operation</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>spml.operation.type</Name>
+<Type>simple</Type>
+<Simple>spml.operation.type</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>spml.resultEntries</Name>
+<Type>simple</Type>
+<Simple>spml.resultEntries</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+<BranchType>0</BranchType>
+<ChildComponents/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+<InitParams>
+<Schema name="AssemblyLineInitParams"/>
+</InitParams>
+</AssemblyLine>
+<AssemblyLine name="Server">
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<SimulationConfig>
+<SimulationStates>
+<Component name="opSearch" state="Enabled"/>
+<Component name="performSearch" state="Enabled"/>
+<Component name="ELSE" state="Enabled"/>
+<Component name="error" state="Enabled"/>
+<Component name="TCPServer" state="Enabled"/>
+</SimulationStates>
+<ProxySettings/>
+<Hooks/>
+</SimulationConfig>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="TCPServer">
+<InheritFrom>system:/Connectors/ibmdi.TCPServerConnector</InheritFrom>
+<ConnectorMode>Server</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="backlog">10</parameter>
+<parameter name="debug">true</parameter>
+<parameter name="tcp.port">100</parameter>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>tcp.outputstream</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Simple>tcp.outputstream</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_getnext</Name>
+<Script><![CDATA[var is = conn.getObject("tcp.inputstream");
+var temp = new java.io.ByteArrayOutputStream();
+
+// read the SPML request length
+c = is.read();
+while (c != 10) {
+	temp.write(c);
+	c = is.read();	
+}
+
+var lenStr = temp.toString("UTF-8");
+var len = java.lang.Integer.parseInt(lenStr);
+
+temp = new java.io.ByteArrayOutputStream();
+for (i = 0; i < len; i++) {
+	temp.write(is.read());
+}
+
+var input = new java.io.ByteArrayInputStream(temp.toByteArray());
+
+var resEntry = system.newEntry();
+var parser = new com.ibm.di.parser.SPMLv2Parser();
+
+// this should be changed to the proper SPML request encoding.
+parser.setParam("characterSet","UTF-8");
+parser.setDebug(true);
+parser.setInputStream(input);
+
+parser.initParser();
+
+resEntry = parser.readEntry();
+
+// merge the retrieved Entry to the 'work' Entry, so that it can be processed further 
+work.merge(resEntry);]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>close_fail</Name>
+<Script/>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>override_getnext</Name>
+<Script/>
+<Enabled>false</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+<BranchType>0</BranchType>
+<ChildComponents/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Branch name="opSearch">
+<Connector name="performSearch">
+<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+<ConnectorMode>Lookup</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<UserComment/>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="automapADPassword">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="ldapAddAttr">false</parameter>
+<parameter name="ldapAuthenticationMethod">Simple</parameter>
+<parameter name="ldapPageSize">0</parameter>
+<parameter name="ldapPassword">admin</parameter>
+<parameter name="ldapReferrals">follow</parameter>
+<parameter name="ldapSearchBase">CN=localhost</parameter>
+<parameter name="ldapSearchScope">subtree</parameter>
+<parameter name="ldapSizeLimit">0</parameter>
+<parameter name="ldapTimeLimit">0</parameter>
+<parameter name="ldapUrl">ldap://192.168.113.156:389</parameter>
+<parameter name="ldapUseSSL">false</parameter>
+<parameter name="ldapUsername">cn=root</parameter>
+<parameter name="ldapVLVPageSize">0</parameter>
+<parameter name="simulateRename">false</parameter>
+<parameter name="userComment"/>
+</Configuration>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>$dn</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>cn</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>description</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-slapdCryptoSalt</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-slapdCryptoSync</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>objectclass</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>sn</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>telephonenumber</Name>
+<Syntax>java.lang.String</Syntax>
+</SchemaItem>
+<SchemaItem>
+<Name>userpassword</Name>
+<Syntax>[byte array]</Syntax>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<Script><![CDATA[ret.filter = "";
+]]></Script>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_lookup</Name>
+<Script><![CDATA[var resEntry = system.newEntry();
+
+// initialize an SPML parser, which transmits the responses through 
+// the output stream of the TCP server
+var parser = new com.ibm.di.parser.SPMLv2Parser();
+parser.setOutputStream(work.getObject("tcp.outputstream"));
+parser.setParam("characterSet", "UTF-8");
+parser.initParser();
+
+var send = system.newEntry();
+send.setAttribute("spml.operation", "Search");
+send.setAttribute("spml.operation.type", "Response");
+
+// return the requested attributes in the response
+var i=0;
+while (i < work.getAttribute("spml.attributeDescription").size()) {
+	var attName = work.getAttribute("spml.attributeDescription").getValue(i++);
+	resEntry.addAttributeValue(attName, conn.getObject(attName));
+}
+
+// set the distinguishedName as an object id
+resEntry.setAttribute("spml.psoID", conn.getAttribute("$dn"));
+send.addAttributeValue("spml.resultEntries", resEntry);
+parser.writeEntry(send);
+parser.flush();]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>before_execute</Name>
+<Script><![CDATA[
+var name = work.getString("spml.filter.substrings.name");
+
+var value = work.getString("spml.filter.substrings.final");
+
+var search = system.newSearchCriteria();
+
+search.addTemplate(name, com.ibm.di.server.SearchCriteria.SUBSTRING, value);
+
+performSearch.setCriteria(search);]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>before_lookup</Name>
+<Script><![CDATA[// set the base directory
+performSearch.getConnector().setParam("ldapSearchBase", work.getString("spml.ContainerID"));
+
+// set the search scope
+performSearch.getConnector().setParam("ldapSearchScope", work.getString("spml.scope").toLowerCase());
+]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>lookup_multiple</Name>
+<Script><![CDATA[var connector = performSearch.getConnector();
+
+// initialize an SPML parser, which transmits the responses through 
+// the output stream of the TCP server 
+var parser = new com.ibm.di.parser.SPMLv2Parser();
+parser.setOutputStream(work.getObject("tcp.outputstream"));
+parser.setParam("characterSet", "UTF-8");
+parser.initParser();
+
+var send = system.newEntry();
+send.setAttribute("spml.operation", "Search");
+send.setAttribute("spml.operation.type", "Response");
+
+// the first of all the entries.
+var entry = connector.getFirstFindEntry();
+
+// put all the found entries in the result
+while (entry != null) {
+
+	main.logmsg("========single entry========  " + entry);
+	var resEntry = system.newEntry();
+
+	// return the requested attributes in the response
+	var i=0;
+	while (i < work.getAttribute("spml.attributeDescription").size()) {
+		var attName = work.getAttribute("spml.attributeDescription").getValue(i++);
+		resEntry.addAttributeValue(attName, entry.getObject(attName));
+	}
+
+	// set the distinguishedName as an object id
+	resEntry.setAttribute("spml.psoID", entry.getAttribute("$dn"));
+
+	send.setAttribute("spml.resultEntries", resEntry);
+
+	parser.writeEntry(send);
+
+	// the next entry found
+	entry = connector.getNextFindEntry();
+}
+
+parser.flush();
+]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>lookup_nomatch</Name>
+<Script><![CDATA[var resEntry = system.newEntry();
+
+// initialize an SPML parser, which transmits the responses through 
+// the output stream of the TCP server
+var parser = new com.ibm.di.parser.SPMLv2Parser();
+parser.setOutputStream(work.getObject("tcp.outputstream"));
+parser.setParam("characterSet", "UTF-8");
+parser.initParser();
+
+var send = system.newEntry();
+send.setAttribute("spml.operation", "Search");
+send.setAttribute("spml.operation.type", "Response");
+
+// set an empty entry for the blank result
+send.addAttributeValue("spml.resultEntries", resEntry);
+
+parser.writeEntry(send);
+parser.flush();
+
+]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+<BranchType>0</BranchType>
+<ChildComponents/>
+</Connector>
+<ScriptCondition/>
+<Conditions>
+<BranchCondition>
+<LeftHand>spml.operation</LeftHand>
+<Operator>equals</Operator>
+<RightHand>Search</RightHand>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>0</Type>
+</Branch>
+<Branch name="ELSE">
+<Connector name="error">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript>main.logmsg("No SPML search request was detected by the server.");</ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+<BranchType>0</BranchType>
+<ChildComponents/>
+</Connector>
+<Conditions/>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>2</Type>
+</Branch>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+<InitParams>
+<Schema name="AssemblyLineInitParams"/>
+</InitParams>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+<SolutionInterface name="SolutionInterface"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

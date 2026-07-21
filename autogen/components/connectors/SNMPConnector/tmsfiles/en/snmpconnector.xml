@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="snmpconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJH001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.UNKNOWNCLASS.EXCEPTION" varFormat="Java">
+   Connector could not return entry because an unknown class type
+   was encountered: &apos;&apos;<Variable formatSpec="{0}">object type</Variable>&apos;&apos;
+   </MsgText>
+   <Explanation> <p>
+   The SNMP Connector was trying to return an entry but the class type
+   was unknown.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJH002I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.TRAPSONLY.INFO" varFormat="Java">
+   Connector listening for SNMP traps only.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.SNMPOID.INFO" varFormat="Java">
+   The &apos;snmpOID&apos; parameter must be set to use
+   the SNMP Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter snmpOID was not specified in the
+   SNMP Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the snmpOID parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJH004I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.GETNEXTSNMP.INFO" varFormat="Java">
+   Getting the next SNMP entry. Comparing response OID
+   &apos;&apos;<Variable formatSpec="{0}">OID</Variable>&apos;&apos; of
+   the entry with configured walkOID parameter
+   &apos;&apos;<Variable formatSpec="{1}">OID</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH005E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.BADPDU.EXCEPTION" varFormat="Java">
+   Connector could not get next SNMP entry because a bad PDU was received from
+   the SNMP Server. Error occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The SNMP Connector was trying to retrieve the next entry for the SNMP
+   server but failed because a bad PDU was received.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the SNMP Server the Connector is receiving data from is still
+   running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJH006I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.UNSUPPORTEDLINK.INFO" varFormat="Java">
+   Ignoring unsupported link criteria name:
+   &apos;&apos;<Variable formatSpec="{0}">link criteria</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.SEARCHCRIT.INFO" varFormat="Java">
+   Search criteria for entry search:
+   OID=&apos;&apos;<Variable formatSpec="{0}">OID</Variable>&apos;&apos;
+   version=&apos;&apos;<Variable formatSpec="{1}">version</Variable>&apos;&apos;
+   host=&apos;&apos;<Variable formatSpec="{2}">hostname</Variable>&apos;&apos;
+   port=&apos;&apos;<Variable formatSpec="{3}">port number</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH008E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.SETFAILED.EXCEPTION" varFormat="Java">
+   Connector could not add entry because set request to SNMP Server failed.
+   Error occurred: <Variable formatSpec="{0}">error message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The SNMP Connector was trying to add an entry to the SNMP
+   server but failed because the set request failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the SNMP Server the Connector trying to add the entry
+   to is still running and that the entry being added is valid. Also,
+   review the message from SNMP Server for additional detail on why
+   the error occurred.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJH009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.GETOID.INFO" varFormat="Java">
+   Will send request to get entry with OID
+   &apos;&apos;<Variable formatSpec="{0}">OID</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.BADPDU2.EXCEPTION" varFormat="Java">
+   Connector could not get next SNMP entry because a bad PDU was received from
+   the SNMP Server. Error occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The SNMP Connector was trying to retrieve the next entry for the SNMP
+   server but failed because a bad PDU was received.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the SNMP Server the Connector is receiving data from is still
+   running.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJH011I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.WAITTIME.INFO" varFormat="Java">
+   Empty queue, waiting for data for 
+   &apos;&apos;<Variable formatSpec="{0}">number of seconds</Variable>&apos;&apos; seconds.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.WAITFOREVER.INFO" varFormat="Java">
+   Empty queue, waiting for data with no timeout value.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJH013I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.SNMP.TRAP.RECEIVED" varFormat="Java">
+   Trap received: <Variable formatSpec="{0}">trap</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

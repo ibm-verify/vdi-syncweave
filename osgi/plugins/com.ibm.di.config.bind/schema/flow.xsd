@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="connector.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+
+	<element name="branch" type="tns:BranchBinding"
+		substitutionGroup="tns:compositeConfig">
+	</element>
+	<element name="loop" type="tns:LoopBinding" substitutionGroup="tns:compositeConfig">
+	</element>
+
+	<complexType name="BranchBinding">
+		<complexContent>
+			<extension base="tns:CompositeComponentBinding">
+				<sequence>
+					<element name="condition" type="tns:ConditionBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+
+				<attribute name="type" type="tns:BranchTypeEnum" use="optional"
+					default="If">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="BranchTypeEnum">
+		<restriction base="string">
+			<enumeration value="If"></enumeration>
+			<enumeration value="ElseIf"></enumeration>
+			<enumeration value="Else"></enumeration>
+			<enumeration value="Switch"></enumeration>
+			<enumeration value="Case"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="ConditionBinding">
+		<sequence>
+			<element name="script" type="string" maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="item" type="tns:ConditionItemBinding"
+				maxOccurs="unbounded" minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="matchAny" type="boolean" use="optional"
+			default="false">
+		</attribute>
+	</complexType>
+
+	<complexType name="ConditionItemBinding">
+
+		<sequence>
+			<element name="leftHand" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="rightHand" type="string" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		
+		<attribute name="operator" type="string" use="optional"></attribute>
+		<attribute name="negate" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="matchAny" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="caseSensitive" type="boolean" use="optional"
+			default="true">
+		</attribute>
+	</complexType>
+
+	<complexType name="LoopBinding">
+		<complexContent>
+			<extension base="tns:CompositeComponentBinding">
+				<choice maxOccurs="1" minOccurs="1">
+					<element name="whileCondition" type="tns:ConditionBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="connectorCondition" type="tns:ConnectorLoopBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="collectionCondition" type="tns:CollectionLoopBinding"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</choice>
+
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="LoopTypeEnum">
+		<restriction base="string">
+			<enumeration value="While"></enumeration>
+			<enumeration value="Connector"></enumeration>
+			<enumeration value="Collection"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="CollectionLoopBinding">
+		<attribute name="collectionAttribute" type="string" use="required">
+		</attribute>
+		<attribute name="assignAttribute" type="string" use="required">
+		</attribute>
+	</complexType>
+
+	<complexType name="ConnectorLoopBinding">
+
+		<sequence>
+
+			<element ref="tns:connector"></element>
+
+		</sequence>
+		<attribute name="initialize" type="tns:ConnectorLoopInitializeEnum"
+			use="optional" default="onEveryUse">
+		</attribute>
+		<attribute name="selectEntries" type="tns:ConnectorLoopSelectEntriesEnum"
+			use="optional" default="onInitialize"></attribute>
+	</complexType>
+
+	<simpleType name="ConnectorLoopInitializeEnum">
+		<restriction base="string">
+
+			<enumeration value="onStartup">
+				<annotation>
+					<documentation>Configures the Connector to be initialized only once
+						at AL startup.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="onEveryUse">
+				<annotation>
+					<documentation>Configures the Connector to be initialized every
+						time the loop is entered.
+					</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ConnectorLoopSelectEntriesEnum">
+		<restriction base="string">
+			<enumeration value="onInitialize">
+				<annotation>
+					<documentation>Configures the Connector's selectEntres/findEntry
+						method to be called every time the Connector is initialized.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="onEveryUse">
+				<annotation>
+					<documentation>Configures the Connector's selectEntres/findEntry
+						method to be called every time the loop is entered.
+					</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+</schema>

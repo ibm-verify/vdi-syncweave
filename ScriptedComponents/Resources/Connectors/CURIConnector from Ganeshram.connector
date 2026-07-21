@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="71e35f56-f161-40e7-b6c3-609debfc618f" created="Mon Jan 20 13:14:39 CET 2014" createdBy="Administrator" main="ITMConnector" modified="Mon Jan 20 13:14:39 CET 2014" modifiedBy="Administrator" project="ITMConnector" version="7.1.1">
+    <Connector name="ITMConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1390220079400</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="66" UUID="fa562c7c-7f54-4481-9c40-128ce0ffc568" created="Sun Jan 12 19:55:42 EST 2014" createdBy="root" main="Form" modified="Sun Jan 19 17:52:09 EST 2014" modifiedBy="root" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1390171917769</ModTime>
+        <FormItemNames>
+            <ListItem>user</ListItem>
+            <ListItem>password</ListItem>
+            <ListItem>baseURL</ListItem>
+            <ListItem>dataset</ListItem>
+            <ListItem>start</ListItem>
+            <ListItem>count</ListItem>
+            <ListItem>provider</ListItem>
+            <ListItem>useDisplayValue</ListItem>
+            <ListItem>datasource</ListItem>
+            <ListItem>tema</ListItem>
+            <ListItem>SourceToken</ListItem>
+            <ListItem>Time</ListItem>
+            <ListItem>Refresh</ListItem>
+            <ListItem>deBug</ListItem>
+            <ListItem>userComment</ListItem>
+            <ListItem>conditions</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Dataset</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="Refresh">
+            <ModTime>1389578375251</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description"/>
+            <parameter name="label">Refresh Every</parameter>
+            <parameter name="syntax">map</parameter>
+        </FormItem>
+        <FormItem name="SourceToken">
+            <ModTime>1389643947470</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Managed System Name</parameter>
+            <parameter name="label">Managed System Name</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="Time">
+            <ModTime>1389578375249</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="default"/>
+            <parameter name="description">Time Filter</parameter>
+            <parameter name="label">Time Filter</parameter>
+            <parameter name="syntax">isodatetime</parameter>
+        </FormItem>
+        <FormItem name="baseURL">
+            <ModTime>1389576848944</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">ITM REST URL</parameter>
+        </FormItem>
+        <FormItem name="conditions">
+            <ModTime>1389998603196</ModTime>
+            <parameter name="label">Condtions</parameter>
+            <parameter name="syntax">string</parameter>
+        </FormItem>
+        <FormItem name="count">
+            <ModTime>1389998377985</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Count</parameter>
+        </FormItem>
+        <FormItem name="dataset">
+            <ModTime>1389998328137</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Dataset</parameter>
+            <parameter name="script">getParams</parameter>
+            <parameter name="scriptLabel">Get Parameters</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="datasource">
+            <ModTime>1389998395968</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Datasource</parameter>
+            <parameter name="script">getDatasets</parameter>
+            <parameter name="scriptLabel">Get Datasets</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="deBug">
+            <ModTime>1389998297954</ModTime>
+            <parameter name="label">Debug Connector</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="password">
+            <ModTime>1389576846055</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="script">getProviders</parameter>
+            <parameter name="script2">getCertificate</parameter>
+            <parameter name="scriptLabel">Get Providers</parameter>
+            <parameter name="scriptLabel2">Get SSL Certificate</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="provider">
+            <ModTime>1389998387369</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Provider</parameter>
+            <parameter name="script">getDatasources</parameter>
+            <parameter name="scriptLabel">Get Datasources</parameter>
+            <parameter name="scriptLabel2"/>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="start">
+            <ModTime>1389998371727</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">Start</parameter>
+        </FormItem>
+        <FormItem name="tema">
+            <ModTime>1389998400836</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description"/>
+            <parameter name="label">ITM Agent</parameter>
+            <parameter name="script">updateManagedSystemName</parameter>
+            <parameter name="scriptLabel">Update Managed System Name</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="useDisplayValue">
+            <ModTime>1389576806595</ModTime>
+            <parameter name="label">Return Display Value</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="user">
+            <ModTime>1389576842290</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="label">ITM User</parameter>
+        </FormItem>
+        <FormItem name="userComment">
+            <ModTime>1389998480974</ModTime>
+            <parameter name="label">Comments</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <ModTime>1389577333543</ModTime>
+            <FormSectionNames>
+                <ListItem>$GLOBAL.script</ListItem>
+                <ListItem>userComment</ListItem>
+                <ListItem>conditions</ListItem>
+                <ListItem>deBug</ListItem>
+            </FormSectionNames>
+            <parameter name="title">Advance Configuration</parameter>
+        </FormSection>
+        <FormSection name="Dataset">
+            <ModTime>1389578353974</ModTime>
+            <FormSectionNames>
+                <ListItem>SourceToken</ListItem>
+                <ListItem>Time</ListItem>
+                <ListItem>Refresh</ListItem>
+            </FormSectionNames>
+            <parameter name="title">ITM Source</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <ModTime>1389576909759</ModTime>
+            <FormSectionNames>
+                <ListItem>baseURL</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>password</ListItem>
+                <ListItem>provider</ListItem>
+                <ListItem>datasource</ListItem>
+                <ListItem>dataset</ListItem>
+                <ListItem>tema</ListItem>
+                <ListItem>useDisplayValue</ListItem>
+                <ListItem>start</ListItem>
+                <ListItem>count</ListItem>
+            </FormSectionNames>
+            <parameter name="title">ITM Configuration</parameter>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[function getCertificate () {
+	var url = form.getControl("baseURL").getText();
+//	form.alert("Trying to retrieve cert from " + url)
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+
+
+function write(fname, str) {
+	var bw = new java.io.BufferedWriter(new java.io.FileWriter("C:\\temp\\" + fname))
+//	for (var m in obj.getClass().getMethods()) {
+//		bw.write(m)
+//		bw.newLine()
+//	}
+
+	bw.write(str)
+	bw.newLine()	
+	bw.close()
+}
+
+function makeCall(useURI, errorMsg, callType) {
+	var url
+	var user
+	var password
+	var httpEntry
+	var jsonStr
+	var json
+	var p
+	var p2
+	var embeddedURI
+	var userAndPassword
+	
+	user = form.getControl("user").getText()
+	password = form.getControl("password").getText()
+	url = form.getControl("baseURL").getText()
+	
+	p = useURI.indexOf("|<<")
+	p2 = useURI.indexOf(">>|")
+	if (p > 0 && p2 > 0 && p2 > p) {
+		embeddedURI = useURI.substring(p+3, p2)
+		useURI = embeddedURI + useURI.substring(p2+3)
+	}	
+
+	if (useURI.startsWith("/providers//providers"))
+		useURI = useURI.substring(11)
+		
+//	p = url.indexOf("//")
+//	url = url.substring(0,p+2) + userAndPassword + url.substring(p+2)
+
+//	form.alert("baseURL: " + url)
+//	form.alert("useURI: " + useURI)
+//	form.alert("both combined: " + url + useURI)
+
+	http.setParam("url", url + useURI)
+	http.setParam("username", user)
+	http.setParam("password", password)
+	http.initialize(null)
+	httpEntry = system.newEntry();
+	httpEntry["http.content-type"] = "application/json"
+	httpEntry["http.method"] = "GET"
+	httpEntry["http.accept"] = "application/json"
+	main.logmsg("http url "+url + useURI)
+	form.alert("@@@ making call to " + http.getParam("url") + " with: \n" + httpEntry.toString()) // @@@
+	http.reconnect(httpEntry);
+	httpEntry = http.queryReply(httpEntry)
+	
+ 	form.alert(httpEntry)
+	
+	if (httpEntry == null) 
+		throw "Communication error * " + errorMsg + " - url used: " url + useURI + " --> return http.body:\n" + jsonStr
+
+	jsonStr = httpEntry.getString("http.bodyAsString")
+	main.logmsg("jsonStr: "+jsonStr)
+//	write("makeCall " + callType + ".txt", "url: " + url // @@@@
+//						+ "\nuser: " + user
+//						+ "\npassword: " + password
+//						+ "\npayload:\n" + httpEntry.toString())
+//	form.alert("@@@ " + callType + "\n" + jsonStr)
+	
+	if (jsonStr == null)
+		throw errorMsg + " (Nothing returned) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+
+//	eval("json=" + jsonStr)
+	try {
+		json = fromJson(jsonStr)
+	} catch (ex) {
+		throw errorMsg + " - Error parsing JSON received: " + ex + "   JSON: " + jsonStr
+	}
+
+	if (typeof(json) == "undefined" || !json || json == null)
+		throw errorMsg + "(Could not parse) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+
+	return json
+}
+
+function updateDropdown(uri, controlName, propertyName, errorMsg) {
+	var json
+	var uri
+	var combo = ""
+	var i
+	var p
+	var val
+	var label
+	var arr
+	
+	json = makeCall(uri, errorMsg, controlName)
+
+	if (!json)
+		return
+			
+	form.getClass()
+	combo = form.getControl(controlName)
+	combo.removeAll()
+
+	if (!json.items) {
+		combo.add(json[propertyName])
+	} else {
+		arr = new java.util.ArrayList()
+		for (i = 0; i < json.items.length; i++) {
+			p = json.items[i]
+			label = p["label"]
+			if (typeof(label) == "undefined")
+				val = p[propertyName]
+			else
+				val = label + " |<<" + p[propertyName] + ">>|"
+//			form.alert(">> provider: " + p.uri)
+			arr.add(val)
+		}
+		
+		arr = arr.toArray()
+		java.util.Arrays.sort(arr)
+
+		for (var a in arr) {
+			combo.add(a)
+		}	
+	}
+	
+	combo.select(0)
+}
+
+function getProviders() {
+	updateDropdown("/providers", "provider", "uri", "No Providers returned")
+}
+
+function getDatasources() {
+	updateDropdown(form.getControl("provider").getText() + "/datasources", 
+					"datasource", "uri", "No Datasources returned")
+}
+
+function getDatasets() {
+	updateDropdown(form.getControl("datasource").getText() + "/datasets", 
+					"dataset", "uri", "No Datasets returned")
+}
+
+function getTema() {
+	updateDropdownValue(form.getControl("datasource").getText() + "/datasets/msys/items?properties=ORIGINNODE", 
+					"tema", "displayValue", "No TEMA returned")
+}
+
+function updateManagedSystemName()
+{
+	var tema = form.getControl("tema").getText();
+	SrcT = form.getControl("SourceToken");
+	if(SrcT != null)
+		SrcT.setText(tema)
+	else
+		main.logmsg("SourceToken is: null" +SrcT)
+	// the below cause the drop down to have one entry.		
+	//form.resetForm();
+	//form.initialize();
+	form.alert("You are all set!\n  You can test or use the connector.");
+}
+
+function getParams() {
+	//main.logmsg("getParam()")
+	//getTema()
+	//main.logmsg("getParam() - back")
+	
+	var params = makeCall(form.getControl("dataset").getText() + "/parameters", 
+							"No Dataset parameters returned",
+							"getParams")
+	var formconfig = form.getFormConfig()
+	var fs
+	var p
+	var fic
+	
+	// create dataset section
+	if( formconfig.getSection("Dataset") == null ) {
+		throw "Connection form is missing the 'Dataset' section!"
+//		fs = new com.ibm.di.config.base.FormSectionImpl()
+//		fs.setName("Dataset")
+//		fs.setTitle("Provider Dataset")
+//		formconfig.addSection(fs)
+	}
+
+	// get fs as section handle
+	fs = formconfig.getSection("Dataset");
+
+	// remove all dataset section fields
+	for(str in fs.getNames()) {
+		formconfig.removeFormItem(str);
+	}
+
+	// remove all params from section dataset
+	fs.getNames().removeAllElements();
+
+	
+	// create a new param_* field and add it to Dataset section
+
+	for (var i = 0; i < params.items.length; i++)  {
+		if (params.items[i].hidden != "true") {
+			p = params.items[i]
+			fic = formconfig.newFormItem(p.id)
+			fic.setLabel(p.label)
+			fic.setSyntax(p.type)
+			fic.setToolTip(p.description)
+			fic.setRequired(p.required != "false")
+			
+			if ( ("!" + p["default"]) != "!undefined" )
+				fic.setDefaultValue(p["default"])
+			else
+				fic.setDefaultValue("")
+			
+			//if(p.label == "Managed System Name")
+			//{
+			//	var tema = form.getControl("tema").getText();
+			//	fic.setDefaultValue(tema)
+			//}
+			
+			fs.getNames().add(fic.getShortName())
+		}
+	}		
+		
+	form.resetForm();
+	form.initialize();
+	
+	//main.logmsg("getParam()")
+	getTema()
+	//main.logmsg("getParam() - back")
+	
+}
+
+function updateDropdownValue(uri, controlName, propertyName, errorMsg) {
+	var json
+	var uri
+	var combo = ""
+	var i
+	var p
+	var val
+	var label
+	var arr
+	
+	json = makeCall(uri, errorMsg, controlName)
+
+	if (!json)
+		return
+			
+	form.getClass()
+	combo = form.getControl(controlName)
+	combo.removeAll()
+
+	if (!json.items) {
+		combo.add(json[propertyName])
+	} else {
+		arr = new java.util.ArrayList()
+		for (i = 0; i < json.items.length; i++) {
+			p = json.items[i].properties[0]
+			
+			//main.logmsg("i: "+i) //+" length: "+json.items.length+" properties is: "+p)
+			//label = p.properties.
+			label = p["value"]
+			//main.logmsg("label is: "+label)
+			if (typeof(label) == "undefined")
+				val = p[propertyName]
+			else
+				val = label 
+			//main.logmsg("Adding: "+val)
+//			form.alert(">> provider: " + p.uri)
+			arr.add(val)
+		}
+		
+		arr = arr.toArray()
+		java.util.Arrays.sort(arr)
+
+		for (var a in arr) {
+			//main.logmsg("Combo Adding: "+a)
+			combo.add(a)
+		}	
+	}
+	
+	combo.select(0)
+}]]]]><![CDATA[></parameter>
+        <parameter name="formscript"><![CDATA[if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions")
+	system = new c
+}	
+
+http = system.getConnector("ibmdi.HTTPClient");
+]]]]><![CDATA[></parameter>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="Refresh"/>
+            <parameter name="SourceToken">Primary:TTIME-WAS:KYNA</parameter>
+            <parameter name="Time"/>
+            <parameter name="baseURL">http://10.71.25.151:15210/ibm/tivoli/rest</parameter>
+            <parameter name="connectorType">com.ibm.di.connector.ScriptConnector</parameter>
+            <parameter name="count">100</parameter>
+            <parameter name="dataset">Application Server Status |&lt;&lt;/providers/itm.TEMS/datasources/TMSAgent.%25IBM.STATIC186/datasets/MetricGroup.KYNAPSST&gt;&gt;|</parameter>
+            <parameter name="datasource">WebSphere Agent |&lt;&lt;/providers/itm.TEMS/datasources/TMSAgent.%25IBM.STATIC186&gt;&gt;|</parameter>
+            <parameter name="includePrologs"/>
+            <parameter name="jsonString">{"items":[],"filteredRows":0,"identifier":"id","totalRows":0,"numRows":0}</parameter>
+            <parameter name="keepGlobalState">true</parameter>
+            <parameter name="parserOption">Useless</parameter>
+            <parameter encrypted="true" name="password">R+l/yYWPyT433U2beEWYhuNIyVUkkc55ajXcEoNHxG24KimgafWrVDo/G05QSg7zn1SPRvq/3wYQTLu6Ao5nnceZdBE+OR/NnUGPQKqrHWWBV0xvidg/HsQ2jcdr1oWKrYkDwXFvJ1HQA/j+egQy4Ealqc7WV0Y12ay/L9wlhj4=</parameter>
+            <parameter name="provider">TEMS |&lt;&lt;/providers/itm.TEMS&gt;&gt;|</parameter>
+            <parameter name="script"><![CDATA[vrs = "20130218.b" // Corrected parsing of valueType == status to return an Entry with correct value
+
+java.lang.System.out.println("CURI Connector v." + vrs)
+
+
+var baseURL = null
+var datasetURI = null
+var fullURL = null
+var user = null
+var password = null
+var start = null
+var count = null
+var params = null
+var conditions = null
+var entries = null
+var entryCnt = 0
+var jsonString = ""
+var valueField = "value"
+var deBug = false
+var useJSON = null
+
+// attributes for each Entry in the same dataset (Dataset fields - prefixed with $ to avoid overwriting properties)
+var DSField = null
+
+if (typeof(system) == "undefined") {
+	var c = java.lang.Class.forName("com.ibm.di.function.UserFunctions")
+	system = new c
+}	
+
+http = system.getConnector("ibmdi.HTTPClient")
+
+function initialize() {
+	var p
+	var p2
+	var embeddedURI
+
+	deBug = ("true" == connector.getParam("debug"))
+
+//	if (deBug) 
+	/*	useJSON = connector.getParam("userComment") // @@@@@
+	if (useJSON != null && useJSON.trim().length == 0)
+		useJSON = null
+	else
+		useJSON = fromJson(useJSON)*/
+	
+	baseURL = connector.getParam("baseURL")
+	datasetURI = connector.getParam("dataset")
+	
+	p = datasetURI.indexOf("|<<")
+	p2 = datasetURI.indexOf(">>|")
+	if (p > 0 && p2 > 0 && p2 > p) {
+		embeddedURI = datasetURI.substring(p+3, p2)
+		datasetURI = embeddedURI + datasetURI.substring(p2+3)
+	}	
+	
+	fullURL = baseURL + datasetURI
+
+	user = connector.getParam("user")
+	password = connector.getParam("password")
+	start = connector.getParam("start")
+	count = connector.getParam("count")
+	entries = null
+	
+	var useDisplayValue = connector.getParam("useDisplayValue")
+	
+	if (useDisplayValue == true)
+		valueField = "displayValue"
+	else
+		valueField = "value"
+		
+	if (deBug) java.lang.System.out.println("\n\ninitialize() - \nurl: " + baseURL + "\ndataset uri: " + datasetURI + "\nfull url: " + fullURL)
+	
+	if (!baseURL || baseURL == null || baseURL.trim() == "")
+		throw "Required parameter for the Provider Dataset URL not set."
+	
+	if (baseURL.endsWith("/"))
+		baseURL = baseURL.substring(0,baseURL.length-1)
+		
+	//main.logmsg("initialize() - baseURL: " + baseURL)
+	
+	conditions = connector.getParam("conditions")
+	params = getParams()
+	
+}
+
+function terminate() {
+	baseURL = null
+	entries = null
+}
+
+
+function querySchema() {
+	var url = fullURL + "/columns" + queryStringParams()
+	var p
+	var e
+	var schema
+	var json
+	var attNames
+	
+	//main.logmsg("querySchema() url: " + url)
+	java.lang.System.out.println("querySchema()")
+	//main.logmsg("useJSON is: " + useJSON + "\njson: " + json);
+	if (useJSON == null)
+		json = makeCall(url, "No columns returned from Dataset")
+	else
+		return null
+		
+	//main.logmsg("Json is: " + json);
+	
+	schema = system.newEntry()
+	attNames = schema.getAttributeNames()
+	for (var i = 0; i < json.items.length; i++)  {
+		p = json.items[i]
+		schema[p.id] = p.valueType
+		//main.logmsg("Schema entry: [" + p.id + "] with value: "+ p.valueType)
+	}		
+	
+//	java.lang.System.out.println("Got entry:" + schema.toString())
+//	schema.removeAllAttributes();
+//	return;
+	
+
+	//main.logmsg("Output MAP: "+connector.getConfiguration().OUTPUT_MAP_NAME)
+	//var omap = connector.getConfiguration().getSchema(connector.getConfiguration().OUTPUT_MAP_NAME);
+	//main.logmsg("Output Map: "+ omap.getItemNames().toString())
+	//var attrnames = omap.getItemNames();
+	//var attrItem = "";
+	//for (attrItem in attrnames)
+	//{
+	//	main.logmsg("Attribute X name = "+ attrItem)
+	//	omap.removeItem(attrItem)
+	//}
+	
+	attNames = schema.getAttributeNames()
+	for (var att in attNames)  {
+		e = system.newEntry()
+		
+		e.name = att
+		e.syntax = schema.getString(att)
+		list.add(e);
+		params.put(p.id, e) 
+	}
+		
+	result.setStatus (1);
+}
+
+
+function selectEntries() {
+	//main.logmsg("fullURL: " + fullURL);
+	//main.logmsg("start: "+ start + " count: " + count);
+	var url = fullURL + "/items" + queryStringParams(start, count)
+	//main.logmsg(url)
+	var json
+	
+//	java.lang.System.out.println("selectEntries()")
+	
+	if (useJSON != null)
+		json = useJSON
+	else
+		json = makeCall(url, "No columns returned from Dataset")
+	
+	DSField = new java.util.HashMap()
+	
+	for (var o in json)
+		if (typeof(json[o]) != "object")
+			DSField.put(o, json[o])
+	
+	entries = json.items
+	id = entries.id
+	label = entries.label
+	entryCnt = 0
+}
+
+function toEntry(thisProp) {
+	var e = system.newEntry()
+	
+	for (var p in thisProp)
+		e[p] = thisProp[p]
+		
+	return e
+}
+
+function addAttributes(entry, json, depth, attname) {
+	var props = json.properties
+	
+	if (typeof(attname) == "undefined")
+		attname = "?????"
+	
+	if (typeof(depth) == "undefined" || depth <= 0) {
+		for (var o in json)
+			if (typeof(json[o]) != "object")
+				entry[o] = json[o]
+				
+		depth = 0
+	} else {
+		if (typeof(json[valueField]) != "undefined")
+			entry[attname] = json[valueField]
+	}
+	
+	if (typeof(props) != "undefined" && props != null) {
+		for (var i = 0; i < props.length; i++) {
+			thisProp = props[i]
+			
+			if (typeof(thisProp[valueField]) == "object") {
+				if ("status".equals(thisProp.valueType)) {
+					entry[thisProp.id] = toEntry(thisProp)
+					var e = entry.getObject(thisProp.id)
+					e.value = toEntry(thisProp.value)
+				} else
+					addAttributes(entry, thisProp[valueField], depth+1, thisProp.id)
+			}
+			else
+			if (typeof(thisProp[valueField]) != "undefined") {
+				entry[thisProp.id] = thisProp[valueField]
+			}
+			else {
+				java.lang.System.out.println("addAttributes() - parsing problem: " + toJSON(thisProp))
+			}	
+		}
+	}	
+}
+
+function getNextEntry () {
+	var p
+	var i
+	var itr
+	var key
+	var json
+	var val
+
+	if (deBug) java.lang.System.out.println("getNextEntry() - entryCnt: " + entryCnt + "   length: " + entries.length)
+	
+	if (entries == null || entryCnt >= entries.length) {
+		result.setStatus (0);
+		return;
+	}
+
+	json = entries[entryCnt]
+	
+//	addAttributes(entry, json)
+
+	entryCnt++
+		
+	entry["$rowNumber"] = entryCnt
+	entry["$totalRows"] = entries.length
+	
+	// now add fields from the top-level - the message itself
+	itr = DSField.keySet().iterator()
+	while (itr.hasNext()) {
+		key = itr.next()
+		entry["$" + key] = DSField.get(key)
+	}	
+
+	// add fields - apart from properties - for this item
+	addAttributes(entry, json)
+	
+	result.setStatus (1);
+	return entry		
+}
+
+function getParams() {
+	var url = fullURL + "/parameters"
+	var json
+	var p
+	var e
+	var params = new java.util.HashMap()
+	
+	if (useJSON == null)
+		json = makeCall(url, "No parameters returned from Dataset")
+	else
+		return params
+	//main.logmsg("url: "+url);
+	for (var i = 0; i < json.items.length; i++)  {
+		p = json.items[i]
+		e = system.newEntry()
+		e.id = p.id
+		e.label = p.label
+		e.type = p.type
+		e.description = p.description
+		e.required = p.required
+		//main.logmsg("id: " + p.id + "label: "+ p.label +"type: "+ p.type +  "description: "+p.descriptio)
+		if ( ("!" + p["default"]) != "!undefined" ) 
+			e["default"] = p["default"]
+		else
+			e["default"] = ""
+
+		params.put(p.id, e)
+	}		
+
+	return params		
+}
+
+function queryStringParams(strt, cnt) {
+	var qs = ""
+	var itr = params.keySet().iterator()
+	var e
+	var pval
+	
+	itr = params.keySet().iterator()
+	
+	while (itr.hasNext()) {
+		e = params.get(itr.next())
+		pval = connector.getParam(e.id.getValue())
+		if (pval && pval != null && pval.trim() != "")
+			if (!qs)
+				qs = "?param_" + e.id + "=" + pval
+			else
+				qs += "&param_" + e.id + "=" + pval
+	}
+	
+	if (conditions && conditions != null && conditions.trim() != "")
+		if (!qs)
+			qs += "conditions=" + conditions
+		else
+			qs += "&conditions=" + conditions
+			
+	if (typeof(strt) != "undefined" && strt != "")
+		qs += "&start=" + strt
+	if (typeof(cnt) != "undefined" && cnt != "")
+		qs += "&count=" + cnt
+    
+    qs += "&properties=all"
+    
+	if (qs.startsWith("&"))
+		qs = "?" + qs.substring(1)
+		
+//java.lang.System.out.println("qs: " + qs)
+
+	return qs
+}
+
+function makeCall(uri, errormsg) {
+	var httpEntry
+	var jsonStr
+	var json
+	//main.logmsg("makeCall() - uri: "+uri+"\n errormsg: "+errormsg);
+	http.setParam("url", uri)
+	http.setParam("username", user)
+	http.setParam("password", password)
+	http.initialize(null)
+	//main.logmsg("user: "+user+" password: "+password);
+	httpEntry = system.newEntry(); 
+	httpEntry["http.content-type"] = "application/json"
+	httpEntry["http.method"] = "GET"
+	httpEntry["http.accept"] = "application/json"
+
+	//java.lang.System.out.println("uri: " + uri)
+	//main.logmsg("makeCal() - calling queryReply");
+	//main.logmsg("makeCal() - httpEntry" + httpEntry);
+	//main.logmsg("makeCal() - http" + http);
+	http.reconnect(httpEntry);
+	//main.logmsg("makeCal() - reconnect completed");
+	httpEntry = http.queryReply(httpEntry);
+	http.terminate();
+	//main.logmsg("called completed...")	
+
+	jsonStr = httpEntry.getString("http.bodyAsString")
+	//main.logmsg("uri is: "+uri);
+	//main.logmsg("makeCall() jsonStr is: " + jsonStr);
+	if (deBug) {
+		java.lang.System.out.println(">>Making call to " + uri + "\n<<Received: " + jsonStr)
+	}
+	// java.lang.System.out.println("json: " + jsonStr)
+	
+	jsonString = jsonStr
+	connector.setParam("jsonString", jsonString)
+	
+	if (jsonStr == null) {
+		throw errormsg + " - HTTP return:\n" + httpEntry.toString()
+	}	
+	else {
+		try {
+			json = fromJson(jsonStr)
+		} catch (ex) {
+			throw errormsg + " - Error parsing JSON received: " + ex + "    JSON: " + jsonStr
+		}	
+//		eval("json=" + jsonStr)
+	}	
+
+	if (typeof(json) == "undefined" || json == null) {
+		throw errormsg + " - HTTP return:\n" + httpEntry.toString()
+	} else
+	if (json.msgSeverity)
+		throw json.msgText + "\nJSON returned:\n" + jsonStr
+	//main.logmsg("makCall() returning: "+ json);
+	return json
+}
+
+
+function queryReply(){
+	    selectEntries();
+	    task.dumpEntry(entry)
+	    return cumulativeEntry();
+}
+
+
+function cumulativeEntry() {
+	var p
+	var i
+	var itr
+	var key
+	var json
+	var val
+	entry.result = system.newAttribute("result")
+	while(entries != null && entryCnt < entries.length ) {
+			json = entries[entryCnt]
+			entryCnt++;
+			var myEntry = system.newEntry()
+			// add fields - apart from properties - for this item
+			addAttributes(myEntry, json)
+			entry.result.addValue(myEntry)	
+		}	
+			
+	return entry
+}]]></parameter>
+            <parameter name="start">0</parameter>
+            <parameter name="tema">Primary:TTIME-WAS:KYNA</parameter>
+            <parameter name="useDisplayValue">true</parameter>
+            <parameter name="user">sysadmin</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>$filteredRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$identifier</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$numRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$rowNumber</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$totalRows</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>BUSYCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CMAJFLT</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CMD</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CMDLINE</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CMINFLT</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CPUAFF</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CPUPERCENT</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>CPUSECONDS</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DATETIME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DAYSCURR</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DAYSDSK</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DAYSPEAK</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DIRTPG</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DRS</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DSKNAME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DUMVAVG</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>DURATE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>HWDURATE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>HWTIME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>INTPRI</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LRS</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LWCURR</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>MSGTEXT</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>NICE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>NODETYPE</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ORIGINNODE</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PBUSYNORM</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PGID</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PID</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PPID</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PROCCOUNT</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PROCTHRD</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PSYSCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PSYSNORM</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PUSRCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>PUSRNORM</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>RSS</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SESSIONID</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SEVERITY</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SHAREMEM</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SIZE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SPCFREE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SPCUSED</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>STATE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SYSTEMTIM</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TBUSYCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TIME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TIMESTAMP</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TOTALTIME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TRS</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TSYSCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TUSRCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>UPROCFILT</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>USERTIME</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>USRSYSCPU</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMDATA</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMDATAMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMEXESZ</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMEXESZMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMLIBSZ</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMLIBSZMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMLOCK</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMLOCKMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMSIZE</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMSIZEMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMSTACK</Name>
+                <Syntax>java.lang.Integer</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>VMSTACKMB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>description</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>id</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>label</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>tooltip</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>type</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>typeLabel</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>uri</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

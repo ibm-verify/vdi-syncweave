@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>  
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.CLASSIFICATIONS">
+    SELECT CLASSIFICATIONID, CLASSSTRUCTUREID, HASCHILDREN 
+    FROM MAXIMO.CLASSSTRUCTURE 
+    WHERE PARENT = 'ACTUALCIROOTCLASS'
+      AND CLASSIFICATIONID LIKE 'RELATION.%'
+    ORDER BY CLASSIFICATIONID 
+  </entry> 
+  
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.NEXT_ACTCIRELID">
+    SELECT MAX(ACTCIRELATIONID) FROM MAXIMO.ACTCIRELATION
+  </entry>  
+  
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.BY_RST">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED 
+    FROM MAXIMO.ACTCIRELATION 
+    WHERE RELATIONNUM =?
+      AND SOURCECIGUID=? 
+      AND TARGETCIGUID=?
+      
+  </entry>
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.BY_TRG">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED 
+    FROM MAXIMO.ACTCIRELATION 
+    WHERE TARGETCIGUID=?
+    ORDER BY RELATIONNUM
+  </entry>
+  
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.BY_SRC">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED 
+    FROM MAXIMO.ACTCIRELATION 
+    WHERE SOURCECIGUID=? 
+    ORDER BY RELATIONNUM
+  </entry>    
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.BY_RELATIONNUM">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED 
+    FROM MAXIMO.ACTCIRELATION 
+    WHERE RELATIONNUM=?
+  </entry>      
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.ALL">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED 
+    FROM MAXIMO.ACTCIRELATION 
+  </entry>      
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.SELECT.PROPERTIES.DEF">
+    SELECT ACTCIRELATIONID, SOURCECI, TARGETCI, RELATIONNUM, ANCESTORCI, 
+           CHANGEBY, CHANGEDATE, SOURCECIGUID, TARGETCIGUID, SWAPPED  
+    FROM MAXIMO.ACTCIRELATION FETCH FIRST 1 ROWS ONLY 
+  </entry>      
+ 
+  <!-- ********************************************************************* -->
+  <entry key="ACTCIRELATION.DELETE">
+    DELETE FROM MAXIMO.ACTCIRELATION
+		WHERE RELATIONNUM = ? AND SOURCECIGUID = ? AND TARGETCIGUID = ?
+  </entry> 
+  
+    <!-- ******************************************************************* -->
+  <entry key="ACTCIRELATION.DELETE.BY_GUID">
+    DELETE FROM MAXIMO.ACTCIRELATION
+		WHERE SOURCECIGUID = ? OR TARGETCIGUID = ?
+  </entry>   
+ 
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.CLASSIFICATIONS">
+  SELECT DISTINCT CLASSIFICATIONID, CLASSSTRUCTUREID, HASCHILDREN 
+  FROM MAXIMO.CLASSSTRUCTURE 
+  WHERE 
+  (PARENT = 'ACTUALCIROOTCLASS'
+   AND CLASSIFICATIONID NOT LIKE 'RELATION.%')
+   ORDER BY CLASSIFICATIONID  
+  </entry> 
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.CLASSIFICATIONS.BY_PARENT">
+  SELECT DISTINCT CLASSIFICATIONID, CLASSSTRUCTUREID, HASCHILDREN 
+  FROM MAXIMO.CLASSSTRUCTURE 
+  WHERE 
+  (PARENT = ?
+   AND CLASSIFICATIONID NOT LIKE 'RELATION.%')
+   ORDER BY CLASSIFICATIONID  
+  </entry>     
+    
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.NEXT_ACTCIID">
+    SELECT MAX(ACTCIID) FROM MAXIMO.ACTCI
+  </entry>    
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.BY_GUID">
+    SELECT ACTCIID, ACTCINUM, DESCRIPTION, LANGCODE, GUID, LASTSCANDT, 
+           CHANGEDATE, CHANGEBY, CLASSSTRUCTUREID, HASLD, ACTCINAME, 
+           PLUSPCUSTOMER  
+    FROM MAXIMO.ACTCI
+    WHERE GUID = ? 
+  </entry>  
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.ALL">
+    SELECT ACTCIID, ACTCINUM, DESCRIPTION, LANGCODE, GUID, LASTSCANDT, 
+           CHANGEDATE, CHANGEBY, CLASSSTRUCTUREID, HASLD, ACTCINAME, 
+           PLUSPCUSTOMER 
+    FROM MAXIMO.ACTCI WHERE GUID IS NOT NULL
+  </entry> 
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.BY_CLASSSTRUCTURE">
+    SELECT ACTCIID, ACTCINUM, DESCRIPTION, LANGCODE, GUID, LASTSCANDT, 
+           CHANGEDATE, CHANGEBY, CLASSSTRUCTUREID, HASLD, ACTCINAME, 
+           PLUSPCUSTOMER 
+    FROM MAXIMO.ACTCI 
+    WHERE CLASSSTRUCTUREID = ? 
+      AND GUID IS NOT NULL
+  </entry> 
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.SELECT.PROPERTIES.DEF">
+    SELECT ACTCIID, ACTCINUM, DESCRIPTION, LANGCODE, GUID, LASTSCANDT, 
+           CHANGEDATE, CHANGEBY, CLASSSTRUCTUREID, HASLD, ACTCINAME, 
+           PLUSPCUSTOMER
+    FROM MAXIMO.ACTCI FETCH FIRST 1 ROWS ONLY 
+  </entry>
+     
+  <!-- ********************************************************************* -->
+  <entry key="ACTCI.DELETE.BY_GUID">
+    DELETE FROM MAXIMO.ACTCI
+		WHERE GUID = ?
+  </entry>         
+                  
+  <!-- ********************************************************************* -->
+  <entry key="OMP.SELECT.BY_GUID">
+    SELECT OMPID, OMPGUID, NAME, PRODUCTNAME, VERSION, HOSTNAME, DESCRIPTION, 
+           LANGCODE, DISPLAYLABEL, MANUFACTURER, HASLD, CHANGEBY, CHANGEDATE 
+    FROM MAXIMO.OMP 
+    WHERE OMPGUID=?
+  </entry> 
+
+  <!-- ********************************************************************* -->
+  <entry key="OMP.SELECT.PROPERTIES.DEF">
+    SELECT OMPID, OMPGUID, NAME, PRODUCTNAME, VERSION, HOSTNAME, DESCRIPTION, 
+           LANGCODE, DISPLAYLABEL, MANUFACTURER, HASLD, CHANGEBY, CHANGEDATE 
+    FROM MAXIMO.OMP FETCH FIRST 1 ROWS ONLY 
+  </entry> 
+
+  <!-- ********************************************************************* -->
+  <entry key="OMPCIRLN.SELECT.BY_ACTCIGUID">
+    SELECT OMPCIRLNID, CIGUID, OMPGUID, CISOURCETOKEN, CHANGEBY, CHANGEDATE
+    FROM MAXIMO.OMPCIRLN 
+    WHERE CIGUID=?
+  </entry>  
+
+  <!-- ********************************************************************* -->
+  <entry key="OMPCIRLN.SELECT.PROPERTIES.DEF">
+    SELECT OMPCIRLNID, CIGUID, OMPGUID, CISOURCETOKEN, CHANGEBY, CHANGEDATE
+    FROM MAXIMO.OMPCIRLN FETCH FIRST 1 ROWS ONLY 
+  </entry>  
+
+  <!-- ********************************************************************* -->
+  <entry key="CCIDELETEDACTCI.SELECT.PROPERTIES.DEF">
+    SELECT ACTCINUM, SOURCETOKEN, CINUM, DELETIONREQUESTED, DELETEDINSOURCE, 
+           FLAGGEDBY, DELETEDINCCMDB, CHANGEBY, CHANGEDATE, 
+           ACTCICLASSIFICATIONID, CINAME, ACTCINAME, PLUSPCUSTOMER, 
+           CCIDELETEDACTCIID 
+    FROM MAXIMO.CCIDELETEDACTCI FETCH FIRST 1 ROWS ONLY 
+  </entry>
+
+  <!-- ********************************************************************* -->
+  <entry key="CCIDELETEDACTCI.SELECT.BY_SRC">
+    SELECT ACTCINUM, SOURCETOKEN, CINUM, DELETIONREQUESTED, DELETEDINSOURCE, 
+           FLAGGEDBY, DELETEDINCCMDB, CHANGEBY, CHANGEDATE, 
+           ACTCICLASSIFICATIONID, CINAME, ACTCINAME, PLUSPCUSTOMER, 
+           CCIDELETEDACTCIID 
+    FROM MAXIMO.CCIDELETEDACTCI 
+    WHERE SOURCETOKEN=?
+    ORDER BY CCIDELETEDACTCIID
+  </entry>  
+
+  <!-- ********************************************************************* -->
+  <entry key="ACTCISPEC.SELECT.BY_ACTCINUM">
+    SELECT ACTCISPECID, ALNVALUE, ASSETATTRID, ACTCINUM, NUMVALUE, TABLEVALUE
+    FROM MAXIMO.ACTCISPEC
+    WHERE ACTCINUM = ?    
+    ORDER BY ASSETATTRID
+  </entry>
+       
+  <!-- ********************************************************************* -->
+  <entry key="ACTCISPEC.SELECT.NEXT_ID">
+    SELECT MAX(ACTCISPECID)
+    FROM MAXIMO.ACTCISPEC
+  </entry>       
+       
+  <!-- ********************************************************************* -->
+  <entry key="ACTCISPEC.DELETE">
+    DELETE FROM MAXIMO.ACTCISPEC
+    WHERE ASSETATTRID = ? AND ACTCINUM = ?
+  </entry>        
+       
+  <!-- ********************************************************************* -->
+  <entry key="ACTCISPEC.DELETE.BY_ACTCINUM">
+    DELETE FROM MAXIMO.ACTCISPEC
+    WHERE ACTCINUM = ?
+  </entry>          
+       
+  <!-- ********************************************************************* -->
+  <entry key="RELATIONRULES.SELECT_ST">
+    SELECT CS1.CLASSIFICATIONID, CS2.CLASSIFICATIONID
+    FROM MAXIMO.RELATIONRULES  RR, 
+         MAXIMO.CLASSSTRUCTURE CS1, 
+         MAXIMO.CLASSSTRUCTURE CS2
+    WHERE RR.RELATIONNUM = ? 
+      AND RR.SOURCECLASS = CS1.CLASSSTRUCTUREID
+      AND RR.TARGETCLASS = CS2.CLASSSTRUCTUREID
+    ORDER BY CS1.CLASSIFICATIONID, CS2.CLASSIFICATIONID
+  </entry>
+
+  <!-- ********************************************************************* -->
+  <entry key="RELATIONRULES.SELECT.BY_TRG">
+    SELECT RR.RELATIONNUM, CS.CLASSIFICATIONID
+    FROM MAXIMO.RELATIONRULES  RR, MAXIMO.CLASSSTRUCTURE CS
+    WHERE RR.TARGETCLASS = ? 
+      AND RR.SOURCECLASS = CS.CLASSSTRUCTUREID
+    ORDER BY RELATIONNUM
+  </entry>
+  
+  <!-- ********************************************************************* -->
+  <entry key="RELATIONRULES.SELECT.BY_SRC">
+    SELECT RR.RELATIONNUM, CS.CLASSIFICATIONID
+    FROM MAXIMO.RELATIONRULES  RR, MAXIMO.CLASSSTRUCTURE CS
+    WHERE RR.SOURCECLASS = ? 
+      AND RR.TARGETCLASS = CS.CLASSSTRUCTUREID
+    ORDER BY RELATIONNUM
+  </entry>
+
+  <!-- ********************************************************************* -->
+  <entry key="CLASSSPEC.SELECT.BY_CLASSSTRUCTURE">
+    SELECT AT.ASSETATTRID, AT.DATATYPE 
+    FROM MAXIMO.CLASSSPEC CS, MAXIMO.ASSETATTRIBUTE AT      
+    WHERE CS.ASSETATTRID = AT.ASSETATTRID
+      AND CS.CLASSSTRUCTUREID = ?  
+    ORDER BY AT.ASSETATTRID
+  </entry>
+  
+  <!-- ********************************************************************* -->
+  <entry key="ASSETATTRID.SELECT.MODEL_OBJECT">
+    SELECT AT.ASSETATTRID, AT.DATATYPE 
+    FROM MAXIMO.ASSETATTRIBUTE AT      
+    WHERE AT.ASSETATTRID LIKE 'MODELOBJECT%' 
+    ORDER BY AT.ASSETATTRID
+  </entry>  
+
+</properties>

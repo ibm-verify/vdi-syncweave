@@ -1,0 +1,352 @@
+{
+  "id":"urn:scim:schemas:core:1.0:User",
+  "name":"User",
+  "description":"Core User",
+  "schema":"urn:scim:schemas:core:1.0",
+  "endpoint":"/Users",
+  "attributes":[
+    {
+      "name":"id",
+      "type":"string",
+      "multiValued":false,
+      "description":"Unique identifier for the SCIM resource as defined by the Service Provider. Each representation of the resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider's entire set of resources. It MUST be a stable, non-reassignable identifier that does not change when the same resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. REQUIRED.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":true,
+      "required":true,
+      "caseExact":false
+    },
+    {
+      "name":"externalId",
+      "type":"string",
+      "multiValued":false,
+      "description":"Unique identifier for the Resource as defined by the Service Consumer. The externalId may simplify identification of the Resource between Service Consumer and Service provider by allowing the Consumer to refer to the Resource with its own identifier, obviating the need to store a local mapping between the local identifier of the Resource and the identifier used by the Service Provider. Each Resource MAY include a non-empty externalId value. The value of the externalId attribute is always issued be the Service Consumer and can never be specified by the Service Provider. This identifier MUST be unique across the Service Consumer's entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The Service Provider MUST always interpret the externalId as scoped to the Service Consumer's tenant.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":false,
+      "caseExact":false
+    },
+    {
+      "name":"userName",
+      "type":"string",
+      "multiValued":false,
+      "description":"Unique identifier for the User, typically used by the user to directly authenticate to the service provider. Often displayed to the user as their unique identifier within the system (as opposed to id or externalId, which are generally opaque and not user-friendly identifiers). Each User MUST include a non-empty userName value. This identifier MUST be unique across the Service Consumer's entire set of Users. It MUST be a stable ID that does not change when the same User is returned in subsequent requests.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":true,
+      "caseExact":false
+    },
+    {
+      "name":"title",
+      "type":"string",
+      "multiValued":false,
+      "description":"The user's title, such as \"Vice President.\"",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":false,
+      "caseExact":false
+    },
+    {
+      "name":"password",
+      "type":"string",
+      "multiValued":false,
+      "description":"The User's clear text password. This attribute is intended to be used as a means to specify an initial password when creating a new User or to reset an existing User's password. No accepted standards exist to convey password policies, hence Consumers should expect Service Providers to reject password values. This value MUST never be returned by a Service Provider in any form.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":false,
+      "caseExact":true
+    },
+    {
+      "name":"name",
+      "type":"complex",
+      "multiValued":false,
+      "description":"The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":true,
+      "caseExact":false,
+      "subAttributes":[
+        {
+          "name":"familyName",
+          "type":"string",
+          "multiValued":false,
+          "description":"The family name of the User, or Last Name in most Western languages (e.g. Jensen given the full name Ms. Barbara J Jensen, III.).",
+          "readOnly":false,
+          "required":true,
+          "caseExact":false
+        },
+        {
+          "name":"givenName",
+          "type":"string",
+          "multiValued":false,
+          "description":"The given name of the User, or First Name in most Western languages (e.g. Barbara given the full name Ms. Barbara J Jensen, III.).",
+          "readOnly":false,
+          "required":false,
+          "caseExact":false
+        }
+      ]
+     },
+    {
+      "name":"active",
+      "type":"boolean",
+      "multiValued":false,
+      "description":"A Boolean value indicating the User's administrative status. The definitive meaning of this attribute is determined by the Service Provider though a value of true infers the User is, for example, able to login while a value of false implies the User's account has been suspended. A missing vaue implies that the value is true.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"displayName",
+      "type":"string",
+      "multiValued":false,
+      "description":"The name of the User, suitable for display to end-users. Each User returned MAY include a non-empty displayName value. The name SHOULD be the full name of the User being described if known (e.g. Babs Jensen or Ms. Barbara J Jensen, III), but MAY be a username or handle, if that is all that is available (e.g. bjensen). The value provided SHOULD be the primary textual label by which this User is normally displayed by the Service Provider when presenting it to end-users.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":false,
+      "required":false,
+      "caseExact":false
+    },
+     {
+       "name":"emails",
+       "type":"complex",
+       "multiValued":true,
+       "multiValuedAttributeChildName":"email",
+       "description":"E-mail addresses for the user. The value SHOULD be canonicalized by the Service Provider, e.g. bjensen@example.com instead of bjensen@EXAMPLE.COM. Canonical Type values of work, home, and other.",
+       "schema":"urn:scim:schemas:core:1.0",
+       "readOnly":false,
+       "required":false,
+       "caseExact":false,
+       "subAttributes":[
+         {
+           "name":"value",
+           "type":"string",
+           "multiValued":false,
+           "description":"E-mail addresses for the user. The value SHOULD be canonicalized by the Service Provider, e.g. bjensen@example.com instead of bjensen@EXAMPLE.COM. Canonical Type values of work, home, and other.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"type",
+           "type":"string",
+           "multiValued":false,
+           "description":"A label indicating the attribute's function; e.g., \"work\" or \"home\".",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false,
+           "canonicalValues":["work","home"]
+         }
+       ]
+     },
+     {
+       "name":"phoneNumbers",
+       "type":"complex",
+       "multiValued":true,
+       "multiValuedAttributeChildName":"email",
+       "description":"Phone numbers for the User. The value SHOULD be canonicalized by the Service Provider according to format in RFC3966 e.g. \"tel:+1-201-555-0123\". Canonical Type values of work, home, mobile, fax, pager and other.",
+       "schema":"urn:scim:schemas:core:1.0",
+       "readOnly":false,
+       "required":false,
+       "caseExact":false,
+       "subAttributes":[
+         {
+           "name":"value",
+           "type":"string",
+           "multiValued":false,
+           "description":"Phone numbers for the User. The value SHOULD be canonicalized by the Service Provider according to format in RFC3966 e.g. \"tel:+1-201-555-0123\". Canonical Type values of work, home, mobile, fax, pager and other.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"type",
+           "type":"string",
+           "multiValued":false,
+           "description":"A label indicating the attribute's function; e.g., \"work\" or \"home\".",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false,
+           "canonicalValues":["work","home","mobile","pager","fax"]
+         }
+       ]
+     },
+     {
+       "name":"addresses",
+       "type":"complex",
+       "multiValued":true,
+       "multiValuedAttributeChildName":"address",
+       "description":"A physical mailing address for this User.",
+       "schema":"urn:scim:schemas:core:1.0",
+       "readOnly":false,
+       "required":false,
+       "caseExact":false,
+       "subAttributes":[
+         {
+           "name":"formatted",
+           "type":"string",
+           "multiValued":false,
+           "description":"The full mailing address, formatted for display or use with a mailing label. This attribute MAY contain newlines.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"streetAddress",
+           "type":"string",
+           "multiValued":false,
+           "description":"The full street address component, which may include house number, street name, P.O. box, and multi-line extended street address information. This attribute MAY contain newlines.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"locality",
+           "type":"string",
+           "multiValued":false,
+           "description":"The city or locality component.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"region",
+           "type":"string",
+           "multiValued":false,
+           "description":"The state or region component.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"postalCode",
+           "type":"string",
+           "multiValued":false,
+           "description":"The zipcode or postal code component.",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false
+         },
+         {
+           "name":"type",
+           "type":"string",
+           "multiValued":false,
+           "description":"A label indicating the attribute's function; e.g., \"work\" or \"home\".",
+           "readOnly":false,
+           "required":false,
+           "caseExact":false,
+           "canonicalValues":["work","home"]
+         }
+       ]
+     },
+     {
+      "name":"groups",
+      "type":"complex",
+      "multiValued":true,
+      "multiValuedAttributeChildName":"group",
+      "description":"A list of groups that the user belongs to, either thorough direct membership, nested groups, or dynamically calculated. The values are meant to enable expression of common group or role based access control models, although no explicit authorization model is defined. It is intended that the semantics of group membership and any behavior or authorization granted as a result of membership are defined by the Service Provider. If the SCIM Service Provider exposes a Group resource, the value MUST be the 'id' attribute of the corresponding Group resources to which the user belongs. Since this attribute is read-only, group membership changes MUST be applied via the Group Resource. READ-ONLY.",
+      "schema":"urn:scim:schemas:core:1.0",
+      "readOnly":true,
+      "required":false,
+      "caseExact":false,
+      "subAttributes":[
+         {
+           "name":"value",
+           "type":"string",
+           "multiValued":false,
+           "description":"The id of the group",
+           "readOnly":true,
+           "required":true,
+           "caseExact":false
+         },
+         {
+           "name":"display",
+           "type":"string",
+           "multiValued":false,
+           "description":"A human readable name, primarily used for display purposes. READ-ONLY.",
+           "readOnly":true,
+           "required":false,
+           "caseExact":false
+         }
+       ]
+     },
+    {
+      "name":"pwdAccountLockedTime",
+      "type":"string",
+      "multiValued":false,
+      "description":"Contains the time at which the account was locked. If the account is not locked, this attribute is not present.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"pwdChangedTime",
+      "type":"string",
+      "multiValued":false,
+      "description":"Contains the time the password was last changed or the password policy start time whichever is recent.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"pwdExpirationWarned",
+      "type":"string",
+      "multiValued":false,
+      "description":"Contains the time at which the password expiration warning was first sent to the client.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"pwdFailureTime",
+      "type":"string",
+      "multiValued":true,
+      "description":"A multi-valued attribute containing the times of previous consecutive login failures. If the last login was successful, this attribute is not present.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":true,
+      "required":false
+    },
+    {
+      "name":"pwdGraceUseTime",
+      "type":"string",
+      "multiValued":true,
+      "description":"A multi-valued attribute containing the times of the previous grace logins.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":true,
+      "required":false
+    },
+    {
+      "name":"pwdReset",
+      "type":"boolean",
+      "multiValued":false,
+      "description":"Contains the value TRUE if the password has been reset and must be changed by the user.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"ibm-pwdAccountLocked",
+      "type":"boolean",
+      "multiValued":false,
+      "description":"Indicates that the account has been administratively locked.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    },
+    {
+      "name":"accountLockedCode",
+      "type":"string",
+      "multiValued":false,
+      "description":"A comma separated string giving the reason(s) why an account has been locked.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":true,
+      "required":false
+    },
+    {
+      "name":"ibm-pwdIndividualPolicyDn",
+      "type":"string",
+      "multiValued":false,
+      "description":"DN of a password policy entry which can be associated with a user entry.",
+      "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+      "readOnly":false,
+      "required":false
+    }
+   ]
+}

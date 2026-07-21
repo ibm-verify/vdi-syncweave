@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+  <Appenders>
+    <!-- The default SDI log file -->
+    <RollingFile name="Default" 
+	append="true"
+        fileName="logs/ibmdi.log"
+	filePattern="logs/ibmdi-%i.log">
+      <PatternLayout pattern="%d{DEFAULT} %-5p [%c] - %m%n" />
+      <Policies>
+	<OnStartupTriggeringPolicy minSize="1" />
+        <SizeBasedTriggeringPolicy size="10MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="3" fileIndex="min" />
+    </RollingFile>
+
+    <!-- Some messages will be logged to the console (standard out) -->
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="[%t] %-5p - %m%n"/>
+    </Console>
+
+    <RollingFile name="SCIM" 
+	append="true"
+        fileName="SCIM/logs/audit.log"
+	filePattern="SCIM/logs/audit.%d{yyyy-MM-dd}.log">
+      <PatternLayout pattern="%m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRollOverStrategy />
+    </RollingFile>
+	  
+    <RollingFile name="SCIM20" 
+	append="true"
+        fileName="SCIM20/logs/audit.log"
+	filePattern="SCIM20/logs/audit.%d{yyyy-MM-dd}.log">
+      <PatternLayout pattern="%m%n" />
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRollOverStrategy />
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Default"/>
+    </Root>
+    <Logger name="Console" level="warn" >
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+
+    <Logger name="com.ibm.di.config" level="warn" >
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Logger name="com.ibm.di.TDIProperties" level="warn" >
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Logger name="com.ibm.di.loader" level="warn" >
+    </Logger>
+    <Logger name="org.glassfish.jersey" level="error" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.servlet.WebComponent" level="off" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.server.wadl.WadlFeature" level="off" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.internal.inject.Providers" level="off" additivity="false">
+    </Logger>
+    <Logger name="com.ibm.di.ScimService" level="info" additivity="false">
+      <AppenderRef ref="SCIM"/>
+    </Logger>
+    <Logger name="com.ibm.di.Scim20Service" level="info" additivity="false">
+      <AppenderRef ref="SCIM20"/>
+    </Logger>	  
+  </Loggers>
+</Configuration>

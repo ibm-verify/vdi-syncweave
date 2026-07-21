@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TCP">
+                        <SupportedModes>Iterator,AddOnly</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.TCPConnector</parameter>
+				<parameter name="parserOption">Optional</parameter>
+				<parameter name="backlog"/>
+				<parameter name="serverMode">false</parameter>
+				<parameter name="tcpHost"/>
+				<parameter name="tcpNeedSSLClientAuth">false</parameter>
+				<parameter name="tcpPort"/>
+				<parameter name="tcpUseSSL">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.TCPConnector">
+			<TranslationFile>NLS/idi_conn_tcp</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tcpHost</ListItem>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>tcpUseSSL</ListItem>
+					<ListItem>serverMode</ListItem>
+					<ListItem>tcpNeedSSLClientAuth</ListItem>
+					<ListItem>backlog</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>tcpHost</ListItem>
+				<ListItem>tcpPort</ListItem>
+				<ListItem>tcpUseSSL</ListItem>
+				<ListItem>serverMode</ListItem>
+				<ListItem>tcpNeedSSLClientAuth</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="serverMode">
+				<parameter name="description">mode_desc</parameter>
+				<parameter name="label">mode_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="tcpHost">
+				<parameter name="description">host_desc</parameter>
+				<parameter name="label">host_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="tcpNeedSSLClientAuth">
+				<parameter name="description"> NEED_CLIENT_AUTH_DESC</parameter>
+				<parameter name="label">NEED_CLIENT_AUTH_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="tcpPort">
+				<parameter name="description">port_desc</parameter>
+				<parameter name="label">port_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="tcpUseSSL">
+				<parameter name="description"> TCP_USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="6" UUID="e6145cf1-da27-44b5-997d-27578a6fc78a" created="Wed Jan 08 15:18:15 CET 2014" createdBy="Administrator" main="test" modified="Tue Jan 21 11:14:29 CET 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="test">
+        <ModTime>1390299269600</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="init" state="Enabled"/>
+                <Component name="connector script" state="Enabled"/>
+                <Component name="test" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1390299269600</ModTime>
+            <Script name="init">
+                <ModTime>1390299227948</ModTime>
+                <parameter name="script"><![CDATA[connector = {
+   getParam : function(pname) {
+   		switch (pname.toLowerCase) {
+/*   			
+	tamDomain = connector.getParam("tamDomain");
+	tamCfgFile = connector.getParam("tamCfgFile")
+	entityType = connector.getParam("entityType");
+	searchString = connector.getParam("searchString");
+	try {
+	if(connector.getParam("delFromRegistry").toString().endsWithIgnoreCase("true"))
+*/
+			case "tamdomain" : return "Default";
+			case "tamcfgfile" : return "LDAPSync/ISAM_API.properties";
+			case "entittype" : return "User";
+			case "searchstring" : return null;
+			case "delfromregistry" : return true;
+   		}
+   		
+   		return null;
+   },
+   
+   addFindEntry : function(e) {
+   	
+   }
+	
+}]]></parameter>
+            </Script>
+            <Script name="connector script">
+                <ModTime>1390299246372</ModTime>
+                <parameter name="script"><![CDATA[// SAM Script connector
+// 
+//	var version = "20131028"
+//	var version = "20140120 1303"
+	var version = "20140121 1106" // fixed missing debug variable
+
+	var  tamDomain = "Default";
+	var  tamCfgFile = null;
+	var  delFromRegistry = false;
+	var  rgyRegistry;
+	var  entityType = "User";
+	var list = null;
+	var searchString = "*" ;
+	var MAXRETURN = 0;
+	var PAGESIZE = 0;
+	var currententry = null;
+	var defaultPassword = null;
+	var debug = true;
+
+function logmsg(msg) {
+	if (debug)
+		java.lang.System.out.println(msg)
+	try {
+		logmsg(msg)
+	} catch (ex) {
+		main.logmsg(msg)
+	}	
+}
+
+
+// SAM Connector initialization;
+
+function initialize()
+{
+	logmsg("SAM Connector vrs. " + version)
+	
+	tamDomain = connector.getParam("tamDomain");
+	tamCfgFile = connector.getParam("tamCfgFile")
+	entityType = connector.getParam("entityType");
+	searchString = connector.getParam("searchString");
+	try {
+	if(connector.getParam("delFromRegistry").toString().endsWithIgnoreCase("true"))
+	{
+		delFromRegistry = true;
+	}
+}	
+	catch (err)
+	{
+		
+	}
+	
+	try {
+		if(rgyRegistry == null && tamCfgFile != null){
+		var file = new java.io.File(tamCfgFile);
+		rgyRegistry = new com.tivoli.pd.rgy.ldap.LdapRgyRegistryFactory.getRgyRegistryInstance(file.toURI().toURL(), null);
+		logmsg("SAM Initilization is sucessful");
+	}
+	} catch (e)
+		 {
+			logmsg("ERROR", "SAM Manager :: initialize::  " + "MalformedURLException/RgyException" + e);
+		}	
+}	
+
+function selectEntries(srch)
+{
+	if(typeof srch == "undefined")
+	{
+		srch = searchString;
+	}
+	if (entityType == "User")
+		list = rgyRegistry.listUsers(tamDomain,  srch , MAXRETURN, PAGESIZE);
+	else
+		list =  rgyRegistry.listGroups(tamDomain,  srch , MAXRETURN, PAGESIZE);
+}
+
+function getNextEntry (entrylist)
+{
+	if(typeof entrylist == "undefined")
+	{
+		entrylist = list;
+	}
+	
+	if (!entrylist.hasNext())
+	{
+		result.setStatus (0);
+		return;
+	}
+	
+	var id = entrylist.next();
+	if (entityType == "User")
+		var entity = rgyRegistry.getUser(tamDomain,id);
+	else
+		var entity = rgyRegistry.getGroup(tamDomain,id);
+	
+	var attrlist = entity.attributeNameIterator();
+	
+	while(attrlist.hasNext())
+	{
+		var attrname = attrlist.next();
+		var values = entity.getAttributeValues(attrname);
+		
+		var attr = system.newAttribute(attrname);
+		
+		for (var i = 0; i<values.length; i++)
+		{
+			attr.addValue(values[i]);
+		}
+		entry[attrname] = attr;
+	}
+
+}
+
+/**
+ * Imports TDS user to TAM.
+ * 
+ * @param userdn LDAP DN
+ * @param username Login ID in TAM
+ * @param group TAM group id.
+ * @return true if success, false if errors.
+ */
+function importUser(userdn, username, group)
+{
+	var notAddedTo = new java.util.ArrayList();
+	var user = rgyRegistry.getNativeUser(tamDomain, userdn);
+	if (user == null)
+	{
+		throw new CRgyException("HPDMG0755W - The specified Distinguished Name (DN) does not exist");
+	}
+	var attrs = rgyRegistry.newRgyAttributes();
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE);
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_DN_NAME, userdn);
+	user.importNativeUser(username, attrs, null);
+	logmsg("INFO", "User "+ username + " import is sucessful");
+	if(group == null)					
+	{
+		return 0;
+	}
+	
+	for (var i=0;i<group.size();i++)
+	{
+		var groupId = group.getValue(i);
+		if(!addUserToGroup(groupId, username))
+		{
+			notAddedTo.add(groupId);
+		}
+	}
+	return notAddedTo.toArray();
+}	
+	
+function CRgyException(message) {
+   this.message = message;
+   this.name = "RgyException";
+}
+
+
+/**
+ * Imports TDS Group to TAM.
+ * 
+ * @param Groupdn LDAP DN
+ * @param GroupName in TAM
+ * @return true if success, false if errors.
+ */
+function importGroup(groupdn, groupname)
+{
+	group = rgyRegistry.getNativeGroup(tamDomain, groupdn);
+	if(group == null)
+	{
+		throw new CRgyException("HPDMG1068E - An invalid group identification or Distinguished Name (DN) was specified");
+	}
+	attrs = rgyRegistry.newRgyAttributes();
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE);
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_DN_NAME, groupdn);
+	group.importNativeGroup(groupname, attrs);
+	logmsg("INFO", "Group "+ groupname + " import is sucessful");
+}
+	
+
+
+/**
+ * Deletes user from SAM and registry if necessary
+ * @param userId 
+ * @param delFromRegistry true if delete from SDS, false delete only SAM
+ */
+function deleteUser(userId, delFromRegistry)
+{
+	try {
+	rgyRegistry.deleteUser(tamDomain, userId, delFromRegistry);
+	}
+catch (ex) {
+	}	
+	
+}
+
+/**
+ * Deletes Group from SAM and registry if necessary
+ * @param groupId 
+ * @param delFromRegistry true if delete from SDS, false delete only SAM
+ */
+function deleteGroup(groupId, delFromRegistry)
+{	
+	try {
+		rgyRegistry.deleteGroup(tamDomain, groupId, delFromRegistry);
+	}	catch (ex) {
+	}	
+}
+
+
+/**
+ * Adds user to SAM group. NOTE! The group needs to be in SAM.
+ * @param groupId group ID in SAM
+ * @param userId User's ldap id
+ * @return True if success, false if errors
+ */
+function addUserToGroup(groupId, userId){
+		try {
+			if(rgyRegistry == null)
+				initialize();
+			group = rgyRegistry.getGroup(tamDomain, groupId);
+			var userList = new java.util.ArrayList;
+			userList.add(userId);
+			group.addMembers(userList);
+			logmsg("INFO", "User "+ userId + " has been sucessfully added to group : " +groupId);
+			return true;
+		} catch (e) {
+			logmsg("ERROR", "SAM Manager :: addUserToGroup :: " + "RgyException :: " + e);
+			logmsg("Fail to add user to Group ");
+			return false;
+		}
+}
+
+/**
+ * Removes user from a SAM group.
+ * 
+ * @param groupId groupId in SAM
+ * @param userId User id in SAM
+ * @return True if success, false if errors
+ */
+function removeUserFromGroup(groupId, userId){
+		try {
+			if(rgyRegistry == null)
+				initialize();
+			var group = rgyRegistry.getGroup(tamDomain, groupId);
+			var userList = new java.util.ArrayList;
+			userList.add(userId);
+			group.removeMembers(userList);
+			logmsg("User is sucessfully removed from the Group !");
+			
+			return true;
+		} catch (e) {
+			logmsg("ERROR", "SAM Manager :: removeUserFromGroup :: " + "RgyException :: " + e);
+			logmsg("Fail to Delete user from Group, either User/Group are not exists !");
+			return false;
+	}
+}	
+	
+function closeRegistry(){
+		if(rgyRegistry != null)
+			rgyRegistry.close();
+}
+
+function createUser(mDN, mCN, mSN, mPassword, mDesc, group, secAcctValid, secPwdValid)
+{
+	if((typeof(mDesc) == "undefined") || (mDesc == null))
+	{
+		mDesc="";
+	}
+	if((typeof(mPassword) == "undefined") || (mPassword == null))
+	{
+		mPassword=defaultPassword;
+	}
+	if((typeof(group) == "undefined") || (group ==null))
+	{
+		group= system.newAttribute("Group");
+	}
+
+	var groupset = new java.util.HashSet();
+	for(var i =0 ; i< group.size(); i++)
+	{
+		var groupid = group.getValue(i);
+		if(! groupset.contains(groupid))
+		{
+			groupset.add(groupid);
+		}
+	}			
+
+	if((typeof(secPwdValid) == "undefined") || (secPwdValid == null) || secPwdValid.toString().toLowerCase().equals("true"))
+	{
+		secPwdValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE;
+	}
+	else
+	{
+		secPwdValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_FALSE_VALUE;			
+	}
+	
+	if((typeof(secAcctValid) == "undefined") || (secAcctValid == null) || secAcctValid.toString().toLowerCase().equals("true"))
+	{
+		secAcctValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE;
+	}
+	else
+	{
+		secAcctValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_FALSE_VALUE;			
+	}
+
+	var attrs = rgyRegistry.newRgyAttributes();
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_DN_NAME, mDN);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.COMMON_NAME_NAME,mCN);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SURNAME_NAME, mSN);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.DESCRIPTION_NAME, mDesc);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, secAcctValid);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_PWD_VALID_NAME, secPwdValid);
+
+    rgyRegistry.createUser(tamDomain, mCN, mDN, (mPassword === null) ? null : mPassword.split(''), false ,attrs ,groupset);
+}
+
+function createGroup(mGroupDN, mCN)
+{
+	var attrs = rgyRegistry.newRgyAttributes();
+	attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.SEC_DN_NAME, mGroupDN);
+    attrs.putAttribute(com.tivoli.pd.rgy.RgyAttributes.COMMON_NAME_NAME,mCN);
+
+	rgyRegistry.createGroup(tamDomain, mCN, mGroupDN, attrs);
+}
+
+
+function putEntry ()
+{
+	var doCreate = false;
+	var dn = entry.getString("secDN");
+	var name = entry.getString("principalName");
+	var cn = entry.getString("cn");
+	var desc = entry.getString("description");
+	var group = entry.getAttribute("groupid");
+	var userPassword = entry.getString("userPassword");
+	var secPwdValid = entry.getString("secPwdValid");
+	var secAcctValid = entry.getString("secAcctValid");
+	
+	if((typeof(userPassword) == "undefined") || (userPassword == null))
+	{
+		userPassword=defaultPassword;
+	}
+	
+	if(dn == null )
+		throw "Mandatory attribute missing from Output Map: secDN";
+	if(name == null )
+		throw "Mandatory attribute missing from Output Map: principalName";
+	
+	try
+	{
+		if (entityType == "User")
+		{
+			var notAddedTo = importUser(dn, name, group);
+			var entity = rgyRegistry.getUser(tamDomain,name);
+			if (userPassword !== null) {
+			   	entity.setPassword(userPassword.split(''));
+			}	
+			
+			if(notAddedTo.length > 0)
+			{
+				var groupString = "";
+				for(var i=0;i<notAddedTo.length; i++)
+				{
+					groupString+=((i>0)?", ":"") + notAddedTo[i];
+				}
+				logmsg("WARN", "User "+ name + " NOT added to these Groups: " + groupString);
+			}
+		}	
+		else
+		{
+			importGroup(dn, name);
+		}	
+		
+	 }
+	catch(e)
+	{
+		// This Check is for if User/Group is NOT present in TDS
+		if((e.message.indexOf("HPDMG0755W") >= 0) || (e.message.indexOf("HPDMG1068E") >= 0))
+		{
+			doCreate = true;
+		}
+		else {
+		// This Check is for if User/Group is present in TAM
+		if ((e.message.indexOf("HPDAA0269E")>= 0) || (e.message.indexOf("HPDMG0759W") >=0))
+		{
+			logmsg("WARN", "User/Group "+ name + " is already imported" );
+		}else		
+		{
+			throw e;
+		}
+	   }	
+	}	
+	
+	if(doCreate == true)
+	{
+		if(entityType == "User")
+		{
+			var sn = entry.getString("sn");
+			var password = entry.getString("userPassword");
+			var desc = entry.getString("description");
+			if(sn == null)
+			{
+				throw "Mandatory attribute missing from Output Map: sn";
+			}	
+			createUser(dn , name , sn , password, desc, group, secPwdValid, secAcctValid);
+		}
+		else
+		{
+			//Group create
+			createGroup(dn, name);
+		}
+	}
+}
+
+
+function modEntry ()
+{
+	var id = currententry.getString("principalName");
+	var dn = currententry.getString("secDN");
+	var desc = entry.getString("description");
+	var secPwdValid = entry.getString("secPwdValid");
+	var secAcctValid = entry.getString("secAcctValid");
+	var userPassword = entry.getString("userPassword");
+
+	if(id == null)		
+	{
+		throw "NO Entry found to Modify !";
+	}
+
+	var entity = rgyRegistry.getUser(tamDomain,id);
+
+	if (entityType =="User")
+	{
+		if((typeof(desc) == "undefined") || (desc == null))
+		{
+			desc="";
+			
+		}
+		if((typeof(userPassword) == "undefined") || (userPassword == null))
+		{
+			userPassword=defaultPassword;
+		}
+		
+		if((typeof(secPwdValid) == "undefined") || (secPwdValid == null) || secPwdValid.toString().toLowerCase().equals("true"))
+		{
+			secPwdValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE;
+		}
+		else
+		{
+			secPwdValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_FALSE_VALUE;			
+		}
+		
+		if((typeof(secAcctValid) == "undefined") || (secAcctValid == null) || secAcctValid.toString().toLowerCase().equals("true"))
+		{
+			secAcctValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_TRUE_VALUE;
+		}
+		else
+		{
+			secAcctValid=com.tivoli.pd.rgy.RgyAttributes.BOOL_FALSE_VALUE;			
+		}
+		entity.attributeReplace(com.tivoli.pd.rgy.RgyAttributes.DESCRIPTION_NAME, desc);
+	    entity.attributeReplace(com.tivoli.pd.rgy.RgyAttributes.SEC_ACCT_VALID_NAME, secAcctValid);
+   	    entity.attributeReplace(com.tivoli.pd.rgy.RgyAttributes.SEC_PWD_VALID_NAME, secPwdValid);
+   	    if (userPassword !== null) {
+	   	    entity.setPassword(userPassword.split(''));
+		} 
+	}
+	else
+	{
+		if((typeof(desc) == "undefined") || (desc == null))
+		{
+			desc="";
+		}
+		entity.attributeReplace(com.tivoli.pd.rgy.RgyAttributes.DESCRIPTION_NAME, desc);
+		//replace Attributes for Group		
+	}
+}
+
+function deleteEntry ()
+{
+	if(currententry == null)
+	{
+		logmsg("Entry Deleted from ISAM Registry!");
+		return;
+	}
+	
+	var id = currententry.getString("principalName");
+	
+	if(id == null)		
+	{
+		throw "NO Entry found to Delete !";
+	}
+	if (entityType =="User")
+	{
+		deleteUser(id, delFromRegistry);
+	}
+	else
+	{	
+	 	deleteGroup(id, delFromRegistry);
+	}	
+}
+
+function findEntry ()
+{
+	var finalsearch = null;
+	var saveentry = entry;
+	currententry = null;
+	for (var i =0; i< search.size(); i++)
+	{
+		var attrname = search.getCriteria(i).name.toLowerCase().trim();
+		var match = search.getCriteria(i).match;
+		var value = search.getCriteria(i).value;
+		var negate = search.getCriteria(i).negate;
+		
+		if(negate)
+		{
+			throw "Negate not supported for Link Criteria !";
+		}
+		if(attrname != "principalname")	
+		{
+			throw "This connector only supports searching for 'principalName' attribute !";
+		}	
+		if(match != search.EXACT && match != search.INITIAL_STRING && match != search.FINAL_STRING && match != search.SUBSTRING)
+		{
+			throw "This connector only supports the following operators: Equals, Contains, starts With & ends With";
+		}	
+		var searchString = value;
+		if(match == search.INITIAL_STRING)
+		{
+			searchString+="*";
+		}
+		else if (match == search.FINAL_STRING)
+		{
+			searchString="*"+searchString;			
+		}
+		else if (match == search.SUBSTRING)
+		{
+			searchString="*"+searchString+"*";			
+		}
+	
+		selectEntries(searchString);
+		var currentsearch = new java.util.HashMap();
+		
+		do
+		{
+			entry = system.newEntry();
+			try
+			{
+				getNextEntry(list);
+			}catch (e)	
+			{
+				if(e.message.indexOf("HPDAA0271E") >= 0)
+				{
+					if(config.getMode().equals("Delete"))
+					{
+						if (entityType == "User")
+							deleteUser(value, true);
+						else
+							deleteGroup(value, true);
+					}	
+				}
+			}
+			if(entry.size() > 0)
+			{
+				currentsearch.put(entry.getString("principalName"), entry);
+			}
+		}while(	entry.size() > 0);
+		
+		if(finalsearch == null)
+		{
+			finalsearch = currentsearch;
+		}
+		else
+		{
+			var keys = finalsearch.keySet().toArray();
+			for(var key in keys)
+			{
+				if ((search.getType() == search.SEARCH_AND) && (!currentsearch.containsKey(key)) && (finalsearch.containsKey(key))) 
+				{
+					finalsearch.remove(key);
+				}
+				else
+				if ((search.getType() == search.SEARCH_OR) && (currentsearch.containsKey(key)) && (!finalsearch.containsKey(key))) 
+				{
+					finalsearch.put(key, currentsearch.get(key));
+				}
+			}
+		}
+	}
+	if(finalsearch == null)	
+	{
+		throw "No Link Criteria defined !";
+	}
+	var keys = finalsearch.keySet().toArray();
+	java.util.Arrays.sort(keys);
+	if (keys.length == 0)
+	{
+		result.setStatus(0);
+	}
+	else 
+	{
+		result.setStatus(1);			
+		entry = saveentry;
+		entry.merge(finalsearch.get(keys[0]));
+		currententry = system.newEntry();
+		currententry.merge(entry);
+		for (var i=1; i<keys.length; i++)
+		{
+			var key = keys[i];
+			connector.addFindEntry(finalsearch.get(key));
+		}
+	}
+}
+
+/*
+function querySchema ()
+{
+	result.setStatus (0);
+}
+*/]]></parameter>
+            </Script>
+            <Script name="test">
+                <ModTime>1390299269600</ModTime>
+                <parameter name="script"><![CDATA[initialize();
+
+querySchema();]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

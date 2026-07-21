@@ -1,0 +1,2549 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="684" UUID="ddc62f1e-824a-4c91-9992-23243d76185d" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="WriteToTarget" modified="Fri Oct 07 07:58:05 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<AssemblyLine name="WriteToTarget">
+        <ModTime>1475819884598</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>onfailure</Name>
+                <Script><![CDATA[/*
+task.logmsg("ERROR", 
+			where() + " - Error: " + error.toString())
+*/			
+ex = error.getObject("exception")
+if (ex != null) {
+	setException(ex,"writeToTarget")
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog</Name>
+                <Script/>
+                <Enabled>false</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[initUtils();
+
+callCount = 0;
+
+// get group attributes for map file in order to limit lookups to not include member attribute
+try {
+	groupReturnAttributes = "";
+	mapFile = getProperty("target.group.mapFile", configDirectory + "/group.map")
+	if (mapFile === null || mapFile.length == 0)
+		mapFile = "group.map"
+	if (mapFile.indexOf("/") < 0 && mapFile.indexOf("\\") < 0)
+		mapFile = configDirectory + "/" + mapFile
+	file = system.openFileForInput(mapFile);
+	do{
+		line = file.readLine();
+		if(line != null && line.indexOf("=")>0){
+			parts = system.splitString(line,"=");
+			pos = parts[0].indexOf("{");
+			if(pos > 0){
+				parts[0] = parts[0].substring(0,pos);
+			}
+			if(parts[0].toLowerCase().indexOf("member") > 0){
+				continue;
+			}
+			groupReturnAttributes += parts[0]+"\n";
+		}
+	}while(line != null)
+	file.close();
+} catch (ex) {
+	throw where() + " " + resource.getString("LDAPSYNC.ERROR.READING.GROUP.MAP.FILE") + " (" + mapFile + "): " + ex
+}	
+groupReturnAttributes += "\ncn\nobjectClass\n" + auxLinkedGUIDSourceAttribute + "\n"
+
+// get group attributes for map file in order to limit lookups to not include member attribute
+try {
+	personReturnAttributes = "";
+	mapFile = getProperty("target.person.mapFile", "person.map")
+	if (mapFile === null || mapFile.length == 0)
+		mapFile = "person.map"
+	if (mapFile.indexOf("/") < 0 && mapFile.indexOf("\\") < 0)
+		mapFile = configDirectory + "/" + mapFile
+	file = system.openFileForInput(mapFile);
+	do{
+		line = file.readLine();
+		if(line != null && line.indexOf("=")>0){
+			parts = system.splitString(line,"=");
+			pos = parts[0].indexOf("{");
+			if(pos > 0){
+				parts[0] = parts[0].substring(0,pos);
+			}
+			personReturnAttributes += parts[0]+"\n";
+		}
+	}while(line != null)
+	file.close();
+	personReturnAttributes += "+\n"
+								+ auxLinkedDNAttribute + "\n"
+								+ auxLinkedGUIDAttribute + "\n"
+								+ "ibm-ptaLinkAttribute\n"
+								+ "ibm-ptaLinkValue\n";
+} catch (ex) {
+	throw where() + " " + resource.getString("LDAPSYNC.ERROR.READING.PERSON.MAP.FILE") + " (" + mapFile + "): " + ex
+}	
+
+// simulate by default
+simulate = !"false".equalsIgnoreCase(getProperty("simulate"))
+
+progressReport = 0
+
+progressReportStr = main.commandLineParam("1")
+if (progressReportStr !== null) {
+	try {
+		progressReport = system.toInt(progressReportStr)
+	} catch (ex) {
+		progressReport = 0
+	}
+}
+
+if (progressReport == 0) {
+	progressProp = getProperty("global.showProgressCount")
+	if (progressProp !== null) {
+		try {
+			progressReport = system.toInt(progressProp)
+		} catch (ex) {
+			progressReport = 0
+		}
+	}	
+}
+
+if (targetRootSuffix !== null) {
+	targetRootSuffix = cleanDN(targetRootSuffix, "target.ldap.searchBase property is not set");
+}	
+if (targetSuffixForUsers !== null) {
+	targetSuffixForUsers = cleanDN(targetSuffixForUsers);
+}	
+if (targetSuffixForGroups !== null) {
+	targetSuffixForGroups = cleanDN(targetSuffixForGroups);
+}
+
+targetRootSuffix = targetRootSuffix || "o=unspecifiedTargetSuffix";
+targetSuffixForUsers = targetSuffixForUsers || "o=unspecifiedTargetSuffixForUsers"
+targetSuffixForGroups = targetSuffixForGroups || "o=unspecifiedTargetSuffixForGroups"
+
+// set dummyMember value, used to add Group entries to SDS with no members
+dummyMember = "cn=dummyMemberFromFDS";
+
+if (simulate) {
+	logFilename = flowKey + "_GroupMembersMissing_simulate";
+} else {
+	logFilename = flowKey + "_GroupMembersMissing";
+}	
+logFileFullname = logFilepath + "/" + logFilename + ".log.temp"
+try {
+	file = openOutputFile(logFileFullname)
+	logFiles.setAttribute(logFileFullname, file)
+	file.close()
+} catch (ex) {
+	logmsg("ERROR","" + ex + " - " + resource.getString("LDAPSYNC.ERROR.CREATING.MISSING.MEMBERS.FILE") 
+					+ ": " + logFileFullname)
+}
+
+
+ptaAttributes = ["ibm-ptalinkattribute", "ibm-ptalinkvalue"]
+
+targetLDAP = null;]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="doTiming - WriteToTarget has control" state="Enabled"/>
+                <Component name="checkForDN" state="Enabled"/>
+                <Component name="Initialize result to Skipped" state="Enabled"/>
+                <Component name="Start time" state="Enabled"/>
+                <Component name="Prepare for filtering" state="Enabled"/>
+                <Component name="Process This Entry" state="Enabled"/>
+                <Component name="Initialize result to Failed" state="Enabled"/>
+                <Component name="Initialize Cycle" state="Enabled"/>
+                <Component name="Entry is User" state="Enabled"/>
+                <Component name="do timing - translate dn" state="Enabled"/>
+                <Component name="ConstructDN" state="Enabled"/>
+                <Component name="do timing - checking scope" state="Enabled"/>
+                <Component name="checkForEntryOutOfScope" state="Enabled"/>
+                <Component name="NOT skip this person" state="Enabled"/>
+                <Component name="Delete User" state="Enabled"/>
+                <Component name="DeleteUser" state="Simulated"/>
+                <Component name="Add Modify User" state="Enabled"/>
+                <Component name="AddModifyUser" state="Simulated"/>
+                <Component name="Entry is Group" state="Enabled"/>
+                <Component name="do timing - translate dn_1" state="Enabled"/>
+                <Component name="FixDN" state="Enabled"/>
+                <Component name="do timing - checking scope_1" state="Enabled"/>
+                <Component name="checkForEntryOutOfScope_1" state="Enabled"/>
+                <Component name="NOT skip this group" state="Enabled"/>
+                <Component name="Delete Group" state="Enabled"/>
+                <Component name="DeleteGroup" state="Simulated"/>
+                <Component name="Add Modify Group" state="Enabled"/>
+                <Component name="Translate group members" state="Enabled"/>
+                <Component name="AddModifyGroups" state="Simulated"/>
+                <Component name="Group Members Modified" state="Enabled"/>
+                <Component name="modify Group Members" state="Enabled"/>
+                <Component name="Add to stats" state="Enabled"/>
+                <Component name="Entry is Container" state="Enabled"/>
+                <Component name="do timing - translate dn_2" state="Enabled"/>
+                <Component name="ConstructContainerDN" state="Enabled"/>
+                <Component name="do timing - checking scope_2" state="Enabled"/>
+                <Component name="checkForEntryOutOfScope_2" state="Enabled"/>
+                <Component name="NOT skip this container" state="Enabled"/>
+                <Component name="Delete Container" state="Enabled"/>
+                <Component name="DeleteContainer" state="Simulated"/>
+                <Component name="Add Modify Container" state="Enabled"/>
+                <Component name="AddModifyContainer" state="Simulated"/>
+                <Component name="End time" state="Enabled"/>
+                <Component name="Set change return value" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1475819884598</ModTime>
+            <Script name="doTiming - WriteToTarget has control">
+                <ModTime>1389098588250</ModTime>
+                <parameter name="script">if (doTiming) timing("writetotarget - prepare for filtering")</parameter>
+            </Script>
+            <Script name="checkForDN">
+                <InheritFrom>/Scripts/checkForDN</InheritFrom>
+                <ModTime>1362565953078</ModTime>
+            </Script>
+            <Script name="Initialize result to Skipped">
+                <InheritFrom>/Scripts/initializeResultToSkipped</InheritFrom>
+                <ModTime>1387276936765</ModTime>
+            </Script>
+            <Script name="Start time">
+                <ModTime>1360238091640</ModTime>
+                <parameter name="script">start = new java.util.Date().getTime()</parameter>
+            </Script>
+            <Script name="Prepare for filtering">
+                <InheritFrom>/Scripts/prepareForFiltering</InheritFrom>
+                <ModTime>1387276964687</ModTime>
+            </Script>
+            <Branch name="Process This Entry">
+                <ModTime>1475819884598</ModTime>
+                <Script name="Initialize result to Failed">
+                    <ModTime>1431811643719</ModTime>
+                    <parameter name="script"><![CDATA[work["$writeStatus"] = "failed";
+work.removeAttribute("$error");
+work.removeAttribute("$errorLogged");]]></parameter>
+                </Script>
+                <Script name="Initialize Cycle">
+                    <ModTime>1430133475547</ModTime>
+                    <parameter name="script"><![CDATA[if (doTiming) timing("writetotarget - init cycle")
+
+// if this is the first cycle, prepare the cloned source LDAP Connector
+// and set up some variables
+//
+if((typeof(firstTime) == "undefined")){
+	firstTime = false;
+	
+	if (simulate)
+		logmsg("*** " + resource.getString("LDAPSYNC.SIMULATED.RUN.NO.DATA.WILL.BE.MODIFIED") + " ***")
+
+	if(!preserveContainers){
+		msg = resource.getString("LDAPSYNC.PROPERTY.IS.NOT.SET")
+		if (targetSuffixForUsers == null) {
+			logmsg("FATAL", msg + ": target.suffixForUsers")
+			throw where() + " - " + msg + ": target.suffixForUsers"
+		}	
+		if (targetSuffixForGroups == null) {
+			logmsg("FATAL", msg + "target.suffixForGroups")
+			throw where() + " - " + msg + "target.suffixForGroups"
+		}	
+	}	
+	if (progressReport > 0 && !changeDetection) {
+		logmsg("* " + resource.getString("LDAPSYNC.COUNT.FOR.PROGRESS.DISPLAY") + ": " + progressReport)
+	}
+}
+
+// Set boolean flag to false
+foundInTarget = false;
+
+// Try to figure out entry type based on RDN
+//
+useSuffix = targetRootSuffix;
+oc = work.getAttribute("objectClass")
+typeOfEntry = entryType(oc)
+cn = work.getString("cn");
+
+if (cloudSync) {
+	useRDN = sourceRDNAtt
+	readRDN = useRDN
+}
+else 
+if ("person".equals(typeOfEntry)) {
+	useRDN = targetUserRDN
+	readRDN = sourceUserRDN
+}
+else
+if ("group".equals(typeOfEntry)) {
+	useRDN = "cn"
+	readRDN = useRDN
+}
+else 
+if ("unknown".equals(typeOfEntry)){
+	useRDN = "???"
+	readRDN = useRDN
+}
+else {	
+	// if type is unknown then this caught below, else it's a container so use the source RDN
+	useRDN = sourceRDNAtt
+	readRDN = useRDN
+}
+
+if (readRDN.equalsIgnoreCase(sourceRDNAtt)) {
+	rdnValue = sourceRDNValue
+	encodeRDN = false // already encoded
+} else {
+	rdnValue = getRDN(work, readRDN);
+}	
+
+//
+// If source is AD then deleted entries are tombstones and are missing needed attributes
+//    Also, the source rdn may have changed, and that could affect the target
+//    Or the entry could have been moved in the AD DIT (moddn)
+//    So, except for 'add' changes we always have to look up AD entries in the target based on objectGUID
+//	  as the sourceGUID.
+//
+// For Domino the sourceGUID will be the UNID Attribute.
+//
+// For non-AD sources, changes to rdn or parent container require a lookup in the Target using the old dn
+//
+// For 'add' and 'modify' from non-AD changelog, there may not be all needed attributes in work
+//    Needed attributes are for example: targetUserRDN and objectClass
+//    Then we have to look up the entry in the source
+//
+// In general, for non-delete changes, we look up the entry in the target system
+//
+sourceEntry = null
+if (targetLDAP != null && 
+	("unknown".equals(typeOfEntry) || 
+	 cn == null ||
+	 rdnValue == null || 
+	 newSuperior != null ||
+	 newrdn != null ||
+	 "delete".equals(deltaOperationTag) ||
+	 (filterOnGroups || filterOnAttributes)) ) {
+	if (changeDetection)	{
+		// If entry coming from AD use sourceGUID to locate the entry in the target
+		if (sourceGUID !== null && sourceGUID.length > 0) {
+			if (targetEntry != null) {
+				// the entry already read from the target in 'Prepare for filtering' Script
+				sourceEntry = targetEntry
+			} else {
+				sc = system.newSearchCriteria()
+				sc.addCriteria(auxLinkedGUIDAttribute, sc.EXACT, sourceGUID);
+				targetLDAP.setParam("ldapReturnAttributes", auxLinkedDNAttribute +"\n" + auxLinkedGUIDAttribute + "\nsn\ncn\nobjectClass\n"+containerRDNs+targetUserRDN);
+				try {
+					sourceEntry = targetLDAP.findEntry(sc);
+				} catch (ex) {
+					sourceEntry = null
+				}
+
+				if (deBug) logmsg("-@@-->> target lookup for AD entry using " + auxLinkedGUIDAttribute + " = " + sourceGUID +
+								(sourceEntry == null ? " - failed" : " - success"))
+			}	
+				
+			foundInTarget = (sourceEntry !== null);
+
+			if (sourceEntry != null && newrdn == null) {
+				targetLDAPDN = sourceEntry.getString("$dn")
+				if (rdnValue == null) {
+					rdnValue = getRDN(sourceEntry, readRDN);
+				}	
+				
+				if ("modify".equals(deltaOperationTag)) {
+					previousDN = sourceEntry.getString(auxLinkedDNAttribute)
+					// check for change to dn, and if so then set up newrdn and newSuperior variables
+					if (!previousDN.toLowerCase().equals(sourceDN.toLowerCase())) { 
+						try {
+							ldapName = new javax.naming.ldap.LdapName(sourceDN)
+						} catch (ex) {
+							throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.SOURCE.DN.TO.HANDLE.MODDN") + ": " + ex + " - dn: " + sourceDN
+						}	
+						rdns = ldapName.getRdns()
+						newrdn = rdns.get(rdns.size()-1).toString()
+						ldapName.remove(rdns.size()-1)
+						newSuperior = ldapName.toString()
+						logmsg("----->> " + resource.getString("LDAPSYNC.DETECTED.RENAME") + " newSuperior: " + newSuperior + "   newrdn: " + newrdn)
+					}
+				}	
+			}	
+		} 
+	} 
+	
+	// if type is still unknown, try looking the entry up in the target using the adDn
+	if ("unknown".equals(typeOfEntry) ||
+		((filterOnGroups || filterOnAttributes) && !foundInTarget)) {
+
+		// in case this is a modrdn or moddn, we have to look for the new DN in the source
+		lookupDN = sourceDN
+		sc = system.newSearchCriteria();
+		
+		if (targetIsTDS) {
+			sc.addCriteria(auxLinkedDNAttribute, sc.EXACT, lookupDN.toLowerCase());
+		} else {
+			sourceAtt = work.getString("targetDn");
+			if (sourceAtt !== null) {
+				sourceAtt = cleanDN(sourceAtt).toLowerCase();
+				work[auxLinkedDNAttribute] = sourceAtt;			
+			} else {
+				sourceAtt = work.getString("$dn").toLowerCase();
+			}
+			
+			sc.addCriteria(targetLinkAttribute, sc.EXACT, sourceAtt);
+		}	
+
+		if (sc.getCriteria().size() > 0) {
+
+			targetLDAP.setParam("ldapReturnAttributes", auxLinkedDNAttribute + "\n" + auxLinkedGUIDAttribute + "\nsn\ncn\nobjectClass\n"+containerRDNs+targetUserRDN);
+			try {
+/*				
+				java.lang.System.out.println("--> W2T/Initialize Cycle - "
+						+ " $dn: " + work.getString("$dn")
+						+ " tdn: " + work.getString("targetDn")
+						+ " adDn: " + work.getString(auxLinkedDNAttribute));
+
+				java.lang.System.out.println("--> W2T/Initialize Cycle - lookup on delete for "
+					+ sc.getCriteria()[0].name 
+					+ " eq " 
+					+ sc.getCriteria()[0].value);
+*/
+				sourceEntry = targetLDAP.findEntry(sc);
+				if (sourceEntry == null) {
+					if (targetLDAP.getFindEntryCount() > 1) {
+						logmsg("WARN", "--> " +
+									resource.getString("LDAPSYNC.MULTIPLE.ENTRIES.WERE.FOUND.IN.THE.TARGET") 
+									+ "  " + auxLinkedDNAttribute
+									+ " = " + lookupDN.toLowerCase())
+						dupEntry = targetLDAP.getFirstFindEntry()
+						do {
+							logmsg("WARN", "      --> " + resource.getString("LDAPSYNC.DUPLICATE.ENTRY") + ": "
+										+ dupEntry.getString("$dn"))
+							dupEntry = targetLDAP.getNextFindEntry()
+						} while (dupEntry != null)
+						
+						if (targetLDAP.getMaxDuplicateEntries() > targetLDAP.getFindEntryCount()) {
+							logmsg("WARN", "..." + resource.getString("LDAPSYNC.MORE.ENTRIES.EXIST"))
+						}
+					}
+				} else { // sourceEntry != null
+					// handled further down when sourceEntry !== null
+				}	
+			} catch (ex) {
+				sourceEntry = null
+			}
+
+			foundInTarget = (sourceEntry !== null);
+
+			if (deBug) logmsg("-@@-->> target lookup for renamed/moved entry using " + auxLinkedDNAttribute + " = " + lookupDN +
+					(sourceEntry == null ? " - failed" : " - success")
+					+ "\n" + sourceEntry)
+		}	
+	}
+}
+
+// if we have a sourceEntry then try to determine type
+if (sourceEntry == null) {
+	sourceEntry = work // otherwise we only have the source data passed in
+//	sourceEntry = system.newEntry();
+} else {
+	work[auxLinkedDNAttribute] = sourceEntry.getString(auxLinkedDNAttribute);
+	work[auxLinkedGUIDAttribute] = sourceEntry.getString(auxLinkedGUIDAttribute);
+	work.objectClass = sourceEntry.getString("objectClass");
+	targetLDAPDN = sourceEntry.getString("$dn")
+	if (rdnValue == null && !"???".equals(readRDN)) {
+		rdnValue = getRDN(sourceEntry, readRDN);
+	}
+}
+
+oc = work.objectClass;
+typeOfEntry = entryType(oc);
+
+// If identification fails, then skip this entry with an error message
+//
+if ("unknown".equals(typeOfEntry)) {
+	logmsg("WARN",resource.getString("LDAPSYNC.UNABLE.TO.IDENTIFY.TYPE.OF.ENTRY") + ":\n" + jsonStr(work))
+	addToStats(flowKey, "warn","warn");
+	addToStats(flowKey, "unknown","skipped");
+	system.skipEntry()
+}
+else
+if (cloudSync) {
+	useRDN = sourceRDNAtt
+	readRDN = useRDN
+} 
+else
+if ("person".equals(typeOfEntry)) {
+	useRDN = targetUserRDN
+	readRDN = sourceUserRDN
+}
+else
+if ("group".equals(typeOfEntry)) {
+	useRDN = "cn"
+	readRDN = useRDN
+}
+else {	
+	// if type is unknown then this caught below, else it's a container so use the source RDN
+	useRDN = sourceRDNAtt
+	readRDN = useRDN
+}
+
+if (rdnValue == null && readRDN.equalsIgnoreCase(sourceRDNAtt)) {
+	rdnValue = sourceRDNValue
+	encodeRDN = false // already encoded
+}	
+
+// Try to get tmhe RDN value - necessary for DN translation
+if (rdnValue == null) {
+	rdnValue = getRDN(sourceEntry, readRDN);
+}	
+	
+if (rdnValue == null) {
+	if ("person".equals(typeOfEntry)) {
+		logmsg("ERROR",resource.getString("LDAPSYNC.CANNOT.FIND.RDN.ATTRIBUTE") + " (" + targetUserRDN + ") -> " + typeOfEntry + " entry: " + work.getString("$dn"))
+		addToStats(flowKey, "error","error");
+		addToStats(flowKey, typeOfEntry, "error")
+		addToStats(flowKey, typeOfEntry, "skipped")
+		system.exitFlow()
+	} else {
+		rdnValue = sourceRDNValue; // TODO should it be a call to getRDN()?
+		encodeRDN = false // already encoded
+	}	
+}	
+
+if (encodeRDN) {
+	rdnValue = javax.naming.ldap.Rdn.escapeValue(cleanRDN(rdnValue))
+}
+
+work[readRDN] = rdnValue;
+if (cn == null) {
+	work["cn"] = sourceEntry["cn"];
+}
+
+// Increment the entry count and display message
+callCount++;
+
+if(changeDetection){
+	logmsg("INFO","-> " + resource.getString("LDAPSYNC.PROCESSING") + " " + ((newrdn != null) ? "rename " : deltaOperationTag)
+			+ " - " + typeOfEntry
+			+ ((chglogMsg.length == 0) ? "" : " - " + chglogMsg)
+		   	+ " - target dn: " + sourceDN);
+} else {
+	if((progressReport > 0) && (callCount % progressReport ) == 0){
+		logmsg("INFO", resource.getString("LDAPSYNC.PROCESSING") + " " + typeOfEntry + " - " 
+				+ resource.getString("LDAPSYNC.CURRENT.COUNT")+ ":" + callCount);
+	}	
+}
+
+// Add to stats over entries processed
+//
+addToStats(flowKey,"total","processed")
+if(typeOfEntry == "person" || typeOfEntry == "group"){
+	addToStats(flowKey, typeOfEntry,"processed");
+	opEntry["$typeOfEntry"] = typeOfEntry;
+	work["$typeOfEntry"] = typeOfEntry;
+} else{
+	addToStats(flowKey, "container","processed");
+	opEntry["$typeOfEntry"] = "container";
+	work["$typeOfEntry"] = "container";
+}
+
+// the adDn may have been set during a target lookup above. If not, set it.
+if (work[auxLinkedDNAttribute] === null) {
+	work[auxLinkedDNAttribute] = cleanDN(work.getString("$dn").toLowerCase());
+}	
+work[auxLinkedGUIDSourceAttribute] = sourceGUID;
+
+opEntry.setAttribute("$entry", prepareFindEntry(work, useRDN, rdnValue));
+
+if (debugging) java.lang.System.out.println("W2T Init - op.type: " + opEntry.getString("$typeOfEntry") + " - " + opEntry.getString("$sourceDN"));]]></parameter>
+                </Script>
+                <Branch name="Entry is User">
+                    <ModTime>1444728703634</ModTime>
+                    <Script name="do timing - translate dn">
+                        <ModTime>1383052566784</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - translating dn")</parameter>
+                    </Script>
+                    <ALMap name="ConstructDN">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <ModTime>1402045500656</ModTime>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>$targetLDAPDN</Name>
+                                <Type>advanced</Type>
+                                <Script><![CDATA[if (targetLDAPDN !== null)
+	return targetLDAPDN;
+else
+	return translateDN(sourceDN, useRDN, rdnValue, targetSuffixForUsers);]]></Script>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>$translatedDN</Name>
+                                <Type>advanced</Type>
+                                <Script>return translateDN(sourceDN, useRDN, rdnValue, targetSuffixForUsers, newSuperior, newrdn);</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <State>Enabled</State>
+                    </ALMap>
+                    <Script name="do timing - checking scope">
+                        <ModTime>1383052572158</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - checking scope")</parameter>
+                    </Script>
+                    <Script name="checkForEntryOutOfScope">
+                        <InheritFrom>/Scripts/checkForEntryOutOfScope</InheritFrom>
+                        <ModTime>1360164680187</ModTime>
+                    </Script>
+                    <Branch name="NOT skip this person">
+                        <ModTime>1444728703634</ModTime>
+                        <Branch name="Delete User">
+                            <ModTime>1428999796939</ModTime>
+                            <Connector name="DeleteUser">
+                                <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                <ModTime>1428999796939</ModTime>
+                                <ConnectorMode>Delete</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <UserComment><![CDATA[
+]]></UserComment>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <DeltaSettings/>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>businessCategory</Name>
+                                        <NativeSyntax>MAY/Directory String/This attribute describes the kind of business performed by an organization.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                        <NativeSyntax>MUST/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>dc</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>description</Name>
+                                        <NativeSyntax>MAY/Directory String/Attribute common to CIM and LDAP schema to provide lengthy description of a directory object entry.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>facsimileTelephoneNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>givenName</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diPassword</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diTimestamp</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diUserId</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>l</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>mail</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>o</Name>
+                                        <NativeSyntax>MAY/String/This attribute contains the name of an organization (organizationName).</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                        <NativeSyntax>MAY/String/This attribute contains the name of an organization (organizationName).</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>owner</Name>
+                                        <NativeSyntax>MAY/String/Identifies the distinguished name (DN) of the person responsible for the entry.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>roomNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>seeAlso</Name>
+                                        <NativeSyntax>MAY/String/Identifies another directory server entry that may contain information related to this entry.</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>sn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>telephoneNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>uid</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>uniqueMember</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                        <NativeSyntax>MUST/DN/Identifies a group of names associated with an entry where each name was given a uniqueIdentifier to ensure its uniqueness. A value for the uniqueMember attribute is a DN followed by the uniqueIdentifier.</NativeSyntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>dc</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>facsimileTelephoneNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>givenName</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diPassword</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diTimestamp</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ibm-diUserId</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>l</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>mail</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>roomNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>sn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>telephoneNumber</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>uid</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>uniqueMember</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <LinkCriteriaItem>
+                                        <Key>1391ff955ca</Key>
+                                        <Attribute>$dn</Attribute>
+                                        <Operator>equals</Operator>
+                                        <Value>$$targetLDAPDN</Value>
+                                    </LinkCriteriaItem>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <Hook name="after_delete">
+                                        <InheritFrom>/Scripts/libAfterDelete</InheritFrom>
+                                        <Name>after_delete</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_initialize</Name>
+                                        <Script><![CDATA[targetCtr = opEntry.getObject("$ctr");
+
+if (targetCtr === null) {
+	targetCtr = thisConnector.connector;
+}
+
+if (targetCtr instanceof com.ibm.di.connector.LDAPConnector) {
+	targetCtr.setsubtreeDeleteSupported(true);
+	targetIsLDAP = true;
+}
+
+targetLDAP = targetCtr;]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - delete");</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_delete">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_delete</Name>
+                                        <Script/>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_execute">
+                                        <InheritFrom>/Scripts/libSkipThisEntry</InheritFrom>
+                                        <Name>before_execute</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[work["$operation"] = "delete";
+work["$conn"] = null;
+thisConnector.connector.setParam("ldapReturnAttributes", "objectClass");
+if (doTiming) timing("writetotarget - delete lookup");]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="delete_nomatch">
+                                        <InheritFrom>/Scripts/libOnNoMatchForDelete</InheritFrom>
+                                        <Name>delete_nomatch</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="FailOverConnector">/Connectors/Form_AD</parameter>
+                                    <parameter name="initreconnect">false</parameter>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <ScriptCondition>return "delete".equals(deltaOperationTag)</ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Branch name="Add Modify User">
+                            <ModTime>1444728703634</ModTime>
+                            <Connector name="AddModifyUser">
+                                <InheritFrom>@DeleteUser</InheritFrom>
+                                <ModTime>1444728703634</ModTime>
+                                <ConnectorMode>Update</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="connectorType">@DeleteUser</parameter>
+                                    <parameter name="parserOption">Useless</parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                    <AttributeMapItem>
+                                        <Name>$dn</Name>
+                                        <Type>advanced</Type>
+                                        <Enabled>true</Enabled>
+                                        <Modify>true</Modify>
+                                        <Script>work["$translatedDN"];</Script>
+                                        <Simple>$dn</Simple>
+                                    </AttributeMapItem>
+                                </AttributeMap>
+                                <DeltaSettings>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <LinkCriteriaItem>
+                                        <Key>1391ff955ca</Key>
+                                        <Operator>equals</Operator>
+                                    </LinkCriteriaItem>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                    <Hook name="after_add">
+                                        <InheritFrom>/Scripts/libAfterAdd</InheritFrom>
+                                        <Name>after_add</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_initialize</Name>
+                                        <Script/>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - mapping")</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_modify</Name>
+                                        <Script>updateStatusFromTCB(targetTCB);</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_add">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_add</Name>
+                                        <Script><![CDATA[addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType, newrdn, newSuperior, "person")
+
+if ("true".equals(getProperty("password.enabled"))) {
+	mappedPwd = conn.getObject("userPassword");
+	pwd = generatePassword();
+	conn.userPassword = pwd;
+} else
+if (conn.userPassword != null && conn.getString("userPassword") == null) {
+	conn.removeAttribute("userPassword");
+}
+
+//java.lang.System.out.println("--> writing pwd: " + conn.getString("userPassword"));
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (deBug) logmsg("-@@@->> conn before add: " + jsonStr(conn))
+
+work["$operation"] = "add";
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - adding")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_execute">
+                                        <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                                        <Name>before_execute</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[thisConnector.connector.setParam("ldapReturnAttributes", personReturnAttributes);
+if (doTiming) timing("writetotarget - update lookup");]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_modify</Name>
+                                        <Script><![CDATA[addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType, newrdn, newSuperior, "person")
+/*
+if ("true".equals(getProperty("target.pwmap.auto"))) {
+	mappedPwd = conn.getObject("userPassword");
+	pwd = generatePassword();
+	work.userPassword = pwd;
+}
+*/
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (targetIsLDAP) {
+	conn.removeAttribute(useRDN); // do not write for modify operation
+	conn.removeAttribute("objectClass");
+	if (current !== null && current.getObject("ibm-pwdAccountLocked") === null) {
+		conn.removeAttribute("ibm-pwdAccountLocked");
+	}
+}
+
+change = true;
+
+if (deBug) logmsg("-@@@->> conn before modify: " + jsonStr(conn))
+//if (deBug) logmsg("--@-->> current before mod: " + jsonStr(current))
+
+work["$operation"] = "modify"
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - modifying")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_fail">
+                                        <Name>default_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_ok">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>default_ok</Name>
+                                        <Script><![CDATA[if (work["$writeStatus"] == null) {
+	work["$writeStatus"] = "success";
+}	
+
+if (!passwordCaching || !isSync || !targetIsLDAP) {
+	return;
+}
+
+// password cache reset if change detected
+userPassword = work.getAttribute("$userPassword");
+if (userPassword !== null) {
+	pwdOp = userPassword.getOperation();
+	if (deBug) { logmsg("--!!--> WriteToTarget (PwdCache) - (" + pwdOp + ") " + userPassword) }
+	if (!"unchanged".equalsIgnoreCase(pwdOp)) {
+		if (deBug) logmsg("--!!--> WriteToTarget (PwdCache) - resetting password for " + work.getString("$targetLDAPDN"))
+		try {
+			targetLDAP.removeAllAttributeValues(work.getString("$targetLDAPDN"), "userPassword");
+			change = true;
+		} catch (ex) {
+			if (deBug) logmsg("--!!--> Exception: " + ex);
+			if (ex.toString().toLowerCase().indexOf("nosuchattribute") < 0) {
+				throw "AddModifyUser (PwdCache/Reset) - " + ex;
+			}
+		}	
+	}
+}]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="initialize_fail">
+                                        <Name>initialize_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_nochange">
+                                        <InheritFrom>/Scripts/libOnNoChanges</InheritFrom>
+                                        <Name>modify_nochange</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>2</Type>
+                        </Branch>
+                        <ScriptCondition>return !skipThisEntry;</ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <ScriptCondition>return typeOfEntry == "person";</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="Entry is Group">
+                    <ModTime>1475819884598</ModTime>
+                    <Script name="do timing - translate dn_1">
+                        <ModTime>1383052607282</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - translating dn")</parameter>
+                    </Script>
+                    <ALMap name="FixDN">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <ModTime>1391789380396</ModTime>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>$targetLDAPDN</Name>
+                                <Type>advanced</Type>
+                                <Script><![CDATA[if (targetLDAPDN !== null)
+	return targetLDAPDN
+else
+	return translateDN(sourceDN, useRDN, rdnValue, targetSuffixForGroups)]]></Script>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>$translatedDN</Name>
+                                <Type>advanced</Type>
+                                <Script>return translateDN(sourceDN, useRDN, rdnValue, targetSuffixForGroups, newSuperior, newrdn)</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <State>Enabled</State>
+                    </ALMap>
+                    <Script name="do timing - checking scope_1">
+                        <ModTime>1383052612891</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - checking scope")</parameter>
+                    </Script>
+                    <Script name="checkForEntryOutOfScope_1">
+                        <InheritFrom>/Scripts/checkForEntryOutOfScope</InheritFrom>
+                        <ModTime>1360164689312</ModTime>
+                    </Script>
+                    <Branch name="NOT skip this group">
+                        <ModTime>1475819884598</ModTime>
+                        <Branch name="Delete Group">
+                            <ModTime>1430141367515</ModTime>
+                            <Connector name="DeleteGroup">
+                                <InheritFrom>@DeleteUser</InheritFrom>
+                                <ModTime>1430141367515</ModTime>
+                                <ConnectorMode>Delete</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="connectorType">@DeleteUser</parameter>
+                                    <parameter name="parserOption">Useless</parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <DeltaSettings>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <LinkCriteriaItem>
+                                        <Key>1391ff955ca</Key>
+                                        <Operator>equals</Operator>
+                                    </LinkCriteriaItem>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                    <Hook name="after_delete">
+                                        <InheritFrom>/Scripts/libAfterDelete</InheritFrom>
+                                        <Name>after_delete</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <Name>after_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - delete");</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_delete">
+                                        <Name>before_delete</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[work["$operation"] = "delete"
+work["$conn"] = null;
+thisConnector.connector.setParam("ldapReturnAttributes", "objectClass");
+if (doTiming) timing("writetotarget - delete lookup");]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_fail">
+                                        <Name>default_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_ok">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>default_ok</Name>
+                                        <Script>work["$writeStatus"] = "success";</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="delete_nomatch">
+                                        <InheritFrom>/Scripts/libOnNoMatchForDelete</InheritFrom>
+                                        <Name>delete_nomatch</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="initialize_fail">
+                                        <Name>initialize_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <ScriptCondition>return "delete".equals(deltaOperationTag)</ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Branch name="Add Modify Group">
+                            <ModTime>1475819884598</ModTime>
+                            <Script name="Translate group members">
+                                <ModTime>1449487564817</ModTime>
+                                <parameter name="script"><![CDATA[targetMembers = system.newAttribute(targetGroupMemberAttribute);
+sourceMemberAttributeDeleted = false;
+
+if (simulate) {
+	work.setAttribute("TargetUniqueMember", targetMembers);
+	return;
+}
+
+// look for either 'member' or 'uniqueMember' attribute
+sourceMemberAtt = "uniqueMember";
+source = work.getAttribute(sourceMemberAtt);
+if(source === null){
+	sourceMemberAtt = "member";
+	source = work.getAttribute(sourceMemberAtt);	
+	if (source === null){
+		source = system.newAttribute("member")
+	}
+}
+
+sourceMemberAttributeDeleted = "delete".equals(source.getOperation());
+
+if (!targetIsLDAP) {
+	work.setAttribute("TargetUniqueMember", source);
+	return;
+}
+	
+targetMembers.setOperation(source.getOperation());
+
+if (targetLDAP == null) {
+	for (i = source.size(); i--;) {
+		thisMember = source.getValue(i);
+		if (thisMember !== null && thisMember.trim().length > 0) {
+			targetMembers.addValue(source.getValue(i));
+			valOp = source.getValueOperation(i);
+			if (valOp == null || valOp.trim().length == 0) {
+				valOp = "add"
+			}
+			targetMembers.setValueOperation(i, valOp);
+		}	
+	}	
+} else {	
+	badMembers = "";
+	targetLDAP.setParam("ldapReturnAttributes",targetUserRDN+"\nsn\ncn\nobjectClass\n" + auxLinkedGUIDAttribute + "\n" + auxLinkedDNAttribute);
+	for(i=0; i < source.size(); i++){
+		thisMember = source.getValue(i).toLowerCase();
+		memberDN = null;
+		if (thisMember.trim().length == 0) {
+			continue;
+		}
+		
+		oldDN = cleanDN(thisMember);
+
+		sc = system.newSearchCriteria();
+		sc.addCriteria(auxLinkedDNAttribute,sc.EXACT,oldDN)
+		try {
+			mem = targetLDAP.findEntry(sc);
+		} catch (ex) {
+			mem = null
+		}
+
+		if (mem !== null) {
+			memberDN = mem.getString("$dn");
+		} else
+		if (mem === null
+			&& targetLDAP.getFindEntryCount() == 0 
+			&& (result = checkScope(thisMember, sourceLDAP, changeDetType)).inScope) {
+			mem = result.entryRead;
+			if (mem != null) {
+
+				memberType = result.typeOfEntry;
+				
+				if ("person".equals(memberType)) {
+					memuseRDN = targetUserRDN;
+					memreadRDN = sourceUserRDN;
+					memsuffix = targetSuffixForUsers;
+				}
+				else
+				if ("group".equals(memberType)) {
+					memuseRDN = "cn"
+					memreadRDN = useRDN
+					memsuffix = targetSuffixForGroups;
+				}
+				else {
+					// skip this entry
+					if (deBug) logmsg("ERROR", "Could not identify member type: " + thisMember);
+					continue;
+				}
+				
+				try {
+					memrdnValue = mem.getString(memreadRDN);
+					if (memrdnValue === null) {
+						if (deBug) logmsg("ERROR", "Error no RDN attribute for member: " + thisMember + " (" + memreadRDN + ")");
+					} else {	
+						memrdnValue = javax.naming.ldap.Rdn.escapeValue(cleanRDN(memrdnValue));
+					}	
+				} catch (ex) {
+					if (deBug) logmsg("ERROR", "Error cleaning member RDN: " + thisMember + "   rdnValue: " + memrdnValue + " (" + memreadRDN + ")");
+					memrdnValue = null;
+				}	
+				
+				if (memrdnValue !== null) {
+					try {
+						memberDN = translateDN(oldDN, memuseRDN, memrdnValue, memsuffix, null, null);
+					} catch (ex) {
+						// could not identify this member
+						if (deBug) logmsg("ERROR", "--&&--> Error translating member dn: " + oldDN);
+						mem = null;
+						memberDN = null;
+					}	
+					
+				}
+				
+			}
+		}	
+			
+		if(mem === null){
+			if (targetLDAP.getFindEntryCount() > 1) {
+				badMembers += "--> " +
+							resource.getString("LDAPSYNC.SKIPPING.MEMBER.BECAUSE.MULTIPLE.ENTRIES.WERE.FOUND.IN.THE.TARGET") 
+							+  auxLinkedDNAttribute + " = " + oldDN + "\n"
+				mem = targetLDAP.getFirstFindEntry()
+				do {
+					badMembers += "      " + resource.getString("LDAPSYNC.DUPLICATE.ENTRY") + ": "
+								+ mem.getString("$dn") + "\n"
+					mem = targetLDAP.getNextFindEntry()
+				} while (mem != null)
+				
+				if (targetLDAP.getMaxDuplicateEntries() > targetLDAP.getFindEntryCount()) {
+					badMembers += "      ..." + resource.getString("LDAPSYNC.MORE.ENTRIES.EXIST") + "\n"
+				}
+			} else {	
+				badMembers += "--> " +
+							resource.getString("LDAPSYNC.SKIPPING.MEMBER.BECAUSE.NO.ENTRY.WAS.FOUND.IN.THE.TARGET") 
+							+ auxLinkedDNAttribute + " = " + oldDN + "\n"
+			}
+			
+			addToStats(flowKey, "warn","warn")
+			continue;
+		}
+		
+		if (memberDN !== null && memberDN.trim().length > 0) {
+			targetMembers.addValue(memberDN);
+			if (sourceMemberAttributeDeleted) {
+				valOp = "delete";
+			} else {
+				valOp = source.getValueOperation(i);
+				if (valOp == null || valOp.trim().length == 0) {
+					valOp = "add";
+				}
+			}	
+			targetMembers.setValueOperation(targetMembers.size()-1, valOp);
+		}	
+	}
+	
+	if (badMembers.length != 0) {
+		logmsg("WARN",resource.getString("LDAPSYNC.THE.FOLLOWING.MEMBERS.WERE.NOT.ADDED.FROM.SOURCE.GROUP") 
+					+ ": "+work.getString("$dn")+"\n"+badMembers);
+	
+		addToStats(flowKey, "missing","missing")	
+		// if old file found, rename to GroupMembersLost<timestamp of file>.log
+		
+		logFile = openOutputFile(logFileFullname);
+		logFile.newLine();
+		logFile.write(system.formatDate(new java.util.Date(), "yyyy-MM-dd HH:mm:ss") 
+						+ "  *** " + resource.getString("LDAPSYNC.CANNOT.FIND.THESE.MEMBERS.OF.THE.GROUP") + " "
+						+ work.getString("$dn"));
+		logFile.newLine();
+		parts = system.splitString(badMembers,"\n")
+		for (p in parts) {
+			logFile.write(p);
+			logFile.newLine();
+		}	
+		logFile.close();
+	}	
+}
+
+if (sourceMemberAttributeDeleted) {
+	if (!targetMembers.hasValue(dummyMember)) {
+		targetMembers.addValue(dummyMember);
+		targetMembers.setValueOperation(targetMembers.size()-1, "add");
+	}	
+}
+
+work.setAttribute("targetUniqueMember", targetMembers);]]></parameter>
+                            </Script>
+                            <Connector name="AddModifyGroups">
+                                <InheritFrom>@DeleteUser</InheritFrom>
+                                <ModTime>1457947972710</ModTime>
+                                <ConnectorMode>Update</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                    <parameter name="ldapReturnAttributes"><![CDATA[ou
+cn
+objectClass]]></parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                    <AttributeMapItem>
+                                        <Name>$dn</Name>
+                                        <Type>advanced</Type>
+                                        <Script>work["$translatedDN"];</Script>
+                                        <Simple>$dn</Simple>
+                                    </AttributeMapItem>
+                                </AttributeMap>
+                                <DeltaSettings>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <Hook name="after_add">
+                                        <InheritFrom>/Scripts/libAfterAdd</InheritFrom>
+                                        <Name>after_add</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - mapping")</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_modify">
+                                        <InheritFrom>/Scripts/libAfterModify</InheritFrom>
+                                        <Name>after_modify</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_add">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_add</Name>
+                                        <Script><![CDATA[groupAtt = work.getAttribute("TargetUniqueMember");
+if (groupAtt.size() == 0) {
+	groupAtt.setOperation("replace");
+	groupAtt.addValue(dummyMember);
+	groupAtt.setValueOperation(0, "add");
+}
+
+conn.setAttribute(targetGroupMemberAttribute, work.TargetUniqueMember);
+
+if(work.TargetUniqueMember.size() == 0 && targetIsLDAP){
+	logmsg("WARN",resource.getString("LDAPSYNC.SKIPPING.ENTRY.BECAUSE.MEMBER.ATTRIBUTE.IS.EMPTY") + "  DN: " + work["$targetLDAPDN"]);
+	addToStats(flowKey, "warn","warn");
+	addToStats(flowKey, "group", "skipped", changeDetection)
+	system.exitFlow();
+}
+
+added = true // skip the Add to stats script further down
+
+addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType)
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (deBug) logmsg("-@@@->> conn before add: " + jsonStr(conn))
+
+work["$operation"] = "add"
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - adding")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_execute">
+                                        <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                                        <Name>before_execute</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[change = false;
+
+// in case of group member modify (add/delete), do not read in the member attribute
+// since this is handled by the script 'modify Group Members' later
+groupAtt = work.getAttribute("TargetUniqueMember")
+if (targetIsLDAP && targetLDAP !== null &&
+	deltaOperationTag == "modify" && 
+	groupAtt != null &&
+	groupAtt.getOperation() == "modify") {
+	thisConnector.connector.setParam("ldapReturnAttributes", groupReturnAttributes)
+} else {
+	thisConnector.connector.setParam("ldapReturnAttributes", "")
+}
+
+if (doTiming) timing("writetotarget - update lookup")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_modify</Name>
+                                        <Script><![CDATA[addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType, newrdn, newSuperior)
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (targetIsLDAP) {
+	conn.removeAttribute(useRDN); // do not write for modify operation
+	conn.removeAttribute("objectClass")
+}	
+
+change = true;
+added = false;
+
+// for group member updates via changelog or delta detection, no member attribute need be written 
+// for this step. It will be handled in the 'modify Group Member' script below
+groupAtt = work.getAttribute("TargetUniqueMember");
+if (targetIsLDAP && targetLDAP !== null) {
+	conn.removeAttribute(targetGroupMemberAttribute);
+} else 
+if (work.TargetUniqueMember != null && work.TargetUniqueMember.size() > 0){
+	conn.setAttribute(targetGroupMemberAttribute, work.getAttribute("TargetUniqueMember"));
+}
+
+if (deBug) logmsg("-@@@->> conn before modify: " + jsonStr(conn))
+
+work["$operation"] = "modify"
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - modifying")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_ok">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>default_ok</Name>
+                                        <Script><![CDATA[if (work["$writeStatus"] == null) {
+	work["$writeStatus"] = "success";
+}]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="initialize_fail">
+                                        <Name>initialize_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_apply">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>modify_apply</Name>
+                                        <Script>change = true</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_nochange">
+                                        <InheritFrom>/Scripts/libOnNoChanges</InheritFrom>
+                                        <Name>modify_nochange</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="update_fail">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>update_fail</Name>
+                                        <Script><![CDATA[e = system.newEntry();
+e.setOperation(conn.getOperation());
+e.setAttribute("members", conn.getAttribute(targetGroupMemberAttribute));
+
+//if (typeof mem !== "undefined" && mem !== null) {
+	logmsg("ERROR", "\n-----\nconn." + targetGroupMemberAttribute + ":"
+			+ e.toDeltaString() + "\n-----")
+// }]]></Script>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                            </Connector>
+                            <Branch name="Group Members Modified">
+                                <ModTime>1475819884598</ModTime>
+                                <Script name="modify Group Members">
+                                    <ModTime>1475819884598</ModTime>
+                                    <parameter name="script"><![CDATA[members = work.getAttribute("targetUniqueMember");
+targetLDAPDN = work.getString("$targetLDAPDN");
+
+if (doTiming) timing("writetotarget - modifying group members")
+
+membersAdded = 0;
+for(i = 0; i<members.size(); i++){
+	thisMember = members.getValue(i);
+	try {
+		if(members.getValueOperation(i) == "add"
+			|| members.getValueOperation(i) == "unchanged"){
+			if(!targetLDAP.compare(targetLDAPDN, targetGroupMemberAttribute, thisMember)){
+				if (deBug) logmsg("--&&--> Adding member (" + thisMember + ") from group " + targetLDAPDN);
+				targetLDAP.addAttributeValue(targetLDAPDN, targetGroupMemberAttribute, thisMember);
+				if (!dummyMember.equalsIgnoreCase(thisMember)) {
+					membersAdded++;
+				}	
+				change = true;
+			}
+		} 
+	} catch (ex) {
+		if (deBug) logmsg("ERROR", "Error adding member from " + targetGroupMemberAttribute + " - " + ex);
+	}	
+
+	try {
+		if(members.getValueOperation(i) == "delete"){
+			if(targetLDAP.compare(targetLDAPDN, targetGroupMemberAttribute, thisMember)){
+				if (deBug) logmsg("--&&--> Removing member (" + thisMember + ") from group " + targetLDAPDN);
+				targetLDAP.removeAttributeValue(targetLDAPDN, targetGroupMemberAttribute, thisMember);
+				change = true;
+			}
+		}
+	} catch (ex) {
+		if (String(ex).indexOf("error code 65") < 0) {
+			if (deBug) logmsg("ERROR", "Error removing member from " + targetGroupMemberAttribute + " - " + ex);
+		} else { // last member has been removed from the LDAP group
+			if(!targetLDAP.compare(targetLDAPDN, targetGroupMemberAttribute, dummyMember)) {
+				if (deBug) logmsg("--&&--> Adding dummy member (" + dummyMember + ") from group " + targetLDAPDN);
+				targetLDAP.addAttributeValue(targetLDAPDN, targetGroupMemberAttribute, dummyMember);
+				// Redo removal of last member
+				targetLDAP.removeAttributeValue(targetLDAPDN, targetGroupMemberAttribute, thisMember);
+				membersAdded = 0;
+				change = true;
+			}
+		}	
+	}	
+}
+
+if (membersAdded > 0) {
+	if(targetLDAP.compare(targetLDAPDN, targetGroupMemberAttribute, dummyMember)) {
+		if (deBug) logmsg("--&&--> Removing dummy member (" + dummyMember + ") from group " + targetLDAPDN);
+		targetLDAP.removeAttributeValue(targetLDAPDN, targetGroupMemberAttribute, dummyMember);
+		change = true;
+	}
+}
+
+if (simulate) {
+	simEntry.setAttribute(members)
+}]]></parameter>
+                                </Script>
+                                <ScriptCondition><![CDATA[return targetIsLDAP && targetLDAP !== null &&
+		work.getString("$operation") == "modify" && 
+		work.getAttribute("targetuniquemember").getOperation() != "unchanged";]]></ScriptCondition>
+                                <Conditions/>
+                                <MatchAny>false</MatchAny>
+                                <Enabled>true</Enabled>
+                                <Type>0</Type>
+                            </Branch>
+                            <Script name="Add to stats">
+                                <ModTime>1394027879362</ModTime>
+                                <parameter name="script"><![CDATA[if (typeof(added) == "undefined" || !added) {
+	updateStatusFromTCB(targetTCB, change);
+}]]></parameter>
+                            </Script>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>2</Type>
+                        </Branch>
+                        <ScriptCondition>return !skipThisEntry;</ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <ScriptCondition>return typeOfEntry == "group" &amp;&amp; !cloudSync;</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                </Branch>
+                <Branch name="Entry is Container">
+                    <ModTime>1457947972725</ModTime>
+                    <Script name="do timing - translate dn_2">
+                        <ModTime>1383052656140</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - translating dn")</parameter>
+                    </Script>
+                    <ALMap name="ConstructContainerDN">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <ModTime>1392210041398</ModTime>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>$targetLDAPDN</Name>
+                                <Type>advanced</Type>
+                                <Script><![CDATA[if (targetLDAPDN !== null)
+	return targetLDAPDN
+else
+	return translateDN(sourceDN, useRDN, rdnValue, targetRootSuffix)]]></Script>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>$translatedDN</Name>
+                                <Type>advanced</Type>
+                                <Script>return translateDN(sourceDN, useRDN, rdnValue, targetRootSuffix, newSuperior, newrdn)</Script>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <State>Enabled</State>
+                    </ALMap>
+                    <Script name="do timing - checking scope_2">
+                        <ModTime>1383052661014</ModTime>
+                        <parameter name="script">if (doTiming) timing("writetotarget - checking scope")</parameter>
+                    </Script>
+                    <Script name="checkForEntryOutOfScope_2">
+                        <InheritFrom>/Scripts/checkForEntryOutOfScope</InheritFrom>
+                        <ModTime>1360164699718</ModTime>
+                    </Script>
+                    <Branch name="NOT skip this container">
+                        <ModTime>1457947972725</ModTime>
+                        <Branch name="Delete Container">
+                            <ModTime>1457947972710</ModTime>
+                            <Connector name="DeleteContainer">
+                                <InheritFrom>@DeleteUser</InheritFrom>
+                                <ModTime>1457947972710</ModTime>
+                                <ConnectorMode>Delete</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="connectorType">@DeleteUser</parameter>
+                                    <parameter name="parserOption">Useless</parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                    <AttributeMapItem>
+                                        <Name>$dn</Name>
+                                        <Type>advanced</Type>
+                                        <Enabled>true</Enabled>
+                                        <Add>true</Add>
+                                        <Modify>false</Modify>
+                                        <Script>work.targetLDAPDN</Script>
+                                        <Simple>$dn</Simple>
+                                    </AttributeMapItem>
+                                    <AttributeMapItem>
+                                        <Name>cn</Name>
+                                        <Type>advanced</Type>
+                                        <Modify>false</Modify>
+                                        <Script>e.cn</Script>
+                                        <Simple>cn</Simple>
+                                    </AttributeMapItem>
+                                    <AttributeMapItem>
+                                        <Name>objectClass</Name>
+                                        <Type>advanced</Type>
+                                        <Enabled>true</Enabled>
+                                        <Add>true</Add>
+                                        <Modify>false</Modify>
+                                        <Script>return targetGroupObjectClass;</Script>
+                                        <Simple>objectClass</Simple>
+                                    </AttributeMapItem>
+                                </AttributeMap>
+                                <DeltaSettings>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                    <Hook name="after_add">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_add</Name>
+                                        <Script>addToStats(flowKey, "container","add",changelog);</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_delete">
+                                        <InheritFrom>/Scripts/libAfterDelete</InheritFrom>
+                                        <Name>after_delete</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <Name>after_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - delete");</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_modify</Name>
+                                        <Script><![CDATA[if (change){
+	addToStats(flowKey, "container","modify",changelog);
+}]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[work["$operation"] = "delete"
+work["$conn"] = null;
+thisConnector.connector.setParam("ldapReturnAttributes", "objectClass");
+if (doTiming) timing("writetotarget - delete lookup");]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_modify</Name>
+                                        <Script>change = true;</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_fail">
+                                        <Name>default_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_ok">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>default_ok</Name>
+                                        <Script><![CDATA[if (work["$writeStatus"] == null) {
+	work["$writeStatus"] = "success";
+}]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="delete_nomatch">
+                                        <InheritFrom>/Scripts/libOnNoMatchForDelete</InheritFrom>
+                                        <Name>delete_nomatch</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="initialize_fail">
+                                        <Name>initialize_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_nochange">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>modify_nochange</Name>
+                                        <Script>change = false;</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <ScriptCondition>return "delete".equals(deltaOperationTag)</ScriptCondition>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>0</Type>
+                        </Branch>
+                        <Branch name="Add Modify Container">
+                            <ModTime>1457947972725</ModTime>
+                            <Connector name="AddModifyContainer">
+                                <InheritFrom>@DeleteUser</InheritFrom>
+                                <ModTime>1457947972725</ModTime>
+                                <ConnectorMode>Update</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="connectorType">@DeleteUser</parameter>
+                                    <parameter name="parserOption">Useless</parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </AttributeMap>
+                                <AttributeMap name="Output">
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                    <AttributeMapItem>
+                                        <Name>$dn</Name>
+                                        <Type>advanced</Type>
+                                        <Enabled>true</Enabled>
+                                        <Add>true</Add>
+                                        <Modify>false</Modify>
+                                        <Script>work["$translatedDN"];</Script>
+                                        <Simple>$dn</Simple>
+                                    </AttributeMapItem>
+                                </AttributeMap>
+                                <DeltaSettings>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectClass</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>ou</Name>
+                                        <Syntax>java.lang.String</Syntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <LinkCriteria>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </LinkCriteria>
+                                <Hooks>
+                                    <InheritFrom>/Connectors/TargetSystem</InheritFrom>
+                                    <Hook name="after_add">
+                                        <InheritFrom>/Scripts/libAfterAdd</InheritFrom>
+                                        <Name>after_add</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_initialize">
+                                        <Name>after_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="after_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>after_lookup</Name>
+                                        <Script>if (doTiming) timing("writetotarget - mapping")</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="after_modify">
+                                        <InheritFrom>/Scripts/libAfterModify</InheritFrom>
+                                        <Name>after_modify</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_add">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_add</Name>
+                                        <Script><![CDATA[addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType)
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (deBug) logmsg("-@@@->> conn before add: " + jsonStr(conn))
+
+work["$operation"] = "add";
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - adding")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_execute">
+                                        <InheritFrom>/Scripts/setMapFile</InheritFrom>
+                                        <Name>before_execute</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_initialize">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_initialize</Name>
+                                        <Enabled>false</Enabled>
+                                    </Hook>
+                                    <Hook name="before_lookup">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_lookup</Name>
+                                        <Script><![CDATA[thisConnector.connector.setParam("ldapReturnAttributes", "")
+
+if (doTiming) timing("writetotarget - update lookup")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="before_modify">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>before_modify</Name>
+                                        <Script><![CDATA[addLinkedAttributes(work, conn, useRDN, rdnValue, changeDetType, newrdn, newSuperior);
+
+if (auditEnabled || simulate) {
+	simEntry = system.newEntry();
+	simEntry.merge(conn);
+	if (simulate) {
+		simEntry = simplifyAttributes(simEntry);
+	}	
+}
+
+if (targetIsLDAP) {
+	conn.removeAttribute(useRDN); // do not write for modify operation
+	conn.removeAttribute("objectClass");
+}	
+
+if (deBug) logmsg("-@@@->> conn before modify: " + jsonStr(conn))
+
+work["$operation"] = "modify";
+work["$conn"] = conn;
+if (doTiming) timing("writetotarget - modifying")]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_fail">
+                                        <Name>default_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="default_ok">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>default_ok</Name>
+                                        <Script><![CDATA[if (work["$writeStatus"] == null) {
+	work["$writeStatus"] = "success";
+}]]></Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="initialize_fail">
+                                        <Name>initialize_fail</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_apply">
+                                        <InheritFrom>[no inheritance]</InheritFrom>
+                                        <Name>modify_apply</Name>
+                                        <Script>change = true</Script>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                    <Hook name="modify_nochange">
+                                        <InheritFrom>/Scripts/libOnNoChanges</InheritFrom>
+                                        <Name>modify_nochange</Name>
+                                        <Enabled>true</Enabled>
+                                    </Hook>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <Conditions/>
+                            <MatchAny>false</MatchAny>
+                            <Enabled>true</Enabled>
+                            <Type>2</Type>
+                        </Branch>
+                        <ScriptCondition>return !skipThisEntry;</ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <ScriptCondition>return containerOC.containsKey(typeOfEntry) &amp;&amp; preserveContainers &amp;&amp; !cloudSync;</ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>1</Type>
+                </Branch>
+                <ScriptCondition>return useDN(filterDN, newSuperior);</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Script name="End time">
+                <ModTime>1383052690388</ModTime>
+                <parameter name="script"><![CDATA[if (deBug) {
+	end = new java.util.Date().getTime()
+	logmsg("--@-->>> entry process time (msecs): " + (end-start))
+}
+
+if (doTiming) timing("writetotarget - after write")]]></parameter>
+            </Script>
+            <Script name="Set change return value">
+                <ModTime>1473243182694</ModTime>
+                <parameter name="script"><![CDATA[if (typeof(change) == "undefined") {
+	change = false
+}
+
+if (work["$change"] !== null) {
+	change = "true".equalsIgnoreCase(work.getString("$change"))
+}
+
+work["$change"] = change
+
+//@@ TODO might want instead to check if $error is a String message, in
+// which case, set error.status = 'failed' and .message = $error.
+retError = work.getObject("$error");
+if (retError != null) {
+	if (!(retError instanceof com.ibm.di.entry.Entry && retError.getString("status") != "ok")) {
+//		throw retError.toString();
+		return;
+	}
+}
+	
+op = work.getString("$operation");
+work["$operation"] = op;
+
+writeStatus = work.getString("$writeStatus");
+if (!"success".equalsIgnoreCase(writeStatus)) {
+	op = "skipped";
+} else
+if (!change) {
+	op = "unchanged";
+} else 
+if (!simulate && simEntry != null){
+	simEntry["adDn"] = sourceDN;
+	
+	if (simEntry != null) {
+		audit.log(flowKey,
+					simEntry, 
+					work.getString("$dn"), 
+					work.getString("$targetLDAPDN"), 
+					useRDN);
+	}	
+}
+
+if(typeOfEntry == "person" || typeOfEntry == "group"){
+	work["$typeOfEntry"] = typeOfEntry;
+} else{
+	work["$typeOfEntry"] = "container";
+}
+
+work.setAttribute("$simEntry", simEntry);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Database">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update,Delta</SupportedModes>
+			<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+			<Configuration>
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="connectorType">com.ibm.di.connector.JDBCConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.JDBCConnector.ibmdi.Database">
+			<InheritFrom>system:/Forms/com.ibm.di.connector.JDBCConnector</InheritFrom>
+			<TranslationFile>NLS/idi_conn_database</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jdbcSource</ListItem>
+					<ListItem>jdbcAutoCreateTable</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>jdbcExposeNullValues</ListItem>
+					<ListItem>jdbcCommit</ListItem>
+					<ListItem>jdbcCustomPreparedStatements</ListItem>
+					<ListItem>jdbcSelect</ListItem>
+					<ListItem>jdbcLookup</ListItem>
+					<ListItem>jdbcInsert</ListItem>
+					<ListItem>jdbcUpdate</ListItem>
+					<ListItem>jdbcDelete</ListItem>
+					<ListItem>jdbcSessionParameters</ListItem>
+					<ListItem>jdbcProviderParams</ListItem>
+					<ListItem>jdbcDateFormat</ListItem>
+					<ListItem>jdbcPreparedStatement</ListItem>
+					<ListItem>jdbcDisablePaddingInsert</ListItem>
+					<ListItem>jdbcDisablePaddingUpdate</ListItem>
+					<ListItem>jdbcDisablePaddingLookup</ListItem>
+					<ListItem>$GLOBAL.connectorFlags</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItem name="jdbcLogin">
+				<parameter name="description">login_desc</parameter>
+				<parameter name="label">login_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="jdbcSchema">
+				<parameter name="label">schema_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcSelect">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">select_desc</parameter>
+				<parameter name="label">select_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<FormItem name="jdbcSource">
+				<parameter name="description">source_desc</parameter>
+				<parameter name="label">source_label</parameter>
+				<parameter name="syntax">Panel</parameter>
+				<parameter name="Required">false</parameter>
+				<parameter name="noLabel">true</parameter>
+				<parameter name="noOptionButton">true</parameter>
+				<parameter name="panel"><![CDATA[
+<Panel layout="Grid" columns="1">
+	<Group text="panel_database" layout="grid" columns="1">
+
+		<Composite layout="Grid" columns="3">
+			<Label text="panel_dbtype"/>
+			<Combo name="template" readonly="true" onchange="chooseTemplate">
+				<Value text="JDBC" name="customForm"/>
+				<Value url="jdbc:db2://{hostname}{:port}/{database}" driver="com.ibm.db2.jcc.DB2Driver" type="radio" name="DB2" text="DB2"/>
+				<Value url="jdbc:derby://{hostname}{:port}/{database}" driver="org.apache.derby.jdbc.ClientDriver" type="radio" name="Derby" text="Derby"/>
+				<Value url="jdbc:derby://{database}" driver="org.apache.derby.jdbc.EmbeddedDriver" type="radio" name="DerbyEmbedded" text="Derby Embedded"/>
+				<Value url="jdbc:sqlserver://{hostname}{:port};databaseName={database}" driver="com.microsoft.sqlserver.jdbc.SQLServerDriver" type="radio" name="MSSQL" text="MS/SQL" />
+				<Value url="jdbc:oracle:thin:@{hostname}{:port}:{database}" driver="oracle.jdbc.driver.OracleDriver" type="radio" name="Oracle" text="Oracle Net" />
+				<Value url="jdbc:solid://{hostname}{:port}" driver="solid.jdbc.SolidDriver" type="radio" name="SolidDB" text="Solid DB" />
+			</Combo>
+			
+			<LayoutData fill="horizontal"/>
+		</Composite>
+
+		<Composite name="config" layout="Stack">
+
+			<Composite name="custom" layout="Grid" columns="3">
+				<Label name="source_label" text="source_label"/>
+				<Text required="true" linklabel="source_label" name="jdbcSource" binding="jdbcSource" tooltip="source_desc">
+					<LayoutData fill="horizontal"/>
+				</Text>
+				<Button text="?">
+					<Script name="onclick">
+						panel.showParamSubstEditor(config, "jdbcSource", form.translate("source_desc"), form.translate("source_label"), false, true);
+					</Script>
+				</Button>
+							
+				<Label name="driver_label" text="driver_label" />
+				<Text required="true" linklabel="driver_label" name="jdbcDriver" binding="jdbcDriver" tooltip="driver_desc">
+					<LayoutData fill="horizontal"/>
+				</Text>
+				<Button text="?">
+					<Script name="onclick">
+						panel.showParamSubstEditor(config, "jdbcDriver", form.translate("driver_desc"), form.translate("driver_label"), false, true);
+					</Script>
+				</Button>
+			</Composite>
+
+			<Composite name="form" layout="Grid" columns="4" onchange="updateURL">
+				<Label name="hostlabel_1" text="panel_hostname"/>
+				<Text required="true" linklabel="hostlabel_1" name="hostname" size="12"/>
+				<Label text="panel_port"/>
+				<Text name="port" size="4"/>
+				<Label name="dblabel_1" text="panel_database"/>
+				<Text required="true" linklabel="dblabel_1" name="database" horizontalSpan="3">
+					<LayoutData fill="horizontal"/>
+				</Text>
+			</Composite>
+
+			<Composite name="form_embedded" layout="Grid" columns="2" onchange="updateURL">
+				<Label name="dblabel_2" text="panel_database"/>
+				<Text required="true" name="database2" linklabel="dblabel_2" >
+					<LayoutData fill="horizontal"/>
+				</Text>
+			</Composite>
+
+			<Composite name="form_solid" layout="Grid" columns="4" onchange="updateURL">
+				<Label name="hostlabel_1" text="panel_hostname"/>
+				<Text required="true" linklabel="hostlabel_1" name="hostname2" size="12"/>
+				<Label text="panel_port"/>
+				<Text name="port2" size="4"/>
+			</Composite>
+
+			<LayoutData fill="both" />
+			
+		</Composite>
+	</Group>
+	
+	<Group layout="Fill" text="panel_login">
+		<Composite layout="Grid" columns="4">
+			
+			<Label name="login_label" text="login_label" horizontalAlignment="RIGHT" />
+			<Text linklabel="login_label" name="jdbcLogin" binding="jdbcLogin" fill="horizontal" horizontalSpan="2" tooltip="login_desc" />
+			<Button text="?">
+				<Script name="onclick">
+					panel.showParamSubstEditor(config, "jdbcLogin", form.translate("login_desc"), form.translate("login_label"), false, true);
+				</Script> 
+			</Button>
+			
+			<Label name="pass_label" text="pass_label" horizontalAlignment="RIGHT" />
+			<Text linklabel="pass_label" name="jdbcPassword" binding="jdbcPassword" fill="horizontal" horizontalSpan="2" password="true" />
+			<Button text="?">
+				<Script name="onclick">
+					panel.showParamSubstEditor(config, "jdbcPassword", null, form.translate("pass_label"), false, true);
+				</Script>
+			</Button>
+			
+			<Label name="schema_label" text="schema_label" horizontalAlignment="RIGHT" />
+			<Text linklabel="schema_label" name="jdbcSchema" binding="jdbcSchema" fill="horizontal" horizontalSpan="2" />
+			<Button text="?">
+				<Script name="onclick">
+					panel.showParamSubstEditor(config, "jdbcSchema", null, form.translate("schema_label"), false, true);
+				</Script>
+			</Button>
+			
+			<Label name="table_label" text="table_label" horizontalAlignment="RIGHT"/>
+			<Text required="true" linklabel="table_label" name="jdbcTable" binding="jdbcTable" fill="horizontal" tooltip="table_desc" />
+			<Button text="table_script_label">
+				<Script name="onclick">
+					importPackage(Packages.com.ibm.tdi.eclipse);
+   					var sel;
+					conn = form.loadConnector();
+					try {
+						conn.initialize (null);
+						sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.Table"), conn.queryTables());
+						conn.terminate();
+   					} catch (e) {
+						conn.terminate();
+						throw e;
+					}
+					if (sel != null) {
+						if ( sel.indexOf(" ") != -1 )
+							sel = "'" + sel + "'";
+						form.setConfig("jdbcTable", sel);
+						panel.getControl("jdbcTable").setText(sel);
+					}
+				</Script>
+			</Button>
+			<Button text="?">
+				<Script name="onclick">
+					panel.showParamSubstEditor(config, "jdbcTable", form.translate("table_desc"), form.translate("table_label"), false, true);
+				</Script> 
+			</Button>
+			<LayoutData fill="horizontal"/>
+		</Composite>
+	</Group>
+
+	<Script>
+	
+		selectedTemplate = null;
+		
+		function on_load() {
+			combo = panel.getControl("template");
+			try {
+				str = config.getStringParameter("custom.form");
+				if(str != null) {
+					var index;
+					try {
+						index = java.lang.Integer.parseInt(str);
+					} catch (e) {
+						index = combo.indexOf(str);
+					}
+					if (index > 0) {
+						combo.select(index);
+						panel.setText("hostname", config.getStringParameter("custom.hostname"));
+						panel.setText("hostname2", config.getStringParameter("custom.hostname2"));
+						panel.setText("port", config.getStringParameter("custom.port"));
+						panel.setText("port2", config.getStringParameter("custom.port2"));
+						panel.setText("database", config.getStringParameter("custom.database"));
+						panel.setText("database2", config.getStringParameter("custom.database"));
+						if(index == 3)
+							panel.setTopControl("config", "form_embedded");
+						else if(index == 6)
+							panel.setTopControl("config", "form_solid");
+						else
+							panel.setTopControl("config", "form");
+						selectedTemplate = panel.getElement("template", index);
+						//updateURL();
+						return;
+					}
+				}
+			} catch(err) {
+			}
+			combo.select(0);
+			panel.setTopControl("config", "custom");
+			selectedTemplate = null;
+		}
+
+		function chooseTemplate(name, control, element, event) {
+			if(control.getSelection()) {
+				index = control.getSelectionIndex();
+				if(index == 0) {
+					panel.setTopControl("config", "custom");
+					selectedTemplate = null;
+				} else {
+					if (index == 3)
+						panel.setTopControl("config", "form_embedded");
+					else if (index == 6)
+						panel.setTopControl("config", "form_solid");
+					else
+						panel.setTopControl("config", "form");
+					selectedTemplate = panel.getElement(name, index);
+				}
+				config.setParameter("custom.form", "" + index);
+				updateURL();
+			}
+		}
+
+		function updateURL(name, control, element, event) {
+			// -- The jdbcSource/jdbcDriver in the custom panel are bound to the config
+			// -- parameters so we only have to update the UI controls to trigger the update
+			// -- of the config.
+
+			// -- generate the ULR format for the driver type
+			if(selectedTemplate != null) {
+				template = panel.getControl("template").getSelectionIndex();
+				port = panel.getText("port");
+				if(template == 3) {
+					database = panel.getText("database2");
+					hostname = "";
+				} else if (template == 6) {
+					database = panel.getText("database");
+					hostname = panel.getText("hostname2");
+					port = panel.getText("port2");
+				} else {
+					database = panel.getText("database");
+					hostname = panel.getText("hostname");
+				}
+				url = selectedTemplate.getAttribute("url");
+				url = url.replace("{hostname}", hostname);
+				if(port.length() > 0)
+					port = ":" + port;
+				url = url.replace("{:port}", port);
+				url = url.replace("{database}", database);
+	
+				// -- Update custom fields and config
+				panel.setText("jdbcDriver", selectedTemplate.getAttribute("driver"));
+				panel.setText("jdbcSource", url);
+				
+				if(name != null &amp;&amp; control != null) {
+					config.setParameter("custom." + name, control.getText());
+				}
+			} else {
+				config.setParameter("custom.form", null);
+			}
+		}
+
+	</Script>
+
+</Panel>
+]]>
+				</parameter>
+			</FormItem>
+			<FormItem name="jdbcTable">
+				<parameter name="description">table_desc</parameter>
+				<parameter name="label">table_label</parameter>
+				<parameter name="script">selectJDBCTable</parameter>
+				<parameter name="scriptLabel">table_script_label</parameter>
+				<parameter name="scripthelp">table_script_help</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcUpdate">
+				<parameter name="modes">Update,Delta</parameter>
+				<parameter name="description">update_desc</parameter>
+				<parameter name="label">update_label</parameter>
+				<parameter name="syntax">component</parameter>
+				<parameter name="component">com.ibm.tdi.eclipse.widget.SQLStatementEditor</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

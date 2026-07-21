@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="15" UUID="41746d04-f747-444c-9123-475db529ff73" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="libDefaultOnError" modified="Fri May 15 11:24:25 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="libDefaultOnError">
+        <ModTime>1431681865382</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (error.getString("message").indexOf("CTGDIS483E") >= 0) {
+//	java.lang.System.out.println("TargetSystem connector: " + error.toString());
+	error.status = "ok";
+	system.ignoreEntry();
+}
+
+work["$writeStatus"] = "failed";
+
+change = false;
+
+// if this script is inherited into the WriteToTarget AL, then targetTCB is set to 
+// the write AL. Otherwise, set it to the TCB of the current AL.
+if (typeof targetTCB === "undefined") {
+	targetTCB = task.getTCB();
+}
+
+updateStatusFromTCB(targetTCB, false);
+
+if (typeof(work) != "undefined" && work != null) {
+	work["$status"] = "failed";
+	work["$error"] = error;
+}	
+defaultErrorHandling("ERROR");]]></parameter>
+    </Script>
+</MetamergeConfig>

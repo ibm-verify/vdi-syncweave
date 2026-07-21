@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DominoUsersConnector">
+                        <SupportedModes>Iterator,AddOnly,Update,Lookup,Delete</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.dominoUsers.DominoUsersConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="dominoSessionType">IIOP</parameter>
+				<parameter name="httpPort">80</parameter>
+				<parameter name="nabDatabase">names.nsf</parameter>
+				<parameter name="useFTSearch">false</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.dominoUsers.DominoUsersConnector">
+			<TranslationFile>NLS/idi_conn_domino</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>dominoSessionType</ListItem>
+					<ListItem>dominoServer</ListItem>
+					<ListItem>httpPort</ListItem>
+					<ListItem>userName</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ior</ListItem>
+					<ListItem>nabDatabase</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>useFTSearch</ListItem>
+					<ListItem>fullTextFilter</ListItem>
+					<ListItem>formulaFilter</ListItem>
+</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>dominoSessionType</ListItem>
+				<ListItem>dominoServer</ListItem>
+				<ListItem>ior</ListItem>
+				<ListItem>httpPort</ListItem>
+				<ListItem>userName</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>nabDatabase</ListItem>
+				<ListItem>useFTSearch</ListItem>
+				<ListItem>fullTextFilter</ListItem>
+				<ListItem>formulaFilter</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="dominoServer">
+				<parameter name="description">domsrv_desc</parameter>
+				<parameter name="label">domsrv_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dominoSessionType">
+				<Values>
+					<ListItem>IIOP</ListItem>
+					<ListItem>LocalClient</ListItem>
+					<ListItem>LocalServer</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>IIOP</Key>
+						<Value>Localized.IIOP</Value>
+					</Item>
+					<Item>
+						<Key>LocalClient</Key>
+						<Value>Localized.LocalClient</Value>
+					</Item>
+					<Item>
+						<Key>LocalServer</Key>
+						<Value>Localized.LocalServer</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="Required">true</parameter>
+				<parameter name="description">SESSIONTYPE_DESC</parameter>
+				<parameter name="label">SESSIONTYPE_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="formulaFilter">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">for_desc</parameter>
+				<parameter name="label">for_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="fullTextFilter">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">full_desc</parameter>
+				<parameter name="label">full_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="httpPort">
+				<parameter name="default">80</parameter>
+				<parameter name="description">HTTPPORT_DESC</parameter>
+				<parameter name="label">HTTPPORT_LBL</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="ior">
+				<parameter name="description">IOR_DESC</parameter>
+				<parameter name="label">IOR_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="nabDatabase">
+				<parameter name="Required">true</parameter>
+				<parameter name="description">data_desc</parameter>
+				<parameter name="label">data_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">password</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="useFTSearch">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">use_desc</parameter>
+				<parameter name="label">use_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="default">false</parameter>
+				<parameter name="description">ssl_desc</parameter>
+				<parameter name="label">ssl_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="userName">
+				<parameter name="description">user_desc</parameter>
+				<parameter name="label">user_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function setDominoSessionTypeControlValue() {
+	var dominoSessionType = form.getConfigValue("dominoSessionType"); 
+	if (dominoSessionType.equalsIgnoreCase("LocalClient")) { 
+		form.getControl("userName").setEnabled(false); 
+		form.getControl("useSSL").setEnabled(false); 
+		form.getControl("httpPort").setEnabled(false); 
+		form.getControl("ior").setEnabled(false); 
+	} else if (dominoSessionType.equalsIgnoreCase("LocalServer")) { 
+		form.getControl("userName").setEnabled(true); 
+		form.getControl("useSSL").setEnabled(false); 
+		form.getControl("httpPort").setEnabled(false); 
+		form.getControl("ior").setEnabled(false); 
+	} else if (dominoSessionType.equalsIgnoreCase("IIOP")) { 
+		form.getControl("userName").setEnabled(true); 
+		form.getControl("useSSL").setEnabled(true); 
+		form.getControl("httpPort").setEnabled(true); 
+		form.getControl("ior").setEnabled(true); 
+	}
+}
+
+setDominoSessionTypeControlValue();
+
+function dominoSessionType_changed() {
+	setDominoSessionTypeControlValue();
+}
+
+function setUseFTSearchControlValue() {
+	var useFTSearch = form.getConfigValue("useFTSearch").equalsIgnoreCase("true"); 
+
+	if (form.getControl("fullTextFilter") != null)
+		form.getControl("fullTextFilter").setEnabled(useFTSearch); 
+	if (form.getControl("formulaFilter") != null) 
+		form.getControl("formulaFilter").setEnabled(!useFTSearch); 
+}
+
+setUseFTSearchControlValue();
+
+function useFTSearch_changed() {
+	setUseFTSearchControlValue();
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

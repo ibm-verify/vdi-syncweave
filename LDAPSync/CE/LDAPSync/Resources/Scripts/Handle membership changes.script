@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="32" UUID="903dfc02-b68f-4c59-a443-b628bdbbbdda" created="Thu Aug 28 12:49:58 CEST 2014" createdBy="Administrator" main="Handle membership changes" modified="Wed May 13 12:45:28 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Handle membership changes">
+        <ModTime>1431513928192</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// With group Entry changes (e.g. membership) we may need to touch all member entries so that
+// these are reprocessed and group/attribute filters (re)applied
+sourceLDAP = SourceLDAP.connector;
+
+if (filterOnGroups && isSync) {
+	groupMembers = work.getAttribute("uniqueMember");
+	if(groupMembers === null){
+		groupMembers = work.getAttribute("member");	
+	}
+	
+	deltaOperationTag = work.getOperation();
+	
+	// Skipping if entry tag is 'add', in case groups are not being sync'ed, meaning
+	// that the initial Delta Store for groups is empty and all groups are added.
+	// This is assuming that person entries have already been sync'ed 
+	if (groupMembers !== null && !"unchanged".equalsIgnoreCase(deltaOperationTag)) {
+		len = groupMembers.size();
+		attOp = groupMembers.getOperation();
+		var saveRetParm = sourceLDAP.getParam("ldapReturnAttributes");
+		sourceLDAP.setParam("ldapReturnAttributes", "");
+//		sourceLDAP.setParam("ldapReturnAttributes", "title");
+
+		for (i = 0; i < len; i++) {
+			thisMember = groupMembers.getValue(i);
+			valueOp = groupMembers.getValueOperation(i);
+			if ("add".equals(attOp)
+				|| "delete".equals(attOp)
+				|| "replace".equals(attOp)
+				|| "delete".equals(deltaOperationTag)
+				|| "add".equals(valueOp)
+				|| "delete".equals(valueOp)) {
+
+				try {
+					// and and then remove a dummy mail value in order to trigger this Person for incr sync
+					if (deBug) logmsg("@@@@--> Touching group member: " + thisMember);
+					var e = sourceLDAP.findEntry("$dn", thisMember);
+					
+					if (e != null) {
+						if (typeof userRetryList === "undefined") {
+							userRetryList = new RetryList(flowKey, "person", !isSync);
+						}
+						
+						
+						userRetryList.add({	dn: e.getString("$dn"),
+										error: "reprocess user",
+										operation: "group membership change",
+										entry: e });
+					}	
+
+/*
+					var oldTitle = work.title;
+					sourceLDAP.replaceAttributeValue(thisMember, "title", "touched " + new java.util.Date())
+					if (oldTitle === null) {
+						sourceLDAP.removeAllAttributeValues(thisMember, "title");
+					} else {
+						sourceLDAP.replaceAttributeValue(thisMember, "title", e.getString("sn"));
+					}	
+*/
+				} catch (ex) {
+					if (deBug) logmsg("@@@@--> Error touching group member - " + ex);
+				}
+			}
+		}
+		
+		sourceLDAP.setParam("ldapReturnAttributes", saveRetParm);		
+	}
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

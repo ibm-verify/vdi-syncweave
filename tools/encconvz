@@ -1,0 +1,57 @@
+#! /bin/sh
+
+# IBM_PROLOG_BEGIN_TAG 
+#  
+# %I%, %G%
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2005, 2007 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+#################################################################
+# Converting installed text files from one encoding to another 
+#################################################################
+
+# Function to source in the TDI setupCmdLine.sh script
+setupTDIEnv ()
+{
+. "$TEMP_BIN_DIR/setupCmdLine.sh"
+}
+
+#
+# CMDFINDER holds the command which is used to find other commands
+# depending on the platform.
+#
+CMDFINDER=which
+
+UNAME_OS=`uname`
+
+if [ "$UNAME_OS" = "OS/390" -o "$UNAME_OS" = "OS400" ] ; then
+	CMDFINDER=whence
+fi
+	
+TEMP_BIN_DIR=`$CMDFINDER $0`
+TEMP_BIN_DIR=`dirname $TDI_BIN_DIR`
+TEMP_BIN_DIR=`dirname "$TDI_BIN_DIR/../bin"`
+
+SKIP_ISCDIR_SETUP=1
+setupTDIEnv "$TEMP_BIN_DIR"
+
+DEF_JRE_PATH=$TDI_JAVA_BIN_DIR
+USE_ENCODING=IBM-1047
+FILES_TO_CONV="$TDI_HOME_DIR/ibmdisrv,$TDI_HOME_DIR/createstash.sh,$TDI_HOME_DIR/global.properties,$TDI_HOME_DIR/log4j.properties,$TDI_HOME_DIR/db2j.properties,$TDI_HOME_DIR/fos.properties,$TDI_HOME_DIR/fos-log4j.properties,$TDI_HOME_DIR/jlog.properties,$TDI_HOME_DIR/amc/accounts.txt,$TDI_HOME_DIR/serverapi/registry.txt,$TDI_HOME_DIR/serverapi/cryptoutils.sh,$TDI_HOME_DIR/executetask.properties,$TDI_HOME_DIR/jcl/TDITP.jcl,$TDI_HOME_DIR/rexx/TDIEXEC" 
+
+PATH="$TDI_JAVA_BIN_DIR:$PATH"
+export PATH 
+IBM_JAVA_OPTIONS=-Xmx64M
+export IBM_JAVA_OPTIONS
+"$TDI_JAVA_PROGRAM" -cp "$TDI_HOME_DIR/jars/3rdparty/IBM/icu4j-51_1.jar:$TDI_HOME_DIR/jars/common/tdiresource.jar:$TDI_HOME_DIR/jars/common/miserver.jar" com.ibm.di.util.ConvertEncoding $1 $2 $3 $4
+

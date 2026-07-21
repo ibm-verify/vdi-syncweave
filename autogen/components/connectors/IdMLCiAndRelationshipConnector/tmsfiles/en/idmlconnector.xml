@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="idmlconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJZ651E" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.INCORRECT.ATTR.VALUE" varFormat="Java">   
+   Attribute <Variable formatSpec="{0}">attribute</Variable> does not accept value 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   The specified value is not supported by that parameter. For instance the &apos;$operation&apos;
+   attribute of this Connector accepts the following string values: &apos;create&apos;, &apos;modify&apos;, 
+   &apos;delete&apos; (case insensitive). If something else is passed into the attribute this error will occur.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide valid values for the Connector&apos;s parameters. Consult the documentation for the supported ones.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ652E" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.UNSUPPORTED.OPERATION" varFormat="Java">   
+   The IdML book is opened in REFRESH mode and supports only CREATE operations. 
+   </MsgText>
+   <Explanation><p>
+   The IdML book this Connector is working with has been opened in Refresh mode, meaning only &apos;create&apos; 
+   operations may be used for it. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Set the operation to &apos;create&apos; from the &apos;$operation&apos; attribute or as a delta operation 
+   (i.e. the operation set to delta tagged entry will override the operation attribute of the Connector).
+   Alternatively, change the book mode to Delta (from the Open IdML Function Component).
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ653E" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.NO.CLASSTYPE.SPECIFIED" varFormat="Java">   
+   No class type specified in the configuration of the IdML Ci and Relationship Connector.
+   </MsgText>
+   <Explanation><p>
+   In order to discover the schema of this Connector, the class type parameter must be provided. Otherwise
+   the Component does not know which attributes to display.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Set the required Class Type parameter from IdML Ci and Relationship Connector&apos;s configuration panel.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ654I" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.BOOKNAME.INITIALIZED" varFormat="Java">
+   IdML Ci and Relationship Connector will work with book: <Variable formatSpec="{0}">book name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ655I" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.PARAMETER.INITIALIZED" varFormat="Java">
+   The parameter <Variable formatSpec="{0}">param name</Variable> was initialized with the value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ656I" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.BOOKNAME.OVERRIDDEN" varFormat="Java">
+   The name of the currently used book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; has been 
+   overridden to &apos;<Variable formatSpec="{1}">new name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ657I" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.USE.IT.REGISTRY" varFormat="Java">
+   Use an IT registry for the needed meta-data: &apos;<Variable formatSpec="{0}">use it registry</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ658I" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.BOOK.ALREADY.CLOSED" varFormat="Java">
+   The book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; does not exist or is already closed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ659E" prefix="yes">
+   <MsgText pgmKey="IDML.CONN.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   Parameter &apos;<Variable formatSpec="{0}">param name</Variable>&apos; is not provided.
+   </MsgText>
+   <Explanation><p>
+   The specified parameter is needed by the IdML Ci and Relationship Connector and must be provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a value for this parameter.
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

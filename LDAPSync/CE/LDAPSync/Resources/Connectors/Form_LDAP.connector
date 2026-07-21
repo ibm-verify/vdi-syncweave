@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="82c9a75a-997a-40cd-87fd-adad0e4e88b3" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="Form_LDAP" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="Form_LDAP">
+        <InheritFrom>system:/Connectors/ibmdi.NetscapeChangelog</InheritFrom>
+        <ModTime>1388405024715</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="24" UUID="6a48e063-b309-43f6-b008-f4aba785a5ff" created="Thu Apr 11 13:30:19 CEST 2013" createdBy="Administrator" main="Form" modified="Wed Oct 23 15:30:56 CEST 2013" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1382535041156</ModTime>
+        <FormItemNames>
+            <ListItem>source.ldap.url</ListItem>
+            <ListItem>source.ldap.user</ListItem>
+            <ListItem>source.ldap.password</ListItem>
+            <ListItem>source.ldap.searchBase</ListItem>
+            <ListItem>source.ldap.pageSize</ListItem>
+            <ListItem>source.ldap.binaryAttributes</ListItem>
+            <ListItem>source.ldap.stateKey</ListItem>
+            <ListItem>source.ldap.changelogTimeout</ListItem>
+            <ListItem>source.ldap.secondsForPolling</ListItem>
+            <ListItem>source.changeDetectionType</ListItem>
+            <ListItem>source.form</ListItem>
+            <ListItem>writeback.enabled</ListItem>
+            <ListItem>mirroring.enabled</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="mirroring.enabled"/>
+        <FormItem name="source.changeDetectionType">
+            <ModTime>1366969656046</ModTime>
+            <parameter name="label">LDAPSYNC.CHG</parameter>
+        </FormItem>
+        <FormItem name="source.form"/>
+        <FormItem name="source.ldap.binaryAttributes">
+            <ModTime>1380534409421</ModTime>
+            <parameter name="description">LDAPSYNC.ENTER.THE.LIST.OF.BINARY.ATTRIBUTES.ONE.LINE.FOR.EACH.ATTRIBUTE.NAME</parameter>
+            <parameter name="label">LDAPSYNC.SPECIFY.ANY.CUSTOM.BINARY.ATTRIBUTES.ONE.PER.LINE</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.changelogTimeout">
+            <ModTime>1369653347250</ModTime>
+            <parameter name="description">LDAPSYNC.NUMBER.OF.SECONDS.WITHOUT.DETECTING.CHANGES.DURING.POLLING.BEFORE.THE.ENDPOINT.TIMES.OUT.AND.SYNCHRONIZATION.STOPS</parameter>
+            <parameter name="label">LDAPSYNC.SECONDS.BEFORE.TIMEOUT</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.pageSize">
+            <ModTime>1369653017796</ModTime>
+            <parameter name="description">LDAPSYNC.SETTING.A.VALUE.GT.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS</parameter>
+            <parameter name="label">LDAPSYNC.PAGE.SIZE</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="script">checkLDAPPageSize</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.PAGE.SIZE</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.password">
+            <ModTime>1369652784531</ModTime>
+            <parameter name="description">LDAPSYNC.PASSWORD.USED.TO.AUTHENTICATE.TO.THE.SOURCE.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.PASSWORD</parameter>
+            <parameter name="syntax">PASSWORD</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.searchBase">
+            <ModTime>1369654043625</ModTime>
+            <parameter name="default"/>
+            <parameter name="description">LDAPSYNC.SEARCH.BASE.IN.THE.SOURCE.DIRECTORY</parameter>
+            <parameter name="label">LDAPSYNC.SEARCH.BASE</parameter>
+            <parameter name="script">selectLDAPSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.CONTEXTS</parameter>
+            <parameter name="scripthelp">Browse available suffixes to select the desired one</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.secondsForPolling">
+            <ModTime>1369653394781</ModTime>
+            <parameter name="description">LDAPSYNC.CONTROLS.HOW.OFTEN.THE.ENPOINT.IS.POLLED.FOR.CHANGES</parameter>
+            <parameter name="label">LDAPSYNC.SECONDS.BETWEEN.POLLING</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.stateKey">
+            <ModTime>1369653171843</ModTime>
+            <parameter name="description">LDAPSYNC.KEY.USED.TO.SAVE.CHANGE.STATE.FOR.THIS.SOURCE</parameter>
+            <parameter name="label">LDAPSYNC.CHANGE.STATE.KEY</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.DELETE</parameter>
+            <parameter name="syntax">STRING</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.url">
+            <ModTime>1369652702890</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.URL.TO.THE.SOURCE.DIRECTORY.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.LDAP.URL</parameter>
+            <parameter name="syntax">URL</parameter>
+        </FormItem>
+        <FormItem name="source.ldap.user">
+            <ModTime>1369652743828</ModTime>
+            <parameter name="description">LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.SOURCE.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.USER.LOGIN</parameter>
+            <parameter name="syntax">DN</parameter>
+        </FormItem>
+        <FormItem name="writeback.enabled"/>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>source.ldap.binaryAttributes</ListItem>
+                <ListItem>source.ldap.pageSize</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">LDAPSYNC.ADVANCED.OPTIONS</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>source.ldap.url</ListItem>
+                <ListItem>source.ldap.user</ListItem>
+                <ListItem>source.ldap.password</ListItem>
+                <ListItem>source.ldap.searchBase</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"/>
+        <FormSection name="mirroring.enabled"/>
+        <FormSection name="source.form"/>
+        <parameter name="title">LDAP</parameter>
+        <TranslationFile>ldapsync</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="deliveryMode">Changelog</parameter>
+            <parameter name="mirroring.enabled">true</parameter>
+            <parameter name="source.changeDetectionType">delta</parameter>
+            <parameter name="source.connector.name">ibmdi.LDAP</parameter>
+            <parameter name="source.form">Form_LDAP</parameter>
+            <parameter name="source.ldap.binaryAttributes">jpegPhoto</parameter>
+            <parameter name="source.ldap.pageSize"/>
+            <parameter name="source.ldap.password"/>
+            <parameter name="source.ldap.searchBase"/>
+            <parameter name="source.ldap.stateKey"/>
+            <parameter name="source.ldap.url"/>
+            <parameter name="source.ldap.user"/>
+            <parameter name="source.read.container.AL">ReadContainers</parameter>
+            <parameter name="source.read.group.AL">ReadGroups</parameter>
+            <parameter name="source.read.person.AL">ReadPersons</parameter>
+            <parameter name="supportsPTA">true</parameter>
+            <parameter name="supportsWriteback">true</parameter>
+            <parameter name="writeback.enabled">true</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="before_getnext">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>before_getnext</Name>
+                <Script/>
+                <Enabled>false</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="autoreconnect">true</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

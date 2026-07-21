@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Tue Jul 05 15:47:28 EST 2005" createdBy="Administrator" modified="Thu Aug 25 15:19:00 EST 2005" modifiedBy="Administrator" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="processStdOutput">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Function name="remCLFC">
+<InheritFrom>system:/Functions/ibmdi.RemoteCmdLineFC</InheritFrom>
+<parameter name="command">ls</parameter>
+<parameter name="connectionType">ANY</parameter>
+<parameter name="debug">true</parameter>
+<parameter name="hostname"></parameter>
+<parameter name="passwd"></parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="stdinDestn"></parameter>
+<parameter name="stdinSource"></parameter>
+<parameter name="timeout">0</parameter>
+<parameter name="user"></parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="command">ls</parameter>
+<parameter name="connectionType">ANY</parameter>
+<parameter name="debug">true</parameter>
+<parameter name="hostname"></parameter>
+<parameter name="passwd"></parameter>
+<parameter name="stdinDestn"></parameter>
+<parameter name="stdinSource"></parameter>
+<parameter name="timeout">0</parameter>
+<parameter name="user"></parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>command.error</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>command.error</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>command.out</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>command.out</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>command.returnCode</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>command.returnCode</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>command.line</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>command.line</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>stdin.destination</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>stdin.destination</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>stdin.source</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script></Script>
+<Simple>stdin.source</Simple>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="processOutput">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[/* The standard output that results from executing the remote command is stored 
+ * in the attribute 'command.out'.  The standard error that results from executing 
+ * the remote command is stored in the attribute 'command.error'.  
+ * The attribute 'command.returnCode' contains the return code which indicates 
+ * the success of the remote command execution */
+
+var rc = work.getAttribute("command.out");
+var br = new java.io.BufferedReader(new java.io.StringReader(rc.toString()));
+var line = br.readLine();
+while (line != null){
+	task.logmsg("the next line is " + line);	
+	line = br.readLine();
+}
+br.close();
+
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

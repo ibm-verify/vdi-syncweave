@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed May 10 11:58:10 IST 2006" createdBy="administrator" modified="Thu May 11 12:19:07 IST 2006" modifiedBy="administrator" version="1.2">
+<Folder name="AssemblyLines">
+<AssemblyLine name="mainAL">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Branch name="BranchBasedOnOperation">
+<Branch name="BranchBasedOnOperation_ldapsearch">
+<Connector name="lookup">
+<InheritFrom>/Connectors/ldapConnector</InheritFrom>
+<ConnectorMode>Lookup</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<LinkCriteriaItem>
+<Key>10b1dc89b82</Key>
+<Attribute>$dn</Attribute>
+<Operator>equals</Operator>
+<Value>$dn</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_lookup</Name>
+<Script>work.setAttribute("returnEntry",conn.clone(conn));</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>lookup_ok</Name>
+<Script/>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Conditions>
+<BranchCondition>
+<RightHand>ldapsearch</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>4</Type>
+</Branch>
+<Branch name="BranchBasedOnOperation_ldapmod">
+<Connector name="ldapConnMod">
+<InheritFrom>/Connectors/ldapConnector</InheritFrom>
+<ConnectorMode>Update</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>$dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>$dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>$dn</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>cn</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmAdminGroup</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmGroupContainer</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserContainer</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserSearchFilter</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserTemplate</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>objectclass</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<Script><![CDATA[$dn
+
+ret.filter = "";
+]]></Script>
+<LinkCriteriaItem>
+<Key>10b1d8186d6</Key>
+<Attribute>$dn</Attribute>
+<Operator>equals</Operator>
+<Value>$dn</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>before_modify</Name>
+<Script><![CDATA[//Attempts to modify the entry from the server
+//Searches for the "attr" attribute in the work
+//entry and sets them into "conn"
+
+task.logmsg("ldapmodify operation passed.");
+task.dump(work);
+
+var attrEntry = work.getObject("attr");
+if(attrEntry!=null){
+   conn.merge(attrEntry);
+}else{
+    var message = "No attr attribute found in work entry";
+    task.logmsg("-----------------------------------------"); 
+    task.logmsg(message);
+    task.logmsg("-----------------------------------------"); 
+    throw new java.lang.Exception(message);
+}
+     
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Conditions>
+<BranchCondition>
+<RightHand>ldapmod</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>4</Type>
+</Branch>
+<Branch name="BranchBasedOnOperation_ldapdelete">
+<Connector name="ldapConn">
+<InheritFrom>/Connectors/ldapConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Passive</ConnectorState>
+<Configuration>
+<InheritFrom>/Connectors/ldapConnector</InheritFrom>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Connector name="deleteFromServer">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[
+//Attempts to delete the entry from the server
+//This dn must be in the work entry
+//which should be passed by the calling AL
+
+task.logmsg("ldapdelete operation passed.");
+var dn=work.getString("dn");
+if(dn!=null){
+    var entryToDelete = system.newEntry();
+    entryToDelete.setAttribute("$dn",dn);
+    ldapConn.connector.initialize(null);
+    ldapConn.connector.deleteEntry(entryToDelete,system.newSearchCriteria());
+    ldapConn.connector.terminate();
+    task.logmsg("--------------------"); 
+    task.logmsg("Deleted Entry: "+ dn);
+    task.logmsg("--------------------"); 
+}else{ //throw an exception for the calling AL to handle
+    var message = "No dn attribute found in work entry";
+    task.logmsg("--------------------"); 
+    task.logmsg(message);
+    task.logmsg("--------------------"); 
+    throw new java.lang.Exception(message);
+}]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Conditions>
+<BranchCondition>
+<RightHand>ldapdelete</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>4</Type>
+</Branch>
+<Branch name="BranchBasedOnOperation_ldapadd">
+<Connector name="ldapConnAdd">
+<InheritFrom>/Connectors/ldapConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>before_add</Name>
+<Script><![CDATA[//Attempts to add the entry to the server
+//Searches for the "attr" attribute in the work
+//entry and sets it into "conn"
+
+task.logmsg("ldapadd operation passed.");
+task.dump(work);
+
+var attrEntry = work.getObject("attr");
+if(attrEntry!=null){
+   conn.merge(attrEntry);
+}else{
+    var message = "No attr attribute found in work entry";
+    task.logmsg("-----------------------------------------"); 
+    task.logmsg(message);
+    task.logmsg("-----------------------------------------"); 
+    throw new java.lang.Exception(message);
+}
+     
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Conditions>
+<BranchCondition>
+<RightHand>ldapadd</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>4</Type>
+</Branch>
+<Conditions>
+<BranchCondition>
+<RightHand>{op-entry.$operation}</RightHand>
+<Negate>false</Negate>
+<CaseSensitive>true</CaseSensitive>
+</BranchCondition>
+</Conditions>
+<MatchAny>false</MatchAny>
+<Enabled>true</Enabled>
+<Type>3</Type>
+</Branch>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="ldapsearch">
+<Schema name="Input">
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>returnEntry</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>returnEntry</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>returnEntry</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<Public>true</Public>
+</Operation>
+<Operation name="ldapmod">
+<Schema name="Input">
+<SchemaItem>
+<Name>attr</Name>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output"/>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>attr</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>attr</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+<Operation name="ldapdelete">
+<Schema name="Input">
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output"/>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+<Operation name="ldapadd">
+<Schema name="Input">
+<SchemaItem>
+<Name>attr</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output"/>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>attr</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>attr</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+
+<AssemblyLine name="call_ldapadd">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="PrepareWorkForAdd">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[//--------------------------------------------
+//Script for ldapadd operation
+//--------------------------------------------
+
+ myentry=system.newEntry();
+ myentry.setAttribute("$dn","uid=TDIUser,o=ibm,c=us"); 
+ myentry.setAttribute("objectclass","inetOrgPerson"); 
+ myentry.setAttribute("cn","TDIUser"); 
+ myentry.setAttribute("sn","TDIUser"); 
+ myentry.setAttribute("uid","TDIUser"); 
+ myentry.setAttribute("givenName","TDIUser");
+ myentry.setAttribute("mail","tdiUser@ibm.com");
+ work.setAttribute("attr",myentry);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Connector name="ALConnector">
+<InheritFrom>system:/Connectors/ibmdi.AssemblyLineConnector</InheritFrom>
+<ConnectorMode>ldapadd</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>attr</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>attr</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>attr</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+<AssemblyLine name="call_ldapmod">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="PrepareWorkForMod">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[//--------------------------------------------
+//Script for ldapmodify operation
+//--------------------------------------------
+//Set the DN of entry to modify
+//Set the Attributes in an entry object
+//and set that to "attr"
+
+ work.setAttribute("dn","uid=TDIUser,o=ibm,c=us");
+ myentry=system.newEntry();
+ myentry.setAttribute("givenName","TDIUser_New");
+ myentry.setAttribute("mail","new_user@ibm.com");
+ work.setAttribute("attr",myentry);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Function name="fc_mod">
+<InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapmod</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>attr</Name>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapmod</parameter>
+<parameter name="userComment"/>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>attr</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>attr</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+<AssemblyLine name="call_ldapdelete">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="PrepareWorkForDel">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[//--------------------------------------------
+//Script for ldapdelete operation
+//--------------------------------------------
+
+ work.setAttribute("dn","uid=TDIUser,o=ibm,c=us");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Function name="fc_del">
+<InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapdelete</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapdelete</parameter>
+<parameter name="userComment"/>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+<AssemblyLine name="call_lookup">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="PrepareWorkForLookup">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[//--------------------------------------------
+//Script for ldapsearch (lookup) operation
+//--------------------------------------------
+
+ work.setAttribute("dn","uid=TDIUser,o=ibm,c=us"); 
+
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Function name="fc_lookup">
+<InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapsearch</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>returnEntry</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>dn</Name>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="assemblyLine">mainAL</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operation">ldapsearch</parameter>
+<parameter name="userComment"/>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>returnEntry</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>returnEntry</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>dn</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>dn</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="displayReceivedEntry">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[task.logmsg("------------------------------------");
+task.logmsg("Entry received after calling lookup:");
+task.dump(work.getObject("returnEntry"));
+task.logmsg("------------------------------------");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors">
+<Connector name="ldapConnector">
+<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="automapADPassword">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="ldapAddAttr">false</parameter>
+<parameter name="ldapAuthenticationMethod">Simple</parameter>
+<parameter name="ldapPageSize">0</parameter>
+<parameter name="ldapPassword">@SUBSTITUTE{property.ExternalPropertyStore:bindPassword}</parameter>
+<parameter name="ldapReferrals">follow</parameter>
+<parameter name="ldapSearchBase">@SUBSTITUTE{property.ExternalPropertyStore:searchBaseDN}</parameter>
+<parameter name="ldapSearchFilter">@SUBSTITUTE{property.ExternalPropertyStore:searchFilter}</parameter>
+<parameter name="ldapSearchScope">subtree</parameter>
+<parameter name="ldapSizeLimit">0</parameter>
+<parameter name="ldapTimeLimit">0</parameter>
+<parameter name="ldapUrl">@SUBSTITUTE{property.ExternalPropertyStore:ldapURL}</parameter>
+<parameter name="ldapUseSSL">false</parameter>
+<parameter name="ldapUsername">@SUBSTITUTE{property.ExternalPropertyStore:bindDN}</parameter>
+<parameter name="ldapVLVPageSize">0</parameter>
+<parameter name="simulateRename">false</parameter>
+<parameter name="userComment"/>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>$dn</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>cn</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>employeeNumber</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmAdminGroup</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmGroupContainer</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserContainer</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserSearchFilter</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>ibm-realmUserTemplate</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>objectclass</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>sn</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>userpassword</Name>
+<Syntax>[byte array]</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+<Enabled>false</Enabled>
+<MinPoolSize>0</MinPoolSize>
+<PurgeInterval>0</PurgeInterval>
+<InitializeAttempts>1</InitializeAttempts>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</Folder>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="ExternalPropertyStore">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collection">examples/SolnPkg/propFile.properties</parameter>
+<parameter name="collectionType">User-Defined</parameter>
+<parameter name="debug">false</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

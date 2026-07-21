@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DSMLv2SOAPConnector">
+                        <SupportedModes>Iterator,AddOnly,Lookup,Delete,Update,Delta,CallReply</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DSMLv2SOAPConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="authenticationMethod">HTTP basic authentication</parameter>
+				<parameter name="binaryAttributes"><![CDATA[photo, personalSignature, audio, jpegPhoto, javaSerializedData, thumbnailPhoto, 
+thumbnailLogo, userPassword, userCertificate, authorityRevocationList, 
+certificateRevocationList, crossCertificatePair, x500UniqueIdentifier, 
+objectGUID, objectSid]]></parameter>
+				<parameter name="searchFilter">(objectClass=*)</parameter>
+				<parameter name="searchScope">subtree</parameter>
+				<parameter name="soapbinding">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DSMLv2SOAPConnector">
+			<TranslationFile>NLS/idi_conn_dsmlv2soap</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>url</ListItem>
+					<ListItem>searchBase</ListItem>
+					<ListItem>searchFilter</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>searchScope</ListItem>
+					<ListItem>authenticationMethod</ListItem>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>binaryAttributes</ListItem>
+					<ListItem>soapbinding</ListItem>
+					<ListItem>soapAction</ListItem>
+			</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>url</ListItem>
+				<ListItem>authenticationMethod</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>binaryAttributes</ListItem>
+				<ListItem>searchBase</ListItem>
+				<ListItem>searchFilter</ListItem>
+				<ListItem>searchScope</ListItem>
+				<ListItem>soapbinding</ListItem>
+				<ListItem>soapAction</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="authenticationMethod">
+				<Values>
+					<ListItem>Anonymous</ListItem>
+					<ListItem>HTTP basic authentication</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Anonymous</Key>
+						<Value>Localized.Anonymous</Value>
+					</Item>
+					<Item>
+						<Key>HTTP basic authentication</Key>
+						<Value>Localized.HTTP.basic.authentication</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">AUTH_METHOD_DESCR</parameter>
+				<parameter name="label">AUTH_METHOD_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="binaryAttributes">
+				<parameter name="description">BA_DESCR</parameter>
+				<parameter name="label">BA_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">PASS_DESCR</parameter>
+				<parameter name="label">PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="searchBase">
+				<parameter name="description">SBASE_DESCR</parameter>
+				<parameter name="label">SBASE_LBL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">-AddOnly,CallReply</parameter>
+			</FormItem>
+			<FormItem name="searchFilter">
+				<parameter name="description">SFILTER_DESCR</parameter>
+				<parameter name="label">SFILTER_LBL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="searchScope">
+				<Values>
+					<ListItem>subtree</ListItem>
+					<ListItem>onelevel</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>onelevel</Key>
+						<Value>Localized.onelevel</Value>
+					</Item>
+					<Item>
+						<Key>subtree</Key>
+						<Value>Localized.subtree</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">SSCOPE_DESCR</parameter>
+				<parameter name="label">SSCOPE_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="soapAction">
+				<parameter name="description">SOAPACTION_DESCR</parameter>
+				<parameter name="label">SOAPACTION_LBL</parameter>
+			</FormItem>
+			<FormItem name="soapbinding">
+				<parameter name="description">SOAP_DESCR</parameter>
+				<parameter name="label">SOAP_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="url">
+				<parameter name="description">URL_DESCR</parameter>
+				<parameter name="label">URL_LBL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">USR_DESCR</parameter>
+				<parameter name="label">USR_LBL</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

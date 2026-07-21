@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<description xmlns="http://www.w3.org/ns/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://www.example.org/simple_doc/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="simple_doc_wsdl20" targetNamespace="http://www.example.org/simple_doc/" xmlns:wsoap="http://www.w3.org/ns/wsdl/soap">
+
+  <types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/simple_doc/">
+      <xsd:element name="name" type="xsd:string" />
+      <xsd:element name="age" type="xsd:int" />
+    </xsd:schema>
+  </types>
+
+  <interface name="simple_doc_wsdl20">
+    <operation name="getAge" pattern="http://www.w3.org/ns/wsdl/in-out">
+      <input messageLabel="In" element="tns:name"/>
+      <output messageLabel="Out" element="tns:age"/>
+    </operation>
+  </interface>
+
+  <binding name="simple_doc_wsdl20SOAP11" interface="tns:simple_doc_wsdl20" type="http://www.w3.org/ns/wsdl/soap" wsoap:version="1.1" wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP">
+        <operation ref="tns:getAge" wsoap:action="urn:getAge"/>
+  </binding>
+
+  <service name="simple_doc_wsdl20" interface="tns:simple_doc_wsdl20">
+    <endpoint name="simple_doc_wsdl20_endpoint"
+              binding="tns:simple_doc_wsdl20SOAP11"
+              address="http://localhost:9998"/>
+  </service>
+
+</description>

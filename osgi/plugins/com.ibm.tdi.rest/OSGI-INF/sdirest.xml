@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" enabled="true" name="com.ibm.tdi.rest">
+	<implementation class="com.ibm.tdi.rest.Activator" />
+	<reference bind="bind" cardinality="1..1" interface="org.osgi.service.http.HttpService" name="HTTPService" policy="static" unbind="unbind"/>
+	<reference bind="bind" cardinality="1..1" interface="com.ibm.di.api.connection.IServerAPIConnectionService" name="IServerAPIConnectionService" policy="static" unbind="unbind"/>
+	<reference bind="bindServiceLocatorGenerator" cardinality="0..1" interface="org.glassfish.hk2.extension.ServiceLocatorGenerator" name="ServiceLocatorGenerator" policy="dynamic" unbind="unbindServiceLocatorGenerator"/>
+</scr:component>

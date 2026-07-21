@@ -1,0 +1,60 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="Border" gutters="false" style="width:100%; height:100%">
+	
+		<div data-dojo-type="idx/layout/HeaderPane" data-dojo-attach-point="Header" style="width:30%" splitter="true" title="${nls.FDS_directoryTree}" region="left">
+			<div data-dojo-type="dijit/form/DropDownButton" region="minorActions">
+				<span>${nls.WebCE_ldapEditorActions}</span>
+				<div data-dojo-type="dijit/Menu">
+					<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:showRoot">${nls.FDS_ldapBrowseRoot}</div>
+					<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:showSearchBase">${nls.FDS_ldapBrowseConfigSB}</div>
+					<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_addEntry">${nls.WebCE_newItem}</div>
+				</div>
+			</div> 
+			
+			<!-- div data-dojo-type="dijit/form/Button" region="minorActions" data-dojo-attach-event="onClick:_addEntry">Add</div>  -->
+			<div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="_searchDlgButton" region="majorActions" xdata-dojo-attach-event="onClick:showRoot">
+				<span>${nls.WebCE_ldapEditorSearch}</span>
+				<div data-dojo-type="dijit/TooltipDialog">
+					<table>
+					<tr>
+						<td>${nls.WebCE_ldapEditorSearchText}</td>
+					</tr>
+					<tr>
+						<td>
+							<div data-dojo-type="dijit/form/TextBox" 
+								style="width:35em"
+								title="${nls.WebCE_ldapEditorSearchTextPH}" 
+								data-dojo-attach-point="_searchText">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>${nls.WebCE_ldapEditorSearchBase}</td>
+					</tr>
+					<tr>
+						<td>
+							<div 
+								data-dojo-type="dijit/form/TextBox"
+								style="width:35em"
+								title="${nls.WebCE_ldapEditorSearchBasePH}" 
+								data-dojo-attach-point="_searchBase">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_search">${nls.WebCE_ldapEditorSearch}</div>
+						</td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>	
+	
+		<div data-dojo-type="idx/layout/HeaderPane" data-dojo-attach-point="Details" title="${nls.FDS_entryDetails}" region="center">
+			<!-- 
+			<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="deleteButton" region="majorActions" data-dojo-attach-event="onClick:deleteEntry">Delete</div>
+			 -->
+		</div>	
+	</div>
+</div>

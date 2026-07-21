@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Legal Disclaimer
+  
+  Copyright Notice
+  
+   (c) Copyright Computer Associates International, Inc., 
+       Fujitsu Limited, Hewlett-Packard Development Company, 
+       International Business Machines Corporation and 
+       The University of Chicago 2003, 2004. All Rights Reserved. 
+
+-->
+<xsd:schema 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsrp=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" 
+  targetNamespace=
+  "http://www.ibm.com/xmlns/stdwip/web-services/WS-ResourceProperties" 
+>
+ 
+<!-- ======= Global Attribute Declaration for WSDL 1.1 portType==== --> 
+  <xsd:attribute name="ResourceProperties" type="xsd:QName" />
+
+<!-- = Notification Message for ResourceProperties value change === -->
+  <xsd:complexType name="ResourcePropertyValueChangeNotificationType">
+    <xsd:sequence>
+      <xsd:element name="OldValue" nillable="true"
+                   minOccurs="0" maxOccurs="1" >
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:any minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NewValue" nillable="true"
+                   minOccurs="1" maxOccurs="1" >
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:any minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>      
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:element name="ResourcePropertyValueChangeNotification" 
+        type="wsrp:ResourcePropertyValueChangeNotificationType" />
+
+  <xsd:complexType name="QueryExpressionType" mixed="true">
+    <xsd:sequence>
+      <xsd:any minOccurs="0" maxOccurs="1" processContents="lax" />
+    </xsd:sequence>
+    <xsd:attribute name="dialect" type="xsd:anyURI" />
+  </xsd:complexType>
+
+  <xsd:element name="QueryExpression" type="wsrp:QueryExpressionType" />
+
+</xsd:schema> 

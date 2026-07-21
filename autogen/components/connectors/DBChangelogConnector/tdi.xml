@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.RDBMSChangelog">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DBChangelogConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="connectorFlags">{ignoreFieldErrors}</parameter>
+				<parameter name="jdbcCommit">After every database operation</parameter>
+				<parameter name="jdbcDriver">com.ibm.db2.jcc.DB2Driver</parameter>
+				<parameter name="jdbcExposeNullValues">true</parameter>
+				<parameter name="removeProcessed">false</parameter>
+				<parameter name="startAt">1</parameter>
+				<parameter name="stateKeyPersistence">End of cycle</parameter>
+			</Configuration>
+			<Reconnect>
+				<ReconnectRules>
+					<Rule>
+						<parameter name="exceptionClass">javax.naming.ServiceUnavailableException</parameter>
+						<parameter name="action">reconnect</parameter>
+					</Rule>
+				</ReconnectRules>
+			</Reconnect>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DBChangelogConnector">
+			<TranslationFile>NLS/idi_conn_dbchangelog</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>jdbcSource</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>jdbcLogin</ListItem>
+					<ListItem>jdbcPassword</ListItem>
+					<ListItem>jdbcSchema</ListItem>
+					<ListItem>jdbcTable</ListItem>
+					<ListItem>iteratorStateKey</ListItem>
+					<ListItem>startAt</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>stateKeyPersistence</ListItem>
+					<ListItem>pollInterval</ListItem>
+					<ListItem>maximumWaitTime</ListItem>
+					<ListItem>removeProcessed</ListItem>
+					<ListItem>jdbcCommit</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>jdbcSource</ListItem>
+				<ListItem>jdbcLogin</ListItem>
+				<ListItem>jdbcPassword</ListItem>
+				<ListItem>jdbcSchema</ListItem>
+				<ListItem>jdbcDriver</ListItem>
+				<ListItem>jdbcTable</ListItem>
+				<ListItem>removeProcessed</ListItem>
+				<ListItem>iteratorStateKey</ListItem>
+				<ListItem>stateKeyPersistence</ListItem>
+				<ListItem>startAt</ListItem>
+				<ListItem>pollInterval</ListItem>
+				<ListItem>maximumWaitTime</ListItem>
+				<ListItem>jdbcCommit</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="iteratorStateKey">
+				<parameter name="description">posk_desc</parameter>
+				<parameter name="label">posk_label</parameter>
+				<parameter name="script">deleteIteratorStateKey</parameter>
+				<parameter name="scriptLabel">posk_BTN_LBL</parameter>
+				<parameter name="scripthelp">posk_BTN_HLP</parameter>
+			</FormItem>
+			<FormItem name="jdbcCommit">
+				<Values>
+					<ListItem>After every database operation</ListItem>
+					<ListItem>On Connector close</ListItem>
+					<ListItem>Manual</ListItem>
+					<ListItem>End of cycle</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After every database operation</Key>
+						<Value>Localized.After.every.database.operation</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+					<Item>
+						<Key>On Connector close</Key>
+						<Value>Localized.On.Connector.close</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">commit_desc</parameter>
+				<parameter name="label">commit_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">driver_desc</parameter>
+				<parameter name="label">driver_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcLogin">
+				<parameter name="description">login_desc</parameter>
+				<parameter name="label">login_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="jdbcSchema">
+				<parameter name="description">schema_desc</parameter>
+				<parameter name="label">schema_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcSource">
+				<parameter name="description">source_desc</parameter>
+				<parameter name="label">source_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="jdbcTable">
+				<parameter name="description">table_desc</parameter>
+				<parameter name="label">table_label</parameter>
+				<parameter name="script">selectJDBCTable</parameter>
+				<parameter name="scriptLabel">table_script_label</parameter>
+				<parameter name="scripthelp">table_script_help</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="maximumWaitTime">
+				<parameter name="description">maxw_desc</parameter>
+				<parameter name="label">maxw_label</parameter>
+			</FormItem>
+			<FormItem name="pollInterval">
+				<parameter name="description">poll_desc</parameter>
+				<parameter name="label">poll_label</parameter>
+			</FormItem>
+			<FormItem name="removeProcessed">
+				<parameter name="description">removep_desc</parameter>
+				<parameter name="label">removep_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="startAt">
+				<Values>
+					<ListItem>1</ListItem>
+					<ListItem>EOD</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>EOD</Key>
+						<Value>Localized.EOD</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">startat_desc</parameter>
+				<parameter name="label">startat_label</parameter>
+				<parameter name="script">getNumberOfRecords</parameter>
+				<parameter name="scriptLabel">CNUMBER_BTN_LBL</parameter>
+				<parameter name="scripthelp">CNUMBER_BTN_HLP</parameter>
+				<parameter name="syntax">DROPEDIT</parameter>
+			</FormItem>
+			<FormItem name="stateKeyPersistence">
+				<Values>
+					<ListItem>After read</ListItem>
+					<ListItem>End of cycle</ListItem>
+					<ListItem>Manual</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After read</Key>
+						<Value>Localized.After.read</Value>
+					</Item>
+					<Item>
+						<Key>End of cycle</Key>
+						<Value>Localized.End.of.cycle</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">STATE_KEY_PERSIST_DESC</parameter>
+				<parameter name="label">STATE_KEY_PERSIST_LBL</parameter>
+				<parameter name="syntax">DROPLIST</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+	function getNumberOfRecords(){
+	var driver = form.getConfigValue("jdbcDriver");
+	var table =  form.getConfigValue("jdbcTable");
+	var pass =  form.getConfigValue("jdbcPassword");
+	var login =  form.getConfigValue("jdbcLogin");
+	var source =  form.getConfigValue("jdbcSource");
+	var schema =  form.getConfigValue("jdbcSchema");
+	if(schema!=null&&schema.trim().length()!=0) table = schema + "." + table;
+	java.lang.Class.forName(driver.trim());
+	var con = java.sql.DriverManager.getConnection(source, login ,pass);
+	form.alert("1 .. " + com.ibm.di.connector.DBChangelogConnector.getNumberOfRecords(table,con));
+
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

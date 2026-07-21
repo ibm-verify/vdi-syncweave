@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:tpServerConfig xmlns:ns1="http://www.ibm.com/xmlns/prod/tdi/71/tp" ns1:version="1.0">
+    <ns1:encryptionConfig ns1:stash="idisrv.sth">
+        <ns1:keyStore>testserver.jks</ns1:keyStore>
+        <ns1:keyStoreType>jks</ns1:keyStoreType>
+        <ns1:keyAlias>server</ns1:keyAlias>
+        <ns1:transformation>RSA</ns1:transformation>
+    </ns1:encryptionConfig>
+    <ns1:persistenceConfig>
+        <ns1:enabled>true</ns1:enabled>
+        <ns1:location>tp_state</ns1:location>
+    </ns1:persistenceConfig>
+    <ns1:templateConfig>
+        <ns1:baseTemplate>etc/TouchpointTemplate.xml</ns1:baseTemplate>
+        <ns1:customTemplatesDir>templates</ns1:customTemplatesDir>
+    </ns1:templateConfig>
+    <ns1:nodeConfigs>
+        <ns1:tdiNodeConfig ns1:local="true" ns1:id="localNode">
+            <ns1:author>Author</ns1:author>
+            <ns1:summary>Summary</ns1:summary>
+            <ns1:title>Title</ns1:title>
+            <ns1:email>Email</ns1:email>
+            <ns1:host>Host</ns1:host>
+            <ns1:port>0</ns1:port>
+            <ns1:contact>Contact</ns1:contact>
+            <ns1:location>Location</ns1:location>
+            <ns1:organization>Organization</ns1:organization>
+            <ns1:providerHost>localhost</ns1:providerHost>
+            <ns1:providerPort>1029</ns1:providerPort>
+        </ns1:tdiNodeConfig>
+        <ns1:tdiNodeConfig ns1:local="false" ns1:id="remoteNode">
+            <ns1:author>Author</ns1:author>
+            <ns1:summary>Summary</ns1:summary>
+            <ns1:title>Title</ns1:title>
+            <ns1:email>Email</ns1:email>
+            <ns1:host>localhost</ns1:host>
+            <ns1:port>1099</ns1:port>
+            <ns1:contact>Contact</ns1:contact>
+            <ns1:location>Location</ns1:location>
+            <ns1:organization>Organization</ns1:organization>
+            <ns1:providerHost>localhost</ns1:providerHost>
+            <ns1:providerPort>1030</ns1:providerPort>
+        </ns1:tdiNodeConfig>
+    </ns1:nodeConfigs>
+</ns1:tpServerConfig>

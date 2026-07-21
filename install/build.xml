@@ -1,0 +1,433 @@
+<?xml version="1.0"?>
+
+<project name="itdi.install" default="main" basedir=".">
+
+<!--
+ To do:
+   - zip to sub-directory
+ -->
+
+    <!--
+      =========================================================================
+      Properties
+      =========================================================================
+    -->
+
+    <!-- Define the property file name. -->
+    <property name="propfile" value="${ant.project.name}-ant.properties" />
+
+    <!-- Import the project setup properties and macros -->
+    <import file="${basedir}/../rules_mk/project_setup.xml" />
+
+    <!-- Import the zip file macros. -->
+    <import file="${basedir}/../rules_mk/install_zip_rules.xml" />
+
+    <description>
+        Install build properties
+    </description>
+
+    <property name="install.build.path" location="${project.root.ship}/install" />
+    <property name="archive.root" location="${install.build.path}/ibm-svdi-10.0.0.6-"/>
+    <property name="jre.root" location="${project.adks_home}/ibm/jre"/>
+    <property name="install.bin" location="${project.root}/install/bin"/>
+    <property name="install.license" location="${project.root}/install/lib/license"/>
+    <property name="stage.dir" location="${install.build.path}/stage"/>
+    <property name="tmp.dir" location="${install.build.path}/tmp"/>
+
+    <description>
+    =========================================================================
+    Convert the name of the specified zip file to a tar.gz file.
+    =========================================================================
+    </description>
+    <macrodef name="convertZipNameToTgz">
+        <attribute name="zip"/>
+        <sequential>
+            <local name="before"/>
+            <property name="before" value="@{zip}"/>
+            <script language="javascript">
+                var before = project.getProperty("before");
+                project.setProperty("tgz.file", before.replace("\.zip", ".tar.gz"));
+            </script>
+        </sequential>
+    </macrodef>
+
+    <description>
+    =========================================================================
+    Convert the specified zip file to a tgz file.
+    =========================================================================
+    </description>
+    <macrodef name="stageAsTar">
+        <attribute name="file"/>
+        <attribute name="tofile"/>
+        <sequential>
+            <local name="tgz.file"/>
+
+            <delete dir="${tmp.dir}"/>
+            <mkdir dir="${tmp.dir}"/>
+            <convertZipNameToTgz zip="@{tofile}"/>
+
+            <unzip src="@{file}" dest="${tmp.dir}"/>
+            <tar destfile="${tgz.file}" basedir="${tmp.dir}" compression="gzip"
+                    longfile="posix"/>
+
+            <delete dir="${tmp.dir}"/>
+        </sequential>
+    </macrodef>
+
+    <description>
+    =========================================================================
+    Stage the specified file.
+    =========================================================================
+    </description>
+    <macrodef name="stageFile" xmlns:if="ant:if" xmlns:unless="ant:unless">
+        <!-- Name and location of the zip file being produced. -->
+        <attribute name="file"/>
+        <attribute name="tofile"/>
+        <attribute name="to.tar"/>
+        <sequential>
+            <local name="toTar"/>
+            <condition property="toTar">
+                <istrue  value="@{to.tar}"/>
+            </condition>
+
+            <stageAsTar file="@{file}" tofile="@{tofile}" if:set="toTar"/>
+            <copy file="@{file}" tofile="@{tofile}" unless:set="toTar"/>
+        </sequential>
+    </macrodef>
+
+    <!-- Stage the resources. -->
+    <macrodef name="stage">
+        <attribute name="is.unix"/>
+        <attribute name="java.file"/>
+        <attribute name="eclipse.file"/>
+        <attribute name="to.tar"/>
+
+        <sequential xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+            <!-- Set the conditions. -->
+            <local name="isCE"/>
+            <condition property="isCE">
+                <length string="@{eclipse.file}" trim="true" when="greater" length="0"/>
+            </condition>
+            <local name="isCEUNIX"/>
+            <condition property="isCEUNIX">
+                <and>
+                    <length string="@{eclipse.file}" trim="true" when="greater" length="0"/>
+                    <istrue value="@{is.unix}"/>
+                </and>
+            </condition>
+            <local name="isUNIX"/>
+            <condition property="isUNIX">
+                <istrue value="@{is.unix}"/>
+            </condition>
+
+            <!-- Create the destination directory. -->
+            <delete dir="${stage.dir}"/>
+            <mkdir dir="${stage.dir}"/>
+
+            <!-- Stage some of the files which need to be renamed. -->
+            <stageFile file="${project.root.img.zips_bundles}/TDI_ExamplesUNIX.zip"
+                        tofile="${stage.dir}/TDI_Examples.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_ExamplesUNIXIdentity.zip" 
+                        tofile="${stage.dir}/TDI_ExamplesIdentity.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
+
+            <copy file="${install.bin}/install.sh" 
+                        tofile="${stage.dir}/install_ce.sh" if:set="isCEUNIX"/>
+            <copy file="${install.bin}/install.sh" 
+                        tofile="${stage.dir}/install_server.sh" if:set="isUNIX"/>
+			<copy file="${install.bin}/applyUpdates.sh" 
+                        tofile="${stage.dir}/applyUpdates.sh" if:set="isUNIX"/>            
+            <!-- Stage the files which are specific to Windows. -->
+            <copy todir="${stage.dir}" unless:set="isUNIX">
+                <fileset dir="${project.root.img.zips_bundles}">
+                    <include name="TDI_Examples.zip"/>
+                    <include name="TDI_ExamplesIdentity.zip"/>
+                </fileset>
+            </copy>
+
+            <!-- Stage the files which are common to all platforms. -->
+            <copy todir="${stage.dir}">
+                <fileset dir="${project.root.export}">
+                    <include name="build.properties"/>
+                </fileset>
+                <fileset dir="${jre.root}">
+                    <include name="@{java.file}"/>
+                </fileset>
+            </copy>
+
+            <!-- Stage the archives which are common to all platforms. -->
+            <stageFile file="${project.root.img.zips_bundles}/CDMWebsite.zip" 
+                        tofile="${stage.dir}/CDMWebsite.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Base.zip" 
+                        tofile="${stage.dir}/TDI_Base.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Docs.zip" 
+                        tofile="${stage.dir}/TDI_Docs.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_Base.zip" 
+                        tofile="${stage.dir}/TDI_Plugins_Base.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Server.zip" 
+                        tofile="${stage.dir}/TDI_Server.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_ServerIdentity.zip" 
+                        tofile="${stage.dir}/TDI_ServerIdentity.zip" to.tar="@{to.tar}"/>
+            <stageFile file="${project.root.img.zips_bundles}/it_registry_dbscript.zip" 
+                        tofile="${stage.dir}/it_registry_dbscript.zip" to.tar="@{to.tar}"/>
+
+            <!-- Stage the license files. -->
+            <copy todir="${stage.dir}/license">
+                <fileset dir="${install.license}">
+                    <include name="LA_*"/>
+                    <include name="non_ibm_license"/>
+                    <include name="notices"/>
+                </fileset>
+            </copy>
+
+            <!-- Stage the NLS files. -->
+            <copy todir="${stage.dir}/NLS">
+                <fileset dir="${install.bin}/NLS">
+                    <include name="install_*.json"/>
+                </fileset>
+            </copy>
+
+            <!-- Stage the files which are common to all UNIX platforms. -->
+            <stageFile file="${project.root.img.zips_bundles}/TDI_BaseUNIX.zip" 
+                        tofile="${stage.dir}/TDI_BaseUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_BaseUNIX.zip" 
+                        tofile="${stage.dir}/TDI_Plugins_BaseUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
+            <stageFile file="${project.root.img.zips_bundles}/TDI_ServerUNIX.zip" 
+                        tofile="${stage.dir}/TDI_ServerUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
+
+            <!-- Stage the files which are common to all CE UNIX platforms. -->
+            <stageFile file="${project.root.img.zips_bundles}/TDI_CEUNIX.zip" 
+                        tofile="${stage.dir}/TDI_CEUNIX.zip" to.tar="@{to.tar}" if:set="isCEUNIX"/>
+
+            <!-- Stage the files which are common to all CE platforms. -->
+            <stageFile file="${project.root.img.zips_bundles}/@{eclipse.file}" 
+                        tofile="${stage.dir}/@{eclipse.file}" to.tar="@{to.tar}" if:set="isCE"/>
+        </sequential>
+    </macrodef>
+
+    <!-- Create the archive. -->
+    <macrodef name="create-archive">
+        <attribute name="platform"/>
+        <attribute name="is.tar"/>
+
+        <sequential xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+            <!-- Set the condition. -->
+            <local name="isTar"/>
+            <condition property="isTar">
+                <istrue value="@{is.tar}"/>
+            </condition>
+
+            <!-- Work out the name of the destination archive file. -->
+            <local name="destination"/>
+            <property name="destination" value="${archive.root}@{platform}.zip" unless:set="isTar"/>
+            <property name="destination" value="${archive.root}@{platform}.tgz" if:set="isTar"/>
+
+            <!-- Remove the archive file (if it currently exists). -->
+            <delete file="${destination}"/>
+
+            <!-- Create the tar file. -->
+            <tar destfile="${destination}" compression="gzip" if:set="isTar">
+                <tarfileset dir="${stage.dir}" prefix="@{platform}/">
+                    <include name="**"/>
+                    <exclude name="*.sh"/>
+                </tarfileset>
+                <tarfileset dir="${stage.dir}" filemode="755" prefix="@{platform}/">
+                    <include name="*.sh"/>
+                </tarfileset>
+            </tar>
+
+            <!-- Create the zip file. -->
+            <zip destfile="${destination}" unless:set="isTar">
+                <zipfileset dir="${stage.dir}" prefix="@{platform}/">
+                    <include name="**"/>
+                    <exclude name="*.sh"/>
+                </zipfileset>
+                <tarfileset dir="${stage.dir}" filemode="755" prefix="@{platform}/">
+                    <include name="*.sh"/>
+                </tarfileset>
+            </zip>
+        </sequential>
+    </macrodef>
+
+    <description>
+    =========================================================================
+    Target:  clean
+
+    Purpose:  Clean build tree.
+    =========================================================================
+    </description>
+    <target name="clean" description="Removes all files from build tree">
+        <delete dir="${install.build.path}"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  init
+
+    Purpose:  Initialises the install build.
+    =========================================================================
+    </description>
+
+    <target name="init">
+        <echo message="Install build" />
+        <echo message="  Project:  ${ant.project.name}" />
+        <echo message="   Script:  ${ant.file}" />
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-aix
+
+    Purpose:  Builds the AIX install file.
+    =========================================================================
+    </description>
+
+    <target name="build-aix">
+        <echo message="Building the AIX install file." />
+
+        <stage is.unix="true" java.file="ibm-semeru-certified-jre_ppc64_aix_*" 
+                    eclipse.file="" to.tar="true"/>
+
+        <!-- Stage any addition AIX files. -->
+        <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_aix_ppc.zip" 
+            tofile="${stage.dir}/TDI_Plugins_aix_ppc.zip" to.tar="true"/>
+        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerAixPPC.zip" 
+            tofile="${stage.dir}/TDI_ServerAixPPC.zip" to.tar="true"/>
+
+        <create-archive platform="aix-ppc64" is.tar="True"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-windows
+
+    Purpose:  Builds the Windows install file.
+    =========================================================================
+    </description>
+
+    <target name="build-windows">
+        <echo message="Building the windows install file." />
+
+        <stage is.unix="false" java.file="ibm-semeru-certified-jre_x64_windows_*" 
+                eclipse.file="eclipsece-win32.win32.x86_64.zip" to.tar="false"/>
+
+        <!-- Stage any addition Windows files. -->
+        <copy todir="${stage.dir}">
+            <fileset dir="${project.root.img.zips_bundles}">
+                <include name="TDI_Plugins_win_x86_64.zip"/>
+                <include name="*Win*.zip"/>
+            </fileset>
+        </copy>
+        <copy file="${install.bin}/install.vbs" 
+                        tofile="${stage.dir}/install_ce.vbs"/>
+        <copy file="${install.bin}/install.vbs" 
+                        tofile="${stage.dir}/install_server.vbs"/>
+		<copy file="${install.bin}/applyUpdates.vbs" 
+                        tofile="${stage.dir}/applyUpdates.vbs"/>
+        <copy file="${install.bin}/eclipsece.zip" 
+                        tofile="${stage.dir}/eclipsece.zip"/>                       
+		
+        <mkdir dir="${stage.dir}/bin"/>
+        <copy file="${install.bin}/unzip/ibm_vdi_unzip.exe"
+                        tofile="${stage.dir}/bin/ibm_vdi_unzip.exe"/>
+
+        <create-archive platform="win32-x86_64" is.tar="False"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-macosx-x86_64
+
+    Purpose:  Builds the MacOSX x86_64 install file.
+    =========================================================================
+    </description>
+
+    <target name="build-macosx-x86_64">
+        <echo message="Building the macosx x86_64 install file." />
+
+        <stage is.unix="true" java.file="ibm-semeru-certified-jre_x64_mac_*" 
+            eclipse.file="eclipsece-macosx.cocoa.x86_64.zip" to.tar="true"/>
+
+        <delete file="${stage.dir}/install_server.sh"/>
+
+        <create-archive platform="macosx-x86_64" is.tar="True"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-macosx-aarch64
+
+    Purpose:  Builds the MacOSX aarch64 install file.
+    =========================================================================
+    </description>
+
+    <target name="build-macosx-aarch64">
+        <echo message="Building the macosx aarch64 install file." />
+
+        <stage is.unix="true" java.file="ibm-semeru-certified-jre_aarch64_mac_*" 
+            eclipse.file="eclipsece-macosx.cocoa.aarch64.zip" to.tar="true"/>
+
+        <delete file="${stage.dir}/install_server.sh"/>
+
+        <create-archive platform="macosx-aarch64" is.tar="True"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-zlinux
+
+    Purpose:  Builds the zlinux install file.
+    =========================================================================
+    </description>
+
+    <target name="build-zlinux">
+        <echo message="Building the zlinux install file." />
+
+        <stage is.unix="true" java.file="ibm-semeru-certified-jre_s390x_linux_*" 
+                    eclipse.file="" to.tar="true"/>
+
+        <!-- Stage any addition zLinux files. -->
+        <stageFile file="${project.root.img.zips_bundles}/TDI_BaseI5OS.zip" 
+            tofile="${stage.dir}/TDI_BaseI5OS.zip" to.tar="true"/>
+        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerI5OS.zip" 
+            tofile="${stage.dir}/TDI_ServerI5OS.zip" to.tar="true"/>
+
+        <create-archive platform="linux-s390x" is.tar="True"/>
+    </target>
+
+    <description>
+    =========================================================================
+    Target:  build-xlinux
+
+    Purpose:  Builds the xlinux install file.
+    =========================================================================
+    </description>
+
+    <target name="build-xlinux">
+        <echo message="Building the xlinux install file." />
+
+        <stage is.unix="true" java.file="ibm-semeru-certified-jre_x64_linux_*" 
+                eclipse.file="eclipsece-linux.gtk.x86_64.zip" to.tar="true"/>
+
+        <!-- Stage any addition xLinux files. -->
+        <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_linux_x86_64.zip" 
+            tofile="${stage.dir}/TDI_Plugins_linux_x86_64.zip" to.tar="true"/>
+        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerLinuxX86_64.zip" 
+            tofile="${stage.dir}/TDI_ServerLinuxX86_64.zip" to.tar="true"/>
+
+        <create-archive platform="linux-x86_64" is.tar="True"/>
+    </target>
+
+    <!--
+      =========================================================================
+      Target:  main
+      Purpose:  Runs the install build processing.
+      =========================================================================
+    -->
+
+    <target name="main" description="Perform the default build action." depends="init,build-aix,build-windows,build-macosx-x86_64,build-macosx-aarch64,build-zlinux,build-xlinux">
+        <echo message="Build location: ${install.build.path}" />
+    </target>
+
+</project>

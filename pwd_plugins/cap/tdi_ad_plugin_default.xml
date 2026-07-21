@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright IBM Corp. 2009 All Rights Reserved -->
+<subagents xmlns="http://www.tivoli.ibm.com/itm/kwgcap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tivoli.ibm.com/itm/kwgcap kwgcap.xsd">
+    <!-- DO NOT EDIT THIS PORTION OF THE CAP FILE -->
+    <subagent id="IBMTDIADW">
+      <agentName>Security Verify Directory Integrator - Password Integrator Java Proxy Component for Active Directory</agentName>
+        <process>
+            <procName>java.exe</procName>
+            <commandLine regex="true">(windows)\\.*.props.*-Xrs.*</commandLine>
+        </process>
+      <agentType>Console</agentType>
+	  <agentPath><TDI_INSTALL_DIR>\jvm\jre\bin\java.exe</agentPath>
+    <platform xsi:type="PlatformWindows"/>
+    <!--END-->
+      <checkFrequency>1800</checkFrequency>
+      <managerType>NotManaged</managerType>
+      <maxRestarts>1</maxRestarts>
+      <startScript>
+        <command><TDI_INSTALL_DIR>\pwd_plugins\bin\startProxy.bat <TDI_INSTALL_DIR>\pwd_plugins\windows\pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </startScript>
+      <stopScript>
+        <command><TDI_INSTALL_DIR>\pwd_plugins\bin\stopProxy.bat <TDI_INSTALL_DIR>\pwd_plugins\windows\pwsync.props</command>
+        <returnCodeList>
+          <returnCode type="OK">0</returnCode>
+        </returnCodeList>
+      </stopScript>
+    </subagent>
+</subagents>

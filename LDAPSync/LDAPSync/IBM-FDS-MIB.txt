@@ -1,0 +1,186 @@
+IBM-FDS-MIB DEFINITIONS ::= BEGIN
+
+
+   IMPORTS
+      MODULE-IDENTITY, OBJECT-TYPE,
+      enterprises, NOTIFICATION-TYPE
+          FROM SNMPv2-SMI               -- RFC2578
+
+      MODULE-COMPLIANCE, OBJECT-GROUP,
+      NOTIFICATION-GROUP
+          FROM SNMPv2-CONF              -- RFC2580
+
+      InetAddressType, InetAddress
+          FROM INET-ADDRESS-MIB         -- RFC3291
+
+      SnmpAdminString
+          FROM SNMP-FRAMEWORK-MIB;      -- RFC3411
+
+ibmFDSMIB MODULE-IDENTITY
+      LAST-UPDATED "201404140000Z"
+      ORGANIZATION "International Business Machines Corp."
+      CONTACT-INFO
+          "Add here the group or IBM employee contact for MIB"
+      DESCRIPTION
+          "Add description here.
+
+           Copyright goes here. "
+      REVISION     "201404140000Z"
+      DESCRIPTION
+          "Initial version of the MIB."
+      ::= { ibmProd 250 }
+
+ibm              OBJECT IDENTIFIER ::= { enterprises 2 }
+ibmProd          OBJECT IDENTIFIER ::= { ibm 6 }
+
+-- Top-level structure of the MIB
+
+   ibmFDSNotifications OBJECT IDENTIFIER ::= { ibmFDSMIB 0 }
+   ibmFDSObjects           OBJECT IDENTIFIER ::= { ibmFDSMIB 1 }
+   ibmFDSConformance       OBJECT IDENTIFIER ::= { ibmFDSMIB 2 }
+
+
+-- Objects
+
+ibmFDSFlowErrorlevel    OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The severity of error in Federated Directory Server flow.
+         "
+      ::= { ibmFDSObjects 1 }
+
+ibmFDSFlowErrorMessage  OBJECT-TYPE
+      SYNTAX OCTET STRING (SIZE(0..1000))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The description of error in Federated Directory Server flow.
+         "
+      ::= { ibmFDSObjects 2 }
+
+ibmFDSFlowName          OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The name of the Federated Directory Server flow.
+         "
+      ::= { ibmFDSObjects 3 }
+
+ibmFDSFlowAsmLineName   OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The name of the Assembly Line running.
+         "
+      ::= { ibmFDSObjects 4 }
+
+ibmFDSFlowRunType       OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The synchronization type running in Federated Directory
+          Server.
+         "
+      ::= { ibmFDSObjects 5 }
+
+ibmFDSProductName       OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The full name of the product.
+         "
+      ::= { ibmFDSObjects 6 }
+
+ibmFDSProductVersion    OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..99))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The version of the Federated Directory Server.
+         "
+      ::= { ibmFDSObjects 7 }
+
+ibmFDSHostAddr          OBJECT-TYPE
+      SYNTAX  SnmpAdminString (SIZE (0..255))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+         "The ipv4, ipv6 or dns hostname of the machine running Federated
+          Directory Server.
+         "
+      ::= { ibmFDSObjects 8 }
+
+
+-- Notifications
+
+ibmFDSFlowError                  NOTIFICATION-TYPE
+     OBJECTS {
+         ibmFDSFlowErrorlevel,
+         ibmFDSFlowErrorMessage,
+         ibmFDSFlowName,
+         ibmFDSFlowAsmLineName,
+         ibmFDSFlowRunType,
+         ibmFDSProductName,
+         ibmFDSProductVersion,
+         ibmFDSHostAddr
+     }
+     STATUS  current
+     DESCRIPTION
+        "This notification indicates errors in Federated Directory
+         Server flows.
+        "
+     ::= { ibmFDSNotifications 1 }
+
+
+-- Compliance statements
+
+ibmFDSCompliances OBJECT IDENTIFIER ::= { ibmFDSConformance 1 }
+ibmFDSGroups      OBJECT IDENTIFIER ::= { ibmFDSConformance 2 }
+
+ibmFDSCompliance MODULE-COMPLIANCE
+      STATUS  current
+      DESCRIPTION
+              "The compliance statement for the IBM-FDS-MIB."
+      MODULE  -- this module
+        MANDATORY-GROUPS {
+                           ibmFDSRequiredObjectsGroup,
+                           ibmFDSRequiredNotificationsGroup
+                         }
+      ::= { ibmFDSCompliances 1 }
+
+-- MIB groupings
+
+ibmFDSRequiredObjectsGroup OBJECT-GROUP
+     OBJECTS {
+               ibmFDSFlowErrorlevel,
+               ibmFDSFlowErrorMessage,
+               ibmFDSFlowName,
+               ibmFDSFlowAsmLineName,
+               ibmFDSFlowRunType,
+               ibmFDSProductName,
+               ibmFDSProductVersion,
+               ibmFDSHostAddr
+              }
+    STATUS current
+    DESCRIPTION
+        "This group defines those MIB objects that MUST
+         be implemented by a compliant implementation."
+    ::= { ibmFDSGroups 1 }
+
+ibmFDSRequiredNotificationsGroup NOTIFICATION-GROUP
+     NOTIFICATIONS{
+               ibmFDSFlowError
+              }
+    STATUS current
+    DESCRIPTION
+        "This group defines those notifications that MUST
+         be implemented by a compliant implementation."
+    ::= { ibmFDSGroups 2 }
+
+END

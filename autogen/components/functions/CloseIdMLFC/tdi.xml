@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Mon Sep 21 12:00:00 SGT 2009" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.CloseIdMLFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.idml.CloseIdMLFC</parameter>
+				<parameter name="bookName"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$idmlBook</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$idmlBookName</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.idml.CloseIdMLFC">
+			<TranslationFile>NLS/idi_fc_closeidmlfc</TranslationFile>
+			<parameter name="title">CLOSE_IDML_FC_TITLE</parameter>
+			<parameter name="description">FUNCTION_DESC</parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>bookName</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>bookName</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="bookName">
+				<parameter name="description">CLOSE_IDML_FC_BOOK_DESC</parameter>
+				<parameter name="label">CLOSE_IDML_FC_BOOK_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

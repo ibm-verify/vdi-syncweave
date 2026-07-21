@@ -1,0 +1,97 @@
+<div class="dijitReset">
+	<div data-dojo-attach-point="ContentPane" class="dijitReset" data-dojo-type="dijit/layout/ContentPane" style="xborder-radius:8px; border-width:1px; border-style:solid; border-color:lightgray; padding:0px; margin: 0 0 10px 0; xbox-shadow: 5px 5px 2px #eeeeee;">
+	
+    		<table style="width:100%; height:100%; background-color:#fafafa; padding-left:5px" data-dojo-attach-point="Table">
+			<tr>
+				<td style="padding-bottom:15px" colspan="5">
+					<div data-dojo-type="dijit/Toolbar" data-dojo-attach-event="onClick:_onViewLogs,onMouseEnter:_toggleTools,onMouseLeave:_toggleTools">
+						<div data-dojo-type="tdi/ToolbarLabel" data-dojo-attach-point="_statusIcon" style="width:16px" label=""></div>
+						<div data-dojo-type="idx/form/DropDownLink" placement="secondary" data-dojo-attach-point="flowLabel" label="">
+							<div data-dojo-type="dijit/Menu">
+							<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_onEditFlow">${nls.WebCE_edit}</div>
+							<div data-dojo-type="dijit/MenuItem" data-dojo-attach-point="startButton" data-dojo-attach-event="onClick:_runWithOptions">${nls.FDS_runSync}</div>
+							<div data-dojo-type="dijit/MenuItem" data-dojo-attach-point="stopFlow" data-dojo-attach-event="onClick:_onStopFlow">${nls.FDS_terminate}</div>
+							<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_onViewLogs">${nls.FDS_viewLogs}</div>
+							<div data-dojo-type="dijit/MenuItem" data-dojo-attach-event="onClick:_onDeleteFlow">${nls.FDS_deleteFlow}</div>
+							</div>
+						</div>
+						<div data-dojo-type="tdi/ToolbarLabel" data-dojo-attach-point="_pendingIcon" style="display:none; width:16px" label=""></div>
+						<span style="float:right">
+							<span class="dijitInline dijitTabCloseButton dijitTabCloseIcon" data-dojo-attach-point='closeNode'
+	  							role="presentation" data-dojo-attach-event="onmouseover:_toggleClose, onmouseout:_toggleClose,onclick:_onDeleteFlow">
+						</span></span>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td width="20%">
+					<span data-dojo-attach-point="source"></span>
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" width="20%" id="${id}Hdr1">
+					${nls.FDS_users}
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" width="20%" id="${id}Hdr2">
+					${nls.FDS_groups}
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" width="20%" id="${id}Hdr3">
+					${nls.FDS_lastActivity}
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" width="20%" id="${id}Hdr4">
+					${nls.FDS_totalUsersGroups}
+				</td>
+			</tr>
+		
+			<tr>
+				<td>
+					<span class="tdiScheduleImage" data-dojo-attach-point="scheduleIcon" >
+						<span style="margin-left:20px" ></span>
+					</span>
+					<div data-dojo-type="idx/form/Link" data-dojo-attach-point="schedule" data-dojo-attach-event="onClick:editSchedule"></div>
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" aria-labelledby="${id}Hdr1">
+					<span data-dojo-attach-point="statUsers"></span>
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" aria-labelledby="${id}Hdr2">
+					<span data-dojo-attach-point="statGroups"></span>
+				</td>
+				<td tabindex="-1">
+					<span role="presentation" wairole="presentation" aria-labelledby="${id}Hdr3" data-dojo-attach-point="statDate"></span>
+					<span wai-role="button" role="button" data-dojo-attach-event="onclick:showErrorLog" data-dojo-attach-point="_flowErrorImg" style="color:red; cursor:pointer; display:none">
+						<br>${nls.general_error_label}</span>					
+				</td>
+				<td tabindex="-1" role="presentation" wairole="presentation" aria-labelledby="${id}Hdr4">
+					<span data-dojo-attach-point="statTotal"></span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td colspan="4">
+					<div data-dojo-attach-point="status">
+					</div>
+				</td>
+			</tr>
+			
+		</table>
+		
+ 		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="testrun" style="height:0; margin:0; padding:0">
+ 		
+			<div data-dojo-type="dijit/layout/ContentPane" region="north" toggleable="false">
+					${nls.FDS_selectLogSet}
+					<div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="logsetButton">
+						<div data-dojo-type="dijit/Menu" data-dojo-attach-point="logsetMenu"></div>
+					</div>
+			</div>
+				
+			<div data-dojo-type="dijit/layout/TabContainer" region="center" nested="true" toggleable=false data-dojo-attach-point="tabContainer" style="height:90%"
+				controllerWidget="idx.layout.MenuTabController">
+				
+				<div data-dojo-type="dijit/layout/ContentPane" title="${nls.FDS_summary}">
+					<div tabindex="-1" role="presentation" wairole="presentation" data-dojo-attach-point="flowSummary" style="overflow:scroll;"></div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</div>

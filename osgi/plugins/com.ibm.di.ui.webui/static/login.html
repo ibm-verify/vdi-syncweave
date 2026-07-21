@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html style="width: 100%; height: 100%; margin: 0; padding: 0">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Federated Directory Server</title>
+
+	<script type="text/javascript" src="djconfig.js"></script>
+	<script type="text/javascript" src="dojo/dojo.js"></script>
+
+	<style>
+		@import "tdi/styles.css";
+	</style>
+
+	<script type="text/javascript">
+	var modules = [
+	    "dojo/parser",
+       	"dojo/_base/declare",
+       	"dojo/domReady!",	               	
+   		"dojo/i18n",
+       	"idx/ext",
+       	"idx/app/A11yPrologue",
+       	"idx/app/AppFrame",
+       	"idx/app/AppMarquee",
+       	"idx/string",
+       	"idx/resources",
+       	"idx/bus",
+       	"idx/app/Workspace",
+       	"idx/app/_A11yAreaProvider",
+       	"idx/app/_Launcher",
+       	"idx/app/LoginFrame",
+       	"idx/a11y",
+       	"idx/app/WorkspaceType",
+       	"idx/app/TabMenuLauncher",
+       	"idx/form/Link",
+       	"idx/layout/HeaderPane",
+       	"idx/layout/BorderContainer",
+       	"idx/layout/ButtonBar",
+       	"dijit/form/Button",
+		"dijit/form/DropDownButton",
+       	"dijit/Menu",
+       	"dijit/Tree",
+       	"dijit/Toolbar",
+       	"login/LDSLogin",
+       	"dijit/layout/TabContainer"
+	];
+	require(["tdi/Main"], function(main) {
+		require(modules);
+	});
+
+	
+	require(["tdi/NlsMixin", "dojo/domReady!"], function(nlsmixin) {
+		var nls = new nlsmixin({});
+		dojo.byId("helpLink").innerHTML = nls.getString("FDS_help");
+	});
+	</script>
+	
+	<script type="text/javascript">
+	function gotoHelp() {
+		window.open("https://www.ibm.com/docs/en/svdi/10.0.0?topic=server-federated-directory", "_FDS_HELP");
+	}
+	</script>
+
+</head>
+
+<body style="width: 100%; height: 100%; margin: 0; padding: 0;" class="dijit_a11y oneui">
+
+	<div dojoType="idx.app.A11yPrologue"></div>
+	
+	<div data-dojo-type="idx.app.AppFrame" style="width: 100%; height: 100%; margin: 0; padding: 0">
+
+		<div data-dojo-type="idx.app.AppMarquee" region="marquee"
+		       appName="Federated Directory Server"
+		       appLogo="images/ibm-logo-white.gif"
+		       vendorName="IBM &#0174;"
+		       vendorLogo="images/ibm-logo-white.gif">
+		       
+			<span data-dojo-type="idx.form.Link" id="helpLink" onclick="gotoHelp()">Help</span>
+		       
+		</div>
+		
+		<div data-dojo-type="dijit.layout.BorderContainer" style="margin:0; padding:0; width:100%; height:100%">
+			<div data-dojo-type="dijit.layout.ContentPane" style="margin:0; padding:0; width:100%; height:100%" region="center">
+				<div style="overflow:hidden; width: 100%; height: 100%;">
+					<div data-dojo-type="login/LDSLogin"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

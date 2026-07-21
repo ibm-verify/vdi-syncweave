@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.0">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DummyConnector">
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DummyConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="totalIterations">10</parameter>
+				<parameter name="totalAttributes">5</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DummyConnector">
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>totalIterations</ListItem>
+					<ListItem>totalAttributes</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>totalIterations</ListItem>
+				<ListItem>totalAttributes</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="totalIterations">
+				<parameter name="description">Number of iterations that the connector will make</parameter>
+				<parameter name="label">Total Iterations</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="totalAttributes">
+				<parameter name="description">Number of attributes that the returned Entry will contain</parameter>
+				<parameter name="label">Total Attributes</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">Dummy Connector</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

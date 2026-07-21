@@ -1,0 +1,110 @@
+<div style="width:100%; height:100%; margin:0; padding:0;">
+	
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="Form" action="" style="overflow-y:scroll">
+	
+		<table style="width:80%;">
+		
+			<tr>
+				<td style="padding-top:8px">
+					<div label="${nls.FDS_enabled}" data-dojo-type="idx/form/CheckBox" data-dojo-attach-event="onChange:onEnabled" data-dojo-attach-point="joinEnabled"></div>
+				</td>
+			</tr>
+		
+			<tr><td style="padding-top:8px">${nls.FDS_selectEndpoint}:</td></tr>
+			<tr>
+				<td>
+					<div data-dojo-type="idx/form/Select" data-dojo-attach-event="onChange:onSelectEndpoint" data-dojo-attach-point="joinEndpoint"></div>
+				</td>
+			</tr>
+			
+			<tr><td style="padding-top:8px">${nls.FDS_onJoinFailure}:</td></tr>
+			<tr>
+				<td>
+					 <div data-dojo-type="dijit/form/Select" data-dojo-attach-event="onChange:onFormChanged" name="join_failure">
+						<option value="ignore" selected>${nls.FDS_onJoinFailureOpt1}</option>
+						<option value="skip">${nls.FDS_onJoinFailureOpt2}</option>
+						<option value="abort">${nls.FDS_onJoinFailureOpt3}</option>
+					</div>
+				</td>
+			</tr>
+			
+			<tr>							
+				<td style="padding-top:8px">
+					<div>${nls.FDS_joinLinkDesc}</div>
+				</td>
+			</tr>
+			
+			<tr>							
+				<td style="padding-top:8px">
+					<div label="${nls.FDS_joinScripted}" data-dojo-type="idx/form/CheckBox" data-dojo-attach-event="onChange:toggleLink" data-dojo-attach-point="customScript"></div>
+				</td>
+			</tr>
+			
+			<tr>							
+				<td style="padding-top:8px;">
+					<div data-dojo-attach-point="customFilter" style="display:none">
+						<div data-dojo-type="dijit/form/Textarea" required="true" 
+							data-dojo-attach-event="onChange:onFormChanged" placeholder="return <searchfilter>;" name="join_search_filter"></div>
+					</div>
+					<div data-dojo-attach-point="filter">
+						<table>
+							<tr>
+								<td width="30%">${nls.LinkCriteriaUI_0_label}</td>
+								<td width="20%">${nls.LinkCriteriaUI_1_label}</td>
+								<td width="50%">${nls.LinkCriteriaUI_2_label}</td>
+							</tr>
+							<tr>
+								<td>
+									<div xlabel="${nls.LinkCriteriaUI_0_label}" title="${nls.LinkCriteriaUI_0_label}" data-dojo-type="idx/form/ComboBox" data-dojo-attach-point="_joinSearchAttrs" data-dojo-attach-event="onChange:onFormChanged" required="true" style="width:100%" name="join_search_attribute"></div>
+								</td>
+								<td>
+									<div xlabel="${nls.LinkCriteriaUI_1_label}" title="${nls.LinkCriteriaUI_1_label}" data-dojo-type="dijit/form/Select" data-dojo-attach-event="onChange:onFormChanged" style="width:100%" name="join_search_operator">
+										<option value="equals">=</option>
+										<option value="lessThan">&lt;</option>
+										<option value="lessThanOrEqual">&lt;=</option>
+										<option value="greaterThan">&gt;</option>
+										<option value="greaterThanOrEqual">&gt;=</option>
+										<option value="subStringSearch">${nls.LinkCriteriaLabelProvider_Oper_1}</option>
+										<option value="startsWith">${nls.LinkCriteriaLabelProvider_Oper_2}</option>
+										<option value="endsWith">${nls.LinkCriteriaLabelProvider_Oper_3}</option>
+										<option value="notEquals">!=</option>
+									</div>
+								</td>
+								<td>
+									<div xlabel="${nls.LinkCriteriaUI_2_label}" title="${nls.LinkCriteriaUI_2_label}" data-dojo-type="idx/form/ComboBox" data-dojo-attach-point="_joinSearchValue" data-dojo-attach-event="onChange:onFormChanged" required="true" style="width:100%" name="join_search_value"></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td style="padding-top:8px">
+					${nls.WebCE_attributeMap}
+				</td>
+			</tr>
+			<tr><td>
+				<div data-dojo-type="tdi/ldapsync/LDSMap2" hidefilebuttons=true showSaveButton=false style="height:400px" data-dojo-attach-point="_attrmap"></div>
+			</td></tr>
+		</table>
+
+		<div data-dojo-type="dijit/TitlePane" open=false style="width:100%; margin-top:15px" title="${nls.FDS_joinCustAL}">
+			<table style="width:60%">
+				<tr><td style="padding-top:8px">${nls.FDS_personObjects}</td></tr>
+				<tr><td><div data-dojo-type="dijit/form/TextBox" 
+					data-dojo-attach-event="onChange:onFormChanged" style="width:100%" name="join_person_AL" placeholder="config:/AssemblyLines/ALName"></div></td></tr>
+
+				<tr><td style="padding-top:8px">${nls.FDS_groupObjects}</td></tr>
+				<tr><td><div data-dojo-type="dijit/form/TextBox" 
+					data-dojo-attach-event="onChange:onFormChanged" style="width:100%" name="join_group_AL" placeholder="config:/AssemblyLines/ALName"></div></td></tr>
+
+				<tr><td style="padding-top:8px">${nls.FDS_containerObjects}</td></tr>
+				<tr><td><div data-dojo-type="dijit/form/TextBox" 
+					data-dojo-attach-event="onChange:onFormChanged" style="width:100%" name="join_container_AL" placeholder="config:/AssemblyLines/ALName"></div></td></tr>
+			</table>
+		</div>			
+
+	</div>
+		
+</div>

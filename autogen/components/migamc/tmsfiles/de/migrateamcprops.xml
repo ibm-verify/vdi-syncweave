@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="migrateamcprops" tmsVersion="1.0" xml:lang="de">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDKM301I" prefix="yes">
+   <MsgText pgmKey="COMMAND.START.MIGRATION" varFormat="Java">
+   Migration der Datei wird gestartet...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM302I" prefix="yes">
+   <MsgText pgmKey="COMMAND.PARSING.OPTIONS" varFormat="Java">
+   Parsing der Optionen läuft...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM303E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+   Die Option <Variable formatSpec="{0}">operator_parameter</Variable> war mehrmals vorhanden.
+   </MsgText>
+   <Explanation> <p>
+   Beim Aufrufen des Befehls 'tdimigamc' wurde derselbe Parameter mehrmals angegeben.
+   Optionen können jeweils nur einmal übergeben werden. So wurde z. B. die Option
+&apos;-b&apos; möglicherweise zweimal übergeben; dies ist nicht zulässig.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Übergeben Sie jede Option nur einmal.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM304E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+   Für die Option <Variable formatSpec="{0}">name_der_option</Variable> wurde kein Wert angegeben.
+   </MsgText>
+   <Explanation> <p>
+   Beim Aufrufen des Befehls 'tdimigamc' wurde eine Option übergeben, für die kein Wert angegeben wurde.
+   Ein Wert ist erforderlich.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Lesen Sie die Syntaxbeschreibung des Befehls 'tdimigamc' und rufen Sie den Befehl
+'tdimigamc' mit der korrekten Option und dem zugehörigen Wert erneut auf.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM305E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+   Fehler bei der Verwendung des Befehls.
+   </MsgText>
+   <Explanation> <p>
+   Beim Aufrufen des Befehls 'tdimigamc' wurden nicht unterstützte Befehlszeilenoptionen angegeben,
+oder es wurde ein unerwartetes Ende der Argumentliste festgestellt,
+oder die Befehlszeilenoption wurden mit einer falschen Syntax angegeben. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Lesen Sie die Syntaxbeschreibung des Befehls 'tdimigamc', und rufen Sie den Befehl
+'tdimigamc' mit gültigen Argumenten auf.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM306E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+   Unbekannte Option <Variable formatSpec="{0}">operator_parameter</Variable> festgestellt.
+   </MsgText>
+   <Explanation> <p>
+   Beim Aufrufen des Befehls 'tdimigamc' wurde ein unbekannte Option angegeben. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Lesen Sie die Syntaxbeschreibung des Befehls 'tdimigamc', und
+geben Sie beim Aufrufen des Befehls nur zulässige Optionen an.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM307E" prefix="yes">
+   <MsgText pgmKey="FILE_OPTION_ABSENT" varFormat="Java">
+   Die Option <Variable formatSpec="{0}">operator_parameter</Variable> wurde nicht angegeben.
+   Hierbei handelt es sich um eine verbindliche Option.
+   </MsgText>
+   <Explanation> <p>
+   Beim Aufrufen des Befehls 'tdimigamc' wurde die Option -op nicht angegeben. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Lesen Sie die Syntaxbeschreibung des Befehls 'tdimigamc', und
+geben Sie beim Aufrufen des Befehls die verbindlichen Optionen korrekt an.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM308I" prefix="yes">
+   <MsgText pgmKey="COMMAND.GENERAL.OPTIONS" varFormat="Java">
+   Syntaktisch analysierte Optionen: <Variable formatSpec="{0}">optionen</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM309E" prefix="yes">
+   <MsgText pgmKey="ERROR_WHILE_INITIALIZING_MIGRATION" varFormat="Java">
+   Beim Lesen der XML-Eigenschaftendatei trat ein Fehler <Variable formatSpec="{0}">fehler</Variable> auf.
+   </MsgText>
+   <Explanation> <p>
+   Beim Laden der XML-Eigenschaftendatei trat ein Fehler auf.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Weitere Informationen hierzu finden Sie in den Protokollen. Stellen Sie sicher, dass sich die Datei 'migamc.jar' im Klassenpfad befindet.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM310E" prefix="yes">
+   <MsgText pgmKey="FILE_NOREAD_NOEXIST" varFormat="Java">
+   Die Migration der Datei <Variable formatSpec="{0}">dateiname</Variable> konnte nicht durchgeführt werden. Die Datei ist nicht vorhanden oder kann nicht gelesen werden.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da die zu migrierende Datei nicht vorhanden ist oder nicht gelesen werden konnte.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Stellen Sie sicher, dass die für die Migration angegebene Datei vorhanden ist und
+dass Lese- und Schreibzugriff auf diese Datei besteht.  Vergewissern Sie sich darüber hinaus, dass Sie über Leseberechtigung
+für die Speicherposition der Sicherungsdatei verfügen.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM311E" prefix="yes">
+   <MsgText pgmKey="NOT_A_FILE" varFormat="Java">
+   Die Migration der Datei <Variable formatSpec="{0}">dateiname</Variable> konnte nicht durchgeführt werden. Bei der Angabe handelt es sich nicht um eine Datei.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da es sich bei dem für die Migration angegebenen Element
+nicht um eine Datei handelt.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Stellen Sie sicher, dass die für die Migration angegebene Datei vorhanden ist und
+dass Lese- und Schreibzugriff auf diese Datei besteht. Vergewissern Sie sich darüber hinaus, dass Sie über Leseberechtigung
+für die Speicherposition der Sicherungsdatei verfügen.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM312E" prefix="yes">
+   <MsgText pgmKey="FILE_NOWRITE" varFormat="Java">
+   Die Migration der Datei <Variable formatSpec="{0}">dateiname</Variable> konnte nicht durchgeführt werden. In die angegebene Datei kann nicht geschrieben werden.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da in die Datei nicht geschrieben werden konnte.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Stellen Sie sicher, dass die für die Migration angegebene Datei vorhanden ist und
+dass Lese- und Schreibzugriff auf diese Datei besteht.  Vergewissern Sie sich darüber hinaus, dass Sie über Leseberechtigung
+für die Speicherposition der Sicherungsdatei verfügen.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM313E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME" varFormat="Java">
+   Die Migration der Datei <Variable formatSpec="{0}">dateiname</Variable> konnte nicht durchgeführt werden. Der Dateiname der Sicherungsdatei darf nicht mit dem ursprünglichen Dateinamen übereinstimmen.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da die zu migrierende Datei und die Sicherungsdatei identisch sind.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Geben Sie für die zu migrierende Datei und die Sicherungsdatei unterschiedliche Namen an.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM314E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME2" varFormat="Java">
+   Die Migration der Datei <Variable formatSpec="{0}">dateiname</Variable> konnte nicht durchgeführt werden. Der Dateiname der Sicherungsdatei darf nicht mit dem Dateinamen der neuen Datei übereinstimmen.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da der Name der neuen Datei und der Name der Sicherungsdatei identisch sind.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Geben Sie für die Sicherungsdatei und die neue Datei unterschiedliche Dateinamen an.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM315E" prefix="yes">
+   <MsgText pgmKey="UNABLE_BACKUP_FILE" varFormat="Java">
+   Die Migration kann nicht durchgeführt werden.  Für die Datei <Variable formatSpec="{0}">dateiname</Variable> kann keine Sicherungskopie
+in <Variable formatSpec="{1}">dateiname</Variable> erstellt werden.
+   </MsgText>
+   <Explanation> <p>
+   Die Migration schlug fehl, da für die zu migrierende Datei keine Sicherungskopie erstellt werden konnte.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Stellen Sie sicher, dass die für die Migration angegebene Datei vorhanden ist und
+dass Lese- und Schreibzugriff auf diese Datei besteht.  Vergewissern Sie sich darüber hinaus, dass Sie über Leseberechtigung
+für die Speicherposition der Sicherungsdatei verfügen.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM316I" prefix="yes">
+   <MsgText pgmKey="ADDING_NEW_PROPERTIES" varFormat="Java">
+   Hinzufügen der neuen Eigenschaften...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM317I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_ADDING_NEW_PROPERTIES" varFormat="Java">
+   Hinzufügen der neuen Eigenschaften abgeschlossen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM318I" prefix="yes">
+   <MsgText pgmKey="STARTED_WITH_MODIFICATION" varFormat="Java">
+   Modifizieren der alten Eigenschaften mit neuen Werten und Hinzufügen von Kommentarzeichen zu alten Eigenschaften gestartet...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM319I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_WITH_MODIFICATION" varFormat="Java">
+   Modifizieren der alten Eigenschaften mit neuen Werten und Hinzufügen von Kommentarzeichen zu alten Eigenschaften abgeschlossen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM320I" prefix="yes">
+   <MsgText pgmKey="COMMENTING_UNWANTED_PROPERTIES" varFormat="Java">
+   Hinzufügen von Kommentarzeichen zu alten Eigenschaften...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM321I" prefix="yes">
+   <MsgText pgmKey="NUMBER_OF_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   Anzahl der alten Eigenschaften, die mit einem Kommentarzeichen versehen werden sollen:
+<Variable formatSpec="{0}">anzahl_der_eigenschaften</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM322I" prefix="yes">
+   <MsgText pgmKey="NO_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   Es sind keine alten Eigenschaften vorhanden, die für das Release
+<Variable formatSpec="{0}">release</Variable> entfernt werden müssen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM323I" prefix="yes">
+   <MsgText pgmKey="NO_NEW_PROPERTIES_ADDED" varFormat="Java">
+   Es werden keine neuen Eigenschaften für das Release <Variable formatSpec="{0}">release</Variable> hinzugefügt.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM324I" prefix="yes">
+   <MsgText pgmKey="UPDATING_PROPERTIES" varFormat="Java">
+   Aktualisieren der Eigenschaften...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM325I" prefix="yes">
+   <MsgText pgmKey="EXIT_CODE_OF_MIGRATION" varFormat="Java">
+   Die Migration wurde mit dem Exit-Code <Variable formatSpec="{0}">exit-code</Variable> beendet.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM326I" prefix="yes">
+   <MsgText pgmKey="FILE_DELETED" varFormat="Java">
+   Die Datei <Variable formatSpec="{0}">dateiname</Variable> wurde erfolgreich gelöscht.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM327I" prefix="yes">
+   <MsgText pgmKey="FAILED_TO_DELETE_FILE" varFormat="Java">
+   Das Löschen der Datei <Variable formatSpec="{0}">dateiname</Variable> ist fehlgeschlagen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM328I" prefix="yes">
+   <MsgText pgmKey="INITIALIZING_MIGRATION_LOADING_PROPERTIES" varFormat="Java">
+   Die Migration wird initialisiert; die Eigenschaftendatei
+<Variable formatSpec="{0}">xml-eigenschaftendatei</Variable> wird geladen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM329I" prefix="yes">
+   <MsgText pgmKey="NO_PROPERTIES_TO_UPDATE" varFormat="Java">
+   Es sind keine Eigenschaften im neuen Release vorhanden, die im früheren Release aktualisiert werden müssen.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

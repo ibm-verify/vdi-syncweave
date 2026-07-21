@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="28" UUID="e5b4b76e-f8de-4431-a8ab-caeac7382745" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="prepareForFiltering" modified="Mon May 18 11:59:02 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="prepareForFiltering">
+        <ModTime>1431943141799</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// get rdn from the old dn
+//
+sourceDN = work.getString("$dn")
+sourceRDN = sourceDN
+lookupDN = sourceDN;
+opEntry["$sourceDN"] = sourceDN;
+sourceLDAP = opEntry.getObject("$sourceLDAP");
+
+// If necessary, clean up AD 'munging' of delete entry DNs
+//
+try {
+	rdns = new javax.naming.ldap.LdapName(sourceDN).getRdns()
+} catch (ex) {
+	throw where() + " - " + resource.getString("LDAPSYNC.ERROR.DURING.INITIAL.PARSING.OF.SOURCE.DN") + ": " + ex + " - dn: " + sourceDN
+}	
+sourceRDN = rdns.get(rdns.size()-1).toString()
+
+p = sourceRDN.indexOf("\n").toString()
+if (p > 0)
+	sourceRDN = sourceRDN.substring(0,p)
+	
+p = sourceRDN.indexOf("=")
+sourceRDNAtt = sourceRDN.substring(0,p).trim()
+sourceRDNValue = sourceRDN.substring(p+1).trim()
+sourceRDN = sourceRDN.toLowerCase()
+
+// get the sourceGUID (eg. for Active Directory entries)
+sourceGUID = work.getObject(auxLinkedGUIDSourceAttribute) // AD?
+if (sourceGUID != null 
+	&& "objectguid".equals(auxLinkedGUIDSourceAttribute.toLowerCase())) {
+	try {
+		sourceGUID = system.binaryGUIDtoString(sourceGUID)
+	} catch (ex) {
+		sourceGUID = null
+	}	
+}	
+
+if (sourceGUID === null)
+	sourceGUID = ""
+
+opEntry["$sourceGUID"] = sourceGUID;
+
+typeOfEntry = work.getString("$typeOfEntry");
+if (typeOfEntry == null) {
+	typeOfEntry = "unknown";
+}
+opEntry["$typeOfEntry"] = typeOfEntry;
+
+// Special case for AD with nodes like CN=Users, which are returned as type "container"
+// This must be changed to OU in SDS
+changeDetType = getProperty("source.changeDetectionType",null)
+if ("AD".equals(changeDetType)) {
+	oc = work.getAttribute("objectClass")
+	if (oc != null)
+		typeOfEntry = entryType(oc)
+		
+	if ("container".equals(typeOfEntry)) {
+		work.setAttribute("objectClass", "organizationalUnit")
+		work.setAttribute("ou", work.getString("CN"))
+		sourceRDNAtt = "OU"
+	}
+}	
+
+encodeRDN = true
+rdnValue = null
+filterDN = sourceDN
+
+// in case of modrdn or moddn change
+newSuperior = work.getString("newSuperior")
+newrdn = work.getString("newrdn")
+
+p = sourceRDNValue.indexOf("\n")
+if (p > 0)
+	sourceRDNValue = sourceRDNValue.substring(0,p)
+
+// get the delta tag for this Work Entry
+//
+deltaOperationTag = work.getOperation()
+work["$operation"] = deltaOperationTag
+
+// detect if changeDetection & if changeLog
+//
+changeDetection = !("generic".equals(deltaOperationTag))
+chglogMsg = work.getString("changenumber")
+
+changeLog = (chglogMsg != null)
+if (chglogMsg != null)
+	chglogMsg = resource.getString("LDAPSYNC.CHANGELOG.NUMBER") + " " + chglogMsg
+else
+	chglogMsg = ""
+
+// initialize this variable for use in Initialize Cycle
+targetLDAPDN = null
+rdnValue = null
+targetEntry = null
+	
+// If this is not a change coming from a changelog Connector then there will be no
+// newSuperior attribute to detect a moddn. If the sourceGUID is available then we do
+// a lookup in the target to get the old DN value and compare with the current one.
+// If there is a difference, then we set up the newSuperior and newrd attributes to
+// allow the useDN() filtering function to handle this entry correctly
+//
+if ("modify".equals(deltaOperationTag) && sourceGUID !== null && sourceGUID.length > 0 && targetLDAP != null) {
+	sc = system.newSearchCriteria();
+	
+	sc.addCriteria(auxLinkedGUIDAttribute, sc.EXACT, sourceGUID);
+	targetLDAP.setParam("ldapReturnAttributes", auxLinkedDNAttribute +"\n" + auxLinkedGUIDAttribute + "\nsn\ncn\nobjectClass\n"+containerRDNs+targetUserRDN);
+	try {
+		targetEntry = targetLDAP.findEntry(sc);
+	} catch (ex) {
+		targetEntry = null
+	}
+
+	if (deBug) logmsg("-@@-->> (prefilter) target lookup for AD entry using " + auxLinkedGUIDAttribute + " = " + sourceGUID +
+					(targetEntry === null ? " - " + resource.getString("LDAPSYNC.FAILED") : " - " + resource.getString("LDAPSYNC.SUCCESS")))
+
+	if (targetEntry !== null) {
+		targetLDAPDN = targetEntry.getString("$dn")
+		previousDN = targetEntry.getString(auxLinkedDNAttribute)
+		
+		// check for change to dn, and if so then set up newrdn and newSuperior variables
+		if (!previousDN.toLowerCase().equalsIgnoreCase(sourceDN.toLowerCase())) { 
+			try {
+				ldapName = new javax.naming.ldap.LdapName(sourceDN)
+			} catch (ex) {
+				throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.SOURCE.DN.AFTER.TARGET.LOOKUP") + ": " + ex + " - dn: " + sourceDN
+			}	
+			rdns = ldapName.getRdns()
+			newrdn = rdns.get(rdns.size()-1).toString()
+			ldapName.remove(rdns.size()-1)
+			newSuperior = ldapName.toString()
+			logmsg("----->> (prefilter) " + resource.getString("LDAPSYNC.DETECTED.RENAME") + " newSuperior: " + newSuperior + "   newrdn: " + newrdn)
+			// so this entry passes filtering
+			filterDN = targetEntry.getString(auxLinkedDNAttribute)
+		}
+	}	
+}
+
+simEntry = null;]]></parameter>
+    </Script>
+</MetamergeConfig>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="3" UUID="66a35280-9c9f-40d6-8201-d26b613ce820" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="SetSDSChangeState" modified="Tue Mar 04 11:29:57 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="SetSDSChangeState">
+        <ModTime>1393928996879</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="define functions" state="Enabled"/>
+                <Component name="get commandline argument" state="Enabled"/>
+                <Component name="get SDS settings" state="Enabled"/>
+                <Component name="Reset change state" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1393928996879</ModTime>
+            <Script name="define functions">
+                <ModTime>1382095902343</ModTime>
+                <parameter name="script"><![CDATA[function logmsg(lvl, msg) {
+	if (typeof(msg) == "undefined") {
+		msg = lvl
+		lvl = "INFO"
+	}
+	task.logmsg(lvl, msg)
+	java.lang.System.out.println(msg)
+}
+
+function showUsage() {
+	logmsg("")
+	logmsg("SetSDSChangeState determines which changes Write-back will handle.")
+	logmsg("NOTE: running this task will delete any previously saved change state!")
+	logmsg("")
+	logmsg("SetSDSChangeState requires the -0 argument. Valid settings are:")
+	logmsg("   new   	- only new changes will be this point are read")
+	logmsg("   all   	- all changes will be read starting with changenumber 1")
+	logmsg("   <number> - start processing changes from the changelog <number> entered")
+	logmsg("")
+	logmsg("For example:")
+	logmsg("      ibmdisrv -r SetSDSChangeState -0 new")
+	logmsg("or")
+	logmsg("      ibmdisrv -r SetSDSChangeState -0 42")
+	logmsg("")
+	system.exitFlow()
+}]]></parameter>
+            </Script>
+            <Script name="get commandline argument">
+                <ModTime>1382346170281</ModTime>
+                <parameter name="script"><![CDATA[startAt = main.commandLineParam("0")
+
+if (startAt == null) {
+	showUsage()
+}
+
+startAtIsNumber = false
+try {
+	startAtNum = system.toInt(startAt)
+	startAt = new java.lang.String(startAtNum)
+	startAtIsNumber = true
+} catch (ex) {
+	// ignore
+}
+
+if (!startAtIsNumber) {
+	startAt = startAt.toUpperCase()
+	
+	if (!"NEW".equals(startAt) && !"ALL".equals(startAt)) {
+		showUsage()
+	}
+	
+	if ("NEW".equals(startAt)) {
+		startAt = "EOD"
+	}
+	
+	if ("ALL".equals(startAt)) {
+		startAt = "1"
+	}
+}]]></parameter>
+            </Script>
+            <Script name="get SDS settings">
+                <ModTime>1393928996879</ModTime>
+                <parameter name="script"><![CDATA[var CIs = session.getConfigInstances()
+CI = null
+
+for (CI in CIs) {
+	if (CI.getConfigId().startsWith("SE_")) {
+		break
+	}
+}
+
+if (CI == null) {
+	CIs = session.listAllConfigurations()
+	for (var CIname in CIs) {
+		if (CIname.startsWith("SE_")) {
+			CI = session.getConfigInstance(CIname)
+			if (CI == null) {
+				try {
+					CI = session.startConfigInstance("configs/" + CIname + ".xml", true, null, CIname, null)
+					if (CI != null) {
+						var ALnames = CI.getAssemblyLineNames()
+						for (var ALname in ALnames) {
+							if (ALname.startsWith("Flow_")) {
+								var paramEntry = getFlowParameters(CI.getConfigId(), ALname, null);
+								if (paramEntry != null) {
+									opEntry.merge(paramEntry)
+									break
+								}
+							}
+						}
+					}
+				} catch (ex) {
+					errorMsg = resource.getString("LDAPSYNC.ERROR.LOADING.CI") + ": " + CIname + " - " + ex
+					logmsg("ERROR", errorMsg)
+				}	
+			}	
+		}
+	}
+}
+
+if (CI == null) {
+	logmsg("ERROR", "No FDS project configuration file found in the configs folder")
+	system.exitFlow()
+}
+
+CIs = session.getConfigInstances()
+for (CI in CIs) {
+	if (CI.getConfigId().startsWith("SE_")) {
+		sdsCfg = main.getConnector(CI.getConfigId() + 
+				":/Connectors/GeneralSettings").getConnectionConfig()
+		opEntry.merge(sdsCfg.toEntry())	
+		break
+	}
+}]]></parameter>
+            </Script>
+            <Script name="Reset change state">
+                <ModTime>1382346156812</ModTime>
+                <parameter name="script"><![CDATA[dbgDumpEntry(opEntry)
+
+system.setPersistentObject("writeback.startAt", startAt)
+
+task.logmsg("Setting change state to start at to " + startAt)
+
+oldStateKey = system.getPersistentObject(writebackStateKey)
+system.deletePersistentObject(writebackStateKey)
+
+if (oldStateKey == null) {
+	task.logmsg("State key not currently")
+} else {
+	task.logmsg("Current state key: " + oldStateKey)
+}	
+task.logmsg("Deleting current change state")]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

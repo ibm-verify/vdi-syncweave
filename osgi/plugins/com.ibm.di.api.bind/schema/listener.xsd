@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<include schemaLocation="entry.xsd"></include>
+	<include schemaLocation="notification.xsd"></include>
+	<include schemaLocation="assembly-line.xsd"></include>
+	<element name="logListener" type="tns:LogListener"></element>
+
+	<complexType name="Listener" abstract="true">
+		<sequence>
+			<element maxOccurs="1" minOccurs="0" ref="tns:channel">
+			</element>
+		</sequence>
+	</complexType>
+
+	<element name="diEventListener" type="tns:DIEventListener"></element>
+
+	<complexType name="DIEventListener">
+		<complexContent>
+			<extension base="tns:Listener">
+
+
+
+				<attribute name="typeFilter" type="string" use="optional">
+				</attribute>
+
+				<attribute name="idFilter" type="string" use="optional">
+				</attribute>
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="LogListener">
+		<complexContent>
+			<extension base="tns:Listener"></extension>
+		</complexContent>
+	</complexType>
+
+	<element name="assemblyLineListener" type="tns:AssemblyLineListener"
+		substitutionGroup="tns:logListener">
+	</element>
+
+	<complexType name="AssemblyLineListener">
+		<complexContent>
+			<extension base="tns:LogListener">
+				<attribute name="deliverLogs" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="deliverEntry" type="boolean" use="optional"
+					default="false">
+				</attribute>
+			</extension>
+		</complexContent>
+
+	</complexType>
+
+	<element name="logEvent" type="tns:LogEvent" substitutionGroup="tns:event"></element>
+
+	<complexType name="LogEvent">
+		<complexContent>
+			<extension base="tns:Event">
+				<sequence>
+					<element name="message" type="string" maxOccurs="1"
+						minOccurs="1">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="assemblyLineEvent" type="tns:AssemblyLineEvent"
+		substitutionGroup="tns:event"></element>
+
+	<complexType name="AssemblyLineEvent">
+		<complexContent>
+			<extension base="tns:Event">
+				<sequence>
+					<element name="resultEntry" type="tns:Entry" maxOccurs="1"
+						minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="type" use="required">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="cycleDone"></enumeration>
+							<enumeration value="alStopped"></enumeration>
+						</restriction>
+					</simpleType>
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="diEvent" type="tns:DIEvent" substitutionGroup="tns:event"></element>
+
+	<complexType name="DIEvent">
+		<complexContent>
+			<extension base="tns:Event">
+				<sequence>
+					<element name="data" type="tns:Data" maxOccurs="1"
+						minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="type" type="string" use="required"></attribute>
+				<attribute name="id" type="string" use="required"></attribute>
+				<attribute name="created" type="dateTime"></attribute>
+				<attribute name="ciId" type="string" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="ciEvent" type="tns:CIEvent" substitutionGroup="tns:event"></element>
+
+	<complexType name="CIEvent">
+		<complexContent>
+			<extension base="tns:DIEvent">
+
+				<attribute name="ciStart" type="dateTime" use="required"></attribute>
+				<attribute name="ciGuid" type="string" use="required"></attribute>
+				<attribute name="tombstoneCreated" type="boolean" use="optional"
+					default="false">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="alEvent" type="tns:ALEvent" substitutionGroup="tns:event"></element>
+
+	<complexType name="ALEvent">
+		<complexContent>
+			<extension base="tns:DIEvent">
+				<sequence>
+					<element name="taskStatistics" type="tns:TaskStatistics"
+						maxOccurs="1" minOccurs="1"></element>
+				</sequence>
+				<attribute name="alGuid" type="string" use="required"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="TransportChannel" abstract="true"></complexType>
+	<element name="channel" type="tns:TransportChannel"></element>
+
+
+	<complexType name="PushChannel">
+		<complexContent>
+			<extension base="tns:TransportChannel">
+				<attribute name="out" type="anyURI" use="required"></attribute>
+				<attribute name="error" type="anyURI" use="optional" />			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="PollChannel">
+		<complexContent>
+			<extension base="tns:TransportChannel">
+				<attribute name="waitTimeout" type="int" use="optional"
+					default="120">
+					<annotation>
+						<documentation>
+							The total time (in seconds) to wait until
+							event(s) is/are available for delivery.
+						</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="batchCap" type="int" use="optional"
+					default="1">
+					<annotation>
+						<documentation>
+							The maximum number of events to deliver in a
+							single poll. 0 - deliver all available
+							without blocking. 1 - the event will be
+							delivered as standalone message, not as
+							batchEvent > 1 - use this number as a batch
+							cap.
+						</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="fillBatch" type="boolean"
+					use="optional" default="true">
+					<annotation>
+						<documentation>
+							Considered only when batchCap >1. True to
+							wait until the maximum number of events are
+							available in order to deliver them in a
+							single poll. False to deliver as much as
+							there are available without blocking. Note:
+							If this is true and request times out then
+							onTimeoutGetAll is considered.
+						</documentation>
+					</annotation>
+				</attribute>
+				<attribute name="onTimeoutGetAll" type="boolean"
+					use="optional" default="true">
+					<annotation>
+						<documentation>
+							If the poll times out while waiting for more
+							events and this is true, then delivers as
+							many as there are available, otherwise
+							deliver none and mark as timeout, i.e.
+							clients are guaranteed to get all or
+							nothing.
+						</documentation>
+					</annotation>
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="pushChannel" type="tns:PushChannel"
+		substitutionGroup="tns:channel"></element>
+
+	<element name="pollChannel" type="tns:PollChannel"
+		substitutionGroup="tns:channel"></element>
+
+
+	<complexType name="Event" abstract="true"></complexType>
+
+	<element name="event" type="tns:Event"></element>
+
+	<complexType name="BatchEvent">
+		<complexContent>
+			<extension base="tns:Event">
+				<sequence>
+					<element ref="tns:event" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="batchEvent" type="tns:BatchEvent"></element>
+
+	<complexType name="ConfigFileListener">
+		<complexContent>
+			<extension base="tns:Listener"></extension>
+		</complexContent>
+	</complexType>
+
+	<element name="configFileListener" type="tns:ConfigFileListener"></element>
+
+	<element name="configFileEvent" type="tns:ConfigFileEvent" substitutionGroup="tns:event"></element>
+
+	<complexType name="ConfigFileEvent">
+		<complexContent>
+			<extension base="tns:Event">
+                <attribute name="eventType" use="required" type="tns:ConfigFileEventTypeEnum">
+                </attribute>
+                <attribute name="configFileId" type="string" use="required"></attribute>
+				<attribute name="userId" type="string" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="ConfigFileEventTypeEnum">
+		<restriction base="string">
+			<enumeration value="create"></enumeration>
+			<enumeration value="createLocked"></enumeration>
+			<enumeration value="checkOut"></enumeration>
+			<enumeration value="checkIn"></enumeration>
+			<enumeration value="checkInLocked"></enumeration>
+			<enumeration value="unlock"></enumeration>
+			<enumeration value="delete"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>

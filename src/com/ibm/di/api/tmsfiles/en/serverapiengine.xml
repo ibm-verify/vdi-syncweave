@@ -1,0 +1,5541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="serverapiengine" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+<Message ID="CTGDKD001E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.READ.CUSTOM.SCRIPT.FROM.FILE" varFormat="Java">
+   Unable to read custom script from file: <Variable formatSpec="{0}">property</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check access to the custom script file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD002E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.INVALID.VALUE.REMOTE.NAMING.PORT" varFormat="Java">
+   Invalid value specified for &apos;api.remote.naming.port&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The naming port must be a number, in the range 1..65535.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.remote.naming.port&apos; in the global.properties file, and assign it a proper value.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD003I" prefix="yes">
+   <MsgText pgmKey="SERVER.API.WILL.USE.DEFAULT.VALUE.REMOTE.NAMING.PORT" varFormat="Java">
+   Will use default value for &apos;api.remote.naming.port&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">port</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The naming port is not defined in the global.properties file,
+   and a default value is used.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.remote.naming.port&apos; in the global.properties file, and assign it a proper value.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD004E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.RMI.CUSTOM.SOCKET.FACTORIES" varFormat="Java">
+   Could not create RMI custom socket factories.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Review the exception to find further details on the error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the SSL properties in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD005E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GET.LOCALHOST.IP.ADDRESS" varFormat="Java">
+   Could not get localhost IP address.
+   </MsgText>
+   <Explanation><p>
+   No IP address for the host could be found.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD006E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.NOT.INITIALIZED" varFormat="Java">
+   Server API not initialized.
+   </MsgText>
+   <Explanation><p>
+   Review the previous exception to find further details on the error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD007I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SOCKET.FACTORIES.CREATED.SUCCESSFULLY" varFormat="Java">
+   Secure RMI socket factories created successfully.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD008I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.SESSION.FACTORY.OBJECT.BOUND.TO.NAME" varFormat="Java">
+   Remote Session Factory object bound to name &apos;SessionFactory&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD009E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.SESSIONFACTORY" varFormat="Java">
+   Could not create SessionFactory.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Could not initialize the Server API for remote access.
+   Could not create an instance of the factory that is used to access the Server API.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD010E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.BIND.REMOTE.SESSION.FACTORY" varFormat="Java">
+   Could not bind RemoteSessionFactory.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the remote session factory name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD011E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.GET.TOMBSTONES.CONFIG" varFormat="Java">
+   Unable to get TombstonesConfig.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Review the exception to find further details on the error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the configuration file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD012I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RMI.REGISTRY.STARTED.ON.PORT" varFormat="Java">
+   RMI Registry started on port: <Variable formatSpec="{0}">port number</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD013I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RMI.REGISTRY.CONNECT.TO" varFormat="Java">
+   Successfully connected to RMI Registry: <Variable formatSpec="{0}">existing registry</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD019E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.RMI.REGISTRY" varFormat="Java">
+   Could not create RMI Registry:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD020E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.CRYPTO.ALREADY.INITIALIZED" varFormat="Java">
+   Server cryptography is already initialized.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD021E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.INITIALIZATION.ERROR.1" varFormat="Java">
+   LDAP Authentication initialization error.
+   </MsgText>
+   <Explanation><p>
+   Exception caught on initialization of the LDAP Authenticator.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD022E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.INITIALIZATION.ERROR.2" varFormat="Java">
+   LDAP Authentication initialization error: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Exception caught on initialization of the LDAP Authenticator.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD023I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.ENGINE.SUCCESSFULLY.INITIALIZED.SSL.ON.CLIENT.AUTH.ON" varFormat="Java">
+   <pre>Remote API Engine successfully initialized. SSL and Client Authentication are enabled.</pre>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD024I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.SSL.ON.CLIENT.AUTH.ON" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL and Client Authentication are enabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD025E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.INITIALIZE.SCRIPT.ENGINE" varFormat="Java">
+   <pre>Unable to initialize ScriptEngine: </pre>
+   </MsgText>
+   <Explanation><p>
+   The APIAuthenticator constructor could not initialize ScriptEngine.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD026E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CUSTOM.AUTHENTICATION.IS.DISABLED" varFormat="Java">
+   Custom authentication is disabled.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify the property &apos;api.custom.authentication&apos; in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD027E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SCRIPT.ERROR.1" varFormat="Java">
+   <pre>Script error: </pre>
+   </MsgText>
+   <Explanation><p>
+   Review the exception to find further details on the error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the custom script provided.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD028I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUTHENTICATION.FAILED.FOR.USER" varFormat="Java">
+   Authentication failed for user: <Variable formatSpec="{0}">username</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD029E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.MISSING.CONFIGURATION.PROPERTY" varFormat="Java">
+   Missing configuration property: api.config.folder.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.config.folder&apos; in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD030E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CANT.GET.CANONICAL.PATH" varFormat="Java">
+   Unable to get canonical path of the &apos;api.config.folder&apos; property value: <Variable formatSpec="{0}">path</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>.
+   </MsgText>
+   <Explanation><p>
+   An IOException was encountered while getting canonical path.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property api.config.folder in the global.properties file and
+   ensure the file path is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD031E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.VALUE.SPECIFIED.FOR.LOCK.TIMEOUT" varFormat="Java">
+   Invalid value specified for &apos;api.config.lock.timeout&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">paramater value</Variable>&apos;&apos;.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   An NumberFormatException was encountered while parsing string to int.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.config.lock.timeout&apos; in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD032I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.WILL.USE.DEFAULT.VALUE.FOR.LOCK.TIMEOUT" varFormat="Java">
+   Will use default value for &apos;api.config.lock.timeout&apos;:
+   <Variable formatSpec="{0}">value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD034E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.RELATIVE.FOLDER.PATH" varFormat="Java">
+   Invalid folder path: &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The path is a file.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.config.folder&apos; in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD035E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.RELATIVE.FOLDER.PATH.2" varFormat="Java">
+   Invalid folder path: &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;
+   </MsgText>
+   <Explanation><p>
+   The path is a file.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.config.folder&apos; in the global.properties file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD036E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.ALREADY.CHECKED.OUT" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos; is already checked out.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check in the configuration first.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD037E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.IS.PASSWORD.PROTECTED" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos; is password protected.
+   </MsgText>
+   <Explanation><p>
+   An PasswordException is encountered while loading configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide password for the configuration.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD038E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.LOADING.CONFIGURATION" varFormat="Java">
+   Error while loading configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   An Exception is encountered while loading configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD039E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.ALREADY.CHECKED.OUT.2" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos; is
+   already checked out.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check in the configuration first.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD040E, because it is no longer used after code changes for defect 9465 -->
+
+<Message ID="CTGDKD041E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.IS.NOT.CHECKED.OUT" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;
+   is not checked out.
+   </MsgText>
+   <Explanation><p>
+   The reason for exception might be timeout expired.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the configuration first.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD042E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.IS.NOT.CHECKED.OUT.2" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos; is not checked out.
+   </MsgText>
+   <Explanation><p>
+   The reason for exception might be timeout expired.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check out the configuration first.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD043E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.FILE.ALREADY.EXISTS" varFormat="Java">
+   Configuration file &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos; already exists.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Give other name of configuration or confirm overwriting.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD044E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.ALREADY.CHECKED.OUT.3" varFormat="Java">
+   Configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;
+   is already checked out.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check in the configuration first.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD045E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.LOAD.CONFIGURATION" varFormat="Java">
+   Could not load configuration &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   An Exception is encountered while loading configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD046E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RECURSEDIRS.INVALID.FOLDER.PATH.ROOT.DIR.NAME" varFormat="Java">
+   recurseDirs: Invalid folder path: &apos;&apos;<Variable formatSpec="{0}">directory</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The path must be a valid directory.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the folder path.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD047E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INTERNAL.ERROR.NULL.USER.ID.IN.CONFIGURATION.REGISTRY" varFormat="Java">
+   Internal error: NULL user ID in configuration registry
+   for &apos;&apos;<Variable formatSpec="{0}">path</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the name of the configuration.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD048I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.LOCKED.BY" varFormat="Java">
+   The Config &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;
+   was locked by the user &apos;&apos;<Variable formatSpec="{1}">user ID</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD049I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.LOCK.RELEASED" varFormat="Java">
+    The Config &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;
+    lock was released.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD050I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.LOCK.TIME.RESET" varFormat="Java">
+   The Config &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;
+   lock time was reset.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD051E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.SET.CONFIGURATION.PATH.FOR" varFormat="Java">
+   Unable to save the Config because the configuration path
+   &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos; could not be set.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD052E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.SAVE.CONFIGURATION" varFormat="Java">
+   Unable to save the Config &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD053E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.IS.NOT.COMMITTABLE" varFormat="Java">
+   Unable to save the Config &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;
+   because the Config is not committable.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD054I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.CONFIGINSTANCE.STOPPED" varFormat="Java">
+   Stopped Config instance &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD055E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.UNABLE.TO.STOP" varFormat="Java">
+   Unable to stop Config instance &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   The Config instance was not found.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD056I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.CONFIGINSTANCE.RELOADED" varFormat="Java">
+   Reloaded Config instance &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD057E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.UNABLE.TO.RELOAD" varFormat="Java">
+   Unable to reload Config instance &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   An exception was encountered: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD058E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.UNABLE.TO.RELOAD.2" varFormat="Java">
+   Unable to reload Config instance &apos;&apos;<Variable formatSpec="{0}">file path</Variable>&apos;&apos;.
+   The Config instance was not found.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD059E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.AUTO.UNLOCK.THREAD.INTERUPTED" varFormat="Java">
+   Automatic unlock thread of the configuration registry was interupted.
+   An exception was encountered: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD060E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.AUTO.UNLOCK.FATAL.ERROR" varFormat="Java">
+   Automatic unlock thread of the configuration registry encountered a fatal exception:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD061E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.ERROR.STOPPING.CONFIGURATION" varFormat="Java">
+   Automatic unlock thread of the configuration registry could not stop Config instance
+   &apos;&apos;<Variable formatSpec="{0}">Config instance ID</Variable>&apos;&apos;.
+   An exception was encountered: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD062I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATIONREGISTRY.AUTO.UNLOCK.CONFIGURATION" varFormat="Java">
+   The Config instance &apos;&apos;<Variable formatSpec="{0}">Config instance ID</Variable>&apos;&apos;
+   was automatically unlocked.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD063E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ABSOLUTE.PATH.PROVIDED.EXPECTING.RELATIVE" varFormat="Java">
+   Absolute path provided : <Variable formatSpec="{0}">path</Variable> expecting relative.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD065E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.PATH.PROVIDED.IS.NOT.ALLOWED" varFormat="Java">
+   Path provided : <Variable formatSpec="{0}">path</Variable> is not allowed.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a relative path.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD066E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.IS.NULL.1" varFormat="Java">
+   Config Instance is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD067E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.IS.NULL.2" varFormat="Java">
+   Config Instance is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD068E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ASSEMBLYLINE.IS.NULL.1" varFormat="Java">
+   AssemblyLine is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD069E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.FOR.ASSEMBLYLINE.NOT.REGISTERED" varFormat="Java">
+   Config Instance for AssemblyLine &apos;&apos;<Variable formatSpec="{0}">AssemblyLine</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD070E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ASSEMBLYLINE.IS.NULL.2" varFormat="Java">
+   AssemblyLine is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD071E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ON.AL.TERMINATE.CONFIG.INSTANCE.FOR.ASSEMBLYLINE.NOT.REGISTERED" varFormat="Java">
+   On AL terminate: Config Instance for AssemblyLine
+   &apos;&apos;<Variable formatSpec="{0}">AssemblyLine</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD072E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EVENTHANDLER.IS.NULL.1" varFormat="Java">
+   EventHandler is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD073E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.FOR.EVENTHANDLER.NOT.REGISTERED" varFormat="Java">
+   Config Instance for EventHandler &apos;&apos;<Variable formatSpec="{0}">EventHandler</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD074E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EVENTHANDLER.IS.NULL.2" varFormat="Java">
+   EventHandler is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD075E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ON.EH.TERMINATE.CONFIG.INSTANCE.FOR.EVENTHANDLER.NOT.REGISTERED" varFormat="Java">
+   On EventHandler terminate: Config Instance for EventHandler
+   &apos;&apos;<Variable formatSpec="{0}">EventHandler</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD076E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TRIGGER.IS.NULL.1" varFormat="Java">
+   Trigger is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD077E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.FOR.TRIGGER.NOT.REGISTERED" varFormat="Java">
+   Config Instance for Trigger &apos;&apos;<Variable formatSpec="{0}">trigger name</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD078E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TRIGGER.IS.NULL.2" varFormat="Java">
+   Trigger is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD079E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ON.EH.TERMINATE.CONFIG.INSTANCE.FOR.TRIGGER.NOT.REGISTERED" varFormat="Java">
+   On EH terminate: Config Instance for Trigger &apos;&apos;<Variable formatSpec="{0}">trigger name</Variable>&apos;&apos;
+   not registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD080E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD081E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.ON.HANDLEEVENT.1" varFormat="Java">
+   Error on handleEvent method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD082E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.ON.HANDLEEVENT.2" varFormat="Java">
+   Error on handleEvent method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD083E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EVENT.TYPE.IS.NULL" varFormat="Java">
+   Event type is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD084I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.PERFORM.THIS.OPERATION" varFormat="Java">
+   Not authorized to perform this operation.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD085E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USERNAME.IS.NULL" varFormat="Java">
+   Username is null. Authentication failed.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid username.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD086E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.PASSWORD.IS.NULL" varFormat="Java">
+   Password is null. Authentication failed.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid password.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD087I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.PERFORMING.SEARCH.FOR.FULL.DN.FOR.WITH.FILTER" varFormat="Java">
+   Performing search for full DN for &apos;&apos;<Variable formatSpec="{0}">username</Variable>&apos;&apos;
+   with filter: <Variable formatSpec="{1}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD088I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USING.LDAP.SSL.CONNECTION.1" varFormat="Java">
+   Using LDAP SSL connection.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD089E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUTHENTICATION.FAILED.FOR.INITIALLDAPCONTEXT" varFormat="Java">
+   Authentication failed for &apos;&apos;<Variable formatSpec="{0}">username</Variable>&apos;&apos;.
+   Exception occurred:
+   <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid username and password.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD090I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.SUCCEEDED.FOR.USERNAME" varFormat="Java">
+   LDAP Authentication succeeded for &apos;&apos;<Variable formatSpec="{0}">username</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD091I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.MODULE.CLOSED" varFormat="Java">
+   LDAP Authentication module closed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD092I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USING.SIMPLE.AUTHENTICATION.FOR.SEARCH.CONTEXT" varFormat="Java">
+   Using Simple authentication for search context.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD093I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USING.ANONYMOUS.AUTHENTICATION" varFormat="Java">
+   Using Anonymous authentication for search context.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD094I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USING.LDAP.SSL.CONNECTION.2" varFormat="Java">
+   Using LDAP SSL connection.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD095I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TRYING.TO.CREATE.SEARCH.CONTEXT" varFormat="Java">
+   Trying to create search context ...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD096I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SEARCH.CONTEXT.CREATED" varFormat="Java">
+   Search context created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD097E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.CREATING.SEARCH.CONTEXT" varFormat="Java">
+   Error while creating search context: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   There are some possible reasons: the settings in the configuration file as well as 
+   the LDAP server could not be running.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the settings in the configuration file and whether the
+   LDAP server is running.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD098E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.MORE.THAN.ONE.SEARCH.RESULT.FOUND" varFormat="Java">
+   More than one search result found.
+   Authentication failed for &apos;&apos;<Variable formatSpec="{0}">username</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide unique username.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD099E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.FULL.DN.NOT.FOUND" varFormat="Java">
+   Full DN not found.
+   Authentication failed for &apos;&apos;<Variable formatSpec="{0}">username</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide valid username.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD100E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.MISSING.PROPERTY.LDAP.HOST.NAME" varFormat="Java">
+   Missing property &apos;&apos;<Variable formatSpec="{0}">property</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The LDAP Host name is not set.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the settings in the configuration file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD101E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.MISSING.PROPERTY.LDAP.PORT" varFormat="Java">
+   Missing property &apos;&apos;<Variable formatSpec="{0}">property</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Ensure the port and other settings are correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD102E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.CREATE.SEARCH.CONTEXT" varFormat="Java">
+   Unable to create search context.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the settings in the configuration file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD103E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUTHENTICATIONEXCEPTION.UNABLE.TO.PARSE.ERRORCODE" varFormat="Java">
+   AuthenticationException: Unable to parse ErrorCode : <Variable formatSpec="{0}">error code</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD104I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.NOT.AUTHENTICATED" varFormat="Java">
+   User not authenticated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD105I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.ALREADY.EXISTS" varFormat="Java">
+   Configuration already exists.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD106I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.IS.NOT.CHECKED.OUT.3" varFormat="Java">
+   Configuration is not checked out.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD107E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.ALREADY.INITIALIZED" varFormat="Java">
+   Server API JMX Agent already initialized.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD108I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.SUCCESSFULLY.INITIALIZED" varFormat="Java">
+   Server API JMX Agent successfully initialized.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD109E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INITIALIZE.SERVER.API.JMX.AGENT" varFormat="Java">
+   Could not initialize Server API JMX Agent.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD110E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.IS.NOT.INITIALIZED" varFormat="Java">
+   Server API JMX Agent is not initialized. Cannot initialize JMX Remoting.
+   </MsgText>
+   <Explanation><p>
+   Most probably the Server API JMX layer is not turned on.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the settings in global.properties/solution.properties file related to JMX.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD111I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.REMOTE.SERVER.CONNECTOR.STARTED.AT.URL" varFormat="Java">
+   JMX Remote Server Connector started at: <Variable formatSpec="{0}">URL</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD112E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INITIALIZE.SERVER.API.JMX.REMOTING" varFormat="Java">
+   Could not initialize Server API JMX Remoting.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD113E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.NOT.INITIALIZED.1" varFormat="Java">
+   Server API JMX Agent not initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD114I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.MBEAN.REGISTERED.OBJECTNAME" varFormat="Java">
+   JMX MBean registered: <Variable formatSpec="{0}">object name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD115E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.NOT.INITIALIZED.2" varFormat="Java">
+   Server API JMX Agent not initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD116I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.MBEAN.UNREGISTERED.OBJECTNAME" varFormat="Java">
+   JMX MBean unregistered: <Variable formatSpec="{0}">object name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD117E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.NOT.INITIALIZED.3" varFormat="Java">
+   Server API JMX Agent not initialized.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD118E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SERVER.API.JMX.AGENT.NOT.INITIALIZED.4" varFormat="Java">
+   Server API JMX Agent not initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD119E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INITIALIZE.REGISTER.NOTIFICATION.SERVICE" varFormat="Java">
+   Could not initialize/register Notification service.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD120E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.SERVER.API.LISTENER.ALREADY.INITIALIZED" varFormat="Java">
+   JMX Server API Listener already initialized.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD121E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.SESSION.IS.NULL" varFormat="Java">
+   Local Session is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD122I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.SERVER.API.LISTENER.SUCCESSFULLY.REGISTERED" varFormat="Java">
+   JMX Server API Listener successfully registered.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD123I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DIEVENT.RECEIVED.IS" varFormat="Java">
+   DIEvent received: <Variable formatSpec="{0}">event</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD124E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNRECOGNIZED.EVENT.TYPE" varFormat="Java">
+   Unrecognized event type: <Variable formatSpec="{0}">event type</Variable>.
+   Event skipped.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD125E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.ASSEMBLYLINE.MBEAN" varFormat="Java">
+   Could not register AssemblyLine MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD126E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.1" varFormat="Java">
+   JMX Notification service could not handle event for
+   AssemblyLine start: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD127E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.CONFIG.INSTANCE.MBEAN" varFormat="Java">
+   Could not register Config Instance MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD128E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.TDIPROPERTIES.MBEAN.1" varFormat="Java">
+   Could not register TDIProperties MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD129E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.TDIPROPERTIES.MBEAN.2" varFormat="Java">
+   Could not register TDIProperties MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD130E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.2" varFormat="Java">
+   JMX Notification service could not handle event for
+   ConfigInstance start. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD131E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.EVENTHANDLER.MBEAN" varFormat="Java">
+   Could not register EventHandler MBean.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD132E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.FOR.EVENTHANDLER.START" varFormat="Java">
+   JMX Notification service could not handle event for
+   EventHandler start: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD133E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.ASSEMBLYLINE.MBEAN" varFormat="Java">
+   Could not unregister AssemblyLine MBean: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD134E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.FOR.ASSEMBLYLINE.STOP" varFormat="Java">
+   JMX Notification service could not handle event for AssemblyLine stop.
+   Exception occured: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD135E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.EVENTHANDLER.MBEAN" varFormat="Java">
+   Could not unregister EventHandler MBean.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD136E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.FOR.EVENTHANDLER.STOP" varFormat="Java">
+   JMX Notification service could not handle event for EventHandler stop.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD137E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.CONFIG.INSTANCE.MBEAN" varFormat="Java">
+   Could not unregister Config Instance MBean.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD138E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.TDIPROPERTIES.MBEAN.1" varFormat="Java">
+   Could not unregister TDIProperties MBean: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD139E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.TDIPROPERTIES.MBEAN.2" varFormat="Java">
+   Could not unregister TDIProperties MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD140E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.FOR.CONFIG.INSTANCE.STOP" varFormat="Java">
+   JMX Notification service could not handle event for Config Instance stop.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD141E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.EVENT.FOR.CONFIG.INSTANCE.FILE.UPDATED" varFormat="Java">
+   JMX Notification service could not handle event for Config Instance
+   file updated. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD142E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.SERVER.STOP.EVENT" varFormat="Java">
+   JMX Notification service could not handle Server stop event.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD143E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.COULD.NOT.HANDLE.CUSTOM.NOTIFICATION.EVENT" varFormat="Java">
+   JMX Notification service could not handle custom
+   notification event: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD144E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.ASSEMBLYLINE.JMX.OBJECT.NAME" varFormat="Java">
+   Could not create AssemblyLine JMX Object Name.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD145E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.UNREGISTER.ASSEMBLYLINE.HANDLER.MBEAN" varFormat="Java">
+   Could not unregister AssemblyLineHandler MBean.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD146E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.ASSEMBLYLINE.HANDLER.JMX.OBJECT.NAME" varFormat="Java">
+   Could not create AssemblyLineHandler JMX Object Name.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD147E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.1" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD148E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.2" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM Security Verify Directory Integrator support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD149I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.MBEAN.CALL.FROM.REMOTE.USER.ID" varFormat="Java">
+   JMX MBean call from remote user: &apos;&apos;<Variable formatSpec="{0}">userId</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD150E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.RETRIEVING.JMX.REMOTE.USER.ID" varFormat="Java">
+   Error retrieving JMX remote user ID: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD151E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.REGISTER.ASSEMBLYLINE.HANDLER.MBEAN" varFormat="Java">
+   Could not register AssemblyLineHandler MBean.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD152E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.ASSEMBLYLINE.CYCLE.DONE" varFormat="Java">
+   Exception on JMX assemblyLineCycleDone(): <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD153E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.ASSEMBLYLINE.FINISHED" varFormat="Java">
+   Exception on JMX assemblyLineFinished(): <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD154E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.MESSAGE.LOGGED" varFormat="Java">
+   Exception on JMX messageLogged method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD155E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.EVENT.CAPTURED" varFormat="Java">
+   Exception on JMX eventCaptured(): <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD156E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.EVENT.PROCESSED" varFormat="Java">
+   Exception on JMX eventProcessed method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD157E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.EVENT.HANDLER.TERMINATED" varFormat="Java">
+   Exception on JMX eventHandlerTerminated method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD158E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.ON.JMX.MESSAGE.LOGGED.1" varFormat="Java">
+   Exception on JMX messageLogged(): <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD159E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.CONFIGINSTANCE.JMX.OBJECT.NAME" varFormat="Java">
+   Could not create ConfigInstance JMX Object Name.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD160E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.EVENTHANDLER.JMX.OBJECT.NAME" varFormat="Java">
+   Could not create EventHandler JMX Object Name.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD161E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.3" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD162E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.4" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   Internal error has occurred.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD163E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.ALREADY.INITIALIZED" varFormat="Java">
+   JMX Notification Service already initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD164E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.JMX.NOTIFICATION.SERVICE.IS.NOT.INITIALIZED" varFormat="Java">
+   JMX Notification service is not started (initialized).
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD165E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.JMX.NOTIFIER.OBJECT.NAME" varFormat="Java">
+   Could not create JMX Notifier Object Name.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD166E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CREATE.TDIPROPERTIES.JMX.OBJECT.NAME" varFormat="Java">
+   Could not create TDIProperties JMX Object Name.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD167E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ASSEMBLYLINE.OBJECT.IS.NULL" varFormat="Java">
+   AssemblyLine object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD168E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.ASSEMBLYLINE.OBJECT.IS.NULL" varFormat="Java">
+   Raw AssemblyLine object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD169E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD170E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.EXECUTE.ASSEMBLYLINE.CYCLE.1" varFormat="Java">
+   Could not execute AssemblyLine cycle.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD171E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.EXECUTE.ASSEMBLYLINE.CYCLE.2" varFormat="Java">
+   Could not execute AssemblyLine cycle.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD172E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.EXECUTE.ASSEMBLYLINE.CYCLE.3" varFormat="Java">
+   Could not execute AssemblyLine cycle.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD173E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.CLOSE.ASSEMBLYLINE" varFormat="Java">
+   Could not close AssemblyLine.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD174E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.ASSEMBLYLINE.OBJECT.IS.NULL.1" varFormat="Java">
+   Raw AssemblyLine object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD175E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.OBJECT.IS.NULL" varFormat="Java">
+   Config Instance object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD176E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.1" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD177E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.OBTAINING.SYSTEMLOG.FOR.AL" varFormat="Java">
+   Error while obtaining SystemLog for AssemblyLine:
+   <Variable formatSpec="{0}">AssemblyLine name</Variable>.<Variable formatSpec="{1}">AssemblyLine hash code</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD178E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GET.ASSEMBLYLINE.CONFIGURATION" varFormat="Java">
+   Could not get AssemblyLine configuration.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD179E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.CONFIG.INSTANCE.IS.NULL" varFormat="Java">
+   Raw Config Instance is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD180E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.2" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD181E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.CONFIG.INSTANCE.IS.NOT.RUNNING" varFormat="Java">
+   Raw Config Instance is not running.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD182E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.CANT.SET.CONFIGURATION.FOR" varFormat="Java">
+   User &apos;&apos;<Variable formatSpec="{0}">User ID</Variable>&apos;&apos; cannot set
+   configuration for: <Variable formatSpec="{1}">Config ID</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD183E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.A.SUPPORTED.CALL.1" varFormat="Java">
+   Not a supported call.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD184E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.A.SUPPORTED.CALL.2" varFormat="Java">
+   Not a supported call.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD185E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.OBTAIN.EXTERNAL.PROPERTIES.1" varFormat="Java">
+   Could not obtain External Properties.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD186E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.OBTAIN.EXTERNAL.PROPERTIES.2" varFormat="Java">
+   Could not obtain External Properties.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD187E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.OBTAIN.EXTERNAL.PROPERTIES.KEYS" varFormat="Java">
+   Could not obtain External Properties Keys.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD188E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.A.SUPPORTED.CALL.3" varFormat="Java">
+   Not a supported call.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD189E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.A.SUPPORTED.CALL.4" varFormat="Java">
+   Not a supported call.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD190E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.A.SUPPORTED.CALL.5" varFormat="Java">
+   Not a supported call.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD191E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.ASSEMBLYLINES.NAMES" varFormat="Java">
+   Could not retrieve AssemblyLines names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD192E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.OBTAIN.ASSEMBLYLINE.INPUT.SCHEMA" varFormat="Java">
+   Could not obtain AssemblyLine input schema.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD193E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.OBTAIN.ASSEMBLYLINE.OUTPUT.SCHEMA" varFormat="Java">
+   Could not obtain AssemblyLine output schema.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD194E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.EVENTHANDLERS.NAMES" varFormat="Java">
+   Could not retrieve EventHandlers names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD195E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.EXECUTE.ASSEMBLYLINE.1" varFormat="Java">
+   Not authorized to execute AssemblyLine: <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD196E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.ASSEMBLYLINE" varFormat="Java">
+   Could not start AssemblyLine <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD197E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.EXECUTE.ASSEMBLYLINE.2" varFormat="Java">
+   Not authorized to execute AssemblyLine: <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD198E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.ASSEMBLYLINE.1" varFormat="Java">
+   Could not start AssemblyLine <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD199E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.EXECUTE.ASSEMBLYLINE.3" varFormat="Java">
+   Not authorized to execute AssemblyLine: <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD200E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.ASSEMBLYLINE.2" varFormat="Java">
+   Could not start AssemblyLine <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD201E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.EXECUTE.ASSEMBLYLINE.4" varFormat="Java">
+   Not authorized to execute AssemblyLine: <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD202E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.ASSEMBLYLINE.3" varFormat="Java">
+   Could not start AssemblyLine <Variable formatSpec="{0}">AssemblyLine</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD203E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.AUTHORIZED.TO.EXECUTE.EVENTHANDLER" varFormat="Java">
+   Not authorized to execute EventHandler: <Variable formatSpec="{0}">EventHandler</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD204E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.EVENTHANDLER" varFormat="Java">
+   Could not start EventHandler.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD205E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RELOAD.CONFIG.INSTANCE" varFormat="Java">
+   Could not reload Config Instance.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD206E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONNECTOR.POOL.DOES.NOT.EXIST.1" varFormat="Java">
+   Connector Pool does not exist: <Variable formatSpec="{0}">Connector Pool name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD207E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONNECTOR.POOL.DOES.NOT.EXIST.2" varFormat="Java">
+   Connector Pool does not exist: <Variable formatSpec="{0}">Connector Pool name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD208E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONNECTOR.POOL.DOES.NOT.EXIST.3" varFormat="Java">
+   Connector Pool does not exist: <Variable formatSpec="{0}">Connector Pool name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD209E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONNECTOR.POOL.DOES.NOT.EXIST.4" varFormat="Java">
+   Connector Pool does not exist: <Variable formatSpec="{0}">Connector Pool name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD210E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.OBTAIN.CONFIG.OBJECT" varFormat="Java">
+   Unable to obtain config object.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD211E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.ASSEMBLYLINES.FOLDER" varFormat="Java">
+   Could not retrieve AssemblyLines Folder.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD212E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ASSEMBLYLINES.FOLDER.OBJECT.IS.NULL" varFormat="Java">
+   AssemblyLines Folder object is NULL.
+   </MsgText>
+   <Explanation><p>See message.</p></Explanation>
+   <OperatorResponse><p>No action is required.</p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD213E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETASSEMBLYLINECFG.COULD.NOT.RETRIEVE.CONFIGURATION.FOR.ASSEMBLYLINE" varFormat="Java">
+   getAssemblyLineCfg: Could not retrieve configuration for
+   AssemblyLine &apos;&apos;<Variable formatSpec="{0}">AssemblyLine name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD214E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETASSEMBLYLINECFG.ASSEMBLYLINE" varFormat="Java">
+   getAssemblyLineCfg: AssemblyLine &apos;&apos;<Variable formatSpec="{0}">AssemblyLine name</Variable>&apos;&apos;.
+   Configuration object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD215E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETEVENTHANDLERSFOLDER.COULD.NOT.RETRIEVE.EVENTHANDLERS.FOLDER" varFormat="Java">
+   Could not retrieve EventHandlers Folder.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD216E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETEVENTHANDLERSFOLDER.EVENTHANDLERS.OBJECT.IS.NULL" varFormat="Java">
+   EventHandlers Folder object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD217E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.UPDATING.CONFIGURATION.LOCK.TIME" varFormat="Java">
+   Error updating configuration lock time: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD218E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.SWITCHBOARD.OBJECT.IS.NULL" varFormat="Java">
+   Raw Switchboard object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD219E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.OBJECT.IS.NULL.1" varFormat="Java">
+   Config Instance object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD220E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.3" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD221E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.OBTAINING.SYSTEMLOG.FOR.EH.1" varFormat="Java">
+   Error while obtaining SystemLog for EventHandler:
+   <Variable formatSpec="{0}">Switchboard name</Variable>.<Variable formatSpec="{1}">Switchboard hashcode</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD222E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.TRIGGER.OBJECT.IS.NULL" varFormat="Java">
+   Raw Trigger object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD223E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.INSTANCE.OBJECT.IS.NULL.2" varFormat="Java">
+   Config Instance object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD224E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.4" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD225E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.OBTAINING.SYSTEMLOG.FOR.EH.2" varFormat="Java">
+   Error while obtaining SystemLog for EventHandler:
+   <Variable formatSpec="{0}">trigger name</Variable>.<Variable formatSpec="{1}">trigger hashcode</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD226E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INTERNAL.ERROR.INVALID.EVENTHANDLER.TYPE.1" varFormat="Java">
+   Internal error: invalid EventHandler type: <Variable formatSpec="{0}">EventHandler type</Variable>.
+   </MsgText>
+   <Explanation><p>See message.</p></Explanation>
+   <OperatorResponse><p>No action is required.</p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD227E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INTERNAL.ERROR.INVALID.EVENTHANDLER.TYPE.2" varFormat="Java">
+   Internal error: invalid EventHandler type: <Variable formatSpec="{0}">EventHandler type</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD228E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INTERNAL.ERROR.INVALID.EVENTHANDLER.TYPE.3" varFormat="Java">
+   Internal error: invalid EventHandler type: <Variable formatSpec="{0}">EventHandler type</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD229E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CONNECTORS.NAMES" varFormat="Java">
+   Could not retrieve Connectors names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD230E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CONN.DESCRIPTION" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Connector Name</Variable>&apos;&apos;
+   description. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD231E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CONN.VERSION" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Connector name</Variable>&apos;&apos; version
+   info. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD232E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CONNECTORS.NAMES.1" varFormat="Java">
+   Could not retrieve Connector&apos;s names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD233E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.DESCRIPTION.FOR.CONNECTOR.NAME.1" varFormat="Java">
+   Could not retrieve description for Connector &apos;&apos;<Variable formatSpec="{0}">Connector name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD234E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CLASS.NAME.FOR.CONNECTOR.NAME.2" varFormat="Java">
+   Could not retrieve class name for Connector &apos;&apos;<Variable formatSpec="{0}">Connector name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD235E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.EVENTHANDLERS.NAMES.1" varFormat="Java">
+   Could not retrieve EventHandler&apos;s names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD236E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.EH.DESCRIPTION" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;
+   description. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD237E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.ENABLED.STATUS" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;
+   enabled status. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD238E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.VERSION.INFO" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;
+   version info. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD239E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.EVENTHANDLERS.NAMES.2" varFormat="Java">
+   Could not retrieve EventHandlers names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD240E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.DESCRIPTION.FOR.EVENTHANDLER" varFormat="Java">
+   Could not retrieve description for EventHandler 
+   apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD241E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.ENABLED.STATUS.FOR.EVENTHANDLER" varFormat="Java">
+   Could not retrieve enabled status for EventHandler
+   &apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD242E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CLASS.NAME.FOR.EVENTHANDLER" varFormat="Java">
+   Could not retrieve class name for EventHandler
+   &apos;&apos;<Variable formatSpec="{0}">EventHandler name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD243E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSERS.NAMES" varFormat="Java">
+   Could not retrieve Parsers names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD244E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSER.DESCRIPTION.2" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos;
+   description. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD245E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSER.VERSION" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos; version
+   info. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD246E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSERS.NAMES.1" varFormat="Java">
+   Could not retrieve Parsers names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD247E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.DESCRIPTION.FOR.PARSER" varFormat="Java">
+   Could not retrieve description for Parser &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD248E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CLASS.NAME.FOR.PARSER" varFormat="Java">
+   Could not retrieve class name for Parser &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD249E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.FUNCTION.COMPONENTS.NAMES.1" varFormat="Java">
+   Could not retrieve Function Components names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD250E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSER.DESCRIPTION.1" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos;
+   description. Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD251E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PARSER.VERSION.1" varFormat="Java">
+   Could not retrieve &apos;&apos;<Variable formatSpec="{0}">Parser name</Variable>&apos;&apos; version info.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD252E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.FUNCTION.COMPONENTS.NAMES.2" varFormat="Java">
+   Could not retrieve Function Components names.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD253E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.DESCRIPTION.FOR.FUNCTION.COMPONENT" varFormat="Java">
+   Could not retrieve description for Function Component
+   &apos;&apos;<Variable formatSpec="{0}">Function Component name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD254E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.CLASS.NAME.FOR.FUNCTION.COMPONENT" varFormat="Java">
+   Could not retrieve class name for Function Component
+   &apos;&apos;<Variable formatSpec="{0}">Function Component name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD255E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COMPONENT.CLASS.NOT.FOUND" varFormat="Java">
+   Component class &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos; not found.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD256E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ACCESS.ERROR.ON.LOADING.CLASS" varFormat="Java">
+   Access error on loading &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos; class.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD257E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INSTANTIATE.CLASS" varFormat="Java">
+   Could not instantiate class &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD258E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.VERSION.INFO.FOR.CLASS" varFormat="Java">
+   Could not retrieve version info for class &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD259E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.RETRIEVE.PASSWORD.PARAMETER.NAMES.FOR.CLASS" varFormat="Java">
+   Could not retrieve password parameter names for class
+   &apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD260E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUTHENTICATION.FAILED.FOR.USER.1" varFormat="Java">
+   Authentication failed for user: <Variable formatSpec="{0}">username</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid username and password.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD261E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIG.ID.IS.NULL" varFormat="Java">
+   Config ID is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD262E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.START.CONFIG.INSTANCE.1" varFormat="Java">
+   Could not start Config Instance.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD263E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.SUPPORTED.SERVER.API.CALL.CREATENEWCONFIGINSTANCE.1" varFormat="Java">
+   Not supported Server API call: createNewConfigInstance.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD264E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NOT.SUPPORTED.SERVER.API.CALL.CREATENEWCONFIGINSTANCE.2" varFormat="Java">
+   Not supported Server API call: createNewConfigInstance.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD265E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INTERNALERROR.UNKNOWN.EVENTHANDLER.TYPE" varFormat="Java">
+   InternalError: Unknown EventHandler type: <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD266E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.WITH.ID.NOT.AUTHORIZED" varFormat="Java">
+   User with ID: <Variable formatSpec="{0}">user ID</Variable> not authorized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD267E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GET.DEFAULT.SYSTEM.QUEUE" varFormat="Java">
+   Could not get default System Queue.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD268E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GETMESSAGE" varFormat="Java">
+   Could not getMessage.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD269E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.PUTMESSAGE" varFormat="Java">
+   Could not putMessage. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD270E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GETTEXTMESSAGE" varFormat="Java">
+   Could not getTextMessage. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD271E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.PUTTEXTMESSAGE" varFormat="Java">
+   Could not putTextMessage. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD272E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GETBYTESMESSAGE" varFormat="Java">
+   Could not getBytesMessage. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD273E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.PUTBYTESMESSAGE" varFormat="Java">
+   Could not putBytesMessage. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD274E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.GETENTRY" varFormat="Java">
+   Could not getEntry.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD275E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.PUTENTRY" varFormat="Java">
+   Could not putEntry. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD276E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.TDIPROPERTIES.IS.NULL" varFormat="Java">
+   Local TDIProperties is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD277E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.5" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD278E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ASSEMBLYLINE.OBJECT.IS.NULL.1" varFormat="Java">
+   AssemblyLine object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD279E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.RAW.ASSEMBLYLINE.HANDLER.OBJECT" varFormat="Java">
+   Raw AssemblyLine Handler object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD280E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.6" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD281E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.ASSEMBLYLINE.IS.NULL" varFormat="Java">
+   Local AssemblyLine is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD282E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.7" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD283E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.LISTENER.OBJECT.IS.NULL" varFormat="Java">
+   Remote Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD284E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.ASSEMBLYLINECYCLEDONE" varFormat="Java">
+   RemoteException on assemblyLineCycleDone method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD285E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.ASSEMBLYLINEFINISHED" varFormat="Java">
+   RemoteException on assemblyLineFinished method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD286E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTEEXCEPTION.ON.MESSAGELOGGED" varFormat="Java">
+   RemoteException on messageLogged method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD287E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.5" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD288E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.6" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p
+   >See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD289E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.CONFIG.INSTANCE.IS.NULL" varFormat="Java">
+   Local Config Instance is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD290E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.8" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD291E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.METAMERGECONFIGINSTANTIATEALLOBJECTS.FAILED" varFormat="Java">
+   MetamergeConfig.instantiateAllObjects method failed:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD292E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.LISTENER.OBJECT.IS.NULL.1" varFormat="Java">
+   Remote Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD293E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.HANDLEEVENT" varFormat="Java">
+   RemoteException on handleEvent method.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD294E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.7" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD295E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.8" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD296E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.EVENTHANDLER.IS.NULL" varFormat="Java">
+   Local EventHandler is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD297E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.9" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD298E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.LISTENER.OBJECT.IS.NULL.2" varFormat="Java">
+   Remote Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD299E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.EVENTCAPTURED" varFormat="Java">
+   RemoteException on eventCaptured method.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD300E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.EVENTPROCESSED" varFormat="Java">
+   RemoteException on eventProcessed method.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD301E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTEEXCEPTION.ON.EVENTHANDLERTERMINATED" varFormat="Java">
+   RemoteException on eventHandlerTerminated method.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD302E for defect 11290, because it is referenced nowhere in the code. -->
+
+<Message ID="CTGDKD303E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.9" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD304E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LISTENER.OBJECT.IS.NULL.10" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD305E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.SECURITY.REGISTRY.OBJECT" varFormat="Java">
+   Local Security Registry object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD306E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.10" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD307E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.SERVER.INFO.OBJECT.IS.NULL" varFormat="Java">
+   Local Server Info object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD308E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.11" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD309E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SSL.CLIENT.AUTHENTICATION.IS.DISABLED" varFormat="Java">
+   SSL client authentication is disabled.
+   </MsgText>
+   <Explanation><p>
+   When connecting to a remote IBM Security Verify Directory Integrator Server over SSL, either SSL Client authentication 
+   or LDAP/Custom Authentication must be used. Connections using the createSession() API
+   will not succeed because the server has SSL client authentication disabled.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify the authentication mechanism configured for the server and enable it in the client before
+   attempting to create another session with the server. Try using the createSession(username,password) API
+   which uses LDAP/Custom Autentication. Refer to the Security related chapters in the
+   IBM Security Verify Directory Integrator Installation and Administrator Guide for more information.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD310E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.GET.USERID" varFormat="Java">
+   Unable to get userId.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD311I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.SESSION.CREATED.FOR.USER" varFormat="Java">
+   Remote session created for user: <Variable formatSpec="{0}">user ID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD312E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.HOST.AUTHENTICATION" varFormat="Java">
+   Error in host authentication.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD313E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.HOST.NOW.ALLOWED" varFormat="Java">
+   Host not allowed.
+   </MsgText>
+   <Explanation><p>S
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD314I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.SESSION.CREATED.WITH.LOCAL.IDENTITY" varFormat="Java">
+   Remote session created with local Identity.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD315I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.SESSION.CREATED.FOR.USER.1" varFormat="Java">
+   Remote session created for user: <Variable formatSpec="{0}">username</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD316E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUTHENTICATION.FAILED.FOR.USER.2" varFormat="Java">
+   Authentication failed for user: <Variable formatSpec="{0}">username</Variable>.
+   Exception occurred: <Variable formatSpec="{1}">exeption</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD317E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.SYSTEM.LOG.IS.NULL" varFormat="Java">
+   Local System Log is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD318E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.12" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD319E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.TDIPROPERTIES.IS.NULL.1" varFormat="Java">
+   Local TDIProperties is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD320E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.13" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD321E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.TOMBSTONEMANAGER.IS.NULL" varFormat="Java">
+   Local TombstoneManager is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD322E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SESSION.OBJECT.IS.NULL.14" varFormat="Java">
+   Session object is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD323E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NO.SOCKET.IS.ASSOCIATED.WITH.THE.CURRENT.THREAD" varFormat="Java">
+   No Socket is associated with the current thread.
+   </MsgText>
+   <Explanation><p>
+   Socket is null.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD324E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.CREATE.SOCKET" varFormat="Java">
+   Unable to create socket. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   An IOException is encountered.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD325E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REQUIRED.PROPERTY.IS.MISSING" varFormat="Java">
+   Required property is missing: <Variable formatSpec="{0}">key</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD326E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TYPE.FOR.PROPERTY" varFormat="Java">
+   Invalid type for property &apos;&apos;<Variable formatSpec="{0}">key</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">class name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   The property must be an instanceof String.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD328E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NO.SSL.SOCKET.IS.ASSOCIATED.WITH.CURRENT.THREAD" varFormat="Java">
+   No SSL socket is associated with the current thread.
+   </MsgText>
+   <Explanation><p>
+   Socket is null.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD329E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SSL.SOCKET.SESSION.IS.NULL" varFormat="Java">
+   SSL socket session is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD330E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SSL.SESSION.CERTIFICATE.CHAIN.IS.EMPTY" varFormat="Java">
+   SSL session certificate chain is empty.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD331E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REQUIRED.PROPERTY.IS.MISSING.1" varFormat="Java">
+   Required property is missing: <Variable formatSpec="{0}">key</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD332E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TYPE.FOR.PROPERTY.1" varFormat="Java">
+   Invalid type for property &apos;&apos;<Variable formatSpec="{0}">key</Variable>&apos;&apos;:
+   <Variable formatSpec="{1}">class name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD335E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INPUT.FILE.DOES.NOT.EXIST" varFormat="Java">
+   Input file &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos; does not exist.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD336E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CRYPTO.UTILS.SERVER.CRYPTO.NOT.INITIALIZED" varFormat="Java">
+   Server cryptography is not initialized.
+   </MsgText>
+   <Explanation><p>
+   This is an internal error.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD337E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ILLEGAL.VALUE.FOR.MODE.PARAMETER" varFormat="Java">
+   Illegal value &apos;&apos;<Variable formatSpec="{0}">mode</Variable>&apos;&apos; for mode parameter.
+   </MsgText>
+   <Explanation><p>
+   The mode must be &apos;encrypt&apos; or &apos;decrypt&apos;.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD346E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REGISTRY.ALREADY.INITIALIZED" varFormat="Java">
+   Registry already initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD347E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REGISTRY.FILE.NAME.IS.NULL" varFormat="Java">
+   Registry file name is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD348E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REGISTRY.FILE.DOES.NOT.EXIST" varFormat="Java">
+   Registry file &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos;
+   does not exists.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD349I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.READING.SECURITY.REGISTRY" varFormat="Java">
+   Reading security registry ...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD350I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DECRYPTING.SECURITY.REGISTRY" varFormat="Java">
+   Decrypting security registry ...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD351E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.DECRYPTING.REGISTRY.FILE" varFormat="Java">
+   Error while decrypting registry file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD352E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REGISTRY.FILE.NOT.FOUND" varFormat="Java">
+   Registry file not found.
+   </MsgText>
+   <Explanation><p>
+   A FileNotFoundException is encountered.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD353E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.WHILE.READING.REGISTRY.FILE" varFormat="Java">
+   Error while reading registry file.
+   </MsgText>
+   <Explanation><p>
+   An IOException is encountered.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD354I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SECURITY.REGISTRY.SUCCESSFULLY" varFormat="Java">
+   Security registry successfully read.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD355E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TAG.AT.LINE.1" varFormat="Java">
+   Invalid tag at line <Variable formatSpec="{0}">line number</Variable>:
+   <Variable formatSpec="{1}">line</Variable>. 
+   Expected &apos;[USER]&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD356E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NO.USER.ID.SPECIFIED" varFormat="Java">
+   No user ID specified.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD357E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TAG.AT.LINE.2" varFormat="Java">
+   Invalid tag at line <Variable formatSpec="{0}">line number</Variable>:
+   <Variable formatSpec="{1}">line</Variable>. 
+   Expected &apos;[ID]:&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD358E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EMPTY.USER.ID.SPECIFIED.AT.LINE" varFormat="Java">
+   Empty user ID specified at line <Variable formatSpec="{0}">line number</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD359E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.USER.DEFINITION.USER.ID" varFormat="Java">
+   Invalid User definition.
+   User ID &apos;&apos;<Variable formatSpec="{0}">user ID</Variable>&apos;&apos; at
+   line <Variable formatSpec="{1}">line number</Variable> has already been defined
+   in the registry file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD360E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.DEFINITION.NOT.CLOSED.AT.END.OF.FILE" varFormat="Java">
+   User definition not closed at end of file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD361E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TAG.AT.LINE.3" varFormat="Java">
+   Invalid tag at line <Variable formatSpec="{0}">line number</Variable>:
+   <Variable formatSpec="{1}">line</Variable>. 
+   Expected &apos;[ROLE]:&apos; or &apos;[ENDUSER]&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Rrovide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD362E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EMPTY.ROLE.SPECIFIED.AT.LINE" varFormat="Java">
+   Empty ROLE specified at line <Variable formatSpec="{0}">line number</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD363E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.ROLE.SPECIFIED.AT.LINE" varFormat="Java">
+   Invalid ROLE specified at line <Variable formatSpec="{0}">line number</Variable>:
+   <Variable formatSpec="{1}">role name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD364E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.DEFINITION.NOT.CLOSED.AT.END.OF.FILE.1" varFormat="Java">
+   User definition not closed at end of file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD365E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TAG.AT.LINE.4" varFormat="Java">
+   Invalid tag at line <Variable formatSpec="{0}">line number</Variable>: <Variable formatSpec="{1}">line</Variable>. 
+   Expected &apos;[CONFIG]:&apos; or &apos;[ROLE]:&apos; or &apos;[ENDUSER]&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD366E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EMPTY.CONFIG.SPECIFIED.AT.LINE" varFormat="Java">
+   Empty CONFIG specified at line <Variable formatSpec="{0}">line number</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD367E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.USER.DEFINITION.NOT.CLOSED.AT.END.OF.FILE.2" varFormat="Java">
+   User definition not closed at end of file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD368E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EMPTY.AL.SPECIFIED.AT.LINE" varFormat="Java">
+   Empty AL specified at line <Variable formatSpec="{0}">line number</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD369E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EMPTY.EH.SPECIFIED.AT.LINE" varFormat="Java">
+   Empty EH specified at line <Variable formatSpec="{0}">line number</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD370E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.TAG.AT.LINE.5" varFormat="Java">
+   Invalid tag at line <Variable formatSpec="{0}">line number</Variable>: <Variable formatSpec="{1}">line</Variable>. 
+   Expected &apos;[AL]:&apos; or &apos;[EH]:&apos; or &apos;[CONFIG]:&apos; or &apos;[ROLE]:&apos; or &apos;[ENDUSER]&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD371E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ROLE.IS.NULL" varFormat="Java">
+   Role is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD372E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.ROLE" varFormat="Java">
+   Invalid role: <Variable formatSpec="{0}">aRole</Variable>
+   </MsgText>
+   <Explanation><p>
+   The role must be &apos;admin&apos;, &apos;read&apos; or &apos;execute&apos;.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid registry file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD373E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOG.LISTENER.IS.NULL" varFormat="Java">
+   Log Listener is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD374E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.EXCEPTION.CAUGHT.ON.MESSAGELOGGED" varFormat="Java">
+   Exception caught on messageLogged method: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD375E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETSYSTEMLOGAPPENDER.CALLED.WITH.NULL.LOG" varFormat="Java">
+   The getSystemLogAppender method called with a NULL log; will return NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD376E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETCOMPONENTLOG.LOGFILENAME.PARAMETER.IS.NULL" varFormat="Java">
+   getComponentLog: LogFileName parameter is NULL or empty.
+   </MsgText>
+   <Explanation><p>See message.</p></Explanation>
+   <OperatorResponse><p>No action is required.</p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD377E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETCOMPONENTLOG.ERROR.WHILE.READING.LOG.FILE" varFormat="Java">
+   Error while reading &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos; log file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD378E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOGFILENAME.PARAMETER.IS.NULL" varFormat="Java">
+   LogFileName parameter is NULL or empty.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD379E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.GETCOMPONENTLOGLASTCHUNK.ERROR.WHILE.READING.LOG.FILE" varFormat="Java">
+   getComponentLogLastChunk: Error while reading
+   &apos;&apos;<Variable formatSpec="{0}">file name</Variable>&apos;&apos; log file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD380E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DELETECOMPONENTOLDLOGS.COMPONENT.NAME.PARAMETER.IS.NULL.1" varFormat="Java">
+   Component name parameter is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD381E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DELETECOMPONENTOLDLOGS.COMPONENT.NAME.PARAMETER.IS.NULL.2" varFormat="Java">
+   Component name parameter is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD382E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DELETECOMPONENTOLDLOGS.MIN.DATE.PARAMETER.IS.NULL" varFormat="Java">
+   Min date parameter is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD383E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DELETEALLOLDCOMPLOGS.INVALID.COMPONENET.TYPE.1" varFormat="Java">
+   Internal error: deleteAllOldCompLogs: Invalid componenet type: <Variable formatSpec="{0}">component type</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD384E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DELETEALLOLDCOMPLOGS.INVALID.COMPONENET.TYPE.2" varFormat="Java">
+   Internal error: deleteAllOldCompLogs: Invalid componenet type: <Variable formatSpec="{0}">component type</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD385E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INVALID.COMPONENT.TYPE.SPECIFIED.FOR.SYSTEMLOGAPPENDER" varFormat="Java">
+   Invalid component type specified for SystemLogAppender: &apos;&apos;<Variable formatSpec="{0}">component type</Variable>&apos;&apos;. 
+   The only valid values are &apos;AL&apos;
+   and &apos;EH&apos;.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD386E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NO.COMPONENT.TYPE.ASSIGNED.TO.SYSTEMLOG.1" varFormat="Java">
+   No component type assigned to SystemLog Appender.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD387E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SYSTEMLOGAPPENDER.COMPONENT.TYPE" varFormat="Java">
+   SystemLogAppender: component type has not been specified.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD388E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SYSTEMLOGAPPENDER.COMPONENT.NAME" varFormat="Java">
+   SystemLogAppender: component name has not been specified.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD389E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SYSTEMLOGAPPENDER.LOG.PATTERN.HAS" varFormat="Java">
+   SystemLogAppender: log pattern has not been specified.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD390E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.SYSTEMLOGAPPENDER.COULD.NOT.GENERATE.LOG.FILE.NAME" varFormat="Java">
+   SystemLogAppender: could not generate log file name.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD391E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.NO.COMPONENT.TYPE.ASSIGNED.TO.SYSTEMLOG.2" varFormat="Java">
+   No component type assigned to SystemLog Appender.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD392I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.STARTED.WILL.DELETE.TOMBSTONES.OLDER.THAN" varFormat="Java">
+   TombstoneAutoCleaner started. 
+   Will delete Tombstones older than <Variable formatSpec="{0}">number of days</Variable> days.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD393I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.INITIAL.RUN.PERFORMED.DELETED" varFormat="Java">
+   TombstoneAutoCleaner: initial run performed. 
+   Deleted: <Variable formatSpec="{0}">number of tombstones</Variable> tombstones.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD394I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.SCHEDULED.RUN.PERFORMED.DELETED" varFormat="Java">
+   TombstoneAutoCleaner: scheduled run performed. 
+   Deleted: <Variable formatSpec="{0}">number of tombstones</Variable> tombstones.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD395E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.THREAD.INTERUPTED" varFormat="Java">
+   TombstoneAutoCleaner: thread interupted.
+   </MsgText>
+   <Explanation><p>
+   An InterruptedException is encountered.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD396E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.ERROR" varFormat="Java">
+   TombstoneAutoCleaner error: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD397I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.TIME.TO.NEXT.RUN" varFormat="Java">
+   TombstoneAutoCleaner: time to next run: <Variable formatSpec="{0}">timestamp</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD398I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONEAUTOCLEANER.NEXT.RUN.IS.SCHEDULED.FOR" varFormat="Java">
+   TombstoneAutoCleaner: next run is scheduled for <Variable formatSpec="{0}">timestamp</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD399E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INITIALIZE.TOMBSTONE.MANAGER.DB.CONNECTION" varFormat="Java">
+   Could not initialize Tombstone Manager database connection.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD400E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COULD.NOT.INITIALIZE.TOMBSTONE.MANAGER.LISTENER" varFormat="Java">
+   Could not initialize Tombstone Manager Listener.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD401E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.CHECKING.FOR.TOMBSTONE.RECORDS.TABLE" varFormat="Java">
+   Error in checking for tombstone records table.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD402I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TABLE.NAME.CREATE" varFormat="Java">
+   &apos;&apos;<Variable formatSpec="{0}">table name</Variable>&apos;&apos;
+   CREATE: <Variable formatSpec="{1}">SQL statement</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD403E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.CREATING.TOMBSTONE.TABLE" varFormat="Java">
+   Error in creating tombstone table.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD404E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.GETTING.TOMBSTONE.RECORD.BY.GUID" varFormat="Java">
+   Error in getting tombstone record by GUID.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD405E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.DELETING.TOMBSTONE.RECORD.BY.GUID" varFormat="Java">
+   Error in deleting tombstone record by GUID.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD406E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.CONSTRUCTING.TOMBSTONE.FROM.DATABASE.RECORD" varFormat="Java">
+   Error in constructing tombstone from database record.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD407E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.ON.RETRIEVING.TOMBSTONE.RECORDS" varFormat="Java">
+   Error on retrieving tombstone records:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD408E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.RETRIEVING.LAST.RECORD.TO.KEEP" varFormat="Java">
+   Error in retrieving last record to keep:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD409E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.DELETING.TOMBSTONE.RECORDS" varFormat="Java">
+   Error in deleting tombstone records:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD410E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.OBJECT.DESERIALIZATION" varFormat="Java">
+   Error in object deserialization:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD411I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONES.RECORD.COUNT" varFormat="Java">
+   Tombstones record count: <Variable formatSpec="{0}">count</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD412E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.IN.COUNT.TOMBSTONE.RECORDS" varFormat="Java">
+   Error in count Tombstone records:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD413E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INSERT.OPERATION.OF.TOMBSTONE.RECORD.IN.DATABASE.FAILED" varFormat="Java">
+   Insert operation of tombstone record in database failed.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD414E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONE.MANAGER.LISTENER.ALREADY.INITIALIZED" varFormat="Java">
+   Tombstone Manager Listener already initialized.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD415E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.SESSION.IS.NULL.1" varFormat="Java">
+   Local Session is NULL.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD416E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONE.MANAGER.SERVER.API.LISTENER.SUCCESSFULLY.REGISTERED" varFormat="Java">
+   Tombstone Manager Server API Listener successfully registered.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD417I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONE.CREATED.FOR.EVENT" varFormat="Java">
+   Tombstone created for event: <Variable formatSpec="{0}">event</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD418I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CURRENT.RECORD.COUNT.IS" varFormat="Java">
+   Current record count: <Variable formatSpec="{0}">number of records</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD419I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITIATING.RECORD.DELETION.TO.MAX.RECORDS" varFormat="Java">
+   Initiating record deletion to max records: <Variable formatSpec="{0}">integer</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD420I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.FINISHED.RECORD.DELETION" varFormat="Java">
+   Finished record deletion.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD421E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TOMBSTONE.STATISTICS.SERIALIZATION.ERROR" varFormat="Java">
+   Tombstone statistics serialization error.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD422E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.OBJECT.SERIALIZATION.FAILED" varFormat="Java">
+   Object serialization failed.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the
+   error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD423E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.GET.ASSEMBLYLINECONFIG.FOR.ASSEMBLYLINE" varFormat="Java">
+   Unable to get AssemblyLineConfig for AssemblyLine: <Variable formatSpec="{0}">event ID</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD424E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.UNABLE.TO.GET.TOMBSTONESCONFIG.FOR.EVENTHANDLER" varFormat="Java">
+   Unable to get TombstonesConfig for EventHandler: <Variable formatSpec="{0}">event ID</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD425I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITRECORDCOUNTERS.RECORDSTRIGGER" varFormat="Java">
+   initRecordCounters: recordsTrigger: <Variable formatSpec="{0}">boolean</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD426I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITRECORDCOUNTERS.RECORDSMAX" varFormat="Java">
+   initRecordCounters: recordsMax: <Variable formatSpec="{0}">integer</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD427I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITRECORDCOUNTERS.RECORDSCOUNT" varFormat="Java">
+   initRecordCounters: recordsCount: <Variable formatSpec="{0}">integer</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD428I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITRECORDCOUNTERS.RECORDS.COUNT.MONITORING.TURNED.ON" varFormat="Java">
+   Records count monitoring is turned on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD429I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.INITRECORDCOUNTERS.RECORDS.COUNT.MONITORING.DISABLED" varFormat="Java">
+   Records count monitoring is disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD430I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.COLON.1" varFormat="Java">
+   <Variable formatSpec="{0}">line number</Variable>: <Variable formatSpec="{1}">inputLine</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD431E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.TDIPROPERTYSTORE.NOT.FOUND" varFormat="Java">
+   The IBM Security Verify Directory Integrator property store
+   <Variable formatSpec="{0}">property store name</Variable> does not exist.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Pass an existing IBM Security Verify Directory Integrator Property store name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD432I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.ENGINE.SUCCESSFULLY.INITIALIZED.SSL.ON.CLIENT.AUTH.OFF" varFormat="Java">
+   <pre>Remote API Engine successfully initialized. SSL is enabled and Client Authentication is disabled.</pre>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD433I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.SSL.ON.CLIENT.AUTH.OFF" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL is enabled and Client Authentication is disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD434I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.ENGINE.SUCCESSFULLY.INITIALIZED.SSL.OFF.CLIENT.AUTH.OFF" varFormat="Java">
+   <pre>Remote API Engine successfully initialized. SSL and Client Authentication are disabled.</pre>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD435I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.SSL.OFF.CLIENT.AUTH.OFF" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL and Client Authentication are disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD436E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.CLASS.NOT.FOUND" varFormat="Java">
+   The desired custom class can not be found.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Pass a valid class name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD437E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.NOT.FOUND" varFormat="Java">
+   The desired custom method can not be found.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Pass a valid method name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD438E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.THROW.EXCEPTION" varFormat="Java">
+   Exception occured in the invoked custom method.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD439E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.ILLEGAL.ACCESS" varFormat="Java">
+   Method does not have access to the definition of the specified custom class.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD440E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.ILLEGAL.USE.WITH.NULL.PARAM" varFormat="Java">
+   This method does not support invocations of methods with null value parameters.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Use the other invokeCustom method.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD441E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.NOT.TURNED.ON" varFormat="Java">
+   The custom method invocation is not turned on.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Turn on custom method invocation from global.properties file. Change api.custom.method.invoke.on property to true.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD442E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.NO.CLASSES.ALLOWED" varFormat="Java">
+   No classes are allowed for custom invocation.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Allow invocation of custom classes from global.properties file. Change api.custom.method.invoke.allowed.classes property.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD443E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LOCAL.INVOKE.CUSTOM.METHOD.CLASS.NOT.ALLOWED" varFormat="Java">
+   The desired class is not allowed for invocation: <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Allow invocation of the class from global.properties file. Change api.custom.method.invoke.allowed.classes property.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD444I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ALLOWED.CUSTOM.CLASSES" varFormat="Java">
+   Allowed classes for custom invocation: <Variable formatSpec="{0}">class names</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD445I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CUSTOM.INVOKE.ON.OR.OFF" varFormat="Java">
+   Custom method invocation is set to <Variable formatSpec="{0}">boolean value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD446I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CRYPTO.UTILS.USAGE" varFormat="Java">
+   Usage:<br/>
+   -input &lt;input file&gt;<br/>
+   -output &lt;output file&gt;<br/>
+   -mode &lt;<Variable formatSpec="{0}">operation mode</Variable>|<Variable formatSpec="{1}">operation mode</Variable>|<Variable formatSpec="{2}">operation mode</Variable>|<Variable formatSpec="{3}">operation mode</Variable>|<Variable formatSpec="{4}">operation mode</Variable>|<Variable formatSpec="{5}">operation mode</Variable>&gt;<br/>
+   -keystore &lt;keystore file&gt;<br/>
+   -storepass &lt;keystore password&gt;<br/>
+   -alias &lt;encryption key alias&gt;<br/>
+   [ -keypass &lt;key password&gt; ]<br/>
+   [ -transformation &lt;encryption transformation&gt; ]<br/>
+   [ -storetype &lt;keystore type&gt; ]<br/>
+   [ -cryptoproviderclass &lt;security provider used for encryption&gt; ]<br/>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD447E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CRYPTO.UTILS.WRONG.SIGNATURE" varFormat="Java">
+   The provided file is not an encrypted IBM Security Verify Directory Integrator Config file.
+   </MsgText>
+   <Explanation><p>
+   The IBM Security Verify Directory Integrator Config file signature is either missing or corrupted.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Ensure the provided file is a valid encrypted IBM Security Verify Directory Integrator config file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD458E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.ERROR.ON.RETRIEVING.TOMBSTONE.RECORDS.2" varFormat="Java">
+   Error on retrieving tombstone records:
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD459W" prefix="yes">
+   <MsgText pgmKey="SEVER.API.TRANSFORMED.SOLUTION.NAME.TO.BE.CONFIG.ID" varFormat="Java">
+   The Solution Name &apos;<Variable formatSpec="{1}">Solution Name</Variable>&apos; of the configuration
+   &apos;<Variable formatSpec="{0}">file name</Variable>&apos; is not a valid file name.
+   The configuration instance id and Solution Name will be changed to: &apos;<Variable formatSpec="{2}">Solution Name</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   When a configuration has a defined Solution Name, the name used as the configuration instance id
+   by the IBM Security Verify Directory Integrator Server. The configuration id is used to store certain artifacts,
+   such as system logs, on the file system of the IBM Security Verify Directory Integrator Server. The Solution
+   Name in the configuration file was not valid file name.  The IBM Security Verify Directory Integrator Server has
+   modified the Solution Name internally so that it can be used as a configuration id.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid Solution Name in the configuration file.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD460I. The message has been moved to miserver.xml under key GENERATED.CONFIG.ID.FOR.CONFIG.INSTANCE -->
+
+<Message ID="CTGDKD461I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.CONFIGURATION.REGISTRY.PARSED.FILE.FOR.SOLUTION.NAME" varFormat="Java">
+   The Configuration Registry parsed file &apos;<Variable formatSpec="{0}">file name</Variable>&apos; and
+   found Solution Name &apos;<Variable formatSpec="{1}">name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD462E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.DUPLICATE.SOLUTION.NAME" varFormat="Java">
+   Solution Name &apos;<Variable formatSpec="{0}">Solution Name</Variable>&apos; is already in use by
+   configuration &apos;<Variable formatSpec="{1}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   No two configurations are allowed to have the same Solution Name within the same
+   IBM Security Verify Directory Integrator Server.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Ensure that no two configurations have the same Solution Names.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD463W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.DETECTED.SOLUTION.NAME.FROM.AMC" varFormat="Java">
+   The IBM Security Verify Directory Integrator Server detected the Solution Name &apos;<Variable formatSpec="{0}">Solution Name</Variable>&apos;
+   from a client in the token &apos;<Variable formatSpec="{1}">token name</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   The Server encountered a client utility that prefixes the Solution Names with the path of the
+   configuration folder.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No response is necessary.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD464E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.SOLUTION.NAME.COINCIDES.WITH.EXISTING.FILE" varFormat="Java">
+   Solution Name &apos;<Variable formatSpec="{0}">name</Variable>&apos; of configuration
+   &apos;<Variable formatSpec="{1}">file name</Variable>&apos; coincides with the name of
+   file &apos;<Variable formatSpec="{2}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   For security reasons, Solution Names are not allowed to coincide with names of existing files.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Ensure the Solution Name of the configuration is not the same as the path of an existing file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD465W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.PASSWORD.PROTECTED.CONFIGURATION.DETECTED" varFormat="Java">
+   Password protected configuration detected in file &apos;<Variable formatSpec="{0}"> file name</Variable>&apos;.
+   The configuration will be only be accessible through its file name.
+   </MsgText>
+   <Explanation><p>
+   The Server API is unable to extract Solution Names for password protected configurations present
+   in the configuration codebase folder.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No response is necessary.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD466I" prefix="yes">
+   <MsgText pgmKey="SERVER.API.ASSUMING.TDI.CONFIGURATION" varFormat="Java">
+   Unable to parse the file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   The file will processed as a valid configuration file and added it to the list of configurations.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD467W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.PASSWORD.PROTECTED.CONFIGURATION.OPEN" varFormat="Java">
+   Password protected configuration detected &apos;<Variable formatSpec="{0}">name</Variable>&apos;.
+   The Solution Name will be ignored and may already be used by another configuration.
+   </MsgText>
+   <Explanation><p>
+   The Server API is unable to extract Solution Names for password protected configurations present
+   in the configuration folder.  The Solution Name will be ignored and may already be used by
+   another configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify no configurations loaded on the server have the same Solution Name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD468E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.INVALID.VALUE.SPECIFIED.FOR.CONFIG.TIMEOUT" varFormat="Java">
+   Invalid value specified for &apos;api.config.load.timeout&apos;:
+   &apos;&apos;<Variable formatSpec="{0}">paramater value</Variable>&apos;&apos;. Server API 
+   will use the default value of this property. 
+    </MsgText>
+   <Explanation><p>
+   A NumberFormatException was encountered while converting the parameter from a
+   String to an Integer.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Ensure the api.config.load.timeout property in the global.properties is valid.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD469W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CONFIG.LOAD.TIMEOUT.EXCEEDED" varFormat="Java">
+   The configuration could not be loaded in the time specified in &apos;api.config.load.timeout&apos;: property. 
+   </MsgText>
+   <Explanation><p>
+   Server API is unable to load configuration in the timeout interval specified in 
+   &apos;api.config.load.timeout&apos;: property.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No response is necessary.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD470E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.AUDIT.SEND.NOTIFICATION" varFormat="Java">
+   Error while broadcasting audit notification.  The event type was not
+   specified in the event.
+   </MsgText>
+   <Explanation><p>
+   The event could not be sent because it has no specified type.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Set type of the event before attempting to send the event.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD471E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.MISSING.PASSWORD.FOR.CONFIGURATION" varFormat="Java">
+   A password was not specified or was invalid for the encrypted file.
+   </MsgText>
+   <Explanation><p>
+   See message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a valid password.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD472E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.INVALID.RUN.NAME" varFormat="Java">
+   The specified Run Name &apos;&apos;<Variable formatSpec="{0}">name</Variable>&apos;&apos;
+   cannot be used as a configuration instance id because it contains one or more of the following
+   symbols:  \ / : * ? &apos;&apos; &lt; &gt; |.
+   </MsgText>
+   <Explanation><p>
+   Each Run Name is used as a configuration instance id.
+   Configuration instance ids are used as file names to store certain instance-related entities
+   such as system logs. That is why a Run Name must be a valid file name.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Specify a run name that does not contain slashes or colons.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD473I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.GROUP.USER.NOT.FOUND" varFormat="Java">
+   User &apos;&apos;<Variable formatSpec="{0}">user name</Variable>&apos;&apos; cannot be
+   successfully looked up in the directory context. No group search was performed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD474E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.GROUP.ATTRIBUTE.NULL" varFormat="Java">
+   The required attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos;
+   is not specified.
+   </MsgText>
+   <Explanation><p>
+   The attribute is required in order to search for the groups of the LDAP user, but
+   the attribute is not set to a value.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Specify an appropriate value for this attribute in global.properties or solution.properties or turn
+   off the LDAP group support.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD475E" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.GROUP.NO.SEARCHBASE" varFormat="Java">
+   No search base was specified for the group search option. Assign a value to the property
+   &apos;&apos;<Variable formatSpec="{0}">property name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation><p>
+   The attribute is required in order to search for the groups of the LDAP user, but
+   the attribute is not set to a value.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Specify a valid base for the group searches.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD476I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.LDAP.AUTHENTICATION.GROUP.BIND.UNSUCCESSFUL" varFormat="Java">
+   The attempt at direct binding for the LDAP group
+   &apos;&apos;<Variable formatSpec="{0}">group name</Variable>&apos;&apos; has failed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD477I" prefix="yes">
+   <MsgText pgmKey="SERVER.API.RESERVED.PORT" varFormat="Java">
+   The value for &apos;api.remote.naming.port&apos;: 
+   &apos;&apos;<Variable formatSpec="{0}">port</Variable>&apos;&apos;
+   is in the reserved range of port numbers.
+   </MsgText>
+   <Explanation><p>
+   The naming port has a value between 1 and 1023. Port numbers in that range are reserved for special purposes.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the property &apos;api.remote.naming.port&apos; in the global.properties/solution.properties file,
+   and assign it a proper value.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD478E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REGISTRY.CANNOT.UNDERSTAND.CONFIG.IDENTIFIER" varFormat="Java">
+   User Registry could not parse CONFIG identifier &apos;&apos;<Variable formatSpec="{0}">name</Variable>&apos;&apos;.
+   Exception occurred: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   The User Registry could not derive a configuration instance id from the specified CONFIG identifier.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the CONFIG identifier is either an absolute file name or is acceptable for a configuration instance run name.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD479E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CANNOT.DELETE.CHECKED.OUT.FILE" varFormat="Java">
+   The file cannot be deleted, because it is currently checked out.
+   </MsgText>
+   <Explanation><p>
+   Someone holds a lock over the file (possibly editing it at the moment).
+   The file cannot be deleted until the lock is released.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the file is not checked out.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD480E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CANNOT.DELETE.FILE" varFormat="Java">
+   Cannot delete file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   A file system error occurred while deleting the file.
+   Possibly the file does not exist.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the file exists. Verify the file system permissions of the
+   IBM Security Verify Directory Integrator Server process over the file.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD481E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.CANNOT.PARSE.CONFIG.FOR.SOLUTION.NAME" varFormat="Java">
+   Error occurred while reading the configuration: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   A problem was encountered while reading the configuration in order to obtain its Solution Name.
+   Possibly the configuration syntax is incorrect.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration is valid.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD482E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.NO.SSL.SOCKET" varFormat="Java">
+   No SSL socket is associated with the current thread.
+   </MsgText>
+   <Explanation><p>
+   SSL socket is null.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD483E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.SSL.SOCKET.SESSION.NULL" varFormat="Java">
+   SSL socket session is NULL.
+   </MsgText>
+   <Explanation><p>
+   A problem was encountered while retrieving SSL socket session.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the connection settings.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD484E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.SSL.SESSION.CERTIFICATE.EMPTY" varFormat="Java">
+   SSL session certificate chain is empty.
+   </MsgText>
+   <Explanation><p>
+   No certificates were found for this SSL session.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check the connection settings.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD485E, because it is no longer used after code changes for defect 11552 -->
+
+<Message ID="CTGDKD486E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.MISSING.PROPERTY" varFormat="Java">
+   Required property is missing: <Variable formatSpec="{0}">propery key</Variable>
+   </MsgText>
+   <Explanation><p>
+   There is no value for the provided key in the property map.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD487E because it is no longer used after code changes for defect 11552 -->
+
+<!-- Deleted message CTGDKD488E because it is no longer used after code changes for defect 11552 -->
+
+<Message ID="CTGDKD489E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.UNABLE.TO.CREATE.SOCKET" varFormat="Java">
+   Unable to create socket: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the error message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check host name and port number and if the problem persits contact IBM support.
+   </p></OperatorResponse>
+</Message>
+
+<!-- Deleted message CTGDKD490E because it is no longer used after code changes for defect 11552 -->
+
+<!-- Deleted message CTGDKD491E because it is no longer used after code changes for defect 11552 -->
+
+<Message ID="CTGDKD492E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.NO.SOCKET" varFormat="Java">
+   No socket is associated with the current thread.
+   </MsgText>
+   <Explanation><p>
+   Socket is null.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD493E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.REMOTE.RMI.UNRECOGNIZED.CALLBACK" varFormat="Java">
+   Unrecognized Callback.
+   </MsgText>
+   <Explanation><p>
+   See error trace.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD494E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.AL.LISTENER.ERROR" varFormat="Java">
+   One of the listeners for AssemblyLine events threw an exception: &apos;<Variable formatSpec="{0}">exception</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   See the message of the exception.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD495E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.AL.LISTENER.UNEXPECTED.ERROR" varFormat="Java">
+   One of the listeners for AssemblyLine events threw an unexpected exception: &apos;<Variable formatSpec="{0}">exception</Variable>&apos;.
+   Will unregister that listener.
+   </MsgText>
+   <Explanation><p>
+   Unexpected error occurred while notifying one of the AssemblyLine listeners.
+   Probably the process of a remote listener was terminated. 
+   See the message of the exception.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD496W" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LOG.LISTENER.UNEXPECTED.ERROR" varFormat="Java">
+   One of the listeners for logged messages threw an unexpected exception: &apos;<Variable formatSpec="{0}">exception</Variable>&apos;.
+   Will unregister that listener.
+   </MsgText>
+   <Explanation><p>
+   Unexpected error occurred while notifying one of the log listeners.
+   Probably the process of a remote listener was terminated. 
+   See the message of the exception.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action is required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD497E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.OBJECT.IS.NULL.11" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   A listener object is required.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Make sure a non-null listener is passed to the API.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD498E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.OBJECT.IS.NULL.12" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   A listener object is required.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Make sure a non-null listener is passed to the API.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD499E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.NOT.REGISTERED" varFormat="Java">
+   Cannot unregister the specified listener because it has not been registered.
+   </MsgText>
+   <Explanation><p>
+   Listener objects are associated with the Server API handle.
+   You cannot unregister a listener that was registered in another handle.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Use the same Server API handle to unregister the listener that you used to register it in the first place.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD500E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.OBJECT.IS.NULL.13" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   A listener object is required.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Make sure a non-null listener is passed to the API.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD501E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.NOT.REGISTERED.2" varFormat="Java">
+   Cannot unregister the specified listener because it has not been registered.
+   </MsgText>
+   <Explanation><p>
+   Listener objects are associated with the Server API handle.
+   You cannot unregister a listener that was registered in another handle.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Use the same Server API handle to unregister the listener that you used to register it in the first place.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD502E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.OBJECT.IS.NULL.14" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   A listener object is required.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Make sure a non-null listener is passed to the API.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD503E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.NOT.REGISTERED.3" varFormat="Java">
+   Cannot unregister the specified listener because it has not been registered.
+   </MsgText>
+   <Explanation><p>
+   Listener objects are associated with the Server API handle.
+   You cannot unregister a listener that was registered in another handle.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Use the same Server API handle to unregister the listener that you used to register it in the first place.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD504E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.OBJECT.IS.NULL.15" varFormat="Java">
+   Listener object is NULL.
+   </MsgText>
+   <Explanation><p>
+   A listener object is required.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Make sure a non-null listener is passed to the API.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD505E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LISTENER.NOT.REGISTERED.4" varFormat="Java">
+   Cannot unregister the specified listener because it has not been registered.
+   </MsgText>
+   <Explanation><p>
+   Listener objects are associated with the Server API handle.
+   You cannot unregister a listener that was registered in another handle.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Use the same Server API handle to unregister the listener that you used to register it in the first place.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD506E" prefix="yes">
+   <MsgText pgmKey="SERVER.API.LOG.LISTENER.REMOTEEXCEPTION" varFormat="Java">
+   A communication error occurred while sending a log message to remote listener: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   Could not send message to remote log listener.
+   It is possible that the remote listener has died or there are network problems.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Review the exception to find further details on the error.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD507E" prefix="yes">
+   <MsgText pgmKey="PortPoolSocketFactory.out.of.ports" varFormat="Java">
+   Out of Server Ports
+   </MsgText>
+   <Explanation><p>
+   The range of server ports specified by the property api.remote.server.ports was exhausted.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Increase the range of ports.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDKD508I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.ADDRESS.SSL.ON.CLIENT.AUTH.ON" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable> IP:<Variable formatSpec="{1}">ip</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL and Client Authentication are enabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD509I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.ADDRESS.SSL.ON.CLIENT.AUTH.OFF" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable> IP:<Variable formatSpec="{1}">ip</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL is enabled and Client Authentication is disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKD510I" prefix="yes">
+   <MsgText pgmKey="SEVER.API.REMOTE.API.SUCCESSFULLY.STARTED.ON.PORT.ADDRESS.SSL.OFF.CLIENT.AUTH.OFF" varFormat="Java">
+   Remote API successfully started on port:<Variable formatSpec="{0}">port</Variable> IP:<Variable formatSpec="{1}">ip</Variable>, bound
+   to:&apos;SessionFactory&apos;. SSL and Client Authentication are disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

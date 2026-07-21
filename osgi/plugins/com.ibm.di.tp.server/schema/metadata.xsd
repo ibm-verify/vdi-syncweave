@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema/instance"
+	targetNamespace="http://www.ibm.com/xmlns/prod/sl" xmlns:sl="http://www.ibm.com/xmlns/prod/sl"
+	elementFormDefault="qualified">
+	
+	<xsd:import namespace="http://www.w3.org/2001/XMLSchema" />
+	
+	<xsd:element name="metadata" type="sl:Metadata">
+		<xsd:annotation>
+			<xsd:documentation>Root element to contain a collection of ReST resources.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="Metadata">
+		<xsd:sequence>
+			<xsd:element ref="xsd:schema" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="element" type="xsd:QName" />
+		<xsd:attribute name="sampleData" type="xsd:anyURI" use="optional" />  
+	</xsd:complexType>
+</xsd:schema>

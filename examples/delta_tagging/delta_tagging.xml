@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-05-14" created="Mon May 18 10:42:57 EEST 2009" createdBy="krasimir.baylov" modified="Fri May 22 18:54:59 EEST 2009" modifiedBy="krasimir.baylov" version="7.0">
+    <Folder name="AssemblyLines">
+        
+    
+    
+        
+    
+        
+    <AssemblyLine name="Remove_Delta_Tagging_At_Value_Level">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Remove_Delta_Tagging_At_Value_Level" state="Enabled"/>
+                    <Component name="Write" state="Simulated"/>
+                    <Component name="ReadDeltaEntry" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ReadDeltaEntry">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\delta_tagging\input.ldif</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.LDIF</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="ldifDNAttributeName">$dn</parameter>
+                        <parameter name="ldifVersion">true</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>home-fax</Name>
+                            <Type>simple</Type>
+                            <Simple>home-fax</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>home-phone</Name>
+                            <Type>simple</Type>
+                            <Simple>home-phone</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>mobile-phone</Name>
+                            <Type>simple</Type>
+                            <Simple>mobile-phone</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.operation</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "Modify";</Script>
+                            <Simple>spml.operation</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.operation.type</Name>
+                            <Type>advanced</Type>
+                            <Script>ret.value = "Request";</Script>
+                            <Simple>spml.operation.type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.psoID</Name>
+                            <Type>advanced</Type>
+                            <Script>conn["spml.psoID"]=conn["$dn"];</Script>
+                            <Simple>spml.psoID</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>town</Name>
+                            <Type>simple</Type>
+                            <Simple>town</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>work-phone</Name>
+                            <Type>simple</Type>
+                            <Simple>work-phone</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <Enabled>false</Enabled>
+                        <UniqueAttribute>$dn</UniqueAttribute>
+                        <FilePath>delta</FilePath>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>home-fax</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>home-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mobile-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>town</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>work-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>home-fax</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>home-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mobile-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>town</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>work-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="after_getnext">
+                            <Name>after_getnext</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="Remove_Delta_Tagging_At_Value_Level">
+                    <parameter name="script"><![CDATA[//get the names of all attributes
+var attrNames = work.getAttributeNames(); 
+
+for (var i = 0; i < attrNames.length; i++) {
+	var attr = work.getAttribute(attrNames[i]);
+	
+	if (attr.size() > 1 && (attr.getOper() != 'd')) {
+		var isFirstAttrValue = true;	//determine if we add value for the first time
+		
+		var values = attr.getValues();	//get the values for the current attribute
+		
+		for(var k = 0; k < values.length; k++) {
+			if (!attr.getValueOperation(k).equalsIgnoreCase("delete"))
+				if(isFirstAttrValue){
+					//if we add value for the first time 
+					work.setAttribute(attrNames[i], values[k]);
+					isFirstAttrValue = false;
+			} else {
+				work.addAttributeValue(attrNames[i], values[k]);
+			}	
+		}
+	}
+}]]></parameter>
+                </Script>
+                <Connector name="Write">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>AddOnly</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\delta_tagging\output.xml</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.SPMLv2Parser</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>*</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.operation</Name>
+                            <Type>simple</Type>
+                            <Simple>spml.operation</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.operation.type</Name>
+                            <Type>simple</Type>
+                            <Simple>spml.operation.type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>spml.psoID</Name>
+                            <Type>simple</Type>
+                            <Simple>spml.psoID</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>home-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mobile-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.operation</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.operation.type</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.psoID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>town</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>work-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>home-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mobile-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.operation</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.operation.type</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>spml.psoID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>town</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>work-phone</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="before_add">
+                            <Name>before_add</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Regular_Entry_To_Delta_Entry">
+            <LogEnabled>true</LogEnabled>
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+                <parameter name="automapattributes">false</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="nullBehavior">Default Behavior</parameter>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Regular_Entry_To_Delta_Entry" state="Enabled"/>
+                    <Component name="JDBCDelta" state="Simulated"/>
+                    <Component name="ReadTextFile" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ReadTextFile">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="fileAppend">false</parameter>
+                        <parameter name="fileMode">input</parameter>
+                        <parameter name="filePath">examples\delta_tagging\usersInfo.txt</parameter>
+                        <parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+                        <parameter name="characterSet"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <AttributeMapItem>
+                            <Name>FullName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>false</Add>
+                            <Modify>false</Modify>
+                            <Script>ret.value = conn.getAttribute("FullName");</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>UserName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>false</Add>
+                            <Modify>false</Modify>
+                            <Script>ret.value = conn.getAttribute("UserName");</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>id</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>false</Add>
+                            <Modify>false</Modify>
+                            <Script>ret.value = conn.getAttribute("id");</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>status</Name>
+                            <Type>simple</Type>
+                            <Simple>status</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output"/>
+                    <DeltaSettings>
+                        <Enabled>false</Enabled>
+                        <UniqueAttribute/>
+                        <FilePath/>
+                        <ReadDeleted>false</ReadDeleted>
+                        <RemoveDeleted>false</RemoveDeleted>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <Driver>BTree</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>FullName</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>UserName</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>id</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>status</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>FullName</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>UserName</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>id</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>status</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <MatchAny>false</MatchAny>
+                        <AdvancedLinkMode>false</AdvancedLinkMode>
+                    </LinkCriteria>
+                    <Hooks>
+                        <Hook name="before_getnext">
+                            <Name>before_getnext</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                        <Hook name="get_ok">
+                            <Name>get_ok</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                        <Hook name="override_delete">
+                            <Name>override_delete</Name>
+                            <Script>system.logmsg("DELETE");</Script>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                        <Hook name="override_modify">
+                            <Name>override_modify</Name>
+                            <Script>system.logmsg("MODIFY");</Script>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                        <Hook name="override_update">
+                            <Name>override_update</Name>
+                            <Script>system.logmsg("UPDATE");</Script>
+                            <Enabled>false</Enabled>
+                            <DebugBreak>false</DebugBreak>
+                        </Hook>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <parameter name="skipForwardAfterReconnect">true</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance>
+                        <Enabled>false</Enabled>
+                        <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                    </PoolInstance>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="Regular_Entry_To_Delta_Entry">
+                    <parameter name="script"><![CDATA[//get the status value
+var value = work.getAttribute("status").getValue();
+
+//make the delta entry by adding an operation
+if(value == "add")
+	work.setOperation("add");
+else if (value == "delete")
+	work.setOperation("delete");
+else if (value == "modify")
+	work.setOperation("modify");
+else
+	work.setOperation("unchanged");]]></parameter>
+                </Script>
+                <Connector name="JDBCDelta">
+                    <InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+                    <ConnectorMode>Delta</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="jdbcSource">jdbc:odbc:Deltas</parameter>
+                        <parameter name="jdbcTable">T_USER</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>USER_FULL_NAME</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value = work.getAttribute("FullName");</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>USER_ID</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value = work.getAttribute("id");</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>USER_NAME</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value = work.getAttribute("UserName");</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>USER_FULL_NAME</Name>
+                            <NativeSyntax>VARCHAR</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>USER_ID</Name>
+                            <NativeSyntax>INTEGER</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>USER_NAME</Name>
+                            <NativeSyntax>VARCHAR</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <LinkCriteriaItem>
+                            <Key>1215d27bcf2</Key>
+                            <Attribute>USER_ID</Attribute>
+                            <Operator>equals</Operator>
+                            <Value>$id</Value>
+                        </LinkCriteriaItem>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations>
+                <Operation name="Default">
+                    <Schema name="Input"/>
+                    <Schema name="Output"/>
+                    <AttributeMap name="Input"/>
+                    <AttributeMap name="Output"/>
+                    <Public>true</Public>
+                </Operation>
+            </Operations>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <InstanceID>delta_tagging</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/test.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

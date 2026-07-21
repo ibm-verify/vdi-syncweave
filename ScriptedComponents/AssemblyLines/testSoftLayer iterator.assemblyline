@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="16" UUID="8a0dd2ba-e49c-403e-ae79-7813f419ecda" created="Tue Jun 03 23:02:58 CEST 2014" createdBy="Administrator" main="testSoftLayer iterator" modified="Thu Jun 05 18:48:19 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="testSoftLayer iterator">
+        <ModTime>1401986873950</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="Display" state="Enabled"/>
+                <Component name="SoftLayer Connector" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1401986873950</ModTime>
+            <Connector name="SoftLayer Connector">
+                <InheritFrom>/Connectors/SoftLayer Connector</InheritFrom>
+                <ModTime>1401986873950</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401986873950</ModTime>
+                    <parameter name="deBug">true</parameter>
+                    <parameter name="returnas">Hierarchical Entry</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401829389903</ModTime>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1401829386982</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1401874907183</ModTime>
+            <Script name="Display">
+                <ModTime>1401874907183</ModTime>
+                <parameter name="script"><![CDATA[if (work.isDOMEnabled()) {
+	task.logmsg("\n" + work.toString());	
+} else {
+	atts = work.getAttributeNames();
+	java.util.Arrays.sort(atts);
+	
+	s = ""
+	for (a in atts) {
+		s += "\n      " + a + ": " + work[a];
+	}
+	
+	task.logmsg(s);
+}]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

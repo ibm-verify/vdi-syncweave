@@ -1,0 +1,1197 @@
+<?xml version="1.0"?>
+
+<!--
+  Copyright IBM Corp. 2008,2026
+
+  ===========================================================================
+  File:  main.xml
+
+  Purpose:  IBMDI build file
+
+  Primary Targets   Usage
+
+  init              Initializes the build tree.
+
+  compile           Compiles all sources files whose object files are
+                    out of date with respect to the source.
+
+  package           Creates the intermediate package elements (e.g.,
+                    jar files, war files, etc.).
+
+  images            Builds the product images.
+
+  clean             Cleans the build tree of files and directories generated
+                    by the build process.
+
+    Notes:  1. Default properties may be overridden using a local build
+               properties file (${basedir}/di-ant.properties), or a local
+               user properties file (${user.home}/di-ant.properties).  If
+               both files are present, a value contained in the user file
+               takes precedence.
+
+            2. Developers who wish to bypass the InstallShield portion of
+               this process should use the "developer" target.  See the
+               specific target definition, below, for additional details.
+
+-->
+
+<project name="di" default="main" basedir=".">
+  <description>
+
+    Build file for IBM Directory Integration (DI)
+
+  </description>
+
+  <!--
+    =========================================================================
+      Properties
+    =========================================================================
+  -->
+
+  <!-- Define the property file name. -->
+  <property name="propfile" value="${ant.project.name}-ant.properties"/>
+
+  <!-- Use the system classpath. -->
+  <property name="build.sysclasspath" value="last"/>
+
+  <!-- Import the project setup properties and macros -->
+  <import file="${basedir}/rules_mk/project_setup.xml"/>
+  <import file="${basedir}/rules_mk/eclipse_rules.xml"/>
+  <import file="${basedir}/rules_mk/doc_rules.xml"/>
+
+  <!-- Define version-specific values. -->
+  <property file="${ant.project.name}-version.properties"/>
+
+  <description>
+    * Miscellaneous root location property settings:
+  </description>
+  <property name="root"      location="."/>
+  <property name="root.nls"      location="${root}/devtools/runCombine"/>
+
+  <!-- set global properties for this build -->
+  <property name="source"        value="src"/>
+  <property name="loadersrc"     value="${project.root.server.src}/com/ibm/di/loader"/>
+  <property name="adminsrc"      value="com/ibm/di/admin"/>
+  <property name="productinfo"   value="productinfo"/>
+  <property name="build"         value="${project.root.export}"/>
+  <property name="serverbuild"   value="${build}/server"/>
+  <property name="loaderbuild"   value="${build}/IDILoader"/>
+  <property name="configbuild"   value="${build}/mmconfig"/>
+  <property name="dist"          value="${build}/jars"/>
+
+  <property name="LDAPSyncCE"    value="LDAPSync/CE/LDAPSync"/>
+  <property name="TargetLDAPSyncConfig"  value="LDAPSync/LDAPSync/LDAPSync.xml"/>
+
+  <!-- CLASSPATH for IDILoader.jar. -->
+  <property name="loaderclasspath" value="jars/3rdparty/others/log4j-1.2-api-2.25.4.jar jars/3rdparty/others/log4j-api-2.25.4.jar jars/3rdparty/others/log4j-core-2.25.4.jar" />
+
+  <target name="depend" >
+    <depend srcdir="${project.root.server.src}" destdir="${build}" cache="servercache" closure="yes"/>
+  </target>
+
+  <!-- Performs the normal javadocs build for external customers. -->
+  <target name="javadoc" depends="init">
+    <javadoc packagenames="com.ibm.di.*"
+           sourcepath="${project.root.server.src}"
+           destdir="${project.root.javadocs.export}"
+           author="false"
+           version="true"
+           use="true"
+           windowtitle="IBM Security Verify Directory Integrator API"
+           source="${root.javac_src.vers}">
+      <classpath refid="project.class.path" />
+      <link href="${root.javadocs_url}" />
+    </javadoc>
+    <java jar="${project.adks_home}/javadocspatchtool/JavaDocPatchTool.jar" fork="true">
+       <arg value="${project.root.javadocs.export}" />
+    </java>
+  </target>
+
+  <!-- Performs an internal javadocs build that builds all possible source code.
+       NOTE: This is not to be shipped to internal customers. -->
+  <target name="javadoc_internal" depends="init">
+    <javadoc packagenames="com.ibm.di.*,com.ibm.tdi.*"
+           destdir="${project.root.javadocs_internal.export}"
+           author="false"
+           version="true"
+           use="true"
+           Private="true"
+		   useexternalfile="true"
+           windowtitle="IBM Security Verify Directory Integrator API"
+           source="${root.javac_src.vers}">
+      <sourcePath path="${sca_src_paths}" />
+      <classpath refid="project.class.path" />
+      <classpath refid="tdi.extern.additional.class.path" />
+      <link href="${root.javadocs_url}" />
+    </javadoc>
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  init
+
+      Purpose:  Initializes the build process.
+    =========================================================================
+  </description>
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${loaderbuild}"/>
+    <mkdir dir="${configbuild}"/>
+    <mkdir dir="${build}/miconfig"/>
+    <mkdir dir="${dist}/connectors"/>
+    <mkdir dir="${dist}/parsers"/>
+    <mkdir dir="${dist}/eventhandlers"/>
+    <mkdir dir="${dist}/webService"/>
+    <mkdir dir="${dist}/functions"/>
+    <mkdir dir="${dist}/plugins"/>
+    <mkdir dir="${project.root.javadocs.export}"/>
+    <mkdir dir="${project.root.javadocs_internal.export}"/>
+    <mkdir dir="${project.root.export.logs}"/>
+    <mkdir dir="${project.root.export.src_zips}"/>
+    <mkdir dir="${project.root.tmsxml_props.export}"/>
+    <mkdir dir="${project.root.ship}"/>
+    <mkdir dir="${project.root.img.zips_bundles}"/>
+
+    <!-- Create the build.properties file -->
+    <propertyfile   comment="Build information for this.build" file="${project.root.export}/build.properties" >
+        <entry key="family"  operation="=" value="${project.cmvc_family.short}" />
+        <!-- NOTE: These next 2 values will only be set properly in a production build -->
+        <entry key="release" operation="=" value="${project.cmvc_release}" />
+        <entry key="level"   operation="=" value="${project.cmvc_level}" />
+        <entry key="product" operation="=" value="${project.tdi.name}" />
+        <entry key="version" operation="=" value="${project.tdi.version}" />
+    </propertyfile>
+
+  </target>
+
+  <path id="project.class.path">
+    <pathelement path="${classpath}"/>
+    <!-- include all of the external files needed to build.  -->
+    <path refid="tdi.extern.class.path"/>
+
+    <fileset dir="${root.lum_src}">
+      <include name="LUMClient.jar"/>
+    </fileset>
+    <fileset dir="${project.adks.lib.nodist}">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${dist}">
+      <include name="miserver.jar" />
+      <include name="miconfig.jar" />
+      <include name="mmconfig.jar" />
+      <include name="tdiresource.jar" />
+    </fileset>
+    <fileset dir="${build}">
+      <include name="IDILoader.jar" />
+    </fileset>
+  </path>
+
+  <target name="compile_ce_rcp" depends="miserver,package_IDILoader,mmconfig,miconfig,tdiresource,functions/AssemblyLineFC">
+
+    <!-- Delete the dir and create it again, and then copy over all of the input files -->
+    <delete dir="${project.root.export.ce_rcp}"/>
+    <mkdir dir="${project.root.export.ce_rcp}"/>
+    <copy todir="${project.root.export.ce_rcp}">
+      <fileset dir="${project.root.ce_rcp}"/>
+    </copy>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/nl/pt"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/nl/pt/BR"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/nl/zh"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/nl/zh/CN"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/nl/zh/TW"/>
+    <move todir="${project.root.ce_rcp.base.plugin}/nl/pt/BR">
+       <fileset dir="${project.root.ce_rcp.base.plugin}/nl/pt_BR"/>
+    </move>
+    <move todir="${project.root.ce_rcp.base.plugin}/nl/zh/CN">
+       <fileset dir="${project.root.ce_rcp.base.plugin}/nl/zh_CN"/>
+    </move>
+    <move todir="${project.root.ce_rcp.base.plugin}/nl/zh/TW">
+       <fileset dir="${project.root.ce_rcp.base.plugin}/nl/zh_TW"/>
+    </move>
+
+    <!-- process the tmsxml files to obtain the miadmin.properties files -->
+    <mkdir dir="${project.root.tmsxml_props.export}/miadmin/"/>
+    <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/miadmin/tmsfiles/en/miadmin.xml" propsfile.loc="${project.root.tmsxml_props.export}/miadmin/miadmin_en.properties" logfile.log="${project.root.tmsxml.log}"/>
+    <copy file="${project.root.tmsxml_props.export}/miadmin/miadmin_en.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/de/miadmin_de.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_de.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/es/miadmin_es.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_es.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/fr/miadmin_fr.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_fr.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/it/miadmin_it.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_it.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/ja/miadmin_ja.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_ja.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/ko/miadmin_ko.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_ko.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/pt_BR/miadmin_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_pt_BR.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/zh_CN/miadmin_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_zh_CN.properties"/>
+    <copy file="${project.root.autogen.comp}/miadmin/tmsfiles/zh_TW/miadmin_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/miadmin/miadmin_zh_TW.properties"/>
+
+    <!-- Copy the properties files needed over. -->
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/miadmin" dest="${project.root.ce_rcp.base.plugin}" includes="miadmin*.properties">
+	<globmapper from="miadmin*.properties" to="plugin*.properties"/>
+    </native2ascii>
+
+    <!-- Ensure the version number is set correctly in all of the files. -->
+    <replace file="${project.root.export.ce_rcp}/features/com.ibm.tdi.feature/feature.xml">
+      <replacefilter token="1.0.0" value="${project.tdi.version}"/>
+    </replace>
+    <replace file="${project.root.ce_rcp.update.plugin}/site.xml">
+      <replacefilter token="1.0.0" value="${project.tdi.version}"/>
+    </replace>
+    <replace file="${project.root.ce_rcp.base.plugin}/META-INF/MANIFEST.MF">
+      <replacefilter token=" 1.0.0" value=" ${project.tdi.version}"/>
+    </replace>
+    <replace file="${project.root.ce_rcp.base.plugin}/tdieclipse.product">
+      <replacefilter token="1.0.0" value="${project.tdi.version}"/>
+    </replace>
+    <replace file="${project.root.ce_rcp.loader.plugin}/META-INF/MANIFEST.MF">
+      <replacefilter token="1.0.0" value="${project.tdi.version}"/>
+    </replace>
+
+    <!-- Ensure we have the build.properties file with the proper path. -->
+    <replace file="${project.root.export.ce_rcp}/build.properties">
+      <replacefilter token="%BUILD_DIRECTORY%" value="${project.root.export.ce_rcp}"/>
+    </replace>
+    <replace file="${project.root.export.ce_rcp}/build.properties">
+      <replacefilter token="%BUILD_DIRECTORY%" value="${project.root.export.ce_rcp}"/>
+    </replace>
+    <replaceregexp file="${project.root.export.ce_rcp}/build.properties"
+                   match="\\([A-Za-z0-9_])"
+                   replace="/\1"
+                   flags="gm"
+                   byline="false"/>
+
+    <!-- Copy the jar files needed over. -->
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars"/>
+    <copy file="${project.root.export}/IDILoader.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/IDILoader.jar"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/3rdparty"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/axis2"/>
+    <copy file="${root.lum_src}/LUMClient.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/LUMClient.jar"/>
+    <copy file="${root.jsengine_src}/ibmjs.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/ibmjs.jar"/>
+    <copy file="${root.icu4j_src}/icu4j-51_1.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/icu4j-51_1.jar"/>
+    <copy file="${root.jlog_src}/jlog.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/jlog.jar"/>
+    <copy file="${root.axis2_src}/xercesImpl-2.12.2.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/axis2/xercesImpl-2.12.2.jar"/>
+    <copy file="${root.axis2_src}/xalan-2.7.3.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/IBM/axis2/xalan-2.7.3.jar"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others"/>
+    <copy file="${root.jaf_src}/activation.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others/activation.jar"/>
+    <copy file="${root.log4j_src}/log4j-1.2-api-2.25.4.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others/log4j-1.2-api-2.25.4.jar"/>
+    <copy file="${root.log4j_src}/log4j-api-2.25.4.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others/log4j-api-2.25.4.jar"/>
+    <copy file="${root.log4j_src}/log4j-core-2.25.4.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others/log4j-core-2.25.4.jar"/>
+    <copy file="${root.javamail_src}/mail.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/3rdparty/others/mail.jar"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/common"/>
+    <copy file="${project.root.export}/jars/diserverapi.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/diserverapi.jar"/>
+    <copy file="${project.root.export}/jars/miconfig.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/miconfig.jar"/>
+    <copy file="${project.root.export}/jars/miserver.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/miserver.jar"/>
+    <copy file="${project.root.export}/jars/mmconfig.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/mmconfig.jar"/>
+    <copy file="${project.root.export}/jars/report.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/report.jar"/>
+    <copy file="${project.root.export}/jars/tdiresource.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/common/tdiresource.jar"/>
+    <mkdir dir="${project.root.ce_rcp.base.plugin}/jars/functions"/>
+    <copy file="${project.root.export}/jars/functions/AssemblyLineFC.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/functions/AssemblyLineFC.jar"/>
+	<copy file="${project.root.export}/jars/cdm.jar" tofile="${project.root.ce_rcp.base.plugin}/jars/cdm.jar"/>
+  	<copy file="${project.root.export}/osgi/embedded/com.ibm.di.component.jar" tofile="${root.eclipse_runtime_src}/plugins/com.ibm.di.component_${project.tdi.version}.jar"/>
+  	<copy file="${project.root.export}/osgi/embedded/com.ibm.di.bundle.jar" tofile="${root.eclipse_runtime_src}/plugins/com.ibm.di.bundle_${project.tdi.version}.jar"/>
+  	<copy file="${project.root.export}/osgi/embedded/com.ibm.di.config.jar" tofile="${root.eclipse_runtime_src}/plugins/com.ibm.di.config_${project.tdi.version}.jar"/>
+
+    <!-- Build the plugin update site... -->
+    <build_eclipse_plugin_updatesite buildfile.loc="${project.root.export.ce_rcp}" errorlog.log="${project.root.ce_rcp.log}" />
+    <mkdir dir="${project.root.export.ce_eclipse}"/>
+    <!-- Make a zip for the update site in the export tree... -->
+    <zip zipfile="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_UpdateSite_Name}">
+      <zipfileset dir="${project.root.export.ce_rcp}/tmp/updatesite">
+         <include name="**/*"/>
+      </zipfileset>
+      <zipfileset dir="${project.root.ce_rcp.update.plugin}">
+         <include name="site.xml"/>
+      </zipfileset>
+      <zipfileset dir="${root.eclipse_runtime_src}/plugins" prefix="plugins">
+         <include name="org.eclipse.core.jobs.nl1_3.13.300.v202304261923.jar"/>
+         <include name="org.eclipse.core.resources.nl1_3.18.200.v202304261923.jar"/>
+         <include name="org.eclipse.core.runtime.nl1_3.26.100.v202304261923.jar"/>
+         <include name="org.eclipse.core.variables.nl1_3.5.100.v202304261923.jar"/>
+         <include name="org.eclipse.jdt.core.nl1_3.33.0.v202304261923.jar"/>
+         <include name="org.eclipse.jface.nl1_3.29.0.v202304261923.jar"/>
+         <include name="org.eclipse.pde.runtime.nl1_3.7.600.v202304261923.jar"/>
+         <include name="org.eclipse.pde.ui.nl1_3.13.800.v202304261923.jar"/>
+         <include name="org.eclipse.rcp.nl1_4.27.0.v202304261923.jar"/>
+         <include name="org.eclipse.search.nl1_3.14.400.v202304261923.jar"/>
+         <include name="org.eclipse.text.nl1_3.12.300.v202304261923.jar"/>
+         <include name="org.eclipse.team.core.nl1_3.9.700.v202304261923.jar"/>
+         <include name="org.eclipse.team.ui.nl1_3.9.600.v202304261923.jar"/>
+     	 <include name="com.ibm.di.component_${project.tdi.version}.jar"/>
+	     <include name="com.ibm.di.bundle_${project.tdi.version}.jar"/>
+	     <include name="com.ibm.di.config_${project.tdi.version}.jar"/>
+      </zipfileset>
+    </zip>
+
+    <!-- Build the plugin... -->
+    <build_eclipse_plugin buildfile.loc="${project.root.export.ce_rcp}" errorlog.log="${project.root.ce_rcp.log}" />
+
+  </target>
+
+  <target name="package_ce_rcp"
+          depends="compile_ce_rcp">
+
+    <!-- Copy all zip files made over to the export tree so the installer can pick them up later... -->
+    <mkdir dir="${project.root.export.ce_eclipse}"/>
+    <move todir="${project.root.export.ce_eclipse}">
+       <fileset dir="${project.root.export.ce_rcp}/I.eclipsece">
+          <include name="*.zip"/>
+       </fileset>
+    </move>
+
+    <!-- Extract the JAR file for later use if needed... -->
+    <unzip src="${project.root.export.ce_eclipse}/${CE_RCP_ZIP_win_x86_Name}"
+       dest="${project.root.export.ce_eclipse}">
+      <patternset>
+        <include name="eclipsece/plugins/${project.root.ce_rcp.base.plugin.name}_${project.tdi.version}.jar"/>
+        <include name="eclipsece/plugins/${project.root.ce_rcp.loader.plugin.name}_${project.tdi.version}.jar"/>
+      </patternset>
+    </unzip>
+
+    <!-- Copy the zip files to the ship tree with the other zips... -->
+    <copy todir="${project.root.img.zips_bundles}">
+     <fileset dir="${project.root.export.ce_eclipse}" >
+       <include name="*.zip"/>
+     </fileset>
+    </copy>
+
+  </target>
+
+  <target name="compile_IDILoader">
+    <!-- Compile the java code from ${project.root.server.src} into ${build} -->
+    <javac srcdir="${project.root.server.src}" includes="com/ibm/di/loader/**" destdir="${loaderbuild}" includeantruntime="false"
+           debug="${root.javac_dbg}" source="${root.javac_src.vers}" target="${root.javac_tgt.vers}">
+      <classpath refid="project.class.path" />
+      <classpath>
+        <pathelement path="${build}" />
+       </classpath>
+    </javac>
+    <mkdir dir="${project.root.tmsxml_props.export}/loader/"/>
+    <mkdir dir="${project.root.tmsxml_props.export}/loader_tmp/"/>
+    <convertTMSXMLToProperties tmsxmlfile.loc="${loadersrc}/tmsfiles/en/idiloadertms.xml" propsfile.loc="${project.root.tmsxml_props.export}/loader/idiloadertms_en.properties" logfile.log="${project.root.tmsxml.log}"/>
+    <copy file="${project.root.tmsxml_props.export}/loader/idiloadertms_en.properties" tofile="${project.root.tmsxml_props.export}/loader/idiloadertms.properties"/>
+    <copy file="${loadersrc}/tmsfiles/de/idiloadertms_de.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_de.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_de.properties"/>
+    <copy file="${loadersrc}/tmsfiles/fr/idiloadertms_fr.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_fr.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_fr.properties"/>
+    <copy file="${loadersrc}/tmsfiles/it/idiloadertms_it.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_it.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_it.properties"/>
+    <copy file="${loadersrc}/tmsfiles/es/idiloadertms_es.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_es.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_es.properties"/>
+    <copy file="${loadersrc}/tmsfiles/ja/idiloadertms_ja.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_ja.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_ja.properties"/>
+    <copy file="${loadersrc}/tmsfiles/ko/idiloadertms_ko.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_ko.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_ko.properties"/>
+    <copy file="${loadersrc}/tmsfiles/pt_BR/idiloadertms_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_pt_BR.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_pt_BR.properties"/>
+    <copy file="${loadersrc}/tmsfiles/zh_CN/idiloadertms_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_zh_CN.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_zh_CN.properties"/>
+    <copy file="${loadersrc}/tmsfiles/zh_TW/idiloadertms_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/loader_tmp/idiloadertms_zh_TW.properties"/>
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/loader_tmp" dest="${project.root.tmsxml_props.export}/loader" ext=".properties" includes="idiloadertms_zh_TW.properties"/>
+  </target>
+
+  <target name="package_IDILoader"
+          depends="init, compile_IDILoader">
+     <manifest file="${project.root.tmsxml_props.export}/loader/manifest.mf">
+        <attribute name="Created-By" value="TDI-Build"/>
+        <attribute name="Class-Path" value="${loaderclasspath}"/>
+        <attribute name="Main-Class" value="com.ibm.di.loader.ServerLauncher"/>
+     </manifest>
+     <jar jarfile="${build}/IDILoader.jar" basedir="${loaderbuild}" manifest="${project.root.tmsxml_props.export}/loader/manifest.mf">
+        <fileset dir="${project.root.tmsxml_props.export}/loader" includes="**.properties" />
+        <fileset dir="${loadersrc}" includes="**.properties" />
+     </jar>
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  clean
+
+      Purpose:  Clean build tree.
+    =========================================================================
+  </description>
+  <target name="clean"
+          description="Removes all files from build tree">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  developer
+
+      Purpose:  Build everything except the installable images.  This target
+                is intended for runtime or studio developers who do not have
+                InstallShield on their machines.
+
+        Notes:  1. To manually install the studio plugin, perform the
+                   following command:
+
+                      xcopy |buildroot|\export\studio\* |wsadroot|\plugins /s
+
+                2. To build using this target, enter the command:
+
+                      ant developer
+    =========================================================================
+  </description> <target name="developer"
+          depends="clean, init, quick"
+          description="Perform developer build">
+  </target>
+  <target name="quick"
+          depends="package"
+          description="Perform quick developer build (no clean)">
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  compile
+
+      Purpose:  Front-end for compilation of all components.
+    =========================================================================
+  </description>
+  <target name="compile"
+          description="Perform compilation of build components."
+          depends="init, quick"/>
+
+  <target name="all" depends="compile" />
+
+  <description>
+    =========================================================================
+       Target:  package
+      Purpose:  Front-end for packaging of all components.
+    =========================================================================
+  </description>
+  <target name="package"
+          description="Perform intermediate packaging of components."
+          depends="package_IDILoader,package-diserverapi,package-diserverapirmi,miserver,JARS,build-osgi,migamc,ldapsync,package_ce_rcp,amc3,zip_unit_tests,staticcodeanalysis,fixPluginShares,updateCCMDBConnector,updateDPAConnector" />
+
+  <description>
+    =========================================================================
+       Target:  images_ftp
+
+      Purpose:  Zip up the build tree for developers and remote sites.
+    =========================================================================
+  </description>
+  <target name="images_ftp"
+          description="Prepare build tree for distribution">
+    <tstamp>
+      <format property="ziptime" pattern="yyyyMMdd_HHmm"/>
+    </tstamp>
+
+    <!-- zip files to zip up per component -->
+    <property name="autogen_zip" value="${ant.project.name}_autogen-${ziptime}.zip"/>
+    <property name="src_zip"     value="${ant.project.name}_src-${ziptime}.zip"/>
+    <property name="ce_zip"     value="${ant.project.name}_ce-${ziptime}.zip"/>
+    <property name="amc_zip"     value="${ant.project.name}_amc-${ziptime}.zip"/>
+
+    <!-- zip up autogen -->
+    <zip basedir="${project.root.autogen.base}" zipfile="${project.root.export.src_zips}/${autogen_zip}">
+      <exclude name="${autogen_zip}*"/>
+      <exclude name="*.log"/>
+    </zip>
+
+    <!-- zip up the server -->
+    <zip basedir="${project.root.server.src}" zipfile="${project.root.export.src_zips}/${src_zip}">
+      <exclude name="${src_zip}*"/>
+      <exclude name="*.log"/>
+    </zip>
+
+    <!-- zip up the ce -->
+    <zip zipfile="${project.root.export.src_zips}/${ce_zip}">
+        <zipfileset dir="${project.root.ce_rcp}" prefix="ce_rcp">
+           <include name="**/*"/>
+        </zipfileset>
+    </zip>
+
+    <!-- zip up amc -->
+    <zip zipfile="${project.root.export.src_zips}/${amc_zip}">
+        <zipfileset dir="${project.root.amc.am.base.src}" >
+           <include name="**/*"/>
+        </zipfileset>
+    </zip>
+
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  release
+      Purpose:  Another name for the images target.
+    =========================================================================
+  </description>
+  <target name="release" depends="images">
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  images
+      Purpose:  Builds the product but does not build the installer. Echo message left for now until both can use the same JVM again.
+    =========================================================================
+  </description>
+  <target name="images"
+          description="Derive the product image(s)."
+		    depends="package, javadoc, javadoc_internal, images_ftp, init_installer, zip_files,support">
+
+    <echo message="  Run ant again with the build_installer to build the actuall installer."/>
+
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  build_installer
+      Purpose:  builds the actually installer only.
+    =========================================================================
+  </description>
+  <target name="build_installer"
+          description="Derive the product image(s).">
+
+    <ant dir="${project.root.install}"
+         antfile="build71.xml"
+         inheritAll="true"/>
+  </target>
+
+  <description>
+	    =========================================================================
+	       Target:  init_installer
+	      Purpose:  just do init of installer task.
+	    =========================================================================
+	  </description>
+	  <target name="init_installer"
+	          description="init the installer">
+
+	    <ant dir="${project.root.install}"
+	    	 target="init"
+	         antfile="build71.xml"
+	         inheritAll="true"/>
+	  </target>
+	<description>
+		    =========================================================================
+		       Target:  zip_files
+		      Purpose:  create zip files for various packages
+		    =========================================================================
+		  </description>
+		  <target name="zip_files"
+		          description="Zip the files">
+
+		    <ant dir="${project.root.install}"
+		    	 target="zip_files"
+		         antfile="build71.xml"
+		         inheritAll="true"/>
+		  </target>
+	<description>
+    =========================================================================
+       Target:  main
+      Purpose:  Runs the default build processing.
+    =========================================================================
+  </description>
+  <target name="main"
+          depends="images"
+          description="Perform the default build action.">
+    <echo message="Beginning default build"/>
+    <echo message="  Project:  ${ant.project.name}"/>
+    <echo message="   Script:  ${ant.file}"/>
+    <echo message="  Targets:  images"/>
+  </target>
+
+  <target depends="init" name="compile-diserverapi">
+    <javac srcdir="${project.root.server.src}" destdir="${build}" includeantruntime="false"
+           debug="${root.javac_dbg}" source="${root.javac_src.vers}" target="${root.javac_tgt.vers}">
+      <classpath refid="project.class.path" />
+      <include name="com/ibm/di/api/*.java" />
+      <include name="com/ibm/di/api/exceptions/*.java" />
+      <include name="com/ibm/di/api/jmx/*.java" />
+      <include name="com/ibm/di/api/jmx/mbeans/*.java" />
+      <include name="com/ibm/di/api/local/*.java" />
+      <include name="com/ibm/di/api/local/impl/*.java" />
+      <include name="com/ibm/di/api/remote/*.java" />
+      <include name="com/ibm/di/api/remote/impl/*.java" />
+      <include name="com/ibm/di/api/remote/impl/rmi/*.java" />
+      <include name="com/ibm/di/api/security/*.java" />
+      <include name="com/ibm/di/api/syslog/*.java" />
+      <include name="com/ibm/di/api/tm/*.java" />
+      <include name="com/ibm/di/api/act/*.java" />
+	  <include name="com/ibm/di/model/descriptor/*.java" />
+    </javac>
+
+    <rmic base="${build}" stubversion="1.2">
+      <classpath refid="project.class.path" />
+      <include name="com/ibm/di/api/remote/impl/*.class" />
+      <exclude name="com/ibm/di/api/remote/impl/APIRemoteObject.class" />
+	  <exclude name="com/ibm/di/api/remote/impl/BindAddressPolicyImpl.class" />
+      <exclude name="com/ibm/di/api/remote/impl/PortPoolSocketFactory.class" />
+	  <exclude name="com/ibm/di/api/remote/impl/RemoteListenerAdapter.class" />
+      <include name="com/ibm/di/api/jmx/mbeans/AssemblyLineListenerBase.class" />
+      <include name="com/ibm/di/api/jmx/mbeans/EventHandlerListenerBase.class" />
+    </rmic>
+
+    <!-- process the tmsxml file to obtain the serverapiengine.properties file -->
+    <mkdir dir="${project.root.tmsxml_props.export}/serverapiengine/"/>
+    <mkdir dir="${project.root.tmsxml_props.export}/serverapiengineASCII/"/>
+    <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.serverapi.src}/tmsfiles/en/serverapiengine.xml" propsfile.loc="${project.root.tmsxml_props.export}/serverapiengineASCII/serverapiengine_en.properties" logfile.log="${project.root.tmsxml.log}"/>
+    <copy file="${project.root.tmsxml_props.export}/serverapiengineASCII/serverapiengine_en.properties" tofile="${project.root.tmsxml_props.export}/serverapiengineASCII/serverapiengine.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/de/serverapiengine_de.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_de.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/es/serverapiengine_es.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_es.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/it/serverapiengine_it.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_it.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/fr/serverapiengine_fr.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_fr.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/ko/serverapiengine_ko.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_ko.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/ja/serverapiengine_ja.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_ja.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/pt_BR/serverapiengine_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_pt_BR.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/zh_CN/serverapiengine_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_zh_CN.properties"/>
+    <copy file="${project.root.serverapi.src}/tmsfiles/zh_TW/serverapiengine_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/serverapiengine/serverapiengine_zh_TW.properties"/>
+
+    <!-- Convert UTF-8 properties file to ASCII -->
+    <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/serverapiengine" dest="${project.root.tmsxml_props.export}/serverapiengineASCII" includes="serverapiengine*.properties"/>
+
+  </target>
+
+  <target name="package-diserverapi" depends="compile-diserverapi">
+    <jar jarfile="${dist}/diserverapi.jar">
+      <fileset dir="${build}">
+        <include name="com/ibm/di/api/*.class" />
+        <include name="com/ibm/di/api/exceptions/*.class" />
+        <include name="com/ibm/di/api/jmx/*.class" />
+        <include name="com/ibm/di/api/jmx/mbeans/*.class" />
+        <include name="com/ibm/di/api/local/*.class" />
+        <include name="com/ibm/di/api/local/impl/*.class" />
+        <include name="com/ibm/di/api/remote/*.class" />
+        <include name="com/ibm/di/api/remote/impl/*.class" />
+        <include name="com/ibm/di/api/security/*.class" />
+        <include name="com/ibm/di/api/syslog/*.class" />
+        <include name="com/ibm/di/api/tm/*.class" />
+        <include name="com/ibm/di/api/act/*.class" />
+		<include name="com/ibm/di/model/descriptor/*.class" />
+      </fileset>
+      <fileset dir="${project.root.tmsxml_props.export}/serverapiengineASCII" includes="**.properties" />
+    </jar>
+  </target>
+
+  <target name="package-diserverapirmi" depends="compile-diserverapi">
+    <jar jarfile="${dist}/diserverapirmi.jar">
+      <fileset dir="${build}">
+        <include name="com/ibm/di/api/remote/impl/rmi/*.class" />
+      </fileset>
+    </jar>
+  </target>
+
+  <!-- TARGET FOR AMC3 -->
+  <!-- Call the amc3/build.xml file -->
+  <target name="amc3" depends="">
+    <ant antfile="build.xml" dir="amc3/" inheritall="false"/>
+  </target>
+
+  <!-- TARGET FOR SUPPORT PACKAGE BUILD -->
+  <!-- Call the support package build xml (support/build_support_packaging.xml) -->
+
+  <target name="support" depends="">
+    <ant antfile="build.xml" dir="support/" inheritall="false"/>
+  </target>
+
+   <!-- TARGET FOR OSGi BUILD: depends on ce rcp due to language files -->
+  <target name="build-osgi">
+    <ant antfile="build.xml" dir="osgi" inheritall="false"/>
+  </target>
+
+   <!-- Targets for migamc.jar -->
+   <target depends="init" name="compile-migamc">
+     <javac debug="${debug}" srcdir="${project.root.server.src}" destdir="${build}" source="1.7" target="1.7">
+       <classpath refid="project.class.path" />
+       <include name="com/ibm/di/migamc/*.java" />
+     </javac>
+     <mkdir dir="${project.root.tmsxml_props.export}/migamc/"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/de/migrateamcprops_de.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_de.properties"/>
+     <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/migamc/tmsfiles/en/migrateamcprops.xml" propsfile.loc="${project.root.tmsxml_props.export}/migamc/migrateamcprops_en.properties" logfile.log="${project.root.tmsxml.log}"/>
+     <copy file="${project.root.tmsxml_props.export}/migamc/migrateamcprops_en.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/es/migrateamcprops_es.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_es.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/fr/migrateamcprops_fr.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_fr.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/it/migrateamcprops_it.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_it.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/ja/migrateamcprops_ja.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_ja.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/ko/migrateamcprops_ko.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_ko.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/pt_BR/migrateamcprops_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_pt_BR.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/zh_CN/migrateamcprops_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_zh_CN.properties"/>
+     <copy file="${project.root.autogen.comp}/migamc/tmsfiles/zh_TW/migrateamcprops_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/migamc/migrateamcprops_zh_TW.properties"/>
+   </target>
+
+   <target name="migamc" depends="compile-migamc">
+     <jar jarfile="${dist}/migamc.jar">
+       <fileset dir="${build}">
+         <include name="com/ibm/di/migamc/*.class" />
+       </fileset>
+       <fileset dir="${project.root.amc.src}">
+              <include name="migrateamcprops.xml"/>
+       </fileset>
+       <fileset dir="${project.root.tmsxml_props.export}/migamc">
+         <include name="**.properties" />
+       </fileset>
+     </jar>
+   </target>
+
+	<!-- Targets for ldapsync.jar -->
+	<target depends="init" name="compile-ldapsync">
+	  <mkdir dir="${project.root.tmsxml_props.export}/LDAPSync"/>
+	  <mkdir dir="${project.root.tmsxml_props.export}/LDAPSync/NLS"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/de/ldapsync_de.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_de.properties"/>
+	  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/LDAPSync/tmsfiles/en/ldapsync.xml" propsfile.loc="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_en.properties" logfile.log="${project.root.tmsxml.log}"/>
+	  <copy file="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_en.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/es/ldapsync_es.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_es.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/fr/ldapsync_fr.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_fr.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/it/ldapsync_it.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_it.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/ja/ldapsync_ja.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_ja.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/ko/ldapsync_ko.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_ko.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/pt_BR/ldapsync_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_pt_BR.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/zh_CN/ldapsync_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_zh_CN.properties"/>
+	  <copy file="${project.root.autogen.comp}/LDAPSync/tmsfiles/zh_TW/ldapsync_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/LDAPSync/NLS/ldapsync_zh_TW.properties"/>
+
+	  <!-- Convert files so they are read correctly in a java env -->
+	  <native2ascii encoding="UTF8" src="${project.root.tmsxml_props.export}/LDAPSync/NLS" dest="${project.root.tmsxml_props.export}/LDAPSync" includes="ldapsync*.properties">
+	  </native2ascii>
+	</target>
+
+	<target name="ldapsync" depends="compile-ldapsync">
+	  <jar jarfile="${dist}/ldapsync.jar">
+	    <fileset dir="${project.root.tmsxml_props.export}/LDAPSync">
+	      <include name="**.properties" />
+	    </fileset>
+	  </jar>
+	</target>
+  <description>
+   =========================================================================
+       Target:  runFindBugs
+      Purpose:  Runs the findbugs and sanalyzer tools so we can have static code
+                analysis on our code.
+   =========================================================================
+  </description>
+  <target name="runFindBugs" depends="" description="Perform static code analysis on built binaries" >
+
+   <!-- Create the needed directories to store the files. -->
+   <mkdir dir="${project.root.export}"/>
+   <mkdir dir="${project.root.export.sca}"/>
+
+   <!-- Setup the path to the classes we depend on but do not build ourselves. -->
+   <echo message="Running FindBugs in ${ant.project.name}."/>
+
+   <!-- Run findbugs on the server,amc, and am files. -->
+   <findbugs home="${findbugs.home}"
+       output="xml:withMessages"
+       outputFile="${project.root.export.sca}/findbugs.xml"
+       timeout="9600000" >
+       <auxClasspath refid="tdi.extern.all.class.path" />
+       <sourcePath path="${sca_src_paths}" />
+       <class location="${project.root.export}/IDILoader" />
+       <class location="${project.root.export}/miconfig" />
+       <class location="${project.root.export}/mmconfig" />
+       <class location="${project.root.export}" />
+       <class location="${project.root.export.amc.ship}/ActionManager/jars/action_manager.jar" />
+       <class location="${project.root.export.amc.ship}/ActionManager/jars/amapi.jar" />
+       <class location="${project.root.export.amc}/WEB-INF/lib/amc.jar" />
+       <class location="${project.root.export.ce_eclipse}/eclipsece/plugins/${project.root.ce_rcp.base.plugin.name}_${project.tdi.version}.jar"/>
+       <class location="${project.root.export.ce_eclipse}/eclipsece/plugins/${project.root.ce_rcp.loader.plugin.name}_${project.tdi.version}.jar"/>
+       <class location="${project.root.export.osgi.embedded}"/>
+   </findbugs>
+
+   <!-- Generate the final report using sanalyze for the server, amc, and am -->
+   <echo message="Running Sanalyze FindBugs on ${ant.project.name}."/>
+   <sanalyze from="findbugs"
+             maxpriority="4"
+             output="${project.root.export.sca}/findbugs.csv"
+             srcpath="${sca_src_paths}">
+      <fileset dir="${project.root.export.sca}"
+               includes="findbugs.xml"/>
+   </sanalyze>
+
+   <!-- Generate the Delta Report using the baseline... -->
+   <echo message="Running Sanalyze Delta Report for FindBugs on ${ant.project.name}."/>
+   <sanalyze_delta oldreport="${project.root.baseline.sca}/findbugs_baseline.csv"
+                   newreport="${project.root.export.sca}/findbugs.csv"
+                   output="${project.root.export.sca}/findbugs_delta.csv"/>
+
+  </target>
+
+  <description>
+   =========================================================================
+       Target:  runPMD
+      Purpose:  Runs the PMD and sanalyzer tools so we can have static code
+                analysis on our code.
+   =========================================================================
+  </description>
+  <target name="runPMD" depends="" description="Perform static code analysis on built binaries using PMD">
+
+   <!-- Create the needed directories to store the files. -->
+   <mkdir dir="${project.root.export}"/>
+   <mkdir dir="${project.root.export.sca}"/>
+
+ 	 <!-- Run PMD on the server,amc, and am files. -->
+   <echo message="Running PMD in ${ant.project.name}"/>
+   <pmd shortFilenames="false">
+      <ruleset>basic</ruleset>
+      <formatter type="xml" toFile="${project.root.export.sca}/pmd.xml"/>
+      <fileset dir="${project.root.server.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.amc.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.am.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.console.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.amc_migration.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.amc_tools.src}" includes="**/*.java"/>
+      <fileset dir="${project.root.export.sca}" includes="**/*.java"/>
+      <fileset dir="${project.root.ce_rcp.base.plugin}/src" includes="**/*.java"/>
+      <fileset dir="${project.root.ce_rcp.loader.plugin}/src" includes="**/*.java"/>
+      <fileset dir="${project.root.osgi}/plugins" includes="**/*.java"/>
+   </pmd>
+
+   <!-- Generate the final report using sanalyze for the server, amc, and am -->
+   <echo message="Running Sanalyze PMD on ${ant.project.name}."/>
+   <sanalyze from="pmd"
+             maxpriority="4"
+             output="${project.root.export.sca}/pmd.csv"
+             srcpath="${sca_src_paths}">
+      <fileset dir="${project.root.export.sca}"
+               includes="pmd.xml"/>
+   </sanalyze>
+
+   <!-- Make sure the file is in the proper format and we are using the right path -->
+   <copy file="${project.root.baseline.sca}/pmd_baseline.csv" tofile="${project.root.export.sca}/pmd_baseline.csv"/>
+   <pathconvert property="tmp.project.root" dirsep="\\\\">
+     <path location="${project.root}"/>
+   </pathconvert>
+   <!-- Make the needed replacements in the file. -->
+   <replaceregexp file="${project.root.export.sca}/pmd_baseline.csv"
+                        match="${pmd_baseline_root}"
+                        replace="${tmp.project.root}"
+                        flags="gm"
+                        byline="true" />
+   <!-- Apply dummy update in pmd.csv file in order to make the paths with double slashes and therefore equalize it to pmd_baseline.csv-->
+	<replaceregexp file="${project.root.export.sca}/pmd.csv"
+                        match=":\\"
+                        replace=":\\\\\\\\"
+                        flags="gm"
+                        byline="true" />
+
+   <fixcrlf srcdir="${project.root.export.sca}"
+            eol="dos"
+            includes="pmd_baseline.csv" />
+
+   <!-- Generate the Delta Report using the baseline... -->
+   <echo message="Running Sanalyze Delta Report for PMD on ${ant.project.name}."/>
+   <sanalyze_delta oldreport="${project.root.export.sca}/pmd_baseline.csv"
+                   newreport="${project.root.export.sca}/pmd.csv"
+                   output="${project.root.export.sca}/pmd_delta.csv"/>
+
+  </target>
+
+  <description>
+   =========================================================================
+       Target:  staticcodeanalysis
+      Purpose:  Runs the findbugs PMD and sanalyzer tools so we can have static code
+                analysis on our code.
+   =========================================================================
+  </description>
+  <target name="staticcodeanalysis" depends="runFindBugs,runPMD" description="Perform static code analysis on built binaries" >
+
+  </target>
+
+  <description>
+   =========================================================================
+       Target:  chkpii
+      Purpose:  Runs the chkpii tool to ensure the files we will translate
+                are compliant.
+   =========================================================================
+  </description>
+  <target name="chkpii" depends="" description="Runs chkpii on the translated files in the build...">
+
+   <!-- Create the needed directories to store the files. -->
+   <delete dir="${project.root.export}/chkpii"/>
+   <mkdir dir="${project.root.export}"/>
+   <mkdir dir="${project.root.export}/chkpii"/>
+
+   <!-- Copy all of the files we need to check... -->
+   <copy todir="${project.root.export}/chkpii">
+     <fileset dir="${project.root.autogen.comp}" >
+       <include name="**/en/*.xml"/>
+       <include name="**/*.properties"/>
+       <exclude name="**/*_de.properties"/>
+       <exclude name="**/*_es.properties"/>
+       <exclude name="**/*_fr.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ja.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ko.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_pt_BR.properties"/>
+       <exclude name="**/*_zh_CN.properties"/>
+       <exclude name="**/*_zh_TW.properties"/>
+     </fileset>
+     <fileset dir="${project.root.server.src}" >
+       <include name="**/en/*.xml"/>
+     </fileset>
+     <fileset dir="${project.root.amc.src}" >
+       <include name="**/*.properties"/>
+       <exclude name="**/*-log4j.properties"/>
+       <exclude name="**/*_de.properties"/>
+       <exclude name="**/*_es.properties"/>
+       <exclude name="**/*_fr.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ja.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ko.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_pt_BR.properties"/>
+       <exclude name="**/*_zh_CN.properties"/>
+       <exclude name="**/*_zh_TW.properties"/>
+     </fileset>
+     <fileset dir="${project.root.amc.src}" >
+       <include name="**/*.properties"/>
+       <exclude name="**/*-log4j.properties"/>
+       <exclude name="**/*_de.properties"/>
+       <exclude name="**/*_es.properties"/>
+       <exclude name="**/*_fr.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ja.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ko.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_pt_BR.properties"/>
+       <exclude name="**/*_zh_CN.properties"/>
+       <exclude name="**/*_zh_TW.properties"/>
+     </fileset>
+     <fileset dir="${project.root.console.src}" >
+       <include name="**/*.properties"/>
+       <exclude name="**/*-log4j.properties"/>
+       <exclude name="**/*_de.properties"/>
+       <exclude name="**/*_es.properties"/>
+       <exclude name="**/*_fr.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ja.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_ko.properties"/>
+       <exclude name="**/*_it.properties"/>
+       <exclude name="**/*_pt_BR.properties"/>
+       <exclude name="**/*_zh_CN.properties"/>
+       <exclude name="**/*_zh_TW.properties"/>
+     </fileset>
+     <fileset dir="${project.root.amc.am.base.src}" >
+       <include name="**/plugin.properties"/>
+       <include name="**/en/*.xml"/>
+       <exclude name="**/*_en.properties"/>
+       <include name="**/en/**/*.html"/>
+     </fileset>
+     <fileset dir="${project.root.ce_rcp}/plugins/${project.root.ce_rcp.base.plugin.name}" >
+       <include name="**/standard_forms.properties"/>
+     </fileset>
+     <fileset dir="${project.root}/launchpad" >
+       <include name="**/en/**/*.html"/>
+       <include name="**/en/**/*.txt"/>
+       <include name="**/en/**/*.properties"/>
+     </fileset>
+     <fileset dir="${project.root.install}" >
+       <include name="**/TDIInstallGUIStrings.properties"/>
+     </fileset>
+    <fileset dir="${project.root}/XSLT" >
+       <include name="**/en/*.xml"/>
+     </fileset>
+	<fileset dir="${project.root}/jscript">
+		<include name="**/en/*.html" />
+	 </fileset>
+   </copy>
+   <fixcrlf srcdir="${project.root.export}/chkpii"
+            eol="dos"
+            includes="**/*" />
+
+ 	 <!-- Now, run chkpii... -->
+   <echo message="Running the chkpii tool..."/>
+
+   <exec executable="${chkpii.home}/chkpii.exe" failonerror="no" error="${project.root.export.logs}/chkpii_err.log">
+     <arg line='"${project.root.export.chkpii}\*.*" -s /O "${project.root.export.logs}/CHKPII.SUM"'/>
+   </exec>
+
+  </target>
+
+  <description>
+    =========================================================================
+       Target:  fixPluginShares
+      Purpose:  Copies the shared properties files.
+    =========================================================================
+  </description>
+  <target name="fixPluginShares"
+          description="Perform intermediate packaging of components."
+          depends="miserver,plugins/proxy,shared">
+	<jar jarfile="${dist}/plugins/proxy.jar"
+	     update="true">
+		<fileset dir="${project.root.tmsxml_props.export}/shared">
+			<include name="basemig*.properties" />
+		</fileset>
+		<fileset dir="${project.root.tmsxml_props.export}/miserver">
+			<include name="jmsdriver*.properties" />
+			<include name="security*.properties" />
+		</fileset>
+	</jar>
+  </target>
+
+  <description>
+  =========================================================================
+       Target:  update CCMDB Connector
+      Purpose:  Copies the configuration files.
+  =========================================================================
+  </description>
+  <target name="updateCCMDBConnector"
+          description="Perform intermediate packaging of components."
+          depends="connectors/CCMDBConnector">
+	   <jar jarfile="${dist}/connectors/CCMDBConnector.jar" update="true">
+	  	<fileset dir="${project.root.autogen.comp}/connectors/CCMDBConnector">
+			  <include name="*.xml" />
+			  <exclude name="tdi.xml" />
+		  </fileset>
+  	</jar>
+  </target>
+
+  <description>
+  =========================================================================
+       Target:  update DPA Connector
+      Purpose:  Copies the configuration files.
+  =========================================================================
+  </description>
+  <target name="updateDPAConnector"
+          description="Perform intermediate packaging of components."
+          depends="connectors/DPAConnector">
+	   <jar jarfile="${dist}/connectors/DPAConnector.jar" update="true">
+	  	<fileset dir="${project.root.autogen.comp}/connectors/DPAConnector">
+			  <include name="*.xml" />
+			  <exclude name="tdi.xml" />
+		  </fileset>
+  	</jar>
+  </target>
+
+	<description>
+	=========================================================================
+       Target:  package_unit_tests
+      Purpose:  Package the compiled JUnit tests
+    =========================================================================
+	</description>
+	<target name="package_unit_tests" depends="compile_unit_tests">
+		<mkdir dir="${project.root.export}/unit_tests" />
+		<mkdir dir="${project.root.export}/temp" />
+		<mkdir dir="${project.root.unit_tests}/resources/tp/server" />
+
+		<!-- package the test.jar -->
+		<jar destfile="${project.root.export}/unit_tests/test.jar"
+			 basedir="${build}/unit_tests"
+			 excludes="test.jar, com/ibm/di/test/boot/**, libs/**, com/ibm/di/connector/DummyConnector.class" />
+
+		<!-- package the test_DummyConnector.jar -->
+		<copy file="${project.root.unit_tests}/src/com/ibm/di/connector/DummyConnector_tdi.xml"
+			  tofile="${project.root.export}/temp/tdi.xml" />
+		<jar destfile="${project.root.export}/unit_tests/test_DummyConnector.jar">
+			<zipfileset prefix="com/ibm/di/connector"
+						dir="${build}/unit_tests/com/ibm/di/connector"
+						includes="DummyConnector.class" />
+			<zipfileset dir="${project.root.export}/temp"
+						includes="tdi.xml" />
+		</jar>
+		<delete file="${project.root.export}/temp/tdi.xml" />
+
+		<!-- package the boot.jar -->
+		<jar destfile="${project.root.export}/unit_tests/boot.jar"
+			 manifest="${project.root.unit_tests}/src/com/ibm/di/test/boot/BootJarManifest.mf">
+			<zipfileset prefix="com/ibm/di/test/boot" dir="${build}/unit_tests/com/ibm/di/test/boot" />
+		</jar>
+
+		<!-- we need the TouchpointTemplate.xml in the resources folder. Make sure its copied over -->
+		<copy file="${project.root.etc}/TouchpointTemplate.xml" todir="${project.root.unit_tests}/resources/tp/server" />
+	</target>
+
+	<description>
+	=========================================================================
+       Target:  compile_unit_tests
+      Purpose:  Compile the JUnit tests
+    =========================================================================
+	</description>
+	<target depends="init, JARS" name="compile_unit_tests">
+		<mkdir dir="${build}/unit_tests" />
+
+		<!-- collect dependency jars from adks which are not bundled with tdi -->
+		<mkdir dir="${build}/unit_tests/libs" />
+		<copy todir="${build}/unit_tests/libs">
+			<fileset dir="${root.junit_src}" includes="junit-dep.jar" />
+			<fileset dir="${root.hamcrest_src}" includes="hamcrest-all.jar" />
+			<fileset dir="${root.easymock_src}" includes="easymock.jar" />
+			<fileset dir="${root.spring_src}" includes="spring-*.jar xbean-spring.jar" />
+
+			<!-- Web Container libs - wink, jax-rs api, etc.. -->
+			<fileset refid="root.wink_fileset" />
+			<fileset refid="root.jaxrs_fileset" />
+			<fileset refid="root.jackson_fileset" />
+			<fileset dir="${root.slf4j_src}" includes="slf4j-api-*.jar slf4j-jdk14-*.jar" />
+		</copy>
+
+		<path id="unit_tests.class.path">
+
+			<fileset dir="${build}/unit_tests/libs" includes="*.jar" />
+
+			<!-- include the external libraries -->
+			<path refid="tdi.extern.class.path" />
+
+			<!-- include TDI's code base -->
+			<pathelement path="${build}" />
+			<pathelement path="${build}/IDILoader" />
+			<pathelement path="${build}/miconfig" />
+			<pathelement path="${build}/mmconfig" />
+
+			<!-- include both normal jars and OSGi plugins -->
+			<fileset dir="${project.root.export.osgi.embedded}" includes="*.jar" />
+			<fileset dir="${project.root.export.osgi.runtime}" >
+				<include name="*.jar" />
+				<exclude name="org.eclipse.equinox.*" />
+				<exclude name="org.eclipse.osgi.*" />
+				<exclude name="org.eclipse.update.*" />
+			</fileset>
+
+			<!-- include the AM and migamcdb jars -->
+			<fileset dir="${project.root.export.amc.ship}/ActionManager/jars">
+				<include name="action_manager.jar" />
+				<include name="amapi.jar" />
+				<include name="amapiclient.jar" />
+				<include name="amapirmi.jar" />
+				<include name="amcdbmigration.jar" />
+			</fileset>
+
+			<!-- include the AMC jar -->
+			<fileset dir="${project.root.export.amc}/WEB-INF/lib">
+				<include name="amc.jar" />
+			</fileset>
+		</path>
+
+		<javac srcdir="${project.root.unit_tests}/src:${project.root.unit_tests}/src_func"
+			   destdir="${build}/unit_tests"
+			   debug="${root.javac_dbg}"
+			   includeantruntime="false"
+			   source="${root.javac_src.vers}"
+			   target="${root.javac_tgt.vers}">
+			<classpath refid="unit_tests.class.path" />
+		</javac>
+	</target>
+
+	<description>
+	=========================================================================
+       Target:  zip_unit_tests
+      Purpose:  Zip the packaged JUnit project
+    =========================================================================
+	</description>
+	<target name="zip_unit_tests" depends="package_unit_tests">
+		<mkdir dir="${project.root.ship.tests}" />
+
+		<!-- Convert end line characters for executable files and properties -->
+		<fixcrlf srcdir="${project.root.unit_tests}/bin" 	eol="unix" 		includes="*.sh" />
+		<fixcrlf srcdir="${project.root.unit_tests}/bin" 	eol="dos" 		includes="*.bat" />
+		<fixcrlf srcdir="${project.root.unit_tests}/etc" 	eol="unix" 		includes="perf.properties" />
+
+		<!-- Zip up the unit_tests.zip -->
+		<zip zipfile="${project.root.ship.tests}/${JUnitTestsZipName}">
+			<zipfileset prefix="unit_tests" 		dir="${project.root.unit_tests}" 			excludes="etc/perf.properties" />
+			<zipfileset prefix="unit_tests" 		dir="${project.root.export}/unit_tests" 	includes="boot.jar" />
+			<zipfileset prefix="unit_tests/lib" 	dir="${project.root.export}/unit_tests" 	includes="test.jar" />
+			<zipfileset prefix="jars/connectors" 	dir="${project.root.export}/unit_tests" 	includes="test_*Connector.jar" />
+			<zipfileset 							dir="${project.root.unit_tests}/etc" 		includes="perf.properties" />
+			<zipfileset prefix="unit_tests/lib" 	dir="${project.root.export}/unit_tests/libs"	includes="*.jar" />
+		</zip>
+
+		<!-- delete everything from UTs build directory, except jars, to make sure the SCA tools don't use it for analysis -->
+		<delete dir="${project.root.export}/unit_tests">
+			 <exclude name="**/*.jar"/>
+		</delete>
+	</target>

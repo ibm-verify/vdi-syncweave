@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:simpleType name="enum_group-visibility">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="private">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Private</scmp:display>
+                        <scmp:description>
+                            Not for use by general applications in this Service Domain.
+                        </scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="public">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Public</scmp:display>
+                        <scmp:description>
+                            Exposed (visible) in this Service Domain for use by general applications.
+                        </scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="enum_group-shareability">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="shareable">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Shareable</scmp:display>
+                        <scmp:description>
+                            Eligible to be shared with other Service Domains.
+                        </scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="local">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Local</scmp:display>
+                        <scmp:description>
+                            Not eligible to be shared with other Service Domains.
+                        </scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="enum_group-type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="list">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>List</scmp:display>
+                        <scmp:description>This service group is defined by a list of the services within it.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="proxy">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Proxy</scmp:display>
+                        <scmp:description>This service group is a copy of another service group via a proxy.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="share">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Share</scmp:display>
+                        <scmp:description>This service group is a copy of another service group shared from another Service Domain.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="service-group-type">
+    	<xsd:complexContent>
+    		<xsd:extension base="tns:base-resource">
+    			<xsd:sequence>
+    				<xsd:element name="type" type="tns:enum_group-type"
+    					minOccurs="1" maxOccurs="1">
+    					<xsd:annotation>
+    						<xsd:appinfo>
+    							<scmp:display>Type</scmp:display>
+    							<scmp:summary>
+    								Service Group Type
+    							</scmp:summary>
+    							<scmp:description>
+    								The type of this Service Group.
+    							</scmp:description>
+    						</xsd:appinfo>
+    					</xsd:annotation>
+    				</xsd:element>
+    				<xsd:element name="visbility" type="tns:enum_group-visibility"
+    					minOccurs="1" maxOccurs="1">
+    					<xsd:annotation>
+    						<xsd:appinfo>
+    							<scmp:display>Scope</scmp:display>
+    							<scmp:summary>
+    								Visibility Scope
+    							</scmp:summary>
+    							<scmp:description>
+    								The visibility of this Service Group within its Service Domain.
+    							</scmp:description>
+    						</xsd:appinfo>
+    					</xsd:annotation>
+    				</xsd:element>
+    				<xsd:element name="shareability" type="tns:enum_group-shareability"
+    					minOccurs="1" maxOccurs="1">
+    					<xsd:annotation>
+    						<xsd:appinfo>
+    							<scmp:display>Shareability</scmp:display>
+    							<scmp:description>
+    								Specifies if the Service Group is eligible for sharing.
+    							</scmp:description>
+    						</xsd:appinfo>
+    					</xsd:annotation>
+    				</xsd:element>
+    			</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="service-group" type="tns:service-group-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Service Group</scmp:display>
+                <scmp:summary>Service Group</scmp:summary>
+                <scmp:description>
+                    A Service Group allows Service Endpoints to be gathered together and classified according to where they can be used.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

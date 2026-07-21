@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.FTPClient">
+                        <SupportedModes>AddOnly,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.FTPClientConnector</parameter>
+				<parameter name="parserOption">Required</parameter>
+				<parameter name="ftpOperation">list</parameter>
+				<parameter name="ftpPassive">false</parameter>
+				<parameter name="ftpPort">21</parameter>
+				<parameter name="ftpTransferMode">ASCII</parameter>
+				<parameter name="ftpSecurity">None</parameter>
+				<parameter name="ftpExplicitModeSSL">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.FTPClientConnector">
+			<TranslationFile>NLS/idi_conn_ftpclient</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>ftpServer</ListItem>
+					<ListItem>ftpPort</ListItem>
+					<ListItem>ftpPath</ListItem>
+					<ListItem>ftpUser</ListItem>
+					<ListItem>ftpPass</ListItem>
+					<ListItem>ftpOperation</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>ftpTransferMode</ListItem>
+					<ListItem>ftpPassive</ListItem>
+					<ListItem>ftpSecurity</ListItem>
+					<ListItem>ftpExplicitModeSSL</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>ftpServer</ListItem>
+				<ListItem>ftpPort</ListItem>
+				<ListItem>ftpUser</ListItem>
+				<ListItem>ftpPass</ListItem>
+				<ListItem>ftpOperation</ListItem>
+				<ListItem>ftpPath</ListItem>
+				<ListItem>ftpTransferMode</ListItem>
+				<ListItem>ftpPassive</ListItem>
+				<ListItem>ftpSecurity</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="ftpOperation">
+				<Values>
+					<ListItem>list</ListItem>
+					<ListItem>get</ListItem>
+					<ListItem>put</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>get</Key>
+						<Value>Localized.get</Value>
+					</Item>
+					<Item>
+						<Key>list</Key>
+						<Value>Localized.list</Value>
+					</Item>
+					<Item>
+						<Key>put</Key>
+						<Value>Localized.put</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">op_desc</parameter>
+				<parameter name="label">op_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ftpPass">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">password</parameter>
+			</FormItem>
+			<FormItem name="ftpPassive">
+				<parameter name="description">passive_desc</parameter>
+				<parameter name="label">passive_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ftpPath">
+				<parameter name="description">path_desc</parameter>
+				<parameter name="label">path_label</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ftpPort">
+				<parameter name="description">port_desc</parameter>
+				<parameter name="label">port_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="ftpServer">
+				<parameter name="description">ser_desc</parameter>
+				<parameter name="label">ser_label</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ftpTransferMode">
+				<Values>
+					<ListItem>ASCII</ListItem>
+					<ListItem>Binary</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>ASCII</Key>
+						<Value>Localized.ASCII</Value>
+					</Item>
+					<Item>
+						<Key>Binary</Key>
+						<Value>Localized.Binary</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">mode_desc</parameter>
+				<parameter name="label">mode_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="ftpUser">
+				<parameter name="description">user_desc</parameter>
+				<parameter name="label">user_label</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="ftpSecurity">
+				<Values>
+					<ListItem>None</ListItem>
+					<ListItem>Use SSL on control channel</ListItem>
+					<ListItem>Use SSL on control and data channels</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>None</Key>
+						<Value>Localized.None</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control channel</Key>
+						<Value>Localized.SSL_control_channel</Value>
+					</Item>
+					<Item>
+						<Key>Use SSL on control and data channels</Key>
+						<Value>Localized.SSL_control_data_channels</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">security_desc</parameter>
+				<parameter name="label">security_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="ftpExplicitModeSSL">
+				<parameter name="description">expmode_desc</parameter>
+				<parameter name="label">expmode_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="enabledWhen" condition="ftpSecurity != 0"/>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+			<parameter name="formevents"><![CDATA[
+
+updateExplicitMode();
+function updateExplicitMode() {
+	var security = form.getConfigValue("ftpSecurity");
+	var enabled = !"None".equals(security);
+	form.getControl("ftpExplicitModeSSL").setEnabled(enabled);
+	if(enabled) {
+		// If ssl enabled let explicit mode determine port
+		ftpExplicitModeSSL_changed();
+	} else if("990".equals(form.getConfigValue("ftpPort"))) {
+		form.setConfig("ftpPort", "21");
+		form.updateControl("ftpPort");
+	}
+}
+function ftpSecurity_changed() {
+	updateExplicitMode();
+}
+
+function ftpExplicitModeSSL_changed() {
+	if("true".equals(form.getConfigValue("ftpExplicitModeSSL"))) {
+		if("990".equals(form.getConfigValue("ftpPort"))) {
+			form.setConfig("ftpPort", "21");
+		}
+	} else {
+		if("21".equals(form.getConfigValue("ftpPort"))) {
+			form.setConfig("ftpPort", "990");
+		}
+	}
+	form.updateControl("ftpPort");
+}
+]]></parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

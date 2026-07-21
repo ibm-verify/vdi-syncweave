@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:30:28 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:30:28 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="3 Level XMLParser">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">true</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="XMLInput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">input</parameter>
+<parameter name="filePath">examples/xmlparser/3level_xml_in.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Enabled>false</Enabled>
+<ReadDeleted>false</ReadDeleted>
+<RemoveDeleted>false</RemoveDeleted>
+<ReturnUnchanged>false</ReturnUnchanged>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>after_selectEntries</Name>
+<Script><![CDATA[//
+// Set up variables for "override getnext" hook
+//
+
+var root = xmldom.getDocumentElement ();
+var list = system.selectNodeList ( root, XMLInput.connector.getParser().getParam("xmlEntryTag") );
+var counter = 0;
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>default_ok</Name>
+<Script></Script>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>override_getnext</Name>
+<Script><![CDATA[if ( counter < list.getLength() )
+  nxt = list.item ( counter );
+else
+  nxt = null;
+
+if ( nxt != null ) {
+    var ch = nxt.getFirstChild();
+    while ( ch != null ) {    // parse the first level of the XML document
+        var nodeValue = ch.getNodeValue();
+        if (nodeValue != null) {
+			if (nodeValue.indexOf("\n") == -1)
+            	entry.setAttribute ( ch.getNodeName(), nodeValue );
+		}
+        else {    // parse the second level of the XML document (if such exist)
+			var chNode = ch.getFirstChild();
+			var attr = system.newAttribute(ch.getNodeName());
+			while ( chNode != null ) {
+				var chNodeValue = chNode.getNodeValue();
+				if (chNodeValue != null) {
+					if (chNodeValue.indexOf("\n") == -1)
+						attr.addValue(chNodeValue);
+				} else {    // parse the third level of the XML document (if such exist)
+					var chNode2 = chNode.getFirstChild();
+					var attr2 = system.newAttribute(chNode.getNodeName());
+					while ( chNode2 != null ) {
+						var chNodeValue2 = chNode2.getNodeValue();
+						if (chNodeValue2 != null && chNodeValue2.indexOf("\n") == -1) {
+							attr2.addValue(chNodeValue2);
+						}
+						chNode2 = chNode2.getNextSibling();
+					}
+					attr.addValue(attr2);
+				}
+				chNode = chNode.getNextSibling();
+			}
+			entry.setAttribute( ch.getNodeName(), attr );
+        }
+        ch = ch.getNextSibling();
+    }
+    result.setStatus (1);
+	counter++;
+} 
+else {
+    result.setStatus (0);
+}
+
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="XMLOutput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/xmlparser/3level_xml_out.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.XML</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Enabled>false</Enabled>
+<ReadDeleted>false</ReadDeleted>
+<RemoveDeleted>false</RemoveDeleted>
+<ReturnUnchanged>false</ReturnUnchanged>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>override_add</Name>
+<Script><![CDATA[var root = xmldom.getDocumentElement ();
+var entry = xmldom.createElement ( XMLOutput.connector.getParser().getParam("xmlEntryTag") );
+var names = work.getAttributeNames ();
+
+for ( var i = 0; i < names.length; i++ ) {    // process the first level of the Attributes structure
+	var node = xmldom.createElement ( names[i] );
+	var values = work.getAttribute ( names[i] ).getValues ();
+
+	for ( var j = 0; j < values.length; j++ ) {    // process the second level of the Attributes structure
+		var element = values[j];
+		if ( ! element.getClass().getName().equals("com.ibm.di.entry.Attribute") ) {
+			if ( work.getAttribute(names[i]).size() > 1 ) {
+				var medial_node = xmldom.createElement ( XMLOutput.connector.getParser().getParam("xmlValueTag") );
+				node.appendChild ( medial_node );
+				medial_node.appendChild ( xmldom.createTextNode ( attribute.getValue (i) ) );
+			}
+			else {
+				node.appendChild ( xmldom.createTextNode ( values[j] ) );
+			}
+		}
+		else {    // process the third level of the Attributes structure
+			var childNode = xmldom.createElement ( element.getName () );
+			var elValues = element.getValues ();
+			for ( var k = 0; k < elValues.length; k++ ) {
+				if (element.size() > 1) {
+					var medial_node_2 = xmldom.createElement ( XMLOutput.connector.getParser().getParam("xmlValueTag") );
+					childNode.appendChild ( medial_node_2 );
+					medial_node_2.appendChild ( xmldom.createTextNode ( elValues[k] ) );
+				}
+				else {
+					childNode.appendChild ( xmldom.createTextNode ( elValues[k] ) );
+				}
+			}
+			node.appendChild ( childNode );
+		}
+		entry.appendChild ( node );
+	}
+}
+root.appendChild ( entry );
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries>
+<parameter name="system">com.ibm.di.function.UserFunctions</parameter>
+</JavaLibraries>
+<JavaProperties>
+<parameter name="com.ibm.di.server.certificatesFile">xml3level.ks</parameter>
+<parameter name="rsadmin.attribute.nullBehavior">Delete</parameter>
+<parameter name="rsadmin.color.title">255:255:150</parameter>
+<parameter name="rsadmin.editor.font">Courier</parameter>
+<parameter name="rsadmin.editor.fontsize">12</parameter>
+<parameter name="rsadmin.enableforms">true</parameter>
+<parameter name="rsadmin.gui">V4</parameter>
+</JavaProperties>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

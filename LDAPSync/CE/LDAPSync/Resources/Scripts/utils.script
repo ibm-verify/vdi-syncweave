@@ -1,0 +1,4798 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1850" UUID="af857f74-4fbe-4079-94f9-f3b429f63591" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="utils" modified="Fri Jul 08 16:33:38 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="utils">
+        <ModTime>1467988418124</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+.. previous history moved to bottom of file
+vrs = "7.3 20150324 1201" // added user friendly error messages
+vrs = "7.3 20150324 1324" // added auto-import of certs
+vrs = "7.3 20150410 1240" // changed attribute filter handling to use all attribute values for comparison
+vrs = "7.3 20150414 0957" // corrected how Activity.log is written for initial sync
+vrs = "7.3 20150417 1103" // enhanced groupFilterSatisfied() logic
+vrs = "7.3 20150421 1207" // Simulate has own logs and does not cause log file rolling
+vrs = "7.3 20150421 1429" // RetryList only read for Incremental Sync
+vrs = "7.3 20150422 1039" // Added audit.enabled property
+vrs = "7.3 20150422 1232" // Fixed error.exception access - checking for null first
+vrs = "7.3 20150429 1158" // Corrected auto-generation of User Password
+vrs = "7.3 20150429 1411" // Changed how aborted sync is captured in Activity.log
+vrs = "7.3 20150506 1121" // Corrected counting of errors logged
+vrs = "7.3 20150506 1135" // Swallowing Function Not Initialized error that happens some times - UpdateWorkFromTargetTCB()
+vrs = "7.3 20150506 1738" // Corrected csMailshot handling for Test Mail
+vrs = "7.3 20150507 1112" // csMailshot fixes (incl. new stuff from Bjørn) and no Group or Container mentioned in Flow Report
+vrs = "7.3 20150507 1357" // Corrected mod counting
+vrs = "7.3 20150511 1112" // Fixed erroneous counting User Interrupt as error
+vrs = "7.3 20150511 1134" // Swallowing 'Function not initialized' error (CTGDIS483E)
+vrs = "7.3 20150511 1208" // Removed password from audit log
+vrs = "7.3 20150511 1321" // Fixed toJSON() handing in audit log for deleted entries
+vrs = "7.3 20150513 1446" // Removed limitation of Group filter detection for non-changelog LDAP sources
+vrs = "7.3 20150515 1200" // Fixed handling of errors
+vrs = "7.3 20150518 1454" // Corrections to handling of retryList
+vrs = "7.3 20151124 1711" // Modified cleanDN to handle spaces better.
+vrs = "7.3 20151207 1209" // Added openFile() function
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * */
+
+vrs = "7.3 2010609 1014" // Added singleton() function for runDataFlow usage
+
+
+task.logmsg("Utils Script vrs. " + vrs);
+
+// ------------------------------------------------------------------------
+// First some global variable initialization - this will not work correctly for top-level ALs (LDAPMigrate & LDAPSync)
+// but will be re-run and correct for launched ALs
+//
+var failed = new java.util.concurrent.ConcurrentHashMap();
+var flowKey = ""
+var tuocList = null
+var containerRDN = null
+var containerOC = null
+var containerList = ""
+var containerListToSkip = ""
+var containerRDNs = ""
+var propertyRead = ""
+var opEntry = null
+var deBug = true
+var configDirectory = "LDAPSync"
+var syncReport = null
+var lastException = null
+var targetIsLDAP = false
+var targetIsTDS = false
+var alTCB = task.getTCB();
+var isSync = false;
+var syncAborted = false;
+
+var auditEnabled = true; // determines whether audit log is written for changes made
+
+// variable set via property timing.on
+var doTiming = false
+
+// retryList controls
+var processRetryList = true;
+var saveRetryList = true;
+var processLiveData = true;
+
+// UserSync variables
+var filterOnGroups = false;
+var filterOnAttributes = false;
+var filterAttributesOR = false;
+var passwordCaching = false;
+var groupFilters = null;
+var syncGroupsList = null;
+var syncGroupsListEnabled = false;
+var attributeFilters = null;
+
+// cloudSync boolean flag
+var cloudSync = false;
+var customTarget = false;
+
+// various entry objects
+var simEntry = null; // Output mapped Entry for the target
+var endpointEntry = null; // Entry read from the source Endpoint
+var joinEntry = null; // Entry read during Join operation
+
+// object for which entry types to handle
+var handleType = {
+	person : false,
+	group : false,
+	container : false
+}
+// internal variable to tell if initUtils() was called already
+var utilsReady = false
+var writePTAAttributes = true
+
+// some initialization code
+if (typeof(changelog) == "undefined")
+	changelog = false;
+
+if (opEntry == null) {
+	opEntry = task.getOpEntry();
+}	
+	
+// for singleton handling
+//runningFlows = new java.util.concurrent.ConcurrentHashMap()
+runningFlows = new java.util.HashMap()
+	
+// this next bit is to get past limitations in the AL Connector	
+if (opEntry.opEntry != null)
+	opEntry = opEntry.opEntry
+
+// for translated text	
+var messageResolver = com.ibm.di.server.ResourceHash.getHash("ldapsync")
+resource = {
+	getString : function(msg,params) {
+		if (typeof(params) != "undefined") {
+			return messageResolver.getString(msg, params);
+		} else {
+			return messageResolver.getString(msg);
+		}		
+	}
+}
+
+// CloudSync properties
+var csUserMailShot = false;
+var csSMTPssl = false;
+var csSMTPhost = null;
+var csSMTPport = null;
+var csSMTPuser = null;
+var csSMTPpassword = null;
+var csSMTPfrom = null;
+
+//
+var userFriendlyText = [];
+
+// TIMING
+
+// for use by the timing feature
+var timingMap = null 	// shared hashmap 
+var lastTimingNow		// shared last now value
+var lastTimingKey		// share last timing key (e.g. "startup", "reading", ...)
+var lastTiming			// last value stored for this key
+var timingNow			// current time (msecs)
+var timingDiff			// diff between now and last stored timing
+var currentTiming		// temp variable
+var timingFile = null
+var timingEntry = null
+
+// Check that there are not two or more of the current AL running
+function singletonAL() {
+	var checkAL = task.getName();
+	var als = session.getAssemblyLines();
+	var cnt = 0;
+	for (var al in als) {
+		if (al.getName().equals(checkAL)) {
+			cnt++;
+		}		
+	}
+	
+	return cnt < 2;
+}
+
+// Used when timing is enabled, and used to see how the various parts of the
+// solution perform relative to each other
+function timing(key) {
+	key = key || "startup"
+	
+	if (!doTiming) {
+		return
+	}
+	
+	if (timingMap === null) {
+		timingMap = opEntry.getObject(flowKey + "_timingMap")
+		if (timingMap === null) {
+//			timingMap = new java.util.concurrent.ConcurrentHashMap()
+			timingMap = new java.util.HashMap()
+			opEntry[flowKey + "_timingMap"] = timingMap
+		}	
+	}
+	
+	if (timingFile === null) {
+		timingFile = opEntry.getObject(flowKey + "_timingFile")
+		if (timingFile === null) {
+			timingFile = openOutputFile(logDirectory + "/0_Timing_" + flowKey + "_running.log")
+			opEntry[flowKey + "_timingFile"] = timingFile
+		}	
+	}	
+	
+	timingNow = new java.util.Date().getTime()
+	
+	timingEntry = timingMap.get("timingEntry")
+	if (timingEntry === null) {
+		timingEntry = system.newEntry()
+		timingMap.put("timingEntry", timingEntry)
+	}	
+	
+	lastTimingNow = timingEntry.getObject("lastTimingNow") || timingNow
+	lastTimingKey = timingEntry.getObject("lastTimingKey") || "startup"
+
+	timingDiff = timingNow - lastTimingNow
+
+	lastTiming = timingMap.get(lastTimingKey) || 0
+	currentTiming = lastTiming + timingDiff
+	timingMap.put(lastTimingKey, currentTiming)
+
+	timingFile.write(lastTimingKey + ";" + currentTiming)
+	timingFile.newLine()
+
+	timingEntry.lastTimingKey = key
+	timingEntry.lastTimingNow = timingNow
+}	
+
+// JS object comparison function that checks if o2 has (at least) the content in o1
+function hasContent(o1, o2) {
+//	task.logmsg("comparing " + toJson(o1) + "  with  " + toJson(o2));
+
+	if (o2 == null) {
+		return o1 == null;
+	}
+	if (o1 == null) {
+		return o2 == null; 
+	}
+	if (typeof o1 != typeof o2) {
+		return false;
+	}
+	if (typeof o1 != "object") {
+		return o1 == o2;
+	}
+	for (var pname in o1) {
+		if (!hasContent(o1[pname], o2[pname])) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+// This function replaces the use of system.openFileForOutput or system.openFileForAppend and
+// ensures that UTF-8 is used to encode characters written to this file.
+var _appendToFile = true;
+function openOutputFile(filePath, append) {
+	if (typeof append == "undefined" || append != true) { append = false; } 
+	var file = new java.io.BufferedWriter(new java.io.OutputStreamWriter(new java.io.FileOutputStream(filePath, append), "UTF-8"));
+	return file;
+}	
+
+// debugging functions
+function memReport() {
+	var mb = 1024*1024;
+         
+	//Getting the runtime reference from system
+	var runtime = java.lang.Runtime.getRuntime();
+	var s = "\n";
+         
+	s += "##### Heap utilization statistics [MB] #####\n";
+         
+	//Print used memory
+	s += "Used Memory:" + (runtime.totalMemory() - runtime.freeMemory()) / mb + "\n";
+ 
+	//Print free memory
+	s += "Free Memory:" + runtime.freeMemory() / mb + "\n";
+         
+	//Print total available memory
+	s += "Total Memory:" + runtime.totalMemory() / mb + "\n";
+ 
+	//Print Maximum available memory
+	s += "Max Memory:" + runtime.maxMemory() / mb;
+	
+	logmsg(s);
+}	
+
+function dbgDumpEntry(e, lookFor) {
+	if (typeof lookFor === "undefined") { lookFor = null; } else { lookFor = lookFor.toLowerCase(); } 
+	var str = ""
+	var attNames = e.getAttributeNames()
+	java.util.Arrays.sort(attNames)
+	for (var n in attNames) {
+		if (lookFor === null || n.toLowerCase().indexOf(lookFor) >= 0) {
+			var att = e[n]
+			str += "\n" + att.toString()
+		}	
+	}
+	task.logmsg(str)
+	return str	
+}	
+
+// start of function definitions
+//
+
+// Initialize utils library
+//    fkey is the flowKey
+//    skipHooksInit is an optional boolean which indicates init before the Flow is actually started
+//		e.g. in LDAPMigrate and LDAPSync ALs.
+function initUtils(fkey, skipHooksInit) {
+	if (typeof skipHooksInit === "undefined") { skipHooksInit = false; } 
+
+	if (typeof opEntry === "undefined" || opEntry == null) {
+		opEntry = task.getOpEntry();
+	}
+
+	cleanUpOpEntryAttributeNames(opEntry);
+	
+	if (alTCB === null) {
+		alTCB = task.getTCB();
+	}
+	
+	if (typeof(fkey) == "undefined" || fkey === null || fkey.trim().length == 0) {
+		fkey = alTCB.getString("$flowKey");
+		if (fkey === null || fkey.trim().length == 0) {
+			fkey = opEntry.getString("global.flows");
+		}
+		if (fkey === null || fkey.trim().length == 0) {
+			fkey = opEntry.getString("testID");
+			if (fkey !== null) {
+				fkey = fkey.replace(/\./g,"_").trim();
+			}	
+		}	
+	}
+	
+	flowKey = fkey;
+	opEntry["$flowKey"] = flowKey;
+	alTCB["$flowKey"] = flowKey;
+	
+	flowKey = fkey
+
+	cloudSync = "true".equalsIgnoreCase(getProperty("cloudsync")); // also tested in TestConnection AL
+	customTarget = "true".equalsIgnoreCase(getProperty("config_FDS_Target")); // ditto
+		
+	logsRolled = false
+	changelog = false	
+	tuocList = null
+//	containerRDN = new java.util.concurrent.ConcurrentHashMap()
+	containerRDN = new java.util.HashMap()
+//	containerOC = new java.util.concurrent.ConcurrentHashMap()
+	containerOC = new java.util.HashMap()
+	containerList = ""
+	containerListToSkip = ""
+	containerRDNs = ""
+	propertyRead = ""
+	
+	deBug = getBooleanProperty("global.debug", false);
+
+	if (alTCB["$logFiles"] !== null) {
+		logFiles = alTCB.getObject("$logFiles");
+	} else {
+		logFiles = system.newEntry();
+		alTCB["$logFiles"] = logFiles;
+	}	
+
+	applyCustomProperties(flowKey);
+
+	lastException = alTCB.getObject("$lastException");
+	if (lastException == null) {
+//		lastException = new java.util.concurrent.ConcurrentHashMap();
+		lastException = new java.util.HashMap();
+		alTCB["$lastException"] = lastException;
+	}
+
+	simulate = isSimulation();
+	
+	if (!skipHooksInit) {
+		setupHooksManager();
+	}
+	
+	prepareObjectClasses();
+	prepareContainerList();
+	loadProperties();
+	
+	utilsReady = true;
+/*	
+	var rList = task.getTCB().getObject("$retryList");
+	if (rList != null) {
+		retryList = rList;
+	}	
+*/	
+	return opEntry;
+}
+
+// remove forward slashes put into property Attribute names (opEntry) by the FDS UI
+function cleanUpOpEntryAttributeNames(opEntry) {
+	var attNames = opEntry.getAttributeNames();
+	
+	for (var name in attNames) {
+		if (name.indexOf("\\") >= 0) {
+			var newAttName = name.replace(/\\/g, "");
+			opEntry[newAttName] = opEntry[name];
+			opEntry.removeAttribute(name);
+		}	
+	}	
+}	
+
+function prepareLogFiles() {
+	if (logf === null) {
+		if (alTCB.getObject("$logf") !== null) {
+			logf = alTCB.getObject("$logf");
+		} else {
+			if (simulate) {
+				logf = prepareLog(task.getShortName() + "_simulate.log");
+			} else {
+				logf = prepareLog(task.getShortName() + ".log");
+			}		
+			alTCB.setAttribute("$logf", logf);
+		}					
+	}
+	
+	if (errorf === null) {
+		if (alTCB.getObject("$errorf") !== null) {
+			errorf = alTCB.getObject("$errorf");
+		} else {	
+			if (simulate) {
+				errorf = prepareLog(flowKey + "_Errors_simulate.log");
+			} else {
+				errorf = prepareLog(flowKey + "_Errors.log");
+			}		
+			alTCB.setAttribute("$errorf", errorf);
+		}	
+	}
+}	
+
+function applyCustomProperties(flowKey, initParams) {
+	initParams = initParams ? initParams : opEntry;
+	var props = initParams.getString(flowKey + ".customProperties");
+	var pname, pval, line, p;
+	if (props != null) {
+		var lines = system.splitString(props, "\n")
+		for (var i = 0; i < lines.length; i++) {
+			line = lines[i].trim()
+			p = line.indexOf("=")
+			if (p > 0) {
+				pname = line.substring(0, p)
+				pval = line.substring(p+1)
+				if (deBug) logmsg("--@@--> adding custom prop: " + pname + "=" + pval)
+				initParams.setAttribute(flowKey + "." + pname, pval);
+			}
+		}
+	}
+	
+	var customPropsFile = getProperty("customPropsFile");
+	if (customPropsFile === null) {
+		return;
+	}
+	
+	try {
+		var file = system.openFileForInput(customPropsFile);
+		do {
+			var line = file.readLine();
+			if (line !== null && !line.trim().startsWith("#")) {
+				p = line.indexOf("=")
+				if (p > 0) {
+					pname = line.substring(0, p)
+					pval = line.substring(p+1)
+					if (deBug) logmsg("--@@--> adding custom prop from file: " + pname + "=" + pval)
+					initParams[flowKey + "." + pname] = pval
+				}
+			}	
+		} while (line !== null)	
+	} catch (ex) {
+		logmsg("WARN", resource.getString("LDAPSYNC.ERROR.READING.CUSTOM.PROPERTIES.FILE") + ": " + customPropsFile + " - " + ex);
+	}
+}	
+
+// the next two functions are used to generate random passwords
+var char_sets = [];
+char_sets["alpha"] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+char_sets["digits"] = ["0","1","2","3","4","5","6","7","8","9"];
+char_sets["special"] = ["$","!","_","-","&","#",":",";","(",")","@"];
+function getChars(type, num) {
+	if (num <= 0) {
+		return "";
+	}
+		
+	var ret = "";
+	var set = char_sets[type];
+	var len = set.length-1;
+	num = num * 2;
+
+	while (ret.length < num) {
+		ret += "," + set[randomRangeInt(0, len)];
+	}
+	
+	return ret.substring(1);
+}
+
+function generatePassword() {
+	var pwd = "";
+	var upper = getIntProperty("password.alpha_upper", randomRangeInt(3,5), 0);
+	var lower = getIntProperty("password.alpha_lower", randomRangeInt(4,8), 0);
+	var special = getIntProperty("password.specials", randomRangeInt(1,4), 0);
+	var digits = getIntProperty("password.digits", randomRangeInt(1,4), 0);
+	
+	var temp = getChars("alpha", upper).toUpperCase() + ","
+				+ getChars("alpha", lower) + ","
+				+ getChars("special", special) + ","
+				+ getChars("digits", digits);
+	
+	var arr = temp.split(",");
+	
+	pwd = arr[0];
+	arr.splice(0,1);
+	while (arr.length > 0) {
+		var i = randomRangeInt(0, arr.length-1);
+		pwd += arr[i];
+		arr.splice(i, 1);
+	}
+	return pwd;
+}	
+
+function passGlobalVariablesViaTCB(targetTCB) {
+	if (typeof synchronize === "undefined") { synchronize = true; }
+	if (typeof lastException === "undefined") { lastException = alTCB.getAttribute("$lastException"); } 
+	targetTCB.setAttribute("$synchronize", synchronize);
+	targetTCB.setAttribute("$flowKey", flowKey);
+	targetTCB.setAttribute("$syncReport", task.getTCB().getObject("$syncReport"));
+	targetTCB.setAttribute("$hooksManager", task.getTCB().getAttribute("$hooksManager"));
+//	targetTCB.setAttribute("$monitors", task.getTCB().getAttribute("$monitors"));
+	targetTCB.setAttribute("$logFiles", task.getTCB().getAttribute("$logFiles"));
+	targetTCB.setAttribute("$logf", task.getTCB().getAttribute("$logf"));
+	targetTCB.setAttribute("$errorf", task.getTCB().getAttribute("$errorf"));
+	targetTCB.setAttribute("$retryList", task.getTCB().getAttribute("$retryList"));
+	
+	if (typeof work !== "undefined") {
+		targetTCB.setAttribute("$work", work);
+	}
+	if (typeof typeOfEntry !== "undefined") {
+		targetTCB.setAttribute("$typeOfEntry", typeOfEntry);
+	}	
+	targetTCB.setAttribute("$lastException", lastException);
+}	
+
+function setException(ex, type) {
+	type = type.toLowerCase()
+	
+	if (lastException == null) {
+		java.lang.System.out.println(where() + " - setException() - ex: " + ex + "   type: " + type + "  *** NO lastException set")
+		return
+	}
+	
+	ex = new java.lang.Exception(ex)
+	
+	lastException.put("latest", ex)
+	lastException.put(rj(new java.util.Date().getTime(), 15), ex)
+
+	if (getException(type) == null) {
+		lastException.put(type, ex)
+	}	
+}
+
+function getException(type) {
+	if (lastException == null) {
+		lastException = getLastException()
+	}
+	
+	if (type == "first" || type == "root") {
+		var keys = lastException.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		return lastException.get(keys[0])	
+	} else {
+		return lastException.get(type)
+	}	
+}
+
+function getLastException() {
+	if (lastException == null) {
+		lastException = alTCB.getObject("$lastException")
+	}
+	
+	return lastException
+}
+	
+// ------------------------------------------------------------------------
+function getALName(pname, defVal) {
+	if (typeof(defVal) == "undefined") {
+		defVal = null
+	}
+	var ALname = getProperty(pname, null)
+
+	if (ALname == null || ALname.trim().length == 0) {
+		return defVal
+	}
+
+	var configName = getProperty("source.config.name", null)
+	if (configName != null) {
+		p = ALname.indexOf(":/")
+		if (p < 0) {
+			ALname = configName + ":/AssemblyLines/" + ALname
+		}
+	}
+	
+	if (!CIsetup(ALname)) {
+		return null
+	}			
+	
+	return ALname
+}
+
+
+var col1 = 45
+var col2 = 35
+function addLine(strBuf, msg) {
+	strBuf.append(flowKeyMsg() + msg + "\n")
+}
+
+function sourceReport() {
+	var form = getProperty("source.form")
+	if (form == null) {
+		return "*** " +resource.getString("LDAPSYNC.SOURCE.ENDPOINT.FORM.IS.MISSING") + ": source.form"
+	}
+	return formReport(form)
+}
+
+function flowSettingsReport() {
+//	var form = "Target_TDS"
+	var form = "FlowSettings"
+//	if (form == null) {
+//		return "*** " + resource.getString("LDAPSYNC.TARGET.FLOW.FORM.IS.MISSING") + ": source.form"
+//	}
+	return formReport(form)
+}
+
+function formReport(formName) {
+	var rep = new java.lang.StringBuffer();
+	var connCfg = main.getMetamergeConfig().lookup("LDAPSync:/Connectors/" + formName);
+	if (connCfg === null) {
+		if (formName.equalsIgnoreCase("FlowSettings")) {
+			connCfg = main.getMetamergeConfig().lookup("LDAPSync:/Connectors/Target_TDS");
+		}
+		
+		if (connCfg === null) {	
+			return resource.getString("LDAPSYNC.TARGET.FLOW.FORM.IS.MISSING") + ": " + formName;
+		}	
+	}
+	var ciCfg = connCfg.getConnectionConfig()
+	var title = resource.getString("LDAPSYNC.SOURCE.ENDPOINT")
+	if (formName.equalsIgnoreCase("FlowSettings")) {
+		title = resource.getString("LDAPSYNC.FLOW.SETTINGS")
+	}
+	
+	rep.append(title + ":\n")
+	
+	var params = opEntry.getAttributeNames()
+	java.util.Arrays.sort(params)
+	var pname
+	var pvalue
+	var p
+	var paramParts
+	
+	col1 = 0
+	for (var thisParam in params) {
+		p = thisParam.indexOf(".")
+		pname = thisParam.substring(p+1)
+		paramParts = system.splitString(thisParam, ".")
+		if (ciCfg.getParameter(pname) != null && !pname.startsWith("stat") && paramParts.length > 2) {
+			var newlen = resource.getString(thisParam).length + 1
+			if (newlen > col1) {
+				col1 = newlen
+				col2 = pname.length + 1
+			}
+		}	
+	}
+
+	for (var thisParam in params) {
+		p = thisParam.indexOf(".")
+		pname = thisParam.substring(p+1)
+		paramParts = system.splitString(thisParam, ".")
+		if (ciCfg.getParameter(pname) != null && pname.indexOf(".stat") < 0 && paramParts.length > 2) {
+			if (pname.toLowerCase().indexOf(".password") > 0) {
+				pvalue = " --- "
+			} else {
+				pvalue = opEntry[thisParam]
+			}	
+			addLine(rep, "| " + lj(resource.getString(thisParam),col1)+ " | " + lj(pname,col2,"...") + " | " + (pvalue == null ? "* null *" : String(pvalue).trim()))
+		}	
+	}
+	
+	return rep.toString()
+}
+
+function ConnectorReport(ctrName) {
+	var ctr = system.getConnector(ctrName)
+	var nameLC = ctrName.toLowerCase()
+	if (ctr == null) {
+		msg = resource.getString("LDAPSYNC.PROPERTIES.IN.ERROR.CANNOT.CONFIGURE.CONNECTOR")
+		logmsg("ERROR", msg + ": " + ctrName)
+		return msg + "\n"
+	}
+
+	var strBuf = new java.lang.StringBuffer() 	// accumulate message
+	var conCfg = ctr.getConfiguration()			// get Connector config
+	var ciCfg = conCfg.getConnectionConfig()	// get Connector Interface config (e.g. ldap)
+	var ciClass = ciCfg.getJavaClass()
+
+	if (ciClass.indexOf("LDAPConnector") >= 0) {
+		return LDAPReport(ctrName)
+	} else {
+		return "* Nothing *\n"
+	}
+}
+
+function LDAPReport(ctrName) {
+	var ctr = system.getConnector(ctrName)
+	var nameLC = ctrName.toLowerCase()
+	if (ctr == null) {
+		msg = resource.getString("LDAPSYNC.PROPERTIES.IN.ERROR.CANNOT.CONFIGURE.CONNECTOR")
+		logmsg("ERROR", msg + ": " + ctrName)
+		return msg + "\n"
+	}
+
+	var strBuf = new java.lang.StringBuffer() 	// accumulate message
+	var conCfg = ctr.getConfiguration()			// get Connector config
+	var ciCfg = conCfg.getConnectionConfig()	// get Connector Interface config (e.g. ldap)
+	var ciClass = ciCfg.getJavaClass()
+	var ciFormCfg = main.getMetamergeConfig().lookup("system:/Forms/" + ciClass)
+	var ciMMCfg = ciCfg.getMetamergeConfig()
+	var plabel
+
+	var params = ciCfg.getKeys(ciCfg.ONE_LEVEL).toArray();
+	java.util.Arrays.sort(params)
+	var destSource = (nameLC.indexOf("source") >= 0 || nameLC.indexOf("change") >= 0)
+	var destMsg = (destSource ? "Source" : "Target")
+	var changeDet = (nameLC.indexOf("change") >= 0)
+	var changeDetMsg = ""
+	if (changeDet) {
+		changeDetMsg = "(Change Detection)"
+	}
+
+	addLine(strBuf, "-->> " + destMsg + " " + resource.getString("LDAPSYNC.ENDPOINT") + " " + changeDetMsg)
+	for (var pndx = 0; pndx < params.length; pndx++) {
+		thisParam = params[pndx]
+		plabel = thisParam
+		var paramParts = system.splitString(thisParam, ".");
+		if (thisParam != "inheritFrom" && thisParam != "debug" && !thisParam.startsWith("$form") && paramParts.length > 2) {
+			var paramLC = String(thisParam).toLowerCase()
+			var pvalue = ciCfg.getParameter(thisParam)
+			var pread = thisParam
+			var psource = ciCfg.getParameterPropertySource(thisParam)
+			var psourceEval = null
+
+			try {
+				psourceEval = (psource != null) ? evaluate(psource) : null
+
+				if (psourceEval != null)
+					pread = String(propertyRead)
+				else {
+					var p = psource.indexOf("pname")
+					var foundPname = "* not set: " + thisParam + " *"
+					if (p >= 0) {
+						var p2 = psource.indexOf("\"", p)
+						if (p2 >= 0) {
+							p = psource.indexOf("\"", p2+1)
+							if (p > p2) {
+								foundPname = psource.substring(p2+1,p-1)
+							}
+						}
+					}
+					pread = foundPname
+				}	
+					
+				var formItem = ciFormCfg.getFormItem(thisParam)
+				if (formItem != null) {
+/*				
+					plabel = formItem.getLabel()
+					if (plabel == null || plabel.length == 0) {
+						plabel = thisParam
+					}	
+*/
+					if (formItem.getDontProtect() || paramLC.indexOf("password") >= 0 || paramLC.indexOf("user") >= 0) {
+						pvalue = "---"
+					}	
+				}	
+			} catch (ex) {
+				psourceEval = "** error evaluating property: " + thisParam + " for " + ctr.getName() + " **"
+			}	
+	
+//			if (!changeDet || (paramLC.indexOf("url") < 0 && paramLC.indexOf("user") < 0 && paramLC.indexOf("password") < 0 && paramLC.indexOf("ldap.searchbase") < 0))
+			if (!changeDet || (paramLC.indexOf("url") < 0 && paramLC.indexOf("user") < 0 && paramLC.indexOf("password") < 0 && paramLC.indexOf("ldap.searchbase") < 0))
+				addLine(strBuf, "| " + lj(plabel,col1)+ " | " + lj(propertyRead,col2,"...") + " | " + (pvalue == null ? "* null *" : String(pvalue).trim()))
+		}	
+	}
+	
+	return strBuf.toString()
+}
+
+
+function MapFileStatus(objType) {
+	var mapFilePropName = "target." + objType + ".mapFile"
+	var mapFile = getProperty(mapFilePropName)
+	if (mapFile == null || mapFile.length == 0) {
+		propertyRead = "<" + resource.getString("LDAPSYNC.PROPERTY.NOT.SPECIFIED") + ">"
+		mapFile = objType + ".map"
+	}	
+	if (mapFile.indexOf("/") < 0 && mapFile.indexOf("\\") < 0)
+		mapFile = configDirectory + "/" + mapFile
+		
+	var file = new java.io.File(mapFile)
+	var msg = ""
+	if (file.exists()) {
+		msg = resource.getString("LDAPSYNC.OK")
+	} else {	
+		msg = resource.getString("LDAPSYNC.NOT.FOUND.OR.INACCESSIBLE")
+	}
+	
+	return "| " + lj(objType ,col1)+ " | " + lj(propertyRead,col2) + " | " + msg + " > " + file.getAbsolutePath()
+}
+
+function MapFilesReport() {
+	var strBuf = new java.lang.StringBuffer()
+
+	addLine(strBuf, "-->> " + resource.getString("LDAPSYNC.MAPPING.FILES"))
+	addLine(strBuf, MapFileStatus("person"))
+	addLine(strBuf, MapFileStatus("group"))
+	itr = containerOC.keySet().iterator()
+	while (itr.hasNext()) {
+		addLine(strBuf, MapFileStatus(itr.next()))
+	}
+	
+	return strBuf.toString()
+}
+
+function BehaviorReport() {
+	var strBuf = new java.lang.StringBuffer()
+	addLine(strBuf, "-->> " + resource.getString("LDAPSYNC.BEHAVIOR"))
+	var sourceProps = "simulate,source.handlePersonObjects,source.handleGroupObjects,source.containersToMigrate,source.containersToSkip,source.userRDN,source.userObjectClass,source.groupObjectClass,source.container.objectClasses"
+	var targetProps = "target.userRDN,target.userObjectClass,target.groupObjectClass,target.isTDS"
+	var flattenProps = "target.suffixForUsers,target.suffixForGroups"
+	var changeDetType = getProperty("source.changeDetectionType","delta").toLowerCase()
+	var flatten = !("true".equalsIgnoreCase(getProperty("mirroring.enabled")) && "true".equalsIgnoreCase(getProperty("global.preserveSourceContainers")))
+	var flattenRead = propertyRead
+	
+	if (flatten) {
+		if (handleType.person == true) {
+			sourceProps += ",target.suffixForUsers"
+		}	
+		if (handleType.group == true) {
+			sourceProps += ",target.suffixForGroups"
+		}	
+	}
+	
+	addLine(strBuf, "| " + lj(resource.getString("LDAPSYNC.MIRRORING.HIERARCHY") ,col1)+ " | " + lj(flattenRead,col2) + " | " + String(flatten).trim())
+	
+	var useProps = sourceProps + "," + targetProps
+	if (!flatten)
+		useProps = flattenProps + "," + useProps
+	useProps = system.splitString(useProps,",")
+	
+	for (var p in useProps) {
+		pval = getProperty(p)
+		if (pval != null)
+			pval = pval.trim()
+		else
+			pval = "<" + resource.getString("LDAPSYNC.NOT.SET") + ">"
+		addLine(strBuf, "| " + lj(p ,col1)+ " | " + lj(propertyRead,col2) + " | " + pval.trim())
+	}
+	
+	return strBuf.toString()
+}
+
+var divider = "--------------------------------------------------------------------------------------------------------------"
+function FlowReport() {
+	var changelogType = getProperty("source.changeDetectionType","")
+	
+	var report = new java.lang.StringBuffer()
+	
+	addLine(report, divider)
+	addLine(report, "Flow: " + flowKey)
+	addLine(report, divider.substring(0,20))
+
+	report.append(propertyReport("global"));
+	addLine(report, divider.substring(0,20));
+	report.append(propertyReport("target"));
+	addLine(report, divider.substring(0,20));
+	report.append(propertyReport("source"));
+	addLine(report, divider.substring(0,20));
+//	report.append(sourceReport())
+//	addLine(report, divider.substring(0,20))
+//	report.append(flowSettingsReport())
+//	addLine(report, divider.substring(0,20))
+	
+	return report.toString()
+}
+
+function propertyReport(propType) {
+	var attNames = opEntry.getAttributeNames();
+	var paramParts;
+	var strBuf = new java.lang.StringBuffer();
+	var pval;
+	var pvalParts;
+	var firstval;
+	var i
+	java.util.Arrays.sort(attNames);
+	for (var pname in attNames) {
+		paramParts = system.splitString(pname, ".");
+		if (paramParts.length > 2 && pname.toLowerCase().indexOf(propType) > 0) {
+
+			// obfuscate password properties
+			if (pname.toLowerCase().indexOf("password") >= 0) {
+				pval = "*********";
+			} else {	
+				pval = getProperty(pname) + "";
+			}	
+		
+			pvalParts = system.splitString(pval, "\n")
+			if (pvalParts === null || pvalParts.length == 0) {
+				firstval = pval;
+			} else {
+				firstval = pvalParts[0];
+			}
+			addLine(strBuf, "| " + lj(pname ,col1)+ " | " + firstval.trim());
+			if (pvalParts[0] != "undefined" && pvalParts.length > 1) {
+				for (i = 1; i < pvalParts.length; i++) {
+					addLine(strBuf, "| " + lj("" ,col1)+ " | " + pvalParts[i].trim());
+				}	
+			}	
+		}	
+	}	
+	
+	return strBuf.toString();
+}	
+
+function flowKeyMsg() {
+	if (typeof(flowKey) == "undefined")
+		return "> "
+		
+	if ("S".equals(flowKey) || "M".equals(flowKey))
+		return ""
+	else {
+		return "["+ flowKey + "] "
+	}
+}
+
+function getRDN(entry, rdnSpec) {
+	if (!entry || !rdnSpec) { throw "arguments for getRDN must be 'entry' and 'rdnSpec'"; }
+	
+	var attValue = entry.getString(rdnSpec);
+	if (attValue != null) {
+		return attValue;
+	}	
+	
+	var saveWork = work;
+	var rdnValue;
+
+	try {
+		work = entry;
+		eval("rdnValue = " + rdnSpec);
+		work = saveWork;
+		return rdnValue;
+	} catch (ex) {	
+//		if (deBug) logmsg("ERROR", "Error evaluating RDN assignment script: " + rdnSpec + "    - " + ex);
+		work = saveWork;
+	}	
+}		
+
+function evaluate(e, expr) {
+	if (typeof(expr) == "undefined") {
+		expr = e
+		e = work
+	}
+	var expression = system.getTDIExpression(expr);
+	
+	var useE = system.newEntry()
+	
+	if (typeof(e) != "undefined" && e != null) {
+		useE.merge(e)
+	}	
+	
+//	var map = new java.util.concurrent.ConcurrentHashMap()
+	var map = new java.util.HashMap()
+	map.put("mc", main.getMetamergeConfig());
+	map.put("task", task);
+	map.put("main", main);
+	map.put("user", useE);
+	map.put("data", useE);
+	map.put("work", useE);
+	map.put("entry", useE);
+	map.put("target", useE);
+	data = useE;
+	
+	return expression.substitute(map);
+}
+
+
+
+// These next functions are for reporting 
+//
+function prepareReport() {
+	if ("true".equals(getProperty("simulate")))
+		logmsg("**** " + resource.getString("LDAPSYNC.SIMULATION.ONLY.NO.DATA.WILL.BE.CHANGED.IN.THE.TARGET") + " ****")
+
+	syncReport = alTCB.getObject("$syncReport")
+	if (syncReport == null) {
+//		syncReport = new java.util.concurrent.ConcurrentHashMap();
+		syncReport = new java.util.HashMap();
+		alTCB["$syncReport"] = syncReport
+	}	
+	
+	return syncReport
+}
+
+function logReport(flowKey) {
+	if (typeof(syncReport) == "undefined" || syncReport == null) { return; } 
+		
+	if ("true".equals(getProperty("simulate")))
+		logmsg("**** " + resource.getString("LDAPSYNC.SIMULATION.ONLY.NO.DATA.HAS.BEEN.CHANGED.IN.THE.TARGET") + " ****")
+		
+	logmsg("\n" + generateReport(flowKey))
+}
+
+function flowLabel(flowKey) {
+	if ("M".equals(flowKey) || flowKey.trim().length == 0)
+		return "migration"
+	else
+	if ("S".equals(flowKey))
+		return "synchronization"
+	else
+		return flowKey
+}
+
+function stat(msg, val) {
+	if (val <= 0)
+		return ""
+	return "  " + msg + ": " + val
+}
+
+function generateReport(flowKey){
+	var errors = 0;
+	var warnings = 0;
+	var report = new java.lang.StringBuffer("-o@o-o@o-o@o-o@o-o@o-o@o-o@o-\n")
+	if (cloudSync) {
+		report.append("====== " + resource.getString("CLOUDSYNC.SUMMARY") + " ======");
+	} else {	
+		report.append("====== " + resource.getString("LDAPSYNC.SUMMARY.FOR.FLOW") + ": " + flowLabel(flowKey) + " ======");
+	}	
+	report.append("\n")
+	
+	report.append(lj("- Person",12) + " " + resource.getString("LDAPSYNC.TOTAL") + ": " + getStats(flowKey, "person", "processed")
+				+ stat(resource.getString("LDAPSYNC.ADD"), getStats(flowKey, "person", "add"))
+				+ stat(resource.getString("LDAPSYNC.MOD"), getStats(flowKey, "person", "modify"))
+				+ stat(resource.getString("LDAPSYNC.DELETE"), getStats(flowKey, "person", "delete"))
+				+ stat(resource.getString("LDAPSYNC.UNCHANGED"), getStats(flowKey, "person", "unchanged"))
+				+ stat(resource.getString("LDAPSYNC.SKIP"), getStats(flowKey, "person", "skipped"))
+				+ stat(resource.getString("LDAPSYNC.WARNING"), getStats(flowKey, "person", "warn"))
+				+ stat(resource.getString("LDAPSYNC.ERROR"), getStats(flowKey, "person", "error"))
+				);
+	report.append("\n")
+	
+	if (handleType.group && !cloudSync) {
+		report.append(lj("- Group",12) + " " + resource.getString("LDAPSYNC.TOTAL") + ": " + getStats(flowKey, "group", "processed")
+					+ stat(resource.getString("LDAPSYNC.ADD"), getStats(flowKey, "group", "add"))
+					+ stat(resource.getString("LDAPSYNC.MOD"), getStats(flowKey, "group", "modify"))
+					+ stat(resource.getString("LDAPSYNC.DELETE"), getStats(flowKey, "group", "delete"))
+					+ stat(resource.getString("LDAPSYNC.UNCHANGED"), getStats(flowKey, "group", "unchanged"))
+					+ stat(resource.getString("LDAPSYNC.SKIP"), getStats(flowKey, "group", "skipped"))
+					+ stat(resource.getString("LDAPSYNC.WARNING"), getStats(flowKey, "group", "warn"))
+					+ stat(resource.getString("LDAPSYNC.ERROR"), getStats(flowKey, "group", "error"))
+					);
+		report.append("\n")
+	}
+	
+	if (handleType.container && !cloudSync) {	
+		report.append(lj("- Container",12) + " " + resource.getString("LDAPSYNC.TOTAL") + ": " + getStats(flowKey,"container", "processed")
+					+ stat(resource.getString("LDAPSYNC.ADD"), getStats(flowKey, "container", "add"))
+					+ stat(resource.getString("LDAPSYNC.MOD"), getStats(flowKey, "container", "modify"))
+					+ stat(resource.getString("LDAPSYNC.DELETE"), getStats(flowKey, "container", "delete"))
+					+ stat(resource.getString("LDAPSYNC.UNCHANGED"), getStats(flowKey, "container", "unchanged"))
+					+ stat(resource.getString("LDAPSYNC.SKIP"), getStats(flowKey, "container", "skipped"))
+					+ stat(resource.getString("LDAPSYNC.WARNING"), getStats(flowKey, "container", "warn"))
+					+ stat(resource.getString("LDAPSYNC.ERROR"), getStats(flowKey, "container", "error"))
+					);
+		report.append("\n");
+	}
+	
+	report.append("--------------\n")
+	
+	report.append(resource.getString("LDAPSYNC.ERRORS") + ": " + getStats(flowKey,"error", "error"))
+	report.append("\n")
+	report.append(resource.getString("LDAPSYNC.WARNINGS") + ": " + getStats(flowKey,"warn", "warn"))
+	report.append("\n")
+	report.append(resource.getString("LDAPSYNC.SKIP") + ": " + getStats(flowKey,"skip", "skip"))
+	report.append("\n")
+				
+	if (getStats(flowKey,"missing","missing") > 0) {
+		report.append("\n")
+		report.append(resource.getString("LDAPSYNC.ONE.OR.MORE.GROUP.MEMBERS.WERE.NOT.MIGRATED"))
+		report.append("\n")
+		report.append(resource.getString("LDAPSYNC.THESE.ARE.LISTED.IN.THE.GROUPMEMBERSMISSING.LOG.FILE.LOCATED.IN.THE.LOG.FOLDER") + ": " 
+						+ logDirectory)
+		report.append("\n")
+	}
+	
+	if (getStats(flowKey,"error", "error") > 0 || getStats(flowKey,"warn", "warn") > 0) {
+		report.append("\n")
+		report.append(resource.getString("LDAPSYNC.TO.TROUBLESHOOT.ERRORS.AND.WARNINGS.CHECK.THE.LOG.FILE") + ": "
+						+ logDirectory + "/" + task.getShortName() + ".log")
+		report.append("\n")
+	}
+				
+	report.append("==================");
+	report.append("\n")
+	
+	return report.toString()
+}
+
+// Helper function for updateStats() below
+function updateWorkFromTargetTCB(targetTCB, attname) {
+	if (targetTCB[attname] !== null) {
+		if ("$error".equalsIgnoreCase(attname)) {
+			var attval = targetTCB[attname].toString();
+			if (attval.indexOf("CTGDIS483E") >= 0) {
+				return;
+			}	
+		}	
+		work[attname] = targetTCB[attname]
+	}		
+}	
+
+// This function checks the possible return status for a called WriteToTarget AL
+// These values are in the TCB
+function updateStatusFromTCB(targetTCB, isChange) {
+	if (typeof(isChange) == "undefined") {
+		isChange = true;
+	}
+	
+	if (targetTCB !== null) {
+		updateWorkFromTargetTCB(targetTCB, "$writeStatus");
+		updateWorkFromTargetTCB(targetTCB, "$status");
+		updateWorkFromTargetTCB(targetTCB, "$change");
+		updateWorkFromTargetTCB(targetTCB, "$error");
+		updateWorkFromTargetTCB(targetTCB, "$stopFlow");
+		
+		if (work["$change"] !== null) {
+			isChange = isChange && 
+						"true".equalsIgnoreCase(work.getString("$change")) &&
+						"success".equalsIgnoreCase(work.getString("$writeStatus"));
+		}	
+	} else {
+		work["$writeStatus"] = "success"
+	}
+	
+	change = isChange;
+}	
+
+function addToStats(flowKey, entryType, operation, changelog, displayDN){
+	if (typeof(changelog) === "undefined" || changelog === null) { changelog = false; } 
+	if (typeof(operation) === "undefined" || operation === null) { operation = "?" } 
+	if (typeof(entryType) === "undefined" || entryType === null) { entryType = "person" } 
+		
+	entryType = entryType.toLowerCase()
+	operation = operation.toLowerCase()
+		
+	var useType = entryType
+	var tChar = useType.substring(0, 1)
+	if (!(tChar.equals("p") || // person
+		  tChar.equals("g") || // group
+		  tChar.equals("w") || // warning
+		  tChar.equals("e") || // error
+		  tChar.equals("s") || // skipping
+		  tChar.equals("m") || // missing
+		  tChar.equals("i") || // ignored
+		  tChar.equals("t"))) { // total
+		useType = "container"
+		tChar = "c"
+	}
+/*	
+try {	
+	if (tChar == "e") java.lang.System.out.println("Adding error from " + task.getShortName() + " - " + thisConnector.getName());
+} catch (ex) {
+	if (tChar == "e") java.lang.System.out.println("Adding error from " + task.getShortName());
+}		
+*/		
+	if ((typeof(displayDN) == "undefined" || displayDN === null) && typeof(work) !== "undefined" && work !== null)
+		displayDN = work.getString("$dn")
+	if (displayDN != null && displayDN.length > 0)
+		displayDN = ": " + displayDN
+	
+
+	if(typeof syncReport === "undefined" || syncReport === null){
+		syncReport = alTCB.getObject("$syncReport")
+		if (syncReport == null) {
+			prepareReport()
+		}
+	}
+	
+	var stats = syncReport.get(flowKey)
+	if (stats == null) {
+//		stats = new java.util.concurrent.ConcurrentHashMap()
+		stats = new java.util.HashMap()
+		syncReport.put(flowKey, stats)
+	}	
+	var key = tChar + operation.substring(0,1).toLowerCase();
+	var num = stats.get(key);
+	if(num == null){
+		num = 1;
+	}else{
+		num++;
+	}
+	
+	if(changelog) {
+		if ("unchanged".equals(operation)) {
+			logmsg("INFO"," => " + resource.getString("LDAPSYNC.UNCHANGED") + " "+ entryType + " " + displayDN)
+		} else
+		if (!"generic".equals(operation)) {
+			logmsg("INFO"," => " + resource.getString("LDAPSYNC.SUCCESSFUL") + " "+operation + " " + entryType + " " + displayDN)
+		} else
+		if ("s".equals(operation.substring(0,1))) {
+			logmsg("INFO"," => " + resource.getString("LDAPSYNC.SKIPPING") + " " + entryType + " " + displayDN)
+		}
+		
+		if (debugging) logmsg("-------------");
+	}
+	stats.put(key,num);
+	
+	// for the sync activity log
+	syncReport.put(flowKey + "_lastOperation", entryType + "/" + operation)
+	
+	updateProgressReport(flowKey, entryType, false)
+}
+
+function getStats(flowKey, entryType, operation){
+	var key;
+	var num = 0;
+	var types = ["p", "g", "c"];
+	if(typeof syncReport === "undefined" || syncReport === null || syncReport.get(flowKey) === null) { return 0; }
+	
+	var stats = syncReport.get(flowKey)
+	
+	key = entryType.substring(0,1).toLowerCase() + operation.substring(0,1).toLowerCase();
+	val = stats.get(key);
+	if (val != null && val > 0) {
+		num = val;
+	}	
+
+	if (entryType == operation) { // "error" or "warning" totals
+		for (var i = 0; i < types.length; i++) {
+			key = types[i].toLowerCase() + operation.substring(0,1).toLowerCase();
+			val = stats.get(key);
+			if (val != null) {
+				num += val;
+			}	
+		}	
+	}
+		
+	return num;
+}
+
+function entryType(oc){
+	var val
+
+	if (typeof(oc) == "undefined" || oc == null) {
+		return "unknown"
+	}
+	
+	if (tuocList == null) {
+		tuocList = system.splitString(targetUserObjectClass.toLowerCase(),",")
+	}
+	
+	if (typeof(sourceUserObjectClass) == "undefined" || typeof(sourceGroupObjectClass) == "undefined")
+		throw where() + " - utils::entryType() - " + resource.getString("LDAPSYNC.SOURCEUSEROBJECTCLASS.ANDOR.SOURCEGROUPOBJECTCLASS.IS.UNDEFINED")
+				
+	for(var i = oc.size()-1; i >= 0; i--){
+		val = oc.getValue(i).trim().toLowerCase();
+		if(val.equalsIgnoreCase(sourceUserObjectClass))
+			return "person";
+			
+		for (var j = (tuocList.length-1); j >= 0; j--) {
+			if (val.equalsIgnoreCase(tuocList[j]) && !"top".equals(tuocList[j])){
+				return "person"
+			}
+		} 
+		if(val.equalsIgnoreCase(sourceGroupObjectClass) 
+			|| val.equalsIgnoreCase(targetGroupObjectClass)) {
+			return "group";
+		}
+	}
+	for(var i = oc.size()-1;i>=0;i--){
+		val = oc.getValue(i).trim().toLowerCase();
+		if(! "top".equalsIgnoreCase(val) && val.indexOf("change") < 0 && ! auxLinkedEntryClassName.equals(val))
+			return oc.getValue(i).toLowerCase();
+	}
+	
+	return "unknown"
+}
+
+var logf = null
+var errorf = null
+function prepareLog(filename) {
+	var logfile;
+	var filepath;
+
+	if (!utilsReady) {
+		return null;
+	}
+	
+	filepath = logDirectory + "/" + filename + ".temp";
+	
+	logfilepath = filepath
+	try {
+		logfile = openOutputFile(logfilepath)
+	} catch (ex) {
+		throw where() + " **" + resource.getString("LDAPSYNC.ERROR.CREATING.LOG.FILE") + ": " + logfilepath + " - " + ex
+	}	
+	var lf = new java.io.File(logfilepath)
+	if (!lf.exists()) {
+		throw where() + " **" + resource.getString("LDAPSYNC.ERROR.CREATING.LOG.FILE") + ": " + logfilepath + " - " 
+			+ resource.getString("LDAPSYNC.UNABLE.TO.CREATE.FILE")
+	}
+	logFiles.setAttribute(logfilepath, logfile)
+	return logfile
+}
+
+function rollLogs() {
+	if (typeof(logFiles) == "undefined") {
+		return
+	} else
+	if (logsRolled) {
+		return
+	}
+	
+	logsRolled = true
+
+	var totals = flowTotals()	
+	rollExistingFiles(totals)
+
+	var logFilenames = logFiles.getAttributeNames();
+	var errorLogName = ""; // roll error log last - just in case
+	for (var lfName in logFilenames) {
+		if (lfName.indexOf("_Errors") > 0) {
+			errorLogName = lfName;
+		} else {	
+			rollFile(lfName, totals);
+		}	
+	}
+	
+	if (errorLogName !== "") {
+		rollFile(errorLogName, totals);
+	}	
+}
+
+function rollExistingFiles(totals) {
+	if (totals == 0 || simulate) {
+		return;
+	}	
+	
+	var logdir = new java.io.File(logDirectory)
+	var list = logdir.list()
+	var prefix = flowKey + "_"
+	var numberedFiles = new java.util.HashMap()
+	var lastlog = new java.util.ArrayList()
+	var filename
+	var filenumStr = ""
+	var filenum = -1
+	var firstpart = ""
+	var filepath
+	
+	for (var i = list.length-1; i >= 0; i--) {
+		filename = list[i]
+		filepath = logDirectory + "/" + filename
+		if (filename.startsWith(prefix) 
+			&& filename.indexOf("_server.log") < 0 
+			&& filename.indexOf("_audit") < 0 
+			&& filename.indexOf("_simulate.log") < 0 
+			&& filename.indexOf("_Activity.log") < 0) {
+			var p = filename.lastIndexOf(".")
+
+			// first close file if open
+			closeFile(filename)
+	
+			if (p > 0) {
+				filenumStr = filename.substring(p+1).trim()
+				if (system.isValidInt(filenumStr)) {
+					filenum = system.toInt(filenumStr)
+					if (filenum >= maxLog) {
+						task.logmsg("===> Deleting " + filename)
+						if (!system.deleteFile(filepath)) {
+							logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.DELETING.OLD.LOG") + ": " + filename + " - " + system.lastError)
+						}
+					} else {
+						numberedFiles.put(rj(filenum,5) + "_" + filepath, filenum)
+					}	
+				} 
+				else 
+				if (filenumStr.equals("log") || filenumStr.equals("ldif")){
+					lastlog.add(filepath)
+				}
+			}	
+		}	
+	}
+	
+	var keys = numberedFiles.keySet().toArray();
+	java.util.Arrays.sort(keys)
+	for (var i = keys.length-1; i >= 0; i--) {
+		var key = keys[i]
+		filenum = numberedFiles.get(key)
+		filename = key.substring(key.indexOf("_")+1)
+		p = filename.lastIndexOf(".")
+		firstpart = filename.substring(0, p)
+		task.logmsg("===> Rolling " + filename + " to " + firstpart + "." + (filenum+1))
+		if (!system.renameFile(filename, firstpart + "." + (filenum+1))) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.RENAMING.OLD.LOG") + ": " + filename + " - " + system.lastError)
+		}
+	}
+	
+	var lastlist = lastlog.toArray();
+	java.util.Arrays.sort(lastlist)
+	for (filename in lastlist) {
+		task.logmsg("===> Rolling " + filename + " to " + filename + ".1")
+		if (!system.renameFile(filename, filename + ".1")) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.RENAMING.OLD.LOG") + ": " + filename + " - " + system.lastError)
+		}
+	}	
+}	
+
+function closeFile(filename) {
+	var file = logFiles.getObject(filename)
+	if (file != null) {
+		if (file.getClass().getName().toLowerCase().indexOf("connector") > 0) {
+			try {
+				file.terminate()
+			} catch (ex) {
+				// do nothing
+			}
+		} else {
+			try {
+				file.close()
+			} catch (ex) {
+				// do nothing
+			}
+		}
+	}
+}	
+
+function rollFile(tempFileName, totals) {
+	var file;
+	var fileName = tempFileName;
+	
+	try {
+		closeFile(fileName);
+	} catch (ex) {
+		// ignore
+	}		
+	
+	var p = fileName.indexOf(".temp")
+	if (p > 0) {
+		fileName = fileName.substring(0,p)
+	}
+	
+	// if the Flow has done nothing then delete the log file
+	if (totals == 0) {
+		if (!system.deleteFile(tempFileName)) {
+			logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.DELETING.OLD.LOG") + ": " + tempFileName + " - " + system.lastError)
+		}
+		
+		return;
+	}
+	
+	if (tempFileName != fileName) {
+		file = new java.io.File(tempFileName);
+		var errorMsg = resource.getString("LDAPSYNC.ERROR.RENAMING.LATEST.LOG") + ": " + tempFileName;
+		try {
+			var testFile = openOutputFile(tempFileName, _appendToFile);
+			testFile.close();
+			
+			if (simulate && !system.deleteFile(fileName)) {
+				logmsg("ERROR", errorMsg + " <SIMULATE>");
+			}	
+			
+			if (file.exists && !file.isDirectory()) {
+				if (!system.renameFile(tempFileName, fileName)) {
+					logmsg("ERROR", errorMsg);
+				}
+			}	
+		} catch (ex) {
+			logmsg("ERROR", errorMsg + " - " + ex);
+		}	
+	}	
+}
+
+function log(lvl, msg) {
+	if (!utilsReady) {
+		return
+	}
+
+	var now = new java.util.Date()
+	var nowStr = system.formatDate(now, "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	
+	if(typeof(msg) == "undefined"){
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	lvl = lvl.toUpperCase().trim();
+	
+	if (typeof(responseLogFile) != "undefined") {
+		// May have to try a few times to get the writeback log opened in case other
+		// writeback ALs are using it
+		var retry = 60
+		var wait = 1
+		var wblogfilename = logDirectory + "/" + responseLogFile + ".log"
+		
+		do {
+			try {
+				wblogf = openOutputFile(wblogfilename, _appendToFile)
+			} catch (ex) {
+				var lastException = ex
+				retry--
+				wblogf = null
+				system.sleep(wait)
+			}
+		} while (wblogf == null && retry > 0)
+		
+		if (wblogf == null) {
+			java.lang.System.out.println(resource.getString("LDAPSYNC.ERROR.OPENING.RESPONSE.LOG.FILE") + ": " + wblogfilename + " - " + lastException)
+			return
+		}	
+	} else {
+		msg = where() + " - " + msg
+	}	
+
+	if (typeof(responseLogFile) != "undefined") {
+		wblogf.write(lj(nowStr, 29) + " - " + lvl + " - " + msg)
+		wblogf.newLine()
+		wblogf.close()
+	} else {	
+		if (logf === null) {
+			prepareLogFiles();
+		}	
+	
+		try {
+			logf.write(lj(nowStr, 29) + " - " + lvl + " - " + msg)
+			logf.newLine()
+			logf.flush()
+		} catch (ex) {
+			java.lang.System.out.println(resource.getString("LDAPSYNC.ERROR.WRITING.TO.LOG.FILE") + ": " + logf + " - " + ex);
+		}	
+	}	
+	
+	if (typeof(responseLogFile) === "undefined" && 
+				(lvl.indexOf("FATAL") >= 0 || lvl.indexOf("ERROR") >= 0 || lvl.indexOf("WARN") >= 0)) {
+		if (error.exception != null) {
+			setException(error.exception, lvl)
+		}
+		
+		try {
+			errorf.write(lj(nowStr, 29) + " - " + lvl + " - " + msg);
+			errorf.newLine();
+			errorf.flush();
+		} catch (ex) {
+			java.lang.System.out.println(resource.getString("LDAPSYNC.ERROR.WRITING.TO.ERROR.LOG.FILE") + " - " + ex);
+		}		
+		
+		if (typeof error !== "undefined" && error.exception !== null) {
+			lastException = error;
+		}	
+	}
+
+	
+}
+
+function setUserFriendlyTexts() { 
+	userFriendlyText.push({lookfor: "java.net.MalformedURLException", 
+							add: resource.getString("LDAPSYNC.URL.IS.INVALID")});
+
+	userFriendlyText.push({lookfor: "java.net.ConnectException: Connection timed out: connect", 
+							add: resource.getString("LDAPSYNC.SYSTEM.UNREACHABLE")});
+	userFriendlyText.push({lookfor: "java.net.ConnectException: Connection refused: connect", 
+							add: resource.getString("LDAPSYNC.SYSTEM.UNREACHABLE")});
+
+	userFriendlyText.push({lookfor: "java.util.NoSuchElementException: No more tokens in String", 
+							add: resource.getString("LDAPSYNC.SSL.IS.REQUIRED")});
+
+	userFriendlyText.push({lookfor: "'Unauthorized'", 
+							add: resource.getString("LDAPSYNC.USER.OR.PASSWORD.INCORRECT")});
+	userFriendlyText.push({lookfor: "javax.naming.AuthenticationException", 
+							add: resource.getString("LDAPSYNC.USER.OR.PASSWORD.INCORRECT")});
+	userFriendlyText.push({lookfor: "javax.naming.AuthenticationException", 
+							add: resource.getString("LDAPSYNC.USER.OR.PASSWORD.INCORRECT")});
+
+	userFriendlyText.push({lookfor: "javax.net.ssl.SSLException", 
+							add: resource.getString("LDAPSYNC.SPECIFIED.SSL.NOT.SUPPORTED")});
+	userFriendlyText.push({lookfor: "javax.net.ssl.SSLHandshakeException", 
+							add: resource.getString("LDAPSYNC.CLIENT.CERT.INCORRECT"), importcert : true}); 
+	userFriendlyText.push({lookfor: "javax.naming.NameNotFoundException", 
+							add: resource.getString("LDAPSYNC.SEARCH.BASE.IS.INVALID")});
+	
+	for (var i in userFriendlyText) {
+		var thisText = userFriendlyText[i];
+		thisText.lookfor = thisText.lookfor.toLowerCase();
+		var parts = system.splitString(thisText.lookfor, ":");
+		var lookArray = [];
+		for (var part in parts) {
+			lookArray.push(part);
+		}
+		thisText.lookfor = lookArray;
+	}
+}	
+
+// add user friendly message for otherwise cryptic error text
+function userFriendlyMsg(msg, baseurl) {
+	var port = 443;
+	if (userFriendlyText.length == 0) {
+		setUserFriendlyTexts();
+	}
+	if (typeof baseurl !== "undefined" && baseurl != null) {
+		var p = baseurl.indexOf(":", 9);
+		if (p > 0) {
+			var portstr = baseurl.substring(p+1);
+			try {
+				port = system.toInt(portstr);
+			} catch (ex) {
+				// do nothing
+				java.lang.System.out.println("Invalid port value in base URL: " + baseurl);
+			}		
+			baseurl = baseurl.substring(0, p);
+		}	
+	}	
+	var foundIt = false;
+	var msgLC = msg.toLowerCase();
+	var addTxt = "* not specified *";
+	for (var i in userFriendlyText) {
+		var thisText = userFriendlyText[i];
+		addTxt = thisText.add;
+		for (var j in thisText.lookfor) {
+			var lookForText = thisText.lookfor[j];
+			foundIt = msgLC.indexOf(lookForText) >= 0;
+			if (!foundIt) {
+				break;
+			}	
+		}	
+		
+		if (foundIt) {
+			break;
+		}	
+	}
+	
+	if (!foundIt) {
+		return msg;
+	}	
+	
+	if (thisText.importcert && typeof baseurl !== "undefined" && baseurl != null) {
+		var certmsg = "";
+		try {
+			certmsg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(baseurl, port);
+			return resource.getString("LDAPSYNC.CLIENT.CERT.REQUESTED") 
+					": " + certmsg + "\n- "
+					+ resource.getString("LDAPSYNC.SDI.MUST.BE.RESTARTED")
+					+ "\n-\n- " + msg;
+		} catch (ex) {
+			// @@TRANS TODO
+			return resource.getString("LDAPSYNC.ERROR.REQUESTING.CERT")
+					+ ": " + ex + "\n-\n- " + msg;
+		}	
+	}	
+	
+	return addTxt + "\n-\n-" + msg;
+}	
+
+function logmsg(lvl,msg){
+	if(typeof(msg) == "undefined"){
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	lvl = lvl.toUpperCase();
+	msg = msg.toString();
+	
+//	task.logmsg(lvl, where() + " - " + msg);
+	
+	var origMsg = msg;
+	msg = userFriendlyMsg(msg);
+	
+	var useFlowKey = ""
+	if (!("M".equals(flowKey)) && !("S".equals(flowKey)))
+		useFlowKey = flowKey + ": "
+		
+	if (msg.indexOf("-@") < 0) {
+		java.lang.System.out.println(" " + useFlowKey + msg);
+	}	
+	
+	if (msg.toLowerCase().indexOf("java.lang.interruptedexception") >= 0) {
+		syncAborted = true;
+		lvl = "INFO";
+	}	
+		
+	if (getPropertyDepth < 2 &&
+		("FATAL".equals(lvl) || "ERROR".equals(lvl) || "WARN".equals(lvl))) {
+		if (typeof work !== "undefined" && work !== null) {
+			work.addAttributeValue("$error", lvl + ": " + msg);
+		}		
+			
+		var hookEntry = system.newEntry();
+		if (typeof work !== "undefined" || work !== null) {
+			if (work !== null) {
+				hookEntry.merge(work);
+				hookEntry.setOperation(work.getOperation());
+			}	
+		}	
+		if (typeof error !== "undefined") {
+			hookEntry.setAttribute("$error", error);
+			hookEntry.setAttribute("$errorMessage", msg);
+			hookEntry.setAttribute("$where", where());
+		}
+		
+		hookEntry.setAttribute("$level", lvl)
+		
+		invokeHook("hook.error", hookEntry);
+		monitor("error", hookEntry);
+	}	
+
+	try {	
+		log(lvl, msg)
+	} catch (ex) {
+		task.logmsg(lvl, where() + " - " + msg);
+		task.logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.WRITING.TO.LOG") + " - " + ex);
+	}	
+}
+
+// some variables required for objectClass identification and handling
+//
+function prepareObjectClasses(){
+	var propertyName = "source.container.objectClasses";
+	var ocList = getProperty(propertyName, "ou=organizationalUnit, dc=dcObject, c=country, o=organization, cn=container");
+	var msg
+	if (ocList == null || ocList == ""){
+		msg = resource.getString("LDAPSYNC.PROPERTY.IS.MISSING.OR.BLANK") + ": " + propertyRead
+		logmsg("ERROR",msg);
+		throw (where() + " - " + msg);
+	}
+	try{
+		var ocParts = system.splitString(ocList, ",");
+		for(var p in ocParts){
+			var ocBits = system.splitString(p,"=");
+			var key = ocBits[0].trim().toLowerCase();
+			var val = ocBits[1].trim().toLowerCase();
+			containerRDN.put(key,val);
+			containerOC.put(val,key);
+			containerRDNs += key + "\n";
+		}
+	} catch (ex){
+		msg = resource.getString("LDAPSYNC.PROPERTY.IS.INVALID") + ": " + propertyRead
+		logmsg("ERROR", msg)		
+		throw (where() + " - " + msg);
+	}
+}	
+
+function prepareList(pname, includeList) {
+	var propertyName = pname;
+	var containerList = new java.util.ArrayList()
+	var conList = getProperty(propertyName,"");
+	var msg
+	var required = false // used to be an argument to the function
+/*	
+	if (conList == null || conList == ""){
+		if (!required)
+			return containerList
+		msg = resource.getString("LDAPSYNC.PROPERTY.IS.MISSING.OR.BLANK") + ": " + propertyRead
+		logmsg("ERROR",msg);
+		throw (where() + " - " + msg);
+	}
+*/	
+	try {
+		var conLines = system.splitString(conList, "\n")
+		
+		for (var j = 0; j < conLines.length; j++) {
+			var conLine = conLines[j].trim()
+			var readList = system.splitString(conLine,";")
+			for(var i=0; i < readList.length; i++){
+				try {
+					var c = cleanDN(readList[i].trim().toLowerCase());
+				} catch (ex) {
+					c = readList[i].trim().toLowerCase();
+				}		
+	//			containerList[i] = c+","+getProperty("source.ldap.searchBase").toLowerCase()
+				containerList.add(c)
+			}
+		}	
+	} catch (ex){
+		msg = resource.getString("LDAPSYNC.PROPERTY.IS.INVALID") + ": " + propertyRead
+		logmsg("ERROR", msg)		
+		throw (where() + " - " + msg);
+	}
+	
+	if (includeList && containerList.size() == 0) {
+		// If found then first add the Endpoint searchbase. This is an implied Include
+		var epSearchBase = getProperty("source.ldap.searchBase")
+		if (epSearchBase != null) {
+			containerList.add(cleanDN(epSearchBase.toLowerCase()))
+		}	
+	}
+		
+	return containerList.toArray()
+}
+
+function prepareContainerList() {	
+	containerList = prepareList("source.containersToMigrate", true)
+	containerListToSkip = prepareList("source.containersToSkip", false)
+}
+
+// returns true if the dn passed is one of those specified for processing
+//
+function useDN(dn, newSuperior){
+	var dnLC = cleanDN(dn.toLowerCase());
+	var useIt = false;
+	var newSuperiorLC = (newSuperior) ? newSuperior.toLowerCase() : "";
+	
+	if (dnLC == sourceSearchBaseLC) {
+		return false
+	}	
+	
+	try {
+		var ldapName = new javax.naming.ldap.LdapName(dn)
+		var rdns = ldapName.getRdns()
+		var rdn = rdns[rdns.size()-1].getType()
+	} catch (ex) {
+		logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.PARSING.CONTAINER.DN") + ": " + ex + " - dn: " + dn)
+		return false
+	}
+	
+	if ( sourceSearchBaseLC != null && !dn.endsWith(sourceSearchBaseLC) &&
+		 newSuperiorLC.length > 0 && !newSuperiorLC.endsWith(sourceSearchBaseLC ) ) {
+		return false
+	}	
+	
+	// if the Include list is empty, then accept this dn
+	if (containerList.length == 0) {
+		useIt = true
+	} else 
+	// if it's a container then do not filter
+	if (containerRDN.get(rdn) != null){
+		useIt = true
+	// otherwise, see if the dn is valid according to the include list
+	} else {
+		for(var i=0; i<containerList.length && !useIt; i++){
+			if(dnLC.indexOf(containerList[i])>=0){
+				useIt =  true;
+			}
+		}
+	}	
+	
+	if (!useIt && newSuperiorLC.length > 0) {
+		var useSuperior = cleanDN(newSuperiorLC)
+		for(var i=0; i<containerList.length && !useIt; i++) {
+			if(useSuperior.indexOf(containerList[i])>=0) {
+				useIt = true;
+			}
+		}
+	}
+	
+	if (containerRDN.get(rdn) == null) {
+		if (useIt && containerListToSkip.length > 0) {
+			for (var i = 0; i < containerListToSkip.length && useIt; i++) {
+				if (dnLC.indexOf(containerListToSkip[i]) >= 0)
+					useIt = false
+			}
+		}
+	}	
+	
+	return useIt;
+}
+
+	
+
+// create suitable corrective measures message for an error
+//
+function correctionMsg(init, source, alConnector, error) {
+	var errormsg = ""
+	var errormsgLC = ""
+	var ci = null
+	var msg = ""
+	var propPrefix = "target"
+	if (source)
+		propPrefix = "source"
+	
+	try {
+		ci = alConnector.connector
+	} catch (ex) {
+		ci = alConnector
+	}
+	
+	if (typeof(error) != undefined && error.message != null)
+		errormsg = error.getString("exception") + ": " + error.getString("message");
+		
+	errormsgLC = errormsg.toLowerCase();
+
+	if (errormsgLC.indexOf("ServiceUnavailableException") >= 0) {
+		msg = resource.getString("LDAPSYNC.ENSURE.THAT.NOTHING.IS.BLOCKING.YOUR.ACCESS.TO.THE.SYSTEM.FOR.EXAMPLE.A.FIREWALL") + "\n"
+				+ resource.getString("LDAPSYNC.OR.THAT.THE.SYSTEM.IS.RUNNING.AND.COMMUNICATION.PORTS.OPEN")
+	}	
+	else
+	if (errormsgLC.indexOf("error code 1") >= 0) {
+		msg = resource.getString("LDAPSYNC.MAKE.SURE.THAT.THE.SEARCH.BASE.IS.VISIBLE.IN.THE.SOURCE.SYSTEM.FOR.EXAMPLE.FROM.AN.LDAP.BROWSER") + "\n"
+			  + resource.getString("LDAPSYNC.ALSO.ENSURE.THAT.THE.CREDENTIALS.DEFINED.FOR.THE.SOURCE.CONNECTION.ARE.AUTHORIZED.TO.SEE.ENTRIES.IN.THIS.CONTAINER")
+	}
+	else
+	if (errormsgLC.indexOf("invalidsearch") >=0 ) {
+		msg = resource.getString("LDAPSYNC.INVALID.SEARCH.FILTER.SPECIFIED") + " (" + propPrefix + ".ldap.searchFilter"
+				+ ") -> " + alConnector.getName() + ": " + ci.getParam("ldapSearchFilter") + "\n"
+	}
+	else
+	if (errormsgLC.indexOf("entry not found") >= 0) {
+		msg = resource.getString("LDAPSYNC.MAKE.SURE.THAT.THE.PROPERTIES.SOURCE.USEROBJECTCLASS.AND.SOURCE.GROUPOBJECTCLASS.ARE.CORRECT")
+	}
+	else
+	if (errormsgLC.indexOf("ssl") >= 0) {
+		var ldapUrl = ci.getParam("ldapUrl").toLowerCase()
+		if (ldapUrl.indexOf("ldaps://") >= 0) {
+			msg = resource.getString("LDAPSYNC.SSL.MAY.NOT.BE.ENABLED.ON.SERVER") + ".\n"
+					+ resource.getString("LDAPSYNC.ALSO.MAKE.SURE.THE.CLIENT.CERTIFICATE.FOR.THIS.SERVER.HAS.BEEN.IMPORTED.TO.THE.TDI.KEYSTORE") + "\n"
+		} else {
+			msg = resource.getString("LDAPSYNC.SSL.MAY.BE.ENABLED.ON.SERVER") + "\n"
+		}
+		msg += "   LDAP url = " + ci.getParam("ldapUrl") + "\n"
+	}
+	else
+	if (errormsgLC.indexOf("error code 49") > 0)
+		msg = resource.getString("LDAPSYNC.USERNAME.ANDOR.PASSWORD.PROPERTIES.ARE.INCORRECT") + "\n"
+	else
+	if (errormsgLC.indexOf("error code 32") > 0) {
+		if (init) {
+			var srchBase = ci.getParam("ldapSearchBase").toLowerCase();
+			msg += resource.getString("LDAPSYNC.USERNAME.ANDOR.SEARCHBASE.PROPERTIES.ARE.INCORRECT") + "\n"
+				  	+ "   " + propPrefix + ".ldap.searchBase = " + ci.getParam("ldapSearchBase") + "\n"
+			if (srchBase.indexOf("cn=changelog") >= 0) {
+				  msg += resource.getString("LDAPSYNC.NOTE.MAKE.SURE.THE.CHANGELOG.FEATURE.IS.ENABLED.FOR.THE.SOURCE.DIRECTORY.SERVER") + "\n"
+		 	}
+		} else {
+			msg = resource.getString("LDAPSYNC.MAKE.SURE.THAT.THE.TARGET.SUFFIX.REFERENCES.A.NODE.THAT.EXISTS.IN.THE.TARGET") + "\n"
+			if (preserveContainers) {
+				msg += resource.getString("LDAPSYNC.MAKE.SURE.THAT.THE.USER.NAME.SPECIFIED.REFERENCES.A.PERSON.ENTRY.THAT.EXISTS.IN.THE.DIRECTORY") + "\n"
+				msg += resource.getString("LDAPSYNC.ALSO.THAT.CONTAINERS.HAVE.BEEN.MIGRATED.BEFORE.PERSON.OR.GROUP.ENTRIES") + "\n"
+			}
+		}
+	} 
+	
+	if (errormsg.length > 0) {
+		msg = errormsg + "\n" + msg;
+	}	
+	
+	msg += "\n" + entryDump("ERROR", error)
+
+	if (typeof(conn) != "undefined") {
+		msg += entryDump("CONN", conn)
+	}
+	
+	if (typeof(work) != "undefined") {
+		msg += entryDump("WORK", work)
+	}	
+	
+	if (typeof(thisConnector) != "undefined" && thisConnector != null)
+		msg += connectorParams(thisConnector.connector)
+		
+	return msg + "\n"
+}
+
+spaces = "                                                                                                                                "
+function rjfill(msgtxt, len, filler, contdStr) {
+	var txt = String(msgtxt)
+	if (txt.length > len && typeof(contdStr) != "undefined") {
+		txt = txt.substring(0, len-contdStr.length) + contdStr
+	}
+	if (len <= txt.length) {
+		return txt
+	} else {
+		var targetlen = (len-txt.length)
+		var filltxt = ""
+		while (filltxt.length < targetlen) {
+			filltxt += filler
+		}	
+		return filltxt.substring(0, targetlen) + txt
+	}	
+}
+
+function rj(msgtxt, len, contdStr) {
+	return rjfill(msgtxt, len, spaces, contdStr)
+}
+
+function ljfill(msgtxt, len, filler) {
+	var txt = String(msgtxt)
+
+	if (typeof(filler) == "undefined") {
+		filler = " "
+	}	
+
+	if (txt.length > len && typeof(contdStr) != "undefined") {
+		return txt.substring(0, len-contdStr.length) + contdStr
+	} else
+	if (len <= txt.length) {
+		return txt
+	} else {
+		var targetlen = (len-txt.length)
+		var p = txt.length % filler.length
+		var filltxt = filler.substring(p, Math.min(targetlen, filler.length))
+		while (filltxt.length < targetlen) {
+			filltxt += filler
+		}	
+		return txt + filltxt.substring(0, targetlen)
+	}	
+}	
+
+function lj(msgtxt, len, contdStr) {
+	return ljfill(msgtxt, len, spaces, contdStr)
+}
+
+function allValues(att) {
+	var val = ""
+	
+	if (att != null)
+		for (var i = 0; i < att.size(); i++)
+			val += "  '" + att.getValue(i) + "'"
+	
+	return val.trim()
+}
+
+function entryDump(entryName, entry) {
+	var dmp = ""
+	
+	if (typeof(entry) == "undefined" || entry == null)
+		return ""
+		
+	if (entry.size() == 0)
+		return ""
+		
+	var attNames = entry.getAttributeNames();
+	java.util.Arrays.sort(attNames)
+	
+	if (entryName == "ERROR") {
+		entry.assemblyline = task.getShortName();
+	}	
+	
+	dmp = "***** " + resource.getString("LDAPSYNC.START.DUMPING") + ": " + entryName + " *****\n"
+	dmp += entry.toString()
+/*	
+	for (var n in attNames) {
+		dmp += rj(n,25) + ": " + allValues(entry.getAttribute(n)) + "\n"
+	}
+*/	 
+	dmp += "***** " + resource.getString("LDAPSYNC.END.DUMPING") + ": " + entryName + " *****\n"
+	
+	return dmp
+}
+
+function addGroupMembersToAttribute(entry, toMem) {
+	var attnames = entry.getAttributeNames()
+	var fromMem = null
+	for (var n in attnames)
+		 if (n.startsWith("member;") || n.equalsIgnoreCase("member")) {
+			fromMem = e.getAttribute(n)
+			if (fromMem.size() > 0) {
+				break
+			}
+		}
+		
+	if (fromMem != null) {
+		for (var i = 0; i < fromMem.size(); i++) {
+			var thisMem = fromMem.getValue(i)
+			if (!toMem.hasValue(thisMem))
+				toMem.addValue(thisMem)
+		}	
+		if (deBug) logmsg("--@@--> Adding " + fromMem.size())
+	}
+	if (deBug) logmsg("--@@--> Total group members after addGroupMembers call: " + toMem.size())
+}
+
+function parseMemberRange(entry) {
+	var attnames = entry.getAttributeNames()
+	var bigGroup = false
+	var n
+	
+	for (n in attnames)
+		if (n.startsWith("member;")) {
+			bigGroup = true
+			break
+		}
+		
+	if (!bigGroup)
+		return ""
+		
+	var fromstr = n.substring(7)
+	var p = fromstr.indexOf("-")
+	var tostr = fromstr.substring(p+1)
+	fromstr = fromstr.substring(0,p)
+	p = fromstr.indexOf("=")
+	fromstr = fromstr.substring(p+1)
+	
+	if (tostr == "*")
+		return ""
+	
+	var fromval = system.toInt(fromstr)
+	var toval = system.toInt(tostr)
+	var range = toval-fromval+1
+	
+	return "member;range=" + (fromval+range) + "-" + (toval+range)
+}
+
+function readProperty(pname, defValue, flowStub) {
+	propertyRead = flowStub.trim() + pname.trim()
+	var p = system.getTDIProperties().getPropertyEntry(propertyRead)
+	if (p != null)
+		p = p.getObject("value")
+
+	if (p == null) {
+		propertyRead = pname
+		if (typeof(defValue) == "undefined" || defValue == null)
+			p = null
+		else {
+			p = defValue
+		}	
+	} 	
+
+	if (p != null) {
+		try {
+			var trimmedp = p.toString().trim()
+			p = trimmedp
+		} catch (ex) {
+			// do nothing
+		}
+	}
+	
+	return p
+}
+
+var getPropertyName = "* undefined *";
+var getPropertyDepth = 0;
+function getProperty(pname, defValue, asString) {
+	if (typeof defValue === "undefined") { defValue = null }
+	if (typeof asString === "undefined") { asString = true } 
+	getPropertyDepth++;
+	var p;
+	
+	getPropertyName = pname;
+	
+	var useFlowKey = null;	
+	if (typeof(flowKey) != "undefined" && flowKey != null /* && flowKey.length > 0 */) {
+		useFlowKey = flowKey;
+	}
+	
+	if (useFlowKey === null) {
+		if (alTCB != null) {
+			useFlowKey = alTCB.getString("$flowKey");
+		}	
+		if (useFlowKey === null) {
+			logmsg("ERROR","utils::getProperty() - " + resource.getString("LDAPSYNC.ERROR.RETRIEVING.PROPERTY") + ": " + pname
+					+ " - " + resource.getString("LDAPSYNC.FLOWKEY.IS.UNDEFINED"))
+			throw where() + " - " + resource.getString("LDAPSYNC.FLOWKEY.IS.UNDEFINED")
+		}	
+	}
+	
+	var flowStub = useFlowKey.length == 0 ? "" : (useFlowKey + ".")
+
+	if (asString) {
+		p = opEntry.getString(pname);
+	} else {
+		p = opEntry.getObject(pname);
+	}		
+
+	if (p === null) {
+		if (asString) {
+			p = opEntry.getString(flowStub + pname);
+		} else {
+			p = opEntry.getObject(flowStub + pname);
+		}		
+	}
+/*	
+	if (p === null) {
+		var altPname = getAlternativeProperty(pname);
+		if (altPname !== null) {
+			p = getProperty(altPname);
+		}	
+	}	
+*/
+	if (p === null) {
+		propertyRead = pname
+		if (defValue == null)
+			p = null
+		else
+			p = defValue
+	}	
+		
+
+	if (asString) {	
+		if (p !== null) {		
+			try {
+				var ptrimmed = p.toString().trim()
+				p = ptrimmed
+			} catch (ex) {
+				// do nothing
+			}
+		}
+			
+		getPropertyDepth--;
+		return correctPropertyValue(pname, p)
+	} else {
+		getPropertyDepth--;
+		return p;
+	}		
+}
+
+function getPropertyObject(pname, defValue) {
+	if (typeof defValue === "undefined") { defValue = null } 
+	return getProperty(pname, defValue, false);
+}	
+
+function getAlternativeProperty(pname) {
+	var altProp = null;
+	var checkProp = pname;
+	do {
+		checkProp = alternativeProperties.get(checkProp);
+		if (checkProp !== null) {
+			altProp = checkProp;
+		}	
+	} while (checkProp !== null);
+	return altProp;	
+}	
+
+function correctPropertyValue(pname, pvalue) {
+	var pnameLC = (pname || "").toLowerCase()
+	var pvalueLC = (pvalue || "").toLowerCase()
+	// fix for LDAP URL properties
+	if (pnameLC.endsWith("ldapurl") || pnameLC.endsWith("ldap.url")) {
+		if (!pvalueLC.startsWith("ldap://") && !pvalueLC.startsWith("ldaps://")) {
+			pvalue = "ldap://" + pvalue;
+		}	
+	}	
+	return pvalue;
+}	
+	
+function connectorParam(pname, defValue) {
+	var pVal = getProperty(pname, null)
+	
+	if (pVal == null) {
+		if (typeof(defValue) == "undefined") {
+			return "* undefined property: " + propertyRead + " *"
+		} else {
+			if ("statekey".equalsIgnoreCase(defValue)) {
+				var cdType = getProperty("source.changeDetectionType","")
+				if (cdType.length > 0)
+					cdType = "_" + cdType
+				var stateKeyPropVal = getProperty("source.ldap.stateKey","STATEKEY")
+				return flowKey + "_" + stateKeyPropVal
+			} else {
+				return defValue
+			}
+		}
+	} else {
+		if ("statekey".equalsIgnoreCase(defValue)) {
+			pVal = flowKey + "_" + pVal
+		}	
+	}
+
+	return pVal	
+}
+
+function getIntProperty(pname, defValue, minValue) {
+	var pVal = getProperty(pname);
+	var intVal = null;
+	
+	if (typeof(defValue) == "undefined") {
+		defValue = null;
+	}	
+		
+	try {
+		intVal = system.toInt(pVal)
+	} catch (ex) {
+		intVal = null
+	}
+	
+	if (intVal == null || (minValue && intVal < minValue)) {
+		intVal = defValue;
+	}	
+		
+	return intVal
+}
+
+function getArrayProperty(pname, delimiter) {
+	var pVal = getProperty(pname)
+
+	if (typeof(delimiter) == "undefined")
+		delimiter = ","
+
+	if (pVal != null) {
+		var arrayVal = null
+		arrayVal = system.splitString(pVal, delimiter)
+	}
+	
+	return arrayVal
+}
+
+function randomRangeInt(low, high) {
+	var diff = high - low + 1;
+	var rand = Math.random()*diff;
+	return Math.ceil(rand) + low - 1;
+}
+
+function dnLC(dn, failOnError) {
+	failOnError = failOnError || false;
+	try {
+		var fixeddn = new javax.naming.ldap.LdapName(dn).toString().toLowerCase();
+		return cleanDN(fixeddn)
+	} catch (ex) {
+		if (failOnError) {
+			throw "dnLC() failure! - " + dn + " - " + ex;
+		} else {
+			return "";
+		}	
+	}	
+}
+
+function cleanDN(dn, errormsg) {
+	if (dn == null) {
+		if (typeof(errormsg) != "undefined") {
+			throw "utils:cleanDN() - " + errormsg
+		}
+		return null	
+	}	
+
+	try {
+		var cleandn = new javax.naming.ldap.LdapName(dn)
+		dn = new javax.naming.ldap.LdapName(cleandn.getRdns()).toString()
+	} catch (ex) {
+		throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.DN.TO.TRANSLATE.IT") + ": " + ex + " - DN: " + dn
+	}	
+
+	return dn
+}
+
+function cleanRDN(rdn, errormsg) {
+	if (rdn == null) {
+		if (typeof(errormsg) != "undefined") {
+			throw "utils:cleanDN() - " + errormsg
+		}
+		return null	
+	}	
+	try {
+		var cleanrdn = new javax.naming.ldap.LdapName("cn=" + rdn + ",o=fds.com");
+		var rdns = cleanrdn.getRdns();
+		rdn = rdns.get(rdns.size()-1).getValue();
+	} catch (ex) {
+		throw where() + " - " + resource.getString("LDAPSYNC.ERROR.CLEANING.RDN") + ": " + rdn + " - " + ex;
+	}	
+
+	return rdn
+}
+
+function where() {
+	var comp = ""
+
+	if (typeof(thisComponent) != "undefined" && thisComponent != null)
+		comp += "/" + thisComponent.getName()
+
+	if (comp == "")
+		comp = "/<?Unknown?>"
+
+	return "[" + task.getShortName() + comp + "]"	
+}
+
+function translateDN(oldDN, useRDN, rdnValue, useSuffix, newSuperior, newrdn) {
+	var p, dn, targetSuffix, targetDN;
+	if (typeof(newrdn) != "undefined" && newrdn != null) {
+		rdnValue = newrdn
+		p = rdnValue.indexOf("=")
+		if (p > 0)
+			rdnValue = rdnValue.substring(p+1).trim()
+	}	
+		
+	var p = useRDN.indexOf("=")
+	if (p > 0)
+		useRDN = substring(0,p).trim()
+
+	if (preserveContainers){
+		dn = oldDN // @@@@ maybe this should be work instead
+
+		targetDn = useRDN + "=" + rdnValue + ","
+		try {
+			var oldRdns = new javax.naming.ldap.LdapName(dn).getRdns()
+		} catch (ex) {
+			throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.DN.TO.TRANSLATE.IT") + ": " + ex + " - dn: " + dn
+		}	
+
+		targetSuffix = ""
+		
+		if (typeof(newSuperior) != "undefined" && newSuperior != null) {
+			var supRdns
+						
+			try {
+				supRdns = new javax.naming.ldap.LdapName(newSuperior).getRdns()
+			} catch (ex) {
+				throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.NEWSUPERIOR") + ": " + ex + " - newSuperior: " + newSuperior
+			}	
+			var len = sourceSuffixRdns.size()
+
+			for (var i = supRdns.size()-1; i >= len; i--) {
+				targetSuffix += supRdns.get(i).toString().trim()+","
+			}
+		} else {
+			var len = sourceSuffixRdns.size()
+			
+			for (var i = oldRdns.size()-2; i >= len; i--) {
+				targetSuffix += oldRdns.get(i).toString().trim()+","
+			}
+		}	
+
+		targetSuffix = targetSuffix.replace(/CN=/g,"OU=")
+
+		targetDn += targetSuffix + useSuffix;
+	} else {	
+		targetDn = useRDN + "=" + rdnValue + "," + useSuffix
+	}	
+	
+	var returnDN = ""
+	try {
+		returnDN = new javax.naming.ldap.LdapName(targetDn).toString()
+	} catch (ex) {
+		throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.TARGETDN") + ": " + ex + " - targetDn: " + targetDn		
+	}
+	
+	return returnDN
+}
+
+var showParams = ["ldapUrl","ldapUsername","ldapSearchBase","ldapSearchFilter","ldapSearchScope","ldapSizeLimit","ldapPageSize","jndiExtraProviderParams"]
+function connectorParams(ctr) {
+	if (typeof(ctr) == "undefined" || ctr == null)
+		return ""
+		
+	var strBuf = new java.lang.StringBuffer("***** " + resource.getString("LDAPSYNC.CONNECTOR.PARAMETERS") + ": " + ctr.getName() + " *****\n")
+	var p
+	for(var i = 0; i < showParams.length; i++){
+		p = showParams[i]
+		strBuf += "    " + p + ": " + ctr.getParam(p) + "\n"
+	}
+	return strBuf.toString()
+}
+
+function addLinkedAttributes(wrk, cnn, targetRDN, rdnValue, changeDetType, newrdn, newSuperior, typeOfEntry) {
+	var sourceGUID
+	
+	if (typeof(typeOfEntry) == "undefined") {
+		typeOfEntry = "not person"
+	}
+	
+	cnn[targetRDN] = rdnValue
+	
+	sourceGUID = work.getObject(auxLinkedGUIDSourceAttribute)
+	if (sourceGUID != null && "objectguid".equals(auxLinkedGUIDSourceAttribute.toLowerCase()) && !typeof sourceGUID === "string") {
+		try {
+			sourceGUID = system.binaryGUIDtoString(sourceGUID)
+		} catch (ex) {
+			sourceGUID = null
+		}		
+	}	
+
+	if (typeof(newSuperior) == "undefined")
+		newSuperior = null
+	if (typeof(newrdn) == "undefined")
+		newrdn = null
+
+	var dn = wrk.getString("$dn")
+	if (newrdn != null) {
+		if (newSuperior != null) {
+			dn = newrdn + "," + newSuperior
+		} else {
+			var ldapName = javax.naming.ldap.LdapName(dn)
+			var rdns = ldapName.getRdns()
+			ldapName.remove(rdns.size()-1)
+			dn = newrdn + "," + ldapName.toString()
+		}
+	}
+	
+	if (deBug) logmsg("--@@-->> linked dn: " + dn + " - newSuperior: " + newSuperior + "  newrdn: " + newrdn)
+	
+	cnn[auxLinkedDNAttribute] = cleanDN(dn.toLowerCase());
+	
+	if (targetIsLDAP) {
+		var oc = cnn.getAttribute("objectClass")
+		if (oc != null && !oc.hasValue(auxLinkedEntryClassName)) {
+			oc.addValue(auxLinkedEntryClassName)
+			if (writePTAAttributes && "person".equals(typeOfEntry)) {
+				oc.addValue("ibm-ptaReferral")
+			}	
+		}	
+	
+		if (writePTAAttributes && "person".equals(typeOfEntry)) {
+			cnn["ibm-ptaLinkAttribute"] = "_DN_"
+			cnn["ibm-ptaLinkValue"] = cleanDN(dn.toLowerCase())
+		}
+	}	
+	
+	if (sourceGUID != null) {
+		cnn.setAttribute(auxLinkedGUIDAttribute, sourceGUID)
+	}	
+}
+
+function getBooleanProperty(pname, defValue) {
+	if (typeof(defValue) == "undefined") {
+		defValue = false;
+	}
+	
+	defValue = String(defValue).trim();
+		
+	var pval = getProperty(pname, defValue);
+	
+	if (pval === null) {
+		pval = defValue;
+	} 
+
+	return "true".equalsIgnoreCase(pval) || "yes".equalsIgnoreCase(pval);
+}	
+
+writebackStateKey = "writeback.stateKey"
+function loadProperties() {
+	// Initial Sync (migrate) or Incremental (isSync == true)
+	isSync = getBooleanProperty("synchronize", false);
+
+	changeDetType = getProperty("source.changeDetectionType","delta").toLowerCase();
+	changeDetectionType = changeDetType;
+	
+	debugging = getBooleanProperty("debugging", "false");
+	
+	determineTarget();
+	
+	preserveContainers = !cloudSync 
+						&& targetIsLDAP 
+						&& "true".equalsIgnoreCase(getProperty("mirroring.enabled")) && "true".equalsIgnoreCase(getProperty("global.preserveSourceContainers"));
+	
+	var dir = main.getMetamergeConfig().getDirectory()
+	if (dir != null)
+		configDirectory = dir
+	configDirectory = "LDAPSync"
+	
+	// get log directory path
+	logFilepath = getProperty("global.logDirectory")
+	if (logFilepath == null)
+		logFilepath = configDirectory + "/logs/"
+	logFilepath = logFilepath.trim()
+	if (logFilepath.endsWith("/") || logFilepath.endsWith("\\"))
+		logFilepath  = logFilepath.substring(0,logFilepath.length-1)
+	logDirectory = logFilepath
+	
+	try {
+		var logdir = new java.io.File(logDirectory)
+		if (!logdir.exists()) {
+			logdir.mkdir()
+		}	
+	} catch (ex) {
+	}		
+
+	// get global.maxLogFiles property value as integer - default is 20
+	maxLog = getProperty("global.maxLogFiles")
+	try {
+		maxLog = system.toInt(maxLog)
+	} catch (ex) {
+		maxLog = null
+	}
+	if (maxLog == null || !(maxLog > 0 && maxLog < 99999)) {
+		maxLog = 20
+	}
+		
+	sourceSearchBase = cleanDN(getProperty("source.ldap.searchBase"))
+	if (sourceSearchBase != null) {
+		sourceSearchBaseLC = sourceSearchBase.toLowerCase()
+	} else {
+		sourceSearchBaseLC = null
+	}
+
+	sourceUserObjectClass = getProperty("source.userObjectClass");
+	if (sourceUserObjectClass != null)
+		sourceUserObjectClass = sourceUserObjectClass.toLowerCase()
+	else
+		sourceUserObjectClass = "inetorgperson"
+		
+	if (cloudSync) {
+		sourceUserObjectClass = "person";
+		opEntry[flowKey + "source.userObjectClass"] = sourceUserObjectClass;
+	}		
+		
+	sourceGroupObjectClass = getProperty("source.groupObjectClass");
+	if (sourceGroupObjectClass != null)
+		sourceGroupObjectClass = sourceGroupObjectClass.toLowerCase()
+	else
+		sourceGroupObjectClass = "groupofuniquenames"
+	
+	if (cloudSync) {
+		targetRootSuffix = "dc=SCIM.IBM.COM";
+		sourceGroupObjectClass = "group";
+		opEntry[flowKey + "source.groupObjectClass"] = sourceGroupObjectClass;
+	} else {
+		targetRootSuffix = cleanDN(getProperty("target.ldap.searchBase"));
+	}
+		
+	if(cloudSync || preserveContainers){
+		targetSuffixForUsers = targetRootSuffix;
+		targetSuffixForGroups = targetRootSuffix;
+	} else {
+		targetSuffixForUsers = getProperty("target.suffixForUsers", null) || targetRootSuffix;
+		targetSuffixForGroups = getProperty("target.suffixForGroups", null) || targetRootSuffix;
+	}
+	
+	// Password cache settings
+	var pwdCacheSetting = getProperty("password.cache.enabled");
+	if (pwdCacheSetting !== null && pwdCacheSetting.trim().length > 0) {
+		var cacheTrees = system.splitString(pwdCacheSetting,"&&");
+		if (cacheTrees !== null) {
+			for (var tree in cacheTrees) {
+				try {
+					var treeName = new javax.naming.ldap.LdapName(tree);
+					var compName = new javax.naming.ldap.LdapName(targetRootSuffix);
+					if (treeName.equals(compName)) {
+						passwordCaching = true;
+						break;
+					}
+					
+					compName = new javax.naming.ldap.LdapName(targetSuffixForUsers);	
+					if (treeName.equals(compName)) {
+						passwordCaching = true;
+						break;
+					}
+				} catch (ex) {
+					if (deBug) logmsg("ERROR", "--**--> Error parsing password cache enablement"
+										+ " - PTA tree:" + tree
+										+ " - Root suffix: " + targetRootSuffix
+										+ " - Users suffix: " + targetSuffixForUsers);
+				}		
+			}	
+		}	
+	}	
+	
+	// Aux class information for linking central Person data to source entries
+	auxLinkedEntryClassName = getProperty("target.ldap.auxLinkedEntryClassName", "activedirectorylinkedentry")
+	auxLinkedDNAttribute = getProperty("target.ldap.auxLinkedDNAttribute", "adDn")
+	auxLinkedGUIDAttribute = getProperty("target.ldap.auxLinkedGUIDAttribute", "adObjectGUIDStr")
+	auxLinkedGUIDSourceAttribute = getProperty("source.ldap.auxLinkedGUIDAttribute", "objectGUID")
+	
+	targetLinkAttribute = getProperty("target.link.attribute");
+	sourceLinkAttribute = getProperty("source.link.attribute");
+	
+	// RDN attributes used for source and target
+	targetUserRDN = getProperty("target.userRDN","uid")
+	sourceUserRDN = getProperty("source.userRDN",targetUserRDN)
+	
+	// Object class information
+	targetUserObjectClass = getProperty("target.userObjectClass", "inetOrgPerson");
+	targetGroupObjectClass = getProperty("target.groupObjectClass", "groupOfUniqueNames");
+	targetGroupMemberAttribute = getProperty("target.groupMemberAttribute")
+	if (targetGroupMemberAttribute == null) {
+		if (targetGroupObjectClass.toLowerCase() == "groupofuniquenames")
+			targetGroupMemberAttribute = "uniqueMember"
+		else
+			targetGroupMemberAttribute = "member"
+	}
+	
+	// Retrieve list of RDNs from source search base - used for DN translation
+	if (sourceSearchBase != null && targetIsLDAP && sourceSearchBase.length > 0) {
+		try {
+			sourceSuffixRdns = new javax.naming.ldap.LdapName(sourceSearchBase).getRdns()
+		} catch (ex) {
+			throw where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.SOURCE.SEARCHBASE") + ": " + ex + " - source searchBase: " + sourceSearchBase
+		}	
+	}	
+	
+	// Does this source support PTA (including VirtualPTA)
+	writePTAAttributes = getBooleanProperty("supportsPTA", false);
+	
+	// Join controls
+	performJoin = getBooleanProperty("join.perform", false);
+	ifJoinFails = getProperty("join.failure","skip").toLowerCase().trim()
+	
+	// Whether to perform timing measurements and reporting
+	doTiming = getBooleanProperty("timing.enabled", false);
+	
+	// now for the UserSync properties
+	getGroupFilters();
+	getAttributeFilters();
+	
+	// Set up which types are to be handled for this flow run
+	// Note that for CloudSync we always skip groups (for now)
+	handleType.person = getBooleanProperty("source.handlePersonObjects", false);
+	handleType.group = getBooleanProperty("source.handleGroupObjects", false) || filterOnGroups;
+
+	if (preserveContainers && !cloudSync) {
+		handleType.container = true;
+	} else {
+		handleType.container = false;
+	}	
+
+	// CloudSync settings
+	getCloudSyncSettings();
+	
+	// retryList settings
+	getRetryListSettings();
+}
+
+function getRetryListSettings() {
+	processRetryList = !"false".equals(getProperty("source.retrylist.read"));
+	saveRetryList = !"false".equals(getProperty("source.retrylist.save"));
+	processLiveData = !"false".equals(getProperty("source.livedata.read"));
+}	
+
+function getCloudSyncSettings() {
+	csUserMailShot = "true".equalsIgnoreCase(getProperty("smtp.enabled"));
+
+//	csUserMailShot = true; // DEBUG ------------------------------------------------
+	
+	csSMTPhost = getProperty("smtp.smtpServerHost");
+	csSMTPport = getProperty("smtp.smtpServerPort");
+	csSMTPssl = !"false".equalsIgnoreCase(getProperty("smtp.ssl"));
+	if (csSMTPport == null) {
+		if (csSMTPssl) {
+			csSMTPport = 645;
+		} else {	
+			csSMTPport = 25;
+		}	
+	}	
+	csSMTPuser = getProperty("smtp.username");
+	csSMTPpassword = getProperty("smtp.password");
+	csSMTPfrom = getProperty("smtp.from");
+	if (csSMTPfrom == null) {
+		csSMTPfrom = "fds@ibm.com"
+	}	
+}	
+
+
+// requests the client cert from the service and installs it into the SDI keystore
+function getCertificate (url, port) {
+	var usePort = system.toInt(port);
+	var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, usePort);
+	return msg;
+}
+
+
+var sendMailFC = null;
+function csMailShot(entry, 
+					optMail, optSubject, optBody) { // optional arguments
+	var result = {
+		status: "failed"
+	}
+	
+	if (!entry || entry == null) {
+		entry = system.newEntry();
+	}	
+	
+	if (!csUserMailShot && typeof optMail === "undefined") {
+		return result;
+	} else
+	if (typeof entry === "undefined" || entry == null || entry.size() == 0) {
+		logmsg("WARN",resource.getString("CLOUDSYNC.ENTRY.MISSING.DATA"));
+		result.error = resource.getString("CLOUDSYNC.ENTRY.MISSING.DATA");
+		return result;
+	}
+	
+	result.status = "failure";
+	
+	var entryForEvaluation = system.newEntry();
+	entryForEvaluation.merge(entry);
+	if (entryForEvaluation.password == null) entryForEvaluation.password = entry.userPassword;
+	if (entryForEvaluation.userid == null) entryForEvaluation.userid = entry.uid;
+	if (entryForEvaluation.username == null) entryForEvaluation.username = entry.cn ? entry.cn : entry.displayName;
+	
+	if (typeof optMail === "undefined" || optMail == null) {
+		var mail = entry.getString("mail");
+	} else {
+		var mail = optMail;
+	}		
+
+	if (mail == null) {
+		logmsg("WARN", resource.getString("CLOUDSYNC.ENTRY.MISSING.MAIL.ATTRIBUTE") + ": " 
+				+ entry.getString("$dn"));
+		result.error = resource.getString("CLOUDSYNC.ENTRY.MISSING.MAIL.ATTRIBUTE") + ": " 
+				+ entry.getString("$dn");
+		return result;
+	}	
+	
+	// prepare mail
+	var msg = resource.getString("CLOUDSYNC.NEW.USER.MAIL.MESSAGE") + " - ";
+	var body;
+	var subject;
+	
+	if (typeof optBody !== "undefined" && optBody != null) {
+		body = optBody;
+	}	
+	body = evaluateProperty("smtp.body", entryForEvaluation, msg + resource.getString("CLOUDSYNC.ERROR.WITH.BODY"));
+	
+	if (typeof optSubject !== "undefined" && optSubject != null) {		
+		 subject = optSubject;
+	}		
+	subject = evaluateProperty("smtp.subject", entryForEvaluation, msg + resource.getString("CLOUDSYNC.ERROR.WITH.SUBJECT"));
+	
+	// send the mail
+	var e = system.newEntry();
+//	e.smtpServerHost = csSMTPhost;		
+//	e.smtpServerPort = String(csSMTPport);
+	e.from = csSMTPfrom;
+	e.replyTo = csSMTPfrom;		
+	e.body = (body && body != null) ? body : "{work.password}";
+	e.subject = (subject && subject != null) ? subject : "{work.username}";
+	e.recipients = mail;
+
+	// if first time then set up the FC
+	var certImport = null;
+	var retry = 1;
+	var sentOk = false;
+	do {
+		if (sendMailFC == null) {
+			try {
+				sendMailFC = system.getFunction("ibmdi.SendEMailFC");
+				sendMailFC.setParam("smtpServerHost", csSMTPhost);
+				sendMailFC.setParam("smtpServerPort", String(csSMTPport));
+				sendMailFC.setParam("username", csSMTPuser);
+				sendMailFC.setParam("password", csSMTPpassword + "");
+				sendMailFC.setParam("useSSL", csSMTPssl ? "true" : "false");
+						
+//java.lang.System.out.println("csMailShot - SSL: " + sendMailFC.getParam("useSSL") + "   smtp: " + sendMailFC.getParam("smtpServerHost") + ":" + sendMailFC.getParam("smtpServerPort"));				
+						
+				sendMailFC.initialize(null);
+			} catch (ex) {
+				logmsg("ERROR", resource.getString("CLOUDSYNC.ERROR.IN.MAILSHOT.INIT")
+							+ " - " + ex);
+				csUserMailShot = false;
+				result.error = resource.getString("CLOUDSYNC.ERROR.IN.MAILSHOT.INIT")
+							+ " - " + ex;
+				return result;
+			}
+		}	
+		
+		try {
+			if (deBug) {
+				java.lang.System.out.println("--> auto mailshot to " + mail); // @@TODO remove debug code
+			}	
+			var retE = sendMailFC.perform(e);
+			sentOk = true;
+		} catch (ex) {
+			var exstr = ex.toString().toLowerCase();
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				var msg = getCertificate("https://" + csSMTPhost, csSMTPport);
+				logmsg("ERROR", resource.getString("CLOUDSYNC.CERT.IMPORTED")
+						+ " - " + msg);
+				result.error = resource.getString("CLOUDSYNC.CERT.IMPORTED")
+						+ " - " + msg;
+			} else	
+			if (exstr.indexOf("javax.net.ssl.sslexception") >= 0 && csSMTPssl) {
+				csSMTPssl = false;
+				opEntry[flowKey + ".smtp.ssl"] = "false";
+				try {
+					sendMailFC.terminate();
+				} catch (ex2) {
+					// do nothing
+				}	
+				sendMailFC = null;	
+				java.lang.System.getProperties().remove("mail.smtp.socketFactory.class");
+				continue;
+			} else {
+				logmsg("ERROR", resource.getString("CLOUDSYNC.ERROR.SENDING.MAIL")
+						+ ": " + work.getString("$dn") + " - " + ex);
+				result.error = resource.getString("CLOUDSYNC.ERROR.SENDING.MAIL")
+						+ ": " + work.getString("$dn") + " - " + ex;
+			}	
+
+			return result;
+		}	
+		
+	} while (!sentOk && retry-- > 0);	
+	
+	var status = retE.getString("status");
+	
+	if (!"ok".equalsIgnoreCase(status))	{
+		logmsg("ERROR", resource.getString("CLOUDSYNC.ERROR.SENDING.MAIL")
+				+ ": " + work.getString("$dn") + " - " + status);
+		result.error = resource.getString("CLOUDSYNC.ERROR.SENDING.MAIL")
+				+ ": " + work.getString("$dn") + " - " + status;
+		return result;
+	}
+	
+	result.status = "success";
+	return result;
+}	
+
+function evaluateProperty(pname, entry, errormsg) {
+	var pval = getProperty(pname);
+	var psubst = pval;
+	if (pval == null) {
+		logmsg("!! Cannot perform CloudSync mailShot - property not set: " + pname + " !!");
+		return pval;
+	}
+		
+	try {
+		psubst = evaluate(entry, pval);
+	} catch (ex) {
+		logmsg("ERROR", errormsg + " (" + pname + ") - " + ex);
+		return pval;
+	}
+	
+	return psubst;
+}
+
+function addDNtoArray(dn, arr) {
+	var inError = false;
+	try {
+		cleaned = cleanDN(dn);
+		dn = cleaned;
+		inError = false;
+	} catch (ex) {
+		logmsg("WARN", resource.getString("LDAPSYNC.GROUP.FILTER.INVALID") + ": " + dn);
+		addToStats(flowKey, "warn", "warn");
+		inError = true;
+	}
+	
+	if (!inError) {
+		arr.push(dn);
+	}	
+}		
+
+function getGroupFilters() {
+	var useGroupFilter = "true".equalsIgnoreCase(getProperty("filter.groups.enabled"));
+	
+	groupFilters = new Array();
+	syncGroupsList = new Array();
+	
+	// get group list for filtering users
+	filterOnGroups = false;
+	if (useGroupFilter) {
+		var groups = getProperty("filter.groups");
+		if (groups != null && groups.trim() != "") { 
+			var parts = system.splitString(groups, "\n");
+			
+			for (var part in parts) {
+				part = part.trim();
+				if (part.length > 0) {
+					addDNtoArray(part, groupFilters);
+				}	
+			}
+		}	
+
+		if (groupFilters != null && groupFilters.length > 0) {
+			filterOnGroups = true;
+		}
+	}	
+	
+	// get group list for sync'ing groups (CloudSync)
+	syncGroupsListEnabled = "true".equalsIgnoreCase(getProperty("source.handleGroupObjects"));
+	if (syncGroupsListEnabled) {
+		var syncGroupsListProp = getProperty("sync.groups");
+		if (syncGroupsListProp != null && syncGroupsListProp.trim() != "") {
+			var parts = system.splitString(syncGroupsListProp, "\n");
+			
+			for (var part in parts) {
+				part = part.trim();
+				if (part.length > 0) {
+					addDNtoArray(part, syncGroupsList);
+				}
+			}	
+		}
+			
+		if (syncGroupsList == null || syncGroupsList.length == 0) {
+			syncGroupsListEnabled = false;
+		}
+	}	
+}
+
+function getAttributeFilters() {
+	var useAttributeFilter = "true".equalsIgnoreCase(getProperty("filter.attributes.enabled"));
+	
+	if (!useAttributeFilter) { return; } 
+	
+	for (var i = 0; i < 9; i++) {
+		var attFilter = getProperty("filter.attribute." + i);
+		if (attFilter === null || attFilter.trim() == "") { 
+			continue; 
+		}
+		var parts = attFilter.split("||");
+		if (parts.length == 3) {
+			var filter = {};
+			filter.name = parts[0].trim();
+			filter.operator = parts[1].trim();
+			filter.value = parts[2].trim().toLowerCase();
+
+			if (filter.name.length > 0) {
+				if (!validAttributeOperator(filter.operator)) {
+					logmsg("ERROR", resource.getString("LDAPSYNC.INVALID.ATTRIBUTE.OPERATOR") + ": "
+						+ "<" + filter.name + ">" + "  " + filter.operator + "  '" + filter.value + "'");
+					addToStats(flowKey, "error", "error");
+					continue;
+				}
+				
+				if (attributeFilters === null) {
+					attributeFilters = new Array();
+					filterOnAttributes = true;
+					filterAttributesOR = "true".equalsIgnoreCase(getProperty("filter.or"));
+				}
+	
+				attributeFilters[attributeFilters.length] = filter;
+			}	
+		}
+	}	
+}
+
+function validAttributeOperator(op) {
+	switch (op.toLowerCase()) {
+		case "equals": 
+		case "contains": 
+		case "startswith": 
+		case "endswith": 
+		case "hasvalue":
+		case "not_equals": 
+		case "not_contains": 
+		case "not_startswith": 
+		case "not_endswith": 
+		case "not_hasvalue": return true;
+		default: return false;
+	}
+}	
+
+function checkScope(sourceDN, sourceLDAP, changeDetType) {
+	var entry = null;
+
+	if (!useDN(sourceDN)) {
+		return {entryRead : null, inScope: false, typeOfEntry : "unknown"};
+	}
+	
+	if (filterOnGroups || filterOnAttributes) {
+		entry = sourceLDAP.findEntry("$dn", sourceDN);
+		if (entry === null) {
+			return {entryRead : entry, inScope: false, typeOfEntry : "unknown"};
+		}
+		
+		var oc = entry.getAttribute("objectClass")
+		var typeOfEntry = entryType(oc)
+	
+		if (filterOnGroups
+			&& "person".equals(typeOfEntry)
+			&& !groupFiltersSatisfied(sourceLDAP, sourceDN, changeDetType, entry)) {
+			return {entryRead : entry, inScope: false, typeOfEntry : typeOfEntry};
+		}
+		
+		if (filterOnAttributes
+			&& "person".equals(typeOfEntry)
+			&& !attributeFiltersSatisfied(entry)) {
+			return {entryRead : entry, inScope: false, typeOfEntry : typeOfEntry};
+		}
+	}	
+	
+	return {entryRead : entry, inScope: true, typeOfEntry : typeOfEntry};
+}	
+
+var groupFilterErrorMsg = resource.getString("LDAPSYNC.ERROR.FOR.GROUP.FILTER");
+function groupFiltersSatisfied(sourceLDAP, dn, ldapType, entry) {
+	if (!filterOnGroups) {
+		return true;
+	}	
+	
+	var foundIt = false;
+	
+	if ("AD".equalsIgnoreCase(ldapType)) {
+		var membership = entry.getAttribute("memberOf"); // for AD
+		if (membership !== null && groupFilters != null) {
+			for (var i = groupFilters.length-1; i >= 0 && !foundIt; i--) {
+				var thisFilter = groupFilters[i];
+
+				for (var j = membership.size()-1; j >= 0 && !foundIt; j--) {
+					foundIt = membership.getValue(j).equalsIgnoreCase(thisFilter);
+				}	
+//				match = membership.hasValue(groupFilters[i]);				
+				if (deBug) logmsg("groupFilterSatisfied(AD) - checking for " + dn + " in " + thisFilter + "  found it: " + foundIt);
+			}
+
+//			if (deBug) logmsg("groupFilterSatisfied - checking for " + dn + " in " + groupFilters[i] + "  found it: " + match);
+		}
+		
+	} else	
+	if (sourceLDAP !== null 
+		&& sourceLDAP instanceof com.ibm.di.connector.LDAPConnector 
+		&& groupFilters != null) {
+		for (var i = 0; i < groupFilters.length && !foundIt; i++) {
+			var match = false;
+			try {
+				try {
+					match = sourceLDAP.compare(groupFilters[i], "uniquemember", dn);
+				} catch (ex) {
+					// do nothing
+				}
+				
+				if (!match) {
+					try {
+						match = sourceLDAP.compare(groupFilters[i], "member", dn);
+					} catch (ex) {
+						// do nothing
+					}		
+				}	
+			} catch (ex) {
+				logmsg("WARN", groupFilterErrorMsg + ": " + groupFilters[i] + " - " + ex);
+				addToStats(flowKey, "warn", "warn");
+				match = false;
+			}
+			
+			if (deBug) logmsg("groupFilterSatisfied - checking for " + dn + " in " + groupFilters[i] + "  found it: " + match);
+			foundIt = match;
+		}
+	}
+	
+	return foundIt;
+}
+
+function attributeFiltersSatisfied(entry) {
+	if (!filterOnAttributes) {
+		return true;
+	}
+	
+	var ok = false;
+	
+	if (entry === null) {
+		return ok;
+	}
+	
+	for (var i = 0; i < attributeFilters.length; i++) {
+		var filter = attributeFilters[i];
+		ok = filterMatched(filter, entry);
+		if (deBug) logmsg("--> attributeFiltersSatisfied - " + filter.name + " " + filter.operator + " " + filter.value + "  => " + ok);
+
+		if (ok == filterAttributesOR) {
+			break;
+		}	
+	}	
+	
+	return ok;
+}		
+
+function filterMatched(filter, entry) {
+	var satisisfied = false;
+	var att = entry.getAttribute(filter.name);
+	var attValue = null;
+	var fltr = filter.value;
+	
+	i = 0;
+
+	do {
+		if (att != null) {
+			attValue = att.getValue(i);
+		}		
+		
+		if (attValue !== null) {
+			attValue = attValue.toString().toLowerCase().trim();
+		}
+			
+		switch (filter.operator.toLowerCase()) {
+			case "equals": satisfied = attValue !== null && fltr.equals(attValue);
+				break;
+			case "contains": satisfied = attValue !== null && attValue.indexOf(fltr) >= 0;
+				break;
+			case "startswith": satisfied = attValue !== null && attValue.startsWith(fltr);
+				break;
+			case "endswith": satisfied = attValue !== null && attValue.endsWith(fltr);
+				break;
+			case "hasvalue": satisfied = attValue !== null;
+				break;
+			case "not_equals": satisfied = attValue === null || !fltr.equals(attValue);
+				break;
+			case "not_contains": satisfied = attValue === null || attValue.indexOf(fltr) < 0;
+				break;
+			case "not_startswith": satisfied = attValue === null || !attValue.startsWith(fltr);
+				break;
+			case "not_endswith": satisfied = attValue === null || !attValue.endsWith(fltr);
+				break;
+			case "not_hasvalue": satisfied = attValue === null;
+				break;
+			default: satisfied = false;
+		}
+		
+		i++;
+	} while (!satisfied && att != null && i < att.size());
+		
+	return satisfied;
+}	
+
+function determineTarget() {
+	var alName = getProperty("target.endpoint.al");
+	
+	targetIsTDS = false;
+	targetIsLDAP = false;
+
+	if (!cloudSync) {
+		var targetIsLDAPProp = getProperty("target.isLDAP", false);
+		var targetIsTDSProp = getProperty("target.isTDS", false);
+	
+		if (targetIsTDSProp === null) {
+			targetIsTDSProp = getProperty("target.isSDS", false);
+		}
+		
+		targetIsTDS = ("true".equals(targetIsTDSProp));
+		
+		if (targetIsTDS) {
+			targetIsLDAP = true;
+		} else {
+			targetIsLDAP = ("true".equalsIgnoreCase(targetIsLDAPProp));
+		}	
+	}	
+
+	if (alName === null) {
+		var ctrName = getProperty("target.endpoint.connector.name", "TargetTDS");
+		var ctr = null;
+		if (ctrName !== null)  {
+			ctr = system.getConnector(ctrName);
+		}	
+	}
+}
+
+function jsonStr(e) {
+	var str = ""
+	var out = new java.io.StringWriter()
+	try {    
+		var parser = system.getParser("ibmdi.JSONParser")
+		parser.setOutputStream(out)
+		parser.initParser()
+		parser.writeEntry(e)
+		str = out.toString()
+	} catch (ex) {
+		str = work.toString()
+	}
+	
+	return str
+}
+
+var jsonReportEntry = system.newEntry()
+var entryTypes = ["container","person","group"]
+var statTypes = ["processed","add","modify","delete","unchanged","skipped","error","warning"]
+function jsonReport(flowKey, typeOfEntry) {
+	var jre = jsonReportEntry;
+
+	if (jre.status == null) {	
+		jre.status = null
+		jre.status.total = null
+//		jre.flowReport = FlowReport()
+	}	
+
+	jre.status.total.processed = getStats(flowKey, "total","processed")
+	jre.status.total.warning = getStats(flowKey, "warning","warning")
+	jre.status.total.error = getStats(flowKey, "error","error")
+	for (var et in entryTypes) {
+		et = entryTypes[et]
+		jre.status[et] = null
+		for (var st in statTypes) {
+			st = statTypes[st]
+			jre.status[et][st] = getStats(flowKey, et, st)
+		}
+	}
+	
+	if (typeof(typeOfEntry) != "undefined") {
+		jre.typeOfEntry = typeOfEntry
+	}	
+	
+	if (simulate) {
+		jre.type = "simulate"
+	} else
+	if (typeof isSync !== "undefined" && isSync) {
+		jre.type = "sync"
+	} else {
+		jre.type = "migrate"
+	}			
+
+	return jre.toJSON()
+}
+
+var minimumMessageInterval = 1500;
+var lastMessageSent = 0;
+var messageBurstSize = 10;
+var messageBurst = messageBurstSize;
+var renewBurstInterval = minimumMessageInterval*3;
+function updateProgressReport(flowKey, typeOfEntry, forceSend) {
+	var now = new java.util.Date().getTime()
+	var diff = now - lastMessageSent;
+	
+	if (typeof(forceSend) == "undefined") {
+		forceSend = false
+	}	
+	
+	if (typeof(typeOfEntry) == "undefined" || typeOfEntry == null || typeOfEntry == "") {
+		typeOfEntry = "* unknown *"
+	}
+
+	if (forceSend || diff > minimumMessageInterval || messageBurst > 0) {
+		var jsonRepStr = jsonReport(flowKey, typeOfEntry)
+		if (deBug) logmsg("\n---@@@---> jsonReport: " + jsonRepStr)
+		task.logmonitor(jsonRepStr)
+		if (!forceSend) {
+			lastMessageSent = now;
+		}	
+		task.setTombstoneUserMessage(jsonRepStr);
+		
+		if (diff > renewBurstInterval) {
+			messageBurst = messageBurstSize;
+		} else {
+			messageBurst = messageBurst - 1;
+		}	
+	}	
+}
+
+var lostFile = null
+var firstLostEntry = true
+function writeLostEntry(entry, lostFileName, errorMsg) {
+	var logFilepath
+	var file
+	var filename
+	var lm
+	var logFileFullname
+	if (lostFile == null) {
+		// create file
+		filename = flowKey + "_" + lostFileName;
+		logFileFullname = logDirectory + "/" + filename + ".ldif.temp"
+		lostFile = system.getConnector("Connectors/ChangesLost")
+		lostFile.setParam("filePath", logFileFullname)
+		logFiles.setAttribute(logFileFullname,lostFile)
+
+		try {
+			file = openOutputFile(logFileFullname)
+			file.close()
+			lostFile.initialize(null)
+		} catch (ex) {
+			msg = resource.getString("LDAPSYNC.ERROR.OPENING.FILE") 
+					+ "(" + lostFileName + "): " + logFileFullname + " - " + ex
+			logmsg("ERROR", msg)
+			throw where() + " - " + msg
+		}
+	}
+	
+	if (entry != null && lostFile != null && typeof(filename) != "undefined") {
+		if (firstLostEntry) {
+			firstLostEntry = false
+			
+			logmsg("WARN",resource.getString("LDAPSYNC.ANY.ENTRIES.THAT.WERE.NOT.WRITTEN.TO.THE.TARGET.CAN.BE.FOUND.HERE") 
+					+ " : " + logFileFullname);
+		}	
+
+		lostFile.putEntry(entry)
+		logmsg(resource.getString("LDAPSYNC.SOURCE.ENTRY.NOT.WRITTEN.TO.TARGET") + ": " + work.getString("$dn"))
+	}
+	
+	if (entry != null && errorMsg != null && errorMsg.indexOf("CTGDIS1984I") < 0) {
+		var retryError = null;
+		if (lastException != null && lastException.get("latest") != null) {
+			retryError = lastException.get("latest").toString();
+		}	
+		if (retryError == null && error != null) {
+			retryError = error.getString("exception");
+		}	
+			
+		retryList.add({	dn: entry.getString("$dn"),
+						error: retryError,
+						operation: entry.getOperation(),
+						entry: entry });
+	} 
+}
+
+function setFlowKey(fk) {
+	flowKey = fk;
+}
+
+var activities = ["person","group","container"]
+function activity(migrate) {
+	var act = ""
+	var adds = 0
+	var mods = 0
+	var deletes = 0
+	var unchanged = 0
+	var errors = 0
+	var warnings = 0
+	var totals = 0
+	var type = "sync"
+	for (var i = 0; i < activities.length; i++) {
+		adds = getStats(flowKey, activities[i], "add")
+		mods = getStats(flowKey, activities[i], "modify")
+		deletes = getStats(flowKey, activities[i], "delete")
+		unchanged = getStats(flowKey, activities[i], "unchanged")
+
+/* removed 14.4.15 - this will be done in the UI instead		
+		if (migrate) {
+			adds += (mods + deletes + unchanged);
+			mods = 0;
+			deletes = 0;
+			unchanged = 0;
+		}	
+*/		
+		totals += adds + mods + deletes	
+		act += "," + adds + "," + mods + "," + deletes + "," + unchanged
+	}
+	
+	if (simulate) {
+		type = "simulate"		
+	} else	
+	if (migrate) {
+		type = "migrate"
+	}
+	
+	errors = getStats(flowKey, "error", "error")
+	warnings = getStats(flowKey, "warn", "warn")
+	
+	act += "," + errors + "," + warnings
+	
+	totals += errors + warnings
+
+	return (new java.util.Date()).getTime() + act + "," + type + "," + syncAborted;
+}
+
+function flowTotals() {
+	var totals = 0
+	for (var i = 0; i < activities.length; i++) {
+		totals += getStats(flowKey, activities[i], "add")
+		totals += getStats(flowKey, activities[i], "modify")
+		totals += getStats(flowKey, activities[i], "delete")
+		totals += getStats(flowKey, activities[i], "error")
+		totals += getStats(flowKey, activities[i], "skip")
+		totals += getStats(flowKey, activities[i], "warn")
+	}
+	
+	totals += getStats(flowKey, "error", "error")
+	totals += getStats(flowKey, "warn", "warn")
+	totals += getStats(flowKey, "skip", "skip")
+	
+	return totals
+}
+
+actHeaders = "date,useradd,usermod,userdel,userunchanged,groupadd,groupmod,groupdel,groupunchanged,containeradd,containermod,containerdel,containerunchanged,errors,warnings,type,aborted"
+function logActivity(migrate) {
+	if (simulate) {
+		// do nothing
+		return;
+	}	
+	var act = activity(migrate)
+	var oldActivity = new java.lang.StringBuffer()
+	var file
+	var newLine
+	var lastLine
+	var i
+	var actParts = system.splitString(actHeaders, ",")
+	
+	// First read old Activity log for this flow. If last line is all zeros, then
+	// replace it with the current activity info. If it is not all zeros, then append the new
+	// info
+	try {
+		file = system.openFileForInput(logDirectory + "/" + flowKey + "_Activity.log")
+		do {
+			newLine = file.readLine()
+			if (newLine != null) {
+				lastLine = newLine
+				oldActivity.append(newLine + "\n")
+			}	
+		} while (newLine != null)
+	} catch (ex) {
+		lastLine = "0,0,0,0" // dummy All Zeros line
+	}		
+
+	try {
+		file.close()
+	} catch (ex) {
+		// do nothing
+	}		
+	
+	var parts = system.splitString(lastLine,",")
+	var lastTotal = 0
+	for (i = 1; i < (parts.length-1); i++) {
+		if (system.isValidInt(parts[i])) {
+			lastTotal += system.toInt(parts[i])
+		}	
+	}	
+	
+	var file = openOutputFile(logDirectory + "/" + flowKey + "_Activity.log")
+	file.write(actHeaders)
+	file.newLine()
+
+	// for Incremental Sync (not migrate) then write the old activity info, except the last all zeros line
+	if (!migrate) {
+		parts = system.splitString(oldActivity.toString(),"\n")
+		for (i = 1; i < (parts.length-1); i++) {
+			file.write(parts[i])
+			file.newLine()
+		}
+		
+		if (lastTotal > 0 && parts.length > 1) {
+			file.write(parts[parts.length-1])
+			file.newLine()
+		}	
+	}	
+
+	file.write(act)
+	file.newLine()
+	file.close()
+}
+
+function stackTrace(ex) {
+	var sw
+	var pw
+	
+	if (ex == null) {
+		return ""
+	}	
+	
+	try {
+		sw = java.io.StringWriter();
+		pw = java.io.PrintWriter(sw);
+		ex.printStackTrace(pw);
+		pw.close();
+	} catch (ex2) {
+		var sw = ex
+	}	
+
+	return sw
+}	
+
+function defaultErrorHandling(errorType, add2stats, writeback) {
+	if (typeof(add2stats) == "undefined") { add2stats = true } 
+	if (typeof(writeback) == "undefined") { writeback = false }	
+	
+	var eclass = error.getString("class")
+	if (eclass != null && eclass.endsWith("ExitBranchException")) {
+		return;
+	}
+	
+	var sourceDN = work.getString("$dn");
+	if (alTCB.getObject("$errorLogged") == sourceDN || work.getObject("$errorLogged") == sourceDN) {
+		add2stats = false;
+
+		alTCB["$errorLogged"] = sourceDN;
+		work["$errorLogged"] = sourceDN;
+	}	
+		
+	var errorMsg = ""
+	var cname = thisConnector.getName().toLowerCase();
+	var isSource = cname.indexOf("source") >= 0;
+	var fixMsg = correctionMsg(false, isSource, thisConnector, error)
+	
+	var ex = error.getObject("exception");
+	var sw = ""
+	if (ex != null) {
+		setException(ex, "writeError")
+		sw = stackTrace(ex)
+	}
+	
+	if (fixMsg.length > 0) {
+		logmsg(errorType.toUpperCase(), fixMsg)
+		fixMsg = "\n" + fixMsg
+	}
+
+	errorMsg = "";
+	if (typeof error !== "undefined" && error.status != "ok") {
+		errorMsg = error.message + " (" + error.operation + ") " + error.exception;
+	}
+	
+	errorMsg = resource.getString("LDAPSYNC.ERROR.DURING.OPERATION") + " -> "
+					+ errorMsg + fixMsg
+	
+	var stmsg = resource.getString("LDAPSYNC.STACKTRACE");
+	
+	failed.put(cname, errorMsg + "\n" + stmsg + ":\n" + sw);
+	
+	if (add2stats) {
+		logmsg(errorType.toUpperCase(), errorMsg + "\n" + stmsg + ":\n" + sw);
+	
+		if (typeof(typeOfEntry) != "undefined") {
+			addToStats(flowKey, typeOfEntry, errorType.toLowerCase());
+		} else {
+			addToStats(flowKey, errorType.toLowerCase(), errorType.toLowerCase());
+		}	
+	}	
+	
+	// to pass info back to calling ALs	
+	alTCB.error = error;
+}
+
+function defaultInitErrorHandling(errorType, add2stats, writeback) {
+	if (typeof(add2stats) == "undefined") {
+		add2stats = false;
+	}	
+		
+	if (typeof(writeback) == "undefined") {
+		writeback = false
+	}	
+	
+	var eclass = error.getString("class")
+	if (eclass != null && eclass.endsWith("ExitBranchException")) {
+		return
+	}
+	
+	logmsg(errorType.toUpperCase(), where() + " - " + error.exception + " - " + error.message)
+	
+	var cname = thisConnector.getName().toLowerCase();
+	var isSource = cname.indexOf("source") >= 0;
+	
+	try {
+		var ldap = thisConnector.connector;
+		if (ldap instanceof com.ibm.di.connector.LDAPConnector && getProperty("source.ldap.pageSize") != null) {
+			ldap.setParam("ldapPageSize", null);
+			ldap.initialize(null);
+			return; // continue as if nothing has happened
+		}	
+	} catch (ex) {
+		// continue with the current error
+	}
+	
+	var fixMsg = correctionMsg(false, isSource, thisConnector, error)
+	if (fixMsg.length > 0) {
+		logmsg(errorType.toUpperCase(), fixMsg)
+		fixMsg = "\n" + fixMsg
+	}	
+	
+	var msg = resource.getString("LDAPSYNC.ERROR.DURING.INITIALIZATION")
+	failed.put(flowKey + "_" + thisConnector.getName(), msg + ": " + error.exception + " / " + error.message + fixMsg)
+	
+	if (add2stats) {
+		addToStats(flowKey, errorType.toLowerCase(), errorType.toLowerCase());
+	}	
+
+	thisConnector.connector.setParam("initWentOk", "false")
+	
+	var ex = error.getObject("exception");
+	var sw = ""
+	if (ex != null) {
+		setException(ex, "connectionError")
+		
+		if (errorType.equalsIgnoreCase("ERROR") || errorType.equalsIgnoreCase("FATAL")) {
+			setException(ex, "fatal")
+		}	
+		
+		sw = stackTrace(ex)
+	}
+	var stmsg = resource.getString("LDAPSYNC.STACKTRACE")
+	logmsg("FATAL",msg + ": " + error.exception + " / " + error.message + fixMsg + "\n" + stmsg + ":\n" + sw)
+//	task.shutdown();
+	throw (where() + " - " + msg + ": " + error.exception + " / " + error.message + fixMsg)
+	//throw (where() + " - " + msg + ": " + error.exception + " / " + error.message + fixMsg + "\n" + stmsg + ":\n" + sw)}
+}
+
+function endOfFlowHandling(isSync) {
+    var ex = getException("fatal");
+
+	if (doTiming && timingMap != null) {
+		timing("end")
+		
+		timingMap.remove("timingEntry")
+		
+		try {
+			if (timingFile != null) {
+				timingFile.close()
+			}
+			
+			timingFile = openOutputFile(logDirectory + "/0_Timing_" + flowKey + "_totals.log")
+			var keys = timingMap.keySet().toArray();
+//			java.util.Arrays.sort(keys)
+			
+			var totalTime = 0
+//			var sortMap = new java.util.concurrent.ConcurrentHashMap()
+			var sortMap = new java.util.HashMap()
+			var thisVal
+			var thisKey
+			var e
+			for (var key in keys) {
+				thisVal = timingMap.get(key)
+				totalTime = totalTime + thisVal
+				e = system.newEntry()
+				e.timingVal = thisVal
+				e.keyVal = key
+				var valStr = rjfill(thisVal,10,"0")
+				sortMap.put(valStr, e)
+			}
+			
+//			keys = sortMap.keySet().toArray();
+			keys = sortMap.keySet().toArray();
+			java.util.Arrays.sort(keys)
+			
+			for (var key in keys) {
+				e = sortMap.get(key)
+				thisVal = e.getObject("timingVal")
+				thisKey = e.getObject("keyVal")
+				timingFile.write(thisKey + ";" + Math.round(thisVal) + ";" + Math.round(thisVal/totalTime*10000)/100)
+				timingFile.newLine()
+			}
+			timingFile.write("total time;" + Math.round(totalTime)+";100")
+			timingFile.newLine()
+			
+			timingFile.close()
+			
+		} catch (ex) {
+			// do nothing
+		}
+
+		invokeHook("epilogend", work);
+	}
+
+//	updateProgressReport(flowKey, entryType, true);
+
+	if (ex == null) {
+		ex = getException("error")
+	}
+
+	if (ex == null) {
+		ex = error.getObject("exception")
+	}
+	
+	if (ex != null && String(ex).toLowerCase().indexOf("interrupt") < 0) {
+		setException(ex, "runDataFlow")
+		if (work.getObject("$errorLogged") == null && alTCB.getObject("$errorLogged") == null) {
+			addToStats(flowKey, "error", "error");
+			logmsg("ERROR", where() + " - " + ex);
+		}	
+		task.getStats().exception(new java.lang.Exception(ex))	
+	}
+	
+	updateProgressReport(flowKey, null, true)
+	
+	logActivity(!isSync)
+	
+	if (typeof(flowKey) != "undefined" && flowKey != null && flowKey.length > 0) {
+		logReport(flowKey)
+	}
+	
+	try {
+		if (typeof(readALFC) != "undefined") {
+			readALFC.terminate()
+		}
+	} catch (ex) {
+		// do nothing
+	}
+	
+	if (typeof(joinALFC) != "undefined") {
+		itr = joinALFC.keySet().iterator()
+		
+		while (itr.hasNext()) {
+			try {
+				var nxt = itr.next()
+				joinALFC.get(nxt).terminate()
+			} catch (ex) {
+				// do nothing
+			}
+		}
+	}	
+
+	try {		
+		closeAllHooks();
+	} catch (ex) {
+		// do nothing
+	}
+
+	rollLogs()
+
+	if (typeof(readError) != "undefined" && readError.length > 0) {
+		throw readError
+	}
+}
+
+
+// for testConnection and ReadEntries ALs
+function testConnection() {
+	var jsonEntry = system.newEntry()
+	var sysInfo = detectForm();
+	var form = sysInfo.form;
+	var readEntry = null
+	var id = opEntry.getString("testId")
+	var searchFilter = "(objectClass="+getProperty("source.userObjectClass","person")+")";
+	var sourceDN;
+	var changeDetType = getProperty("source.changeDetectionType","delta");
+	var baseurl = null;
+	
+	if (cloudSync) {
+		searchFilter = "(objectClass=person)";
+	}
+	
+	if (cloudSync) {
+		searchFilter = "(|" + searchFilter + "(objectClass=user)(objectClass=person))";
+	}
+	
+	jsonEntry.enableDOM()
+	jsonEntry.operation = "initialization"
+	jsonEntry.form = form
+	jsonEntry.sys_vendor = sysInfo.vendor;
+	jsonEntry.sys_version = sysInfo.version;
+	jsonEntry.form = sysInfo.form;
+	jsonEntry.endpoint = opEntry.getString("endpoint.name")
+	jsonEntry.status = "success" // optimistic, me :)
+	
+	var typeOfEntry = opEntry.getString("read.type")
+	if (typeOfEntry == null || !("person".equals(typeOfEntry) || "group".equals(typeOfEntry))) {
+		typeOfEntry = "person"
+	}
+	
+	typeOfEntry = typeOfEntry.trim().toLowerCase()
+	if (typeOfEntry.endsWith("s")) {
+		typeOfEntry = typeOfEntry.substring(0, typeOfEntry.length-1)
+	}
+	
+	if ("group".equals(typeOfEntry)) {
+		searchFilter = "(objectClass="+getProperty("source.groupObjectClass")+")"
+	}
+	
+	var returnTotal = "true".equalsIgnoreCase(getProperty("read.returnTotal", "false"));
+	var totalEntries = 0;
+	var start = getIntProperty("read.start", "0")
+	var count = getIntProperty("read.count", "1")
+	
+	switch (form) {
+		case "Form_LDAP" :
+		case "Form_AD" :
+		case "Form_SUN" :
+		case "Form_TDS" : 		opEntry["source.connector.name"] = "Connectors/SourceLDAP"
+								break
+		case "Form_Custom AL" : opEntry["source.connector.name"] = "ALFC"
+								break
+		case "Form_JDBC" :		opEntry["source.connector.name"] = "ibmdi.JDBC"
+								break
+		case "Form_File" : 		opEntry["source.connector.name"] = "ibmdi.FileSystem"
+								break
+	}
+
+	var connectorName = opEntry.getString("source.connector.name")
+	var gotErrors = ""
+	var init = true
+	if ("ALFC".equals(connectorName)) {
+		var readALFC = system.getFunction("ibmdi.AssemblyLineFC")
+
+		var noALsFound = true
+
+		var AL = "source.read." + typeOfEntry + ".AL"
+		var alName = getALName(AL)
+		if (alName == null || alName.trim().length == 0) {
+			jsonEntry.status = "failed"
+			jsonEntry.exception = resource.getString("LDAPSYNC.ASSEMBLYLINE.NAME.NOT.SPECIFIED")
+			jsonEntry.message = jsonEntry.exception
+			return jsonEntry
+		}
+			
+		readALFC.setParam("assemblyLine", alName)
+		readALFC.setParam("shareLog", "true")
+		readALFC.setParam("mode", "2") // Manual mode
+			
+		try {
+			init = true
+			var tcb = readALFC.getTCB();
+			passGlobalVariablesViaTCB(tcb);
+			opEntry["$typeOfEntry"] = typeOfEntry;
+			tcb.setOperationInitParams(opEntry);
+			tcb.setTaskName(flowKey + "_" + alName + "_Test_" + typeOfEntry);
+	
+			readALFC.initialize(null)
+
+			init = false
+			jsonEntry.operation = "read"
+			readEntry = "none"
+			if (count > 0) {
+				for (; start > 0 && readEntry != null;) {
+					readEntry = readALFC.perform(null)
+//					if (readEntry !== null && attributeFiltersSatisfied(readEntry)) {
+					if (readEntry !== null) {
+						start--;
+						totalEntries++;
+					}
+				}
+				for (; count > 0 && readEntry != null;) {
+					readEntry = readALFC.perform(null)
+//					if (readEntry != null && attributeFiltersSatisfied(readEntry)) {
+					if (readEntry != null) {
+						jsonEntry.addAttributeValue("entries", simplifyAttributes(readEntry));
+						count--;
+						totalEntries++;
+					}	
+				}
+			}	
+			
+			if (returnTotal) {
+				do {
+					readEntry = readALFC.perform(null);
+//					if (readEntry !== null && attributeFiltersSatisfied(readEntry)) {
+					if (readEntry !== null) {
+						totalEntries++;
+					}
+				} while (readEntry !== null);
+			}
+
+			readALFC.terminate()
+		} catch (ex) {
+			try {
+				readALFC.terminate()
+			} catch (ex2) {
+				// ignore
+			}
+			jsonEntry.status = "failed";
+			jsonEntry.exception = stackTrace(ex);
+			jsonEntry.message = userFriendlyMsg(ex.toString());
+			return jsonEntry
+		}
+	} else {
+		try {
+			init = true
+			ctr = configureConnector(true, false)
+			
+			if (ctr != null && ctr.selectEntries != null) {
+				
+				var searchBase = getProperty("source.ldap.searchBase") || ""
+				var contexts = system.newAttribute("contexts")
+				
+				// if this is LDAP and searchBase is not set, throw an error unless it's a contexts request (count == 0)
+				if (ctr instanceof com.ibm.di.connector.LDAPConnector) {
+					var srchBase = (ctr.getParam("ldapSearchBase") || "").trim();
+					baseurl = ctr.getParam("ldapUrl");
+					if (srchBase.length == 0 && count > 0) {
+						var errorMsg = resource.getString("LDAPSYNC.ERROR.DURING.INITIALIZATION") + " - "
+										+ resource.getString("LDAPSYNC.PROPERTY.NOT.SPECIFIED") + ": ";
+						if (!id.endsWith("GeneralSettings")) {
+							throw errorMsg + resource.getString("LDAPSYNC.SEARCH.BASE") 
+						} else {
+							throw errorMsg + resource.getString("LDAPSYNC.DEFAULT.TARGET.CONTAINER")
+						} 
+					}
+					
+					// return contexts
+					jsonEntry.changelog = false;
+					
+					jsonEntry.ldapType = detectLdapType(form);
+					
+					try {
+						var ctx = ctr.getLdapContext()
+						var attNames = ['namingcontexts']
+						var attrs = ctx.getAttributes("", attNames)
+						var bases = attrs.get(attNames[0])
+						if (bases != null) {
+							for (var ndx = 0; ndx < bases.size(); ndx++) {
+								contexts.addValue(bases.get(ndx));
+								baseSuffix = bases.get(ndx);
+								if ("CN=Changelog".equalsIgnoreCase(baseSuffix)
+									&& (   "Sun".equalsIgnoreCase(jsonEntry.ldapType) 
+										|| "SDS".equalsIgnoreCase(jsonEntry.ldapType))) {
+									jsonEntry.changelog = true;
+								} else 
+								if ("AD".equalsIgnoreCase(jsonEntry.ldapType)) {
+									try {
+										// create LdapName and get Rdns
+										baseDN = new javax.naming.ldap.LdapName(baseSuffix);
+										rdns = baseDN.getRdns();
+										
+										// Go through all rdns to look for CN=Deleted Objects
+										for (rdnNdx = rdns.size()-1; rdnNdx >= 0 && !jsonEntry.changelog; rdnNdx--) {
+											thisRDN = rdns.get(rdnNdx);
+											if ("Deleted Objects".equalsIgnoreCase(thisRDN.getValue())
+												&& "CN".equalsIgnoreCase(thisRDN.getType())) {
+												jsonEntry.changelog = true;
+											}
+										}
+									} catch (exRdn) {
+										jsonEntry.changelog = false;
+									}
+								}	
+							}
+						}
+						
+						if ( ("Sun".equalsIgnoreCase(jsonEntry.ldapType) 
+							  || "SDS".equalsIgnoreCase(jsonEntry.ldapType))
+							&& !("true".equals(jsonEntry.changelog))) {
+							jsonEntry.message = resource.getString("LDAPSYNC.NOTE.MAKE.SURE.THE.CHANGELOG.FEATURE.IS.ENABLED.FOR.THE.SOURCE.DIRECTORY.SERVER");
+						} else
+						if ("AD".equalsIgnoreCase(jsonEntry.ldapType)
+							&& !("true".equals(jsonEntry.changelog))) {
+							jsonEntry.message = resource.getString("LDAPSYNC.NOTE.MAKE.SURE.DELETED.OBJECTS.CAN.BE.READ.IN.THE.SOURCE.ACTIVE.DIRECTORY");		
+						}
+						
+						jsonEntry.setAttribute(contexts)
+					} catch (ex2) {
+						// 
+					}	
+				}
+				
+/* moved this test up to where contexts are read
+				// if this is a test of the Central SDS, then look for CN=Changelog as well
+				if (id.endsWith("GeneralSettings")) {
+					readEntry = ctr.findEntry("$dn","CN=Changelog");				
+					if (readEntry == null) {
+						throw resource.getString("LDAPSYNC.CHANGELOG.NOT.ENABLED")
+					}
+				} 
+*/
+				// test selectEntries call				
+				jsonEntry.operation = "selection"
+				ctr.setParam("ldapSearchFilter", searchFilter)
+				ctr.selectEntries()
+
+				// if start or count are > 0 then this is NOT a call to return Contexts
+				if (count > 0) { 
+					init = false
+					jsonEntry.operation = "read"
+					readEntry = "none"
+					for (; start > 0 && readEntry != null;) {
+						readEntry = ctr.getNextEntry()
+						if (readEntry !== null) {
+/* removed 20150421 when we made List Users use simulated initial sync							
+							sourceDN = cleanDN(work.getString("$dn"));
+							if (attributeFiltersSatisfied(readEntry)
+								&& groupFiltersSatisfied(ctr, sourceDN, changeDetType, readEntry)) {
+								start--;
+								totalEntries++;
+							}	
+*/							
+							start--;
+							totalEntries++;
+						}
+					}
+					for (; count > 0 && readEntry != null;) {
+						readEntry = ctr.getNextEntry();
+						if (readEntry !== null) {
+/* removed 20150421 when we made List Users use simulated initial sync							
+							sourceDN = cleanDN(work.getString("$dn"));
+							if (attributeFiltersSatisfied(readEntry)
+								&& groupFiltersSatisfied(ctr, sourceDN, changeDetType, readEntry)) {
+								jsonEntry.addAttributeValue("entries", simplifyAttributes(readEntry))
+								count--;
+								totalEntries++;
+							}	
+*/							
+							jsonEntry.addAttributeValue("entries", simplifyAttributes(readEntry))
+							count--;
+							totalEntries++;
+						}
+					}	
+				}	
+				if (returnTotal) {
+					do {
+						init = false
+						jsonEntry.operation = "read and count"
+						readEntry = ctr.getNextEntry();
+						if (readEntry !== null) {
+/* removed 20150421 when we made List Users use simulated initial sync							
+							sourceDN = cleanDN(work.getString("$dn"));
+ * 							if (attributeFiltersSatisfied(readEntry)
+								&& groupFiltersSatisfied(ctr, sourceDN, changeDetType, readEntry)) {
+								totalEntries++;
+							}	
+*/							
+							totalEntries++;
+						}
+					} while (readEntry !== null);
+				} 
+			}
+		} catch (ex) {
+			jsonEntry.exception = stackTrace(ex)
+			jsonEntry.message = userFriendlyMsg(ex.toString(), baseurl);
+			jsonEntry.status = "failed"
+			return jsonEntry
+		}
+
+	}
+
+	jsonEntry.operation = "test complete";
+	if (returnTotal) {
+		jsonEntry.totalEntries = totalEntries;
+	}
+	
+	return jsonEntry
+}
+
+function detectForm() {
+	var form = {};
+	
+	if (getProperty("source.ldap.searchbase") != null) {
+		var ldap = system.getConnector("ibmdi.LDAP");
+		ldap.setParam("ldapUrl", getProperty("source.ldap.url"));
+		ldap.setParam("ldapUsername", getProperty("source.ldap.user"));
+		ldap.setParam("ldapPassword", getProperty("source.ldap.password"));
+		ldap.setParam("ldapSearchBase", getProperty("source.ldap.searchbase"));
+		
+		try {
+			ldap.initialize(null);
+			var serverInfo = ldap.getServerInfo();
+			ldap.terminate();
+	
+			if (serverInfo.size() <= 1) {
+				ldap.setParam("ldapReturnAttributes", "*\n+");
+				ldap.initialize(null);
+				serverInfo = ldap.findEntry("$dn","");
+				ldap.terminate();
+			}
+	
+			form = returnForm(serverInfo);
+		} catch (ex) {
+			form.form = getProperty("source.form");
+			form.type = detectLdapType(form.form);
+			if (form == null) {
+				throw resource.getString("LDAPSYNC.ERROR.DURING.INITIALIZATION");
+			}	
+		}
+	} else {
+		form.form = getProperty("source.form");
+		form.type = detectLdapType(form.form);
+		if (form == null) {
+			throw resource.getString("LDAPSYNC.ERROR.DURING.INITIALIZATION");
+		}	
+	}	
+	
+	return form;
+}
+
+function returnForm(e) {
+	var vName = e.getString("vendorName");
+	var vVers = e.getString("vendorVersion");
+	var fFunc = e.getString("forestFunctionality");
+	var orcl = e.getString("orcldirectoryversion");
+	var orclVrs = e.getString("orcldirectoryversion");
+	var oc = e.getAttribute("objectClass");
+	var supportedLDAP = e.getString("supportedLDAPVersion");
+
+	var pform = getProperty("source.form");
+	var ptype = detectLdapType(pform);
+	
+	var ret = {};
+	
+	if (oc !== null) {
+		for (var v in oc) {
+			if (v.equalsIgnoreCase("OpenLDAProotDSE")) {
+				vName = "OpenLDAP";
+				break;
+			}
+		}
+	}	
+	
+	if (orcl !== null) {
+		vName = "Oracle Corporation";
+		vVers = orcl;
+	} else
+	if (fFunc !== null) {
+		vName = "Microsoft";
+		vVers = "Active Directory";
+	}
+	
+	if (vName === null) {
+		vName = "*Unknown vendor*"
+	}
+	
+	if (orclVrs !== null) {
+		vVers = orclVers;
+	} else
+	if (vVers === null) {
+		vVers = "*Unknown version*"
+	}
+
+	if (!pForm) {	
+		var vn = vName.toLowerCase().trim();
+		if (vn.indexOf("international business machines") >= 0) {
+			setChangeDetection("sds");
+			ret.form = "Form_TDS";
+		} else
+		if (vn.indexOf("microsoft") >= 0) {
+			setChangeDetection("ad");
+			ret.form = "Form_AD";
+		} else
+		if (vn.indexOf("sun micro") >= 0) {
+			setChangeDetection("sun");
+			ret.form = "Form_SUN";
+		} else {
+			setChangeDetection("delta");
+			ret.form = "Form_LDAP";
+		}
+	}	
+	
+	ret.vendor = vName;
+	ret.version = vVers;
+	
+	return ret;
+}
+
+function setChangeDetection(cdcType) {
+	opEntry[flowKey + "source.changeDetectionType"] = cdcType;
+}
+
+function detectLdapType(form) {
+	switch (form) {
+		case "Form_AD" : return "AD";
+		case "Form_SUN" : return "Sun";
+		case "Form_TDS" : return "SDS";
+		default : return "unknown";
+	}
+}
+
+function configureConnector(doInit, doSelect, propPrefix, ctrName) {
+	if (typeof(doInit) == "undefined") { doInit = true }
+	if (typeof(doSelect) == "undefined") { doSelect = true }
+	if (typeof(propPrefix) == "undefined" || propPrefix == null) { propPrefix = "source" }
+	if (typeof(ctrName) == "undefined" || ctrName === null) { ctrName = getProperty(propPrefix + ".connector.name"); }	
+	if (typeof(useCtr) != "undefined") {
+		var ctr = useCtr;
+	} else {
+		var ctr = system.getConnector(ctrName)
+	}
+		
+	if (ctr == null) {
+		var errormsg = resource.getString("LDAPSYNC.CONNECTOR.NOT.FOUND") + ": " + ctrName + "(" + propPrefix + ".connector.name)"
+		throw errormsg
+	}
+	
+	setParameters(ctr,"connector")
+		
+	parserName = getProperty(propPrefix + ".parser.name")
+	if (parserName != null && !parserName.startsWith("[")) {
+		parser = system.getParser(parserName)
+		if (parser == null) {
+			var errormsg = resource.getString("LDAPSYNC.PARSER.NOT.FOUND") + ": " + parserName
+			throw errormsg
+		}
+
+		setParameters(parser,"parser")
+		ctr.setParser(parser)
+	}
+	
+	if (doInit || doSelect) {
+		try {
+			ctr.terminate()
+		} catch (ex) {
+			// do nothing
+		}
+	}	
+	
+	if (doInit || doSelect) {	
+		try {
+			ctr.initialize(null)
+		} catch (ex) {
+			setException(ex, "fatal")
+			throw where() + "- initialize(null) - " + ex
+		}	
+	}	
+
+	if (doSelect) {
+		try {
+			ctr.selectEntries()
+		} catch (ex) {
+			setException(ex, "fatal")
+			throw where() + "- selectEntries() - " + ex
+		}	
+	}
+	
+	return ctr
+}
+
+function setParameters(obj, type) {
+	var paramNames = opEntry.getAttributeNames()
+	var paramPrefix = "source." + type.toLowerCase() + ".parameter."
+	for (var pname in paramNames) {
+		var p = pname.indexOf(paramPrefix)
+		if (p >= 0) {
+			var paramValue = getProperty(pname)
+			var param = pname.substring(p + paramPrefix.length)
+			obj.setParam(param, paramValue)
+		}	
+	}
+}
+
+function isSimulation() {
+	/*
+	var simulate = getProperty("simulate")
+	if (simulate == null)
+		simulate = "true"
+	var simulateBool = !"false".equalsIgnoreCase(simulate)
+	return simulateBool
+	*/
+	return getBooleanProperty("simulate", false);
+}
+
+function notifyWritebackError(error, fromWhere) {
+	if (typeof(fromWhere) == "undefined") {
+		fromWhere = "WritebackMain"
+	}
+	
+	var eclass = error.getString("class")
+	if (eclass != null && eclass.endsWith("ExitBranchException")) {
+		return
+	}
+	
+	var jsonEntry = system.newEntry()
+	jsonEntry.timestamp = new java.util.Date().getTime()
+	jsonEntry.al = task.getShortName()
+	jsonEntry.status = "failed"
+	if (error && error != null) {
+		jsonEntry.merge(error)
+	}	
+	jsonEntry.enableDOM()
+	
+	json = jsonEntry.toJSON()
+	
+	sendCustomNotification("fds.writeback", fromWhere, json);	
+}
+
+
+function simplifyAttributes(simEntry) {
+	if (simEntry == null || simEntry.size() == 0) {
+		return null
+	}
+	
+	var attNames = simEntry.getAttributeNames()
+	
+	for (var i = attNames.length-1; i--;) {
+		var attName = attNames[i]
+		var att = simEntry.getAttribute(attName)
+		if (att.size() > 5) {
+			simEntry.setAttribute(attName, "...(" + att.size() + ")...")
+		} else {
+			var obj = att.getValue(0)
+			if (obj != null) {
+				if (String(obj).startsWith("[B@")) { // if byte array
+					simEntry.setAttribute(attName, "...")
+				} else {
+					try {
+						var str = obj.toString()
+						if (str.length > 80) {
+							simEntry.setAttribute(attName, str.substring(0,77) + "...")
+						}
+					} catch (ex) {
+						simEntry.setAttribute(attName, "...")
+					}
+				}	
+			}	
+		}	
+	}
+	
+	return simEntry
+}
+
+function reportSimulateStatus(simEntry, endpointEntry, joinEntry, operation) {
+	if (!simulate) {
+		return
+	}
+	
+	if ((simEntry == null || simEntry.size() == 0) && "cycling".equals(operation)) {
+		return
+	}
+	
+	var jsonEntry = system.newEntry()
+	jsonEntry.timestamp = new java.util.Date().getTime()
+	jsonEntry.flow = flowKey
+	
+	if ("starting".equals(operation) || "completed".equals(operation)) {
+		jsonEntry.state = operation
+	} else {
+		jsonEntry.state = "cycling"
+	}	
+	
+	if (typeof(operation) != "undefined") {
+		jsonEntry.operation = operation
+	}
+	
+	if (simEntry != null && simEntry.size() > 0) {	
+		jsonEntry.entry = simEntry;
+	}
+		
+	if (endpointEntry != null && endpointEntry.size() > 0) {	
+		jsonEntry.source_entry = simplifyAttributes(endpointEntry);
+	}
+		
+	if (joinEntry != null && joinEntry.size() > 0) {	
+		jsonEntry.join_entry = simplifyAttributes(joinEntry);
+	}
+		
+	jsonEntry.enableDOM()
+	
+	json = jsonEntry.toJSON()
+	
+	sendCustomNotification("fds.simulate", flowKey, json);
+		
+	if (deBug) logmsg("------- @@@ ------> Simulate State: " + json)
+}
+
+function sendCustomNotification(aType, aId, aData) {
+	session.sendCustomNotification(aType, aId, aData)
+}
+
+function prepareFindEntry(work, useRDN, rdnValue) {
+	var entry = null;
+	
+	if (!targetIsLDAP) {
+		entry = system.newEntry();
+		if (work && work != null) {
+			entry.merge(work);
+		}	
+		entry.setAttribute(useRDN, rdnValue);
+	}
+	
+	return entry;	
+}
+
+// Returns a string representation of a Javascript object
+function jobj2str(jobj, lvl) {
+	var strbuf = new java.lang.StringBuffer("{");
+	if (typeof lvl === "undefined") { lvl = 1; } 
+	for (var p in jobj) {
+		strbuf.append("\n" + "                                     ".substring(0, lvl*3) + p + ": ");
+		try {
+			if (typeof jobj[p] === "object") {
+				strbuf.append(jobj2str(jobj[p], lvl+1));
+			} else {
+				strbuf.append(jobj[p]);
+			}
+		} catch (ex) {
+			if (jobj[p] != null) {
+				strbuf.append(jobj[p].toString());
+			}
+		}
+	}
+	
+	strbuf.append("\n" + "                                  ".substring(0,(lvl-1)*3) + "}");
+	return strbuf.toString();
+}
+
+
+
+/*
+Older history:
+
+vrs = "7.2 SSE 20140312 1003" // Disabled AL sharing between hooks
+vrs = "7.2 SSE 20140312 1407" // Fixed bug where Incr Sync called Initial Sync
+vrs = "7.2 SSE 20140312 2104" // Changed Hook closing logic
+vrs = "7.2 SSE 20140313 1407" // Corrected passing of hook params - reverted to using FC directly
+vrs = "7.2 SSE 20140313 1420" // Fixing UI update problem for incr sync
+vrs = "7.2 SSE 20140313 1428" // Fixing writeback 
+vrs = "7.2 SSE 20140314 1034" // Fixing beforewrite hook problem
+vrs = "7.2 SSE 20140314 1208" // Fixing (again) parameter passing to ISAM plugin
+vrs = "7.2 SSE 20140322 1248" // HOOKS Changed handling of opEntry to Hook ALs so params do not get shared
+vrs = "7.2 SSE 20140324 1147" // Finishing off monitoring hooks
+vrs = "20121022 1323" //	Fixed messages during synchronization in report routine.
+vrs = "20121107 0933" //	Added methods for handling AD Group member ranges
+vrs = "20121119 1022" //	source.containersToMigrate now semi-colon separated list
+vrs = "20121123 1540" //	multi-Flow handling started
+vrs = "20121128 1147" //	finished multi-Flow
+vrs = "20121202 2307" //	added translateDN() method
+vrs = "20121205 1234" //	change useDN() to not include the suffix when comparing with containersToMigrate
+vrs = "20121211 1714" //	added delete stat per entry type
+vrs = "20121214 1202" //	new Endpoint functionality in getProperty()
+vrs = "20121217 1845" //	corrected entryType() function
+vrs = "20121218 1318" //	added opEntry (AL param) 'flows' to specify which Flows to run (LDAPMigrate & LDAPSync & TestConnections)
+vrs = "20121218 1438" //	now testing if change searchBase (e.g. CN=Deleted Objects) is available and visible for the creds used
+vrs = "20121218 1527" //	removed clear text display of connection parameters
+vrs = "20121218 2217" //	made stats less verbose
+vrs = "20121219 1308" //	fixed sync for Sun source, made simulate default
+vrs = "20121220 1336" //	fixed a bug, and only require activeDirectoryLinkedEntry class if source change detection is 'AD'
+vrs = "20121221 1512" //	corrected detection of 'person' entries with 'cn' for RDN, plus more testing for targetUserRDN (and messages)
+vrs = "20130102 1301" //	filter out objectSid from binary attributes property and z_makeEntries
+vrs = "20130107 1632" //	added stacktrace to default error and init error scripts
+vrs = "20130115 1708" //	fixed name of TestConnections log file name
+vrs = "20130116 1021" //	removed debug component in TestConnections that was throwing an exception
+vrs = "20130117 1251" //	added tcb.setTaskName() to get flowKey into AL name
+vrs = "20130118 1258" //	logic to handle migrating/sync'ing groups with no members
+vrs = "20130119 1320" //	enhanced entry identification logic to use adDn for all types of entries so that deletes are supported
+vrs = "20130119 1430" //	hardened setting AL log file
+vrs = "20130120 2258" //	added sanity check for properties in the TestConnections AL
+vrs = "20130121 0830" //	fixed log error and User delete
+vrs = "20130121 0900" //	corrected handling of empty group sync
+vrs = "20130121 1241" //	fixed bug when RDN for source is 'cn' and for target it's 'UID'
+vrs = "20130121 1352" //	removed extra flowKey from logfile names, and added it to GroupMembersMissing file
+vrs = "20130121 1705" //	fixed naming of log file for ResetChangeState
+vrs = "20130122 1125" //	added persistence to LDIF of entries not Migrated or Sync'ed, plus fix to AL launching
+vrs = "20130122 1255" //	cleanDN now throws and exception if no $dn attribute is found - should stop eternal looping for sync/migration
+vrs = "20130127 1530" //	fixed translation of group members to use adDn lookups in the target
+vrs = "20130201 1537" //	added support for modrdn and moddn
+vrs = "20130203 0130" //	fixed bugs and made target and source attributes for linking (e.g. adDn and adObjectGUIDStr) configurable
+vrs = "20130204 1422" //	fixed bug that Chirag detected, and added source.userRDN property
+vrs = "20130205 1806" //	Corrected solution to use javax.naming classes to handle DN/RDN escaping and handling
+vrs = "20130206 1200" //	fixed TestConnections so it does not display the password properties
+vrs = "20130206 1618" //	Simulate migration does not check ref-in for group members AND LDAPMigrate creates suffixFor* containers if needed
+vrs = "20130206 1645" //	During sync if an entry is moved out of scope, then it is deleted in the target
+vrs = "20130207 1300" //	During sync if an entry is moved into scope, then it is added to the target plus fixed bugs from Chirag and Luis
+vrs = "20130208 1446" //	Fixed AD sync handling for moddn
+vrs = "20130211 1310" //	Added support for delete sub-tree for TDS and fixed AD moddn handling and Default On Error for AL FC calling WriteToLDAP
+vrs = "20130211 1346" //	Added global.debug property 
+vrs = "20130211 1748" //	Made source.userRDN the same as target.userRDN if it is not specified
+vrs = "20130211 2215" //	Simplified TestConnections
+vrs = "20130215 1215" //	Corrected filtering logic
+vrs = "20130215 1418" //	TestConnections fix and default property handling
+vrs = "20130218 1036" //	Fixed so suffixFor containers not created if Simulated migrate
+vrs = "20130220 1500" //	Fixed problem reported by Luis on group memberships
+vrs = "20130221 1250" //	Correction to property handling
+vrs = "20130221 1443" //	Added debug output of conn to Group and Container add and modify operations
+vrs = "20130221 1810" //	Corrected handling of rdn from AD
+vrs = "20130222 1330" //	Cleaning containersToMigrate
+vrs = "20130222 1626" //	Add logic to translateDN to handle CN= containers from AD
+vrs = "20130222 1728" //	Added containersToSkip property
+vrs = "20130222 1900" //	Fixed sorting of containers
+vrs = "20130222 2000" //	Added handling of special AD containers
+vrs = "20130226 1730" // 	Added FlowReport() function
+vrs = "20130226 2230" // 	Added FlowReport() function
+vrs = "20130227 1330" // 	Put try catch around LdapName creation
+vrs = "20130228 1326" // 	Put try catch around LdapName creation
+vrs = "20130228 1704" // 	Fixed bug in loadProperties
+vrs = "20130228 2214" // 	Fix to addLinkedAttributes for Godfrey at Encode
+vrs = "20130301 1158" // 	Fix to addLinkedAttributes for Godfrey at Encode
+vrs = "20130301 1218" // 	Removed support for simulation by LDAPSync
+vrs = "20130306 1132" // 	Checking for presence of $dn in entry
+vrs = "20130306 1400" // 	Corrected ConnectorReport and started on PTA
+vrs = "20130307 2155" // 	fixed param handling for AD and TDS CDC
+vrs = "20130308 1310" // 	Corrected error in ResetChangeState
+vrs = "20130311 1548" // 	Hardened MigrateContainers
+vrs = "20130311 2203" // 	Added useDN check to MigrateContainers
+vrs = "20130313 1000" // 	Fixed FlowReport
+vrs = "20130314 1727" // 	Migrating groups twice to ensure member migration
+vrs = "20130315 1050" // 	Removed migrating groups twice to ensure member migration
+vrs = "20130416 1532" // 	Started on SyncEngine = LDAPSync v1.2
+vrs = "20130422 1030" //	Changed logging and configDirectory (to SyncEngine)
+vrs = "20130422 1121" //	Added debug and simulate to Target_TDS form
+vrs = "20130422 1312" //	Update JSON flow report to web ui to include the typeOfEntry
+vrs = "20130422 1329" //	Fixed JSON report bug and updated PTA_ServerEntry AL from Bjørn
+vrs = "20130422 1532" //	Corrected Flow report
+vrs = "20130422 1544" //	New property source.ldap.searchFilter (for TestConnections) - LATER REMOVED!
+vrs = "20130422 1624" //	Changed WriteToLDAP so that it processes entries with strange RDNs (os400)
+vrs = "20130422 2327" //	Fixed rdnValue cleaning with Godfrey and Enio :)
+vrs = "20130423 0049" //	Fixed getProperty()
+vrs = "1.2 20130423 1109" //	Updated launchFlows to be LDAPSync instead of SyncEngine
+vrs = "1.2 20130423 1129" //	More error handling around missing suffixFor* props
+vrs = "1.2 20130423 1152" //	Fixed Target_TDS form for debug and simulate checkboxes
+vrs = "1.2 20130423 1232" //	FC to call WriteToLDAP fixed so simulate checkbox uses getProperty() method
+vrs = "1.2 20130423 1239" //	Made sure SIMULATE message is shown before report.
+vrs = "1.2 20130423 1247" //	Change Sun Form so pageSize is not set by default.
+vrs = "1.2 20130425 1328" //	Checked into RTC
+vrs = "1.2 20130425 1502" //	Added support for non-TDS target plus PTA aux classes for TDS target
+vrs = "1.2 20130425 1605" //	Did some fixes for Mike Gong
+vrs = "1.2 20130426 1209" //	Added source.changeDetectionType as hidden param for enpoint forms
+vrs = "1.2 20130429 1603" //	Fixed AD_getAllGroups and addGroupsToTarget
+vrs = "1.2 20130429 2227" //	Added fromUI hidden param in GeneralSettings Connector form - control PTA attributes
+vrs = "1.2 20130430 1028" //	Added getALName()
+vrs = "1.2 20130502 1111" //	Fixed runType and determineFlows, added source.xxx.read.AL properties
+vrs = "1.2 20130503 1221" //	Corrected ConnectorReport and reworked migration ALs and added target.ldap.enableForPTA
+vrs = "1.2 20130506 1117" //	Improved behavior Report and corrected creation of suffixFor<type> containers in target
+vrs = "1.2 20130506 1216" //	Added more props to behavior report
+vrs = "1.2 20130506 1555" //	Change afterWriteBehaviors to always create the 'entries lost' file
+vrs = "1.2 20130506 1637" //	Fixed prolog in WriteToLDAP to refer to target.group.mapFile (and not target.group.map)
+vrs = "1.2 20130507 1141" //	Started on globalization work
+vrs = "1.2 20130508 1123" //	Fixed undefined 'added' variable reference in WriteToLDAP and a bug in jsonReport()
+vrs = "1.2 20130508 1146" //	GroupMembersMissing.log file created each time, and rolled as with EntriesNotMigrated/Synchronized
+vrs = "1.2 20130510 1016" //	Corrected Flow Report for suffixForGroups
+vrs = "1.2 20130510 1054" //	Added simulate to FlowReport()
+vrs = "1.2 20130510 1120" //	Moved older history to bottom of file
+vrs = "1.2 20130513 1114" //	Fixed WriteToLDAP so that PTA attributes do not cause entries to be updated when not necessary
+vrs = "1.2 20130513 1620" //	Corrected a property error: source.read.<type>.AL
+vrs = "1.2 20130515 1118" //	Added logic to group member translation to handle multiple found
+vrs = "1.2 20130516 1531" //	Started adding logic to handle Delta Engine input
+vrs = "1.2 20130521 1457" //	Fixed handling of modrdn
+vrs = "1.2 20130521 1617" //	Continued Fixing handling of modrdn
+vrs = "1.2 20130522 1022" //	Corrected handling of changelog input and text for error (simulate and sync)
+vrs = "1.2 20130522 1407" //	Fixed deletion of entries
+vrs = "1.2 20130523 1042" //	Hardened the call to reader ALs (both migration and syncat)
+vrs = "1.2 20130524 1116" //	Cleaned up the Target_TDS form
+vrs = "1.2 20130524 1132" //	Ensured that required attributes are read in during changelog processing
+vrs = "1.2 20130524 1200" //	NOW it ensures that required attributes are read in during changelog processing
+vrs = "1.2 20130529 1307" //	Improved handling of types and EntryLost file rolling
+vrs = "1.2 20130529 1454" //	Completed extraction of translatable messages
+vrs = "1.2 20130530 1126" //	Working on non-LDAP source endpoints
+vrs = "1.2 20130603 1425" //	Working on Delta support for non-LDAP source endpoints
+vrs = "1.2 20130604 1148" //	Ignoring mirroring when non-LDAP source endpoint
+vrs = "1.2 20130605 1029" //	Completed delta handling for non-LDAP source endpoints
+vrs = "1.2 20130605 1051" //	Added FORM_JDBC for JDBC source enpoints
+vrs = "1.2 20130605 1126" //	Removed debug code
+vrs = "1.2 20130605 1141" //	Fixed mapping
+vrs = "1.2 20130606 1306" //	Changed containersToMigrate/Skip to TextEdit field
+vrs = "1.2 20130606 1326" //	Mirror, Simulate and Debug are default OFF
+vrs = "1.2 20130611 1212" //	Adding activity log
+vrs = "1.2 20130613 1125" //	Fixed resetting delta snapshot table for Migrate
+vrs = "1.2 20130613 1151" //	Hardened prop handling for stateKey
+vrs = "1.2 20130614 1053" //	Working on prevent unnecessary writes
+vrs = "1.2 20130614 1108" //	Working on prevent unnecessary writes
+vrs = "1.2 20130614 1155" //	Improved deleting of Delta Store
+vrs = "1.2 20130614 1433" //	Allow for duplicate keys with Delta Engine
+vrs = "1.2 20130614 1537" //	Enabled duplicate keys for Delta Engine
+vrs = "1.2 20130617 1148" //	Tried to prevent prop eval errors in the log, improved creation of target suffixes
+vrs = "1.2 20130617 1517" //	Corrected deleting of Delta snapshot tables
+vrs = "1.2 20130618 1417" //	Corrected deleting of Delta snapshot tables
+vrs = "1.2 20130619 0941" //	Improving Flow Report
+vrs = "1.2 20130619 1651" //	Simplified Flow Report
+vrs = "1.2 20130620 1056" //	LDAPSync supports just props again, simplifying tombstone error
+vrs = "1.2 20130621 1028" //	Fixed problem with Delta Engine table locking
+vrs = "1.2 20130621 1054" //	Fixed connectorParam() to fix Delta Engine locking problem
+vrs = "1.2 20130621 1606" //	Redoing all logging
+vrs = "1.2 20130624 1145" //	Fixing problem with non-LDAP sync
+vrs = "1.2 20130624 1245" //	Working on new logging
+vrs = "1.2 20130625 1042" //	Reorganized Flow Form
+vrs = "1.2 20130625 1059" //	Reduced size of error message to fit in tombstones
+vrs = "1.2 20130625 1419" //	Adding <flow>_Errors.log file
+vrs = "1.2 20130626 1011" //	Hiding passwords in Flow report
+vrs = "1.2 20130702 1324" //	Working on LDAPSync failure for LDAP
+vrs = "1.2 20130702 1609" //	Fixed handling of customProperties property (in Flow)
+vrs = "1.2 20130702 1655" //	Fixed extension for read ALs (and delta)
+vrs = "1.2 20130703 0954" //	Fixed problem with synchronization runs
+vrs = "1.2 20130703 1055" //	Passing errors up to webUI
+vrs = "1.2 20130703 1428" //	Passing errors up to webUI - part II
+vrs = "1.2 20130704 1147" //	Fixed handling of extension ALs for migrate / sync
+vrs = "1.2 20130704 1156" //	Starting on Augment
+vrs = "1.2 20130709 1249" //	Augment working on migrate & sync - time for Chirag!!
+vrs = "1.2 20130711 1403" //	Att mapping for Augment
+vrs = "1.2 20130715 1051" //	Fixed an error in Join mapping - plus if no map specified, then wildcard is used
+vrs = "1.2 20130715 1420" //	Replaced source files with localized versions and got messageResolver working
+vrs = "1.2 20130716 1227" //	Fixed Join skip handling and added 'skipped' to report
+vrs = "1.2 20130716 1252" //	Finished fixing Join skip handling
+vrs = "1.2 20130717 1024" //	Fixed bleeding of custom props between Flows
+vrs = "1.2 20130717 1104" //	Corrected localization of FORM_*'s
+vrs = "1.2 20130718 1102" //	Change meaning of ifJoinFails to include when no data returned by join 
+vrs = "1.2 20130718 1201" //	Change meaning of ifJoinFails to include when no data returned by join 
+vrs = "1.2 20130719 1345" //	Fixed localization in GeneralSettings Form
+vrs = "1.2 20130722 1642" //	Changing how Delta Tables are deleted
+vrs = "1.2 20130722 1846" //	Updating some debug log output
+vrs = "1.2 20130723 1120" //	Corrected activity log
+vrs = "1.2 20130723 1133" //	Corrected error logging
+vrs = "1.2 20130723 1153" //	Change 'TDS' to 'SDS'
+vrs = "1.2 20130725 1405" //	Corrected some dn cleaning code (removed trim())
+vrs = "1.2 20130725 2333" //	Fixed a problem with the Eclipse project folder
+vrs = "1.2 20130726 1156" //	Added support for 'SDS' as well as 'TDS' for change detection type property
+vrs = "1.2 20130729 2329" //	Corrected reading groups from custom endpoints
+vrs = "1.2 20130822 1309" //	Change name of property from join.IfJoinFails to join.failure
+vrs = "1.2 20130822 1317" //	Added AL to call after successful add or delete of a person Entry & changed logic in Join to not terminate all ALs if one fails, except if join.failure == abort
+vrs = "1.2 20130823 1030" //	Improved error handling for Join
+vrs = "1.2 20130823 1045" //	Finished the feature to call ALs when successful write operations are performed
+vrs = "1.2 20130823 1156" //	Improved error reporting back to the UI
+vrs = "1.2 20130826 1054" //	Fixed a bug in the After-Write-Launch-AL feature
+vrs = "1.2 20130826 1225" //	Make utils::getALName() case INsensitive wrt. the Config Instance name
+vrs = "1.2 20130826 1741" //	Improved error handling when calling ALs for Read or Join
+vrs = "1.2 20130827 1247" //	Fixed join.failure handling for Sync
+vrs = "1.2 20130827 1304" //	Fixed After-Write AL execution
+vrs = "1.2 20130827 1508" //	Improved error handling for runDataFlow
+vrs = "1.2 20130828 1109" //	Ensured After Write ALs get shut down
+vrs = "1.2 20130829 1435" //	Fixed handling of Parser parameters
+vrs = "1.2 20130903 1438" //	Added type to activity and jsonReport, plus fixed logging to suit Bjørn
+vrs = "1.2 20130903 1444" //	Fixed SourceLDAP so that username and password are not mandatory
+vrs = "1.2 20130904 1119" //	Added new TestConnection AL
+vrs = "1.2 20130906 1050" //	Added RulesEngine to utils, changed Target_TDS Form for Bjørn
+vrs = "1.2 20130906 1452" //	Fixed rj() and lj(), plus global.maxLogFile handling
+vrs = "1.2 20130910 1256" //	Working on WriteBack and added After Write AL fields to Flow form
+vrs = "1.2 20130910 1508" //	Exported more language lines
+vrs = "1.2 20130912 1233" //	First version of Writeback
+vrs = "1.2 20130913 0947" //	Fixed Writeback schedule
+vrs = "1.2 20130913 1316" //	Added attributes changed (.changes) to notification
+vrs = "1.2 20130913 1450" //	Added writeback.ignoreChangesBySDI property
+vrs = "1.2 20130923 1415" //	Fixed handling of Activity log to always show last run info
+vrs = "1.2 20130924 1641" //	Corrected text as per Johan's design change
+vrs = "1.2 20130925 1232" //	Updating Writeback logging and reporting
+vrs = "1.2 20130926 1457" //	Changed logging and reporting from Writeback
+vrs = "1.2 20130930 1457" //	Updated TestConnection AL to handle read.start and read.count params
+vrs = "1.2 20131001 1057" //	Make WritebackMain fail more quickly and quietly
+vrs = "1.2 20131001 1408" //	Tried to fix the concurrent access errors I get occasionally during debuggin
+vrs = "1.2 20131001 1425" //	Fixed handling of global.maxLogFiles
+vrs = "1.2 20131002 0936" //	Writeback main loads Configs properly now
+vrs = "1.2 20131002 1136" //	testConnections looks for first defined AL (person, group or container)
+vrs = "1.2 20131004 1106" //	added writeback.enabled param to General Settings - used by WritebackMain
+vrs = "1.2 20131004 1255" //	fixed handling of sdiUser in WritebackMain
+vrs = "1.2 20131004 1312" //	changed getProperty() to ONLY read from the opEntry
+vrs = "1.2 20131007 1146" //	moved RulesEngine creation to top of each cycle of WritebackMain
+vrs = "1.2 20131007 1158" //	added check for enabled changelog for TestConnections of SDS
+vrs = "1.2 20131008 1328" //	simulation notifications to FDS with payload
+vrs = "1.2 20131009 1146" //	changed default change detection timeout to 60, and SDS Changet Det. Connector used
+vrs = "1.2 20131010 1014" //	added writeback.enabled='true' to all Forms that support writeback
+vrs = "1.2 20131010 1455" //	made testConnections faster for SDS
+vrs = "1.2 20131014 1153" //	added writeback.timeout property
+vrs = "1.2 20131015 1001" //	added read.type parameter to testConnections & removed search filter from LDAP forms & simplified Flow Form
+vrs = "1.2 20131015 2109" //	fixed delta handling for Form_LDAP type endpoints
+vrs = "1.2 20131016 1200" //	stopped mirroring from migrating the source search base
+vrs = "1.2 20131016 1233" //	made type = 'person' default for testConnections()
+vrs = "1.2 20131016 1602" //	added simplifyAttributes to testConnections returned entries
+vrs = "1.2 20131017 1129" //	made WritebackMain refresh rules engine only on mod & testConnections closes AL FC
+vrs = "1.2 20131017 1511" //	working to make sure all relevant attributes are notified to the UI during simulation
+vrs = "1.2 20131018 1129" //	using standard code to reset change state for CDCs
+vrs = "1.2 20131018 1147" //	WritebackMain checks for writeback.enabled each cycle
+vrs = "1.2 20131018 1445" //	Added SetSDSChangeState AssemblyLine
+vrs = "1.2 20131020 0200" //	Re-enabled messaging to the FDS UI
+vrs = "1.2 20131021 1106" //	Completed SetSDSChangeState AL
+vrs = "1.2 20131021 1138" //	Only sending status messages to UI every 1.5 seconds
+vrs = "1.2 20131021 2038" //	Changed useDN so that containers are not filtered based on Include/Exclude lists
+vrs = "1.2 20131023 1109" //	Fixed limiting of messages sent to the FDS UI
+vrs = "1.2 20131023 1323" //	Made WritebackMain AL prolog loop until writebackEnabled == true && made UI message delay JVM-wide
+vrs = "1.2 20131024 0941" //	Removed the UI message delay code that writes to Java props
+vrs = "1.2 20131024 1307" //	Added mirroring.enabled property to some forms (AD, Sun, TDS and LDAP) & fixed some delta-based change det bugs
+vrs = "1.2 20131024 1425" //	Fixed simulate not showing data for Add operations
+vrs = "1.2 20131031 1635" //	Made SDS searchBase default for Flow suffixes & updated testConnections() & getParameters() & 
+vrs = "1.2 20131101 1216" //	testConnections does not allow empty searchBase except for Contexts request (count = 0)
+vrs = "1.2 20131105 1244" //	unpdated logging of logDirectory
+vrs = "1.2 20131105 1259" //	Only adding Endpoint searchbase to Include list if nothing else is specified for the Flow
+vrs = "1.2 20131107 1011" //	Updated getProperty to add protocol specifier to LDAP URL if missing
+vrs = "7.2 FP1 20131128 1252" //	Corrected error message returned by CIsetup() function
+vrs = "7.2 FP1 20131203 0940" //	Fixed it so that testConnections handles checking changelog for SDS only when count > 0
+vrs = "7.2 FP1 20131203 1256" //	Added message burst support (10) to status reporting to UI - updateProgressReport()
+vrs = "7.2 FP1 20131204 1352" //	Ensured that Update does not modify if not necessary
+vrs = "7.2 FP1 20131205 1026" //	Changed Reset Change State logic so it sets it to the last committed change
+vrs = "7.2 FP1 20131206 1532" //	Working on ISAM plugin support
+vrs = "7.2 FP1 20131209 1154" //	Updated Update handling to prevent modify if not necessary
+vrs = "7.2 FP1 20131216 1009" //	Started on configurable (SCIM) output support
+vrs = "7.2 FP1 20131218 1221" //	Continuing on configurable (SCIM) output support - updated initUtils()
+vrs = "7.2 FP1 20140103 1637" //	Continuing on configurable (SCIM) output support - added cleanRDN()
+vrs = "7.2 FP1 20140106 1610" //	Change WriteToTarget so stats update depends on AL FC return values (in TCB)
+vrs = "7.2 FP1 20140107 1318" //	Activity.log after migrate always shows Adds
+vrs = "7.2 FP1 20140107 1431" //	Added alternativeProperties for simplification in the FDS UI
+vrs = "7.2 FP1 20140108 1503" //	CIs first tried loaded from LDAPSync, if this fails then from configs folder
+vrs = "7.2 FP1 20140109 0956" //	CIs first attempted loaded without path, if this fails then from LDAPSync folder
+vrs = "7.2 FP1 20140110 1700" //	Working on SCIM target support
+vrs = "7.2 FP1 20140113 1114" //	Continued working on SCIM target support - simplifying target AL handling
+vrs = "7.2 FP1 20140114 1435" //	Added applyCustomProperties() function
+vrs = "7.2 FP1 20140115 1120" //	Adding targetIsLDAP branching logic to write handling (utils & WriteToTarget)
+vrs = "7.2 FP1 20140120 1055" //	Simplified FDS_SCIM_Plugin logic and mapping
+vrs = "7.2 FP1 20140122 1404" //	Added post.operation.enabled property
+vrs = "7.2 FP1 20140127 1515" //	Get failed CI loads to show up on logs and UI status
+vrs = "7.2 FP1 20140130 1000" //	Plugin files back in LDAPSync folder in RTC
+vrs = "7.2 SSE 20140130 1340" //	Started adding FDS Hooks
+vrs = "7.2 SSE 20140130 1340" //	hooks added: prolog, prologend, epilog, epilog.success, epilogend, startofcycle, beforewrite, afterwrite, and error
+vrs = "7.2 SSE 20140203 1923" //	got hooks working
+vrs = "7.2 SSE 20140204 1205" //	fixed update issue with ISAM Plugin when entry moved/renamed
+vrs = "7.2 SSE 20140204 1235" //	fixed invalid handling of deletes when reading AD changes
+vrs = "7.2 SSE 20140204 1449" //	preparing for getting configured ALFC directly from UI for Hooks
+vrs = "7.2 SSE 20140205 1346" //	passing in hook called to Hook AL
+vrs = "7.2 SSE 20140206 1234" //	Corrected receiving Hook properties from the UI
+vrs = "7.2 SSE 20140207 0952" //	Fixed hook bug (copyProp), added hooks, appended name of special atts passed to hook ALs with '$' 
+vrs = "7.2 SSE 20140209 1240" //	Completed division of work (main flow AL and writeToTarget), changed Target_TDS to FlowSettings.
+vrs = "7.2 SSE 20140210 1248" // 	added error hook
+vrs = "7.2 SSE 20140212 1403" // 	working on custom UIs for custom targets
+vrs = "7.2 SSE 20140213 1403" // 	continued working on custom UIs for custom targets
+vrs = "7.2 SSE 20140219 1344" // 	detecting in CIsetup if the CI is already running
+vrs = "7.2 SSE 20140220 1453" // 	ensured special passed attributes are prepended with $
+vrs = "7.2 SSE 20140224 1926" // 	added custom property file handling (customPropsFile=<path>) and before/after-write hooks, plus onfailure & onshutdownrequest
+vrs = "7.2 SSE 20140303 1057" // 	added getPropertyObject()
+vrs = "7.2 SSE 20140304 1531" // 	finished hook handling - added setuphooksManager() in initUtils()
+vrs = "7.2 SSE 20140304 1542" // 	WriteBack stops the scheduler when WriteBack globally disabled, or the Changelog Connector has an error
+vrs = "7.2 SSE 20140305 1321" // 	Added code to prevent loading a config not found in the configs folder.
+vrs = "7.2 SSE 20140306 1122" // 	Fixing bug in state passing between ALs
+vrs = "7.2 SSE 20140309 2342" // 	Fixing logging bug
+vrs = "7.2 SSE 20140310 1921" // 	Debugging Hook Framework support
+vrs = "7.2 SSE 20140311 2049" // 	Fixed Hook framework (incl. error hook) - disabled attmap handling
+vrs = "7.2 SSE 20140324 1359" // Monitor: Corrected passing error info to error monitor hooks
+vrs = "7.2 SSE 20140324 1445" // Monitor: Added QRadar and SNMP monitoring ALs
+vrs = "7.2 SSE 20140325 1418" // Calling custom monitor before any other Hook
+vrs = "7.2 SSE 20140326 1234" // Change custom monitor behavior as specified by Johan
+vrs = "7.2 SSE 20140327 1304" // Handled problem with Join
+vrs = "7.2 SSE 20140327 1426" // Fixed custom monitor
+vrs = "7.2 SSE 20140328 1114" // Updated Monitor screens for mandatory fields and default value
+vrs = "7.2 SSE 20140328 1133" // Added objectClass container
+vrs = "7.2 SSE 20140331 1136" // Added AL selection to custom monitor
+vrs = "7.2 SSE 20140402 1115" // Renamed $loop to $stopFlow
+vrs = "7.2 SSE 20140404 1305" // Corrected $stopFlow handling and improved testConnections() in utils
+vrs = "7.2 SSE 20140404 1314" // Prevented passwords from appearing in the Flow Report
+vrs = "7.2 SSE 20140407 1054" // Updated monitorSNMP to use the sendTrap mode of the Connector
+vrs = "7.2 SSE 20140408 1223" // Corrected the $hookCalled Attribute to $hookName
+vrs = "7.2 SSE 20140410 0950" // Fixed problem with include/exclude property parsing
+vrs = "7.2 SSE 20140425 1150" // Cleaned up error handling
+vrs = "7.2 SSE 20140424 1131" // Added support for mapping QRadar attributes added and modified
+vrs = "7.2 SSE 20140501 1309" // Adding support for TestConnection AL in Custom Target projects
+vrs = "7.2 SSE 20140509 1430" // Fixed some Custom Target initialization handling, as well as for TestConnections
+vrs = "7.2 SSE 20140513 1503" // Fixed script error: invoke() turned to invokeHook()
+vrs = "7.2 SSE 20140522 1400" // Added target.link.attribute and source.link.attribute properties for custom targets - still needs work
+vrs = "7.2 SSE 20140526 1033" // In Flow Report, the summary now starts with -o@o-o@o-o@o-o@o-o@o-o@o-o@o-
+vrs = "7.2 SSE 20140528 1159" // Corrected AfterInit in WriteToTarget
+vrs = "7.2 SSE 20140605 1402" // Added source.group.return.members property
+vrs = "7.2 SSE 20140606 1209" // Corrected Custom Target handling of write AL
+vrs = "7.2 SSE 20140611 1209" // TestConnections sets jsonPayload.changelog=true/false based on if cn=changelog found
+vrs = "7.2 SSE 20140612 0904" // Added Jens' correction to WritebackMain
+vrs = "7.2 SSE 20140612 1102" // Fixed minor error in writeback rules handling
+vrs = "7.2 SSE 20140613 1254" // Corrected logic in WritebackMain to deal with default setting of ignoreChangesBySDI flag
+vrs = "7.2 SSE 20140619 2354" // Fixed problem with group delete from SDS or Sun
+vrs = "7.2 SSE 20140620 1100" // Final fix for group delete problem from SDS or Sun
+vrs = "7.3 20140803 2317" // Change order parameters are read (getFlowParameters)
+vrs = "7.3 20140804 1635" // Numerous changes for custom target (SCIM)
+vrs = "7.3 20140806 1950" // Simplified info passing from main WriteToTarget to SCIM:WriteToTarget
+vrs = "7.3 20140808 1522" // Dependency on custom target returning findEntry as LDAP entry
+vrs = "7.3 20140811 1210" // Adding 1 to the last changelog number before being saved by Initial Sync
+vrs = "7.3 20140814 1212" // Adding UserSync functionality to filter on group membership/att values
+vrs = "7.3 20140825 1007" // Fixed problem with FDS UI not showing log and added TMS messages
+vrs = "7.3 20140825 1453" // Added Group/Attribute filtering to FlowSettings
+vrs = "7.3 20140826 1208" // Added validity checking to Attribute Filters, and skipping those with empty attribute names
+vrs = "7.3 20140828 1350" // Fixed group membership filtering for incremental sync of person entries
+vrs = "7.3 20140901 1411" // Added password cache reset functionality
+vrs = "7.3 20140902 1503" // Fixed group membership filtering for incr. sync (for AD specifically)
+vrs = "7.3 20140902 1000" // Fixed loss of delta tags during handling of multi-valued attributes (e.g. member)
+vrs = "7.3 20140907 2130" // Fixed group membership translation & update with group filtering
+vrs = "7.3 20140907 2204" // Fixed attribute filtering for Char() columns in a database
+vrs = "7.3 20140907 2338" // Fixed attribute filtering Match Any (OR) handling
+vrs = "7.3 20140908 1238" // Fixed problem with adding groups to SCIM
+vrs = "7.3 20140910 1355" // Added detectLdapType(initialized ldapConnector)
+vrs = "7.3 20140910 1717" // Added getRDN() method, ability to use javascript assignment for the Source RDN Attribute
+vrs = "7.3 20140911 1015" // Added logic to TestConnections to detect if changelog/CN=Delete Objects is available
+vrs = "7.3 20140923 1502" // Fixed hasValue Attribute filter
+vrs = "7.3 20141014 1324" // Made AD group membership filtering case-insensitive
+vrs = "7.3 20141014 1519" // Fixed error in group member translation
+vrs = "7.3 20141020 1421" // Removed error from getRDN() function call
+vrs = "7.3 20141215 1505" // Added Form & vendor/version detection to testConnections, defaultInitErrorHandling to handle pageSize not available on server
+vrs = "7.3 20141216 1332" // Enhancing testConnections for Apache DS (and possibly others)
+vrs = "7.3 20141219 1252" // Added randomRangeInt() function for password generation
+vrs = "7.3 20150106 1103" // Sync groups list functionality and SendEmail
+vrs = "7.3 20150113 1021" // Changed TestConnections to handle "returnTotal" property (true | false)
+vrs = "7.3 20150121 1248" // Started work on Virtual PTA by adding o=<endpoint> to $dn returned by non-LDAP endpoints
+vrs = "7.3 20150121 1307" // Update getPortNumber() in customScript.js to return an integer
+vrs = "7.3 20150208 1102" // Fixed a bug in TestConnections
+vrs = "7.3 20150210 1352" // Improved reading of SE_DefaultFDS.xml settings making AL/Flow name case-insensitive
+vrs = "7.3 20150211 1348" // initUtils() now returns the opEntry
+vrs = "7.3 20150216 1346" // Started adding retryList
+vrs = "7.3 20150218 1124" // Fixed testConnection() to detect LDAP type better
+vrs = "7.3 20150223 1216" // More work on retryList to capture the correct error
+vrs = "7.3 20150224 1158" // Split retryList into type specific files (person, group, container)
+vrs = "7.3 20150305 1326" // Improved passing write errors back up the chain to the UI
+vrs = "7.3 20150309 1159" // Moved retry list files to LDAPSync/logs
+vrs = "7.3 20150310 1016" // csMailShot() sends a custom notification to the UI
+vrs = "7.3 20150310 1347" // source and join Entries also returned for simulated syncs
+vrs = "7.3 20150310 1440" // retryList removes entries that are written successful while processing live data
+vrs = "7.3 20150312 1228" // moved password generation to inside LDAPSync and not in the map file / customScript.js
+vrs = "7.3 20150312 1454" // corrected password generation properties to match those in the UI/SE_DefaultFDS.xml
+vrs = "7.3 20150323 1448" // added cloudSync boolean flag
+vrs = "7.3 20150324 1039" // fixed problem with cloudSync searchFilter handling for Person entries
+ *  */]]></parameter>
+    </Script>
+</MetamergeConfig>

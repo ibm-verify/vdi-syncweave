@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/complex_wrapped_doc/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="complex_wrapped_doc" targetNamespace="http://www.example.org/complex_wrapped_doc/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/complex_wrapped_doc/">
+    
+      <xsd:element name="findPerson">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:name" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="name" type="xsd:string" />
+      
+      <xsd:element name="findPersonResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:person" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="person">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:firstname" />
+            <xsd:element ref="tns:lastname" />
+            <xsd:element ref="tns:age" />
+            <xsd:element ref="tns:email" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="firstname" type="xsd:string" />
+      
+      <xsd:element name="lastname" type="xsd:string" />
+      
+      <xsd:element name="age" type="xsd:int" />
+      
+      <xsd:element name="email" type="xsd:string" />
+      
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="findPersonRequest">
+    <wsdl:part element="tns:findPerson" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="findPersonResponse">
+    <wsdl:part element="tns:findPersonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="complex_wrapped_doc">
+    <wsdl:operation name="findPerson">
+      <wsdl:input message="tns:findPersonRequest"/>
+      <wsdl:output message="tns:findPersonResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="complex_wrapped_docSOAP" type="tns:complex_wrapped_doc">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findPerson">
+      <soap:operation soapAction="http://www.example.org/complex_wrapped_doc/findPerson"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="complex_wrapped_doc">
+    <wsdl:port binding="tns:complex_wrapped_docSOAP" name="complex_wrapped_docSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

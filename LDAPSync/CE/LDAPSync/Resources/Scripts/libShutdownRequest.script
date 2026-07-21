@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="8" UUID="abf9c853-fad1-4c6c-b830-9cfbe499d9d9" created="Tue Apr 07 13:04:41 CEST 2015" createdBy="Administrator" main="libShutdownRequest" modified="Tue May 12 14:16:55 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="libShutdownRequest">
+        <ModTime>1431433014506</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[try {
+	for (cnt = 0; cnt < al.length; cnt++) {
+		try {
+			al[cnt].shutdown();
+		} catch (ex) {
+			// do nothing
+		}	
+	}
+} catch (exOuter) {
+	// do nothing
+}
+
+try {
+	syncAL.shutdown();
+} catch (ex) {
+	// do nothing
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

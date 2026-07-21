@@ -1,0 +1,29 @@
+<div style="padding:0px; margin:0px; width:100%; height:100%">
+
+	<div dojoType="dijit.layout.BorderContainer" style="width:98%; height:98%; padding:5px" design="sidebar" gutters="true">
+	
+		<div dojoType="dijit.layout.ContentPane" region="top">
+			<span>${nls.WebCE_name}</span>
+			<div dojoType="dijit.form.Button" label="${nls.WebCE_close}" style="float:right" dojoAttachEvent="onClick:onSave"></div>
+			<div dojoAttachPoint="AttributeName" dojoType="dijit.form.TextBox"></div>
+			<span>${nls.WebCE_type}</span>
+			<div dojoType="dijit.form.RadioButton" dojoAttachPoint="_simple" dojoAttachEvent="onClick:toggleSimple" name="maptype"></div>${nls.WebCE_simpleMapping}
+			<div dojoType="dijit.form.RadioButton" dojoAttachPoint="_advanced" dojoAttachEvent="onClick:toggleSimple" name="maptype"></div>${nls.WebCE_scriptedMapping}
+		</div>
+	
+		<div dojoType="dijit.layout.ContentPane" region="center" splitter="true" style="height:100%">
+			<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="_stack">
+				<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="_simple_pane" title="${nls.WebCE_simpleMapping}">
+					Source attribute:
+					<div dojoAttachPoint="MapsTo" dojoType="dijit.form.ComboBox" style="width: 200px"></div>
+				</div>
+			
+				<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="_script_pane" title="${nls.WebCE_scriptedMapping}">
+					 <div dojoAttachPoint="Script" rows="10" dojoType="dijit.form.SimpleTextarea" style="width:98%"></div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	
+</div>

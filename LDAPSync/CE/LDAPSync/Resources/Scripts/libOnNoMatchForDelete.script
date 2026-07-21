@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="4" UUID="47227f86-a4c1-462a-81d8-a4f5abe299c9" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="libOnNoMatchForDelete" modified="Fri Jan 10 16:53:06 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="libOnNoMatchForDelete">
+        <ModTime>1389369183971</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[logmsg("WARN","WARNING! - " + resource.getString("LDAPSYNC.UNABLE.TO.FIND.ENTRY.IN.TARGET.SYSTEM.UNABLE.TO.DELETE.TYPE") + typeOfEntry);
+//addToStats(flowKey, typeOfEntry, "skipped", true)
+addToStats(flowKey, "warn", "warn");
+if (typeof(work) != "undefined" && work != null) {
+	work["$status"] = "failed";
+	work["$error"] = error;
+}	
+system.exitFlow();]]></parameter>
+    </Script>
+</MetamergeConfig>

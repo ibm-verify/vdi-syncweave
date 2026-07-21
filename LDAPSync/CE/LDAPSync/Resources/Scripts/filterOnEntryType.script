@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="3" UUID="a8e67113-d8ed-41e5-a055-12f10cae82b4" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="filterOnEntryType" modified="Mon May 18 14:57:30 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="filterOnEntryType">
+        <ModTime>1431953850201</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[oc = work.getAttribute("objectClass")
+if (oc != null) {
+	typeOfEntry = entryType(oc)
+}
+
+if ("unknown".equals(typeOfEntry) && work.getOperation() != "delete") {
+	logmsg("WARN",resource.getString("LDAPSYNC.UNABLE.TO.IDENTIFY.TYPE.OF.ENTRY") + ":\n" + work.toString())
+	writeLostEntry(work, lostFileName, resource.getString("LDAPSYNC.UNABLE.TO.IDENTIFY.TYPE.OF.ENTRY"));
+	skipEntry = true
+	//system.skipEntry()
+} else {
+	skipEntry = false;
+	work["$typeOfEntry"] = typeOfEntry;
+}
+
+if (!"unknown".equals(typeOfEntry) && !"person".equals(typeOfEntry) && !"group".equals(typeOfEntry)) {
+	typeOfEntry = "container"
+}
+/*
+if (handleType[typeOfEntry] != true && work.getOperation() != "delete") {
+	if (deBug) logmsg("@@---> skipping entry - type is not handled: " + typeOfEntry + ":\n" + work.toString())
+	system.skipEntry()
+}
+ * 
+ */]]></parameter>
+    </Script>
+</MetamergeConfig>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="b8ab9ee5-da71-4004-b5b8-a9ee7a325cc5" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="SourceEntries" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="SourceEntries">
+        <InheritFrom>system:/Connectors/ibmdi.FormEntryConnector</InheritFrom>
+        <ModTime>1388405024668</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <ReadDeleted>true</ReadDeleted>
+            <RemoveDeleted>true</RemoveDeleted>
+            <ReturnUnchanged>false</ReturnUnchanged>
+            <DeltaFastAlgorithm>true</DeltaFastAlgorithm>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="default_fail">
+                <InheritFrom>/Scripts/libDefaultOnError</InheritFrom>
+                <Name>default_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="initialize_fail">
+                <InheritFrom>/Scripts/libInitError</InheritFrom>
+                <Name>initialize_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

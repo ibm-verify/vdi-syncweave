@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html style="width: 100%; height: 100%; margin: 0; padding: 0" lang="en-us">
+
+<head>
+	<title>IBM Security Verify Directory Integrator</title>
+
+	<script type="text/javascript" src="ibmjs/idx/tests/dojoVersion.js"></script>
+	
+	<script type="text/javascript">
+	dojoCSSImport("@dojopath@/dojo/resources/dojo.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/themes/dijit.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/themes/dijit_rtl.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/icons/commonIcons.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/icons/commonIcons_rtl.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/icons/editorIcons.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/icons/editorIcons_rtl.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/themes/claro/claro.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dijit/themes/claro/document.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dojox/grid/resources/Grid.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dojox/grid/resources/Grid_rtl.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dojox/grid/resources/claroGrid.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dojox/layout/resources/ResizeHandle.css", "idxStyles");
+	dojoCSSImport("@dojopath@/dojox/form/resources/TriStateCheckBox.css", "idxStyles");
+	</script>
+
+	<style id="idxStyles" type="text/css" id="idxStyles">
+		@import "ibmjs/idx/themes/oneui/oneui.css";
+		@import "dojo_1.8.1/gridx/resources/Gridx.css";
+		@import "dojo_1.8.1/gridx/resources/Gridx_rtl.css";
+		/*Grid need a explicit width/height by default*/
+		.gridx { 
+		    height: 100%;
+		    width: 100%;
+		}
+		#grid {
+		    width: 43em;
+		    height: 20em;
+		}
+	</style>
+	
+	<style id="tdiStyles" type="text/css" id="tdiStyles">
+		@import "styles.css";
+		@import "images.css";
+	</style>
+
+	<script type="text/javascript">
+	var dojoConfig = currentDojoVersion.dojoConfig;
+	if(dojoConfig.packages) {
+		dojoConfig.packages.push({
+			name:"tdi",
+			location:"../../tdi"
+		});
+		dojoConfig.packages.push({
+			name:"tdinls",
+			location:"/webui/tdinls"
+		});
+	}
+	dojoConfig.gfxRenderer = "svg,canvas,silverlight,vml";
+	</script>
+
+	<script type="text/javascript">
+		dojoScriptImport("@dojopath@/dojo/dojo.js", "postDojo");
+	</script>
+	
+	<script type="text/javascript" id="postDojo">
+	var modules = [	"dojo.parser",
+	          		"dojo.i18n",
+	              	"idx.ext",
+	              	"idx.app.A11yPrologue",
+	              	"idx.app.AppFrame",
+	              	"idx.app.AppMarquee",
+	              	"idx.string",
+	              	"idx.resources",
+	            	"idx.bus",
+	              	"idx.app.Workspace",
+	              	"idx.app._A11yAreaProvider",
+	              	"idx.app._Launcher",
+	              	"idx.a11y",
+	              	"idx.app.WorkspaceType",
+	              	"idx.app.TabMenuLauncher",
+	              	"idx.form.DropDownLink",
+	              	"idx.form.Link",
+	              	"idx.layout.HeaderPane",
+	              	"idx.layout.BorderContainer",
+	              	"idx.layout.ButtonBar",
+	              	"dijit.form.Button",
+					"dijit.form.DropDownButton",
+	              	"dijit.Menu",
+	              	"dijit.Tree",
+	              	"dijit.Toolbar",
+	              	"dijit.CheckedMenuItem",
+	              	"dijit.layout.SplitContainer",
+	              	"dijit.layout.TabContainer",
+	              	"tdi.FilteredLogViewer",
+	              	"tdi.ActivityMonitor",
+	              	"tdi.ServerEventLog",
+	              	"tdi.TableWidget",
+	              	"tdi.aleditor.ALMain",
+	              	"tdi.ldapsync.LDSMain",
+	              	"tdi.whitelight.Whitelight",
+	              	"tdi.ServerInfoSmall"];
+				 
+		dojoRequireModules(modules, null, currentDojoVersion.async, null, null);
+				
+		var i18nModules = [ {package: "tdinls", bundle: "plugin"} ];
+
+		resources = {};
+
+		function preParse(modules) {
+			resources = modules["dojo/i18n!tdi/nls/dashboard"];
+		}
+		
+		function postParse() {
+		}
+		
+		dojoRequireModules(modules, i18nModules, currentDojoVersion.async, preParse, postParse);
+		
+		function fire(){
+		}
+		
+	</script>
+
+	<script type="text/javascript" src="ibmjs/idx/tests/commonTest.js"></script>
+
+	<!-- Codemirror -->	
+	<script src="codemirror/lib/codemirror.js"></script>
+	<script src="codemirror/mode/javascript/javascript.js"></script>
+	<script src="codemirror/lib/util/simple-hint.js"></script>
+	<script src="codemirror/lib/util/javascript-hint.js"></script>
+	<script src="codemirror/lib/util/formatting.js"></script>
+	<script src="codemirror/lib/util/search.js"></script>
+	<script src="codemirror/lib/util/searchcursor.js"></script>
+	<script src="codemirror/lib/util/dialog.js"></script>
+	<script src="codemirror/lib/util/formatting.js"></script>
+	<link rel="stylesheet" href="codemirror/lib/codemirror.css"></link>
+	<link rel="stylesheet" href="codemirror/lib/util/dialog.css"></link>
+	<link rel="stylesheet" href="codemirror/lib/util/simple-hint.css"></link>
+	<link rel="stylesheet" href="codemirror/theme/eclipse.css"></link>
+    <style type="text/css">
+      .CodeMirror-fullscreen {
+        display: block;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        z-index: 9999;
+      }
+	</style>
+</head>
+
+<body style="width: 100%; height: 100%; margin: 0; padding: 0;">
+
+	<script type="text/javascript">applyThemeToBody();</script>
+	
+	<div dojoType="idx.app.A11yPrologue"></div>
+	
+	<div data-dojo-type="idx.app.AppFrame" style="width: 100%; height: 100%; margin: 0; padding: 0">
+
+		<div data-dojo-type="idx.app.AppMarquee" region="marquee"
+		       appName="IBM Security Verify Directory Integrator"
+		       appLogo="login/images/ibm-logo-white.gif"
+		       vendorName="IBM &#0174;"
+		       vendorLogo="login/images/ibm-logo-white.gif">
+	
+		       
+			<span data-dojo-type="idx.form.Link"  target="webdev"
+		       href="https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/W62e5faa56141_4022_a47a_38d89e9475c7/page/WebDev%20feedback">WebDev Feedback</span>
+		       
+			<span>|</span>
+		       
+			<span data-dojo-type="idx.form.Link">Logout</span>
+	
+		</div>
+		
+		<div data-dojo-type="dijit.layout.BorderContainer" style="margin:0; padding:0; width:100%; height:100%">
+			<div data-dojo-type="dijit.layout.ContentPane" style="margin:0; padding:0; width:100%; height:100%" region="center" href="tdi/pages/whitelight.html">
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="tpaeifcdconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- Information messages --> 
+
+<Message ID="CTGDJP651I" prefix="yes">
+   <MsgText pgmKey="MXCDCONN.TRY.REPROCESS.MESSAGE" varFormat="Java">
+	The connector will try to reprocess message: <Variable formatSpec="{0}">msgID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP652I" prefix="yes">
+   <MsgText pgmKey="MXCDCONN.DELETE.MESSAGE" varFormat="Java">
+	The connector will delete message: <Variable formatSpec="{0}">msgID</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP653I" prefix="yes">
+   <MsgText pgmKey="MXCDCONN.CLIENT.CONNECTION.ERROR" varFormat="Java">
+   An HTTP client connection failed with error: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJP654I" prefix="yes">
+   <MsgText pgmKey="MXCDCONN.ERROR.WHILE.ERROR.CHECKING" varFormat="Java">
+	Error checking task failed with error: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- Exception and warning messages --> 
+
+<Message ID="CTGDJP655W" prefix="yes">
+   <MsgText pgmKey="MXCDCONN.FOUND.MESSAGE.WITH.STATUS.HOLD" varFormat="Java">
+	Message: <Variable formatSpec="{0}">msgID</Variable> from External system:
+	<Variable formatSpec="{1}">extSys</Variable> is with status &apos;HOLD&apos;.
+   </MsgText>
+   <Explanation> <p>
+	The IF server could not reprocess an output queue message flagged with error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Set Action on error parameter to Retry/Delete or manually retry/delete the message from Message Reprocessing application.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP656E" prefix="yes">
+   <MsgText pgmKey="REQUIRED.PARAMETER.NOT.SET" varFormat="Java">
+   The <Variable formatSpec="{0}">variable name</Variable> parameter must be set to use the Connector. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the required parameters for the connector are empty.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the required parameters for the connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP657E" prefix="yes">
+   <MsgText pgmKey="ERRORCHECK.PARAMETER.INVALID" varFormat="Java">
+   The <Variable formatSpec="{0}">variable name</Variable> parameter must be set to a valid number. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the parameter value is not valid. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   It should be a valid number.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJP658E" prefix="yes">
+   <MsgText pgmKey="ERRORCHECK.PARAMETER.EXCEEDED.LIMITS" varFormat="Java">
+   The <Variable formatSpec="{0}">variable name</Variable> parameter value must be within <Variable formatSpec="{1}">Minimum Value</Variable> to <Variable formatSpec="{2}">Maximum Value</Variable>. 
+   </MsgText>
+   <Explanation> <p>
+   This error occurs if the parameter value is not within minimum and maximum values defined.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The parameter value should be with in minimum and maximum values defind.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

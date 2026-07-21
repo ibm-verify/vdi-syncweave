@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.InvokeSoapWS">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.webservice.InvokeSoapWS</parameter>
+				<parameter name="Password"/>
+				<parameter name="Username"/>
+				<parameter name="inputType">String</parameter>
+				<parameter name="providerUrl"/>
+				<parameter name="returnXMLType">String</parameter>
+				<parameter name="soapOperation"/>
+				<parameter name="wsdlUrl"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>soapBodyDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapBodyString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapHeaderDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapHeaderString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.webservice.InvokeSoapWS">
+			<TranslationFile>NLS/idi_fc_invoke_soap_ws</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>soapOperation</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>providerUrl</ListItem>
+					<ListItem>Username</ListItem>
+					<ListItem>Password</ListItem>
+                                        <ListItem>wsdlAuthUser</ListItem>
+                                        <ListItem>wsdlAuthPass</ListItem>
+					<ListItem>inputType</ListItem>
+					<ListItem>returnXMLType</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>wsdlUrl</ListItem>
+				<ListItem>soapOperation</ListItem>
+				<ListItem>providerUrl</ListItem>
+				<ListItem>Username</ListItem>
+				<ListItem>Password</ListItem>
+				<ListItem>inputType</ListItem>
+				<ListItem>returnXMLType</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="Password">
+				<parameter name="description">PASS_DESC</parameter>
+				<parameter name="label">PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="Username">
+				<parameter name="description">USERNAME_DESC</parameter>
+				<parameter name="label">USERNAME_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="inputType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">IT_DESC</parameter>
+				<parameter name="label">IT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="providerUrl">
+				<parameter name="description">PROVIDER_URL_DESCRIPTION</parameter>
+				<parameter name="label">PROVIDER_URL_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="returnXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">RXT_DESC</parameter>
+				<parameter name="label">RXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="soapOperation">
+				<parameter name="description">SO_DESC</parameter>
+				<parameter name="label">SO_LBL</parameter>
+				<parameter name="script">selectWSOperation</parameter>
+				<parameter name="scriptLabel">SO_SCRLBL</parameter>
+				<parameter name="scripthelp">SO_SCRHLP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="wsdlUrl">
+				<parameter name="description">WU_DESC</parameter>
+				<parameter name="label">WU_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+                       <FormItem name="wsdlAuthPass">
+                                <parameter name="description">WSDL_PASS_DESC</parameter>
+                                <parameter name="label">WSDL_PASS_LBL</parameter>
+                                <parameter name="syntax">PASSWORD</parameter>
+                        </FormItem>
+                        <FormItem name="wsdlAuthUser">
+                                <parameter name="description">WSDL_USERNAME_DESC</parameter>
+                                <parameter name="label">WSDL_USERNAME_LBL</parameter>
+                                <parameter name="syntax">String</parameter>
+                        </FormItem>
+			<parameter name="formscript"><![CDATA[
+function selectWSOperation() {
+	var wsdlUrl = form.getConfigValue("wsdlUrl");
+	if (wsdlUrl == null || wsdlUrl.equals("")) {
+		form.alert(form.translate("WFMNBE_MSG"));
+		return;
+	}
+	form.setWaitCursor();
+	var operations = null;
+	try {
+		operations = Packages.com.ibm.di.fc.webservice.axis2.WSDLData.getSoapOperations(wsdlUrl);
+	} finally {
+		form.setNormalCursor();
+	}
+	var sel = null;
+	if (operations.size() == 0) {
+		form.alert(form.translate("CNFASODIW_MSG") + " '" + wsdlUrl + "'");
+	} else {
+		sel = form.chooseFromList ("SWSO_LBL", operations);
+	}
+	if (sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}]]></parameter>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

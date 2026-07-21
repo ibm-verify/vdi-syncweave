@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.DSMLv2SOAPServerConnector">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DSMLv2SOAPServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+				<parameter name="binaryAttributes"><![CDATA[photo, personalSignature, audio, jpegPhoto, javaSerializedData, thumbnailPhoto, 
+thumbnailLogo, userPassword, userCertificate, authorityRevocationList, 
+certificateRevocationList, crossCertificatePair, x500UniqueIdentifier, 
+objectGUID, objectSid]]></parameter>
+				<parameter name="charset">UTF-8</parameter>
+				<parameter name="httpAuth">false</parameter>
+				<parameter name="msgChunked">false</parameter>
+				<parameter name="needClientAuth">false</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="soapbinding">true</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$dn</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.attributes</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.base</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_name</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_value</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.deleteOldRDN</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.derefAliases</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.typesOnly</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestname</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.extended.requestvalue</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.filter</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.newSuperior</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.operation</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.scope</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.sizeLimit</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.timeLimit</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>newrdn</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$dn</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.compare_result</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.error</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.exception</Name>
+					<Syntax>javax.naming.NamingException</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.operation</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.referral</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.response</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.responseName</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultcode</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>dsml.resultdescr</Name>
+					<Syntax>String</Syntax>
+					<Presence>May</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DSMLv2SOAPServerConnector">
+			<TranslationFile>NLS/idi_conn_dsmlv2soapserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>dsmlPort</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>httpAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>binaryAttributes</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>needClientAuth</ListItem>
+					<ListItem>msgChunked</ListItem>
+					<ListItem>soapbinding</ListItem>
+			</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>dsmlPort</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>httpAuth</ListItem>
+				<ListItem>authRealm</ListItem>
+				<ListItem>binaryAttributes</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>needClientAuth</ListItem>
+				<ListItem>msgChunked</ListItem>
+				<ListItem>soapbinding</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="authRealm">
+				<parameter name="description">AUTH_REALM_DESC</parameter>
+				<parameter name="label">AUTH_REALM_LBL</parameter>
+			</FormItem>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="binaryAttributes">
+				<parameter name="description">BINARY_ATTR_DESC</parameter>
+				<parameter name="label">BINARY_ATTR_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="dsmlPort">
+				<parameter name="description">DSML_PORT_DESC</parameter>
+				<parameter name="label">DSML_PORT_LBL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="httpAuth">
+				<parameter name="description">HTTP_AUTH_DESC</parameter>
+				<parameter name="label">HTTP_AUTH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="msgChunked">
+				<parameter name="description">MSG_CHUNKED_DESC</parameter>
+				<parameter name="label">MSG_CHUNKED_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="needClientAuth">
+				<parameter name="description">CLIENT_AUTH_DESC</parameter>
+				<parameter name="label">CLIENT_AUTH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="soapbinding">
+				<parameter name="description">SOAP_BINDING_DESC</parameter>
+				<parameter name="label">SOAP_BINDING_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

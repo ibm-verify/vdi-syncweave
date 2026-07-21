@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ibm.com/xmlns/prod/scmp" xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp"
+	elementFormDefault="qualified">
+
+	<!-- property sheet  -->
+	<xsd:element name="propertySheet" type="scmp:PropertySheetType">
+		<xsd:annotation>
+			<xsd:documentation>Root element to define a set of properties
+				scoped
+				to a property sheet.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="PropertySheetType">
+		<xsd:sequence>
+			<xsd:element name="property" type="scmp:PropertyType"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- property sheet definition -->
+	<xsd:element name="propertySheetDefinition" type="scmp:PropertySheetDefinitionType">
+		<xsd:annotation>
+			<xsd:documentation>Root element to define a set of properties
+				scoped
+				to a property sheet.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="PropertySheetDefinitionType">
+		<xsd:sequence>
+			<xsd:element name="propertyDefinition" type="scmp:PropertyDefinitionType"
+				minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The name of this
+					property sheet</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<!-- base property type -->
+	<xsd:complexType name="BasePropertyType" abstract="true">
+		<xsd:attribute name="propertyName" type="xsd:string"
+			use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The name of the
+					property as processed by the runtime.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<!-- property type (for use in property sheets) -->
+	<xsd:complexType name="PropertyType">
+		<xsd:complexContent>
+			<xsd:extension base="scmp:BasePropertyType">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:anySimpleType"
+						minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+								A value of this
+								property instance.
+								Single value properties should use the
+								first
+								item in the list as priority.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!--
+		property definition type (for use in property sheets definitions)
+	-->
+	<xsd:complexType name="PropertyDefinitionType">
+		<xsd:complexContent>
+			<xsd:extension base="scmp:BasePropertyType">
+				<xsd:sequence>
+					<xsd:element name="label" type="scmp:LabelType"
+						minOccurs="1" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Each property
+								is
+								associated with one or more labels.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="option" type="scmp:OptionType"
+						minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">A set of optional
+								values
+								this property may hold. If this element is not present,
+								the
+								property may hold any value valid of the propertyType.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="defaultValue" type="xsd:anySimpleType"
+						minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">A set of default
+								values this	property may hold. Single value properties should use
+								the first item in the list as priority.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="multiple" type="xsd:boolean" use="optional" default="false">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Optional attribute
+							that specifies if the property is multi-valued. Default
+							value is false.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="propertyType" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+							Required attribute to denote the type of data collected by this property.
+				</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="readonly" type="xsd:boolean" use="optional" default="false">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Optional
+							attribute that specifies if this property is readonly. Default
+							value is false. 
+							If true, a property sheet form runtime should treat	this
+							field as uneditable. 
+				</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="hidden" type="xsd:boolean" use="optional" default="false">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Optional
+							attribute
+							that specifies if this property should be hidden for
+							display.
+							Default value is false. 
+				</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="required" type="xsd:boolean" use="optional" default="false">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Optional attribute that specifies
+						if this property is required. Default value is false. 
+						A MetadataProcessor must enforce that all base required metadata is set. 
+				</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="OptionType">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
+				maxOccurs="1">
+			</xsd:element>
+			<xsd:element name="label" type="scmp:LabelType"
+				minOccurs="1" maxOccurs="unbounded">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="LabelType">
+		<xsd:attribute name="lang" type="xsd:language" use="required" default="EN">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The intended locale
+					to show	this label.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="label" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The label value.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

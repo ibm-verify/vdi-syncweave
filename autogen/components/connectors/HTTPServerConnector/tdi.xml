@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.HTTPServer">
+                        <SupportedModes>Server,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.HTTPServerConnector</parameter>
+				<parameter name="parserOption">Optional</parameter>
+				<parameter name="authConnector">(none)</parameter>
+				<parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+				<parameter name="contentType">text/html</parameter>
+				<parameter name="headersAsProperties">false</parameter>
+				<parameter name="httpAuth">false</parameter>
+				<parameter name="msgChunked">false</parameter>
+				<parameter name="needClientAuth">false</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="tcpDataAsProperties">false</parameter>
+				<parameter name="tcpPort">80</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>http.*</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.Authorization</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.body</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.base</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-length</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-type</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.method</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.qs.*</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.remote_pass</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.remote_user</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.url</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.inputstream</Name>
+					<Syntax>InputStream</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localHost</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localIP</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.localPort</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.outputstream</Name>
+					<Syntax>OutputStream</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remoteHost</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remoteIP</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.remotePort</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>tcp.socket</Name>
+					<Syntax>Socket</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>http.body</Name>
+					<Syntax>String|File|InputStream</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-type</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.redirect</Name>
+					<Syntax>String</Syntax>
+					<Presence>Optional</Presence>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.status</Name>
+					<Syntax>String</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.HTTPServerConnector">
+			<TranslationFile>NLS/idi_conn_httpserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>contentType</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>tcpDataAsProperties</ListItem>
+					<ListItem>headersAsProperties</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>needClientAuth</ListItem>
+					<ListItem>httpAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>authConnector</ListItem>
+					<ListItem>msgChunked</ListItem>
+					<ListItem>idleConnectionTimeout</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>tcpPort</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>contentType</ListItem>
+				<ListItem>tcpDataAsProperties</ListItem>
+				<ListItem>headersAsProperties</ListItem>
+				<ListItem>httpAuth</ListItem>
+				<ListItem>authRealm</ListItem>
+				<ListItem>authConnector</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>needClientAuth</ListItem>
+				<ListItem>msgChunked</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="authConnector">
+				<Values>
+					<ListItem>(none)</ListItem>
+					<ListItem>@CONNECTORS@</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>(none)</Key>
+						<Value>Localized.none</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">AUTH_CONN_DESCR</parameter>
+				<parameter name="label">AUTH_CONN_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="readonly">true</parameter>
+			</FormItem>
+			<FormItem name="authRealm">
+				<parameter name="description">AUTH_REALM_DESC</parameter>
+				<parameter name="label">AUTH_REALM_LBL</parameter>
+			</FormItem>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="contentType">
+				<parameter name="description">CONTENT_TYPE_DESC</parameter>
+				<parameter name="label">CONTENT_TYPE_LBL</parameter>
+			</FormItem>
+			<FormItem name="headersAsProperties">
+				<parameter name="description">HEADER_AS_PROP_DESC</parameter>
+				<parameter name="label">HEADER_AS_PROP_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="httpAuth">
+				<parameter name="description">HTTP_AUTH_DESC</parameter>
+				<parameter name="label">HTTP_AUTH_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="msgChunked">
+				<parameter name="description">MSG_CHUNKED_DESC</parameter>
+				<parameter name="label">MSG_CHUNKED_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="needClientAuth">
+				<parameter name="description">CLIENT_AUTH_DESC</parameter>
+				<parameter name="label">CLIENT_AUTH_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="tcpDataAsProperties">
+				<parameter name="description">TCP_DATA_AS_PROP_DESC</parameter>
+				<parameter name="label">TCP_DATA_AS_PROP_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="tcpPort">
+				<parameter name="Required">true</parameter>
+				<parameter name="description">TCP_PORT_DESC</parameter>
+				<parameter name="label">TCP_PORT_LABEL</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">USE_SSL_DESC</parameter>
+				<parameter name="label">USE_SSL_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="idleConnectionTimeout">
+				<parameter name="description">IDLE_TIMEOUT_DESC</parameter>
+				<parameter name="label">IDLE_TIMEOUT_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

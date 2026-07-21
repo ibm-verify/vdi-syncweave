@@ -1,0 +1,139 @@
+------------
+Introduction
+------------
+This is a �first step� into the integration betwIBM Security Verify Directory Integratorator and IBM Tivoli Monitoring (ITM). It is meant to provide a proof-of-concept of this integration scenario. In the future IBM Security Verify Directory Integratorator-ITM integration capabilities could be scaled based on this.
+For this scenario JMX was chosen for communication between IBM Security Verify Directory Integrator and ITM, because IBM Security Verify Directory Integrator provides a ready-to-use JMX interface and thus no development was necessary on the IBM Security Verify Directory Integrator side.
+The purpose of this document is to present how IBM Security Verify Directory Integrator can be monitored by Tivoli Monitoring using the IBM Security Verify Directory Integrator JMX interface.
+This integration scenario will be bundled as an official IBM Security Verify Directory Integrator example and could be found in <Install Dir>/examples/Tivoli_Monitoring directory.
+ITM 6.2.0 was used for this example.
+Several software components were necessary in order to realize the experiments described in this document. Here is the list of these components, and the reference documentation used to realize their installation:
+�	ITM Agent Builder 6.2 - ITM Agent Builder 6.2 User�s Guide
+�	ITM Tivoli Enterprise Portal - ITM Tivoli Enterprise Portal online documentation
+
+
+--------------
+Prerequisites:
+--------------
+The following software components are needed for the example:
+
+1. IBM Tivoli Monitoring Server and Portal
+2. IBM Security Verify Directory Integrator
+3. IBM ITM Agent Builder
+
+
+----------------------------------------------
+Examples of communication between IBM Security Verify Directory Integrator and ITM:
+----------------------------------------------
+
+
+-------------------------------------------------------------------
+1.  Importing existing Agent configuration in ITM Agent Builder 6.2
+-------------------------------------------------------------------
+With this example an ITM Agent Builder 6.2 XML configuration file is shipped. It could be found in �<Install Dir>\examples\Tivoli_Monitoring� directory. To import this file right click in the ITM Agent Builder workspace, select �Import�� and select IBM Tivoli Monitoring Agent for import. Point to the configuration xml file (itm_toolkit_agent.xml) and click finish. This will create an ITM Agent Builder project IBM Security Verify Directory IntegratorIntegrator.
+
+
+-------------------------
+2. Generate the ITM Agent
+-------------------------
+After the successful creation of the ITM Agent configuration we need to generate it in order to deploy it in ITM. From the IBM Tivoli Monitoring Agent Editor menu in the ITM Agent Builder choose Generate Agent. The Generate Agent Wizard should appear. This wizard has several options of Agent generation. If you use ITM and ITM Agent Builder on one machine then the �Generate the agent files in an ITM installation on this machine� is suitable for you. The only field which needs to be configured is the ITM installation directory. Click finish to generate and deploy the ITM Agent in ITM. This may take several minutes to complete.
+
+Note:
+If you want to have the agent on another machine then you could use another agent generation option � �Create a compressed file so that the agent can be installed on another system�. This will generate archive which contains the ITM Agent installation. To install such archived agent first you have to copy the file on the machine where ITM is installed. Extract the files from the archive and from command prompt start the InstallIRA.bat file with parameter the ITM install folder.
+For example if the ITM is installed in �C:\IBM\ITM� the command could look like:
+<AgentDircotry>:\>InstallIRA.bat C:\IBM\ITM
+
+
+----------------------------
+3. Configuring the ITM Agent
+----------------------------
+1. After the successful deployment of the agent (either using archive file or the ITM Agent Builder option to deploy it on the same machine) we have to configure it in ITM. To do so, start the �Manage Tivoli Monitoring Enterprise Services� where you could manage all ITM Agents:
+2. Click on the IBM Security Verify Directory Integrator Agent with right mouse button and choose �Configure Using Defaults�.
+3. On the next configuration window we need to configure the JVM properties for the Agent. Browse to the Java Home which you wish to use. The log trace level is set to �Error� by default. It could be changed to higher level in order to log additional information. After finishing the Java configuration click the next button. On the next configuration step you are asked to configure the JSR-160 Compliant Server properties, i.e. enter username, password, Service URL and Class Path dependencies. For our example we need to enter Service URL and Jar directories � Service URL �service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxconnector� and Jar directories �<Install Dir>\jars\3rdparty\IBM; <Install Dir>\jars\3rdparty\others; <Install Dir>\jars\common�.
+4. Click OK to complete the Agent Configuration.
+
+The IBM Security Verify Directory Integrator Agent should be ready for use. The next step is to start the Agent. We could start it from the Manage TEMS window by right clicking the IBM Security Verify Directory Integrator Agent and choosing start. If all steps are successful the IBM Security Verify Directory Integrator Agent should be running now.
+
+
+----------------------
+4. Monitoring IBM Security Verify Directory Integrator data
+----------------------
+1. To monitor data we need to start the Tivoli Enterprise Portal (TEP) which is available in the ITM installation. In the navigator TEP window we could see the running Agents. The IBM Security Verify Directory Integrator Agent is also there and we have to expand it to see the specific monitoring data sources.
+2. We could find there our custom made data sources � AssemblyLine, ConfigInstance, Event Notifier. If we have a runninIBM Security Verify Directory Integratoror Server and running AL in it we could see it in the report table of AssemblyLine data source.
+
+Note:
+In order to display data in the Notifier report table the IBM Security Verify Directory Integrator Agent has to be running before a IBM Security Verify Directory Integrator notification is triggered.
+
+
+----------------------
+5. Defining thresholds
+----------------------
+1. To show how the threshold mechanism works, we will create the following simple example: having a warning when more than one AssemblyLine is currently running.
+2. This threshold will depend on data provided by the AssemblyLine table. First we need to create a situation by right clicking on the table of the agent, and by selecting �Situations� in the contextual menu.
+3. Click on �Create Situation� button in the upper-left corner and fill the displayed form:
+- Enter name for the situation (for example AssemblyLines)
+- Enter description for the situation (for example AL warning)
+
+4. Then we choose with which table attribute our situation will deal:
+- From the Attribute group choose the Agent table (for example K80 ASSEMBLYLINE)
+- From the Attribute items choose the item which will be associated with the situation (for example Name)
+
+5. Indeed, we only have to consider the name of the AL to identify it. Click "OK" to see the column editor.
+6. Click the first row of the column.
+7. Click on the ?, and change it to �Count of group members�.
+8. Click on the ==, and change it to >.
+9. Set the cell space remaining on the right to 1.
+We have configured a condition to the �Name� column which will be true if we have more than one AssemblyLine running.
+10. Change the sampling interval to 30 seconds and the State to "Warning"
+11. The situation is set, so �Apply� and validate this window.
+12. Start Security Verify Directory Integrator Server and start at least two AssemblyLines at the same time. For example two HTTP Server Connectors which are listening on different ports.
+13. The �Warning� window is opened when highlighting the warning icon of AssemblyLine field in IBM Security Verify Directory Integratorator Agent.
+
+
+--------------------------------
+6. Creating links between tables
+--------------------------------
+    What are links good for
+It is possible to specify links between different tables in ITM. These links can be based upon some criteria of our choice, as we will see in this example. When a link is created users could automatically see a subset of a table by following the specified link. In this example we will create a link from the Event Notifier table which will show the currently running AssemblyLine in the AssemblyLine table. The link will be available in the Event Notifier table only for records which has the type �di.al.start�. This type indicates that an AssemblyLine has been started. If the link is pressed and the AssemblyLine is still running the AssemblyLine table will be automatically selected and only the corresponding AssemblyLine will be displayed in the table. If the AssemblyLine has already finished its execution then the displayed table will be empty.
+
+We will create an example Event Notifier table with defined link to the AssemblyLine table.
+When the �ToTheRunningAssemblyLine� link is selected the AssemblyLine is displayed in the AssemblyLine table (no other AssemblyLines are shown in the table)
+--------------------------------
+
+    Construction
+1. First we need to create a key in the AssemblyLine table which will be accessible from the Event Notifier table and will correspond to the AssemblyLine ID. Right click in the AssemblyLine table and select properties.
+2. In the opened window assign new query by pressing the �Click here to assign a query� button.
+3. The Query Editor will be opened where we should define another query because the current one is static and cannot be modified. You will be asked to enter a name for it (for example AssemblyLine2).
+4. Go to the �Id� column of the table and enter $keyid$ for value of it.
+5. Click �OK� and apply the changes in the properties window and then press the �OK� button of it.
+This is all which needs to be done in the AssemblyLine table.
+6. Go to the Event Notifier table (you will be asked to save the changed in the AssemblyLine table � press �Yes�).
+7. Right click on selected row in the Event Notifier table and choose �Link To� -> Link Wizard�� (make sure that the type column of the selected row equals �di.al.start�).
+8. The Link Wizard will be displayed and will ask whether a new link will be created, modify existing link or delete existing link. Select �Create a new link� and press next. On the next screen the name and the description of the link should be entered. In this example we will use �ToTheRunningAssemblyLine� for name and �Display the corresponding AssemblyLine in the AssemblyLine table.� for description. The next step will ask to specify the link type. In the example we will use �Absolute� for link type because we are linking to a specified non-dynamic workspace in the navigator view. Proceed to the next step where we should specify the workspace to which the link will direct (the AssemblyLine table).
+9. After selecting the AssemblyLine workspace click next. This is the final step where we have to create the link conditions. We will modify two parameters in order to create the link properly � contextIsAvailable and keyid.
+10. Select the contextIsAvailable parameter and press the Modify Expression� button (or double click the parameter). The Expression Editor window will be displayed. Delete the current contents and press the Symbol� button. From the Symbols select the Type attribute.
+11. Click �OK� to return to the Expression Editor window add �== �di.al.start�" to create a conditional expression.
+12. Press �OK� to confirm the expression value.
+13. Open the Expression Editor of the keyid symbol in Query � AssemblyLine2 and add the User Data symbol.
+14. Press �OK� in the Expression Editor and click next in the Link Wizard which will show you a summary of the created link.
+15. Click finish to close the Link Wizard. Now you are ready to perform the steps in section �What are links good for�.
+
+
+-----------------------------------------------------------------
+7. Setting up SSL communication between IBM Security Verify Directory Integrator and the IBM Security Verify Directory Integrator ITM Agent
+-----------------------------------------------------------------
+
+1. Enable the Security Verify Directory Integrator SSL. You could find how it is done in the IBM Security Verify Directory Integrator online documentation.
+2. Start the IBM Security Verify Directory Integrator Server in daemon mode with the command "ibmdisrv -d"
+3. Open �Manage Tivoli Monitoring Enterprise Services� and right click on the ITM Agent which monitors Security Verify Directory Integrator and select �Reconfigure��. It must be stopped before reconfiguration.
+4. Click �OK� on the first two windows because they contain default ITM Agent configuration.
+5. On the next Agent Configuration screen we have to fill the JVM Arguments. Enter on one row the following properties
+-Djavax.net.ssl.trustStore=<path_to_truststore>
+-Djavax.net.ssl.trustStorePassword=<password_for_truststore>
+
+-Djavax.net.ssl.keyStore=<path_to_keystore>
+-Djavax.net.ssl.keyStorePassword=<password_for_keystore>
+6. Click �OK� to complete the Agent configuration.
+7. Start the Agent as you double click on its name or right-click on its name and select Start from the �Manage Tivoli Monitoring Enterprise Services� application
+
+Note:
+All other configuration steps should be done also. These steps could be found in section �Configuring the ITM Agent�.

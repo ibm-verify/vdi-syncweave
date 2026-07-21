@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:26:58 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:26:58 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="SOAP Reader">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="SOAPInput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="filePath">examples/soap/soap_in.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.SOAP</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.SOAP</InheritFrom>
+<parameter name="isnamespaceaware">true</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">true</parameter>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PRICE</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PRICE");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>QUANTITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("QUANTITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SOAP_CALL</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("SOAP_CALL");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="JDBCOutput">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/soap/soap_reader_out.txt</parameter>
+<parameter name="jdbcSource">jdbc:odbc:Soap</parameter>
+<parameter name="jdbcTable">PRODUCT</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"></parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PRICE</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PRICE");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>QUANTITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("QUANTITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="SOAP Writer">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="JDBCInput">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/soap/soap_inp.txt</parameter>
+<parameter name="jdbcSource">jdbc:odbc:Soap</parameter>
+<parameter name="jdbcTable">PRODUCT</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.Simple</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PRICE</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PRICE");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>QUANTITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("QUANTITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="SOAPOutput">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">true</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/soap/soap_out.xml</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.SOAP</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.SOAP</InheritFrom>
+<parameter name="isnamespaceaware">true</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">true</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PRICE</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PRICE");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>QUANTITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("QUANTITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SOAP_CALL</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = "SOAP_EXAMPLE";</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

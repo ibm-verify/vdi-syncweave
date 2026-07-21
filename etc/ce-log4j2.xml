@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+  <Appenders>
+    <RollingFile name="Default" 
+	append="true"
+        fileName="logs/ibmditk.log"
+	filePattern="logs/ibmditk-%i.log">
+      <PatternLayout pattern="%d{DEFAULT} %-5p [%c] - %m%n" />
+      <Policies>
+	<OnStartupTriggeringPolicy minSize="1" />
+        <SizeBasedTriggeringPolicy size="10MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="3" fileIndex="min" />
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Default"/>
+    </Root>
+    <Logger name="com.ibm.di.config" level="warn" />
+    <Logger name="com.ibm.di.TDIProperties" level="warn" />
+    <Logger name="com.ibm.di.loader" level="warn" />
+    <Logger name="org.glassfish.jersey" level="error" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.servlet.WebComponent" level="off" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.server.wadl.WadlFeature" level="off" additivity="false">
+    </Logger>
+    <Logger name="org.glassfish.jersey.internal.inject.Providers" level="off" additivity="false">
+    </Logger>
+  </Loggers>
+</Configuration>

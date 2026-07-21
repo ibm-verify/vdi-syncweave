@@ -1,0 +1,1341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.1 - 2010-08-19"
+	created="Wed Sep 15 14:11:59 EEST 2010" createdBy="kaloyan.kolev"
+	modified="Wed Sep 15 14:11:59 EEST 2010" modifiedBy="kaloyan.kolev"
+	version="7.1">
+	<Folder name="AssemblyLines">
+		<AssemblyLine name="testAl">
+			<Settings>
+				<parameter name="ALPoolSettingsDialog">false</parameter>
+				<parameter name="automapattributes">true</parameter>
+				<parameter name="createTombstones">true</parameter>
+				<parameter name="debug">true</parameter>
+				<parameter name="findreturncount">10</parameter>
+				<parameter name="get_history">test</parameter>
+				<parameter name="includeGlobalPrologs">true</parameter>
+				<parameter name="includePrologs">testScript</parameter>
+				<parameter name="maxerr">10</parameter>
+				<parameter name="maxread">10</parameter>
+				<parameter name="nullBehavior">Null</parameter>
+				<parameter name="nullBehaviorDialog">false</parameter>
+				<parameter name="nullBehaviorValue" />
+				<parameter name="nullDefinition">AbsentAttribute</parameter>
+				<parameter name="nullDefinitionValue" />
+				<parameter name="set_history">test</parameter>
+				<parameter name="verbose">10</parameter>
+			</Settings>
+			<Hooks>
+				<Hook name="startcycle">
+					<Name>startcycle</Name>
+					<Enabled>true</Enabled>
+					<Script>test</Script>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig>
+				<parameter name="sbIdentifier">sandbox</parameter>
+			</SandboxConfig>
+			<SimulationConfig>
+				<SimulationStates>
+					<Component name="testAddOnly" state="Scripted" />
+					<Component name="IF" state="Enabled" />
+					<Component name="http" state="Enabled" />
+					<Component name="ELSEIF" state="Enabled" />
+					<Component name="testDelete" state="Simulated" />
+					<Component name="Switch" state="Enabled" />
+					<Component name="Switch_test" state="Enabled" />
+					<Component name="testScript" state="Enabled" />
+					<Component name="Switch_default" state="Enabled" />
+					<Component name="testScript" state="Enabled" />
+					<Component name="collectionLoop" state="Enabled" />
+					<Component name="testDelete_1" state="Simulated" />
+					<Component name="connectorLoop" state="Enabled" />
+					<Component name="ConditionalLoop" state="Enabled" />
+					<Component name="testMap" state="Enabled" />
+					<Component name="testServer" state="Enabled" />
+				</SimulationStates>
+				<ProxySettings>
+					<parameter name="proxyAL.config">test</parameter>
+					<parameter name="proxyAL.name">test</parameter>
+					<parameter name="proxyAL.server">test</parameter>
+				</ProxySettings>
+			</SimulationConfig>
+			<LogConfig>
+				<Logger name="CustomAppender">
+					<InheritFrom>system:/Loggers/ibmdi.CustomAppender</InheritFrom>
+					<parameter name="com.ibm.di.log.level">INFO</parameter>
+					<parameter name="enabled">true</parameter>
+				</Logger>
+				<Logger name="ConsoleAppender">
+					<InheritFrom>system:/Loggers/ibmdi.ConsoleAppender</InheritFrom>
+					<parameter name="Pattern.ConversionPattern">%d{DEFAULT} %-5p [%c] - %m%n</parameter>
+					<parameter name="com.ibm.di.log.layout">Pattern</parameter>
+					<parameter name="com.ibm.di.log.level">INFO</parameter>
+					<parameter name="enabled">false</parameter>
+				</Logger>
+			</LogConfig>
+			<ContainerEF name="EntryFeedContainer">
+				<Connector name="SNMPServerConnector">
+					<InheritFrom>system:/Connectors/ibmdi.SNMPServerConnector
+					</InheritFrom>
+					<ConnectorMode>Server</ConnectorMode>
+					<ConnectorState>Enabled</ConnectorState>
+					<Configuration>
+						<UserComment />
+						<InheritFrom>[parent]</InheritFrom>
+						<parameter name="debug">false</parameter>
+						<parameter name="userComment" />
+					</Configuration>
+					<Parser>
+						<InheritFrom>[parent]</InheritFrom>
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+					</Parser>
+					<AttributeMap name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</AttributeMap>
+					<DeltaSettings />
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>snmp.remoteip</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>snmp.request-id</Name>
+							<Syntax>Integer</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>testAttr</Name>
+							<SchemaItem>
+								<Name>childAttr</Name>
+								<Presence>Optional</Presence>
+							</SchemaItem>
+						</SchemaItem>
+					</Schema>
+					<LinkCriteria>
+						<InheritFrom>[parent]</InheritFrom>
+					</LinkCriteria>
+					<Hooks>
+						<InheritFrom>[parent]</InheritFrom>
+					</Hooks>
+					<CheckpointConfig />
+					<SandboxConfig />
+					<Reconnect>
+						<InheritFrom>[parent]</InheritFrom>
+						<ReconnectRules />
+					</Reconnect>
+					<Operations />
+					<PoolDefinition>
+						<InheritFrom>[parent]</InheritFrom>
+					</PoolDefinition>
+					<PoolInstance />
+					<InitializeOption>0</InitializeOption>
+				</Connector>
+			</ContainerEF>
+			<ContainerDF name="DataFlowContainer">
+				<Connector name="testAddOnly">
+					<InheritFrom>/Connectors/testAddOnly</InheritFrom>
+					<ConnectorMode>AddOnly</ConnectorMode>
+					<ConnectorState>Passive</ConnectorState>
+					<Configuration>
+						<InheritFrom>[parent]</InheritFrom>
+					</Configuration>
+					<Parser>
+						<InheritFrom>[parent]</InheritFrom>
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+					</Parser>
+					<AttributeMap name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</AttributeMap>
+					<DeltaSettings></DeltaSettings>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<LinkCriteria>
+						<InheritFrom>[parent]</InheritFrom>
+					</LinkCriteria>
+					<Hooks>
+						<InheritFrom>[parent]</InheritFrom>
+					</Hooks>
+					<CheckpointConfig />
+					<SandboxConfig />
+					<Reconnect>
+						<InheritFrom>[parent]</InheritFrom>
+						<ReconnectRules />
+					</Reconnect>
+					<Operations />
+					<PoolDefinition>
+						<InheritFrom>[parent]</InheritFrom>
+					</PoolDefinition>
+					<PoolInstance>
+						<Enabled>true</Enabled>
+						<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+					</PoolInstance>
+					<InitializeOption>3</InitializeOption>
+				</Connector>
+				<Branch name="IF">
+					<Connector name="http">
+						<InheritFrom>system:/Connectors/ibmdi.HTTPClient</InheritFrom>
+						<ConnectorMode>CallReply</ConnectorMode>
+						<ConnectorState>Enabled</ConnectorState>
+						<Configuration>
+							<UserComment />
+							<InheritFrom>[parent]</InheritFrom>
+							<parameter name="debug">false</parameter>
+							<parameter name="userComment" />
+						</Configuration>
+						<Parser>
+							<UserComment />
+							<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+							<parameter name="debug">false</parameter>
+							<parameter name="omitxmldeclaration">false</parameter>
+							<parameter name="userComment" />
+							<Schema name="Input">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+							<Schema name="Output">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+						</Parser>
+						<AttributeMap name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</AttributeMap>
+						<AttributeMap name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</AttributeMap>
+						<DeltaSettings />
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<LinkCriteria>
+							<InheritFrom>[parent]</InheritFrom>
+						</LinkCriteria>
+						<Hooks>
+							<InheritFrom>[parent]</InheritFrom>
+						</Hooks>
+						<CheckpointConfig />
+						<SandboxConfig>
+							<parameter name="sbPlayback">true</parameter>
+							<parameter name="sbRecord">true</parameter>
+						</SandboxConfig>
+						<Reconnect>
+							<InheritFrom>[parent]</InheritFrom>
+							<ReconnectRules />
+						</Reconnect>
+						<Operations />
+						<PoolDefinition>
+							<InheritFrom>[parent]</InheritFrom>
+						</PoolDefinition>
+						<PoolInstance />
+						<InitializeOption>0</InitializeOption>
+					</Connector>
+					<Conditions>
+						<BranchCondition>
+							<LeftHand>test</LeftHand>
+							<Operator>equals</Operator>
+							<RightHand>value</RightHand>
+							<Negate>true</Negate>
+							<MatchAny>false</MatchAny>
+						</BranchCondition>
+					</Conditions>
+					<MatchAny>false</MatchAny>
+					<Enabled>true</Enabled>
+					<Type>0</Type>
+				</Branch>
+				<Branch name="ELSEIF">
+					<Connector name="testDelete">
+						<InheritFrom>/Connectors/testDelete</InheritFrom>
+						<ConnectorMode>Delete</ConnectorMode>
+						<ConnectorState>Enabled</ConnectorState>
+						<Configuration>
+							<InheritFrom>[parent]</InheritFrom>
+						</Configuration>
+						<Parser>
+							<InheritFrom>[parent]</InheritFrom>
+							<Schema name="Input">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+							<Schema name="Output">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+						</Parser>
+						<AttributeMap name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</AttributeMap>
+						<AttributeMap name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</AttributeMap>
+						<DeltaSettings />
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<LinkCriteria>
+							<InheritFrom>[parent]</InheritFrom>
+						</LinkCriteria>
+						<Hooks>
+							<InheritFrom>[parent]</InheritFrom>
+						</Hooks>
+						<CheckpointConfig />
+						<SandboxConfig />
+						<Reconnect>
+							<InheritFrom>[parent]</InheritFrom>
+							<ReconnectRules />
+						</Reconnect>
+						<Operations />
+						<PoolDefinition>
+							<InheritFrom>[parent]</InheritFrom>
+						</PoolDefinition>
+						<PoolInstance>
+							<Enabled>false</Enabled>
+							<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+						</PoolInstance>
+						<InitializeOption>0</InitializeOption>
+					</Connector>
+					<ScriptCondition>ret.value = true;</ScriptCondition>
+					<Conditions />
+					<MatchAny>false</MatchAny>
+					<Enabled>true</Enabled>
+					<Type>1</Type>
+				</Branch>
+				<Branch name="ELSE">
+					<Conditions />
+					<MatchAny>false</MatchAny>
+					<Enabled>true</Enabled>
+					<Type>2</Type>
+				</Branch>
+				<Branch name="Switch">
+					<Branch name="Switch_test">
+						<Script name="testScript">
+							<parameter name="script">test</parameter>
+						</Script>
+						<Conditions>
+							<BranchCondition>
+								<RightHand>test</RightHand>
+								<MatchAny>false</MatchAny>
+							</BranchCondition>
+						</Conditions>
+						<MatchAny>false</MatchAny>
+						<Enabled>true</Enabled>
+						<Type>4</Type>
+					</Branch>
+					<Branch name="Switch_default">
+						<Script name="testScript">
+							<InheritFrom>/Scripts/testScript</InheritFrom>
+							<parameter name="script">test</parameter>
+						</Script>
+						<Conditions>
+							<BranchCondition>
+								<Operator>*</Operator>
+								<MatchAny>false</MatchAny>
+							</BranchCondition>
+						</Conditions>
+						<MatchAny>false</MatchAny>
+						<Enabled>true</Enabled>
+						<Type>4</Type>
+					</Branch>
+					<Conditions>
+						<BranchCondition>
+							<RightHand>{work.newAttr}</RightHand>
+							<MatchAny>false</MatchAny>
+						</BranchCondition>
+					</Conditions>
+					<MatchAny>false</MatchAny>
+					<Enabled>true</Enabled>
+					<Type>3</Type>
+				</Branch>
+				<Loop name="collectionLoop">
+					<LoopType>2</LoopType>
+					<WorkAttributeName>newAttr</WorkAttributeName>
+					<LoopAttributeName>test</LoopAttributeName>
+					<Branch name="collectionLoop">
+						<Connector name="testDelete_1">
+							<InheritFrom>/Connectors/testDelete</InheritFrom>
+							<ConnectorMode>Delete</ConnectorMode>
+							<ConnectorState>Enabled</ConnectorState>
+							<Configuration>
+								<InheritFrom>[parent]</InheritFrom>
+							</Configuration>
+							<Parser>
+								<InheritFrom>[parent]</InheritFrom>
+								<Schema name="Input">
+									<InheritFrom>[parent]</InheritFrom>
+								</Schema>
+								<Schema name="Output">
+									<InheritFrom>[parent]</InheritFrom>
+								</Schema>
+							</Parser>
+							<AttributeMap name="Input">
+								<InheritFrom>[parent]</InheritFrom>
+							</AttributeMap>
+							<AttributeMap name="Output">
+								<InheritFrom>[parent]</InheritFrom>
+							</AttributeMap>
+							<DeltaSettings />
+							<Schema name="Input">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+							<Schema name="Output">
+								<InheritFrom>[parent]</InheritFrom>
+							</Schema>
+							<LinkCriteria>
+								<InheritFrom>[parent]</InheritFrom>
+							</LinkCriteria>
+							<Hooks>
+								<InheritFrom>[parent]</InheritFrom>
+							</Hooks>
+							<CheckpointConfig />
+							<SandboxConfig />
+							<Reconnect>
+								<InheritFrom>[parent]</InheritFrom>
+								<ReconnectRules />
+							</Reconnect>
+							<Operations />
+							<PoolDefinition>
+								<InheritFrom>[parent]</InheritFrom>
+							</PoolDefinition>
+							<PoolInstance>
+								<Enabled>false</Enabled>
+								<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+							</PoolInstance>
+							<InitializeOption>1</InitializeOption>
+						</Connector>
+						<Loop name="connectorLoop">
+							<LoopType>1</LoopType>
+							<Connector name="connectorLoop">
+								<InheritFrom>/Connectors/testIterator</InheritFrom>
+								<ConnectorMode>Iterator</ConnectorMode>
+								<ConnectorState>Enabled</ConnectorState>
+								<Configuration>
+									<UserComment />
+									<InheritFrom>[parent]</InheritFrom>
+									<parameter name="debug">false</parameter>
+									<parameter name="userComment" />
+								</Configuration>
+								<Parser>
+									<InheritFrom>[parent]</InheritFrom>
+									<Schema name="Input">
+										<InheritFrom>[parent]</InheritFrom>
+									</Schema>
+									<Schema name="Output">
+										<InheritFrom>[parent]</InheritFrom>
+									</Schema>
+								</Parser>
+								<AttributeMap name="Input">
+									<InheritFrom>[parent]</InheritFrom>
+								</AttributeMap>
+								<AttributeMap name="Output">
+									<AttributeMapItem>
+										<Name>ldapUrl</Name>
+										<Type>advanced</Type>
+										<Script>"ldap://test:389"</Script>
+										<Simple>ldapUrl</Simple>
+									</AttributeMapItem>
+								</AttributeMap>
+								<DeltaSettings>
+									<UniqueAttribute />
+									<WhenToCommit>After every database operation</WhenToCommit>
+									<RowLocking>SERIALIZABLE</RowLocking>
+									<ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+								</DeltaSettings>
+								<Schema name="Input">
+									<InheritFrom>[parent]</InheritFrom>
+								</Schema>
+								<Schema name="Output">
+									<UserComment>{extsyntax=TEXTAREA, name=userComment}
+									</UserComment>
+									<InheritFrom>[no inheritance]</InheritFrom>
+									<SchemaItem>
+										<Name>automapADPassword</Name>
+										<NativeSyntax>boolean</NativeSyntax>
+									</SchemaItem>
+									<SchemaItem>
+										<Name>connectorFlags</Name>
+									</SchemaItem>
+									<SchemaItem>
+										<Name>ldapReferrals</Name>
+										<NativeSyntax>droplist</NativeSyntax>
+									</SchemaItem>
+									<SchemaItem>
+										<Name>ldapReturnAttributes</Name>
+										<NativeSyntax>textarea</NativeSyntax>
+									</SchemaItem>
+								</Schema>
+								<LinkCriteria />
+								<Hooks>
+									<InheritFrom>[parent]</InheritFrom>
+								</Hooks>
+								<CheckpointConfig />
+								<SandboxConfig />
+								<Reconnect>
+									<InheritFrom>[parent]</InheritFrom>
+									<ReconnectRules />
+								</Reconnect>
+								<Operations />
+								<PoolDefinition>
+									<InheritFrom>[parent]</InheritFrom>
+								</PoolDefinition>
+								<PoolInstance>
+									<Enabled>false</Enabled>
+									<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+								</PoolInstance>
+								<InitializeOption>0</InitializeOption>
+							</Connector>
+							<Branch name="connectorLoop">
+								<Loop name="ConditionalLoop">
+									<LoopType>0</LoopType>
+									<Branch name="ConditionalLoop">
+										<ALMap name="testMap">
+											<InheritFrom>/AttributeMaps/testMap</InheritFrom>
+											<AttributeMap name="Input">
+												<InheritFrom>[parent]</InheritFrom>
+											</AttributeMap>
+											<State>Enabled</State>
+										</ALMap>
+										<ScriptCondition>ret.value = true;</ScriptCondition>
+										<Conditions />
+										<MatchAny>false</MatchAny>
+										<Enabled>true</Enabled>
+										<Type>0</Type>
+									</Branch>
+								</Loop>
+								<Conditions />
+								<MatchAny>false</MatchAny>
+								<Enabled>true</Enabled>
+								<Type>0</Type>
+							</Branch>
+						</Loop>
+						<Conditions />
+						<MatchAny>false</MatchAny>
+						<Enabled>true</Enabled>
+						<Type>0</Type>
+					</Branch>
+				</Loop>
+			</ContainerDF>
+			<ThreadOptions>
+				<parameter name="assemblyline.ehc.executeProlog">true</parameter>
+				<parameter name="assemblyline.ehc.maxInstance">20</parameter>
+				<parameter name="assemblyline.ehc.minPrepare">15</parameter>
+			</ThreadOptions>
+			<Operations>
+				<Operation name="test">
+					<Schema name="Input">
+						<SchemaItem>
+							<Name>advanced</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>newAttr</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>simple</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>substitution</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>test</Name>
+						</SchemaItem>
+					</Schema>
+					<Schema name="Output">
+						<SchemaItem>
+							<Name>advanced</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>newAttr</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>simple</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>substitution</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>test</Name>
+						</SchemaItem>
+					</Schema>
+					<AttributeMap name="Input">
+						<AttributeMapItem>
+							<Name>newAttr</Name>
+							<Type>simple</Type>
+							<Simple>newAttr</Simple>
+						</AttributeMapItem>
+						<AttributeMapItem>
+							<Name>simple</Name>
+							<Type>simple</Type>
+							<Simple>simple</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<AttributeMapItem>
+							<Name>newAttr</Name>
+							<Type>simple</Type>
+							<Simple>newAttr</Simple>
+						</AttributeMapItem>
+						<AttributeMapItem>
+							<Name>substitution</Name>
+							<Type>simple</Type>
+							<Simple>substitution</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+				</Operation>
+			</Operations>
+			<InitParams>
+				<Schema name="AssemblyLineInitParams">
+					<SchemaItem>
+						<Name>newAttr</Name>
+					</SchemaItem>
+				</Schema>
+			</InitParams>
+		</AssemblyLine>
+	</Folder>
+	<Folder name="Connectors">
+		<Connector name="testAddOnly">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>AddOnly</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="ldapUsername" />
+				<parameter name="userComment" />
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>/AttributeMaps/testMap</InheritFrom>
+				<AttributeMapItem>
+					<Name>newAttr</Name>
+					<Type>simple</Type>
+					<Simple>newAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<DeltaSettings />
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="before_add">
+					<Name>before_add</Name>
+					<Script />
+					<Enabled>false</Enabled>
+				</Hook>
+				<Hook name="override_add">
+					<Name>override_add</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>true</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="testDelete">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>Delete</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>/AttributeMaps/testMap</InheritFrom>
+				<AttributeMapItem>
+					<Name>newAttr</Name>
+					<Type>simple</Type>
+					<Simple>newAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings />
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+				<AdvancedLinkMode>true</AdvancedLinkMode>
+				<Script>testScript</Script>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="override_delete">
+					<Name>override_delete</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>false</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="testIterator">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>Iterator</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>/AttributeMaps/testMap</InheritFrom>
+				<AttributeMapItem>
+					<Name>newAttr</Name>
+					<Type>simple</Type>
+					<Simple>newAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings>
+				<Enabled>true</Enabled>
+				<UniqueAttribute>test</UniqueAttribute>
+				<FilePath>test</FilePath>
+				<ReadDeleted>true</ReadDeleted>
+				<RemoveDeleted>true</RemoveDeleted>
+				<ReturnUnchanged>true</ReturnUnchanged>
+				<DeltaFastAlgorithm>true</DeltaFastAlgorithm>
+				<AllowDuplicateDeltaKeys>true</AllowDuplicateDeltaKeys>
+				<WhenToCommit>On end of AL cycle</WhenToCommit>
+				<RowLocking>READ_COMMITTED</RowLocking>
+				<ChangeDetectionMode>IGNORE_ATTRIBUTES</ChangeDetectionMode>
+				<AttributeList>test, test</AttributeList>
+			</DeltaSettings>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="override_getnext">
+					<Name>override_getnext</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>true</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="testLookup">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>Lookup</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[no inheritance]</InheritFrom>
+				<AttributeMapItem>
+					<Name>newAttr</Name>
+					<Type>simple</Type>
+					<Simple>newAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings />
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+				<LinkCriteriaItem>
+					<Key>12b14079c2c</Key>
+					<Attribute>advanced</Attribute>
+					<Operator>greater than</Operator>
+					<Value>{javascript ret.value = value}</Value>
+				</LinkCriteriaItem>
+				<LinkCriteriaItem>
+					<Key>12b1417a88e</Key>
+					<Attribute>simple</Attribute>
+					<Operator>less than</Operator>
+					<Value>value</Value>
+				</LinkCriteriaItem>
+				<LinkCriteriaItem>
+					<Key>12b14182488</Key>
+					<Attribute>propety</Attribute>
+					<Operator>equals</Operator>
+					<Value>{property.Global-Properties:api.on}</Value>
+				</LinkCriteriaItem>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="override_lookup">
+					<Name>override_lookup</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>true</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="testUpdate">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>Update</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<SkipLookup>true</SkipLookup>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+				<AttributeMapItem>
+					<Name>newAttr</Name>
+					<Type>simple</Type>
+					<Simple>newAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<DeltaSettings />
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+				<MatchAny>true</MatchAny>
+				<LinkCriteriaItem>
+					<Key>12b141afc15</Key>
+					<Attribute>simple</Attribute>
+					<Operator>equals</Operator>
+				</LinkCriteriaItem>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="update_multiple">
+					<Name>update_multiple</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>true</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="testDelta">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>Delta</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="ldapUrl">ldap://test:389</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<DeltaBehavior>1</DeltaBehavior>
+			<DeltaStrict>false</DeltaStrict>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>/Connectors/testAddOnly</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings />
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+				<MatchAny>true</MatchAny>
+				<LinkCriteriaItem>
+					<Key>12b14030720</Key>
+					<Attribute>test</Attribute>
+					<Operator>not equals</Operator>
+					<Value>value</Value>
+				</LinkCriteriaItem>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="override_delta">
+					<Name>override_delta</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig />
+			<SandboxConfig />
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules />
+			</Reconnect>
+			<Operations />
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>true</Enabled>
+				<MinPoolSize>10</MinPoolSize>
+				<MaxPoolSize>10</MaxPoolSize>
+				<PurgeInterval>10</PurgeInterval>
+				<InitializeAttempts>10</InitializeAttempts>
+				<InitializeSleepInterval>10</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance />
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+	</Folder>
+	<Folder name="Parsers">
+		<Parser name="CSV">
+			<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+		</Parser>
+	</Folder>
+	<Folder name="Scripts">
+		<Script name="testScript">
+			<parameter name="autoInclude">true</parameter>
+			<parameter name="includeFiles" />
+			<parameter name="script">test</parameter>
+		</Script>
+	</Folder>
+	<JavaLibraries>
+		<parameter name="testScript">com.ibm.di.function.UserFunctions
+		</parameter>
+	</JavaLibraries>
+	<JavaProperties />
+	<Folder name="Includes" />
+	<Folder name="Config">
+		<LogConfig name="Logging">
+			<Logger name="ConsoleAppender">
+				<InheritFrom>system:/Loggers/ibmdi.ConsoleAppender</InheritFrom>
+				<parameter name="Pattern.ConversionPattern">%d{DEFAULT} %-5p [%c] - %m%n</parameter>
+				<parameter name="com.ibm.di.log.layout">Pattern</parameter>
+				<parameter name="com.ibm.di.log.level">INFO</parameter>
+				<parameter name="enabled">true</parameter>
+			</Logger>
+			<Logger name="FileAppender">
+				<InheritFrom>system:/Loggers/ibmdi.FileAppender</InheritFrom>
+				<parameter name="File.Append">false</parameter>
+				<parameter name="Pattern.ConversionPattern">%d{DEFAULT} %-5p [%c] - %m%n</parameter>
+				<parameter name="com.ibm.di.log.layout">Pattern</parameter>
+				<parameter name="com.ibm.di.log.level">INFO</parameter>
+				<parameter name="enabled">true</parameter>
+			</Logger>
+		</LogConfig>
+		<InstanceProperties name="AutoStart">
+			<AutoStart />
+		</InstanceProperties>
+		<TombstonesConfig name="Tombstones">
+			<parameter name="AssemblyLines">true</parameter>
+			<parameter name="Configuration">true</parameter>
+		</TombstonesConfig>
+		<SolutionInterface name="SolutionInterface">
+			<PollInterval>-1</PollInterval>
+			<InstanceID>test</InstanceID>
+			<enabled>true</enabled>
+			<ExposedProperties name="ExposedProperties">
+				<ExposedProperty name="api.config.folder:">
+					<parameter name="category">config</parameter>
+					<parameter name="label">api.config.folder</parameter>
+					<parameter name="propertyName">api.config.folder</parameter>
+					<parameter name="storeName" />
+				</ExposedProperty>
+				<ExposedProperty name="api.jmx.on:">
+					<parameter name="category">api</parameter>
+					<parameter name="label">api.jmx.on</parameter>
+					<parameter name="propertyName">api.jmx.on</parameter>
+					<parameter name="storeName" />
+				</ExposedProperty>
+			</ExposedProperties>
+		</SolutionInterface>
+		<Container name="SystemStore">
+			<ParameterList name="Default">
+				<parameter name="com.ibm.di.store.database">jdbc:oracle:thin:@localhost:1521:TDISysStore
+				</parameter>
+				<parameter name="com.ibm.di.store.jdbc.driver">oracle.jdbc.OracleDriver</parameter>
+				<parameter name="com.ibm.di.store.jdbc.password" />
+				<parameter name="com.ibm.di.store.jdbc.user">SYSTEM</parameter>
+				<parameter name="enabled">true</parameter>
+			</ParameterList>
+		</Container>
+	</Folder>
+	<Folder name="Functions">
+		<Function name="ParserFC">
+			<InheritFrom>system:/Functions/ibmdi.ParserFC</InheritFrom>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+				<Hook name="before_functioncall">
+					<Name>before_functioncall</Name>
+					<Script>test</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<Configuration>
+				<UserComment />
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="userComment" />
+			</Configuration>
+			<Parser>
+				<InheritFrom>system:/Functions/ibmdi.ParserFC</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<SandboxConfig />
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+				<AttributeMapItem>
+					<Name>inputAttr</Name>
+					<Type>simple</Type>
+					<Simple>inputAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+				<AttributeMapItem>
+					<Name>outputAttr</Name>
+					<Type>simple</Type>
+					<Simple>outputAttr</Simple>
+				</AttributeMapItem>
+			</AttributeMap>
+		</Function>
+	</Folder>
+	<Folder name="AttributeMaps">
+		<ALMap name="testMap">
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+				<AttributeMapItem>
+					<Name>advanced</Name>
+					<Type>advanced</Type>
+					<Script>ret.value = work.advanced;</Script>
+				</AttributeMapItem>
+				<AttributeMapItem>
+					<Name>simple</Name>
+					<Type>simple</Type>
+					<Simple>simple</Simple>
+				</AttributeMapItem>
+				<AttributeMapItem>
+					<Name>substitution</Name>
+					<Type>substitution</Type>
+					<Script>work.substitution</Script>
+					<SubstitutionTemplate>{work.substitution}</SubstitutionTemplate>
+				</AttributeMapItem>
+				<NullBehavior>Null</NullBehavior>
+				<NullDefinition>AbsentAttribute</NullDefinition>
+			</AttributeMap>
+			<State>Enabled</State>
+		</ALMap>
+	</Folder>
+	<Properties name="Properties">
+		<PasswordStore>test</PasswordStore>
+		<DefaultStore>System-Properties</DefaultStore>
+		<Stores>
+			<PropertyStore name="Solution-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">Solution-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="Global-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">Global-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="System-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">System-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="test">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collection">@SUBSTITUTE{config.$directory}/test.properties
+					</parameter>
+					<parameter name="collectionType">test</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="Java-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collection">@SUBSTITUTE{config.$directory}/test.properties
+					</parameter>
+					<parameter name="collectionType">Java-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+		</Stores>
+	</Properties>
+</MetamergeConfig>

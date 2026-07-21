@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sat Dec 08 16:12:29 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.ScriptedFC">
+			<parameter name="description">FUNCTION_DESC</parameter>
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.ScriptedFC</parameter>
+				<parameter name="script"><![CDATA[
+function initialize(fc,obj) {
+}
+
+function terminate(fc) {
+}
+
+function perform(fc,obj) {
+/*
+	return some_value;
+*/
+}
+]]></parameter>
+			</Configuration>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.ScriptedFC">
+			<TranslationFile>NLS/idi_fc_scriptedfc</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.script</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>$GLOBAL.debug</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.script</ListItem>
+			</FormItemNames>
+			<parameter name="title">SCRIPTEDFC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

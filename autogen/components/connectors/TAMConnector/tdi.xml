@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.TAM">
+                        <SupportedModes>Iterator,AddOnly,Delete,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.tam.TAMConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="ConfigURL"/>
+				<parameter name="DeleteReg"/>
+				<parameter name="Domain">Default</parameter>
+				<parameter name="EntryType"/>
+				<parameter name="ImportCreate"/>
+				<parameter name="Password"/>
+				<parameter name="ProgName">IDI</parameter>
+				<parameter name="UserName">sec_master</parameter>
+                <parameter name="supportsSkipLookup">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.tam.TAMConnector">
+			<TranslationFile>NLS/idi_conn_tam</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>UserName</ListItem>
+					<ListItem>Password</ListItem>
+					<ListItem>Domain</ListItem>
+					<ListItem>ProgName</ListItem>
+					<ListItem>ConfigURL</ListItem>
+					<ListItem>EntryType</ListItem>
+					<ListItem>ImportCreate</ListItem>
+					<ListItem>DeleteReg</ListItem>
+					<ListItem>ListFilter</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>UserName</ListItem>
+				<ListItem>Password</ListItem>
+				<ListItem>Domain</ListItem>
+				<ListItem>ProgName</ListItem>
+				<ListItem>ConfigURL</ListItem>
+				<ListItem>EntryType</ListItem>
+				<ListItem>ImportCreate</ListItem>
+				<ListItem>DeleteReg</ListItem>
+				<ListItem>ListFilter</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="ConfigURL">
+				<parameter name="description">CONFIGURL_DESC</parameter>
+				<parameter name="label">CONFIGURL_LABEL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">CONFIGURL_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">CONFIGURL_SCRIPT_HELP</parameter>
+				<parameter name="syntax">file</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="DeleteReg">
+				<parameter name="default">false</parameter>
+				<parameter name="description">DEL_REG_DESC</parameter>
+				<parameter name="label">DEL_REG_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">Delete</parameter>
+			</FormItem>
+			<FormItem name="Domain">
+				<parameter name="default">Default</parameter>
+				<parameter name="description">DOMAIN_DESC</parameter>
+				<parameter name="label">DOMAIN_LABEL</parameter>
+				<parameter name="script">selectTAMDomain</parameter>
+				<parameter name="scriptLabel">DOMAIN_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">DOMAIN_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="EntryType">
+				<Values>
+					<ListItem>User</ListItem>
+					<ListItem>Group</ListItem>
+					<ListItem>Policy</ListItem>
+					<ListItem>Domain</ListItem>
+					<ListItem>SSOCred</ListItem>
+					<ListItem>SSOResource</ListItem>
+					<ListItem>SSOResourceGroup</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>User</Key>
+						<Value>ENTRY_TYPE_OPT1</Value>
+					</Item>
+					<Item>
+						<Key>Group</Key>
+						<Value>ENTRY_TYPE_OPT2</Value>
+					</Item>
+					<Item>
+						<Key>Policy</Key>
+						<Value>ENTRY_TYPE_OPT3</Value>
+					</Item>
+					<Item>
+						<Key>Domain</Key>
+						<Value>ENTRY_TYPE_OPT4</Value>
+					</Item>
+					<Item>
+						<Key>SSOCred</Key>
+						<Value>ENTRY_TYPE_OPT5</Value>
+					</Item>
+					<Item>
+						<Key>SSOResource</Key>
+						<Value>ENTRY_TYPE_OPT6</Value>
+					</Item>
+					<Item>
+						<Key>SSOResourceGroup</Key>
+						<Value>ENTRY_TYPE_OPT7</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">ENTRY_TYPE_DESC</parameter>
+				<parameter name="label">ENTRY_TYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ImportCreate">
+				<parameter name="default">false</parameter>
+				<parameter name="description">IMPORT_CREATE_DESC</parameter>
+				<parameter name="label">IMPORT_CREATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+				<parameter name="modes">AddOnly,Update</parameter>
+			</FormItem>
+			<FormItem name="Password">
+				<parameter name="default"/>
+				<parameter name="description">PASSWORD_DESC</parameter>
+				<parameter name="label">PASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ProgName">
+				<parameter name="default">TDI</parameter>
+				<parameter name="description">PROGNAME_DESC</parameter>
+				<parameter name="label">PROGNAME_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="UserName">
+				<parameter name="default">sec_master</parameter>
+				<parameter name="description">USERNAME_DESC</parameter>
+				<parameter name="label">USERNAME_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="ListFilter">
+				<parameter name="default"></parameter>
+				<parameter name="description">FILTER_DESC</parameter>
+				<parameter name="label">FILTER_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+function selectTAMDomain () {
+	conn = form.loadConnector();
+	conn.initialize(null);
+	var sel = form.chooseFromList (form.translate("SELECT_DOMAIN"), conn.queryTAMDomains());
+	if (sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+	conn.terminate();
+}]]></parameter>
+			<parameter name="title">CONN_DESC</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

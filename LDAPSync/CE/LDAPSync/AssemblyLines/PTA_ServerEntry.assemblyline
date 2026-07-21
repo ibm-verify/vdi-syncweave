@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="2c9d74e6-4c25-4c9a-9e92-029e7ab20e88" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="PTA_ServerEntry" modified="Thu Jan 09 10:41:05 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="PTA_ServerEntry">
+        <ModTime>1389260463068</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[op = task.opEntry;
+
+task.logmsg("")
+task.logmsg("PTA Parameters")
+task.logmsg("------------------------------------------------------------")
+for(str in op.getAttributeNames()) {
+	if(str == "ibm-slapdPtabindPW")
+		task.logmsg(str + ": ************");
+	else if(str.startsWith("ibm-"))
+		task.logmsg(str + ": " + op.getString(str));
+}
+
+task.logmsg("")
+
+var ldap = ["target.ldap.url", "target.ldap.user"];
+task.logmsg("LDAP Connection Parameters (password not shown)")
+task.logmsg("------------------------------------------------------------")
+for(i = 0; i < ldap.length; i++) {
+	str = ldap[i]
+	task.logmsg(str + ": " + op.getString(str));
+}
+task.logmsg("")
+
+// -- this function is used to construct the cn attribute
+// -- it must be unique and valid. it is called from
+// -- the "cn" and "$dn" maps for LDAPConnectorAdd
+function constructCN() {
+	var str = work.getString("ibm-slapdptasubtree");
+	if(str != null) {
+		str = str.replaceAll(",", "_");
+		str = str.replaceAll("=", "_");
+		str = str.replaceAll("-", "_");
+		str = str.replaceAll("\\.", "_");
+	}
+	return str;	
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="CheckConnStatus" state="Enabled"/>
+                <Component name="Switch" state="Enabled"/>
+                <Component name="Switch_Add" state="Enabled"/>
+                <Component name="LDAPConnectorAdd" state="Simulated"/>
+                <Component name="Switch_Delete" state="Enabled"/>
+                <Component name="LDAPConnectorDelete" state="Simulated"/>
+                <Component name="Switch_Error" state="Enabled"/>
+                <Component name="ErrorStatus" state="Enabled"/>
+                <Component name="Switch_default" state="Enabled"/>
+                <Component name="LDAPConnectorRead" state="Simulated"/>
+                <Component name="DumpWorkEntry" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1389260463068</ModTime>
+            <Script name="CheckConnStatus">
+                <ModTime>1375888988544</ModTime>
+                <parameter name="script"><![CDATA[// -- when ldap conn fails on init we don't have work available
+if(typeof(initError) != "undefined") {
+	work.setAttribute("operation","Error");
+}]]></parameter>
+            </Script>
+            <Branch name="Switch">
+                <ModTime>1389260463068</ModTime>
+                <Branch name="Switch_Add">
+                    <ModTime>1389260447341</ModTime>
+                    <Connector name="LDAPConnectorAdd">
+                        <InheritFrom>/Connectors/TargetTDS</InheritFrom>
+                        <ModTime>1389260447341</ModTime>
+                        <ConnectorMode>Update</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="ldapSearchBase">cn=Passthrough Authentication, cn=Configuration</parameter>
+                            <parameter name="ldapSearchFilter">objectclass=ibm-slapdPta</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>$dn</Name>
+                                <Type>advanced</Type>
+                                <Script>return "cn=" + constructCN() + ", cn=Passthrough Authentication, cn=configuration";</Script>
+                                <Simple>$dn</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>cn</Name>
+                                <Type>advanced</Type>
+                                <Modify>false</Modify>
+                                <Script>return constructCN();</Script>
+                                <Simple>cn</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtaAttrMapping</Name>
+                                <Type>advanced</Type>
+                                <Script>work["ibm-slapdPtaAttrMapping"]</Script>
+                                <Simple>ibm-slapdPtaAttrMapping:</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtaBindDN</Name>
+                                <Type>simple</Type>
+                                <Simple>ibm-slapdPtaBindDN</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtaSearchBase</Name>
+                                <Type>simple</Type>
+                                <Simple>ibm-slapdPtaSearchBase</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtaSubtree</Name>
+                                <Type>advanced</Type>
+                                <Modify>false</Modify>
+                                <Script>work["ibm-slapdPtaSubtree"]</Script>
+                                <Simple>ibm-slapdPtaSubtree:</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtaURL</Name>
+                                <Type>simple</Type>
+                                <Simple>ibm-slapdPtaURL</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>ibm-slapdPtabindPW</Name>
+                                <Type>simple</Type>
+                                <Simple>ibm-slapdPtabindPW</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>objectClass</Name>
+                                <Type>advanced</Type>
+                                <Modify>false</Modify>
+                                <Script><![CDATA[return [
+	"ibm-slapdConfigEntry",
+	"ibm-slapdPta",
+	"ibm-slapdPtaExt"
+];]]></Script>
+                                <Simple>objectClass</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <DeltaSettings>
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <LinkCriteriaItem>
+                                <Key>13d8d0fd900</Key>
+                                <Attribute>ibm-slapdPtaSubtree</Attribute>
+                                <Operator>equals</Operator>
+                                <Value>$ibm-slapdPtaSubtree</Value>
+                            </LinkCriteriaItem>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <Hook name="default_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>default_fail</Name>
+                                <Script><![CDATA[if(typeof(work) == "undefined" || work == null) {
+	initError = error;
+} else {
+	work.merge(error);
+}]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="initialize_fail">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>initialize_fail</Name>
+                                <Script><![CDATA[if(typeof(work) == "undefined" || work == null) {
+	initError = error;
+} else {
+	work.merge(error);
+}]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <RightHand>Add</RightHand>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>4</Type>
+                </Branch>
+                <Branch name="Switch_Delete">
+                    <ModTime>1389260458190</ModTime>
+                    <Connector name="LDAPConnectorDelete">
+                        <InheritFrom>@LDAPConnectorAdd</InheritFrom>
+                        <ModTime>1389260458190</ModTime>
+                        <ConnectorMode>Delete</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@LDAPConnectorAdd</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ModTime>1389260458190</ModTime>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <RightHand>Delete</RightHand>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>4</Type>
+                </Branch>
+                <Branch name="Switch_Error">
+                    <ModTime>1366372999448</ModTime>
+                    <Script name="ErrorStatus">
+                        <ModTime>1366372999448</ModTime>
+                        <parameter name="script"><![CDATA[if(typeof(initError) != "undefined")
+	work.merge(initError);]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <RightHand>Error</RightHand>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>4</Type>
+                </Branch>
+                <Branch name="Switch_default">
+                    <ModTime>1389260463068</ModTime>
+                    <Connector name="LDAPConnectorRead">
+                        <InheritFrom>@LDAPConnectorAdd</InheritFrom>
+                        <ModTime>1389260463068</ModTime>
+                        <ConnectorMode>Lookup</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="connectorType">@LDAPConnectorAdd</parameter>
+                            <parameter name="parserOption">Useless</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>*</Name>
+                                <Type>simple</Type>
+                                <Simple>*</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ModTime>1389260463068</ModTime>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Hook name="lookup_nomatch">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>lookup_nomatch</Name>
+                                <Script>work.status = "not found";</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <Operator>*</Operator>
+                            <MatchAny>false</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>4</Type>
+                </Branch>
+                <Conditions>
+                    <BranchCondition>
+                        <RightHand>{work.operation}</RightHand>
+                        <MatchAny>false</MatchAny>
+                    </BranchCondition>
+                </Conditions>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>3</Type>
+            </Branch>
+            <Script name="DumpWorkEntry">
+                <ModTime>1366629539145</ModTime>
+                <parameter name="script"><![CDATA[// Dump the work entry
+if(task.getOpEntry().getString("verbose") != null)
+	task.dumpEntry(work);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

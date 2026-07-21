@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Jan 11 13:53:09 EET 2006" createdBy="stoiko.avdjiev" modified="Thu Feb 02 10:43:03 EET 2006" modifiedBy="stoiko.avdjiev" version="1.2">
+<Folder name="AssemblyLines">
+<AssemblyLine name="Invoke_DelayedStockQuote">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[var param = Packages.com.cdyne.ws.GetQuote();
+param.setStockSymbol("IBM");
+param.setLicenseKey("0");
+var entry = system.newEntry();
+entry.setAttribute("param", param);
+task.setWork(entry);
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Function name="ComplexTypesGenerator">
+<InheritFrom>system:/Functions/ibmdi.ComplexTypesGenerator</InheritFrom>
+<parameter name="autoGenJavaSrcFiles">true</parameter>
+<parameter name="jarFile">jars/delayed_stock_quote.jar</parameter>
+<parameter name="jdkPath">C:\Program Files\IBM\Java141</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="wsdlUrl">http://ws.cdyne.com/delayedstockquote/delayedstockquote.asmx?wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="autoGenJavaSrcFiles">true</parameter>
+<parameter name="jarFile">jars/delayed_stock_quote.jar</parameter>
+<parameter name="jdkPath">C:\Program Files\IBM\Java141</parameter>
+<parameter name="wsdlUrl">http://ws.cdyne.com/delayedstockquote/delayedstockquote.asmx?wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+</Function>
+<Function name="AxisEasyInvokeSoapWS">
+<InheritFrom>system:/Functions/ibmdi.AxisEasyInvokeSoapWS</InheritFrom>
+<parameter name="complexTypes"><![CDATA[com.cdyne.ws.DataSet
+com.cdyne.ws.GetQuickQuote
+com.cdyne.ws.GetQuickQuoteResponse
+com.cdyne.ws.GetQuote
+com.cdyne.ws.GetQuoteDataSet
+com.cdyne.ws.GetQuoteDataSetResponse
+com.cdyne.ws.GetQuoteDataSetResponseGetQuoteDataSetResult
+com.cdyne.ws.GetQuoteResponse
+com.cdyne.ws.QuoteData]]></parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operationParamList">param</parameter>
+<parameter name="soapOperation">GetQuote</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">http://ws.cdyne.com/delayedstockquote/delayedstockquote.asmx?wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="complexTypes"><![CDATA[com.cdyne.ws.DataSet
+com.cdyne.ws.GetQuickQuote
+com.cdyne.ws.GetQuickQuoteResponse
+com.cdyne.ws.GetQuote
+com.cdyne.ws.GetQuoteDataSet
+com.cdyne.ws.GetQuoteDataSetResponse
+com.cdyne.ws.GetQuoteDataSetResponseGetQuoteDataSetResult
+com.cdyne.ws.GetQuoteResponse
+com.cdyne.ws.QuoteData]]></parameter>
+<parameter name="debug">false</parameter>
+<parameter name="operationParamList">param</parameter>
+<parameter name="soapOperation">GetQuote</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">http://ws.cdyne.com/delayedstockquote/delayedstockquote.asmx?wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>return</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>return</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>param</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>param</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="printResult">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[var attr = work.getAttribute("return");
+var quoteResponse = attr.getValue(0);
+main.logmsg("==================== RESULTS =====================");
+var quoteResult = quoteResponse.getGetQuoteResult();
+
+main.logmsg("Stock Symbol: " + quoteResult.getStockSymbol());
+main.logmsg("Last Trade Amount: " + quoteResult.getLastTradeAmount());
+main.logmsg("Stock Change: " + quoteResult.getStockChange());
+main.logmsg("Open Amount: " + quoteResult.getOpenAmount());
+main.logmsg("Day High: " + quoteResult.getDayHigh());
+main.logmsg("Day Low: " + quoteResult.getDayLow());
+main.logmsg("Stock Volume: " + quoteResult.getStockVolume());
+main.logmsg("Market Capitalization: " + quoteResult.getMktCap());
+main.logmsg("PrevCls: " + quoteResult.getPrevCls());
+main.logmsg("Change Percent: " + quoteResult.getChangePercent());
+main.logmsg("52-Week Range: " + quoteResult.getFiftyTwoWeekRange());
+main.logmsg("Earnings per Share: " + quoteResult.getEarnPerShare());
+main.logmsg("Price-to-Earnings: " + quoteResult.getPE());
+main.logmsg("Company Name: " + quoteResult.getCompanyName());
+main.logmsg("Is Quote Error: " + quoteResult.isQuoteError());
+
+main.logmsg("==================== END OF RESULTS =====================");
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="Default">
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

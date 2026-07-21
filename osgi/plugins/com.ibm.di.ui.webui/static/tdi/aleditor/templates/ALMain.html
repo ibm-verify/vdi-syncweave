@@ -1,0 +1,50 @@
+<div>
+	<div data-dojo-type="idx/app/AppFrame" style="width: 100%; height: 100%; margin: 0; padding: 0">
+
+		<div data-dojo-type="idx/app/AppMarquee" region="marquee"
+		       appName="Federated Directory Server - WebDev"
+		       vendorName="IBM &#0174;"
+		       vendorLogo="/fds/static/images/ibm-logo-white.png">
+		       
+		       
+			<span data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:saveConfig" data-dojo-attach-point="_mainSaveButton">Save</span>
+		       
+
+			<span data-dojo-type="idx/form/DropDownLink" label="${nls.AssemblyLineEditor3_options}">
+				<div data-dojo-type="dijit/TooltipDialog">
+					<table>
+						<tr><td colspan="3">
+							<div data-dojo-type="idx/form/CheckBox" data-dojo-attach-point="_autosave" data-dojo-attach-event="onChange:toggleAutoSave" label="${nls.FDS_autoSaveEnabled}" checked=true></div>
+						</td></tr>
+						<tr><td>
+							${nls.FDS_snapshotTitle}
+						</td></tr>
+						<tr><td>
+							<div data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="_snapshotTitle" style="width:300px"></div>
+						</td><td>
+							<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:saveSnapShot" >${nls.FDS_snapshotCreate}</div>
+						</td></tr>
+						<tr><td>
+							${nls.FDS_snapshotLoad}
+						</td></tr>
+						<tr><td>
+							<div data-dojo-type="dijit/form/Select" style="width:300px" data-dojo-attach-point="_snapshots"></div>
+						</td><td>
+							<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:loadSnapShot">${nls.general_load_label}</div>
+							<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:deleteSnapShot">${nls.general_delete_label}</div>
+						</td></tr>
+					</table>
+				</div>
+			</span>
+
+			<span data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onShowWelcome">${nls.FDS_welcomePageTitle}</span>
+			<span data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onShowHelp">${nls.FDS_help}</span>
+			<span data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onLogout">${nls.FDS_logout}</span>
+	
+		</div>
+		
+		<div data-dojo-type="tdi/aleditor/Border" gutters=false style="margin:0px; padding:0px; width:100%; height:100%" data-dojo-attach-point="borderContainer">
+		</div>
+	</div>
+
+</div>

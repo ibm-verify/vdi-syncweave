@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="e3a6d70f-15f4-48e8-bc98-b92b4020e04a" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="ChangeDetection_AD" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="ChangeDetection_AD">
+        <InheritFrom>system:/Connectors/ibmdi.ADChangelogv2</InheritFrom>
+        <ModTime>1388405024887</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="iteratorStateKey">@SUBSTITUTE{javascript return connectorParam("source.ldap.stateKey","statekey")}</parameter>
+            <parameter name="ldapBinaryAttributes"><![CDATA[@SUBSTITUTE{javascript pname = "source.ldap.binaryAttributes"
+param = getProperty(pname)
+	
+if (param === null)
+	return ""
+	
+if (param.indexOf(",") > 0)
+	atts = system.splitString(param,",")
+else
+	atts = system.splitString(param," ")
+pstr = ""
+for (a in atts)
+	if (!a.toLowerCase().equals("objectsid"))
+		pstr += a + "\n"
+return pstr}]]></parameter>
+            <parameter name="ldapPassword">@SUBSTITUTE{javascript return connectorParam("source.ldap.password")}</parameter>
+            <parameter name="ldapSearchBase">@SUBSTITUTE{javascript return connectorParam("source.ldap.searchBase")}</parameter>
+            <parameter name="ldapUrl">@SUBSTITUTE{javascript return connectorParam("source.ldap.url")}</parameter>
+            <parameter name="ldapUseSSL"><![CDATA[@SUBSTITUTE{javascript pname = "source.ldap.url"
+url = getProperty(pname)
+if (url === null)
+	return false
+else
+	return url.toLowerCase().indexOf("ldaps://") >= 0}]]></parameter>
+            <parameter name="ldapUsername">@SUBSTITUTE{javascript return connectorParam("source.ldap.user")}</parameter>
+            <parameter name="pageSize">@SUBSTITUTE{javascript return connectorParam("source.ldap.pageSize",500)}</parameter>
+            <parameter name="sleepInterval">@SUBSTITUTE{javascript return connectorParam("source.ldap.secondsForPolling",10)}</parameter>
+            <parameter name="startAt">EOD</parameter>
+            <parameter name="stateKeyPersistence"><![CDATA[@SUBSTITUTE{javascript if ("true".equals(getProperty("simulate")))
+	return "Manual"
+else
+	return "After read"}]]></parameter>
+            <parameter name="timeout">@SUBSTITUTE{javascript return connectorParam("source.ldap.changelogTimeout",60)}</parameter>
+            <parameter name="useNotifications">@SUBSTITUTE{javascript return connectorParam("source.ldap.useNotifications","true")}</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="after_initialize">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>after_initialize</Name>
+                <Script><![CDATA[adCDC = thisConnector.connector
+
+serverInfo = adCDC.getServerInfo()
+rootSuffix = serverInfo.getString("rootDomainNamingContext")
+
+if (rootSuffix == null) {
+	throw resource.getString("LDAPSYNC.ENDPOINT.IS.NOT.AN.ACTIVE.DIRECTORY.DOMAIN.CONTROLLER")
+}
+
+adCDC.setParam("ldapSearchBase", rootSuffix)
+adCDC.terminate()
+adCDC.initialize(null)]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="before_execute">
+                <InheritFrom>/Scripts/libBeforeExecute</InheritFrom>
+                <Name>before_execute</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="before_getnext">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>before_getnext</Name>
+                <Script>logmsg("...reading next change")</Script>
+                <Enabled>false</Enabled>
+            </Hook>
+            <Hook name="before_initialize">
+                <InheritFrom>/Scripts/libBeforeInit</InheritFrom>
+                <Name>before_initialize</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="before_selectEntries">
+                <InheritFrom>/Scripts/libBeforeSelection</InheritFrom>
+                <Name>before_selectEntries</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="default_fail">
+                <InheritFrom>/Scripts/libDefaultOnError</InheritFrom>
+                <Name>default_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="initialize_fail">
+                <InheritFrom>/Scripts/libInitError</InheritFrom>
+                <Name>initialize_fail</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by TDI7.1.1 - 2012-03-09" created="Mon Jul 23 11:43:45 IST 2012" createdBy="Administrator" modified="Mon Jul 23 11:43:45 IST 2012" modifiedBy="Administrator" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="Read Tweets">
+            <ModTime>1342881672286</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="TwitterConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="TwitterConnector">
+                    <InheritFrom>/Connectors/TwitterConnector</InheritFrom>
+                    <ModTime>1342881672286</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="Access Token">&lt;Access Token obtained from Twitter&gt;</parameter>
+                        <parameter name="Access Token Secret">&lt;Access Token obtained from Twitter&gt;</parameter>
+                        <parameter name="Consumer Secret">&lt;Consumer Secret obtained from twitter&gt;</parameter>
+                        <parameter name="Consumer key">&lt;Consumer key obtained from Twitter&gt;</parameter>
+                        <parameter name="URL">http://twitter.com/statuses/public_timeline.json</parameter>
+                        <parameter name="User Name">&lt;User Name of the Twitter Account&gt;</parameter>
+                        <parameter name="debug">true</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>*</Name>
+                            <NullBehavior>Default Behavior</NullBehavior>
+                            <NullDefinition>Default</NullDefinition>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Date of Creation</Name>
+                            <NativeSyntax>java.util.Date</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Tweet</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>User Screen Name</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$rowNumber</Name>
+                            <Syntax>java.lang.Integer</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$totalRows</Name>
+                            <Syntax>java.lang.Integer</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>created_at</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>favorited</Name>
+                            <Syntax>java.lang.Boolean</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>id</Name>
+                            <Syntax>java.lang.Double</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>id_str</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>in_reply_to_screen_name</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>in_reply_to_status_id</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>in_reply_to_status_id_str</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>in_reply_to_user_id</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>in_reply_to_user_id_str</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>name</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>retweet_count</Name>
+                            <Syntax>java.lang.Integer</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>retweeted</Name>
+                            <Syntax>java.lang.Boolean</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>source</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>text</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>truncated</Name>
+                            <Syntax>java.lang.Boolean</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>user</Name>
+                            <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer"/>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="Tweet">
+            <ModTime>1343023899480</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="Choose Status" state="Enabled"/>
+                    <Component name="TwitterConnector" state="Simulated"/>
+                    <Component name="Read Status" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Read Status">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ModTime>1343023899480</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="filePath">Input\Status.csv</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                        <parameter name="csvColumnSeparator">,</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>IntegrationStatus</Name>
+                            <Type>simple</Type>
+                            <Simple>IntegrationStatus</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>IntegrationStatus</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>IntegrationStatus</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Status</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="Choose Status">
+                    <ModTime>1342880925980</ModTime>
+                    <Connector name="TwitterConnector">
+                        <InheritFrom>/Connectors/TwitterConnector</InheritFrom>
+                        <ModTime>1342880925980</ModTime>
+                        <ConnectorMode>AddOnly</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="Access Token">&lt;Access Token obtained from Twitter&gt;</parameter>
+                            <parameter name="Access Token Secret">&lt;Access Token Secret obtained from Twitter&gt;</parameter>
+                            <parameter name="Consumer Secret">&lt;Consumer Secret obtained from Twitter&gt;</parameter>
+                            <parameter name="Consumer key">&lt;Consumer key obtained from Twitter&gt;</parameter>
+                            <parameter name="User Name">&lt;User Name of the Twitter Account&gt;</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </AttributeMap>
+                        <AttributeMap name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>TwitterText</Name>
+                                <Type>advanced</Type>
+                                <Script>work.IntegrationStatus</Script>
+                                <Simple>TwitterText</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <DeltaSettings/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <LinkCriteria>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </LinkCriteria>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                    </Connector>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>IntegrationStatus</LeftHand>
+                            <Operator>contains</Operator>
+                            <RightHand>Error</RightHand>
+                            <CaseSensitive>false</CaseSensitive>
+                            <MatchAny>true</MatchAny>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors">
+        <Connector name="TwitterConnector">
+            <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+            <ModTime>1342882125720</ModTime>
+            <ConnectorMode>AddOnly</ConnectorMode>
+            <ConnectorState>Enabled</ConnectorState>
+            <Configuration>
+                <InheritFrom>[parent]</InheritFrom>
+                <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="37" UUID="63df3b96-e3e1-42fe-8ba1-0125f085beae" created="Tue Apr 24 16:15:52 IST 2012" createdBy="Administrator" main="Form" modified="Wed Jul 11 01:25:16 IST 2012" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1341911105253</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>User Name</ListItem>
+            <ListItem>Access Token</ListItem>
+            <ListItem>Access Token Secret</ListItem>
+            <ListItem>Consumer key</ListItem>
+            <ListItem>Consumer Secret</ListItem>
+            <ListItem>debug</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+        </FormSectionNames>
+        <FormItem name="Access Token">
+            <ModTime>1341579216787</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide your Twitter Account's Access Token</parameter>
+            <parameter name="label">Access Token</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+        </FormItem>
+        <FormItem name="Access Token Secret">
+            <ModTime>1341579224397</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide your twitter account's Access Token Secret</parameter>
+            <parameter name="label">Access Token Secret</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="Consumer Secret">
+            <ModTime>1341579238862</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide your twitter account's Consumer Secret</parameter>
+            <parameter name="label">Consumer Secret</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="Consumer key">
+            <ModTime>1341579231351</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide your Twitter account's Consumer key</parameter>
+            <parameter name="label">Consumer Key</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+        </FormItem>
+        <FormItem name="Tweet Text">
+            <ModTime>1338490962458</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide the tweet text</parameter>
+            <parameter name="label">Tweet Text</parameter>
+            <parameter name="modes">AddOnly</parameter>
+        </FormItem>
+        <FormItem name="URL">
+            <ModTime>1341579417971</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Provide Twitter account's user name</parameter>
+            <parameter name="label">User Name</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+        </FormItem>
+        <FormItem name="User Name">
+            <ModTime>1341911105253</ModTime>
+            <parameter name="description">Provide Twitter account's user name</parameter>
+            <parameter name="label">User Name</parameter>
+            <parameter name="modes">AddOnly, Iterator</parameter>
+        </FormItem>
+        <FormItem name="debug">
+            <ModTime>1338527918492</ModTime>
+            <parameter name="description">Check for additional log messages</parameter>
+            <parameter name="label">Detailed Log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>keepGlobalState</ListItem>
+                <ListItem>$GLOBAL.includeFiles</ListItem>
+                <ListItem>includePrologs</ListItem>
+                <ListItem>$GLOBAL.debug</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>User Name</ListItem>
+                <ListItem>Access Token</ListItem>
+                <ListItem>Access Token Secret</ListItem>
+                <ListItem>Consumer key</ListItem>
+                <ListItem>Consumer Secret</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+                <ListItem>debug</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="title">CONN_TITLE</parameter>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+                <parameter name="Access Token"/>
+                <parameter name="Access Token Secret"/>
+                <parameter name="Consumer Secret"/>
+                <parameter name="Consumer key"/>
+                <parameter name="URL"/>
+                <parameter name="User Name"/>
+                <parameter name="debug">true</parameter>
+                <parameter name="includeFiles"/>
+                <parameter name="script"><![CDATA[// Sample connector
+// Place initialization code before function declarations
+
+
+var userName = null
+var entries = null
+var entryCnt = 0
+var access_Token = null
+var access_Token_Secret = null
+var consumer_Key = null
+var consumer_Secret = null
+var tweet_Text = null
+var accessToken = null
+var twitter = null
+
+//The 'initialize()' method reads the connector's parameters and makes the necessary preparations 
+//for the actual work (creates a connection, etc.). In this method the Twitter4J API is initialized 
+//to gain access to Twitter through Oauth by providing the obtained 
+//Consumer Key, Consumer Secret,  Access Token and Access Token Secret.
+
+function initialize() {
+	
+	userName = connector.getParam("User Name")
+	access_Token = connector.getParam("Access Token")
+	access_Token_Secret = connector.getParam("Access Token Secret")
+	consumer_Key = connector.getParam("Consumer key")
+	consumer_Secret = connector.getParam("Consumer Secret")
+	
+	accessToken = new twitter4j.auth.AccessToken(access_Token, access_Token_Secret);
+	twitter = new twitter4j.TwitterFactory().getInstance();
+	twitter.setOAuthConsumer(consumer_Key, consumer_Secret);
+    twitter.setOAuthAccessToken(accessToken);
+    	
+}
+
+//This method is required for Iterator mode. This method is called only when the Connector is used in 
+//Iterator mode, after it has been initialized. 
+//The 'selectEntries()'  method contains the code that is needed to execute 
+//prior to starting to iterate over the Entries returned.
+//The below code will connect to the Twitter Account and pick the recent 20 tweets.
+
+function selectEntries()
+{
+	try {
+	entries = twitter.getUserTimeline(userName);
+	}
+	catch (TwitterException) {
+        throw TwitterException
+    }	
+	entryCnt = 0
+}
+
+//This method is called on each AssemblyLine's iteration 
+//when the connector is in Iterator mode. It is expected to 
+//return a single Entry that feeds the rest of the AssemblyLine. 
+//The Twitte4J API pulls the tweets from the Twitter account and 
+//the tweets in JSON format are parsed. The parsed data User Screen Name, 
+//Tweet text, and the creation date is put into an Entry.
+
+function getNextEntry ()
+{
+	if (entries == null || entryCnt >= entries.length) {
+		result.setStatus (0);
+		return;
+	}
+	entry["$rowNumber"] = entryCnt
+	entry["$totalRows"] = entries.length
+	var status = entries.get(entryCnt);
+	var user = status.getUser();
+	entry["User Screen Name"] = user.getScreenName();
+	entry["Tweet"] = status.getText();
+	entry["Date of Creation"] = status.getCreatedAt();
+    
+    entryCnt++;
+	result.setStatus (1);
+	return entry
+}
+
+//This method is called every time a connector is used in AddOnly mode, 
+// The goal of this method is to add/save/store the Entry passed in as parameter
+// to this method into the connector's data source.
+//The method reads the TwitterText attribute in the Output Map to add 
+//the tweet text to the Twitter account in AddOnly Mode of this connector.
+
+function putEntry (){
+	tweet(entry.getAttribute("TwitterText").getValue())
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}
+
+//This method returns the schema of the connected data source. 
+//If you implement it (it’s optional), the Configuration Editor 
+//presents the returned values as the connector's schema. 
+//These return values are stored as list of Entry objects, 
+//one for each column/attribute in the schema. Schemas are displayed in the connector
+//Input/Output Map. You can create the Input schema for the connector as per the code below.
+//The Input Map Attributes User Screen Name, Tweet, Date of Creation
+
+function querySchema ()
+{
+	for (var i = 0; i < entries.length; i++)  {
+		list.add(addEntry("User Screen Name","java.lang.String"));
+		list.add(addEntry("Tweet","java.lang.String"));
+		list.add(addEntry("Date of Creation","java.util.Date"));
+	}		
+	result.setStatus (1);
+}
+
+function addEntry(name,syntax){
+	var e = system.newEntry();
+	e.addAttributeValue("name",name);
+	e.addAttributeValue("syntax",syntax);
+	return e;
+}
+
+//This method is called by the AssemblyLine after it has 
+//finished cycling and before it terminates. 
+//You can put here any cleanup code, that is, release connections, 
+//resources that you created in the initialize method or later during processing.
+ 
+function terminate() {
+	entries = null
+}
+
+function tweet(tweetText){
+    try {
+        twitter.updateStatus(tweetText);
+    } catch (TwitterException) {
+        throw TwitterException
+    }
+}
+
+]]></parameter>
+            </Configuration>
+            <Parser>
+                <InheritFrom>[parent]</InheritFrom>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+            </Parser>
+            <AttributeMap name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+                <AttributeMapItem>
+                    <Name>*</Name>
+                    <Type>simple</Type>
+                    <Simple>*</Simple>
+                </AttributeMapItem>
+            </AttributeMap>
+            <AttributeMap name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </AttributeMap>
+            <DeltaSettings>
+                <WhenToCommit>After every database operation</WhenToCommit>
+                <RowLocking>SERIALIZABLE</RowLocking>
+                <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+            </DeltaSettings>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+                <SchemaItem>
+                    <Name>TwitterText</Name>
+                    <Syntax>java.lang.String</Syntax>
+                </SchemaItem>
+            </Schema>
+            <LinkCriteria>
+                <InheritFrom>[parent]</InheritFrom>
+            </LinkCriteria>
+            <Hooks>
+                <InheritFrom>[parent]</InheritFrom>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <Reconnect>
+                <InheritFrom>[parent]</InheritFrom>
+                <ReconnectRules/>
+            </Reconnect>
+            <Operations/>
+            <PoolDefinition>
+                <InheritFrom>[parent]</InheritFrom>
+                <Enabled>false</Enabled>
+                <MinPoolSize>0</MinPoolSize>
+                <MaxPoolSize>0</MaxPoolSize>
+                <PurgeInterval>0</PurgeInterval>
+                <InitializeAttempts>1</InitializeAttempts>
+                <InitializeSleepInterval>0</InitializeSleepInterval>
+            </PoolDefinition>
+            <PoolInstance/>
+        </Connector>
+    </Folder>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <ModTime>1335186591927</ModTime>
+            <PollInterval>-1</PollInterval>
+            <InstanceID>TwitterConn</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/TwitterConn.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="TwitterConn">
+                <ModTime>1342597282613</ModTime>
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/TwitterConn.properties</parameter>
+                    <parameter name="collectionType">TwitterConn</parameter>
+                    <parameter name="keyAlias"/>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
+</MetamergeConfig>

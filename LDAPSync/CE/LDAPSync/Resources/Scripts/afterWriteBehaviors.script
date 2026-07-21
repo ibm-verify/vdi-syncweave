@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="94" UUID="f3e4d0ca-d9a5-4948-828a-8ec627fb47a9" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="afterWriteBehaviors" modified="Mon May 18 15:09:14 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="afterWriteBehaviors">
+        <ModTime>1431954554550</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (abortFlow) {
+	return; // stop processing this script
+}
+
+operation = work.getString("$operation");
+simEntry = work.getObject("$simEntry");
+changeDetection = !("generic".equals(work.getOperation()));
+typeOfEntry = work.getString("$typeOfEntry");
+status = work.getString("$writeStatus");
+
+if ("success".equalsIgnoreCase(status)) {
+	addToStats(flowKey, typeOfEntry, operation, changeDetection, work.getString("$translatedDN"));
+} else
+if ("skipped".equalsIgnoreCase(status) && "modify".equals(operation)) {
+	addToStats(flowKey, typeOfEntry, "unchanged", changeDetection, work.getString("$translatedDN"));
+}
+
+if (simulate && typeof(simEntry) != "undefined" && simEntry !== null) {
+	reportSimulateStatus(simEntry, endpointEntry, joinEntry, operation);
+}
+
+// skip the rest if simulation
+if (simulate) {
+	return;
+}	
+
+status = work.getString("$writeStatus");
+targetLDAPDN = work.getString("$targetLDAPDN");
+change = work.getObject("$change");
+
+if ("failed".equals(status)) {
+
+	// write to lost change file
+	writeLostEntry(work, lostFileName, error.getString("message"));
+} else
+if ("success".equals(status) && change) {
+	retryList.remove(work.getString("$dn"));
+//	addToStats(flowKey, typeOfEntry, operation, false);
+}
+
+// afterwrite Hook - Launch AL if specified - already skipping at top if simulate
+var entryOp = work.getString("$operation");
+if (!"generic".equalsIgnoreCase(entryOp)) {
+	var hookToInvoke = "afterwrite." + status + "." + typeOfEntry + "." + entryOp;
+	var retEntry = invokeHook(hookToInvoke, work, resource.getString("LDAPSYNC.ERROR.CALLING.POSTWRITE.AL"));
+	
+	if (retEntry !== null && retEntry.size() > 0) {
+		abortFlow = "true".equalsIgnoreCase(retEntry.getString("$stopFlow"));
+	}
+	
+	if (change) {
+		monitor("security");
+	}
+}
+
+if (csUserMailShot && "success".equals(status) && change 
+	&& "add".equalsIgnoreCase(entryOp) && "person".equalsIgnoreCase(typeOfEntry)) {
+	var connEntry = work.getObject("$conn");
+	csMailShot(connEntry);
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

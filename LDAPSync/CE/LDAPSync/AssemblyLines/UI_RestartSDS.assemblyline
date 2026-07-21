@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="51" UUID="7ea0c934-adec-4f03-a8a9-6acc7f48614c" created="Thu Dec 12 13:07:13 CET 2013" createdBy="stadheim" main="UI_RestartSDS" modified="Wed Apr 12 10:19:53 CEST 2017" modifiedBy="Administrator" project="RestartSDS" version="7.1.1">
+    <AssemblyLine name="UI_RestartSDS">
+        <ModTime>1491985191835</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1390914220994</ModTime>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script><![CDATA[//
+// -- simulate being called from FDS/UI
+//
+
+//task.getOpEntry().setAttribute("target.ldap.url", "ldap://9.118.51.189:1389");
+//task.getOpEntry().setAttribute("target.ldap.user", "cn=root");
+//task.getOpEntry().setAttribute("target.ldap.password", "root123");
+
+//
+// -- Run GetAdminPort to get the TCP port for the admin server
+//
+var tcb = system.newTCB();
+tcb.setAssemblyLineName("UI_GetSDSAdminPort");
+tcb.setOperationInitParams(task.getOpEntry());
+tcb.setRunMode("manual");
+
+var adminAL = main.startAL(tcb);
+var entry = adminAL.executeCycle();
+var adminPort = entry.getString("adminPort");
+var adminPortSSL = entry.getString("adminPortSSL");
+adminAL.terminate();
+
+//
+// -- 
+//
+var url = task.getOpEntry().getString("target.ldap.url");
+var arr = url.split(":");
+// ldap   //hostname   port
+var adminurl = arr[0] + ":" + arr[1] + ":" + (arr[0] == "ldap" ? adminPort : adminPortSSL);
+
+
+task.logmsg("Reset target.ldap.url")
+task.logmsg("    from = " + url);
+task.logmsg("      to = " + adminurl);
+
+task.getOpEntry().setAttribute("target.ldap.url", adminurl);]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="TDS_Admin" state="Enabled"/>
+                <Component name="EmptyScript" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1386853833617</ModTime>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1491985191835</ModTime>
+            <Connector name="TDS_Admin">
+                <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                <ModTime>1491985191835</ModTime>
+                <ConnectorMode>Lookup</ConnectorMode>
+                <ConnectorState>Passive</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1491985191835</ModTime>
+                    <parameter encrypted="true" name="ldapPassword">@SUBSTITUTE{javascript return task.getOpEntry().getString("target.ldap.password");}</parameter>
+                    <parameter name="ldapSearchBase">cn=Admin,cn=configuration</parameter>
+                    <parameter name="ldapSearchFilter">objectclass=*</parameter>
+                    <parameter name="ldapSearchScope">baselevel</parameter>
+                    <parameter name="ldapUrl">@SUBSTITUTE{javascript return task.getOpEntry().getString("target.ldap.url");}</parameter>
+                    <parameter name="ldapUsername">@SUBSTITUTE{javascript return task.getOpEntry().getString("target.ldap.user")}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>adminPort</Name>
+                        <Type>simple</Type>
+                        <Simple>ibm-slapdPort</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <UniqueAttribute/>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <NativeSyntax>MUST/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdInvalidLine</Name>
+                        <NativeSyntax>MAY/Directory String/This attribute will be prepended to the beginning of any configuration attribute for which the value is invalid. This allows invalid configuration settings to be identified with a simple search for ibm-slapdInvalidLine=*.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdMigrationInfo</Name>
+                        <NativeSyntax>MAY/Directory String/Information used to control migration of a component.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdPort</Name>
+                        <NativeSyntax>MUST/INTEGER/TCP/IP port used for non-SSL connections. Can not have the same value as ibm-slapdSecurePort. (IP ports are unsigned, 16-bit integers in the range 1 - 65535)</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ibm-slapdSecurePort</Name>
+                        <NativeSyntax>MAY/INTEGER/TCP/IP port used for SSL connections. Can not have the same value as ibm-slapdPort. (IP ports are unsigned, 16-bit integers in the range 1 - 65535)</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Script name="EmptyScript">
+                <ModTime>1386854918209</ModTime>
+                <parameter name="enabled">true</parameter>
+                <parameter name="script"><![CDATA[ldap = TDS_Admin.connector.getLdapContext();
+
+req = new com.ibm.ldap.bp.ext.StartStopServerRequest(2, false);
+result = ldap.extendedOperation(req);
+
+work.returnCode = result.getReturnCode();
+work.status = result.getStatus();
+work.message = result.getMessage();
+
+task.dumpEntry(work);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

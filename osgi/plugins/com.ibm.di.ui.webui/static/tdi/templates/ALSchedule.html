@@ -1,0 +1,78 @@
+<div>
+	<div dojoAttachPoint="Empty" style="width:400px; height:100px; display:none">
+		${nls.WebCE_noschedule}
+		<p></p>
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_createSchedule">${nls.WebCE_createSchedule}</div>
+	</div>
+	
+	<p>
+	<div dojoType="idx/form/CheckBox" data-dojo-attach-event="onChange:_onEnabledChange" data-dojo-attach-point="_enabled" label="${nls.Localized_Enabled}"></div>
+	</p>
+	
+	<b>${nls.SchedulerWidget_Type}</b><br>
+	<div data-dojo-type="idx/form/RadioButtonSet" labelAlignment="horizontal" groupAlignment="horizontal" 
+		data-dojo-attach-event="onChange:changeScheduleType" data-dojo-attach-point="_keepalive">
+		<option value="scheduleAl">${nls.SchedulerWidget_Timer}</option>
+		<option value="reviveAl">${nls.SchedulerWidget_KeepAlive}</option>
+	</div>
+	
+	<!--  div dojoType="dijit.form.Button" data-dojo-attach-point="TopButton" dojoAttachEvent="onClick:_deleteSchedule" style="float:right">${nls.WebCE_deleteSchedule}</div>
+	-->
+		
+	<div dojoType="dijit.form.Form" dojoAttachPoint="Form">
+	
+		<b>${nls.WebCE_month}</b>
+		<div style="padding:5px 10px 10px 19px">
+			<div dojoType="dijit.form.RadioButton" value="*" dojoAttachEvent="onChange:_onMonthChanged" name="months"></div>${nls.WebCE_everyMonth}
+			<div dojoType="dijit.form.RadioButton" value="m" dojoAttachEvent="onChange:_onMonthChanged" name="months"></div>${nls.WebCE_selectedMonths}
+			<table dojoAttachPoint="MonthTable" cellspacing="5">
+				<tr><td colspan="999"><hr></td></tr>
+			</table>
+		</div>
+		
+		<b>${nls.WebCE_day}</b>
+		<div class="" style="padding:5px 10px 10px 19px">
+			<div dojoType="dijit.form.RadioButton" dojoAttachEvent="onChange:_onDayChanged" value="*" name="days"></div>${nls.WebCE_everyDay}
+			<div dojoType="dijit.form.RadioButton" dojoAttachEvent="onChange:_onDayChanged" value="w" name="days"></div>${nls.WebCE_weekdays}
+			<div dojoType="dijit.form.RadioButton" dojoAttachEvent="onChange:_onDayChanged" value="d" name="days"></div>${nls.WebCE_selectedDays}
+			<div dojoAttachPoint="Days" style="display:none">
+				<table dojoAttachPoint="DayTable" cellspacing="5">
+					<tr><td colspan="999"><hr></td></tr>
+				</table>
+			</div>
+			<table dojoAttachPoint="WeekDays" style="display:none" cellspacing="5">
+				<tr><td colspan="999"><hr></td></tr>
+			</table>
+		</div>
+	
+		<b>${nls.WebCE_hours}/${nls.WebCE_minutes}/${nls.WebCE_seconds}</b>
+		<div style="padding:5px 10px 10px 19px">
+			<i>${nls.WebCE_hmsInfo}</i>
+			<p></p>
+			<table cellspacing="5">
+				<tr>
+					<td>${nls.WebCE_hours}:</td>
+					<td><div dojoType="dijit.form.TextBox" name="hour" dojoAttachEvent="onChange:_updateConfig"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.WebCE_minutes}:</td>
+					<td><div dojoType="dijit.form.TextBox" name="minute" dojoAttachEvent="onChange:_updateConfig"></div></td>
+				</tr>
+				<tr>
+					<td>${nls.WebCE_seconds}:</td>
+					<td><div dojoType="dijit.form.TextBox"  name="second" dojoAttachEvent="onChange:_updateConfig"></div></td>
+				</tr>
+			</table>
+		</div>
+		
+		<b>${nls.WebCE_schedule}</b>
+		<div style="padding:5px 10px 10px 19px">
+			<div dojoType="dijit.form.CheckBox" dojoAttachEvent="onClick:_onOthersChanged" name="noduplicates"></div>&nbsp;${nls.WebCE_noDuplicates}
+			<p/>
+			<div dojoType="dijit.form.CheckBox" dojoAttachEvent="onClick:_onOthersChanged" name="cancelonfail"></div>&nbsp;${nls.WebCE_cancelOnFail}
+		</div>
+		<p></p>
+		
+		<div dojoAttachPoint="_alparams"></div>
+	</div>
+</div>

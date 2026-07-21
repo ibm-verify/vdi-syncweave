@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Timer">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.TimerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="day">*</parameter>
+				<parameter name="hours">*</parameter>
+				<parameter name="minutes">5</parameter>
+				<parameter name="month">*</parameter>
+				<parameter name="weekday">*</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>timestamp</Name>
+					<Syntax>java.util.Date</Syntax>
+					<Presence>Always</Presence>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.TimerConnector">
+			<TranslationFile>NLS/idi_conn_timer</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>month</ListItem>
+					<ListItem>day</ListItem>
+					<ListItem>weekday</ListItem>
+					<ListItem>hours</ListItem>
+					<ListItem>minutes</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+  				<FormSectionNames>
+					<ListItem>schedule</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>month</ListItem>
+				<ListItem>day</ListItem>
+				<ListItem>weekday</ListItem>
+				<ListItem>hours</ListItem>
+				<ListItem>minutes</ListItem>
+				<ListItem>schedule</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="day">
+				<parameter name="description">day_desc</parameter>
+				<parameter name="label">day_label</parameter>
+			</FormItem>
+			<FormItem name="hours">
+				<parameter name="description">hours_desc</parameter>
+				<parameter name="label">hours_label</parameter>
+			</FormItem>
+			<FormItem name="minutes">
+				<parameter name="description">schedule_desc</parameter>
+				<parameter name="label">schedule_label</parameter>
+			</FormItem>
+			<FormItem name="month">
+				<Values>
+					<ListItem>*</ListItem>
+					<ListItem>January</ListItem>
+					<ListItem>February</ListItem>
+					<ListItem>March</ListItem>
+					<ListItem>April</ListItem>
+					<ListItem>May</ListItem>
+					<ListItem>June</ListItem>
+					<ListItem>July</ListItem>
+					<ListItem>August</ListItem>
+					<ListItem>September</ListItem>
+					<ListItem>October</ListItem>
+					<ListItem>November</ListItem>
+					<ListItem>December</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>April</Key>
+						<Value>Localized.apr</Value>
+					</Item>
+					<Item>
+						<Key>August</Key>
+						<Value>Localized.aug</Value>
+					</Item>
+					<Item>
+						<Key>December</Key>
+						<Value>Localized.dec</Value>
+					</Item>
+					<Item>
+						<Key>February</Key>
+						<Value>Localized.feb</Value>
+					</Item>
+					<Item>
+						<Key>January</Key>
+						<Value>Localized.jan</Value>
+					</Item>
+					<Item>
+						<Key>July</Key>
+						<Value>Localized.july</Value>
+					</Item>
+					<Item>
+						<Key>June</Key>
+						<Value>Localized.june</Value>
+					</Item>
+					<Item>
+						<Key>March</Key>
+						<Value>Localized.mar</Value>
+					</Item>
+					<Item>
+						<Key>May</Key>
+						<Value>Localized.may</Value>
+					</Item>
+					<Item>
+						<Key>November</Key>
+						<Value>Localized.nov</Value>
+					</Item>
+					<Item>
+						<Key>October</Key>
+						<Value>Localized.oct</Value>
+					</Item>
+					<Item>
+						<Key>September</Key>
+						<Value>Localized.sep</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">month_desc</parameter>
+				<parameter name="label">month_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="weekday">
+				<Values>
+					<ListItem>*</ListItem>
+					<ListItem>Sunday</ListItem>
+					<ListItem>Monday</ListItem>
+					<ListItem>Tuesday</ListItem>
+					<ListItem>Wednesday</ListItem>
+					<ListItem>Thursday</ListItem>
+					<ListItem>Friday</ListItem>
+					<ListItem>Saturday</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Friday</Key>
+						<Value>Localized.fri</Value>
+					</Item>
+					<Item>
+						<Key>Monday</Key>
+						<Value>Localized.mon</Value>
+					</Item>
+					<Item>
+						<Key>Saturday</Key>
+						<Value>Localized.sat</Value>
+					</Item>
+					<Item>
+						<Key>Sunday</Key>
+						<Value>Localized.sun</Value>
+					</Item>
+					<Item>
+						<Key>Thursday</Key>
+						<Value>Localized.thu</Value>
+					</Item>
+					<Item>
+						<Key>Tuesday</Key>
+						<Value>Localized.tue</Value>
+					</Item>
+					<Item>
+						<Key>Wednesday</Key>
+						<Value>Localized.wed</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">weekday_desc</parameter>
+				<parameter name="label">weekday_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="schedule">
+				<parameter name="description">sch_desc</parameter>
+				<parameter name="label">sch_label</parameter>
+			</FormItem>
+			<parameter name="title">EVENT_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

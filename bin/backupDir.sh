@@ -1,0 +1,1 @@
+TDI_BACKUP_DIR=/opt/IBM/TDI/V7.1/maintenance/BACKUP

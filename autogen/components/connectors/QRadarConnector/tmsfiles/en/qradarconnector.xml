@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="qradarconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIH501I" prefix="yes">
+   <MsgText pgmKey="VERSION.INFO" varFormat="Java">
+   Initializing QRadar Connector version <Variable formatSpec="{0}">version</Variable>, LEEF Version supported is 
+<Variable formatSpec="{1}">LEEFversion</Variable>, syslog output: <Variable formatSpec="{2}">boolean</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH502I" prefix="yes">
+   <MsgText pgmKey="CLOSING.LEEF" varFormat="Java">
+    Closing LEEF file.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH503E" prefix="yes">
+   <MsgText pgmKey="ERROR.CLOSING.LEEF" varFormat="Java">
+    Error closing LEEF file: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An Exception was thrown when closing the LEEF file.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Examine the exception for more details about the problem.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH504E" prefix="yes">
+   <MsgText pgmKey="ERROR.TABS.3" varFormat="Java">
+    Too few tabs (min=3) found in line: <Variable formatSpec="{0}">line</Variable>
+   </MsgText>
+   <Explanation> <p>
+   While reading a LEEF file, a line was found that contained less than 3 tab separated fields.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the input file is a proper LEEF file.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH505E" prefix="yes">
+   <MsgText pgmKey="ERROR.VERSION" varFormat="Java">
+    LEEF Version should be <Variable formatSpec="{0}">version</Variable>, in line <Variable formatSpec="{1}">line</Variable>
+   </MsgText>
+   <Explanation> <p>
+   While reading a LEEF file, a line was found that did not have the correct LEEF version.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the input file is a proper LEEF file with the correct version.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH506E" prefix="yes">
+   <MsgText pgmKey="MISSING.ATTRIBUTE" varFormat="Java">
+    Required LEEF Header Attribute missing from Output Map: <Variable formatSpec="{0}">name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The output entry did not contain the named attribute. This attribute is required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the output map creates all the required attributes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH507E" prefix="yes">
+   <MsgText pgmKey="MISSING.ATTRIBUTE.DEVTIME" varFormat="Java">
+    Attribute devTime missing from Output Map. Custom attributes detected: <Variable formatSpec="{0}">attributes</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   When the output entry contains custom attributes, the LEEF Header Attribute devTime is required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the output map creates the devTime attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH508I" prefix="yes">
+   <MsgText pgmKey="RENAMING.LEEF" varFormat="Java">
+    Renaming first LEEF file to <Variable formatSpec="{0}">file name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH509I" prefix="yes">
+   <MsgText pgmKey="SPLITTING.LEEF" varFormat="Java">
+    Event number <Variable formatSpec="{0}">number</Variable>, changing to LEEF file <Variable formatSpec="{1}">file name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIH510E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.1" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> has more than <Variable formatSpec="{2}">length</Variable> chars: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute contains too many characters.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Reduce the length of the string.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH511E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.2" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not numeric: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute must be an integer.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute is an integer.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH512E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.3" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> has a value <Variable formatSpec="{1}">value</Variable> which is outside
+    the accepted range <Variable formatSpec="{2}">minimum</Variable> to <Variable formatSpec="{3}">maximum</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute has a value that is outside the permitted range.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   The value should be between the minimum and the maximum.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH513E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.4" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not a valid date: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute must be a valid date.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute is a date that can be parsed.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH514E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.5" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not a valid IP address: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute must be a valid IP address.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute is a valid IP address.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH515E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.6" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not a valid MAC address: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The named attribute must be a valid MAC address. It should consist of 6 parts separated by either : or -,
+   each part should be two hex characters.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute is a valid MAC address.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH516E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.7" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not a recognized protocol number: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The number used for the protocol was not recognized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute contains a valid protocol number or keyword.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIH517E" prefix="yes">
+   <MsgText pgmKey="ATTR.ERR.8" varFormat="Java">
+    The attribute <Variable formatSpec="{0}">name</Variable> is not a recognized protocol keyword: <Variable formatSpec="{1}">value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The name used for the protocol was not recognized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure that the attribute contains a valid protocol number or keyword.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>
+

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="6bc068bc-3363-405d-8a4f-dc0bd0723f2a" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="GeneralSettings" modified="Mon Dec 30 13:03:45 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Connector name="GeneralSettings">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1388405025090</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="19" UUID="6dc2b978-5623-4326-ba25-409684d76c8d" created="Thu Apr 25 09:54:43 CEST 2013" createdBy="Administrator" main="Form" modified="Thu Oct 31 09:56:10 CET 2013" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1383209765421</ModTime>
+        <FormItemNames>
+            <ListItem>target.ldap.url</ListItem>
+            <ListItem>target.ldap.user</ListItem>
+            <ListItem>target.ldap.password</ListItem>
+            <ListItem>target.ldap.searchBase</ListItem>
+            <ListItem>target.ldap.binaryAttributes</ListItem>
+            <ListItem>target.ldap.searchFilter</ListItem>
+            <ListItem>target.ldap.pageSize</ListItem>
+            <ListItem>writeback.enabled</ListItem>
+            <ListItem>writeback.startAt</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>SDS Connection Settings</ListItem>
+        </FormSectionNames>
+        <FormItem name="global.logDirectory">
+            <ModTime>1366876655390</ModTime>
+            <parameter name="description">LDAPSYNC.THE.FOLDER.WHERE.LOG.FILES.ARE.WRITTEN.DEFAULT.IS.LDAPSYNCLOGS.IN.THE.TDI.SOLUTION.DIRECTORY</parameter>
+            <parameter name="label">LDAPSYNC.LOG.DIRECTORY</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.binaryAttributes">
+            <ModTime>1380534372703</ModTime>
+            <parameter name="description">LDAPSYNC.ENTER.THE.LIST.OF.BINARY.ATTRIBUTES.ONE.LINE.FOR.EACH.ATTRIBUTE.NAME</parameter>
+            <parameter name="label">LDAPSYNC.SPECIFY.ANY.CUSTOM.BINARY.ATTRIBUTES.ONE.PER.LINE</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.pageSize">
+            <parameter name="description">LDAPSYNC.SETTING.A.VALUE.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS</parameter>
+            <parameter name="label">LDAPSYNC.PAGE.SIZE</parameter>
+            <parameter name="modes">-AddOnly</parameter>
+            <parameter name="script">checkLDAPPageSize</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.PAGE.SIZE</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.password">
+            <ModTime>1369134649906</ModTime>
+            <parameter name="description">LDAPSYNC.LOGIN.PASSWORD.TO.TDS</parameter>
+            <parameter name="label">LDAPSYNC.PASSWORD</parameter>
+            <parameter name="syntax">PASSWORD</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.searchBase">
+            <ModTime>1383209765421</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">LDAPSYNC.THIS.THE.SPOT.IN.THE.TARGET.SDS.WHERE.DATA.WILL.BE.SYNCHRONIZED.TO</parameter>
+            <parameter name="label">LDAPSYNC.DEFAULT.TARGET.CONTAINER</parameter>
+            <parameter name="script">selectLDAPSyncSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.CONTEXTS</parameter>
+            <parameter name="scripthelp">Browse available suffixes to select the desired one</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.searchFilter">
+            <parameter name="description">LDAPSYNC.LDAP.FILTER.USED.TO.SELECT.ENTRIES.FOR.PROCESSING</parameter>
+            <parameter name="label">LDAPSYNC.SEARCH.FILTER</parameter>
+            <parameter name="script">selectLDAPSearchFilter</parameter>
+            <parameter name="scriptLabel">...</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.url">
+            <parameter name="Required">true</parameter>
+            <parameter name="description">LDAPSYNC.URL.TO.THE.TARGET.TDS.DIRECTORY.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.LDAP.URL</parameter>
+            <parameter name="syntax">URL</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.user">
+            <parameter name="description">LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.TARGET.TDS.SYSTEM</parameter>
+            <parameter name="label">LDAPSYNC.USER.LOGIN</parameter>
+            <parameter name="syntax">DN</parameter>
+        </FormItem>
+        <FormItem name="writeback.enabled"/>
+        <FormItem name="writeback.startAt"/>
+        <FormSection name="SDS Connection Settings">
+            <ModTime>1377592444859</ModTime>
+            <FormSectionNames>
+                <ListItem>target.ldap.url</ListItem>
+                <ListItem>target.ldap.user</ListItem>
+                <ListItem>target.ldap.password</ListItem>
+                <ListItem>target.ldap.searchBase</ListItem>
+                <ListItem>target.ldap.binaryAttributes</ListItem>
+            </FormSectionNames>
+            <parameter name="title"/>
+        </FormSection>
+        <parameter name="title">General Settings</parameter>
+        <TranslationFile>ldapsync</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="target.ldap.url"> </parameter>
+            <parameter name="writeback.startAt">EOD</parameter>
+            <parameter name="hook.qradar.parameter.mapFile">LDAPSync/QRadar.map</parameter>
+            <parameter name="hook.qradar.parameter.hostname">localhost</parameter>
+            <parameter name="hook.qradar.parameter.port">514</parameter>
+            <parameter name="hook.qradar.parameter.severity">alert</parameter>
+            <parameter name="hook.qradar.parameter.facility">user</parameter>
+            <parameter name="hook.qradar.parameter.dateMask">yyyy-MM-dd'T'HH:mm:ss.SSZ</parameter>
+            <parameter name="hook.snmp.parameter.mapFile">LDAPSync/SNMP.map</parameter>
+            <parameter name="hook.snmp.parameter.snmpTrapPort">162</parameter>
+            <parameter name="hook.snmp.parameter.snmpGetSetHost">localhost</parameter>
+            <parameter name="hook.snmp.parameter.community">public</parameter>
+            <parameter name="hook.custommonitor.AL">LDAPSync:/AssemblyLines/monitorCustom</parameter>
+            <parameter name="target.isTDS">true</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings/>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

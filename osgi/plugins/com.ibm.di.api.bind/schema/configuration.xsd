@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns:cfg="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+	<include schemaLocation="listener.xsd"></include>
+	<import schemaLocation="../config/solution.xsd"
+		namespace="http://www.ibm.com/xmlns/prod/tdi/72/config"></import>
+
+
+
+
+
+
+	<element name="createConfig" type="tns:CreateConfig"></element>
+
+	<element name="startCI" type="tns:StartCI"></element>
+
+	<complexType name="StartCI">
+		<sequence>
+
+            <element name="logListener" type="tns:LogListener" maxOccurs="1" minOccurs="0">
+			</element>
+            <element ref="cfg:solution" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		<attribute name="configRef" type="anyURI" use="optional"></attribute>
+		<attribute name="keepAlive" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="password" type="string" use="optional"></attribute>
+		<attribute name="runName" type="string" use="optional"></attribute>
+	</complexType>
+
+	<complexType name="CreateConfig">
+		<sequence>
+			<element ref="cfg:solution" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		<attribute name="name" use="required" type="tns:FileNameRestrictionType">
+
+		</attribute>
+		<attribute name="overwrite" type="boolean" use="optional"
+			default="false">
+		</attribute>
+
+
+		<attribute name="encrypt" type="boolean" use="optional"
+			default="false">
+		</attribute>
+		<attribute name="leaveCheckOut" type="boolean" use="optional"
+			default="true">
+		</attribute>
+	</complexType>
+	<simpleType name="FileNameRestrictionType">
+		<restriction base="string">
+			<pattern value='[^\\/:\*\?"&lt;&gt;|]+'></pattern>
+		</restriction>
+	</simpleType>
+
+	<element name="configLock" type="tns:ConfigLock"></element>
+
+	<complexType name="ConfigLock">
+		<sequence>
+
+			<element ref="cfg:solution"></element>
+		</sequence>
+		<attribute name="configPassword" type="string" use="optional"></attribute>
+		<attribute name="encrypt" type="boolean" use="optional" default="false"></attribute>
+	</complexType>
+</schema>

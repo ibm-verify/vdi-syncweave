@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SapR3BorConnector">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.sapr3.bor.SapR3BorConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="ashost"/>
+				<parameter name="client">000</parameter>
+				<parameter name="gwhost"/>
+				<parameter name="optional"/>
+				<parameter name="passwd"/>
+				<parameter name="sapr3.conn.borObjName">PERSDATA</parameter>
+				<parameter name="sapr3.conn.deleteStylesheets"><![CDATA[xsl/bapi_employee_enqueue.xsl
+xsl/bapi_persdata_delete.xsl
+xsl/bapi_employee_dequeue.xsl
+]]></parameter>
+				<parameter name="sapr3.conn.findPostStylesheet">xsl/bapi_persdata_getdetail_postcall.xsl</parameter>
+				<parameter name="sapr3.conn.findPreStylesheet">xsl/bapi_persdata_getdetail_precall.xsl</parameter>
+				<parameter name="sapr3.conn.getNextPostStylesheet">xsl/bapi_persdata_getdetail_postcall.xsl</parameter>
+				<parameter name="sapr3.conn.getNextPreStylesheet">xsl/bapi_persdata_getdetail_precall.xsl</parameter>
+				<parameter name="sapr3.conn.modifyStylesheets"><![CDATA[xsl/bapi_employee_enqueue.xsl
+xsl/bapi_persdata_change.xsl
+xsl/bapi_employee_dequeue.xsl
+]]></parameter>
+				<parameter name="sapr3.conn.putStylesheets"><![CDATA[xsl/bapi_employee_enqueue.xsl
+xsl/bapi_persdata_create.xsl
+xsl/bapi_employee_dequeue.xsl
+]]></parameter>
+				<parameter name="sapr3.conn.rfcFC">ibmdi.SapR3RfcFC</parameter>
+				<parameter name="sapr3.conn.selectEntriesPostStylesheet">xsl/bapi_employee_getdata_postcall.xsl</parameter>
+				<parameter name="sapr3.conn.selectEntriesPreStylesheet">xsl/bapi_employee_getdata_precall.xsl</parameter>
+				<parameter name="sysnr">00</parameter>
+				<parameter name="trace">0</parameter>
+				<parameter name="user"/>
+				<parameter name="supportsSkipLookup">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.sapr3.bor.SapR3BorConnector">
+			<TranslationFile>NLS/idi_conn_sapr3bor</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>user</ListItem>
+					<ListItem>passwd</ListItem>
+					<ListItem>client</ListItem>
+					<ListItem>sysnr</ListItem>
+					<ListItem>ashost</ListItem>
+					<ListItem>gwhost</ListItem>
+					<ListItem>trace</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>optional</ListItem>
+					<ListItem>sapr3.conn.borObjName</ListItem>
+					<ListItem>sapr3.conn.rfcFC</ListItem>
+					<ListItem>sapr3.conn.deleteStylesheets</ListItem>
+					<ListItem>sapr3.conn.modifyStylesheets</ListItem>
+					<ListItem>sapr3.conn.putStylesheets</ListItem>
+					<ListItem>sapr3.conn.findPostStylesheet</ListItem>
+					<ListItem>sapr3.conn.findPreStylesheet</ListItem>
+					<ListItem>sapr3.conn.getNextPostStylesheet</ListItem>
+					<ListItem>sapr3.conn.getNextPreStylesheet</ListItem>
+					<ListItem>sapr3.conn.selectEntriesPostStylesheet</ListItem>
+					<ListItem>sapr3.conn.selectEntriesPreStylesheet</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>client</ListItem>
+				<ListItem>user</ListItem>
+				<ListItem>passwd</ListItem>
+				<ListItem>sysnr</ListItem>
+				<ListItem>ashost</ListItem>
+				<ListItem>gwhost</ListItem>
+				<ListItem>trace</ListItem>
+				<ListItem>optional</ListItem>
+				<ListItem>sapr3.conn.borObjName</ListItem>
+				<ListItem>sapr3.conn.rfcFC</ListItem>
+				<ListItem>sapr3.conn.putStylesheets</ListItem>
+				<ListItem>sapr3.conn.modifyStylesheets</ListItem>
+				<ListItem>sapr3.conn.deleteStylesheets</ListItem>
+				<ListItem>sapr3.conn.findPreStylesheet</ListItem>
+				<ListItem>sapr3.conn.findPostStylesheet</ListItem>
+				<ListItem>sapr3.conn.selectEntriesPreStylesheet</ListItem>
+				<ListItem>sapr3.conn.selectEntriesPostStylesheet</ListItem>
+				<ListItem>sapr3.conn.getNextPreStylesheet</ListItem>
+				<ListItem>sapr3.conn.getNextPostStylesheet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="ashost">
+				<parameter name="description">SAPBOR_ASHOST_DESC</parameter>
+				<parameter name="label">SAPBOR_ASHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="client">
+				<parameter name="description">SAPBOR_CLIENT_DESC</parameter>
+				<parameter name="label">SAPBOR_CLIENT_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="gwhost">
+				<parameter name="description">SAPBOR_GWHOST_DESC</parameter>
+				<parameter name="label">SAPBOR_GWHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="optional">
+				<parameter name="description">SAPBOR_OPTION_DESC</parameter>
+				<parameter name="label">SAPBOR_OPTION_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="passwd">
+				<parameter name="description">SAPBOR_PASSWD_DESC</parameter>
+				<parameter name="label">SAPBOR_PASSWD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.borObjName">
+				<parameter name="description">SAPBOR_BOROBJ_DESC</parameter>
+				<parameter name="label">SAPBOR_BOROBJ_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.deleteStylesheets">
+				<parameter name="description">SAPBOR_DELSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_DELSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.findPostStylesheet">
+				<parameter name="description">SAPBOR_LLKSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_LLKSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete,Update,Lookup</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.findPreStylesheet">
+				<parameter name="description">SAPBOR_LOKSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_LOKSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete,Update,Lookup</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.getNextPostStylesheet">
+				<parameter name="description">SAPBOR_PPTSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_PPTSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.getNextPreStylesheet">
+				<parameter name="description">SAPBOR_POTSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_POTSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.modifyStylesheets">
+				<parameter name="description">SAPBOR_UPDSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_UPDSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Update</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.putStylesheets">
+				<parameter name="description">SAPBOR_ADDSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_ADDSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">AddOnly</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.rfcFC">
+				<parameter name="description">SAPBOR_RFCFC_DESC</parameter>
+				<parameter name="label">SAPBOR_RFCFC_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.selectEntriesPostStylesheet">
+				<parameter name="description">SAPBOR_SLLSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_SLLSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.conn.selectEntriesPreStylesheet">
+				<parameter name="description">SAPBOR_SELSTS_DESC</parameter>
+				<parameter name="label">SAPBOR_SELSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sysnr">
+				<parameter name="description">SAPBOR_SYSNR_DESC</parameter>
+				<parameter name="label">SAPBOR_SYSNR_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="trace">
+				<parameter name="description">SAPBOR_TRACE_DESC</parameter>
+				<parameter name="label">SAPBOR_TRACE_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="user">
+				<parameter name="description">SAPBOR_USER_DESC</parameter>
+				<parameter name="label">SAPBOR_USER_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

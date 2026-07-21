@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="migrateamcprops" tmsVersion="1.0" xml:lang="zh-CN">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<!-- MESSAGES -->
+
+<Message ID="CTGDKM301I" prefix="yes">
+   <MsgText pgmKey="COMMAND.START.MIGRATION" varFormat="Java">
+   启动文件迁移...</MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM302I" prefix="yes">
+   <MsgText pgmKey="COMMAND.PARSING.OPTIONS" varFormat="Java">
+   语法分析选项...</MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM303E" prefix="yes">
+   <MsgText pgmKey="OPT_OCCUR_TWICE" varFormat="Java">
+   <Variable formatSpec="{0}">operator switch</Variable> 选项出现过多次。   </MsgText>
+   <Explanation> <p>
+   调用 tdimigamc 命令时多次传递了同一个参数。
+   选项仅可传递一次。例如，用户可能已传递“-b”选项两次，但这是禁止的操作。   </p> </Explanation>
+   <OperatorResponse> <p>
+   每个选项仅传递一次。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM304E" prefix="yes">
+   <MsgText pgmKey="OPT_VAL_UNSPECIFIED" varFormat="Java">
+   未对 <Variable formatSpec="{0}">option name</Variable> 选项指定值。   </MsgText>
+   <Explanation> <p>
+   调用 tdimigamc 命令时所传递的选项的值未指定。
+   还需指定该值。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   检查 tdimigamc 命令用法，并使用正确的选项和关联的值再次调用 tdisrvctl 命令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM305E" prefix="yes">
+   <MsgText pgmKey="ILLEGAL_COMMAND_USAGE" varFormat="Java">
+   命令用法不正确。
+   </MsgText>
+   <Explanation> <p>
+   调用 tdimigamc 命令时传递了不受支持的命令行选项、意外遇到参数列表末尾或命令行选项用法不正确。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   检查 tdimigamc 命令用法，并尝试使用有效的参数来调用 tdisrvctl 命令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM306E" prefix="yes">
+   <MsgText pgmKey="UNKNOWN_OPT" varFormat="Java">
+   遇到未知选项 <Variable formatSpec="{0}">operator switch</Variable>。   </MsgText>
+   <Explanation> <p>
+   调用 tdimigamc 命令时使用了未知选项。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请参阅 tdimigamc 命令用法，并只使用允许的选项来调用该命令。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM307E" prefix="yes">
+   <MsgText pgmKey="FILE_OPTION_ABSENT" varFormat="Java">
+   未指定 <Variable formatSpec="{0}">operator switch</Variable> 选项。   此选项必须指定。
+   </MsgText>
+   <Explanation> <p>
+   调用 tdimigamc 命令时未指定 -op 选项。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请参阅 tdimigamc 命令用法，并且调用该命令时指定正确且必要的选项。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM308I" prefix="yes">
+   <MsgText pgmKey="COMMAND.GENERAL.OPTIONS" varFormat="Java">
+   已分析的选项：<Variable formatSpec="{0}">options</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM309E" prefix="yes">
+   <MsgText pgmKey="ERROR_WHILE_INITIALIZING_MIGRATION" varFormat="Java">
+   读取 XML 属性文件时发生错误 <Variable formatSpec="{0}">error</Variable>。
+   </MsgText>
+   <Explanation> <p>
+   装入 XML 属性文件时发生错误。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   要获取更多信息，请参阅日志。
+请验证 migamc.jar 文件是否位于该类路径中。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM310E" prefix="yes">
+   <MsgText pgmKey="FILE_NOREAD_NOEXIST" varFormat="Java">
+   无法迁移文件 <Variable formatSpec="{0}">file name</Variable>。文件不存在或无法读取。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为要迁移的文件不存在或无法读取。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请验证要迁移的指定文件是否存在且可以读写。同时，请验证是否对备份文件位置有读许可权。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM311E" prefix="yes">
+   <MsgText pgmKey="NOT_A_FILE" varFormat="Java">
+   无法迁移文件 <Variable formatSpec="{0}">file name</Variable>。指定的文件不是文件。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为指定迁移的文件不是文件。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请验证要迁移的指定文件是否存在且是可以被读写的文件。同时，请验证是否对备份文件位置有读许可权。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM312E" prefix="yes">
+   <MsgText pgmKey="FILE_NOWRITE" varFormat="Java">
+   无法迁移文件 <Variable formatSpec="{0}">file name</Variable>。无法写入指定的文件。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为无法写入该文件。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请验证要迁移的指定文件是否存在且可以读写。同时，请验证是否对备份文件位置有读许可权。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM313E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME" varFormat="Java">
+   无法迁移文件 <Variable formatSpec="{0}">file name</Variable>。备份文件的文件名不得与该文件名相同。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为要迁移的文件和要备份的文件相同。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请为要迁移的文件和要备份的文件指定不同的文件名。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM314E" prefix="yes">
+   <MsgText pgmKey="FILES_ARE_SAME2" varFormat="Java">
+   无法迁移文件 <Variable formatSpec="{0}">file name</Variable>。备份文件的文件名不得与新文件的名称相同。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为新的文件名和要备份的文件名相同。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请为要备份的文件和新文件指定不同的文件名。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM315E" prefix="yes">
+   <MsgText pgmKey="UNABLE_BACKUP_FILE" varFormat="Java">
+   无法执行迁移。无法将文件 <Variable formatSpec="{0}">file name</Variable> 备份到文件 <Variable formatSpec="{1}">file name</Variable>。
+   </MsgText>
+   <Explanation> <p>
+   迁移失败，因为无法备份要迁移的文件。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   请验证要迁移的指定文件是否存在且可以读写。同时，请验证是否对备份文件位置有读许可权。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKM316I" prefix="yes">
+   <MsgText pgmKey="ADDING_NEW_PROPERTIES" varFormat="Java">
+   正在添加新属性...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM317I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_ADDING_NEW_PROPERTIES" varFormat="Java">
+   完成添加新属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM318I" prefix="yes">
+   <MsgText pgmKey="STARTED_WITH_MODIFICATION" varFormat="Java">
+   已开始使用新值修改旧属性并注释旧属性....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM319I" prefix="yes">
+   <MsgText pgmKey="COMPLETED_WITH_MODIFICATION" varFormat="Java">
+   完成使用新值修改旧属性并注释旧属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM320I" prefix="yes">
+   <MsgText pgmKey="COMMENTING_UNWANTED_PROPERTIES" varFormat="Java">
+   正在开始注释旧属性....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM321I" prefix="yes">
+   <MsgText pgmKey="NUMBER_OF_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   要注释的旧属性数为 <Variable formatSpec="{0}">number of properties</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM322I" prefix="yes">
+   <MsgText pgmKey="NO_OLD_PROPERTIES_TO_BE_REMOVED" varFormat="Java">
+   发行版 <Variable formatSpec="{0}">release version</Variable> 没有要除去的旧属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM323I" prefix="yes">
+   <MsgText pgmKey="NO_NEW_PROPERTIES_ADDED" varFormat="Java">
+   发行版 <Variable formatSpec="{0}">release version</Variable> 没有要添加的新属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM324I" prefix="yes">
+   <MsgText pgmKey="UPDATING_PROPERTIES" varFormat="Java">
+   正在更新属性....
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM325I" prefix="yes">
+   <MsgText pgmKey="EXIT_CODE_OF_MIGRATION" varFormat="Java">
+   迁移完成，退出代码为 <Variable formatSpec="{0}">exit code</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM326I" prefix="yes">
+   <MsgText pgmKey="FILE_DELETED" varFormat="Java">
+   文件 <Variable formatSpec="{0}">file name</Variable> 已成功删除。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM327I" prefix="yes">
+   <MsgText pgmKey="FAILED_TO_DELETE_FILE" varFormat="Java">
+   未能删除文件 <Variable formatSpec="{0}">file name</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM328I" prefix="yes">
+   <MsgText pgmKey="INITIALIZING_MIGRATION_LOADING_PROPERTIES" varFormat="Java">
+   正在初始化迁移，装入 <Variable formatSpec="{0}">xml prop file</Variable> 属性文件。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKM329I" prefix="yes">
+   <MsgText pgmKey="NO_PROPERTIES_TO_UPDATE" varFormat="Java">
+   新发行版中没有较早发行版中需要更新的属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

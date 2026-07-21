@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="c3ac641a-0698-4c17-9903-dd667084d649" created="Mon May 19 19:16:12 CEST 2014" createdBy="Administrator" main="FDS_Target_SCIM" modified="Mon May 19 19:16:12 CEST 2014" modifiedBy="Administrator" project="FDS_Target_SCIM" version="7.1.1">
+    <Container name="FDS_Target_SCIM">
+        <Container name="Data"/>
+        <Properties name="Config">
+            <Stores>
+                <PropertyStore name="FDS_Target_SCIM">
+                    <Parser/>
+                    <RawConnector>
+                        <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                        <parameter name="collection">@SUBSTITUTE{config.$directory}/FDS_SCIM_Plugin.properties</parameter>
+                        <parameter name="collectionType">Default</parameter>
+                    </RawConnector>
+                    <Key>key</Key>
+                    <Value>value</Value>
+                    <ReadOnly>false</ReadOnly>
+                    <InitialLoad>true</InitialLoad>
+                    <CacheTimeout>0</CacheTimeout>
+                </PropertyStore>
+            </Stores>
+        </Properties>
+    </Container>
+</MetamergeConfig>

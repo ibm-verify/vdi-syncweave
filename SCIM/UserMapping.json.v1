@@ -1,0 +1,24 @@
+{ "SCIM": "id", "LDAP": "$dn" }
+{ "SCIM": "userName", "LDAP": "cn", "CreateDN":true }
+{ "SCIM": "name.familyName", "LDAP": "sn" }
+{ "SCIM": "name.givenName", "LDAP": "givenName" }
+{ "SCIM": "meta.created", "LDAP": "createTimestamp", "Conversion": "DateTime", "ReadOnly": true }
+{ "SCIM": "meta.modified", "LDAP": "modifyTimestamp", "Conversion": "DateTime", "ReadOnly": true }
+{ "SCIM": "externalId", "LDAP": "uid" }
+{ "SCIM": "password", "LDAP": "userPassword", "WriteOnly": true }
+{ "SCIM": "displayName", "LDAP": "displayName" }
+{ "SCIM": "title", "LDAP": "title" }
+{ "SCIM": "phoneNumbers", "LDAP": "telephonenumber", "Type": "work" }
+{ "SCIM": "phoneNumbers", "LDAP": "facsimiletelephonenumber", "Type": "fax" }
+{ "SCIM": "phoneNumbers", "LDAP": "homePhone", "Type": "home" }
+{ "SCIM": "phoneNumbers", "LDAP": "mobile", "Type": "mobile" }
+{ "SCIM": "phoneNumbers", "LDAP": "pager", "Type": "pager" }
+{ "SCIM": "emails", "LDAP": "mail", "Type": "work" }
+{ "SCIM": "groups", "LDAP": "ibm-allGroups", "ReadOnly": true, "Conversion": "Group" }
+{ "SCIM": "addresses.locality", "LDAP": "l", "Type": "work" }
+{ "SCIM": "addresses.streetAddress", "LDAP": "streetAddress", "Conversion": "NewLines", "Type": "work" }
+{ "SCIM": "addresses.formatted", "LDAP": "postalAddress", "Conversion": "NewLines", "Type": "work" }
+{ "SCIM": "addresses.postalCode", "LDAP": "postalCode", "Type": "work" }
+{ "SCIM": "addresses.region", "LDAP": "st", "Type": "work" }
+{ "SCIM": "addresses.formatted", "LDAP": "homePostalAddress", "Conversion": "NewLines", "Type": "home" }
+{ "SCIM": "active", "LDAP": "ibm-pwdAccountLocked", "Conversion": "InverseBoolean" }

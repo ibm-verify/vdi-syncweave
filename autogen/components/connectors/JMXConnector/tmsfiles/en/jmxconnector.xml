@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="jmxconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJK001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MISSING.MODE.EXCEP" varFormat="Java">
+   The &apos;mode&apos; parameter must be set to use
+   the JMX Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter mode was not specified in the
+   JMX Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the mode parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK002E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MODEBAD.EXCEP" varFormat="Java">
+   Invalid &apos;mode&apos; parameter set in the
+   the JMX Connector: &apos;&apos;<Variable formatSpec="{0}">parameter value</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter mode was specified in the
+   JMX Connector but was set to an invalid value.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify a proper value for the mode parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MISSING.MBEANTYPES.EXCEP" varFormat="Java">
+   The &apos;mBeanTypes&apos; parameter must be set to use
+   the JMX Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter mBeanTypes was not specified in the
+   JMX Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the mBeanTypes parameter in the Connector.
+   If you need to receive notifications from all MBeans, check the allMBeans parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK004E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MISSING.URL.EXCEP" varFormat="Java">
+   The &apos;url&apos; parameter must be set to use
+   the JMX Connector.
+   </MsgText>
+   <Explanation> <p>
+   The required parameter url was not specified in the
+   JMX Connector.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the url parameter in the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK005E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MBEAN.NOT.FOUND" varFormat="Java">
+   The MBean name &apos;&apos;<Variable formatSpec="{0}">MBean name</Variable>&apos;&apos; provided
+   does not match any of the registered MBeans.
+   </MsgText>
+   <Explanation> <p>
+   An InstanceNotFoundException was encountered when the method addListener was trying
+   to add NotificationListener.  The NotificationListener handles the notifications
+   emitted by the registered MBean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK006E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.COMMUNICATION.PROBLEM" varFormat="Java">
+   A communication problem occurred when talking to the MBean server.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An IOException wasencountered when the method addListener was trying to add
+   NotificationListener. The NotificationListener will handle the notifications
+   emitted by the registered MBean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the network connection.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK007E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MBEAN.NOT.FOUND.IS" varFormat="Java">
+   The MBean name &apos;&apos;<Variable formatSpec="{0}">object name</Variable>&apos;&apos;
+   provided does not match any of the registered MBeans.
+   </MsgText>
+   <Explanation> <p>
+   An InstanceNotFoundException was encountered when the method isNotificationBroadcaster
+   was verifying the ObjectName name, an MBean, was registered in the MBean server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK008E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.COMMUNICATION.PROBLEM.IS" varFormat="Java">
+   A communication problem occurred when talking to the MBean server.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An IOException was encountered when the method isNotificationBroadcaster
+   was verifying the ObjectName name, an MBean, was registered in the MBean server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the network connection.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK009E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.MBEAN.NOT.FOUND.REMOVE" varFormat="Java">
+   The MBean name &apos;&apos;<Variable formatSpec="{0}">object name</Variable>&apos;&apos;
+   provided does not match any of the registered MBeans.
+   </MsgText>
+   <Explanation> <p>
+   An InstanceNotFoundException was encountered when method removeListeners was trying
+   to remove a listener from a registered MBean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK010E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.COMMUNICATION.PROBLEM.REMOVE" varFormat="Java">
+   A communication problem occurred when talking to the MBean server.<br/>
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An IOException was encountered when method removeListeners
+   was trying to removes a listener from a registered MBean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the network connection.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK011E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.LISTENER.NOT.FOUND.REMOVE" varFormat="Java">
+   The listener object name &apos;&apos;<Variable formatSpec="{0}">object name</Variable>&apos;&apos;
+   is not registered in the MBean.
+   </MsgText>
+   <Explanation> <p>
+   An ListenerNotFoundException was encountered when method removeListeners was trying to
+   remove a listener from a registered MBean.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJK012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.REMOVE.LISTENER" varFormat="Java">
+   The listener object name &apos;&apos;<Variable formatSpec="{0}">object name</Variable>&apos;&apos;
+   has been successfully removed from a registered MBean.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJK013I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.JMX.NOTIFICATION.RECEIVED" varFormat="Java">
+   Notification received: Type:<Variable formatSpec="{0}">type object</Variable>,
+   Sequence number:<Variable formatSpec="{1}">SequenceNumber</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="openidmlfc" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJZ501E" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.EXPECTS.ENTRY" varFormat="Java">   
+   Open IdML Function Component accepts only a IBM Security Verify Directory Integrator Entry as input.
+   </MsgText>
+   <Explanation><p>
+   At the beginning of the Function Component&apos;s execution cycle the input data
+   passed was not a IBM Security Verify Directory Integrator Entry.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Open IdML Function Component expects only a IBM Security Verify Directory Integrator Entry
+   as input. Check the AL logic and try again.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ502E" prefix="yes">
+   <MsgText pgmKey="ITDI.BOOK.CURRENTLY.IN.USE" varFormat="Java">   
+   The book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; is currently in use. 
+   Release it, before attempting to use it again. 
+   </MsgText>
+   <Explanation><p>
+   The book with the provided book name is currently in use by another Open IdML Function Component. 
+   It will have to release it before this Component can use it.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check if there is another running AssemblyLine with IdML Components. If the problem persists
+   either provide another book name for your IdML Components or restart the SDI server.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ503E" prefix="yes">
+   <MsgText pgmKey="ITDI.BOOK.INSUFFICIENT.DATA.FOR.MSS" varFormat="Java">   
+   Not all CDM attributes needed for registering an MSS are provided.
+   </MsgText>
+   <Explanation><p>
+   The attributes required for creating an MSS as specified by the naming policy are not provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   For creating a MSS the user needs to pass either the &apos;cdm:MSSName&apos; attribute or both
+   &apos;cdm:Hostname&apos;, &apos;cdm:ManufacturerName&apos; and &apos;cdm:ProductName&apos;. 
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ504E" prefix="yes">
+   <MsgText pgmKey="ITDI.BOOK.RELATIONSHIP.NEEDS.TARGET.AND.SOURCE" varFormat="Java">   
+   Both a target and a source must be provided, in order to create a relationship.
+   </MsgText>
+   <Explanation><p>
+   An IdML Relationship connects two IdML Configuration Items, which can perform role of either a 
+   target or a source of the Relationship. Therefore, the ids of two CIs must be mapped to these attributes
+   of the Relationship.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Pass correct CI id values for both the &apos;source&apos; and &apos;target&apos; attributes.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ505E" prefix="yes">
+   <MsgText pgmKey="ITDI.BOOK.FAILED.CERTIFICATION" varFormat="Java">   
+   The IBM DL Certification Tool assessed that book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; 
+   is not a valid IdML document (file name: &apos;<Variable formatSpec="{1}">file name</Variable>&apos;). 
+   </MsgText>
+   <Explanation><p>
+   The Open IdML FC can be configured to validate the generated IdML. If it fails the validation the user is
+   notified with this message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the logic of the associated AssemblyLine is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ506E" prefix="yes">
+   <MsgText pgmKey="ITDI.BOOK.APPLCODE.HOSTNAME.CDMVERSION.REQUIRED" varFormat="Java">   
+	A valid CDM version and MSS&apos;s Application Code and Hostname are mandatory for the MSS creation. 
+   </MsgText>
+   <Explanation><p>
+   The CDM version, MSS&apos;s Application Code and Hostname must be specified by the user.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide the listed information in the FC&apos;s configuration panel, or its Output Map 
+   (for Application Code and Hostname).
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ507E" prefix="yes">
+   <MsgText pgmKey="CDM.META.DATA.NO.CLASS.FOUND" varFormat="Java">   
+   Class &apos;<Variable formatSpec="{0}">class name</Variable>&apos; cannot be found.
+   </MsgText>
+   <Explanation><p>
+   The specified class name cannot be found in the CDM meta-data, so its attributes cannot be listed.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Check if the class name is enterer correctly.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ508I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.BOOK.ALREADY.OPENED" varFormat="Java">   
+   Open IdML Function Component has already opened book &apos;<Variable formatSpec="{0}">book name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ509I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.PARAMETER.INITIALIZED" varFormat="Java">   
+   The parameter <Variable formatSpec="{0}">param name</Variable> was initialized with the value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ510I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.BOOKNAME.INITIALIZED" varFormat="Java">   
+   Open IdML Function Component will work with book: &apos;<Variable formatSpec="{0}">book name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ511I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.BOOKNAME.OVERRIDDEN" varFormat="Java">   
+   The name of the currently used book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; has been 
+   overridden to &apos;<Variable formatSpec="{1}">new name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ512I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.USE.IT.REGISTRY" varFormat="Java">   
+   Use an IT registry for the needed meta-data: &apos;<Variable formatSpec="{0}">use it registry</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ513I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.IDML.OPERATION.TYPE" varFormat="Java">   
+   Open IdML Function Component will create a <Variable formatSpec="{0}">idml mode</Variable> IdML.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ514I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.VALIDATE.IDML" varFormat="Java">   
+   The generated IdML will be validated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ515I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.MSS.PARAMETER.INITIALIZED" varFormat="Java">   
+   The MSS''s <Variable formatSpec="{0}">param name</Variable> has value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ516I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.MSS.PARAMETER.OVERRIDDEN" varFormat="Java">   
+   The MSS''s <Variable formatSpec="{0}">param name</Variable> has been overridden to value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ517I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.CDM.VERSION" varFormat="Java">   
+   The Common Data Model version of the generated IdML will be 
+   &apos;<Variable formatSpec="{0}">cdm version</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ518I" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.BOOK.OPENED" varFormat="Java">   
+   Open IdML Function Component opened book &apos;<Variable formatSpec="{0}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ519E" prefix="yes">
+   <MsgText pgmKey="OPEN.IDML.FC.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   Parameter &apos;<Variable formatSpec="{0}">param name</Variable>&apos; is not provided.
+   </MsgText>
+   <Explanation><p>
+   The specified parameter is needed by the Open IdML Function Component and must be provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a value for this parameter.
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

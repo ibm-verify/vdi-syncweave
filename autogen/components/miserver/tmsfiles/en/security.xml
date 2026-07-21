@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="security" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIA401E" prefix="yes">
+   <MsgText pgmKey="PKCS7.DECRYPT.INIT.FAILED" varFormat="Java">   
+   Failed to locate all required keys for deciphering PKCS7 encapsulated
+   messages: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A problem occurred while obtaining the necessary keys from their key stores.
+   Possibly the specified key store information is incorrect.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the necessary keys are in place and the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA402E" prefix="yes">
+   <MsgText pgmKey="PKCS7.DECRYPT.NO.SIGNER" varFormat="Java">
+   Unable to decrypt the message.  The signer of the PKCS7 message is not trusted.
+   </MsgText>
+   <Explanation> <p>
+   The certificate of the signer of the PKCS7 message could not be found among the configured
+   set of trusted certificates. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA403E" prefix="yes">
+   <MsgText pgmKey="PKCS7.DECRYPT.INVALID.VERIFICATION" varFormat="Java">
+   Unable to decrypt the message. Signature verification failed using the certificate
+   of subject: <Variable formatSpec="{0}">certificate owner</Variable>.
+   </MsgText>
+   <Explanation>
+   There is a trusted certificate for the specified subject among the configured trusted certificates.
+   However, the PKCS7 message has not been signed by that certificate.
+   Possibly a different certificate for the same owner was used when signing, or the certificate is corrupted.
+   </Explanation>
+   <OperatorResponse>
+   Verify that the specified certificate is not corrupted and the configuration is correct.
+  </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA404E" prefix="yes">
+   <MsgText pgmKey="PKCS7.DECRYPT.ERROR" varFormat="Java">
+   Unable to decrypt the message. An internal error occurred while processing the PKCS7 encapsulated message:
+   <Variable formatSpec="{0}">exception</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An operation performed on the received message ended with an unexpected result.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA405E" prefix="yes">
+   <MsgText pgmKey="PKCS7.ENCRYPT.CANNOT.FIND.CERT" varFormat="Java">
+   Could not find certificate with alias &apos;<Variable formatSpec="{0}">alias name</Variable>&apos;
+   in key store &apos;<Variable formatSpec="{1}">file name</Variable>&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The specified certificate is required to encrypt PKCS7 messages.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the specified certificate exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA406E" prefix="yes">
+   <MsgText pgmKey="PKCS7.ENCRYPT.INIT.FAILED" varFormat="Java">   
+   Failed to initialize the PKCS7 encryption module.  An exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A problem occurred while obtaining the necessary keys from their key stores.
+   Possibly the specified key store information is incorrect.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the necessary keys are in place and the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA407E" prefix="yes">
+   <MsgText pgmKey="PKCS7.ENCRYPT.SELF.TEST.FAILED" varFormat="Java">   
+   The self test of the PKCS7 encryption module failed. The module is not correctly initialized.
+   </MsgText>
+   <Explanation> <p>
+   On initialization the PKCS7 module encrypts a test message to ensure it is working properly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the configuration is correct.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA408E" prefix="yes">
+   <MsgText pgmKey="PKCS7.ENCRYPT.SIGNTURE.VERIFICATION.FAILED" varFormat="Java">   
+   Failed to sign PKCS7 message because the signature verification failed.
+   </MsgText>
+   <Explanation>
+   After signing a PKCS7 message, the PKCS7 module verifies that the signature is correct.
+   This is an internal error.
+   </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

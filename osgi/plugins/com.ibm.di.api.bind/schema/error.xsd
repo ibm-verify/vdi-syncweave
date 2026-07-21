@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/api"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<complexType name="Exception">
+		<sequence>
+			<element name="message" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="stack" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+
+	<element name="error" type="tns:Error"></element>
+
+	<complexType name="Error">
+		<sequence>
+			<element name="created" type="dateTime" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="code" type="string" maxOccurs="1" minOccurs="1">
+			</element>
+			<element name="msgId" type="string" maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="details" maxOccurs="1" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="detail" type="tns:ErrorDetail" maxOccurs="unbounded"
+							minOccurs="0">
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="exception" type="tns:Exception" maxOccurs="1"
+				minOccurs="0">
+			</element>
+
+		</sequence>
+	</complexType>
+
+	<complexType name="ErrorDetail">
+		<sequence>
+			<element name="name" type="string" maxOccurs="1" minOccurs="1">
+			</element>
+			<element name="value" type="string" maxOccurs="1" minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+</schema>

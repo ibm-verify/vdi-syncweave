@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="12" UUID="d4ec5dca-6fa7-44b7-8189-35a064e4b406" created="Mon May 19 19:16:12 CEST 2014" createdBy="Administrator" main="FlowSettings" modified="Tue Mar 24 13:27:46 CET 2015" modifiedBy="Administrator" project="FDS_Target_SCIM" version="7.1.1">
+    <Container name="References"/>
+    <Connector name="FlowSettings">
+        <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+        <ModTime>1427200065623</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1409301779411</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="140" UUID="d7bdce2e-a119-487e-aad1-f29fbdbb7d4e" created="Thu Apr 11 13:22:22 CEST 2013" createdBy="Administrator" main="Form" modified="Fri Aug 29 10:42:59 CEST 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1409301777566</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.userComment</ListItem>
+            <ListItem>$GLOBAL.connectorFlags</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>global.preserveSourceContainers</ListItem>
+            <ListItem>global.showProgressCount</ListItem>
+            <ListItem>source.userRDN</ListItem>
+            <ListItem>source.userObjectClass</ListItem>
+            <ListItem>source.groupObjectClass</ListItem>
+            <ListItem>source.containersToMigrate</ListItem>
+            <ListItem>source.containersToSkip</ListItem>
+            <ListItem>global.debug</ListItem>
+            <ListItem>simulate</ListItem>
+            <ListItem>target.isTDS</ListItem>
+            <ListItem>customProperties</ListItem>
+            <ListItem>source.entryTypes</ListItem>
+            <ListItem>statSuffixNote</ListItem>
+            <ListItem>statSearchbaseNote</ListItem>
+            <ListItem>target.ldap.searchBase</ListItem>
+            <ListItem>source.handlePersonObjects</ListItem>
+            <ListItem>source.handleGroupObjects</ListItem>
+            <ListItem>statFiltering</ListItem>
+            <ListItem>hook.postoperation.AL</ListItem>
+            <ListItem>hook.postoperation.enabled</ListItem>
+            <ListItem>target.endpoint.AL</ListItem>
+            <ListItem>target.suffixForUsers</ListItem>
+            <ListItem>target.suffixForGroups</ListItem>
+            <ListItem>supportsPTA</ListItem>
+            <ListItem>filter.groups</ListItem>
+            <ListItem>filter.attribute.1</ListItem>
+            <ListItem>filter.attribute.2</ListItem>
+            <ListItem>filter.attribute.3</ListItem>
+            <ListItem>filter.or</ListItem>
+            <ListItem>filter.attributes.enabled</ListItem>
+            <ListItem>filter.groups.enabled</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>Flow settings</ListItem>
+            <ListItem>Person Entry Details</ListItem>
+            <ListItem>Group Entry Details</ListItem>
+            <ListItem>AssemblyLines To Call After Write Operation</ListItem>
+            <ListItem>Additional Settings</ListItem>
+        </FormSectionNames>
+        <FormItem name="customProperties">
+            <ModTime>1368435081578</ModTime>
+            <parameter name="description">LDAPSYNC.ENTER.EACH.PROPERTY.SETTING.ON.A.SEPARATE.LINE.FOR.EXAMPLE.SOURCE.READ.PERSON.ALMYCONFIGASSEMBLYLINESMYAL</parameter>
+            <parameter name="label">LDAPSYNC.CUSTOM.PROPERTY.SETTINGS</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="debug">
+            <ModTime>1366619898968</ModTime>
+            <parameter name="label">LDAPSYNC.DEBUG.LOG.OUTPUT</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="filter.attribute.1">
+            <ModTime>1409040349128</ModTime>
+            <parameter name="description">LDAPSYNC.ATTRIBUTE.FILTER.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.ATTRIBUTE.FILTER.LABEL</parameter>
+            <parameter name="syntax">attributefilter</parameter>
+        </FormItem>
+        <FormItem name="filter.attribute.2">
+            <ModTime>1409040377630</ModTime>
+            <parameter name="description">LDAPSYNC.ATTRIBUTE.FILTER.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.ATTRIBUTE.FILTER.LABEL</parameter>
+            <parameter name="syntax">attributefilter</parameter>
+        </FormItem>
+        <FormItem name="filter.attribute.3">
+            <ModTime>1409040381574</ModTime>
+            <parameter name="description">LDAPSYNC.ATTRIBUTE.FILTER.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.ATTRIBUTE.FILTER.LABEL</parameter>
+            <parameter name="syntax">attributefilter</parameter>
+        </FormItem>
+        <FormItem name="filter.attributes.enabled">
+            <ModTime>1409301761434</ModTime>
+            <parameter name="description">LDAPSYNC.FILTER.ON.ATTRIBUTES.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.FILTER.ON.ATTRIBUTES</parameter>
+            <parameter name="panel"><![CDATA[{
+"enableItems": ["filter.attribute.1", "filter.attribute.2", "filter.attribute.3", "filter.or"]
+}]]]]><![CDATA[></parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="filter.groups">
+            <ModTime>1409040238888</ModTime>
+            <parameter name="description">LDAPSYNC.GROUP.FILTER.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.GROUP.FILTER.LABEL</parameter>
+            <parameter name="syntax">groupfilter</parameter>
+        </FormItem>
+        <FormItem name="filter.groups.enabled">
+            <ModTime>1409301777566</ModTime>
+            <parameter name="description">LDAPSYNC.FILTER.ON.GROUPS.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.FILTER.ON.GROUPS</parameter>
+            <parameter name="panel"><![CDATA[{
+"enableItems": ["filter.groups"]
+}]]]]><![CDATA[></parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="filter.or">
+            <ModTime>1409040887791</ModTime>
+            <parameter name="description">LDAPSYNC.FILTER.OR.TOOLTIP</parameter>
+            <parameter name="label">LDAPSYNC.FILTER.OR.LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="global.debug">
+            <ModTime>1366710225312</ModTime>
+            <parameter name="description">LDAPSYNC.INCLUDE.DEBUG.MESSAGES.IN.THE.LOG.OUTPUT</parameter>
+            <parameter name="label">LDAPSYNC.DEBUG.LOG.OUTPUT</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="global.flattenSourceContainers">
+            <ModTime>1380009590828</ModTime>
+            <parameter name="label">LDAPSYNC.FLATTEN.THE.SOURCE.HIERARCHY.INTO.DIRECTORY.SERVER</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="global.preserveSourceContainers">
+            <ModTime>1381149991125</ModTime>
+            <parameter name="description">LDAPSYNC.ENABLE.IF.YOU.WANT.THE.DIRECTORY.INFORMATION.TREE.STRUCTURE.COPIED.FROM.THE.SOURCE.TO.THE.TARGET</parameter>
+            <parameter name="label">LDAPSYNC.MIRROR.SOURCE.HIERARCHY.IN.TARGET</parameter>
+            <parameter name="panel"><![CDATA[{
+        "enableItems": ["target.ldap.searchBase"],
+        "disableItems": ["target.suffixForGroups", "target.suffixForUsers"]
+}
+]]]]><![CDATA[></parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="global.showProgressCount">
+            <ModTime>1365680501968</ModTime>
+            <parameter name="description">LDAPSYNC.AFLOW.PERIODICALLY.UPDATES.ITS.PROGRESS.INFORMATION.THIS.PARAMTER.INDICATES.HOW.OFTEN.SPECIFIED.IN.THE.NUMBER.OF.ENTRIES.PROCESSED.BETWEEN.UPDATES</parameter>
+            <parameter name="label">LDAPSYNC.PROGRESS.UPDATE.FREQUENCY</parameter>
+        </FormItem>
+        <FormItem name="hook.postoperation.AL">
+            <ModTime>1389100581697</ModTime>
+            <parameter name="label">LDAPSYNC.POST.WRITE.HOOK</parameter>
+            <parameter name="panel">{"widget":"tdi/ldapsync/LDSPostOp"}</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.BROWSE</parameter>
+        </FormItem>
+        <FormItem name="hook.postoperation.enabled">
+            <ModTime>1390382296794</ModTime>
+            <parameter name="label">LDAPSYNC.ENABLED</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="simulate">
+            <ModTime>1369646177296</ModTime>
+            <parameter name="description">LDAPSYNC.SIMULATE.THE.MIGRATION.SO.NO.DATA.IS.ACTUALLY.WRITTEN.TO.TDS</parameter>
+            <parameter name="label">LDAPSYNC.TEST.FLOW.OPERATION</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="source.containersToMigrate">
+            <ModTime>1389091772030</ModTime>
+            <parameter name="description">LDAPSYNC.THE.LIST.OF.NODES.IN.THE.SOURCE.TO.MIGRATESYNC.ONE.PER.LINE.CAN.BE.FULL.DNS.OR.PARTIAL.TEXTS.FOR.EXAMPLE.OUEMPLOYEESOUGROUPS</parameter>
+            <parameter name="label">LDAPSYNC.INCLUDE.THE.FOLLOWING.NOTE.THAT.THESE.VALUES.WILL.BE.USED.FOR.SUBSTRING.SEARCHES.IN.RETURNED.ENTRY.DNS</parameter>
+            <parameter name="panel">{"placeholder":"For example, two lines with OU=Users,O=IBM,C=US and OU=Groups,O=IBM,C=US"}	</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="source.containersToSkip">
+            <ModTime>1389091828709</ModTime>
+            <parameter name="description">LDAPSYNC.THE.LIST.OF.NODES.IN.THE.SOURCE.TO.SKIP.ONE.PER.LINE.CAN.BE.FULL.DNS.OR.PARTIAL.TEXTS.FOR.EXAMPLE.CNADMINISTRATORTEST</parameter>
+            <parameter name="label">LDAPSYNC.EXCLUDE.THE.FOLLOWING</parameter>
+            <parameter name="panel">{"placeholder":"For example, CN=Administrator - Remember that each line can be a full DN or substring."}</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="source.entryTypes">
+            <ModTime>1381836458812</ModTime>
+            <Values>
+                <ListItem>Person</ListItem>
+                <ListItem>Group</ListItem>
+                <ListItem>Container</ListItem>
+            </Values>
+            <parameter name="description"/>
+            <parameter name="label">LDAPSYNC.TYPES.OF.ENTRIES.TO.HANDLE</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="source.groupObjectClass">
+            <ModTime>1368559756796</ModTime>
+            <Values>
+                <ListItem>groupOfUniqueNames</ListItem>
+                <ListItem>groupOfNames</ListItem>
+                <ListItem>Group</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.OBJECT.CLASS.FOR.GROUP.ENTRIES.FOR.EXAMPLE.GROUP.OR.GROUPOFUNIQUENAMES</parameter>
+            <parameter name="label">LDAPSYNC.SOURCE.GROUP.ENTRY.OBJECT.CLASS</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="source.handleGroupObjects">
+            <ModTime>1381825195328</ModTime>
+            <parameter name="label">LDAPSYNC.HANDLE.GROUP</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="source.handlePersonObjects">
+            <ModTime>1381825203187</ModTime>
+            <parameter name="label">LDAPSYNC.HANDLE.PERSON</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="source.userObjectClass">
+            <ModTime>1368559797015</ModTime>
+            <Values>
+                <ListItem>inetOrgPerson</ListItem>
+                <ListItem>organizationalPerson</ListItem>
+                <ListItem>person</ListItem>
+                <ListItem>User</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.THE.OBJECT.CLASS.OF.PERSON.ENTRIES.IN.THE.SOURCE.FOR.EXAMPLE.USER.OR.INETORGPERSON</parameter>
+            <parameter name="label">LDAPSYNC.SOURCE.PERSON.ENTRY.OBJECT.CLASS</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="source.userRDN">
+            <ModTime>1368559787671</ModTime>
+            <Values>
+                <ListItem>UID</ListItem>
+                <ListItem>CN</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.THE.ATTRIBUTE.USED.AS.THE.RDN.FOR.A.PERSON.ENTRYS.DN.E.G.UID.OR.CN</parameter>
+            <parameter name="label">LDAPSYNC.SOURCE.USER.RDN.ATTRIBUTE</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="statFiltering">
+            <ModTime>1389084438917</ModTime>
+            <parameter name="label">LDAPSYNC.FILTERING</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="statSearchbaseNote">
+            <ModTime>1369129408468</ModTime>
+            <parameter name="label">LDAPSYNC.THE.NEXT.PARAMETER.IS.REQUIRED.WHEN.MIRRORING.IS.ENABLED.OTHERWISE.IT.IS.IGNORED</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="statSuffixNote">
+            <ModTime>1381836504484</ModTime>
+            <parameter name="label"/>
+            <parameter name="noLabel">false</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="staticSuffixText">
+            <ModTime>1368444078000</ModTime>
+            <parameter name="label">LDAPSYNC.NOTE.THAT.THE.FOLLOWING.TWO.PARAMETERS.ARE.ONLY.USED.WHEN.THE.ABOVE.MIRRORING.CHECKBOX.IS.DISABLED.IN.THIS.CASE.THEY.ARE.MANDATORY.SETTINGS</parameter>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="supportsPTA">
+            <ModTime>1392314606737</ModTime>
+            <parameter name="label">PTA?</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="target.endpoint.AL">
+            <ModTime>1392314618324</ModTime>
+            <parameter name="label">Endpoint AL</parameter>
+        </FormItem>
+        <FormItem name="target.groupMemberAttribute">
+            <ModTime>1368559772890</ModTime>
+            <Values>
+                <ListItem>uniqueMember</ListItem>
+                <ListItem>member</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.THE.ATTRIBUTE.FOR.HOLDING.GROUP.MEMBERS.FOR.EXAMPLE.UNIQUEMEMBER.OR.MEMBER</parameter>
+            <parameter name="label">LDAPSYNC.TARGET.GROUP.MEMBERSHIP.ATTRIBUTE</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="target.groupObjectClass">
+            <ModTime>1368559762796</ModTime>
+            <Values>
+                <ListItem>groupOfUniqueNames</ListItem>
+                <ListItem>groupOfNames</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.OBJECT.CLASS.USED.TO.CREATE.GROUPS.IN.TDS</parameter>
+            <parameter name="label">LDAPSYNC.TARGET.GROUP.ENTRY.OBJECT.CLASS</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="target.isTDS">
+            <ModTime>1366892159718</ModTime>
+            <parameter name="label">LDAPSYNC.TARGET.IS.TDS</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="target.ldap.searchBase">
+            <ModTime>1389084236507</ModTime>
+            <parameter name="description">LDAPSYNC.THIS.IS.THE.SEARCH.BASE.IN.THE.TARGET.TDS.DIRECTORY.AND.IS.USED.AS.THE.ROOT.WHEN.MIRRORING.THE.SOURCE.HIERARCHY</parameter>
+            <parameter name="label">LDAPSYNC.TARGET.SEARCH.BASE</parameter>
+            <parameter name="script">selectLDAPSyncSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.BROWSE</parameter>
+        </FormItem>
+        <FormItem name="target.suffixForGroups">
+            <ModTime>1389084185542</ModTime>
+            <parameter name="description">LDAPSYNC.THE.CONTAINER.UNDER.WHICH.GROUP.ENTRIES.WILL.BE.WRITTEN.ONLY.USED.IF.FLATTENING.THE.SOURCE.HIERARCHY</parameter>
+            <parameter name="label">LDAPSYNC.FLATTENING.TARGET.SUFFIX.FOR.GROUPS</parameter>
+            <parameter name="script">selectLDAPSyncSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.BROWSE</parameter>
+        </FormItem>
+        <FormItem name="target.suffixForUsers">
+            <ModTime>1389084195276</ModTime>
+            <parameter name="description">LDAPSYNC.THE.CONTAINER.UNDER.WHICH.PERSON.ENTRIES.WILL.BE.WRITTEN.ONLY.USED.IF.FLATTENING.THE.SOURCE.HIERARCHY</parameter>
+            <parameter name="label">LDAPSYNC.FLATTENING.TARGET.SUFFIX.FOR.USERS</parameter>
+            <parameter name="script">selectLDAPSyncSearchBase</parameter>
+            <parameter name="scriptLabel">LDAPSYNC.BROWSE</parameter>
+        </FormItem>
+        <FormItem name="target.userObjectClass">
+            <ModTime>1368559743453</ModTime>
+            <Values>
+                <ListItem>inetOrgPerson</ListItem>
+                <ListItem>organizationalPerson</ListItem>
+                <ListItem>person</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.THE.ENTRY.USED.WHEN.CREATING.PERSON.ENTRIES.IN.TDS</parameter>
+            <parameter name="label">LDAPSYNC.TARGET.PERSON.ENTRY.OBJECT.CLASS</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="target.userRDN">
+            <ModTime>1368559779250</ModTime>
+            <Values>
+                <ListItem>UID</ListItem>
+                <ListItem>CN</ListItem>
+            </Values>
+            <parameter name="description">LDAPSYNC.THE.ATTRIBUTE.TO.USE.AS.THE.RDN.FOR.ENTRIES.WRITTEN.TO.TDS</parameter>
+            <parameter name="label">LDAPSYNC.TARGET.USER.RDN.ATTRIBUTE</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="targetGroupObjectClass"/>
+        <FormItem name="targetPersonObjectClass"/>
+        <FormSection name="Additional Settings">
+            <ModTime>1368192743468</ModTime>
+            <FormSectionNames>
+                <ListItem>customProperties</ListItem>
+            </FormSectionNames>
+            <parameter name="title">LDAPSYNC.ADVANCED.SETTINGS</parameter>
+        </FormSection>
+        <FormSection name="Additional TDS Connection settings">
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Additional TDS Connection settings</parameter>
+        </FormSection>
+        <FormSection name="AssemblyLines To Call After Write Operation">
+            <ModTime>1389088217076</ModTime>
+            <FormSectionNames>
+                <ListItem>hook.postoperation.enabled</ListItem>
+                <ListItem>hook.postoperation.AL</ListItem>
+            </FormSectionNames>
+            <parameter name="title">LDAPSYNC.FLOW.HOOKS</parameter>
+        </FormSection>
+        <FormSection name="Container Entry Details"/>
+        <FormSection name="Filtering">
+            <ModTime>1365683261390</ModTime>
+            <FormSectionNames>
+                <ListItem>source.containersToMigrate</ListItem>
+                <ListItem>source.containersToSkip</ListItem>
+            </FormSectionNames>
+            <parameter name="title">LDAPSYNC.FILTERING.DETAILS</parameter>
+        </FormSection>
+        <FormSection name="Flow settings">
+            <ModTime>1368444324437</ModTime>
+            <FormSectionNames>
+                <ListItem>source.entryTypes</ListItem>
+                <ListItem>source.handlePersonObjects</ListItem>
+                <ListItem>source.handleGroupObjects</ListItem>
+                <ListItem>statSuffixNote</ListItem>
+                <ListItem>global.debug</ListItem>
+                <ListItem>filter.groups.enabled</ListItem>
+                <ListItem>filter.groups</ListItem>
+                <ListItem>filter.attributes.enabled</ListItem>
+                <ListItem>filter.or</ListItem>
+                <ListItem>filter.attribute.1</ListItem>
+                <ListItem>filter.attribute.2</ListItem>
+                <ListItem>filter.attribute.3</ListItem>
+                <ListItem>statFiltering</ListItem>
+                <ListItem>source.containersToMigrate</ListItem>
+                <ListItem>source.containersToSkip</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">true</parameter>
+            <parameter name="title">LDAPSYNC.GENERAL.SETTINGS</parameter>
+        </FormSection>
+        <FormSection name="Group Entry Details">
+            <ModTime>1368559860312</ModTime>
+            <FormSectionNames>
+                <ListItem>source.groupObjectClass</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">true</parameter>
+            <parameter name="title">LDAPSYNC.GROUP.SETTINGS</parameter>
+        </FormSection>
+        <FormSection name="Person Entry Details">
+            <ModTime>1368559622671</ModTime>
+            <FormSectionNames>
+                <ListItem>source.userObjectClass</ListItem>
+                <ListItem>source.userRDN</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">true</parameter>
+            <parameter name="title">LDAPSYNC.USER.SETTINGS</parameter>
+        </FormSection>
+        <FormSection name="Placement in Directory Server">
+            <ModTime>1377602363328</ModTime>
+            <FormSectionNames>
+                <ListItem>global.preserveSourceContainers</ListItem>
+                <ListItem>target.ldap.searchBase</ListItem>
+                <ListItem>target.suffixForGroups</ListItem>
+                <ListItem>target.suffixForUsers</ListItem>
+            </FormSectionNames>
+            <parameter name="title">LDAPSYNC.PLACEMENT.IN.SDS</parameter>
+        </FormSection>
+        <FormSection name="Source settings">
+            <ModTime>1365683195031</ModTime>
+            <FormSectionNames>
+                <ListItem>source.userObjectClass</ListItem>
+                <ListItem>source.userRDN</ListItem>
+                <ListItem>source.groupObjectClass</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">LDAPSYNC.SOURCE.ENTRY.SETTINGS</parameter>
+        </FormSection>
+        <FormSection name="Target settings">
+            <ModTime>1365683191843</ModTime>
+            <FormSectionNames>
+                <ListItem>target.userObjectClass</ListItem>
+                <ListItem>target.userRDN</ListItem>
+                <ListItem>target.suffixForUsers</ListItem>
+                <ListItem>target.groupObjectClass</ListItem>
+                <ListItem>target.groupMemberAttribute</ListItem>
+                <ListItem>target.suffixForGroups</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">LDAPSYNC.TARGET.ENTRY.SETTINGS</parameter>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[
+function ldapAuthenticationMethod_changed () {
+	var key = "ldapAuthenticationMethod";
+	var val = form.getConfig ( key );
+	var enable = true;
+	if ( val != null && val.equalsIgnoreCase ("Anonymous") )
+		enable = false;
+	form.getControl ("ldapUsername").setEnabled (enable);
+	form.getControl ("ldapPassword").setEnabled (enable);
+}
+]]]]><![CDATA[></parameter>
+        <FormSection name="global.showProgressCount"/>
+        <FormSection name="source.containersToMigrate"/>
+        <FormSection name="source.containersToSkip"/>
+        <parameter name="title">Flow Configuration</parameter>
+        <TranslationFile>ldapsync</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="global.debug">false</parameter>
+            <parameter name="global.preserveSourceContainers">false</parameter>
+            <parameter name="global.showProgressCount"/>
+            <parameter name="hook.postoperation.enabled">false</parameter>
+            <parameter name="simulate">false</parameter>
+            <parameter name="source.containersToMigrate"/>
+            <parameter name="source.containersToSkip"/>
+            <parameter name="source.entryTypes">person, group</parameter>
+            <parameter name="source.groupObjectClass">groupOfUniqueNames</parameter>
+            <parameter name="source.handleGroupObjects">true</parameter>
+            <parameter name="source.handlePersonObjects">true</parameter>
+            <parameter name="source.userObjectClass">person</parameter>
+            <parameter name="source.userRDN">UID</parameter>
+            <parameter name="supportsPTA">false</parameter>
+            <parameter name="target.endpoint.AL">FDS_Target:/AssemblyLines/WriteToTarget</parameter>
+            <parameter name="target.endpoint.al">FDS_Target:/AssemblyLines/WriteToTarget</parameter>
+            <parameter name="target.groupObjectClass">groupOfUniqueNames</parameter>
+            <parameter name="target.isTDS">false</parameter>
+            <parameter name="target.ldap.searchBase">o=scim</parameter>
+            <parameter name="target.suffixForGroups">ou=users,o=scim</parameter>
+            <parameter name="target.suffixForUsers">ou=users,o=scim</parameter>
+            <parameter name="target.supportsPTA">false</parameter>
+            <parameter name="target.userObjectClass">inetOrgPerson</parameter>
+            <parameter name="target.userRDN">UID</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <UniqueAttribute/>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1427200065623</ModTime>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="autoreconnect">true</parameter>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">10</parameter>
+            <parameter name="retryDelay">60</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>1</InitializeOption>
+    </Connector>
+</MetamergeConfig>

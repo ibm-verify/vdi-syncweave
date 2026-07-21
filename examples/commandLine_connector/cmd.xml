@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:09:42 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:09:42 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="RunOnUnix">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[var conn = system.getConnector("UnixCommand");
+conn.initialize( null );
+
+conn.selectEntries();
+var e = conn.getNextEntry();
+task.logmsg( "\n\n\t<< The command run by this assemblyline is: " + conn.getParam( "commandLine" ) + " >>\n" + 
+			 "\n\t<< Here is the result of your command in the entry object >>\n" );
+
+while(e != null)
+{
+	task.dump(e);
+	task.dumpEntry(e);
+	e = conn.getNextEntry();
+}]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer"/>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="RunOnWin">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[var conn = system.getConnector("WindowsCommand");
+conn.initialize( null );
+
+conn.selectEntries();
+var e = conn.getNextEntry();
+task.logmsg( "\n\n\t<< The command run by this assemblyline is: " + conn.getParam( "commandLine" ) + " >>\n" + 
+			 "\n\t<< Here is the result of your command in the entry object >>\n" );
+
+while(e != null)
+{
+	task.dump(e);
+	//task.dumpEntry(e);
+	e = conn.getNextEntry();
+}]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer"/>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors">
+<Connector name="UnixCommand">
+<InheritFrom>system:/Connectors/ibmdi.CommandLine</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="commandLine">printenv</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="parser">/Parsers/DemoScriptParser</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>/Parsers/DemoScriptParser</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+<Connector name="WindowsCommand">
+<InheritFrom>system:/Connectors/ibmdi.CommandLine</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="commandLine">cmd /c set</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="parser">/Parsers/DemoScriptParser</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>/Parsers/DemoScriptParser</InheritFrom>
+<parameter name="attributeName">line</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</AttributeMap>
+<DeltaSettings/>
+<Schema name="Input">
+<InheritFrom>[no inheritance]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[no inheritance]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[no inheritance]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[no inheritance]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</Folder>
+<Folder name="Parsers">
+<Parser name="DemoScriptParser">
+<InheritFrom>system:/Parsers/ibmdi.ScriptParser</InheritFrom>
+<parameter name="script"><![CDATA[//
+// This is a simple parser that returns one line at a time from
+// the input stream.
+//
+
+var counter = 0;
+
+function writeEntry ()
+{
+	out.write (entry.getString("line"));
+	out.newLine();
+}
+
+function readEntry ()
+{
+	var str = inp.readLine();
+	var attrName = '';
+	var attrValue = '';
+
+	if ( str == null )
+	{
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+	
+
+	while ( str != null ) {
+	counter++;
+
+	attrName = str.substring(0, str.indexOf('='));
+	attrValue = str.substring(str.indexOf('=')+1);
+	entry.setAttribute ( attrName, attrValue );
+	str = inp.readLine();
+	}
+
+	
+}
+]]></parameter>
+</Parser>
+</Folder>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

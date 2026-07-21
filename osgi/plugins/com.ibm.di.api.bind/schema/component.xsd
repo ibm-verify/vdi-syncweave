@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ibm.com/xmlns/prod/tdi/71/core" xmlns:tdi="http://www.ibm.com/xmlns/prod/tdi/71/core"
+	elementFormDefault="qualified">
+
+	<xsd:complexType name="BaseDescriptor">
+		<xsd:sequence>
+			<xsd:element ref="tdi:parameterMapDescriptor" minOccurs="0"
+				maxOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="parameterMapDescriptor" type="tdi:ParameterMapDescriptor">
+		<xsd:annotation>
+			<xsd:documentation>Root element to define a set of properties
+				scoped
+				to a property sheet.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="parameterDescriptor" type="tdi:ParameterDescriptor" />
+
+	<xsd:complexType name="ParameterMapDescriptor">
+		<xsd:sequence>
+            <xsd:element name="sectionDescriptor"
+            	type="tdi:SectionDescriptor" maxOccurs="unbounded" minOccurs="0">
+            </xsd:element>
+            <xsd:element ref="tdi:parameterDescriptor" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The name of this
+					property sheet</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="ParameterDescriptor">
+		<xsd:sequence>
+			<xsd:element name="label" type="tdi:Label" minOccurs="1"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Each property is
+						associated with one or more labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="description" type="tdi:Label"
+				minOccurs="1" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Each property is
+						associated with one or more labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="option" type="tdi:Option" minOccurs="0"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">A set of optional
+						values this property may hold. If this element is not present,
+						the
+						property may hold any value valid of the propertyType.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="defaultValue" type="xsd:anySimpleType"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">A set of default
+						values this property may hold. Single value properties should use
+						the first item in the list as priority.
+						</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="scriptLabel" type="tdi:Label" minOccurs="1"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Each property is
+						associated with one or more labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="scriptLabel2" type="tdi:Label" minOccurs="1"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Each property is
+						associated with one or more labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="key" type="xsd:ID" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The name of the
+					property as processed by the runtime.
+					</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					Required attribute to
+					denote the type of data collected by this property.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hidden" type="xsd:boolean" use="optional"
+			default="false">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">Optional attribute
+					that specifies if this property should be hidden for
+					display.
+					Default value is false. 
+					</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="required" type="xsd:boolean" use="optional"
+			default="false">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">Optional attribute
+					that specifies if this property is required. Default value is
+					false. A MetadataProcessor must enforce that all base required
+					metadata is set. 
+					</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="section" type="xsd:string" use="optional"
+			default="general">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">Optional attribute
+					that specifies the section this parameter should be placed under.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		
+	</xsd:complexType>
+
+	<xsd:complexType name="Option">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
+				maxOccurs="1">
+			</xsd:element>
+			<xsd:element name="label" type="tdi:Label" minOccurs="1"
+				maxOccurs="unbounded">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Label">
+		<xsd:attribute name="lang" type="xsd:language" use="optional"
+			default="en">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The intended locale to
+					show this label.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="value" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">The label value.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType abstract="true" name="ComponentDescriptor">
+		<xsd:complexContent>
+			<xsd:extension base="tdi:BaseDescriptor">
+				<xsd:sequence>
+					<xsd:element name="javaClass" type="xsd:string"
+						minOccurs="1" maxOccurs="1" />
+					<xsd:element name="name" type="tdi:Label"
+						maxOccurs="unbounded" minOccurs="0">
+					</xsd:element>
+					<xsd:element name="description" type="tdi:Label" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="id" type="xsd:ID" use="required" />
+
+
+
+				<xsd:attribute name="version" type="xsd:string"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- FC specific declaration -->
+	<xsd:element name="functionComponentDescriptor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tdi:ComponentDescriptor"></xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Parser specific declaration -->
+	<xsd:element name="parserDescriptor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tdi:ComponentDescriptor"></xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Connector specific declaration -->
+	<xsd:element name="modeParameterDescriptor" type="tdi:ModeParameterDescriptor"
+		substitutionGroup="tdi:parameterDescriptor" />
+
+	<xsd:complexType name="ModeParameterDescriptor">
+		<xsd:complexContent>
+			<xsd:extension base="tdi:ParameterDescriptor">
+				<xsd:attribute name="supportedModes" use="optional"
+					default="all">
+					<xsd:simpleType>
+						<xsd:union memberTypes="tdi:ConnectorModesEnum tdi:ConnectorModesEnumExt"></xsd:union>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ConnectorModesEnumExt">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="all"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="connectorDescriptor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tdi:ComponentDescriptor">
+					<xsd:sequence>
+						<xsd:element name="supportedModes">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="mode" type="tdi:ModeOption"
+										minOccurs="1" maxOccurs="unbounded" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="useParser" type="tdi:UseParserEnum"
+							default="prohibit" minOccurs="0" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="ConnectorModesEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Server" />
+			<xsd:enumeration value="Iterator" />
+			<xsd:enumeration value="AddOnly" />
+			<xsd:enumeration value="Update" />
+			<xsd:enumeration value="Delete" />
+			<xsd:enumeration value="Lookup" />
+			<xsd:enumeration value="CallReply" />
+			<xsd:enumeration value="Delta" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ModeOption">
+		<xsd:sequence>
+			<xsd:element name="value" type="tdi:ConnectorModesEnum"
+				minOccurs="1" maxOccurs="1">
+			</xsd:element>
+			<xsd:element name="label" type="tdi:Label" minOccurs="1"
+				maxOccurs="unbounded">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="UseParserEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="required" />
+			<xsd:enumeration value="optional" />
+			<xsd:enumeration value="prohibit" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="SectionDescriptor">
+		<xsd:sequence>
+			<xsd:element name="label" type="tdi:Label"
+				maxOccurs="unbounded" minOccurs="1">
+			</xsd:element>
+			<xsd:element name="description" type="tdi:Label" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="expanded" type="xsd:boolean" use="optional" default="true"></xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="com.ibm.di.jaxrs" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB501E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.HTTP.CONTEXT.MISSING.AUTHORIZATION.HEADER" varFormat="Java">
+   Missing credentials for HTTP basic authentication. <q/>Authorization<q/> HTTP header is required.
+   </MsgText>
+   <Explanation> <p>
+    HTTP authentication is required but the client did not provide credentials.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the web client sends credentials for HTTP basic authentication.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB502E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.HTTP.CONTEXT.UNSUPPORTED.AUTH.SCHEME" varFormat="Java">
+   Unsupported HTTP authentication scheme <q/><Variable formatSpec="{0}">authentication scheme</Variable><q/>. Use HTTP basic authentication.
+   </MsgText>
+   <Explanation> <p>
+   The Authorization HTTP header of the client request refers to an unsupported authentication scheme.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the web client uses HTTP basic authentication.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB503E" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.HTTP.CONTEXT.AUTH.HEADER.INVALID.SYNTAX" varFormat="Java">
+   Invalid syntax of the <q/>Authorization<q/> HTTP header.
+   </MsgText>
+   <Explanation> <p>
+   The syntax of the credentials does not conform to the HTTP basic authentication specification.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the web client uses correct syntax for HTTP basic authentication.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB504W" prefix="yes">
+   <MsgText pgmKey="TP.SERVER.HTTP.CONTEXT.AUTH.FAILED.FOR.USER" varFormat="Java">
+   Authentication failed for user <q/><Variable formatSpec="{0}">username</Variable><q/>: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Could not authenticate the specified user.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Verify the user credentials are correct.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

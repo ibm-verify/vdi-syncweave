@@ -1,0 +1,80 @@
+<div style="margin-left:10px">
+
+	<form dojoAttachPoint="_form" dojoType="dijit.form.Form">
+		
+		<h3>Dashboard Security Settings</h3>
+		These settings determine who can access the Dashboard. There are separate settings for local and remote users.
+		
+		<p></p> 
+		
+		The option for local and remote connections is one of the following values
+		<ul>
+			<li><i>none</i> - Disables authentication and allows all connections</li>
+			<li><i>deny</i> - Disables access for all connections</li>
+			<li><i>ldap</i> - Authentication with an LDAP server before permitting access</li>
+		</ul>
+
+		<p></p>
+
+		LDAP server settings - These settings are used to authenticate a user. Users can type their distinguished name
+		(e.g. cn=john doe,ou=orgunit,o=org) or their mail address in which case a search is made for a single unique match.
+
+		<p></p>
+		
+		<table width="100%">
+			<tr><td style="padding-top:8px">
+				Local - Connections originating from one of the local host's addresses
+			</td></tr>
+			<tr><td style="padding-top:4px">
+				<div dojoType="dijit.form.ComboBox" name="local">
+					<option>none</option>
+					<option>deny</option>
+					<option>ldap</option>
+				</div>
+			</td></tr>
+
+			<tr><td style="padding-top:8px">
+				Remote - Connections originating from non-local hosts
+			</td></tr>
+			<tr><td style="padding-top:4px">
+				<div dojoType="dijit.form.ComboBox" name="remote">
+					<option>none</option>
+					<option>deny</option>
+					<option>ldap</option>
+				</div>
+			</td></tr>
+			
+			<tr><td style="padding-top:8px">
+				LDAP Hostname - Specify <i>hostname[:port]</i> for the LDAP server.
+			</td></tr>
+			<tr><td style="padding-top:4px">
+				<div dojoType="dijit.form.TextBox" name="ldap_host" style="width:40em"></div>
+			</td></tr>
+			
+			<tr><td style="padding-top:8px">
+				LDAP Search base - If specified users can enter their mail address and a search will be made to locate
+				the user's distinguished name. If not specified, users must provide their full distinguished name.
+			</td></tr>
+			<tr><td style="padding-top:4px">
+				<div dojoType="dijit.form.TextBox" name="ldap_search" style="width:40em"></div>
+			</td></tr>
+
+			<tr><td style="padding-top:8px">
+				LDAP Group DN - If specified users are checked for membership 
+			</td></tr>
+			<tr><td style="padding-top:4px">
+				<div dojoType="dijit.form.TextBox" name="ldap_group" style="width:40em"></div>
+			</td></tr>
+			
+			<tr><td style="padding-top:12px">
+				<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:updateServer" label="Update"></div>
+				<p/>
+				Updating these settings take immediate effect.		
+			</td></tr>
+			
+		</table>
+	
+	</form>
+
+
+</div>

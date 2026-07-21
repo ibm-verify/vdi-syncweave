@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:16:05 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:16:05 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="JDBC Iterator">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterator">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>MARK_ENGLISH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_ENGLISH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_MATH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_MATH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_PHYSICS</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_PHYSICS");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="CSV Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/jdbc_demo/iterator.csv</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.CSV</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">true</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>MARK_ENGLISH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_ENGLISH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_MATH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_MATH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_PHYSICS</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_PHYSICS");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="JDBC Lookup">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterator">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>MARK_ENGLISH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_ENGLISH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_MATH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_MATH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_PHYSICS</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_PHYSICS");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<SchemaItem>
+<Name>MARK_ENGLISH</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MARK_MATH</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MARK_PHYSICS</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>NAME</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<SchemaItem>
+<Name>MARK_ENGLISH</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MARK_MATH</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MARK_PHYSICS</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>NAME</Name>
+<Syntax>java.lang.String</Syntax>
+<NativeSyntax>String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Lookup">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Lookup</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT_ADDRESS</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>CITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("CITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>STREET</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("STREET");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<Script>ret.filter = "";</Script>
+<LinkCriteriaItem>
+<Key>f1553d18f5</Key>
+<Attribute>NAME</Attribute>
+<Operator>equals</Operator>
+<Value>$NAME</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>lookup_multiple</Name>
+<Script>system.skipEntry();</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>lookup_nomatch</Name>
+<Script>system.skipEntry();</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+<Connector name="CSV Output">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="fileAppend">false</parameter>
+<parameter name="fileMode">output</parameter>
+<parameter name="filePath">examples/jdbc_demo/lookup.csv</parameter>
+<parameter name="parser">system:/Parsers/ibmdi.CSV</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+<parameter name="characterSet"></parameter>
+<parameter name="csvEnableQuoting">true</parameter>
+<parameter name="csvLogLongLines">0</parameter>
+<parameter name="csvWriteHeader">true</parameter>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>CITY</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("CITY");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_ENGLISH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_ENGLISH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_MATH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_MATH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_PHYSICS</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MARK_PHYSICS");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>STREET</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("STREET");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="JDBC AddOnly">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterator">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>MARK_ENGLISH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_ENGLISH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_MATH</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_MATH");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MARK_PHYSICS</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MARK_PHYSICS");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="AddOnly">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT_RESULT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>AVERAGE_MARK</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script><![CDATA[ret.value = 
+  (java.lang.Double.parseDouble(work.getString("MARK_MATH")) +
+   java.lang.Double.parseDouble(work.getString("MARK_ENGLISH")) +
+   java.lang.Double.parseDouble(work.getString("MARK_PHYSICS"))
+  )/3;]]></Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+<AssemblyLine name="JDBC Delete">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterator">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>NAME</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("NAME");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Delete">
+<InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+<ConnectorMode>Delete</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="jdbcSource">@PROPERTY{JdbcDatabase}</parameter>
+<parameter name="jdbcTable">STUDENT_RESULT</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+<Script>ret.filter = "";</Script>
+<LinkCriteriaItem>
+<Key>f15547dd7d</Key>
+<Attribute>NAME</Attribute>
+<Operator>equals</Operator>
+<Value>$NAME</Value>
+</LinkCriteriaItem>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>delete_nomatch</Name>
+<Script>system.ignoreEntry();</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Path>examples/jdbc_demo/JdbcProperties</Path>
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

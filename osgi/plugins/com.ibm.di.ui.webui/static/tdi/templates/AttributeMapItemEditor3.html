@@ -1,0 +1,39 @@
+<div style="width:100%; height:100%">
+
+	<table style="width:100%">
+	<tr>
+		<td valign="top">
+			<div style="padding-top:6px" data-dojo-type="idx/form/CheckBox" data-dojo-attach-event="onChange:_toggleEnabled" 
+				data-dojo-attach-point="_enabled" label="${nls.FDS_enabled}">
+			</div>
+
+			<select multiple="true" data-dojo-attach-event="onChange:_toggleType" data-dojo-attach-point="_type" data-dojo-type="idx/form/RadioButtonSet" data-dojo-props=" 
+			         name: 'rbs1', 
+			         label: '${nls.WebCE_type}',
+			         labelAlignment: 'horizontal', 
+			         groupAlignment: 'horizonal' 
+			"> 
+				<option value="simple">${nls.WebCE_simpleMapping}</option> 
+		      	<option value="script">${nls.WebCE_scriptedMapping}</option> 
+			</select>
+			
+			<select multiple="true" data-dojo-attach-point="_addmodify" data-dojo-attach-event="onChange:_onAddMod" data-dojo-type="idx/form/RadioButtonSet" data-dojo-props=" 
+			         name: 'rbs2', 
+			         label: '${nls.FDS_attributeMapWhen}', 
+			         labelAlignment: 'horizontal', 
+			         groupAlignment: 'vertical' 
+			"> 
+		      	<option value="both">Always</option> 
+				<option value="mod">${nls.FDS_writeBackMod}</option> 
+		      	<option value="add">${nls.FDS_writeBackAdd}</option> 
+			</select>
+		</td>
+		
+	</tr><tr>
+		<td colspan="3" style="padding-top:3px">
+			<div data-dojo-type="idx/form/ComboBox" label="${nls.FormUI_Localized_Select_Attribute}" data-dojo-attach-point="_attribute"></div>
+			<div data-dojo-type="dijit/form/Textarea"
+				data-dojo-attach-point="_script" style="width:100%; min-height:120px"></div>
+		</td>
+	</table>
+</div>

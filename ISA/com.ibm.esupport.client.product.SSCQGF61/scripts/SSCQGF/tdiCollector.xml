@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!-- (C) COPYRIGHT International Business Machines Corp., 2004-2005. All Rights Reserved * Licensed Materials - Property of IBM -->
+
+<project name="GeneralCollector" default="autopdmain" >
+
+	<taskdef file="${autopdrootdir}/properties/autopdtaskdef.properties" />
+
+	<dirname property="script.basedir" file="${ant.file.GeneralCollector}"/>
+	<dirname property="script.parentdir" file="${script.basedir}"/>
+	<dirname property="bundle.basedir" file="${script.parentdir}"/>
+
+	<!-- Targets shared among multiple scripts are in the XML documents *-sharedtargets.xml. 
+		 The following imports pull these shared targets into this script.
+	-->
+	<autopdimport file="${autopdimportdir}/scripts/sharedtargets.xml" osgiBundle="com.ibm.autopd"/>
+
+	<!-- This target is the main entry point into the script.  It is the target that is called
+		by the AutoPD Tool after this collection type has been selected, and collection in started. 
+	-->
+	<target name="autopdmain" description="This is AutoPD main to control running steps" depends="    
+ 		setup_autopd,  validate_os, tdi_collect, script_completed">
+ 
+	</target>
+
+	 <target name="tdi_collect" description="Collects Info from SDI logs">
+
+	<echo message="Starting general collector." />
+	
+	<if isTrue="${useISAGuiCollector}" >
+	   <generalcollectortask outputdir="${ISA.output.dir}" 
+		  jaroutname="${pmrfilename}" 
+		  tempdir="${ISA.temp.dir}" 
+		  inventory="${script.basedir}/SSCQGF61_inventory" 
+		  installdir="${installation.dir}" 
+		  productsetting_1="${product.setting.1}"
+		  productsetting_2="${script.basedir}"
+		  productsetting_3="${product.setting.3}" />
+	</if>
+	
+	<echo message="Collector jar file was created in ${ISA.output.dir}." />
+
+   </target>
+
+</project>

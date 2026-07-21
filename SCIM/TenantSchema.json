@@ -1,0 +1,72 @@
+{
+  "id":"urn:ibm:schemas:userpwdpolicy:1.0:Tenant",
+  "name":"Tenant",
+  "description":"Tenant",
+  "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+  "endpoint":"/Tenant",
+  "attributes":[
+  {
+    "name":"tenantName",
+    "type":"string",
+    "multiValued":false,
+    "description":"The name of the tenant.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":true,
+    "required":true
+  },
+  {
+    "name":"password",
+    "type":"string",
+    "multiValued":false,
+    "description":"The password for the tenant",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"enabled",
+    "type":"boolean",
+    "multiValued":false,
+    "description":"Allows disabling/enabling tenants",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"baseDn",
+    "type":"string",
+    "multiValued":false,
+    "description":"The base DN where information about this tenant is stored in LDAP",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":true,
+    "required":false
+  },
+  {
+    "name":"tenantAdminDn",
+    "type":"string",
+    "multiValued":false,
+    "description":"The LDAP DN for the tenant administrator",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":true,
+    "required":false
+  },
+  {
+    "name":"passwordPolicyDN",
+    "type":"string",
+    "multiValued":false,
+    "description":"The LDAP DN for the tenant's password policy",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":true,
+    "required":false
+  },
+  {
+    "name":"policyLevel",
+    "type":"string",
+    "multiValued":false,
+    "description":"The password policy strength for this tenant. Allowed values are high, medium, basic.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  }
+  ]
+}

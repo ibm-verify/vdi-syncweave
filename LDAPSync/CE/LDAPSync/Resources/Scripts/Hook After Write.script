@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="8" UUID="85103104-b4c8-4d4b-9e76-dd770c15c919" created="Mon Feb 24 19:22:39 CET 2014" createdBy="Administrator" main="Hook After Write" modified="Fri Apr 04 10:46:38 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="Hook After Write">
+        <ModTime>1396601197088</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[retEntry = invokeHook("afterwrite", work);
+
+if (retEntry !== null && retEntry.size() > 0) {
+	abortFlow = "true".equalsIgnoreCase(retEntry.getString("$stopFlow"));
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

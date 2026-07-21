@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# IBM_PROLOG_BEGIN_TAG
+#
+# %I%, %G%
+#
+# Licensed Materials - Property of IBM
+#
+# Restricted Materials of IBM
+#
+# (C) COPYRIGHT International Business Machines Corp. 2006, 2010
+# All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# IBM_PROLOG_END_TAG
+
+#################################################################
+# command line utility to migrate a TDI global.properties/solution.properties file.
+#################################################################
+
+# Function to source in the TDI setupCmdLine.sh script
+setupTDIEnv ()
+{
+. "$TEMP_BIN_DIR/setupCmdLine.sh"
+}
+
+#
+# CMDFINDER holds the command which is used to find other commands
+# depending on the platform.
+#
+CMDFINDER=which
+
+UNAME_OS=`uname`
+
+if [ "$UNAME_OS" = "OS/390" -o "$UNAME_OS" = "OS400" ] ; then
+	CMDFINDER=whence
+fi
+
+TEMP_BIN_DIR=`$CMDFINDER $0`
+TEMP_BIN_DIR=`dirname $TEMP_BIN_DIR`
+
+SKIP_ISCDIR_SETUP=1
+setupTDIEnv "$TEMP_BIN_DIR"
+
+PATH="$TDI_JAVA_BIN_DIR:$TDI_HOME_DIR/libs:$PATH"
+export PATH
+
+# JAR FILE PATH
+COMMON_JARS_PATH="$TDI_HOME_DIR/jars/common"
+THRD_IBM_JAR_PATH="$TDI_HOME_DIR/jars/3rdparty/IBM"
+THRD_OTHERS_JAR_PATH="$TDI_HOME_DIR/jars/3rdparty/others"
+JAR_FILES="$COMMON_JARS_PATH/miggbl.jar:$COMMON_JARS_PATH/miconfig.jar:$COMMON_JARS_PATH/miserver.jar:$COMMON_JARS_PATH/mmconfig.jar:$THRD_OTHERS_JAR_PATH/log4j-1.2-api-2.25.4.jar:$THRD_OTHERS_JAR_PATH/log4j-api-2.25.4.jar:$THRD_OTHERS_JAR_PATH/log4j-core-2.25.4.jar:$THRD_IBM_JAR_PATH/icu4j-51_1.jar:$THRD_IBM_JAR_PATH/ITLMToolkit.jar:$TDI_HOME_DIR/jars/common/tdiresource.jar"
+
+#
+# -s overrides TDI_SOLDIR env
+#
+solnext=0
+for s
+do
+	case $s in
+		-s)  solnext=1;;
+		-s*) TDI_SOLDIR="`echo $s | cut -c3-`";;
+		-*)  solnext=0;;
+		*)   if [ $solnext -eq 1 ]; then
+			   TDI_SOLDIR=$s
+			   solnext=0
+			 fi;;
+	esac
+done
+
+# Create the solution directory if it does not exist
+if [ ! -d "$TDI_SOLDIR" ]; then
+	mkdir "$TDI_SOLDIR";
+fi
+
+# Move to the Solution Directory
+cd "$TDI_SOLDIR"
+
+# Create the logs directory if it does not exist
+if [ ! -d "logs" ]; then
+	mkdir logs;
+fi
+
+# Log4j configuration file
+LOG_4J="-Dlog4j.configuration=file:etc/tdimiggbl-log4j.properties"
+
+"$TDI_JAVA_PROGRAM" $TDI_MIXEDMODE_FLAG -cp $JAR_FILES "$LOG_4J" com.ibm.di.miggbl.MigrateGlobalProperties -i "$TDI_HOME_DIR" -j "$TDI_JAVA_HOME" "$@"

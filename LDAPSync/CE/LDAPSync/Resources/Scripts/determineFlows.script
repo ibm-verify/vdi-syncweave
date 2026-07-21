@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="3" UUID="80c66587-fc25-4e1c-9a5d-361f26791f7e" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="determineFlows" modified="Mon Aug 25 09:59:25 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="determineFlows">
+        <ModTime>1408953561077</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// get the Flows to run migrate for - starting with the property
+flowKey = ""
+flowString = getProperty("global.flows")
+useFlowString = flowString;
+
+if (flowString == null && typeof(runType) != "undefined") {
+	useFlowString = runType + "," // runType must be defined previously in the AL = M, S or T
+}	
+
+definedFlows = system.splitString(useFlowString,",")
+for (i = 0; i < definedFlows.length; i++)
+	definedFlows[i] = definedFlows[i].trim()
+
+if (definedFlows === null || definedFlows.length <= 0) {
+	logmsg("ERROR", resource.getString("LDAPSYNC.THE.PROPERTY.GLOBAL.FLOWS.IS.INCORRECT") + ": " + flowString)
+	system.exitFlow()
+}
+
+// now check the -2 commandline argument
+onlyRunFlows = main.commandLineParam("2")
+if (onlyRunFlows != null) {
+	useFlowString = onlyRunFlows.trim()
+}	
+
+// finally, check if the UI has launched this AL with 
+opEntry = task.getOpEntry();
+if (opEntry != null && opEntry.flows != null)
+	useFlowString = opEntry.getString("flows")
+
+if (useFlowString === null)
+	useFlowString = flowString
+
+flows = system.splitString(useFlowString,",")
+for (i = 0; i < flows.length; i++)
+	flows[i] = flows[i].trim()
+
+if (flows === null || flows.length <= 0) {
+	logmsg("ERROR",resource.getString("Invalid flow(s) to run has been specified") + ": " + useFlowString)
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

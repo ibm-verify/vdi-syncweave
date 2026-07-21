@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="dsmlv2parser" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIM001E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.REQUIRED.PARAMMODE.ERROR" varFormat="Java">
+   Required parameter is missing: 
+   &apos;&apos;<Variable formatSpec="{0}">parameter</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The specified required parameter is not set.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the specified parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM002I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.SERVERMODE.INFO" varFormat="Java">
+   The Parser is running in server mode.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM003I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.WILLNOTINDENTOUTPUT.INFO" varFormat="Java">
+   The Parser output indention is disabled.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM004I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.WILLMAKESOAPENV.INFO" varFormat="Java">
+   Soap envelope enabled in the Parser.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM005E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.TRYINGREADDSML.NOINPUT.ERROR" varFormat="Java">
+   Failed to read DSML because input stream was not found. The
+   input or output modes of the DSMLv2 Parser may not be valid.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the input and output modes of the DSMLv2 Parser.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM006I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.INITINPUTDOC.INFO" varFormat="Java">
+   Initializing DSML Input Document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM007E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DOCHASNOROOT.ERROR" varFormat="Java">
+   The DSML document being parsed has no root node.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the DSML document being passed to the Parser has
+   a root node.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM008I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.READING.BATCHREQUEST.INFO" varFormat="Java">
+   Reading batchRequest.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM009I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.READING.BATCHRESPONSE.INFO" varFormat="Java">
+   Reading batchResponse.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM010E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.TRYINGWRITEDSML.NOINPUT.ERROR" varFormat="Java">
+   Failed to write DSML because output stream was not found. The
+   input or output modes of the DSMLv2 Parser may not be valid.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the input and output modes of the DSMLv2 Parser.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM011I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.INITOUTPUT.DOC.INFO" varFormat="Java">
+   Initializing Output Document.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM012I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.RESUMEONERROR.INFO" varFormat="Java">
+   Parser configured to resume on error.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM013I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.PARALLELPROCESSING.INFO" varFormat="Java">
+   Parser will perform parallel processing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM014I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.RESPONSESUGNORED.INFO" varFormat="Java">
+   Parser configured so that responses will be unordered.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM015E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.MESSAGENOGSUPPORTED.ERROR" varFormat="Java">
+   Message type not supported while reading an Entry: 
+   <Variable formatSpec="{0}">DSML operation</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The message that must be parsed is not a supported type.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check documentation of supported types of messages, 
+   provide requests that has only this types.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM016E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.TRASFORMING.DOM.TO.STRING.ERROR" varFormat="Java">
+   Error while transforming DOM to string: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An unrecoverable error occured during the course of transforming DOM to string.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the syntax of message in the request.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM017W" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.RSPXML.WARNING" varFormat="Java">
+   An error occured while flushing the SOAP message:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check configuration of the server that should receive the message.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM018I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.BASE64.DECODINGATTRIB.INFO" varFormat="Java">
+   Base64 decoding attribute: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM019I" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.BINNOT64ENCODED.INFO" varFormat="Java">
+   Attribute <Variable formatSpec="{0}">attribute anem</Variable> is specified as binary
+   attribute but the value received is not Base64 encoded. A value of NULL will be assigned.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIM020E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.PRINCIPAL.NOTSET.ERROR" varFormat="Java">
+   The required attribute &apos;principal&apos; was not set for the authorization request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory required principal attribute is not set for the authorization request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the principal attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM021E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DN.NOTSET.SEARCH.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the search request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the search request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM022W" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.ERROR.BASE64DEC.WARNING" varFormat="Java">
+   Error on base64 decoding: <Variable formatSpec="{0}">entry</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   This error occurs when all binary attribute values of the
+   Entry are decoded on base64.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM023E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DN.NOTSET.MODIFYREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the modify request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the modify request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM024E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.MODIFICATION.NOTSET.ERROR" varFormat="Java">
+   The required attribute &apos;modification&apos; was not set for modify request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory modification attribute is not set for modify request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the modification attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM025E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DNNOTSET.ADDREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the add request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the add request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM026E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.ATTRIB.NOTSET.ERROR" varFormat="Java">
+   Attribute not set for the add request: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The dsml attribute must be provided when creating and writing an add request 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the correct dsml attributes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM027E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DNNOTSET.DELREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the delete request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the delete request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM028E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DNNOTSET.MODDNREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the  modifyDN request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the modifyDN request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM029E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.NEWRDN.NOTSET.MODDNREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;newRDN&apos; was not set for the modifyDN request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory newRDN attribute is not set for modifyDN request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the newRDN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM030E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.DN.NOTSET.COMPREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;DN&apos; was not set for the compare request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory DN attribute is not set for the compare request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the DN attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM031E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.ASSERTION.NOTSET.COMPREQUEST.ERROR" varFormat="Java">
+   Assertion is not set for the compare request.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the correct dsml attributes.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM032E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.ABANDONID.NOTSET.ERROR" varFormat="Java">
+   The required attribute &apos;abandonID&apos; not set for the abandon request.
+   </MsgText>
+   <Explanation> <p>
+   The Mandatory abandonID attribute is not set for the abandon request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the abandonID attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM033E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.REQNAME.NOTSET.EXTREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;requestName&apos; was not set for the extended request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory requestName attribute is not set for the extended request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the requestName attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM034E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.REQVALUE.NOTSET.EXTREQUEST.ERROR" varFormat="Java">
+   The required attribute &apos;requestValue&apos; was not set for the extended request.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory requestValue attribute is not set for the extended request.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the requestValue attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM035E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.SEARCH.REQENTRY.NOTSET.ERROR" varFormat="Java">
+   The searchResultEntry was not set while creating the search request.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the searchResultEntry in the attribute in the Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM036E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.SEARCH.RESDONE.NOTSET.ERROR" varFormat="Java">
+   The searchResultEntry was not set while creating the search response.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set searchResultEntry in the attribute in the
+   Entry while writing search response.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM037E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.TYPE.NOTSET.ERROR" varFormat="Java">
+   The require attribute &apos;errorType&apos; not set for the error response.
+   </MsgText>
+   <Explanation> <p>
+   The mandatory errorType attribute is not set for the error response.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set error type attribute.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIM038E" prefix="yes">
+   <MsgText pgmKey="PARSER.DSML.ATTRIBUTE.MISSING.ERROR" varFormat="Java">
+   Unable to write the Entry. The required attribute &apos;dsml.operation&apos;
+   was missing from the Entry.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Set the specified attribute.
+   </p> </OperatorResponse>
+</Message>
+</TMSSource>

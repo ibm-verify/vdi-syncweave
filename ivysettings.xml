@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  IBM Confidential 
+  PID 5724-K74
+ 
+  Copyright IBM Corp. 2023, 2025
+  
+  Ivy Settings Configuration
+  
+  This file configures Ivy to use multiple Maven repository mirrors
+  to avoid rate-limiting issues with Maven Central.
+  
+  Repository Priority:
+  1. Google Maven Central Mirror (primary)
+  2. Maven Central (fallback)
+  3. UK Maven Mirror (fallback)
+-->
+<ivysettings>
+  <settings defaultResolver="chain-resolver"/>
+  
+  <resolvers>
+    <!-- Chain resolver tries repositories in order until successful -->
+    <chain name="chain-resolver" returnFirst="true">
+      
+      <!-- Google Maven Central Mirror - Fast and reliable -->
+      <ibiblio name="google-maven-central" 
+               root="https://maven-central.storage-download.googleapis.com/maven2/" 
+               m2compatible="true"/>
+      
+      <!-- Maven Central - Official repository -->
+      <ibiblio name="maven-central" 
+               root="https://repo1.maven.org/maven2/" 
+               m2compatible="true"/>
+      
+      <!-- UK Maven Mirror - Additional fallback -->
+      <ibiblio name="uk-maven-mirror" 
+               root="https://uk.maven.org/maven2/" 
+               m2compatible="true"/>
+      
+    </chain>
+  </resolvers>
+</ivysettings>
+
+<!-- Made with Bob -->
+

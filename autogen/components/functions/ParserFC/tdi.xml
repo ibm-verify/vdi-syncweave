@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.ParserFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.ParserFC</parameter>
+				<parameter name="characterSet">UTF-8</parameter>
+				<parameter name="defaultAttribute">value</parameter>
+				<parameter name="mode">0</parameter>
+				<parameter name="returnString">true</parameter>
+				<parameter name="simulate">Enabled</parameter>
+			</Configuration>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.ParserFC">
+			<TranslationFile>NLS/idi_fc_parserfc</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>mode</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>returnString</ListItem>
+					<ListItem>characterSet</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>mode</ListItem>
+				<ListItem>returnString</ListItem>
+				<ListItem>characterSet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="characterSet">
+				<parameter name="description">PARSERFC_CS_DESC</parameter>
+				<parameter name="label">PARSERFC_CS_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="mode">
+				<Values>
+					<ListItem>0</ListItem>
+					<ListItem>1</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>0</Key>
+						<Value>PARSERFC_WM_READ</Value>
+					</Item>
+					<Item>
+						<Key>1</Key>
+						<Value>PARSERFC_WM_WRITE</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">PARSERFC_WM_DESC</parameter>
+				<parameter name="indexbased">true</parameter>
+				<parameter name="label">PARSERFC_WM_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="returnString">
+				<parameter name="description">PARSERFC_RS_DESC</parameter>
+				<parameter name="label">PARSERFC_RS_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="title">PARSERFC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

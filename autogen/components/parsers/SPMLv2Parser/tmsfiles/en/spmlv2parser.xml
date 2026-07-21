@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="spmlv2parser" tmsVersion="1.0" xml:lang="en">
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+<Message ID="CTGDKL001E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.UNKNOWN.TYPE" varFormat="Java">
+   Unable to process the batch message because an unknown type was
+   encountered: <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The batch message contains an object that is neither request, nor response.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the batch message so that it contains only requests or responses.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL002W" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.BASE64DEC.WARNING" varFormat="Java">
+   The Base64 decoding has not finished successfully for the entry with the
+   following attributes: <Variable formatSpec="{0}">entry attributes</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   An exception occurred while decoding attributes
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the binaryAttributes parameter of the Parser is set correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL003E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.UNKNOWN.REQUEST" varFormat="Java">
+   Unable to process the request because an unknown request type was received:
+   <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The request type is unknown to the Parser or the object is not a request at all.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the batch message so that it contains only valid requests.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL004E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.UNKNOWN.RESPONSE" varFormat="Java">
+   Unknown response type:
+   <Variable formatSpec="{0}">class name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The response type is unknown to the Parser or the object is not a response at all.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the batch message so that it contains only valid responses.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL005E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.REQUEST.PSO.MISSING" varFormat="Java">
+   Unable to complete the <Variable formatSpec="{0}">operation name</Variable> request. The <Variable formatSpec="{0}">operation name</Variable> request must contain
+   exactly one &lt;pso&gt; element.
+   </MsgText>
+   <Explanation> <p>
+   The modify, lookup or delete request does not specify pso.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the request in order to be compliant with the SPML v2 specification.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL006E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.MISSING.ATTRIBUTE" varFormat="Java">
+   Unable to process the entry. The entry is missing required Attribute:
+   <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The IBM Security Verify Directory Integrator Entry does not contain an Attribute that
+   is required.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Add the missing Attribute to the IBM Security Verify Directory Integrator Entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL007E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.UNKNOWN.OPERATION" varFormat="Java">
+   Unknown operation type:
+   <Variable formatSpec="{0}">SPML v2 operation</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The SPML v2 operation type is neither request, nor response.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the IBM Security Verify Directory Integrator Entry so that it represents a
+   valid operation.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL010W" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.RSPXML.WARNING" varFormat="Java">
+   An error occurred while flushing the batch message:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Refer to the exception message for more information.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the configuration of the Parser.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKL011I" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.BASE64.DECODINGATTRIB.INFO" varFormat="Java">
+   Base64 decoding attribute: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKL012I" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.BINNOT64ENCODED.INFO" varFormat="Java">
+   Base64 decoding attribute: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKL013E" prefix="yes">
+   <MsgText pgmKey="PARSER.SPMLV2.ERROR.REQUEST.PSO.ID.MISSING" varFormat="Java">
+   Unable to complete the <Variable formatSpec="{0}">operation name</Variable> request. The <Variable formatSpec="{0}">operation name</Variable> request must contain a &lt;psoID ID&gt; attribute.
+   </MsgText>
+   <Explanation> <p>
+   The modify, lookup, or delete request does not specify &apos;psoID ID&apos; attribute correctly.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Edit the request in order to be compliant with the SPML v2 specification. Note that &apos;psoID ID&apos; declaration is case sensitive.
+   </p> </OperatorResponse>
+</Message>
+</TMSSource>

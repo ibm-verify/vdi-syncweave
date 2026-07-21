@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Notes">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.DominoConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="alwaysUseFormula">false</parameter>
+				<parameter name="dominoHost"/>
+				<parameter name="dominoLogin"/>
+				<parameter name="dominoPassword"/>
+				<parameter name="dominoSessionType">IIOP</parameter>
+				<parameter name="httpPort">80</parameter>
+				<parameter name="iiopSSL">false</parameter>
+				<parameter name="ConserveMemory">false</parameter>
+				<parameter name="notesDatabase">names.nsf</parameter>
+				<parameter name="notesSearchView"/>
+				<parameter name="notesSelection"/>
+				<parameter name="notesServer"/>
+				<parameter name="supportRichText">false</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.DominoConnector">
+			<TranslationFile>NLS/idi_conn_notes</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>dominoHost</ListItem>
+					<ListItem>notesServer</ListItem>
+					<ListItem>httpPort</ListItem>
+					<ListItem>dominoSessionType</ListItem>
+					<ListItem>dominoLogin</ListItem>
+					<ListItem>dominoPassword</ListItem>
+					<ListItem>notesDatabase</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>iiopSSL</ListItem>
+					<ListItem>ConserveMemory</ListItem>
+					<ListItem>supportRichText</ListItem>
+					<ListItem>notesSelection</ListItem>
+					<ListItem>alwaysUseFormula</ListItem>
+					<ListItem>notesSearchView</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>dominoSessionType</ListItem>
+				<ListItem>dominoHost</ListItem>
+				<ListItem>httpPort</ListItem>
+				<ListItem>dominoLogin</ListItem>
+				<ListItem>dominoPassword</ListItem>
+				<ListItem>iiopSSL</ListItem>
+				<ListItem>ConserveMemory</ListItem>
+				<ListItem>supportRichText</ListItem>
+				<ListItem>notesServer</ListItem>
+				<ListItem>notesDatabase</ListItem>
+				<ListItem>notesSelection</ListItem>
+				<ListItem>alwaysUseFormula</ListItem>
+				<ListItem>notesSearchView</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="alwaysUseFormula">
+				<parameter name="description">for_desc</parameter>
+				<parameter name="label">for_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="dominoHost">
+				<parameter name="description">host_desc</parameter>
+				<parameter name="label">host_label</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="dominoLogin">
+				<parameter name="description">log_desc</parameter>
+				<parameter name="label">log_label</parameter>
+			</FormItem>
+			<FormItem name="dominoPassword">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">password</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="dominoSessionType">
+				<Values>
+					<ListItem>IIOP</ListItem>
+					<ListItem>LocalClient</ListItem>
+					<ListItem>LocalServer</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>IIOP</Key>
+						<Value>Localized.IIOP</Value>
+					</Item>
+					<Item>
+						<Key>LocalClient</Key>
+						<Value>Localized.LocalClient</Value>
+					</Item>
+					<Item>
+						<Key>LocalServer</Key>
+						<Value>Localized.LocalServer</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">type_desc</parameter>
+				<parameter name="label">type_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="httpPort">
+				<parameter name="description">port_desc</parameter>
+				<parameter name="label">port_label</parameter>
+				<parameter name="syntax">text field</parameter>
+			</FormItem>
+			<FormItem name="iiopSSL">
+				<parameter name="description">ssl_desc</parameter>
+				<parameter name="label">ssl_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="ConserveMemory">
+				<parameter name="description">ConserveMemory_desc</parameter>
+				<parameter name="label">ConserveMemory_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="notesDatabase">
+				<parameter name="description">bsae_desc</parameter>
+				<parameter name="label">base_label</parameter>
+				<parameter name="script">selectNotesDatabase</parameter>
+				<parameter name="scriptLabel">base_script_label</parameter>
+				<parameter name="scripthelp">base_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="notesSearchView">
+				<parameter name="description">view_desc</parameter>
+				<parameter name="label">view_label</parameter>
+				<parameter name="script">selectNotesView</parameter>
+				<parameter name="scriptLabel">view_script_label</parameter>
+				<parameter name="scripthelp">view_script_help</parameter>
+			</FormItem>
+			<FormItem name="notesSelection">
+				<parameter name="description">sele_desc</parameter>
+				<parameter name="label">sele_label</parameter>
+				<parameter name="script">selectNotesSearchFilter</parameter>
+				<parameter name="scriptLabel">...</parameter>
+			</FormItem>
+			<FormItem name="notesServer">
+				<parameter name="description">ser_desc</parameter>
+				<parameter name="label">ser_label</parameter>
+			</FormItem>
+			<FormItem name="supportRichText">
+				<parameter name="description">rt_desc</parameter>
+				<parameter name="label">rt_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+var mode = form.getConfigObject().getParent().getMode(); 
+if (mode!=null) { 
+	if (mode.equalsIgnoreCase("Iterator")) { 
+		form.getControl("notesSelection").setEnabled(true); 
+	} else { 
+		form.getControl("notesSelection").setEnabled(false); 
+		form.getControl("supportRichText").setEnabled(false); 
+	} 
+}
+
+function setSessionControlValue() {
+	var session = form.getConfigValue("dominoSessionType"); 
+	if (session!=null) { 
+		if (session.equalsIgnoreCase("LocalClient")) { 
+			form.getControl("dominoHost").setEnabled(false); 
+			form.getControl("httpPort").setEnabled(false); 
+			form.getControl("dominoLogin").setEnabled(false); 
+			form.getControl("iiopSSL").setEnabled(false); 
+			form.getControl("ConserveMemory").setEnabled(true); 
+		} else if (session.equalsIgnoreCase("LocalServer")) { 
+			form.getControl("dominoHost").setEnabled(false); 
+			form.getControl("httpPort").setEnabled(false); 
+			form.getControl("dominoLogin").setEnabled(true); 
+			form.getControl("iiopSSL").setEnabled(false); 
+			form.getControl("ConserveMemory").setEnabled(true);
+		} else if (session.equalsIgnoreCase("IIOP")) {
+			form.getControl("dominoHost").setEnabled(true); 
+			form.getControl("httpPort").setEnabled(true); 
+			form.getControl("dominoLogin").setEnabled(true); 
+			form.getControl("dominoPassword").setEnabled(true); 
+			form.getControl("iiopSSL").setEnabled(true);
+			form.getControl("ConserveMemory").setEnabled(true);
+		} 
+	}
+}
+
+setSessionControlValue();
+
+function dominoSessionType_changed() {
+	setSessionControlValue();
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="itregistryconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJZ451E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.INCORRECT.ATTR.VALUE" varFormat="Java">   
+   Attribute <Variable formatSpec="{0}">attribute</Variable> does not accept value 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+      The specified value is not valid for this attribute.
+   1)If the attribute is &apos;$operation&apos;, the following string values are valid: &apos;create&apos;, &apos;modify&apos;, 
+   &apos;delete&apos; (case insensitive). If anything else is passed into the attribute an exception will occur.
+   2)If the  attribute is &apos;dateFilter&apos;, it accepts a valid date in past.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide valid values for the Connector&apos;s parameters. Consult the documentation for those that are supported.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ452E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.UNSUPPORTED.OPERATION" varFormat="Java">   
+   An IT registry book opened in REFRESH mode supports only CREATE operations. 
+   </MsgText>
+   <Explanation><p>
+   The IT registry Book this Connector is working with has been opened in Refresh mode, meaning only &apos;create&apos; 
+   operations may be used for it. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Set the operation to &apos;create&apos; from the &apos;$operation&apos; attribute or as a delta operation 
+   (for example, the operation set to delta tagged entry will override the operation attribute of the Connector).
+   Alternatively, change the book mode to Delta (from the Init IT registry Function Component).
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ453E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.NO.CLASSTYPE.SPECIFIED" varFormat="Java">   
+   No class type specified in the configuration of the IT registry Ci and Relationship Connector.
+   </MsgText>
+   <Explanation><p>
+   In order to discover the schema of this Connector, the class type parameter must be provided. Otherwise
+   the Component does not know which attributes to display.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Set the required Class Type parameter from IT registry Ci and Relationship Connector&apos;s configuration panel.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ454I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.BOOKNAME.INITIALIZED" varFormat="Java">
+   IT registry Ci and Relationship Connector will work with book: <Variable formatSpec="{0}">book name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ455I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.PARAMETER.INITIALIZED" varFormat="Java">
+   The parameter <Variable formatSpec="{0}">param name</Variable> was initialized with the value: 
+   &apos;<Variable formatSpec="{1}">value</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ456I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.BOOKNAME.OVERRIDDEN" varFormat="Java">
+   The name of the currently used book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; has been 
+   overridden to &apos;<Variable formatSpec="{1}">new name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ457I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.USE.IT.REGISTRY" varFormat="Java">
+   Use an IT registry system for the needed meta-data: &apos;<Variable formatSpec="{0}">use it registry</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ458I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.BOOK.ALREADY.CLOSED" varFormat="Java">
+   The book &apos;<Variable formatSpec="{0}">book name</Variable>&apos; does not exist or is already closed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ459E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   Parameter &apos;<Variable formatSpec="{0}">param name</Variable>&apos; is not provided.
+   </MsgText>
+   <Explanation><p>
+   The specified parameter is needed by the IT registry Ci and Relationship Connector and must be provided.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Provide a value for this parameter.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ460E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.RELATION.UPDATE.ERROR" varFormat="Java">   
+   Relationship &apos;<Variable formatSpec="{0}">relationship name</Variable>&apos; cannot be updated.
+   </MsgText>
+   <Explanation><p>
+   The specified relationship cannot be updated by the IT registry Ci and Relationship Connector and must be removed
+   </p></Explanation>
+   <OperatorResponse><p>
+   Remove this relationship or change the $operation.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ461E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.CRITERIA_ERROR" varFormat="Java">   
+   Lookup Criteria &apos;<Variable formatSpec="{0}">criterion</Variable>&apos; is not supported.
+   </MsgText>
+   <Explanation><p>
+   The specified criteria is inappropriate for IT registry Ci and Relationship Connector.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Change the criterion to 'equals' or uncheck 'Match Any'
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ462E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.FILTER.ERROR" varFormat="Java">   
+   Filter Criteria &apos;<Variable formatSpec="{0}">criterion</Variable>&apos; is not valid
+   </MsgText>
+   <Explanation><p>
+   The criteria mentioned is not in proper format for the IT registry Ci and Relationship Connector.
+   </p></Explanation>
+   <OperatorResponse><p>
+  	The attributes should be mention in format as specified below:
+	(for example, cdm:Model=T61p,cdm:Manufacturer=IBM).
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ463E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.UNABLE.TO.CLOSE" varFormat="Java">   
+   An exception occured while trying to close the database connection: <Variable formatSpec="{0}">exception message</Variable>
+   </MsgText>
+   <Explanation> <p>
+   A database access error may had occured. See the exception message for details.
+   </p></Explanation>
+   <OperatorResponse><p>
+   No action required.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ464E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.CI.UPDATE.ERROR" varFormat="Java">   
+   Configuration Item &apos;<Variable formatSpec="{0}">ci name</Variable>&apos; cannot be updated.
+   </MsgText>
+   <Explanation><p>
+   The IT registry contains only identifying attributes for each Configuration Item. And since they cannot be updated, no update operation is supported by the Connector.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Change the $operation of the IT registry Ci and Relationship Connector, or remove it from the AssemblyLine.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ465E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.INCORRECT.GUID.FORMAT" varFormat="Java">   
+   Incorrect GUID value passed to attribute &apos;<Variable formatSpec="{0}">guid attr</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   The GUID attributes of the IT registry Ci and Relationship Connector require values from type 'com.ibm.di.fc.itregistry.ConfigurationItemId'. Such objects are created by both this Connector and the Init IT registry FC.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Change the value of the specified attribute.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJZ466I" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.QUERYING.ALL.ITEMS" varFormat="Java">
+   All IT registry items will be queried.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJZ468E" prefix="yes">
+   <MsgText pgmKey="IT.REGISTRY.CONN.RELATION.IS.DELETE.ERROR" varFormat="Java">   
+   Relationship &apos;<Variable formatSpec="{0}">relationship name</Variable>&apos; cannot be fetched as 'isDeleted' is set.
+   </MsgText>
+   <Explanation><p>
+   Relationships cannot be fetched by the IT registry Ci and Relationship Connector and must be removed for such configuration.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Change the artifact type or uncheck isDeleted.
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

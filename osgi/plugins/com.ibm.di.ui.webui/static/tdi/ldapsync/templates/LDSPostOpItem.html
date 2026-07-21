@@ -1,0 +1,50 @@
+<div>
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="_form" action="javascript:" style="width:100%;">
+		<table width="100%">
+			<tr>
+				<td>
+					<div class="tdiRightArrow" data-dojo-attach-event="onclick:_toggleToggle" data-dojo-attach-point="arrowNode">
+					</div>
+				</td>
+				<td width="50%">
+					<div tabIndex="0" data-dojo-attach-event="onclick:_toggleToggle,onkeydown:_toggleByKey" style="cursor:default">${title}</div>
+				</td>
+				<td>
+					<div data-dojo-type="idx/form/CheckBox" name="enabled" data-dojo-attach-event="onChange:updateEnabled" label="${nls.FDS_enabled}"></div>
+				</td>
+				<td style="display:none">
+					<div data-dojo-type="idx/form/CheckBox" data-dojo-attach-point="_monitor" name="monitor" data-dojo-attach-event="onChange:updateMonitor" label="${nls.WebCE_monitor}"></div>
+				</td>				
+			</tr>
+		</table>
+		
+		<div data-dojo-attach-point="_alParams" style="width:100%; background-color: #EFEFEF; border-top:1px solid white; border-left:1px solid white; border-bottom:1px solid grey; border-right:1px solid grey; display:none; padding:5px; margin-left:1.5em">
+			<table width="100%">
+				<tr data-dojo-attach-point="_isGroupRow">
+					<td colspan="3">
+						<div data-dojo-type="idx/form/CheckBox" label="${nls.FDS_postOpUseSame}" name="singleAL"
+							data-dojo-attach-event="onChange:updateSingleAL"></div>
+					</td>
+					<td></td>
+				</tr>			
+					
+				<tr data-dojo-attach-point="_selectAlRow">
+					<td><span class="tdiFormLabel">${nls.WebCE_assemblyline}</span></td>
+					<td width="60%">
+						<div data-dojo-type="dijit/form/TextBox" data-dojo-attach-event="onChange:updateAL" style="width:100%" name="al"></div>
+					</td>
+					<td>
+						<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:selectAL">${nls.ServerWidget_24}</div>
+					</td>
+				</tr>
+				<tr>
+				<td colspan="3">
+					<div style="padding-top:3px; padding-bottom:3px; border-bottom:1px solid grey; width:100%" data-dojo-attach-point="_initParamsLabel">${nls.FunctionListWidget_Parameters}</div>
+					<div style="width:100%; margin:0; padding:0" data-dojo-attach-point="_initParams"></div>
+				</td>
+				</tr>
+			</table>
+			
+		</div>
+	</div>
+</div>

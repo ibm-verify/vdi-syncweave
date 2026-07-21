@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.0 - 2009-12-14" created="Fri Mar 12 16:11:16 EET 2010" createdBy="deyan.popov" modified="Fri Mar 12 16:11:16 EET 2010" modifiedBy="deyan.popov" version="7.0">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="axis2wsclient">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="AssembleRequest" state="Enabled"/>
+                    <Component name="Axis2WebServiceClientFunctionComponent" state="Simulated"/>
+                    <Component name="PrintResponse" state="Enabled"/>
+                    <Component name="FileSystemConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="FileSystemConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\axis2_web_services\library_ws\booklist.csv</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>author</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.author</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>title</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.title</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>author</Name>
+                            <Type>advanced</Type>
+                            <Script>work.author</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>title</Name>
+                            <Type>advanced</Type>
+                            <Script>work.title</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>author</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>author</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Script name="AssembleRequest">
+                    <parameter name="includeFiles"/>
+                    <parameter name="script"><![CDATA[// assembles a request to the server, consisting of a book object
+// with two elements - title and author
+
+var attr = work.createElementNS("http://www.example.com/library/", "book");
+var child1 = work.createElement("title");
+var child2 = work.createElement("author");
+child1.appendChild(work.createTextNode(work.title));
+child2.appendChild(work.createTextNode(work.author));
+attr.appendChild(child1);
+attr.appendChild(child2);
+work.appendChild(attr);
+
+var header = work.createElement("$soapHeader");
+var requestTime = java.lang.System.currentTimeMillis();
+header.appendChild(work.createTextNode(requestTime));
+work.appendChild(header);
+
+task.logmsg("<<<<<<<<<< Request = " + work.book.toString());]]></parameter>
+                </Script>
+                <Function name="Axis2WebServiceClientFunctionComponent">
+                    <InheritFrom>system:/Functions/ibmdi.Axis2WSClientFC</InheritFrom>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$soapHeader</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-length</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-type</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$soapHeader</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="endpoint">LibraryEndPoint</parameter>
+                        <parameter name="operation">GetBookAvailability</parameter>
+                        <parameter name="password">pass</parameter>
+                        <parameter name="service">LibraryService</parameter>
+                        <parameter name="userComment"/>
+                        <parameter name="username">user</parameter>
+                        <parameter name="wsdlUrl">http://localhost:9998/library_wsdl2.wsdl </parameter>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$soapHeader</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.$soapHeader</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>isAvailable</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.isAvailable</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$soapHeader</Name>
+                            <Type>advanced</Type>
+                            <Script>work.$soapHeader</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>book</Name>
+                            <Type>advanced</Type>
+                            <Script>work.book</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                </Function>
+                <Script name="PrintResponse">
+                    <parameter name="enabled">true</parameter>
+                    <parameter name="includeFiles"/>
+                    <parameter name="script"><![CDATA[// prints whether the requested book is available in the library or not
+
+var title = work.book.getFirstChild().getNodeValue().trim();
+var author = work.book.getLastChild().getNodeValue().trim();
+if("true".equals(work.isAvailable)) {
+	task.logmsg(">>>>>>>>>> Response = The book is available ('" + title + "' written by " + author + ")");	
+} else {
+	task.logmsg(">>>>>>>>>> Response = The book is NOT available ('" + title + "' written by " + author + ")");	
+}
+task.logmsg(">>>>>>>>>> Processed in " + work.$soapHeader + " miliseconds");
+task.logmsg("----------");
+task.logmsg("----------");]]></parameter>
+                </Script>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="axis2wsserver">
+            <Settings/>
+            <Hooks>
+                <Hook name="epilog">
+                    <Name>epilog</Name>
+                    <Enabled>false</Enabled>
+                </Hook>
+                <Hook name="prolog0">
+                    <Name>prolog0</Name>
+                    <Enabled>false</Enabled>
+                </Hook>
+                <Hook name="startcycle">
+                    <Name>startcycle</Name>
+                    <Script><![CDATA[var map = new java.util.HashMap();
+map.put("LotR", "Tolkien");
+map.put("Hobbit", "Tolkien");
+map.put("I Robot", "Asimov");
+map.put("Foundation", "Asimov");
+map.put("Gun seller", "Lory");
+map.put("Under the yoke", "Vazov");
+map.put("Uncles", "Vazov");
+map.put("To Chicago and back", "Konstantinov");
+var bookMap = work.createAttribute("bookMap");
+work.addAttributeValue(bookMap, map);
+task.logmsg("opaopaopaopaoap");]]></Script>
+                    <Enabled>false</Enabled>
+                </Hook>
+            </Hooks>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="HttpRequestIsGet" state="Enabled"/>
+                    <Component name="ReturnWSDL" state="Enabled"/>
+                    <Component name="HttpRequestIsPost" state="Enabled"/>
+                    <Component name="CreateBookMap" state="Enabled"/>
+                    <Component name="PrintRequest" state="Enabled"/>
+                    <Component name="AssembleResponse" state="Enabled"/>
+                    <Component name="CalculateProcessTime" state="Enabled"/>
+                    <Component name="Axis2WebServiceServerConnector" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="Axis2WebServiceServerConnector">
+                    <InheritFrom>system:/Connectors/ibmdi.Axis2WSServerConnector</InheritFrom>
+                    <ConnectorMode>Server</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="httpAuth">false</parameter>
+                        <parameter name="needClientAuth">false</parameter>
+                        <parameter name="service">LibraryService</parameter>
+                        <parameter name="tcpPort">9998</parameter>
+                        <parameter name="useSSL">false</parameter>
+                        <parameter name="userComment"/>
+                        <parameter name="wsdlUrl">examples\axis2_web_services\library_ws\library_wsdl2.wsdl</parameter>
+                        <parameter name="wsdlVersion">2.0</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$soapHeader</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.getAttribute("$soapHeader")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>book</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.book</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.method</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.getAttribute("http.method")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.remote_pass</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.getAttribute("http.remote_pass")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.remote_user</Name>
+                            <Type>advanced</Type>
+                            <Script>conn.getAttribute("http.remote_user")</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$authResult</Name>
+                            <Type>advanced</Type>
+                            <Script>work.getAttribute("$authResult")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>$faultCode</Name>
+                            <Type>advanced</Type>
+                            <Script>work.getAttribute("$faultCode")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>$faultReason</Name>
+                            <Type>advanced</Type>
+                            <Script>work.getAttribute("$faultReason")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>$soapHeader</Name>
+                            <Type>advanced</Type>
+                            <Script>work.getAttribute("$soapHeader")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>http.body</Name>
+                            <Type>advanced</Type>
+                            <Script>work.getAttribute("http.body")</Script>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>isAvailable</Name>
+                            <Type>advanced</Type>
+                            <Script>work.isAvailable</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$soapHeader</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>book</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.Authorization</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.SOAPAction</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.base</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.body</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-length</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.content-type</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.host</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.method</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.remote_pass</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.remote_user</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.url</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.user-agent</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$authResult</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultCode</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultCodeNamespacePrefix</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultCodeNamespaceURI</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultDetail</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultNode</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultReason</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$faultRole</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$soapHeader</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>http.body</Name>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>isAvailable</Name>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="initreconnect">false</parameter>
+                        <parameter name="numberOfRetries">1</parameter>
+                        <parameter name="retryDelay">10</parameter>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="HttpRequestIsGet">
+                    <Script name="ReturnWSDL">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// the server received a 'GET' request, so it returns a response 
+// containing the WSDL file describing the service 
+	
+	var filename = task.getConnector("Axis2WebServiceServerConnector").getConnector().getParam("wsdlUrl");
+	var input = new java.io.BufferedReader(new java.io.FileReader(filename));
+	var wsdlText = "";
+	var line;
+	while((line = input.readLine()) != null) {
+		wsdlText += line + "\n";
+	}
+	work.setAttribute("http.body", wsdlText);
+	//work.setAttribute("$authResult", true);
+	task.logmsg("<<<<<<<<<< Response = " + filename);]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>contains</Operator>
+                            <RightHand>GET</RightHand>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="HttpRequestIsPost">
+                    <Script name="CreateBookMap">
+                        <parameter name="enabled">true</parameter>
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[//creates a map with the books present in the library
+
+var map = new java.util.HashMap();
+map.put("Julius Caesar", "Shakespeare");
+map.put("I Robot", "Asimov");
+map.put("Gun seller", "Lory");
+map.put("Under the yoke", "Vazov");
+map.put("A Christmas Carol", "Dickens");
+map.put("A Connecticut Yankee in King Arthur's Court", "Twain");
+map.put("A Dream Within a Dream", "Poe");
+map.put("A Midsummer Night's Dream", "Shakespeare");
+map.put("A Princess of Mars", "Burroughs");
+map.put("A Room With a View", "Forster");
+map.put("A Thief in the Night", "Hornung");
+map.put("A Treatise on Government", "Aristotle");
+map.put("A Woman of No Importance", "Wilde");
+map.put("A Woman of Thirty", "Balzac");
+map.put("Aaron Trow", "Trollope");
+map.put("Foundation", "Asimov");
+map.put("Hobbit", "Tolkien");
+map.put("King Solomon's Mines", "Haggard");
+map.put("Lady Susan", "Austen");
+map.put("Lady Windermere's Fan", "Wilde");
+// add more if you want
+
+work.addAttributeValue("bookMap", map);]]></parameter>
+                    </Script>
+                    <Script name="PrintRequest">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[//prints the request received from the client
+
+task.logmsg(">>>>>>>>>> Request = " + work.book.toString());]]></parameter>
+                    </Script>
+                    <Script name="AssembleResponse">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// assembles the response to the received 'POST' request
+
+var user = work.getString("http.remote_user");
+var pass = work.getString("http.remote_pass");
+task.logmsg("User: " + user + " Password: " + pass);
+if(!user.equals("user") || !pass.equals("pass")) {
+ 	//work.setAttribute("$authResult", "false");
+ 	work.$faultCode = "myCode";
+ 	work.$faultReason = "SOAP fault: Error in processing";
+} else {
+	//work.setAttribute("$authResult", "true");
+	work.$faultCode = null;
+ 	work.$faultReason = null;
+	var title = work.book.getFirstChild().getNodeValue().trim();
+	var author = work.book.getLastChild().getNodeValue().trim();
+	var booleanResult = false;
+	var map = work.getAttribute("bookMap").getValue(0);
+	var containedValue = map.get(title);
+	if(containedValue != null && containedValue.equals(author)) {
+		booleanResult = true;
+	}
+	var attr = work.createElementNS("http://www.example.com/library/", "trgnsp:isAvailable");
+	attr.appendChild(work.createTextNode(booleanResult));
+	work.appendChild(attr);
+	task.logmsg("<<<<<<<<<< Assembled Response = " + attr);
+}]]></parameter>
+                    </Script>
+                    <Script name="CalculateProcessTime">
+                        <parameter name="includeFiles"/>
+                        <parameter name="script"><![CDATA[// calculates the time needed to receive and process the request.
+// this data is sent in the soap header of the response
+
+var currentTime = java.lang.Long.parseLong(java.lang.System.currentTimeMillis());
+var processTime = java.lang.Math.abs(currentTime - java.lang.Long.parseLong(work.$soapHeader));
+
+var header = work.createElement("$soapHeader");
+header.appendChild(work.createTextNode(processTime));
+work.setAttribute(header);]]></parameter>
+                    </Script>
+                    <Conditions>
+                        <BranchCondition>
+                            <LeftHand>http.method</LeftHand>
+                            <Operator>contains</Operator>
+                            <RightHand>POST</RightHand>
+                        </BranchCondition>
+                    </Conditions>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>library_test1</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="axis2_library_example">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/axis2_library_example.properties</parameter>
+                    <parameter name="collectionType">axis2_library_example</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/axis2_library_example.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name=" Default">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="autorewrite">false</parameter>
+                    <parameter name="cipher"/>
+                    <parameter name="collection">examples/jdbc_demo/JdbcProperties</parameter>
+                    <parameter name="collectionType">User-Defined</parameter>
+                    <parameter name="encryption">false</parameter>
+                    <parameter name="password">BlowFish32</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

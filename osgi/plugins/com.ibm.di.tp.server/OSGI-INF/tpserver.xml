@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" enabled="true" immediate="false" name="com.ibm.di.tp.server">
+	<implementation class="com.ibm.di.tp.server.ServerActivator" />
+	<reference bind="bind" cardinality="1..1" interface="org.osgi.service.http.HttpService" name="HTTPService" policy="static" unbind="unbind"/>
+  <reference bind="bind" cardinality="1..1" interface="com.ibm.di.api.connection.IServerAPIConnectionService" name="IServerAPIConnectionService" policy="static" unbind="unbind"/>
+  <reference bind="bind" cardinality="0..1" interface="com.ibm.di.schema.internal.SchemaRewriter" name="SchemaRewriter" policy="dynamic" unbind="unbind"/>
+  <service>
+     <provide interface="com.ibm.di.schema.internal.SchemaProvider"/>
+  </service>
+</scr:component>

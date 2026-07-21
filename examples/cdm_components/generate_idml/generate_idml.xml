@@ -1,0 +1,2319 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by TDI7.1 - 2009-12-16" created="Fri Dec 18 17:49:29 EET 2009" createdBy="Administrator" modified="Fri Dec 18 17:50:45 EET 2009" modifiedBy="Administrator" version="7.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="CreateIdMLBook_2">
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="OpenBook" state="Simulated"/>
+                    <Component name="iterateDataStore" state="Enabled"/>
+                    <Component name="addComputerSystem" state="Enabled"/>
+                    <Component name="addOperatingSystem" state="Enabled"/>
+                    <Component name="addInstalledOn" state="Enabled"/>
+                    <Component name="CloseBook" state="Simulated"/>
+                    <Component name="PrintResult" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer"/>
+            <ContainerDF name="DataFlowContainer">
+                <Function name="OpenBook">
+                    <InheritFrom>system:/Functions/ibmdi.OpenIdMLFC</InheritFrom>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>applicationCode</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AdminState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CDMSource</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ContextIp</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CreatedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Description</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:DisplayName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Guid</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Hostname</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Label</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSUIHostname</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSUIPortNumber</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManagedSystemName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManufacturerName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ObjectType</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProductName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProductVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SourceToken</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Subcomponent</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SubcomponentInstanceName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="applicationCode">Application Code</parameter>
+                        <parameter name="bookName">demoBook2</parameter>
+                        <parameter name="cdmVersion">2.10.3</parameter>
+                        <parameter name="dbPassword"/>
+                        <parameter name="dbUsername"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="directoryName"/>
+                        <parameter name="hostname"/>
+                        <parameter name="jdbcDriver"/>
+                        <parameter name="jdbcUrl"/>
+                        <parameter name="storeIdML">1</parameter>
+                        <parameter name="useITRegistryCdm">false</parameter>
+                        <parameter name="userComment"/>
+                        <parameter name="validate">true</parameter>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>cdm:Hostname</Name>
+                            <Type>advanced</Type>
+                            <Script>"www.ibm.com"</Script>
+                            <Simple>cdm:Hostname</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:MSSName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom MSS Name"</Script>
+                            <Simple>cdm:MSSName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:ManufacturerName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom Company Name"</Script>
+                            <Simple>cdm:ManufacturerName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:ProductName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom Product Name"</Script>
+                            <Simple>cdm:ProductName</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                </Function>
+                <Loop name="iterateDataStore">
+                    <LoopType>1</LoopType>
+                    <Connector name="iterateDataStore">
+                        <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                        <ConnectorMode>Iterator</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <UserComment/>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="filePath">examples\cdm_components\generate_idml\input.csv</parameter>
+                            <parameter name="userComment"/>
+                        </Configuration>
+                        <Parser>
+                            <UserComment/>
+                            <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                            <parameter name="csvColumnSeparator">,</parameter>
+                            <parameter name="debug">false</parameter>
+                            <parameter name="userComment"/>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Schema>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>manufacturer</Name>
+                                <Type>advanced</Type>
+                                <Script>conn.manufacturer</Script>
+                                <Simple>manufacturer</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>model</Name>
+                                <Type>simple</Type>
+                                <Simple>model</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>os</Name>
+                                <Type>simple</Type>
+                                <Simple>os</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>os_fqdn</Name>
+                                <Type>simple</Type>
+                                <Simple>os_fqdn</Simple>
+                            </AttributeMapItem>
+                            <AttributeMapItem>
+                                <Name>serial_number</Name>
+                                <Type>simple</Type>
+                                <Simple>serial_number</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <UniqueAttribute/>
+                            <WhenToCommit>After every database operation</WhenToCommit>
+                            <RowLocking>READ_COMMITTED</RowLocking>
+                            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>manufacturer</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>model</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>os</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>os_fqdn</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>serial_number</Name>
+                                <Syntax>java.lang.String</Syntax>
+                            </SchemaItem>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <SchemaItem>
+                                <Name>debug</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>exclusiveLock</Name>
+                                <NativeSyntax>boolean</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>fileAppend</Name>
+                                <NativeSyntax>boolean</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>fileAwaitDataTimeout</Name>
+                                <NativeSyntax>DROPEDIT</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>filePath</Name>
+                            </SchemaItem>
+                        </Schema>
+                        <LinkCriteria/>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                        <InitializeOption>0</InitializeOption>
+                    </Connector>
+                    <Branch name="iterateDataStore">
+                        <Connector name="addComputerSystem">
+                            <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                            <ConnectorMode>CallReply</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration>
+                                <UserComment/>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <parameter name="bookName">demoBook2</parameter>
+                                <parameter name="classType">cdm:sys.ComputerSystem</parameter>
+                                <parameter name="dbPassword"/>
+                                <parameter name="dbUsername"/>
+                                <parameter name="debug">false</parameter>
+                                <parameter name="jdbcDriver"/>
+                                <parameter name="jdbcUrl"/>
+                                <parameter name="userComment"/>
+                            </Configuration>
+                            <Parser>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                            </Parser>
+                            <AttributeMap name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <AttributeMapItem>
+                                    <Name>cs_id</Name>
+                                    <Type>advanced</Type>
+                                    <Script>conn["$id"]</Script>
+                                    <Simple>$id</Simple>
+                                </AttributeMapItem>
+                            </AttributeMap>
+                            <AttributeMap name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <AttributeMapItem>
+                                    <Name>cdm:Manufacturer</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.manufacturer</Script>
+                                    <Simple>cdm:Manufacturer</Simple>
+                                </AttributeMapItem>
+                                <AttributeMapItem>
+                                    <Name>cdm:Model</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.model</Script>
+                                    <Simple>cdm:Model</Simple>
+                                </AttributeMapItem>
+                                <AttributeMapItem>
+                                    <Name>cdm:SerialNumber</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.serial_number</Script>
+                                    <Simple>cdm:SerialNumber</Simple>
+                                </AttributeMapItem>
+                            </AttributeMap>
+                            <DeltaSettings/>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$id</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$id</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>$idmlBookName</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>$operation</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AdminState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Architecture</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AssetID</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AssetTag</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AutoStart</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AvailableMemForAllVMs</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:BootOrder</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CDMSource</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CICategory</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CIRole</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUCoresEnabled</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUCoresInstalled</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUDiesEnabled</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUDiesInstalled</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPULimit</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUReservation</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUSharesLevel</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUSharesValue</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUSpeed</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CPUType</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CdpDeviceId</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ConfigLastUpdate</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ContextIp</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CreatedBy</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CurrentMemForAllVMs</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Description</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:DisplayName</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Fqdn</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:GeneralCIRole</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Guid</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:IsVMIDanLPAR</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Label</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastAuditState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastAuditTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastLifecycleStateTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastModifiedBy</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastModifiedTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LifecycleState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ManagedSystemName</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Manufacturer</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MemoryLimit</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MemoryReservation</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MemorySharesLevel</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MemorySharesValue</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MemorySize</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Model</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Name</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:NamingRuleAlgorithms</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:NumCPUs</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ObjectType</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:PrimaryMACAddress</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ProcessCapacityUnits</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ProcessingCapacity</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ROMVersion</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SerialNumber</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ServiceConsoleMemSize</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Signature</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SourceToken</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SwapMemSize</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SystemBoardUUID</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SystemId</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Type</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:UUID</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:VMID</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Virtual</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:VmotionEnabled</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                            </Schema>
+                            <LinkCriteria>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </LinkCriteria>
+                            <Hooks>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Hooks>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Connector name="addOperatingSystem">
+                            <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                            <ConnectorMode>CallReply</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration>
+                                <UserComment/>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <parameter name="artifactType">CI</parameter>
+                                <parameter name="bookName">demoBook2</parameter>
+                                <parameter name="classType">cdm:sys.OperatingSystem</parameter>
+                                <parameter name="dbPassword"/>
+                                <parameter name="dbUsername"/>
+                                <parameter name="debug">false</parameter>
+                                <parameter name="jdbcDriver"/>
+                                <parameter name="jdbcUrl"/>
+                                <parameter name="userComment"/>
+                            </Configuration>
+                            <Parser>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                            </Parser>
+                            <AttributeMap name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <AttributeMapItem>
+                                    <Name>os_id</Name>
+                                    <Type>advanced</Type>
+                                    <Script>conn["$id"]</Script>
+                                    <Simple>$id</Simple>
+                                </AttributeMapItem>
+                            </AttributeMap>
+                            <AttributeMap name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <AttributeMapItem>
+                                    <Name>cdm:FQDN</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.os_fqdn</Script>
+                                    <Simple>cdm:FQDN</Simple>
+                                </AttributeMapItem>
+                                <AttributeMapItem>
+                                    <Name>cdm:OSName</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.os</Script>
+                                    <Simple>cdm:OSName</Simple>
+                                </AttributeMapItem>
+                            </AttributeMap>
+                            <DeltaSettings/>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$id</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$id</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>$idmlBookName</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>$operation</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AdminState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AssetID</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:AssetTag</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:BootTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:BuildLevel</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CDMSource</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CICategory</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CIRole</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ConfigLastUpdate</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ContextIp</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CreatedBy</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:CurrentTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Description</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:DisplayName</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:FQDN</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:GeneralCIRole</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Guid</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:KernelArchitecture</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:KernelVersion</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Label</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastAuditState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastAuditTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastLifecycleStateTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastModifiedBy</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LastModifiedTime</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Level</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:LifecycleState</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:MajorVersion</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ManagedSystemName</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Modifier</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Name</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:OSConfidence</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:OSMode</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:OSName</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:OSVersion</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:ObjectType</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:OsId</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:Release</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SourceToken</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:SystemGuid</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:VersionString</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>cdm:VirtualMemorySize</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                            </Schema>
+                            <LinkCriteria>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </LinkCriteria>
+                            <Hooks>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Hooks>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Connector name="addInstalledOn">
+                            <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                            <ConnectorMode>CallReply</ConnectorMode>
+                            <ConnectorState>Enabled</ConnectorState>
+                            <Configuration>
+                                <UserComment/>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <parameter name="artifactType">RELATIONSHIP</parameter>
+                                <parameter name="bookName">demoBook2</parameter>
+                                <parameter name="classType">cdm:installedOn</parameter>
+                                <parameter name="dbPassword"/>
+                                <parameter name="dbUsername"/>
+                                <parameter name="debug">false</parameter>
+                                <parameter name="jdbcDriver"/>
+                                <parameter name="jdbcUrl"/>
+                                <parameter name="userComment"/>
+                            </Configuration>
+                            <Parser>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                                <Schema name="Output">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Schema>
+                            </Parser>
+                            <AttributeMap name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                            </AttributeMap>
+                            <AttributeMap name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <AttributeMapItem>
+                                    <Name>source</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.os_id</Script>
+                                    <Simple>source</Simple>
+                                </AttributeMapItem>
+                                <AttributeMapItem>
+                                    <Name>target</Name>
+                                    <Type>advanced</Type>
+                                    <Script>work.cs_id</Script>
+                                    <Simple>target</Simple>
+                                </AttributeMapItem>
+                            </AttributeMap>
+                            <DeltaSettings/>
+                            <Schema name="Input">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$id</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                            </Schema>
+                            <Schema name="Output">
+                                <InheritFrom>[parent]</InheritFrom>
+                                <SchemaItem>
+                                    <Name>$idmlBookName</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>$operation</Name>
+                                    <Syntax>String</Syntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>source</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                                <SchemaItem>
+                                    <Name>target</Name>
+                                    <NativeSyntax>java.lang.String</NativeSyntax>
+                                </SchemaItem>
+                            </Schema>
+                            <LinkCriteria>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </LinkCriteria>
+                            <Hooks>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </Hooks>
+                            <CheckpointConfig/>
+                            <SandboxConfig/>
+                            <Reconnect>
+                                <InheritFrom>[parent]</InheritFrom>
+                                <ReconnectRules/>
+                            </Reconnect>
+                            <Operations/>
+                            <PoolDefinition>
+                                <InheritFrom>[parent]</InheritFrom>
+                            </PoolDefinition>
+                            <PoolInstance/>
+                            <InitializeOption>0</InitializeOption>
+                        </Connector>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+                <Function name="CloseBook">
+                    <InheritFrom>system:/Functions/ibmdi.CloseIdMLFC</InheritFrom>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$idmlBook</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="bookName">demoBook2</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$idmlBook</Name>
+                            <Type>advanced</Type>
+                            <Script>conn["$idmlBook"]</Script>
+                            <Simple>$idmlBook</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                </Function>
+                <Script name="PrintResult">
+                    <parameter name="script"><![CDATA[if(work["$idmlBook"] != null) {
+	task.logmsg("*** The IdML book has been closed.");
+	task.logmsg("*** The accumulated in-memory snippet is:");
+	task.logmsg(work["$idmlBook"]);
+}]]></parameter>
+                </Script>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="CreateIdMLBook_1">
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+                <parameter name="automapattributes">false</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="OpenBook" state="Simulated"/>
+                    <Component name="addComputerSystem" state="Enabled"/>
+                    <Component name="addOperatingSystem" state="Enabled"/>
+                    <Component name="addInstalledOn" state="Enabled"/>
+                    <Component name="RollBook" state="Simulated"/>
+                    <Component name="ReadCSV" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ReadCSV">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="filePath">examples\cdm_components\generate_idml\input.csv</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <UserComment/>
+                        <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                        <parameter name="csvColumnSeparator">,</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="userComment"/>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>manufacturer</Name>
+                            <Type>simple</Type>
+                            <Simple>manufacturer</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>model</Name>
+                            <Type>simple</Type>
+                            <Simple>model</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>os</Name>
+                            <Type>simple</Type>
+                            <Simple>os</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>os_fqdn</Name>
+                            <Type>simple</Type>
+                            <Simple>os_fqdn</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>serial_number</Name>
+                            <Type>simple</Type>
+                            <Simple>serial_number</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <UniqueAttribute/>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>READ_COMMITTED</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>manufacturer</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>model</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>os</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>os_fqdn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>serial_number</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>arch</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cpu_count</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cpu_speed</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cpu_type</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>hostname</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mac_address</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>manufacturer</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>model</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>os</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>os_fqdn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>os_version</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>serial_number</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Function name="OpenBook">
+                    <InheritFrom>system:/Functions/ibmdi.OpenIdMLFC</InheritFrom>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>applicationCode</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AdminState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CDMSource</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ContextIp</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CreatedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Description</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:DisplayName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Guid</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Hostname</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Label</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSUIHostname</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MSSUIPortNumber</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManagedSystemName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManufacturerName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ObjectType</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProductName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProductVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SourceToken</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Subcomponent</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SubcomponentInstanceName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="applicationCode">ApplicationCode</parameter>
+                        <parameter name="bookName">demoBook1</parameter>
+                        <parameter name="cdmVersion">2.10.3</parameter>
+                        <parameter name="dbPassword"/>
+                        <parameter name="dbUsername"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="directoryName">examples\cdm_components\generate_idml</parameter>
+                        <parameter name="hostname"/>
+                        <parameter name="jdbcDriver"/>
+                        <parameter name="jdbcUrl"/>
+                        <parameter name="useITRegistryCdm">false</parameter>
+                        <parameter name="userComment"/>
+                        <parameter name="validate">true</parameter>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>cdm:Hostname</Name>
+                            <Type>advanced</Type>
+                            <Script>"www.ibm.com"</Script>
+                            <Simple>cdm:Hostname</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:MSSName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom MSS Name"</Script>
+                            <Simple>cdm:MSSName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:ManufacturerName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom Company Name"</Script>
+                            <Simple>cdm:ManufacturerName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:ProductName</Name>
+                            <Type>advanced</Type>
+                            <Script>"Custom Product Name"</Script>
+                            <Simple>cdm:ProductName</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                </Function>
+                <Connector name="addComputerSystem">
+                    <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                    <ConnectorMode>CallReply</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="bookName">demoBook1</parameter>
+                        <parameter name="classType">cdm:sys.ComputerSystem</parameter>
+                        <parameter name="dbPassword"/>
+                        <parameter name="dbUsername"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="jdbcDriver"/>
+                        <parameter name="jdbcUrl"/>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>cs_id</Name>
+                            <Type>advanced</Type>
+                            <Script>conn["$id"]</Script>
+                            <Simple>$id</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>cdm:Manufacturer</Name>
+                            <Type>advanced</Type>
+                            <Script>work.manufacturer</Script>
+                            <Simple>cdm:Manufacturer</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:Model</Name>
+                            <Type>advanced</Type>
+                            <Script>work.model</Script>
+                            <Simple>cdm:Model</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:SerialNumber</Name>
+                            <Type>advanced</Type>
+                            <Script>work.serial_number</Script>
+                            <Simple>cdm:SerialNumber</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$operation</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AdminState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Architecture</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AssetID</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AssetTag</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AutoStart</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AvailableMemForAllVMs</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:BootOrder</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CDMSource</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CICategory</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CIRole</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUCoresEnabled</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUCoresInstalled</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUDiesEnabled</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUDiesInstalled</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPULimit</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUReservation</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUSharesLevel</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUSharesValue</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUSpeed</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CPUType</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CdpDeviceId</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ConfigLastUpdate</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ContextIp</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CreatedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CurrentMemForAllVMs</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Description</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:DisplayName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Fqdn</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:GeneralCIRole</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Guid</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:IsVMIDanLPAR</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Label</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastAuditState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastAuditTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastLifecycleStateTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LifecycleState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManagedSystemName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Manufacturer</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MemoryLimit</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MemoryReservation</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MemorySharesLevel</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MemorySharesValue</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MemorySize</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Model</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Name</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:NamingRuleAlgorithms</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:NumCPUs</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ObjectType</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:PrimaryMACAddress</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProcessCapacityUnits</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ProcessingCapacity</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ROMVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SerialNumber</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ServiceConsoleMemSize</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Signature</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SourceToken</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SwapMemSize</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SystemBoardUUID</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SystemId</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Type</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:UUID</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:VMID</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Virtual</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:VmotionEnabled</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Connector name="addOperatingSystem">
+                    <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                    <ConnectorMode>CallReply</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="artifactType">CI</parameter>
+                        <parameter name="bookName">demoBook1</parameter>
+                        <parameter name="classType">cdm:sys.OperatingSystem</parameter>
+                        <parameter name="dbPassword"/>
+                        <parameter name="dbUsername"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="jdbcDriver"/>
+                        <parameter name="jdbcUrl"/>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>os_id</Name>
+                            <Type>advanced</Type>
+                            <Script>conn["$id"]</Script>
+                            <Simple>$id</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>cdm:FQDN</Name>
+                            <Type>advanced</Type>
+                            <Script>work.os_fqdn</Script>
+                            <Simple>cdm:FQDN</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cdm:OSName</Name>
+                            <Type>advanced</Type>
+                            <Script>work.os</Script>
+                            <Simple>cdm:OSName</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$operation</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AdminState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AssetID</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:AssetTag</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:BootTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:BuildLevel</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CDMSource</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CICategory</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CIRole</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ConfigLastUpdate</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ContextIp</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CreatedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:CurrentTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Description</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:DisplayName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:FQDN</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:GeneralCIRole</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Guid</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:KernelArchitecture</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:KernelVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Label</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastAuditState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastAuditTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastLifecycleStateTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedBy</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LastModifiedTime</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Level</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:LifecycleState</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:MajorVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ManagedSystemName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Modifier</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Name</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:OSConfidence</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:OSMode</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:OSName</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:OSVersion</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:ObjectType</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:OsId</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:Release</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SourceToken</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:SystemGuid</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:VersionString</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cdm:VirtualMemorySize</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Connector name="addInstalledOn">
+                    <InheritFrom>system:/Connectors/ibmdi.IdMLConnector</InheritFrom>
+                    <ConnectorMode>CallReply</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="artifactType">RELATIONSHIP</parameter>
+                        <parameter name="bookName">demoBook1</parameter>
+                        <parameter name="classType">cdm:installedOn</parameter>
+                        <parameter name="dbPassword"/>
+                        <parameter name="dbUsername"/>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="jdbcDriver"/>
+                        <parameter name="jdbcUrl"/>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>source</Name>
+                            <Type>advanced</Type>
+                            <Script>work.os_id</Script>
+                            <Simple>source</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>target</Name>
+                            <Type>advanced</Type>
+                            <Script>work.cs_id</Script>
+                            <Simple>target</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$id</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>$operation</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>source</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>target</Name>
+                            <NativeSyntax>java.lang.String</NativeSyntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Function name="RollBook">
+                    <InheritFrom>system:/Functions/ibmdi.RollingIdMLFC</InheritFrom>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$idmlFileName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$idmlBookName</Name>
+                            <Syntax>String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Hook name="after_functioncall">
+                            <Name>after_functioncall</Name>
+                            <Script/>
+                            <Enabled>false</Enabled>
+                        </Hook>
+                        <Hook name="functioncall_ok">
+                            <Name>functioncall_ok</Name>
+                            <Script><![CDATA[if(work["$idmlFileName"] != null) {
+	task.logmsg("*** IdML book has been split");
+	task.logmsg("*** File: '" + work["$idmlFileName"] + "' has been closed.'");
+	task.logmsg("***")
+}]]></Script>
+                            <Enabled>true</Enabled>
+                        </Hook>
+                    </Hooks>
+                    <Configuration>
+                        <UserComment/>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="artifactCount">15</parameter>
+                        <parameter name="bookName">demoBook1</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="fileSize">10</parameter>
+                        <parameter name="userComment"/>
+                    </Configuration>
+                    <SandboxConfig/>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$idmlFileName</Name>
+                            <Type>simple</Type>
+                            <Simple>$idmlFileName</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                </Function>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones"/>
+        <SolutionInterface name="SolutionInterface">
+            <PollInterval>-1</PollInterval>
+            <InstanceID>idml_examples</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/generate_idml.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="generate_idml">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/generate_idml.properties</parameter>
+                    <parameter name="collectionType">generate_idml</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+</MetamergeConfig>

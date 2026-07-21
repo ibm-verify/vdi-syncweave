@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="sundirectorycdconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJO001I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.DELIVERYMODE.INFO" varFormat="Java">
+   The &apos;deliveryMode&apos; parameter is set to
+   <Variable formatSpec="{0}">delivery mode</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO002E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.NODIRCONEXT.EXCEP" varFormat="Java">
+   Unable to initialize Connector because a connection to the directory server could
+   not be established or the search at base DN <Variable formatSpec="{0}">DN</Variable>
+   was not valid.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the directory server is running and that the
+   ldapSearchBase parameter is set to a valid value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO003W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.NOSTARTCHGNUMBER.INFO" varFormat="Java">
+   Cannot set starting change number to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   The change number specified in the nsChangenumber parameter could not be used
+   to set the starting change number.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the nsChangenumber parameter is set to a valid change number.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO004I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.STARTCHANGE.INFO" varFormat="Java">
+   Starting with change number set to &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   and the &apos;iteratorStateKey&apos; was set to &apos;&apos;<Variable formatSpec="{1}">state value</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO005I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.TIMEOUT.INFO" varFormat="Java">
+   Connector has timed out and is waiting for next changed entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO006I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.LDAPFILTER.INFO" varFormat="Java">
+   LDAP search query set to &apos;&apos;<Variable formatSpec="{0}">filter</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO007I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.READINGENTRY.INFO" varFormat="Java">
+   Attempting to find entry with attribute changenumber equal to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   using the LDAP base DN of &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO008I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.READENTRY.INFO" varFormat="Java">
+   Found entry with attribute changenumber equal to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   using the LDAP base DN of &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.READENTRYNOTFOUND.INFO" varFormat="Java">
+   Unable to find entry with attribute change number equal to
+   &apos;&apos;<Variable formatSpec="{0}">change number</Variable>&apos;&apos;
+   using the LDAP base DN of &apos;&apos;<Variable formatSpec="{1}">DN</Variable>&apos;&apos;.
+   Skipping to try the next entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.CAUGHTEXCEP.INFO" varFormat="Java">
+   Will continue but caught a PartialResultException while getting the next search
+   result: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO011E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.ENTRY.DOES.NOT.CONTAIN.A.VALID.CHANGELOG.ENTRY" varFormat="Java">
+   Entry does not contain a valid changelog entry (changes attribute missing) for
+   operation: <Variable formatSpec="{0}">type</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The changes attribute &apos;newrdn&apos; is missing in the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the attributes in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO012E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.UNABLE.TO.PARSE.CHANGES.ATTRIBUTE" varFormat="Java">
+   Unable to parse changes attribute.
+   </MsgText>
+   <Explanation> <p>
+   The LDIF Parser could not read the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO014E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.COULD.NOT.RETRIEVE.LAST.CHANGE" varFormat="Java">
+   Could not retrieve last change number.
+   </MsgText>
+   <Explanation> <p>
+   The method getLastChangeNumber could not retrieve the last change number. The value must be a number.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the attribute &apos;lastchangenumber&apos; in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO015E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.ERROR.COULD.NOT.STORE.THE.CHANGENUMBER.VALUE.IN.SYSTEM.STORE" varFormat="Java">
+   Could not store the change number value in System Store: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the system store.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO016I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.CURRENT.CHANGENUMBER.VALUE.IS" varFormat="Java">
+   Current change number value is: <Variable formatSpec="{0}">change number</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO017I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.NAMINGEXCEPTION.THROWN" varFormat="Java">
+   A namingException is thrown: <Variable formatSpec="{0}">xxception</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.NOTIFICATION.RECEIVED" varFormat="Java">
+   notificationReceived: <Variable formatSpec="{0}">event</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO019E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.CALL.EVENT.FUNCTION.ERROR" varFormat="Java">
+   An exception is encountered when executing the
+   method &apos;callEventFunction&apos;: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Analyse the exception.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO020I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.BLOCK.FOR.NOTIFICATIONS" varFormat="Java">
+   Block for notifications ...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJO021W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.THREAD.INTERUPTED" varFormat="Java">
+   Thread interupted: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   An InterruptedException is encountered when executing the
+   method &apos;blockForNotifications&apos;.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO022E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.RESTART.INFO.DOES.NOT.CONTAIN" varFormat="Java">
+   Restart info does not contain &apos;changeNumber&apos; attribute.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the attribute &apos;changeNumber&apos; in the entry.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO023W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.TERMINATE.EXC" varFormat="Java">
+   Exception occurred while terminating the Connector: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDJO024W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.NETSCAPECHGLOG.EMPTY.ITERATORSTATEKEY" varFormat="Java">
+   The iterator state key is not specified. No state will be stored. The Start At parameter&apos;s value will be used.
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify the iterator state key if you want the state of the changelog connector to be saved.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>

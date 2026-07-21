@@ -1,0 +1,1 @@
+TDI_JAVA_HOME=/opt/IBM/TDI/V7.1/jvm

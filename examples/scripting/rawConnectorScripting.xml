@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:25:51 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:25:51 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="ConnectorConfigSample">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ScriptEngine">JavaScript</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog</Name>
+<Script><![CDATA[//configure csv parser
+var parser = system.getParser( "ibmdi.CSV" );
+parser.setParam ( "csvColumnSeparator", ":" );
+
+var outParser = system.getParser( "ibmdi.Simple" );
+
+//configure connector
+var conn = system.getConnector("ibmdi.FileSystem");
+conn.setParam ( "name", "test" );
+conn.setParam ( "filePath", "examples/scripting/sample.csv" );
+conn.setParam ( "ConnectorMode", "Iterator" );
+conn.setParam ( "debug", "true" );
+conn.setParser (parser);
+var inputConnMode = new Packages.com.ibm.di.server.ConnectorMode("Iterator");
+conn.initialize ( inputConnMode );
+
+
+var outConn = system.getConnector("ibmdi.FileSystem");
+outConn.setParam ( "name", "xml" );
+outConn.setParam ( "filePath", "examples/scripting/output.txt" );
+var outputConnMode = new Packages.com.ibm.di.server.ConnectorMode("AddOnly");
+outConn.setParser (outParser);
+outConn.initialize ( outputConnMode );
+
+
+//prepare for reading
+conn.selectEntries();
+
+var e = conn.getNextEntry();
+while ( e!= null)
+{
+	//main.dump(e);
+	outConn.putEntry(e);
+	e = conn.getNextEntry();
+}
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>true</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer"/>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts">
+<Script name="Global">
+<parameter name="ScriptEngine">javascript</parameter>
+<parameter name="autoInclude">true</parameter>
+<parameter name="includeFiles"></parameter>
+<parameter name="script"><![CDATA[//
+// This script is automatically included in all assembly lines with JavaScript selected
+//
+
+function today ()
+{
+	var dt = new java.util.Date();
+	return dt.toString();
+}
+]]></parameter>
+</Script>
+</Folder>
+<JavaLibraries/>
+<JavaProperties>
+<parameter name="com.architech.certificatesFile">rs.ks</parameter>
+<parameter name="com.architech.rotatelogs">3</parameter>
+<parameter name="mail.smtp.host">&lt;your SMTP host&gt;</parameter>
+<parameter name="rsadmin.browser">explorer {0}</parameter>
+<parameter name="rsadmin.color.title">255:255:150</parameter>
+<parameter name="rsadmin.editor.font">Courier</parameter>
+<parameter name="rsadmin.editor.fontsize">12</parameter>
+<parameter name="rsadmin.enableforms">true</parameter>
+<parameter name="rsadmin.encryption">false</parameter>
+<parameter name="rsadmin.gui">V4</parameter>
+</JavaProperties>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

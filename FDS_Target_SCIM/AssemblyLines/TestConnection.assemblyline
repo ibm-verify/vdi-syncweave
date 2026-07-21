@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="7" UUID="cb0f56bd-d40f-4bec-bc3b-b194d9dd8c3b" created="Mon May 19 19:16:12 CEST 2014" createdBy="Administrator" main="TestConnection" modified="Tue Mar 24 14:01:05 CET 2015" modifiedBy="Administrator" project="FDS_Target_SCIM" version="7.1.1">
+    <Container name="References"/>
+    
+
+
+
+<AssemblyLine name="TestConnection">
+        <ModTime>1427202064882</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1400519831629</ModTime>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script>initUtils();</Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="debug test" state="Enabled"/>
+                <Component name="Initialize for test" state="Enabled"/>
+                <Component name="SCIM" state="Simulated"/>
+                <Component name="return status to FDS UI" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig>
+            <Logger name="FileRollerAppender">
+                <InheritFrom>system:/Loggers/ibmdi.FileRollerAppender</InheritFrom>
+                <parameter name="IDIFileRoller.File"><![CDATA[@SUBSTITUTE{javascript opEntry = task.getOpEntry()
+if (opEntry != null) {
+	flowKey = opEntry.getString("flowKey")
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = opEntry.getString(flowKey + ".global.logDirectory")
+	}
+}
+
+if (folder == null) {
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = "LDAPSync/logs"
+	}
+}
+
+logFile = folder + "/" + task.getShortName() + "_server.log"
+
+return logFile}]]></parameter>
+                <parameter name="IDIFileRoller.RollCount">1</parameter>
+                <parameter name="Pattern.ConversionPattern">%d{ISO8601} %-5p- %m%n</parameter>
+                <parameter name="com.ibm.di.log.layout">Pattern</parameter>
+                <parameter name="com.ibm.di.log.level">INFO</parameter>
+                <parameter name="enabled">true</parameter>
+            </Logger>
+        </LogConfig>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1427202064882</ModTime>
+            <Script name="debug test">
+                <ModTime>1378286720093</ModTime>
+                <parameter name="enabled">false</parameter>
+                <parameter name="script"><![CDATA[choose = "CSVFile"
+
+opEntry = task.getOpEntry()
+
+function addPropToOpEntry(p, prefix) {
+	if (typeof(prefix) == "undefined") {
+		prefix = ""
+	} else {
+		if (!prefix.endsWith(".")) {
+			prefix += "."
+		}
+	}
+	opEntry[prefix + p.@name.getValue()] = p.getValue()
+}
+
+function handleEndpoint(c) {
+	if (!c.@name.getValue().toLowerCase().startsWith("source_")) {
+		return
+	}
+	
+	var params = c.Configuration.getElementsByTagName("parameter")
+	var inheritFrom = c.InheritFrom.getValue()
+	var p = inheritFrom.lastIndexOf("/")
+	inheritFrom = inheritFrom.substring(p+1)
+	
+	opEntry.removeAllAttributes()
+	
+	opEntry["endpoint.name"] = c.@name.getValue()
+	opEntry["source.form"] = inheritFrom
+
+	for (p in params) {
+		addPropToOpEntry(p)
+	}
+
+	if (c.Parser != null && c.Parser.InheritFrom != null) {
+		opEntry["source.parser.name"] = c.Parser.InheritFrom.getValue()
+		params = c.Parser.getElementsByTagName("parameter")
+		for (p in params) {
+			addPropToOpEntry(p, "source.parser.parameter.")
+		}
+	}
+
+//	task.dumpEntry(opEntry)
+}	
+
+
+file = system.openFileForInput("configs/SE_Test.xml")
+xml = new java.lang.StringBuffer()
+
+do {
+	line = file.readLine()
+	if (line != null) {
+		xml.append(line + "\n")
+	}	
+} while (line != null)
+
+xmlEntry = work.fromXML(xml.toString(), "*", "")
+
+form = xmlEntry.getNodeList('//*[@name="source.form"]')
+
+ctrs = xmlEntry.getNodeList('//Folder[@name="Connectors"]/Connector')
+
+foundIt = null
+for (c in ctrs) {
+	handleEndpoint(c)
+	
+	try {
+		jsonEntry = testConnection()
+		jsonEntry.operation = "initialize,select"
+		json = jsonEntry.toJSON()
+		task.logmsg(json)
+	} catch (ex) {
+		task.logmsg("ERROR", "Problem with Connection: " + ex)
+	}	
+	
+}]]></parameter>
+            </Script>
+            <Script name="Initialize for test">
+                <ModTime>1399281915300</ModTime>
+                <parameter name="script"><![CDATA[status = "failed";
+message = "";]]></parameter>
+            </Script>
+            <Connector name="SCIM">
+                <InheritFrom>/Connectors/SCIM</InheritFrom>
+                <ModTime>1424277081919</ModTime>
+                <ConnectorMode>Lookup</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1424277081919</ModTime>
+                    <parameter name="SortBy"/>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings/>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1407505944941</ModTime>
+                    <LinkCriteriaItem>
+                        <Key>142fbfe20d6</Key>
+                        <Attribute>externalId</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>dummy value</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <Hook name="after_add">
+                        <Name>after_add</Name>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="before_add">
+                        <Name>before_add</Name>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                    <Hook name="default_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>default_fail</Name>
+                        <Script>message = error.exception.toString();</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="initialize_fail">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>initialize_fail</Name>
+                        <Script>message = error.exception.toString();</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="lookup_nomatch">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>lookup_nomatch</Name>
+                        <Script>status = "success";</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_add">
+                        <InheritFrom>[no inheritance]</InheritFrom>
+                        <Name>override_add</Name>
+                        <Script><![CDATA[// do nothing
+result = "success";
+message = null;
+system.ignoreEntry();]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>1</InitializeOption>
+            </Connector>
+            <Script name="return status to FDS UI">
+                <ModTime>1427202064882</ModTime>
+                <parameter name="script"><![CDATA[jsonEntry = system.newEntry();
+jsonEntry.status = status;
+if (message !== null && message.length > 0) {
+	jsonEntry.message = userFriendlyMsg(message, connectorParam("scim.url"));
+}
+
+json = jsonEntry.toJSON();
+work.result = json;
+
+sendCustomNotification("fds.testconnection",
+						task.getOpEntry().getString("testId"), 
+						json);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>synchronize</Name>
+                    <NativeSyntax>Boolean</NativeSyntax>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

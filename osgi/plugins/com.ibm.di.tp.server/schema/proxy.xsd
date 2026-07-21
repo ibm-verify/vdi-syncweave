@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema targetNamespace="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"></xsd:include>
+
+	<xsd:simpleType name="enum_OpState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="available">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Available</scmp:display>
+						<scmp:description>
+							The service is operational.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="unavailable">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Unavailable</scmp:display>
+						<scmp:description>
+							The service is not operational.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="status_OpState">
+		<xsd:sequence>
+			<xsd:element name="op-state" type="tns:enum_OpState"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Operational State</scmp:display>
+						<scmp:summary>Operational State</scmp:summary>
+						<scmp:description>
+							The operations state of the proxy.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="common-msgid" type="tns:type_CommonMsgID"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Common Code</scmp:display>
+						<scmp:summary>Common reason code</scmp:summary>
+						<scmp:description>
+							The common reason code.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="native-msgid" type="tns:type_NativeMsgID"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Native Code</scmp:display>
+						<scmp:summary>Native reason code</scmp:summary>
+						<scmp:description>
+							The native reason code.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="reason" type="xsd:string" minOccurs="0"
+				maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Reason</scmp:display>
+						<scmp:summary>Reason</scmp:summary>
+						<scmp:description>
+							Textual description of the problem.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="status_ServiceMetrics">
+		<xsd:sequence>
+			<xsd:element name="operation" type="xsd:string"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Service Operation</scmp:display>
+						<scmp:summary>Service operation</scmp:summary>
+						<scmp:description>
+							The service operation the metrics are
+							provided for.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="requests" type="xsd:unsignedInt"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Requests</scmp:display>
+						<scmp:summary>Number of requests</scmp:summary>
+						<scmp:description>
+							The number of requests on this operation.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="request-error" type="xsd:unsignedInt"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Failed Requests</scmp:display>
+						<scmp:summary>
+							Number of failed requests
+						</scmp:summary>
+						<scmp:description>
+							The number of failed requests on this
+							operation.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="request-success" type="xsd:unsignedInt"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Successful Requests</scmp:display>
+						<scmp:summary>
+							Number of successful requests
+						</scmp:summary>
+						<scmp:description>
+							The number of successful requests on this
+							operation.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="op-status" type="tns:status_OpState">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Operational Status</scmp:display>
+				<scmp:summary>Operational status of proxy</scmp:summary>
+				<scmp:description>
+					The operational status of the service proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="service-metrics"
+		type="tns:status_ServiceMetrics">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Service Metrics</scmp:display>
+				<scmp:summary>Service metrics of proxy</scmp:summary>
+				<scmp:description>
+					The service metrics of the proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:simpleType name="enum_AdminState">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="enabled">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Enabled</scmp:display>
+						<scmp:description>
+							Service is enabled.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="disabled">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Disabled</scmp:display>
+						<scmp:description>
+							Service is disabled.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="group-proxy-type">
+		<xsd:complexContent>
+            <xsd:extension base="tns:base-resource"> 
+				<xsd:sequence>
+					<xsd:element name="admin-state" type="tns:enum_AdminState"
+						minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>Admin State</scmp:display>
+								<scmp:summary>
+									Administrative State
+								</scmp:summary>
+								<scmp:description>
+									The administrative state of the proxy.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="security-level" type="tns:enum_security-level" minOccurs="0" maxOccurs="1" default="as-is">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>Security level</scmp:display>
+								<scmp:summary>Set the level of security required</scmp:summary>
+								<scmp:description>
+									Determines what level of security is used when exposing services through this proxy.
+									Options are to force security on, or to force it off, or to leave each service exposed
+									in the same way as the original service.
+									This property can only be set when the Group Proxy is created. 
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="mutual-auth" type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>Require Mutual Auth</scmp:display>
+								<scmp:summary>Require SSL mutual authentication with client</scmp:summary>
+								<scmp:description>
+									For the connection to the client, require that SSL/TLS is set up with 
+									mutual authentication.
+									This property can only be set when the Group Proxy is created. 
+									This property may not be supported by all platforms.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="validate-message" type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>Validate Message</scmp:display>
+								<scmp:summary>Validate message content against XML schema</scmp:summary>
+								<scmp:description>
+									The SOAP message content should be validated against the schema for the message.
+									This property may be updated after the Group Proxy is created.
+									This property may not be supported by all platforms.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="group-proxy" type="tns:group-proxy-type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Group Proxy</scmp:display>
+				<scmp:summary>Group Proxy</scmp:summary>
+				<scmp:description>
+					A proxy for one or more service endpoints.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="group-proxy-status-type">
+		<xsd:sequence>
+			<xsd:element name="op-state" type="tns:enum_OpState"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>
+							Operational State
+						</scmp:display>
+						<scmp:summary>
+							Operational State
+						</scmp:summary>
+						<scmp:description>
+							The operational state of the proxy.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="group-proxy-status" type="tns:group-proxy-status-type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Group Proxy Status</scmp:display>
+				<scmp:summary>Status of a Group Proxy</scmp:summary>
+				<scmp:description>
+					Status information for a Group Proxy.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="proxy-target-type">
+		<xsd:complexContent>
+            <xsd:extension base="tns:base-resource"> 
+				<xsd:sequence maxOccurs="unbounded">
+					<xsd:element name="target-service-url" type="xsd:anyURI"
+						minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>Target Service URL</scmp:display>
+								<scmp:summary>
+									The URL of the target service
+								</scmp:summary>
+								<scmp:description>
+									The URL of the service that the proxy will
+									call.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="wsdl-url" type="xsd:anyURI" minOccurs="1"
+						maxOccurs="1">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>WSDL Source URL</scmp:display>
+								<scmp:summary>
+									Location of the WSDL file
+								</scmp:summary>
+								<scmp:description>
+									The location (URL) of the WSDL file.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="wsdl-port" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<scmp:display>WSDL Port name</scmp:display>
+								<scmp:summary>
+									The name of a port in the WSDL file
+								</scmp:summary>
+								<scmp:description>
+									This is the name of a port that MUST exist
+									in the WSDL file addressed by the wsdl-url
+									parameter.
+								</scmp:description>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:NMTOKEN">
+								<xsd:minLength value="1" />
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="proxy-target" type="tns:proxy-target-type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Proxy Instance</scmp:display>
+				<scmp:summary>Proxy Instance</scmp:summary>
+				<scmp:description>
+					A proxy for one or more service endpoints.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="proxy-target-status-type">
+		<xsd:sequence>
+			<xsd:element name="op-state" type="tns:enum_OpState"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>
+							Operational State
+						</scmp:display>
+						<scmp:summary>
+							Operational State
+						</scmp:summary>
+						<scmp:description>
+							The operational state of the proxy.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="service-url" type="xsd:anyURI"
+				minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>
+							Proxy Service URL
+						</scmp:display>
+						<scmp:summary>
+							Proxy service URL
+						</scmp:summary>
+						<scmp:description>
+							The service URL of the proxy.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="tns:service-metrics" minOccurs="0"
+				maxOccurs="1">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="proxy-target-status" type="scmp:proxy-target-status-type">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<scmp:display>Proxy Target Status</scmp:display>
+				<scmp:summary>Status of a Proxy Target</scmp:summary>
+				<scmp:description>
+					Status information for a Proxy Target.
+				</scmp:description>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:simpleType name="enum_security-level">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="secure">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Secure</scmp:display>
+						<scmp:description>
+						    All services are exposed securely (e.g. using HTTPS) whether 
+						    or not the original service is secure.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="insecure">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>Insecure</scmp:display>
+						<scmp:description>
+						    All services are exposed without security (e.g. using HTTP) whether 
+						    or not the original service is secure.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="as-is">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<scmp:display>As is</scmp:display>
+						<scmp:description>
+						    All services are exposed with the same level of security 
+						    as the original server.
+						</scmp:description>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

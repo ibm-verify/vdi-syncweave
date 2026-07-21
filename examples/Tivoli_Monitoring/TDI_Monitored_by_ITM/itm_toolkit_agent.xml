@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omegamon_monitoring_agent xmlns:AgentConfig="http://www.ibm.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="agent.xsd">
+    <INTERP_LIST>
+        <aix_32/>
+        <aix_64/>
+        <hpux_32/>
+        <hpux_64/>
+        <hpux_itanium_64/>
+        <linux/>
+        <linux26/>
+        <linux_rh21/>
+        <linux_zseries_32/>
+        <linux_zseries_64/>
+        <linux_powerpc_64/>
+        <linux_itanium_64/>
+        <linux_x86_64/>
+        <solaris_sparc_32/>
+        <solaris_sparc_64/>
+        <solaris_x86_64/>
+        <windows/>
+        <zos/>
+    </INTERP_LIST>
+    <FORMAL_PRODUCT>
+        <PRODUCT_SERVICE_NAME service_name="TDI"/>
+        <FORMAL_PRODUCT_NAME product_name="TDI"/>
+        <PRODUCT_CODE product_code="K80"/>
+        <COPYRIGHT copyright="IBM"/>
+        <BUILD_COUNTER build_counter="1"/>
+        <AFFINITY_DEF_LIST>
+            <AFFINITY_DEF id="%IBM.TDI" text="TDI"/>
+        </AFFINITY_DEF_LIST>
+        <AGENT_AFFINITY agent_affinity_tag="%IBM.TDI" agent_affinity_value="%IBM.TDI"/>
+        <PRODUCT_VERSION product_version="620"/>
+        <AGENT_VERSION value="1"/>
+        <MULTIPLE_INSTANCE_SUPPORT multi_instance_support="false"/>
+        <USERS_GUIDE_DOC_ID value="0000-0000-00"/>
+        <FORMAL_APPLICATION_NAME value=""/>
+        <APPLICATION_MANUAL description="" name=""/>
+        <AGENT_DEVELOPER name=""/>
+        <APPLICATION_MINIMUM_VERSION value=""/>
+        <AGENT_SHIP_DATE_LIST>
+            <AGENT_SHIP_DATE date="2008-05-07" product_version="000"/>
+        </AGENT_SHIP_DATE_LIST>
+        <AGENT_STAGE stage="1"/>
+        <AGENT_REQUIREMENTS>
+            <AGENT_REQUIREMENT comment="" description="" id="XX-0" priority="LOW" stage="" status="Accepted" title=""/>
+        </AGENT_REQUIREMENTS>
+        <AGENT_PLATFORM_LIST>
+            <WINDOWS_2000_SERVER/>
+        </AGENT_PLATFORM_LIST>
+        <attribute_group_main_documentation>
+            <documentation_for_workspace>
+                <workspace_description description=""/>
+                <workspace_view_description description="" name=""/>
+            </documentation_for_workspace>
+        </attribute_group_main_documentation>
+    </FORMAL_PRODUCT>
+    <AgentConfig:agent>
+        <id>80</id>
+        <productName msgKey="KQZ_PRODNAME">TDI</productName>
+        <version>2.0</version>
+        <section name="KQZ_JAVA">
+            <label msgKey="KQZ_JAVA_SECTION_LABEL">Java</label>
+            <description msgKey="KQZ_JAVA_SECTION_DESC">Java Parameters</description>
+            <property browseType="dir" defaultValue="C:\Program Files\IBM\Java50" name="JAVA_HOME" required="false" type="browse">
+                <label msgKey="KQZ_JAVA_HOME_LABEL">Java Home</label>
+                <description msgKey="KQZ_JAVA_HOME_DESC">The path to where java is installed.</description>
+            </property>
+            <property defaultValue="ERROR" name="JAVA_TRACE_LEVEL" required="true" type="restricted">
+                <label msgKey="KQZ_JAVA_TRACE_LABEL">Trace Level</label>
+                <description msgKey="KQZ_JAVA_TRACE_DESC">This parameter allows you to specify the trace level used by the Java providers.</description>
+                <values>
+                    <value name="ERROR">
+                        <label msgKey="KQZ_TRACE_ERROR">Error</label>
+                    </value>
+                    <value name="WARN">
+                        <label msgKey="KQZ_TRACE_WARN">Warning</label>
+                    </value>
+                    <value name="INFO">
+                        <label msgKey="KQZ_TRACE_INFO">Information</label>
+                    </value>
+                    <value name="DEBUG_MIN">
+                        <label msgKey="KQZ_TRACE_DBGMIN">Minimum Debug</label>
+                    </value>
+                    <value name="DEBUG_MID">
+                        <label msgKey="KQZ_TRACE_DBGMID">Medium Debug</label>
+                    </value>
+                    <value name="DEBUG_MAX">
+                        <label msgKey="KQZ_TRACE_DBGMAX">Maximum Debug</label>
+                    </value>
+                    <value name="ALL">
+                        <label msgKey="KQZ_TRACE_ALL">All</label>
+                    </value>
+                </values>
+            </property>
+            <property defaultValue="" name="JAVA_JVM_ARGS" required="false" type="string">
+                <label msgKey="KQZ_JVM_ARGS_LABEL">JVM Arguments</label>
+                <description msgKey="KQZ_JVM_ARGS_DESC">This parameter allows you to specify an optional list of arguments to the java virtual machine.</description>
+            </property>
+        </section>
+        <section name="KQZ_JMX_JSR160_JSR160">
+            <label msgKey="KQZ_JMX_JSR160_JSR160_LABEL">JSR-160-Compliant Server</label>
+            <property defaultValue="" name="KQZ_JMX_JSR160_JSR160_USER_ID" required="false" type="string">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_USER_ID_LABEL">User ID</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_USER_ID_DESC">The user id for connecting to the MBean Server.</description>
+            </property>
+            <property defaultValue="" name="KQZ_JMX_JSR160_JSR160_PASSWORD" required="false" type="password">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_PASSWORD_LABEL">Password</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_PASSWORD_DESC">Password</description>
+            </property>
+            <property defaultValue="service:jmx:rmi:///jndi/rmi://localhost:8686/jmxrmi" name="KQZ_JMX_JSR160_JSR160_SERVICE_URL" required="true" type="string">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_SERVICE_URL_LABEL">Service URL</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_SERVICE_URL_DESC">The service URL for connecting to the MBean Server.</description>
+            </property>
+            <property name="KQZ_JMX_JSR160_JSR160_CLASS_PATH_SEPARATOR" required="true" type="separator">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_CLASS_PATH_SEPARATOR_LABEL">n/a</label>
+            </property>
+            <property name="KQZ_JMX_JSR160_JSR160_CLASS_PATH_TITLE" required="true" type="text">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_CLASS_PATH_TITLE_LABEL">Class path information</label>
+            </property>
+            <property defaultValue="" name="KQZ_JMX_JSR160_JSR160_BASE_PATHS" required="false" type="string">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_BASE_PATHS_LABEL">Base Paths</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_BASE_PATHS_DESC">Directories used to locate any Java class path entry or jar directory which is not fully-qualified.</description>
+            </property>
+            <property defaultValue="" name="KQZ_JMX_JSR160_JSR160_JAR_FILES" required="false" type="string">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_JAR_FILES_LABEL">Class Path</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_JAR_FILES_DESC">Jar files which Java will look in to find a needed class or resource.</description>
+            </property>
+            <property defaultValue="" name="KQZ_JMX_JSR160_JSR160_JAR_PATHS" required="false" type="string">
+                <label msgKey="KQZ_JMX_JSR160_JSR160_JAR_PATHS_LABEL">Jar Directories</label>
+                <description msgKey="KQZ_JMX_JSR160_JSR160_JAR_PATHS_DESC">Directories which contain jar files which Java will look in to find a needed class or resource. All jar files in each of these directories will be looked in.</description>
+            </property>
+        </section>
+    </AgentConfig:agent>
+    <jmx_options monitors="false"/>
+    <attribute_group_list>
+        <attribute_group help_text="Data gathered from JMX MBeans *:type=AssemblyLine,*." name="AssemblyLine" number_of_expected_instances="LESS_THAN_1000" pure_event_table="false" table_id="ASSEMBL" version="1" warehouse_default="true">
+            <global_jmx_settings_for_group handler="com.ibm.tivoli.monitoring.jat.jmx.JmxDataCollector" object_name="ObjectNamePattern=*:type=AssemblyLine,*;;"/>
+            <attribute cnp_name="ConfigInstance" column_id="CONFIGINST" help_text="Attribute exposed for management" isAtomic="true" isKey="true" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ConfigInstance"/>
+            </attribute>
+            <attribute cnp_name="Name" column_id="NAME" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Name"/>
+            </attribute>
+            <attribute cnp_name="UniqueCode" column_id="UNIQUECODE" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isGauge/>
+                <jmx_source metric_name="Attribute.UniqueCode"/>
+            </attribute>
+            <attribute cnp_name="Config" column_id="CONFIG" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Config"/>
+            </attribute>
+            <attribute cnp_name="NullBehavior" column_id="NULLBEHAVI" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.NullBehavior"/>
+            </attribute>
+            <attribute cnp_name="NullBehaviorValue" column_id="NULLBEHAV0" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.NullBehaviorValue"/>
+            </attribute>
+            <attribute cnp_name="Statistics" column_id="STATISTICS" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Statistics"/>
+            </attribute>
+            <attribute cnp_name="Result" column_id="RESULT" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Result"/>
+            </attribute>
+            <attribute cnp_name="SystemLogFilePath" column_id="SYSTEMLOGF" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.SystemLogFilePath"/>
+            </attribute>
+            <attribute cnp_name="SystemLogFileName" column_id="SYSTEMLOG0" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.SystemLogFileName"/>
+            </attribute>
+            <attribute cnp_name="SystemLog" column_id="SYSTEMLOG" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.SystemLog"/>
+            </attribute>
+            <attribute cnp_name="GlobalUniqueID" column_id="GLOBALUNIQ" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.GlobalUniqueID"/>
+            </attribute>
+            <attribute cnp_name="Type" column_id="TYPE" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Type"/>
+            </attribute>
+            <attribute cnp_name="Id" column_id="ID" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Id"/>
+            </attribute>
+        </attribute_group>
+        <attribute_group help_text="Data gathered from JMX MBeans *:type=ConfigInstance,*." name="ConfigInstance" number_of_expected_instances="LESS_THAN_1000" pure_event_table="false" table_id="CONFIGI" version="1" warehouse_default="true">
+            <global_jmx_settings_for_group handler="com.ibm.tivoli.monitoring.jat.jmx.JmxDataCollector" object_name="ObjectNamePattern=*:type=ConfigInstance,*;;"/>
+            <attribute cnp_name="ConfigId" column_id="CONFIGID" help_text="Attribute exposed for management" isAtomic="true" isKey="true" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ConfigId"/>
+            </attribute>
+            <attribute cnp_name="Configuration" column_id="CONFIGURAT" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Configuration"/>
+            </attribute>
+            <attribute cnp_name="ExternalProperties" column_id="EXTERNALPR" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ExternalProperties"/>
+            </attribute>
+            <attribute cnp_name="ExternalPropertiesKeys" column_id="EXTERNALP0" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ExternalPropertiesKeys.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="AssemblyLinesNames" column_id="ASSEMBLYLI" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.AssemblyLinesNames.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="AssemblyLineNames" column_id="ASSEMBLYL0" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.AssemblyLineNames.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="EventHandlersNames" column_id="EVENTHANDL" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.EventHandlersNames.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="AssemblyLines" column_id="ASSEMBLYL1" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.AssemblyLines.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="EventHandlers" column_id="EVENTHAND0" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.EventHandlers.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="InstanceBootTime" column_id="INSTANCEBO" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.InstanceBootTime"/>
+            </attribute>
+            <attribute cnp_name="GlobalUniqueID" column_id="GLOBALUNIQ" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.GlobalUniqueID"/>
+            </attribute>
+            <attribute cnp_name="ConnectorPoolNames" column_id="CONNECTORP" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ConnectorPoolNames.ElementCount"/>
+            </attribute>
+            <attribute cnp_name="TDIProperties" column_id="TDIPROPERT" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.TDIProperties"/>
+            </attribute>
+            <attribute cnp_name="ConfigPath" column_id="CONFIGPATH" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.ConfigPath"/>
+            </attribute>
+            <attribute cnp_name="Type" column_id="TYPE" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Type"/>
+            </attribute>
+            <attribute cnp_name="Id" column_id="ID" help_text="Attribute exposed for management" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Attribute.Id"/>
+            </attribute>
+        </attribute_group>
+        <attribute_group help_text="Data gathered from JMX MBeans *:type=Notifier,*." name="Event_Notifier" number_of_expected_instances="LESS_THAN_1000" pure_event_table="true" table_id="EVENTNO" version="1" warehouse_default="true">
+            <global_jmx_settings_for_group handler="com.ibm.tivoli.monitoring.jat.jmx.JmxNotificationListener" object_name="ObjectNamePattern=*:type=Notifier,*;;"/>
+            <attribute cnp_name="Type" column_id="TYPE" help_text="The type of notification." isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Type"/>
+            </attribute>
+            <attribute cnp_name="Source" column_id="SOURCE" help_text="The object which originated the notification, typically the name of an MBean." isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Source"/>
+            </attribute>
+            <attribute cnp_name="Sequence_Number" column_id="SEQUENCE_N" help_text="A number identifying a particular instance of notification in the context of the notification source." isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="SequenceNumber"/>
+            </attribute>
+            <attribute cnp_name="Time_Stamp" column_id="TIME_STAMP" help_text="Notif_TimeStamp_Desc" isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="16"/>
+                <jmx_source metric_name="TimeStamp"/>
+            </attribute>
+            <attribute cnp_name="Message" column_id="MESSAGE" help_text="A message associated with the notification, typically an explanation of the notification." isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="Message"/>
+            </attribute>
+            <attribute cnp_name="User_Data" column_id="USER_DATA" help_text="Arbitrary data associated with the notification." isAtomic="false" isKey="false" show_attr_cnp="true" version="1">
+                <isDisplayString size="100"/>
+                <jmx_source metric_name="UserData"/>
+            </attribute>
+        </attribute_group>
+    </attribute_group_list>
+</omegamon_monitoring_agent>

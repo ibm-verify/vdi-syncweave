@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="21" UUID="ef9c848b-df66-455d-9970-92217912cc4b" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="LDAPSync" modified="Wed Apr 22 12:30:50 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Container name="References"/>
+    
+<AssemblyLine name="LDAPSync">
+        <ModTime>1429698650522</ModTime>
+        <Settings/>
+        <Hooks>
+            <ModTime>1429698650522</ModTime>
+            <Hook name="ShutdownScript">
+                <InheritFrom>/Scripts/libShutdownRequest</InheritFrom>
+                <Name>ShutdownScript</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="onfailure">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <ModTime>1429698650522</ModTime>
+                <Name>onfailure</Name>
+                <Script><![CDATA[if (error.exception != null) {
+	task.getStats().exception(error.exception.getValue(0));
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>prolog0</Name>
+                <Script>runType = "S"</Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="determineFlows" state="Enabled"/>
+                <Component name="Prepare report" state="Enabled"/>
+                <Component name="Launch Sync ALs" state="Enabled"/>
+                <Component name="waitForALsToComplete" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1408951344378</ModTime>
+            <Script name="determineFlows">
+                <InheritFrom>/Scripts/determineFlows</InheritFrom>
+                <ModTime>1355866352281</ModTime>
+            </Script>
+            <Script name="Prepare report">
+                <ModTime>1393525554997</ModTime>
+                <parameter name="enabled">false</parameter>
+                <parameter name="script"><![CDATA[// make sure old reports are flushed
+reports = prepareReport();
+
+runTime = "S"]]></parameter>
+            </Script>
+            <Script name="Launch Sync ALs">
+                <ModTime>1408951344378</ModTime>
+                <parameter name="script"><![CDATA[var al = new Array()
+var alCnt = 0
+
+for (cnt = 0; cnt < flows.length; cnt++) {
+	flowKey = flows[cnt]
+
+	ok = false
+	for (i = 0; i < definedFlows.length && !ok; i++)
+		if (definedFlows[i] == flowKey)
+			ok = true;
+	if (!ok) {
+		logmsg("ERROR", resource.getString("LDAPSYNC.SKIPPING.UNDEFINED.FLOW.SPECIFIED") + ": " + flowKey)
+		continue;
+	}
+
+	initUtils(flowKey, true);
+	
+	vect = new java.util.Vector()
+		
+	tcb = system.newTCB()
+		
+	syncronize = true;
+	passGlobalVariablesViaTCB(tcb);
+	tcb.setOperationInitParams(opEntry)
+	tcb.setTaskName(flowKey + "_LDAPSync");
+	
+	alName = "runDataFlow"
+			
+	vect.add(tcb)
+	vect.add(task.getLog())
+	
+	try {	
+		al[alCnt] = main.startAL(alName, vect)
+		alCnt++
+	} catch (ex) {
+		logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.STARTING.SYNCHRONIZATION.FOR.FLOW") + ": " + flowKey + ": " + ex
+				+ "\n" + resource.getString("LDAPSYNC.CHECK.THAT.THE.SOURCE.CHANGEDETECTIONTYPE.PROPERTY.IS.SET.TO.SUN.AD.OR.TDS"))
+	}
+}
+
+simulate = false]]></parameter>
+            </Script>
+            <Script name="waitForALsToComplete">
+                <InheritFrom>/Scripts/waitForALsToComplete</InheritFrom>
+                <ModTime>1372848499140</ModTime>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

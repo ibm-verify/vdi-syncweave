@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="connector.xsd"></include>
+	<include schemaLocation="parser.xsd"></include>
+	<element name="propertyStore" type="tns:PropertyStoreBinding"
+		substitutionGroup="tns:config">
+	</element>
+
+	<complexType name="PropertyStoreBinding">
+		<complexContent>
+			<extension base="tns:NamedBinding">
+				<sequence>
+					<element name="nameFilters" type="string"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+					<element name="connector"
+						type="tns:JavaClassBinding" maxOccurs="1" minOccurs="0">
+					</element>
+
+
+					<element name="parser"
+						type="tns:JavaClassBinding" maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="keyName" type="string" use="optional"></attribute>
+				<attribute name="valueName" type="string" use="optional"></attribute>
+				<attribute name="readOnly" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="initialLoad" type="boolean" use="optional"
+					default="false">
+				</attribute>
+				<attribute name="cacheTimeout" type="int" use="optional"
+					default="0"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="propertyStores" type="tns:PropertyStoresBinding" substitutionGroup="tns:container"></element>
+
+	<complexType name="PropertyStoresBinding">
+		<complexContent>
+			<extension base="tns:ContainerBinding">
+				<attribute name="default" type="anyURI" use="optional"></attribute>
+				<attribute name="password" type="anyURI" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

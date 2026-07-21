@@ -1,0 +1,35 @@
+connect to EXAMPLE;
+
+drop table email;
+drop table ccdemail;
+create table email ( 
+	name varchar(80), 
+	email varchar(80) 
+);
+create table ccdemail ( 
+	ibmsnap_commitseq integer, 
+	ibmsnap_intentseq integer, 
+	ibmsnap_logmarker date, 
+	ibmsnap_operation char, 
+	name varchar(80), 
+	email varchar(80) 
+);
+drop sequence ccdemail_seq;
+create sequence ccdemail_seq;
+
+drop trigger t_email_ins;
+drop trigger t_email_del;
+drop trigger t_email_upd;
+
+create trigger t_email_ins after insert on email referencing new as n 
+	for each row mode db2sql 
+		 INSERT INTO ccdemail VALUES (nextval for ccdemail_seq, 0, 
+			CURRENT_DATE, 'I', n.name, n.email );
+create trigger t_email_del after delete on email referencing old as n 
+	for each row mode db2sql 
+		 INSERT INTO ccdemail VALUES (nextval for ccdemail_seq, 0, 
+			CURRENT_DATE, 'D', n.name, n.email );
+create trigger t_email_upd after update on email referencing new as n 
+	for each row mode db2sql 
+		 INSERT INTO ccdemail VALUES (nextval for ccdemail_seq, 0, 
+			CURRENT_DATE, 'U', n.name, n.email );

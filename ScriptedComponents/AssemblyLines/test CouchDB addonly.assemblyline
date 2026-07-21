@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="24" UUID="f0060b95-bd53-49d2-929e-054f0bf9e8eb" created="Sun Jun 01 21:58:14 CEST 2014" createdBy="Administrator" main="testCouchDBConnector addonly" modified="Tue Jun 24 12:59:42 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="testCouchDBConnector addonly">
+        <ModTime>1403607581638</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="display" state="Enabled"/>
+                <Component name="CouchDB addonly" state="Simulated"/>
+                <Component name="FormEntryConnector" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1401702647241</ModTime>
+            <Connector name="FormEntryConnector">
+                <InheritFrom>system:/Connectors/ibmdi.FormEntryConnector</InheritFrom>
+                <ModTime>1401702647241</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701274131</ModTime>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701274131</ModTime>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701283041</ModTime>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701274131</ModTime>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1401701280417</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401702647241</ModTime>
+                    <SchemaItem>
+                        <Name>first</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>last</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401702647241</ModTime>
+                    <SchemaItem>
+                        <Name>first</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>last</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701274131</ModTime>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401701274131</ModTime>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1403607581638</ModTime>
+            <Script name="display">
+                <ModTime>1401700192338</ModTime>
+                <parameter name="script">task.logmsg("\n---------------------\n" + work.toString() + "\n-------------------\n")</parameter>
+            </Script>
+            <Connector name="CouchDB addonly">
+                <InheritFrom>/Connectors/0CouchDB test</InheritFrom>
+                <ModTime>1403607581638</ModTime>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="returnas">Hierarchical Entry</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1402914530233</ModTime>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>_id</Name>
+                        <Type>advanced</Type>
+                        <Script>work.first + "_" + work.last</Script>
+                        <Simple>_id</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>foo</Name>
+                        <Type>advanced</Type>
+                        <Script>"bar"</Script>
+                        <Simple>foo</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$doc</Name>
+                        <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>$doc_count</Name>
+                        <Syntax>java.lang.Integer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>_id</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>_rev</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>item</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>prices</Name>
+                        <Syntax>com.ibm.jscript.std.ObjectObject</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1401706990006</ModTime>
+                    <LinkCriteriaItem>
+                        <Key>1465c20f4d7</Key>
+                        <Attribute>key</Attribute>
+                        <Operator>greater than</Operator>
+                        <Value>arf</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c21195a</Key>
+                        <Attribute>item</Attribute>
+                        <Operator>less than or equal</Operator>
+                        <Value>apples</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c3e6741</Key>
+                        <Attribute>item</Attribute>
+                        <Operator>contains</Operator>
+                        <Value>e</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c3e92a8</Key>
+                        <Attribute>foobar</Attribute>
+                        <Operator>ends with</Operator>
+                        <Value>bar</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c3ec3a7</Key>
+                        <Attribute>foobar</Attribute>
+                        <Operator>starts with</Operator>
+                        <Value>foo</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c3f09a8</Key>
+                        <Attribute>a</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>b</Value>
+                    </LinkCriteriaItem>
+                    <LinkCriteriaItem>
+                        <Key>1465c3f11e7</Key>
+                        <Attribute>b</Attribute>
+                        <Operator>not equals</Operator>
+                        <Value>c</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="6ef7841d-65b7-431c-9de8-fb7def34a1a1" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="checkForDN" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="checkForDN">
+        <ModTime>1388405024450</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[dn = work.getString("$dn")
+
+if (dn === null) {
+	logmsg("ERROR", where() + " - " + resource.getString("LDAPSYNC.NO.DN.ATTRIBUTE.FOUND.IN.ENTRY.SKIPPING") 
+			+ "/n" + work.toString())
+	addToStats(flowKey, "error", "error");
+	system.exitFlow()	
+}
+
+work["$dn"] = cleanDN(dn)]]></parameter>
+    </Script>
+</MetamergeConfig>

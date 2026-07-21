@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions name="WS-BaseN10-WTCI"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsnt="http://www.ibm.com/xmlns/stdwip/web-services/WS-BaseNotification"
+	targetNamespace="http://www.ibm.com/events/wsn10-wtci-1.0.0"
+	xmlns:tns="http://www.ibm.com/events/wsn10-wtci-1.0.0">
+
+
+	<!-- ========================== Imports =========================== -->
+
+	<wsdl:import
+		namespace="http://www.ibm.com/xmlns/stdwip/web-services/WS-BaseNotification"
+		location="WS-BaseN.wsdl" />
+
+	<!-- ========================== Bindings =========================== -->
+
+	<wsdl:binding name="NotificationConsumer10Soap"
+		type="wsnt:NotificationConsumer">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Notify">
+			<soap:operation
+				soapAction="http://www.ibm.com/xmlns/stdwip/web-services/WS-BaseNotification/Notify"/>
+			<wsdl:input>
+				<soap:body use="literal"></soap:body>
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="NotificationConsumerService">
+		<wsdl:port name="NotificationConsumer10Soap"
+			binding="tns:NotificationConsumer10Soap">
+			<soap:address location="http://tempuri.org"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

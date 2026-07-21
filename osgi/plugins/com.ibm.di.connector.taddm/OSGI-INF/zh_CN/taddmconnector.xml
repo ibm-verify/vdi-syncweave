@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="taddmconnector" tmsVersion="1.0" xml:lang="zh-CN">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDJN051I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.INITIALIZED" varFormat="Java">   
+   参数“<Variable formatSpec="{0}">param name</Variable>”已初始化为值“<Variable formatSpec="{1}">value</Variable>”。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN052E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.PARAMETER.NOT.PROVIDED" varFormat="Java">   
+   未提供参数“<Variable formatSpec="{0}">param name</Variable>”。
+   </MsgText>
+   <Explanation><p>
+   TADDM 连接器需要指定的参数，必须提供此参数。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请为此参数提供值。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN053E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NEGATIVE.INTEGER.PARAMETER" varFormat="Java">
+   参数“<Variable formatSpec="{0}">param name</Variable>”只接受正整数值。   
+   </MsgText>
+   <Explanation><p>
+   此参数只支持正整数值。 
+   </p></Explanation>
+   <OperatorResponse><p>
+   请为此参数提供正整数值，或者保留此参数为空。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN054I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.COLLATION.HOME.SET" varFormat="Java">   
+   整理主目录设置为“<Variable formatSpec="{0}">directory</Variable>”。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN055I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CONNECTING" varFormat="Java">   
+   正在连接到 TADDM...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN056I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.ID" varFormat="Java">   
+   正在使用提供的会话标识“<Variable formatSpec="{0}">session id</Variable>”来打开会话。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN057I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.OPEN.SESSION.WITH.CREDENTIALS" varFormat="Java">   
+   正在使用提供的凭证来打开会话。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN058E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.SESSION.ID" varFormat="Java">
+   提供的字符串“<Variable formatSpec="{0}">id</Variable>”不是有效的会话标识。   
+   </MsgText>
+   <Explanation><p>
+   只有长整型数字可以用作 TADDM 会话标识。 
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供有效的长整型数字作为会话标识。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN059I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.TADDM" varFormat="Java">   
+   正在使用 MQL 查询 <Variable formatSpec="{0}">query</Variable> 来查询 TADDM。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN060I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERYING.ALL.ITEMS" varFormat="Java">   
+   将查询所有 TADDM 项。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN061E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.ENTRY.PROVIDED" varFormat="Java">
+   未提供任何条目。
+   </MsgText>
+   <Explanation><p>
+   需要有效的条目。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供有效的条目。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN062E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.GUID.IN.ENTRY" varFormat="Java">
+   在提供的条目中找不到 Guid。
+   </MsgText>
+   <Explanation><p>
+   要在 TADDM 中删除模型对象，其 Guid 必须已知。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的属性是否包含 Guid 系统属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN063I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.ALL.OBJECTS.DELETED" varFormat="Java">   
+   只删除了 <Variable formatSpec="{1}">expected count</Variable> 个对象中的 <Variable formatSpec="{0}">actual count</Variable> 个对象。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN064E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.QUERYING.TADDM" varFormat="Java">
+   查询 TADDM 时发生错误。 使用的 MQL 为：<Variable formatSpec="{0}">query</Variable>。
+   </MsgText>
+   <Explanation><p>
+   在执行此操作时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN065E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.FAILED" varFormat="Java">
+   删除操作失败。
+   </MsgText>
+   <Explanation><p>
+   在删除提供的模型对象时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN066I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.DELETE.OBJECTS" varFormat="Java">   
+   正在删除 <Variable formatSpec="{0}">count</Variable> 个 Guid。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN067E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.GUID" varFormat="Java">
+   提供的 Guid“<Variable formatSpec="{0}">guid</Variable>”无效。
+   </MsgText>
+   <Explanation><p>
+   将提供的 Guid 字符串解析为 TADDM Guid 时发生错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 Guid。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN068E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.FAILED" varFormat="Java">
+   添加操作失败。
+   </MsgText>
+   <Explanation><p>
+   在添加提供的模型对象时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN069I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION" varFormat="Java">   
+   正在向 TADDM 添加新项...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN070I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADD.OPERATION.SUCCESS" varFormat="Java">   
+   已成功地添加该项。 其 Guid 为 <Variable formatSpec="{0}">guid</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN071E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.QUERY.FAILED" varFormat="Java">
+   请为“类类型”和“深度”参数提供值。
+   </MsgText>
+   <Explanation><p>
+   用户必须在连接器的配置中提供这些参数才能使用查询模式功能。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供必需参数。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN072E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.NO.CLASS.TYPE" varFormat="Java">
+   在提供的 MQL 查询中找不到 CDM 类类型。
+   </MsgText>
+   <Explanation><p>
+   每个 TADDM MQL 查询都必须定向到一个或多个项类型。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请在查询中提供类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN073E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INCORRECT.MQL.INVALID.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   在隐式属性名称中找不到相关的项类类型。
+   </MsgText>
+   <Explanation><p>
+   IdML 兼容隐式属性名称是根据关系类型和相关类类型构造的。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请在查询中提供相关的类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN074I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   正在获取项 <Variable formatSpec="{0}">guid</Variable> 的域属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN075I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   无法获取项 <Variable formatSpec="{0}">guid</Variable> 的域属性。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN076I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.DOMAIN.ATTRIBUTES" varFormat="Java">   
+   找不到项 <Variable formatSpec="{0}">guid</Variable> 的域属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN077I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   正在获取项 <Variable formatSpec="{0}">guid</Variable> 的 MSS 属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN078I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.MSS.ATTRIBUTES" varFormat="Java">   
+   无法获取项 <Variable formatSpec="{0}">guid</Variable> 的 MSS 属性。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN079I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MSS.ATTRIBUTES" varFormat="Java">   
+   找不到项 <Variable formatSpec="{0}">guid</Variable> 的 MSS 属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN080I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLIC.ATTRIBUTE.DETECTED" varFormat="Java">   
+   项 <Variable formatSpec="{0}">type</Variable> 引起循环。 因此，只添加了它的 Guid <Variable formatSpec="{1}">guid</Variable> 作为 <Variable formatSpec="{2}">attribute name</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN081I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ADDING.ATTRIBUTES.RECURSIVELY" varFormat="Java">   
+   正在以递归方式添加类型 <Variable formatSpec="{0}">type</Variable> 的属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN082I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIPPING.ATTRIBUTE" varFormat="Java">   
+   正在跳过类型 <Variable formatSpec="{0}">type</Variable> 中 Guid 为 <Variable formatSpec="{1}">guid</Variable> 的项，这是因为，该项未与它的任何命名规则匹配。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN083I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   正在获取项 <Variable formatSpec="{0}">guid</Variable> 的扩展属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN084I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   找不到项 <Variable formatSpec="{0}">guid</Variable> 的扩展属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN085I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXTENDED.ATTRIBUTES" varFormat="Java">   
+   无法获取项 <Variable formatSpec="{0}">guid</Variable> 的扩展属性。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN086I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.GETTING.EXPLICITRELN.ATTRIBUTES" varFormat="Java">   
+   正在获取项 <Variable formatSpec="{0}">guid</Variable> 的显式关系。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN087I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.FORWARD.EXPLICIT.RELNS" varFormat="Java">   
+   找到 <Variable formatSpec="{0}">count</Variable> 个源于项 <Variable formatSpec="{1}">guid</Variable> 的正向显式关系。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN088I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.BACKWARD.EXPLICIT.RELNS" varFormat="Java">   
+   找到 <Variable formatSpec="{0}">count</Variable> 个以项 <Variable formatSpec="{1}">guid</Variable> 为目标的逆向显式关系。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN089I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.EXPLICIT.RELNS" varFormat="Java">   
+   无法获取项 <Variable formatSpec="{0}">guid</Variable> 的显式关系。 已抛出以下异常：<Variable formatSpec="{0}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN090I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ALREADY.ADDED" varFormat="Java">   
+   已添加与项 <Variable formatSpec="{2}">guid</Variable> 的显式关系 <Variable formatSpec="{0}">reln type</Variable> (Guid <Variable formatSpec="{1}">reln guid</Variable>)。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN091I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.EXPLICIT.RELN.ADDED.SUCCESSFULLY" varFormat="Java">   
+   已成功地添加与项 <Variable formatSpec="{2}">guid</Variable> 的显式关系 <Variable formatSpec="{0}">reln type</Variable> (Guid <Variable formatSpec="{1}">reln guid</Variable>)。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN092I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.RELATED.ITEM" varFormat="Java">   
+   无法获取相关项 <Variable formatSpec="{0}">guid</Variable> 的详细信息。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN093I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTE.METADATA" varFormat="Java">   
+   无法获取类 <Variable formatSpec="{0}">guid</Variable> 的扩展属性的元数据。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN094E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.TADDM.CLASS.TYPE" varFormat="Java">
+   TADDM 类类型未知：“<Variable formatSpec="{0}">type</Variable>”。
+   </MsgText>
+   <Explanation><p>
+   所检查的类类型不受 TADDM 支持。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN095E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   无法获取类“<Variable formatSpec="{1}">class type</Variable>”中属性“<Variable formatSpec="{0}">attribute name</Variable>”的 IdML 相符名称。
+   </MsgText>
+   <Explanation><p>
+   元数据不足，无法获取此属性的 IdML 相容名称。
+   </p></Explanation>
+   <OperatorResponse><p>
+   在 IdML 方式下，不支持此属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN096E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.ATTRIBUTES" varFormat="Java">
+   检查类“<Variable formatSpec="{0}">class type</Variable>”的属性时出错。
+   </MsgText>
+   <Explanation><p>
+   在检查类属性时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN097E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CDM.CLASS.TYPE" varFormat="Java">
+   CDM 类类型未知：“<Variable formatSpec="{0}">type</Variable>”。
+   </MsgText>
+   <Explanation><p>
+   所检查的类类型不受 TADDM 支持。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN098E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.ATTRIBUTE.NAME" varFormat="Java">
+   类“<Variable formatSpec="{1}">class type</Variable>”的属性“<Variable formatSpec="{0}">attribute name</Variable>”不受支持。
+   </MsgText>
+   <Explanation><p>
+   所检查的属性不受 TADDM 支持。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN099E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IDML.ATTRIBUTE.NAME" varFormat="Java">
+   在 IdML 方式下，不支持属性“<Variable formatSpec="{0}">attribute name</Variable>”。
+   </MsgText>
+   <Explanation><p>
+   在 IdML 方式下，不能使用此属性。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN100E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.IMPLICIT.ATTRIBUTE.NAME" varFormat="Java">
+   找不到与提供的条件匹配的隐式属性。 它必须对应于项类型“<Variable formatSpec="{1}">type1</Variable>”到项类型“<Variable formatSpec="{2}">type2</Variable>”的“<Variable formatSpec="{0}">reln type</Variable>”关系。
+   </MsgText>
+   <Explanation><p>
+   在本机 TADDM 方式下，不能使用此属性。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN101I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">   
+   已提供值为“<Variable formatSpec="{0}">value</Variable>”的“cycle”系统属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN102I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.CLASS.TYPE.OVERWRITTEN" varFormat="Java">   
+   模型对象类类型由“<Variable formatSpec="{0}">type1</Variable>”覆盖为“<Variable formatSpec="{1}">type2</Variable>”。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN103E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.CYCLE.ATTRIBUTE.FOUND" varFormat="Java">
+   在元素“<Variable formatSpec="{0}">name</Variable>”中找到未知的“cycle”属性。
+   </MsgText>
+   <Explanation><p>
+   提供的循环标识与分层结构中通往此项的路径中的任何其他项都不匹配。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供正确的 cycle 属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN104E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.MODEL.OBJECT.WITH.GUID.FOUND" varFormat="Java">
+   在类“<Variable formatSpec="{0}">class type</Variable>”中找不到标识为“<Variable formatSpec="{1}">guid</Variable>”的模型对象。
+   </MsgText>
+   <Explanation><p>
+   项仅通过其标识提供。 因此，连接器已尝试查询 TADDM 以获取有关该项的更多详细信息。 但是，未返回任何模型对象。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的标识是否正确。 另外，尝试为该项提供命名属性，而不要仅提供其标识。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN105E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UNKNOWN.ATTRIBUTE.TYPE" varFormat="Java">
+   无法发现类“<Variable formatSpec="{1}">class type</Variable>”中属性“<Variable formatSpec="{0}">attribute name</Variable>”的类型。
+   </MsgText>
+   <Explanation><p>
+   无法使用 TADDM SDK 中的 JAR 确定此属性的类型。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一属性。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN106E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.INVALID.INTEGER.PARAMETER" varFormat="Java">
+   参数“<Variable formatSpec="{0}">param name</Variable>”不是有效的整数。   
+   </MsgText>
+   <Explanation><p>
+   此参数必须是整数。 
+   </p></Explanation>
+   <OperatorResponse><p>
+   请为此参数提供整数值，或者保留此参数为空。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN107E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NOT.VALID.RELATIONSHIP" varFormat="Java">
+   类类型“<Variable formatSpec="{0}">class type</Variable>”不是有效的关系。
+   </MsgText>
+   <Explanation><p>
+   指定的类类型不是受支持的 CDM 关系。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供另一类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN108E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.NO.CLASS.TYPE" varFormat="Java">
+   未提供类类型。  
+   </MsgText>
+   <Explanation><p>
+   未在连接器的 UI 中提供类类型，也未在其输出映射中提供类类型。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请在连接器的 UI 中提供类类型，或者通过输出映射中的 $classType 属性提供类类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN109I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.FOUND.GUID.IN.CRITERIA" varFormat="Java">   
+   在搜索标准中找到 Guid“<Variable formatSpec="{0}">guid</Variable>”。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN110E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.FAILED" varFormat="Java">
+   更新操作失败。
+   </MsgText>
+   <Explanation><p>
+   在更新提供的模型对象时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN111I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION" varFormat="Java">   
+   正在 TADDM 中更新现有的项...
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN112I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.UPDATE.OPERATION.SUCCESS" varFormat="Java">   
+   已成功地更新该项。 其 Guid 为 <Variable formatSpec="{0}">guid</Variable>。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN113E" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.FIND.MODEL.OBJECT" varFormat="Java">
+   在 TADDM 中查询 Guid <Variable formatSpec="{0}">guid</Variable> 时发生错误。 已抛出以下异常：<Variable formatSpec="{1}">exception message</Variable>。
+   </MsgText>
+   <Explanation><p>
+   在搜索具有所提供的 Guid 的模型对象时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN114I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.SKIP.READONLY.ATTRIBUTE" varFormat="Java">   
+   由于无法对模型对象设置属性 <Variable formatSpec="{0}">attribute</Variable>，因此正在跳过此属性。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN115I" prefix="yes">
+   <MsgText pgmKey="TADDM.CONN.ERROR.GETTING.REVERSE.IMPLICIT.ATTRIBUTE" varFormat="Java">
+   在类“<Variable formatSpec="{2}">checked class type</Variable>”中找不到类“<Variable formatSpec="{1}">class type</Variable>”的属性“<Variable formatSpec="{0}">attr name</Variable>”的逆向。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN151E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.FINDING.CHANGE" varFormat="Java">   
+   使用查询“<Variable formatSpec="{1}">taddm query</Variable>”在 TADDM 中查询类型为“<Variable formatSpec="{0}">change type</Variable>”的更改时，发生错误。
+   </MsgText>
+   <Explanation><p>
+   在执行此操作时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN152E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.UNSUPPORTED.DATE.FORMAT" varFormat="Java">   
+   日期“<Variable formatSpec="{0}">date string</Variable>”与必需格式“dd/MM/yyyy HH:mm:ss”不匹配。
+   </MsgText>
+   <Explanation><p>
+   提供的值与预期格式不匹配。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请提供格式正确的日期值。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN153I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.QUERYING.TADDM.FOR.CHANGES" varFormat="Java">
+   正在使用查询“<Variable formatSpec="{2}">taddm query</Variable>”在 TADDM 中查询“<Variable formatSpec="{0}">from date</Variable>”到“<Variable formatSpec="{1}">to date</Variable>”时间间隔内的更改。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN154I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.CHANGES.FOUND" varFormat="Java">   
+   总共找到 <Variable formatSpec="{0}">count</Variable> 项更改。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN155I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGES.FOUND" varFormat="Java">   
+   找不到任何更改。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN156I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.WAITING" varFormat="Java">   
+   连接器将先等待 <Variable formatSpec="{0}">seconds count</Variable> 秒，然后再次轮询 TADDM 以查找更改。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN157E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.CHANGE.TYPE.SELECTED" varFormat="Java">   
+   未在连接器的配置中选择任何更改类型。 必须至少选择一种类型（“创建”、“更新”或“删除”）。
+   </MsgText>
+   <Explanation><p>
+   必须将连接器配置为检测至少一种更改类型，这样它才能正常运行。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请在连接器的“高级”部分中选择一种或多种更改类型。
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDJN158I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.STATE.FOUND" varFormat="Java">
+   已从属性存储恢复迭代器开始日期“<Variable formatSpec="{0}">date</Variable>”。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN159I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.NO.STATE.FOUND" varFormat="Java">   
+   在属性存储中找不到迭代器开始日期。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN160I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.START.DATE" varFormat="Java">   
+   将检测自“<Variable formatSpec="{0}">date</Variable>”起的更改。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN161I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.SKIPPING.CHANGE" varFormat="Java">
+   由于更改事件未与任何命名规则匹配，因此正在将其跳过。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN162I" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.TIMEOUT.EXPIRED" varFormat="Java">
+   配置的超时已到期。 连接器将立即退出。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDJN163E" prefix="yes">
+   <MsgText pgmKey="TADDM.CD.CONN.ERROR.GETTING.SERVER.TIME" varFormat="Java">   
+   无法获取 TADDM 服务器的本地时间。
+   </MsgText>
+   <Explanation><p>
+   在获取 TADDM 服务器上的本地时间时，TADDM API 返回了错误。
+   </p></Explanation>
+   <OperatorResponse><p>
+   请确认所有连接参数都正确，然后检查提供的 TADDM 异常以获取详细信息。
+   </p></OperatorResponse>
+</Message>
+
+</TMSSource>

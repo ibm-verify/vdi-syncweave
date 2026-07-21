@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="67" UUID="899ea69e-c0a7-4d73-9baf-a126e4e2ed2a" created="Wed Feb 25 17:51:05 CET 2015" createdBy="Administrator" main="SendMail" modified="Thu May 07 13:23:51 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="SendMail">
+        <ModTime>1430997831455</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="Send email" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1430997831455</ModTime>
+            <Script name="Send email">
+                <ModTime>1430997831455</ModTime>
+                <parameter name="script"><![CDATA[if (false) { // debugging code
+	opEntry = task.getOpEntry();
+	opEntry["smtp.smtpServerHost"] = "smtp.gmail.com";
+	opEntry["smtp.smtpServerPort"] = 465;
+	opEntry["smtp.ssl.enabled"] = "true";
+	opEntry["smtp.username"] = "eddiehartman@gmail.com";
+	opEntry["smtp.password"] = "stianha1a";
+	opEntry["smtp.from"] = "testmail@fds.ibm.com";
+	
+	opEntry["smtp.mail"] = "eddiehartman@gmail.com";
+	opEntry["smtp.subject"] = "Test mail - " + new java.util.Date();
+	opEntry["smtp.body"] = "Body of the mail";
+} else {
+
+	opEntry = task.getOpEntry();
+	
+	flow = opEntry.getString("flowKey");
+	if (flow == null) {
+		flow = opEntry.getString("$flowKey");
+	}
+	if (flow == null) {
+		flow = "Flow_User2TDS";
+	}
+	
+	getAllFlowParameters(opEntry, flow);
+	
+//opEntry[flow + ".smtp.ssl"] = "false"; // @@TODO @@DEBUG
+
+	initUtils(flow);
+	
+}	
+
+// prepare return status
+result = {
+	status: "success"
+}
+
+if (work["$dn"] == null) {
+	work.mail = getProperty("smtp.mail");
+	work.username = work.mail;
+	work.password = "secret123#";
+	work["$dn"] = work.mail;
+}
+
+result = csMailShot(work, 
+					getProperty("smtp.mail"), 
+					getProperty("smtp.subject"),
+					getProperty("smtp.body"));
+
+task.logmsg("result: " + toJson(result));
+
+// return status
+work.result = toJson(result);
+sendCustomNotification("fds.sendmail", "SendMail", work.getString("result"));]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="1" UUID="abaa68e1-01c0-466a-8979-e9403330d64d" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="libBeforeApplyingChanges" modified="Mon Dec 30 13:03:44 CET 2013" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="libBeforeApplyingChanges">
+        <ModTime>1388405024528</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+change = false
+attNames = conn.getAttributeNames()
+
+for (i = 0; i < attNames.length && !change; i++) {
+	attName = attNames[i].toLowerCase()
+	if (!attName.equals(ptaAttributes[0]) && !attName.equals(ptaAttributes[1])) {
+		change = true
+	}
+}
+
+if (!change) {
+	addToStats(flowKey, typeOfEntry, "unchanged", changeDetection, work.getString("translatedDN"));
+	system.skipEntry()
+}
+ * 
+ */]]></parameter>
+    </Script>
+</MetamergeConfig>

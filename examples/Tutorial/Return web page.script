@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="9d98dbdd-bcae-42a8-a3a9-86e5d1d27ffa" created="Fri Aug 29 14:36:08 CEST 2008" createdBy="NO010196" main="Return web page" modified="Fri Aug 29 14:36:08 CEST 2008" modifiedBy="NO010196" project="Tutorial" version="7.0">
+    <Script name="Return web page">
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[// At this point, we are servicing file requests like a web server.
+//
+// ---------- Get URL base
+// Must use this property-reference syntax when the 
+//  Attribute name when it contains special characters.
+var base = work.getString("http.base");  // return as Java String 
+var path = "Tutorial/";
+
+if (base == null)
+	base = new java.lang.String("");
+
+// ---------- Set return content-type
+// Here we have to use the setAttribute method due to
+// the names of the Attributes we are working with
+if ( base.endsWith(".gif") )
+	work["http.content-type"] = "image/gif"
+else
+if ( base.endsWith(".jpg") || base.endsWith(".jpeg") )
+    work["http.content-type" = "image/jpeg"]
+else
+if ( base.endsWith(".css") )
+    work["http.content-type"] = "text/css"
+else
+    work["http.content-type"] = "text/html";
+
+// ---------- Check for null/root requests and hackers
+if ((base == "/") || (base == "") || (base.indexOf("..") >= 0))
+    base = "index.html";
+
+// ---------- Try to open requested file
+var file = new java.io.File( path + base );
+
+// ---------- If it exists, return it, else 404 FILE NOT FOUND
+if ( file.exists() ) 
+    work.setAttribute("http.body", file);
+else 
+    work["http.status"] = "NOT FOUND";
+
+// ---------- Log it
+task.logmsg ( "File request: " + file );]]></parameter>
+    </Script>
+</MetamergeConfig>

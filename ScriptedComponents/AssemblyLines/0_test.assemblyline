@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="75" UUID="df55b35c-8f30-482d-b5ef-b4fb2ad9e8bf" created="Tue Jun 24 13:17:50 CEST 2014" createdBy="Administrator" main="0_test" modified="Mon Jun 30 10:14:27 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="0_test">
+        <ModTime>1404116066395</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="test data" state="Enabled"/>
+                <Component name="debug script" state="Enabled"/>
+                <Component name="test" state="Enabled"/>
+                <Component name="BP" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1404116066395</ModTime>
+            <ALMap name="test data">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <ModTime>1403895284298</ModTime>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1403895284298</ModTime>
+                    <AttributeMapItem>
+                        <Name>first</Name>
+                        <Type>advanced</Type>
+                        <Script>"Thomas"</Script>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>last</Name>
+                        <Type>advanced</Type>
+                        <Script>"Andersen"</Script>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <State>Enabled</State>
+            </ALMap>
+            <Script name="debug script">
+                <ModTime>1404041859276</ModTime>
+                <parameter name="script"><![CDATA[function loadFile(filename, errormsg, throwException) {
+	var strbuf = new java.lang.StringBuffer()
+	if (typeof(throwException) == "undefined")
+		throwException = true;
+
+	if (typeof(errormsg) == "undefined" || errormsg == null)
+		errormsg = "** ERROR LOADING FILE:"
+		
+	try {
+		var file = system.openFileForInput(filename)
+		var line = ""
+	
+		do {
+			line = file.readLine()
+			if (line != null)
+				strbuf.append(line + "\n")
+		} while (line != null)
+
+		file.close()
+	} catch (ex) {
+		if (typeof(file) != "undefined" && file != null)
+			file.close()
+		if (throwException)
+			throw errormsg.trim() + " " + filename + " - " + ex
+		return null
+	}		
+
+	return strbuf.toString()
+}]]></parameter>
+            </Script>
+            <Script name="test">
+                <ModTime>1404116066395</ModTime>
+                <parameter name="script"><![CDATA[function logmsg(lvl, msg) {
+	task.logmsg(lvl, msg);
+	java.lang.System.out.println(lvl + " - " + msg);
+}
+
+// mapping service object. 
+provider = function() {
+	this.customScript = loadFile("temp/customscript.js", "error loading customscript");
+	this.mapLines = new java.util.HashMap();
+	
+	this.loadMap = function() {
+		this.mapLines.clear();
+		var mapStr = loadFile("temp/attribute.map", "error loading map file");
+		if (mapStr !== null) {
+			var mlines = system.splitString(mapStr, "\n");
+			for (var line in mlines ) {
+				if (!line.trim().startsWith("#")) {
+					var p = line.indexOf("=");
+					if (p > 0) {
+						var attname = line.substring(0, p).trim();
+						var assignment = line.substring(p+1).trim();
+						this.mapLines.put(attname, assignment);
+					}
+				}	
+			}
+		}	
+	}
+	
+	this.map = function(fromEntry) {
+		var toEntry = system.newEntry();
+
+		if (this.mapLines.size() == 0) {
+			toEntry.merge(fromEntry);
+			return toEntry;
+		}
+		
+		var itr = this.mapLines.keySet().iterator();
+		
+		try {
+			if (this.customScript !== null) {
+				eval(this.customScript);
+			}
+		} catch (ex) {
+			throw "Error parsing custom script - " + ex;
+		}	
+		
+		while (itr.hasNext()) {
+			try {
+				var attname = itr.next();
+				var assignment = this.mapLines.get(attname);
+				var value = eval(assignment);
+				toEntry.setAttribute(attname, value);
+			} catch (ex) {
+				logmsg("ERROR", "Error mapping " + attname 
+						+ " with assignment: " + assignment 
+						+ "\n------> exception: " + ex);
+			}
+		}
+		
+		return toEntry;	
+	}
+	
+	this.initialize = function() {
+		this.loadMap();
+	}
+	
+	// initialization
+	this.initialize();
+	
+	return this;
+}
+
+prov = new provider("givenname=work.first\ncn=work.first + ' ' + work.last");
+e = prov.map(work);
+task.dumpEntry(e);]]></parameter>
+            </Script>
+            <Script name="BP">
+                <ModTime>1403894838711</ModTime>
+                <parameter name="script"/>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="51" UUID="25f3f09f-ae1d-4201-a993-54ca192bd149" created="Mon May 19 19:16:12 CEST 2014" createdBy="Administrator" main="FDS_SCIM_Scriptlib" modified="Tue Apr 28 13:53:53 CEST 2015" modifiedBy="Administrator" project="FDS_Target_SCIM" version="7.1.1">
+    <Script name="FDS_SCIM_Scriptlib">
+        <ModTime>1430222033262</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[/*
+vrs = "20140120 1054"
+vrs = "20140520 0944" // re-added AL Prolog Hooks to TestConnections and WriteToTarget ALs
+vrs = "20140520 1112" // corrected delete operations for WriteToTarget AL
+vrs = "201400804 0002" // Changed handling of findEntry operation for entry identification
+vrs = "7.3 20140804 1635" // Numerous changes for custom target (SCIM)
+vrs = "7.3 20140806 1950" // Simplified info passing from main WriteToTarget to SCIM:WriteToTarget
+vrs = "7.3 20140808 1306" // Make SCIM plugin return findEntry results as standard LDAP entry
+vrs = "7.3 20140811 1030" // Corrected error returned on adObjectGUIDStr searches to SCIM
+vrs = "7.3 20140825 1453" // Added Group/Attribute filtering to FlowSettings
+vrs = "7.3 20140826 1233" // Removed dummy member handling - leaving this up to the SCIM service
+vrs = "7.3 20140903 1539" // Fixing incremental sync problems due to delta tags being lost
+vrs = "7.3 20140908 1238" // Fixed problem with adding groups to SCIM
+vrs = "7.3 20141014 1518" // Fixed error in group member translation
+vrs = "7.3 20150217 1040" // Skipping initialization of Group Connector if handleType.group is false
+vrs = "7.3 20150218 1733" // password not written on Mod operations, and SCIM Endpoints set to user/ and group/
+ *  *  *  *  *  *  *  *  *  *  *  *  *  * */
+vrs = "7.3 20150324 1402" // Added user-friendly error messages
+
+
+task.logmsg("FDS_SCIM_Scriptlib vrs. " + vrs);
+
+JSONParser = system.getParser("ibmdi.JSONParser")
+
+schema = {};
+schema["person"] = null;
+schema["group"] = null;
+
+function loadSchema(typeOfEntry) {
+	var props = system.getScriptText("FDS_Target:/Scripts/schema_" + typeOfEntry);
+	if (props === null) {
+		return null;
+	}
+	
+	var sch = null;
+	
+	var lines = system.splitString(props, "\n");
+	for (var line in lines) {
+		line = line.trim();
+		if (line.startsWith("#")) {
+			continue;
+		}
+		
+		var p = line.indexOf("=");
+		if (p < 1) {
+			continue;
+		}
+		var attName = line.substring(0,p);
+		var attSpec = line.substring(p+1);
+		
+		if (sch == null) {
+			sch = {};
+		}
+		sch[attName] = attSpec;
+	}
+	
+	return sch;
+}
+
+function scim2LDAP(scimEntry, typeOfEntry) {
+	var sch = null;
+	if (!scimEntry || scimEntry == null) {
+		return null;
+	}
+	
+	try {
+		var sch = schema[typeOfEntry];
+		if (sch == null || sch.length == 0) {
+			sch = schema[typeOfEntry] = loadSchema(typeOfEntry);
+		}
+	} catch (ex) {
+		// do nothing
+	}
+	
+	if (sch == null) {
+		return null;
+	}
+	
+	var jsobj = fromJson(scimEntry.toJSON());
+	var entry = system.newEntry();
+	
+	for (var attName in sch) {
+		var attSpec = sch[attName];
+		var parts = system.splitString(attSpec,",");
+		var type = "string";
+		
+		if (parts.length == 0) {
+			continue;
+		}
+		
+		var map = parts[0];
+		var p = map.indexOf("[");
+		var p2 = map.indexOf("]");
+		var attValue = map.trim();
+		if (map.startsWith("\"") || map.startsWith("'")) {
+			attValue = attValue.substring(1);
+			if (attValue.endsWith("\"") || attValue.endsWith("'")) {
+				attValue = attValue.substring(0, attValue.length-2);
+			}
+			entry[attName] = attValue;
+			continue;
+		} else
+		if (p > 0 && p2 > p) {
+			var qual = map.substring(p+1, p2);
+			var propName = map.substring(0, p);
+			var subPropName = map.substring(p2+1);
+			if (subPropName.startsWith(".")) {
+				subPropName = subPropName.substring(1);
+			}
+			var bits = qual.split(":");
+			if (bits.length == 1) {
+				var qualifier = "type";
+				var qualValue = bits[0];
+			} else
+			if (bits.length != 2) {
+				// @@TODO report error in schema
+				task.logmsg("Error in " + typeOfEntry + " schema for " + attName + ": " + qual);
+				continue;
+			} else {
+				var qualifier = bits[0];
+				var qualValue = bits[1];
+			}	
+			
+			var prop = jsobj[propName];
+			if (prop == null) {
+				continue;
+			}
+			
+			if (prop.length == null) {
+				attValue = prop;
+			} else {
+				for (var i = 0; i < prop.length; i++) {
+					valueObj = prop[i];
+					if (qualValue == valueObj[qualifier]) {
+						attValue = valueObj[subPropName];
+						entry[attName] = attValue;
+						break;
+					}
+				}
+			}
+		} else {
+			var parts = attValue.split(".");
+			if (parts.length == 0) {
+				// @@TODO report error in schema
+				task.logmsg("Error in " + typeOfEntry + " schema for " + attName + ": " + qual);
+				continue;
+			} else {
+				var propName = parts[0];
+			}
+			var prop = jsobj[propName];
+			if (!prop || prop == null) {
+				continue;	
+			}
+			
+			var att = system.newAttribute(attName);
+			if (prop.length && typeof prop !== "string") {
+				var subPropName = "value";
+				if (parts.length > 1) {
+					subPropName = parts[1];
+				}
+				for (var i = 0; i < prop.length; i++) {
+					var subProp = prop[i];
+					if (subProp && subProp != null) {
+						var val = subProp[subPropName];
+						if (!val || val == null) {
+							java.lang.System.out.println("!!ERROR!! scim2LDAP() - cannot find " 
+								+ propName + "[" + subPropName + "] for " + attName);
+						} else {
+							att.addValue(subProp[subPropName]);
+						}	
+					}	
+				}
+			} else {
+				var subProp = prop;
+				for (var i = 1; i < parts.length && subProp != null; i++) {
+					subProp = subProp[parts[i]];
+				}
+				att = system.newAttribute(attName);
+				if (subProp && subProp != null) {
+					att.addValue(subProp);
+				}	
+			}
+			
+			entry[attName] = att;
+		}
+	}
+	
+	return entry;
+}
+
+function dumpException(e) {
+	if (! (e instanceof java.lang.Throwable))
+		return;
+		
+	var sw = java.io.StringWriter()
+	var pw = java.io.PrintWriter(sw)
+	e.printStackTrace(pw)
+	pw.close()
+	task.logmsg(sw.toString())
+	if (e.getCause() != null)
+		task.logmsg("Cause: " + e.getCause())
+		
+	if (typeof(conn) != "undefined" && conn != null) {
+		task.logmsg("CONN")
+		task.dumpEntry(conn)
+	}	
+}
+
+function addTypedValue(objArray, valueAtt, valueType) {
+	if (valueAtt === null) {
+		return;
+	}
+
+	objArray.push({value : valueAtt.getValue(), type : valueType});
+}
+
+function getMail(entry) {
+	var mail = { emails : [] };
+	addTypedValue(mail.emails, entry.mail, "work");
+	
+	var jEntry = com.ibm.di.entry.Entry.fromJSON(toJson(mail));
+	
+	return jEntry.emails;
+}
+
+function getPhoneNumbers(entry) {
+	var phoneNumbers = {phoneNumbers : []};
+	addTypedValue(phoneNumbers.phoneNumbers, entry.telephoneNumber, "work");
+	addTypedValue(phoneNumbers.phoneNumbers, entry.homePhoner, "home");
+	addTypedValue(phoneNumbers.phoneNumbers, entry.mobile, "mobile");
+	addTypedValue(phoneNumbers.phoneNumbers, entry.facsimiletelephonenumber, "fax");
+	
+	if (phoneNumbers.phoneNumbers.length == 0) {
+		return null;
+	}
+	
+	var jEntry = com.ibm.di.entry.Entry.fromJSON(toJson(phoneNumbers));
+	
+	return jEntry.phoneNumbers;
+}
+
+function addValue(obj, attValue, attName, newlines) {
+	if (attValue == null) {
+		return;
+	}
+	
+	if (typeof(newlines) == "undefined") {
+		newlines = false;
+	}
+	
+	if (newlines) {
+		obj[attName] = attValue.getValue().replace("$", "\n")	
+	} else {
+		obj[attName] = attValue.getValue();
+	}	
+}
+
+function getName(entry) {
+	var names = {name : {}};
+	var displayName = entry.displayName;
+	if (displayName === null) {
+		displayName = entry.cn;
+	}
+	addValue(names.name, entry.sn, "familyName");
+	addValue(names.name, entry.givenName, "givenName");
+//	addValue(names.name, displayName, "formatted");
+	
+	var jEntry = com.ibm.di.entry.Entry.fromJSON(toJson(names));
+	
+	return jEntry.name;
+}
+
+function getAddresses(entry) {
+	var addr = {addresses : [ { type : "work" }, { type: "home" } ]};
+	
+	
+	addValue(addr.addresses[0], entry.l, "locality");
+	addValue(addr.addresses[0], entry.streetAddress, "streetAddress", true);
+	addValue(addr.addresses[0], entry.postalAddress, "formatted", true);
+	addValue(addr.addresses[0], entry.postalCode, "postalCode");
+	addValue(addr.addresses[0], entry.st, "region");
+
+	addValue(addr.addresses[1], entry.homePostalAddress, "formatted", true);
+
+	for (var i = addr.addresses.length-1; i >= 0; i--) {
+		var foundValue = false;
+		for (var prop in addr.addresses[i]) {
+			if (!"type".equals(prop)) {
+				foundValue = true;
+				break;
+			}
+		}
+		if (!foundValue) {
+			addr.addresses.pop();
+		}
+	}
+
+	if (addr.addresses.length == 0) {
+		return null;
+	}
+	
+	var jEntry = com.ibm.di.entry.Entry.fromJSON(toJson(addr));
+	
+	return jEntry.addresses;
+}
+
+function getMembers(membersAtt) {
+	var members = system.newAttribute("members");
+	
+	if (typeof membersAtt === "undefined" || membersAtt == null || membersAtt.size() == 0) {
+		return members;
+	}
+	
+	for (var i = 0; i < membersAtt.size(); i++) {
+		var member = membersAtt.getValue(i);
+		var memberOp = membersAtt.getValueOperation(i);
+		var mem = system.newAttribute("members");
+		mem.value = member;
+		if	("delete".equals(memberOp)) {
+			mem.operation = memberOp;
+		}
+		members.appendChild(mem);
+	}
+	
+	var mems = members.getChildNodes();
+	if (mems.getLength() == 0){
+		return null;
+ 	}
+	
+	return members;
+}
+
+function customTargetError(error) {
+	change = false;
+	tcb["$status"] = "failed";
+	tcb["$error"] = error;
+	tcb["$change"] = false;
+	tcb["$writeStatus"] = "failed";
+	
+	// call LDAPSync error handling routine
+	defaultErrorHandling("ERROR");
+}
+
+function customTargetInitError(error) {
+	tcb["$status"] = "failed";
+	tcb["$error"] = error;
+	tcb["$change"] = false;
+	tcb["$writeStatus"] = "failed";
+
+	// call LDAPSync error handling routine
+	defaultInitErrorHandling("ERROR");
+}
+
+/**
+ * Convert an Entry to a JSON string with linefeeds,
+ * because it is eadier to read than the compact form
+ */
+function toJSON(entry) {
+	var sw = java.io.StringWriter()
+	JSONParser.setOutputStream(sw)
+	JSONParser.initParser()
+	JSONParser.writeEntry(entry)
+	JSONParser.closeParser()
+	return sw.toString()
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

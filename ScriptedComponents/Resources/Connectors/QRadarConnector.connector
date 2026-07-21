@@ -1,0 +1,1686 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="6" UUID="5ea0c4a2-aa00-4362-8379-bfe25bd51d63" created="Wed Oct 16 09:46:42 CEST 2013" createdBy="Administrator" main="QRadarConnector" modified="Thu May 08 12:16:42 CEST 2014" modifiedBy="Administrator" project="LogManagement" version="7.1.1">
+    <Connector name="QRadarConnector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1399544180899</ModTime>
+        <ConnectorMode>AddOnly</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1399544180899</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="86" UUID="1c5c2351-48dc-46eb-9af8-921d8823af11" created="Tue May 08 13:41:23 CEST 2012" createdBy="Administrator" main="Form" modified="Thu Jun 20 11:35:52 CEST 2013" modifiedBy="Administrator" version="7.1">
+    <Form name="Form">
+        <UserComment/>
+        <ModTime>1371720944062</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>$GLOBAL.debug</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>filePath</ListItem>
+            <ListItem>dateMask</ListItem>
+            <ListItem>splitOnEvents</ListItem>
+            <ListItem>detailedLog</ListItem>
+            <ListItem>hostname</ListItem>
+            <ListItem>port</ListItem>
+            <ListItem>severity</ListItem>
+            <ListItem>facility</ListItem>
+            <ListItem>useSyslog</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Syslog output</ListItem>
+            <ListItem>LEEF Output</ListItem>
+            <ListItem>General2</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="dateMask">
+            <Values>
+                <ListItem>yyyy-MM-dd'T'HH:mm:ss.SSSZ</ListItem>
+                <ListItem>MMM dd yy HH:mm:ss</ListItem>
+                <ListItem>EEE MMM dd HH:mm:ss z yyyy</ListItem>
+            </Values>
+            <parameter name="description">Java SimpleDateFormat mask to use for writing date values (e.g. MMM dd yy HH:mm:ss.SSS z)</parameter>
+            <parameter name="label">Date format mask</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormItem name="detailedLog">
+            <parameter name="description">enable this checkbox to get debugging messages written to the log</parameter>
+            <parameter name="label">Detailed Log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="facility">
+            <ModTime>1371720944062</ModTime>
+            <Values>
+                <ListItem>kernel</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>mail</ListItem>
+                <ListItem>system daemons</ListItem>
+                <ListItem>security/authorization</ListItem>
+                <ListItem>internal syslogd</ListItem>
+                <ListItem>line printer subsystem</ListItem>
+                <ListItem>network news subsystem</ListItem>
+                <ListItem>UUCP subsystem</ListItem>
+                <ListItem>clock daemon</ListItem>
+                <ListItem>security/authorization messages</ListItem>
+                <ListItem>FTP daemon</ListItem>
+                <ListItem>NTP subsystem</ListItem>
+                <ListItem>log audit (note 1)</ListItem>
+                <ListItem>log alert (note 1)</ListItem>
+                <ListItem>clock daemon (note 2)</ListItem>
+                <ListItem>local0</ListItem>
+                <ListItem>local1</ListItem>
+                <ListItem>local2</ListItem>
+                <ListItem>local3</ListItem>
+                <ListItem>local4</ListItem>
+                <ListItem>local5</ListItem>
+                <ListItem>local6</ListItem>
+                <ListItem>local7</ListItem>
+            </Values>
+            <parameter name="description">Default facility</parameter>
+            <parameter name="label">Facility</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="filePath">
+            <parameter name="description">Pathname of the output file to write. Note that if splitting is enabled, multiple files will be created using a numeric counter suffix</parameter>
+            <parameter name="label">File path *</parameter>
+        </FormItem>
+        <FormItem name="hostname">
+            <ModTime>1359537313792</ModTime>
+            <parameter name="description">Defautl target hostname</parameter>
+            <parameter name="label">Hostname</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="port">
+            <ModTime>1359537329081</ModTime>
+            <parameter name="description">Default syslogd port</parameter>
+            <parameter name="label">Port</parameter>
+        </FormItem>
+        <FormItem name="severity">
+            <ModTime>1371720944062</ModTime>
+            <Values>
+                <ListItem>alert</ListItem>
+                <ListItem>critical</ListItem>
+                <ListItem>debug</ListItem>
+                <ListItem>emergency</ListItem>
+                <ListItem>error</ListItem>
+                <ListItem>informational</ListItem>
+                <ListItem>notice</ListItem>
+                <ListItem>warning</ListItem>
+            </Values>
+            <parameter name="description">Default severity</parameter>
+            <parameter name="label">Severity</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="spacer">
+            <ModTime>1363093037046</ModTime>
+            <parameter name="label">-</parameter>
+            <parameter name="noLabel">true</parameter>
+            <parameter name="scriptLabel"/>
+            <parameter name="syntax">static</parameter>
+        </FormItem>
+        <FormItem name="splitOnEvents">
+            <parameter name="description">If left blank or value &amp;lt; 0 then no splitting will occur. Otherwise multiple files may be written, each with no more than this number of events</parameter>
+            <parameter name="label">Maximum events per file</parameter>
+        </FormItem>
+        <FormItem name="useSyslog">
+            <ModTime>1363028653515</ModTime>
+            <parameter name="description">Enable to send output to syslog, otherwise the Connector produces LEEF file(s)</parameter>
+            <parameter name="label">Output to syslog</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>useSyslog</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <FormSection name="General2">
+            <FormSectionNames>
+                <ListItem>detailedLog</ListItem>
+                <ListItem>$GLOBAL.userComment</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <FormSection name="LEEF Output">
+            <FormSectionNames>
+                <ListItem>filePath</ListItem>
+                <ListItem>dateMask</ListItem>
+                <ListItem>splitOnEvents</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <FormSection name="Syslog output">
+            <FormSectionNames>
+                <ListItem>hostname</ListItem>
+                <ListItem>port</ListItem>
+                <ListItem>severity</ListItem>
+                <ListItem>facility</ListItem>
+                <ListItem>dateMask</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[syslogParams = ["hostname","port","severity","facility"]
+leefParams = ["filePath","splitOnEvents"]
+params = new java.util.HashMap()
+params.put(true, syslogParams)
+params.put(false, leefParams)
+
+useSyslog_changed()
+
+function useSyslog_changed() {
+	useSyslog = form.getControl("useSyslog").getSelection()
+	
+//	form.alert("param: " + form.getControl("useSyslog").getSelection() + "   useSyslog: " + useSyslog)
+	var pset = params.get(useSyslog)
+	var strOn = ""
+	for (var p in pset) {
+		strOn += (strOn == "") ? p : ", " + p
+		form.getControl(p).setEnabled(true)
+	}	
+	pset = params.get(!useSyslog)
+	var strOff = ""
+	for (var p in pset) {
+		strOff += (strOff == "") ? p : ", " + p
+		form.getControl(p).setEnabled(false)
+	}
+//	form.alert("ON: " + strOn + "\nOFF: " + strOff)
+
+	var sections = form.getChildren()[0].getChildren()[0].getChildren()[0].getChildren()[1].getChildren()
+	sections[1].setVisible(useSyslog)
+	sections[1].setEnabled(useSyslog)
+	sections[1].setExpanded(useSyslog)
+	sections[2].setVisible(!useSyslog)
+	sections[2].setEnabled(!useSyslog)
+	sections[2].setExpanded(!useSyslog)
+}]]]]><![CDATA[></parameter>
+        <parameter name="script"/>
+        <parameter name="title">QRadar Connector</parameter>
+        <parameter name="userComment"/>
+        <TranslationFile>NLS/idi_conn_scriptconn</TranslationFile>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="dateMask"/>
+            <parameter name="detailedLog">false</parameter>
+            <parameter name="filePath"/>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[/*
+vrs = "20120504"	// Created
+vrs = "20121212"	// Fixed parseDate() to use paramDateMask
+vrs = "20121206"	// Corrected date mask dropdown list (in form)
+vrs = "20121125"	// Corrected Form according to Chirag's review
+vrs = "20121022"	// Fixed schema discovery, paramDateMask handling (default = QRadarDateMask) and reading LEEF format, plus closing input file in case of Connect + Next
+vrs = "20121018"	// Improved querySchema to return Required/Optional for attributes in the returned schema
+vrs = "20121016"	// Removed prefix for mandatory attributes + added new date mask "EEE MMM dd HH:MM:ss z yyyy"
+vrs = "20121218 1140"	// Fixed parsing of first attribute after LEEF Header
+vrs = "20121218 1150"	// Corrected Syslog header date output - must be ISO date format
+vrs = "20121218 1221"	// Fixed parseDate() to use two ISO data masks (2 and 3 digit msec value)
+vrs = "20121218 1343"	// Corrected parsing of syslog header during read
+vrs = "20130311 1644"	// Added Syslog output support
+vrs = "20130313 1053"	// Made syslog output in LEEF format
+vrs = "20130403 1040"	// Beefed up date parsing
+vrs = "20130723 1223"	// corrected an error that required the file path set for syslog output
+vrs = "20130723 1540"	// added debugOutput
+vrs = "20130927 1223"	// fixed a bug in setting the 'port' param and removed debugOutput
+vrs = "20131004 1725"   // CJ - changed work[attributes] to work.getAttributes(attributes)
+vrs = "20131011 1523"   // CJ - changed getDate()
+vrs = "20140210"        // JT - extracted messages
+ * 
+ */
+vrs = "20140507 2206"   // Fixed output to not include $ attributes
+
+
+RESOLVER = com.ibm.di.server.ResourceHash.getHash("qradarconnector")
+
+var syslog = true
+
+// -------------------------------------------------------------------------------------------
+// First variables for LEEF output
+// -------------------------------------------------------------------------------------------
+
+var LEEFVersion = "1.0"
+var ISOdateMask = "yyyy-MM-dd'T'HH:mm:ss.SSZ"
+var ISOdateMask2 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+var QRadarDateMask = "MMM dd yy HH:mm:ss"
+var QRadarSyslogHeaderMask = "^(?:<\\d{1,3}>)?(\\w{1,3})\\s+(\\d{1,2})\\s+(\\d{1,2}):(\\d{1,2}):(\\d{1,2})(?:\\s+(20\\d\\d))?\\s+(?:Message forwarded from\\s+)?((\\w|\\.|\\-|\\/){1,254})\\s+"
+
+// parameters
+var paramFilePath = "C:/temp/LEEF_output.txt"
+var paramSplitOnEvents = null
+var eventCnt = 0
+var paramDateMask = QRadarDateMask
+
+var outFile  = null // output fileWriter
+var inFile = null   // input fileReader
+var protocolNames = new java.util.HashMap()
+var protocolNumbers = new java.util.HashMap()
+var eventAttributes = new java.util.HashMap()
+var predefinedLEEFAttributes = system.newEntry()
+var syslogHeaderAttributes = system.newEntry()
+var leefHeaderAttributes = system.newEntry()
+var syslogAttributes = system.newEntry()
+var currentYear = 12
+var debug = false;
+
+// -------------------------------------------------------------------------------------------
+// variables for Syslog
+// -------------------------------------------------------------------------------------------
+
+// Date formatter
+//simpleDateFormat = new java.text.SimpleDateFormat("MMMM d HH:mm:ss");
+//simpleDateFormat = new java.text.SimpleDateFormat(ISOdateMask);
+
+// severity codes
+severity = [
+	"Emergency",
+	"Alert",
+	"Critical",
+	"Error",
+	"Warning",
+	"Notice",
+	"Informational",
+	"Debug"
+];
+
+// facility codes
+facility = [
+	"kernel",
+	"user",
+	"mail",
+	"system daemons",
+	"security/authorization",
+	"internal syslogd",
+	"line printer subsystem",
+	"network news subsystem",
+	"UUCP subsystem",
+	"clock daemon",
+	"security/authorization messages",
+	"FTP daemon",
+	"NTP subsystem",
+	"log audit (note 1)",
+	"log alert (note 1)",
+	"clock daemon (note 2)",
+	"local0",
+	"local1",
+	"local2",
+	"local3",
+	"local4",
+	"local5",
+	"local6",
+	"local7"
+];
+
+
+function initialize() {
+	debug = "true".equalsIgnoreCase(connector.getParam("detailedLog"))
+	syslog = "true".equalsIgnoreCase(connector.getParam("useSyslog"))
+	
+	connector.logmsg(RESOLVER.getString("VERSION.INFO", [vrs, LEEFVersion, syslog]));
+
+	if (syslog) {
+		syslog_initialize()
+	}	
+
+	leef_initialize()
+}	
+
+function terminate() {
+	if (syslog) {
+		syslog_terminate()
+	}	
+
+	leef_terminate()
+}
+
+function querySchema() {
+	var schema = config.getSchema(false);
+	
+	if (syslog) {
+		syslog_querySchema(schema)
+	} 
+
+	leef_querySchema(schema)
+
+	result.setStatus(0)
+}
+
+function putEntry() {
+	if (syslog) {
+		syslog_putEntry(entry)
+	} else {
+		leef_putEntry(entry)
+	}
+}
+
+// To enable Connect + Read next (In/Out Maps) & the Data Browser
+function selectEntries() {
+	// does nothing - just so that you can do a Connect + Next	
+}
+
+function getNextEntry() {
+	if (syslog) {
+		result.setStatus(0)
+	} else {
+		leef_getNextEntry()
+	}
+}
+
+
+// -------------------------------------------------------------------------------------------
+// Functions for Syslog
+// -------------------------------------------------------------------------------------------
+
+// Get a UDP socket on first available localhost port
+var socket = new java.net.DatagramSocket();
+
+function getArrValue(str, arr) {
+	var value = str;
+	for(var i = 0; i < arr.length; i++) {
+		if(arr[i].equalsIgnoreCase(str)) {
+			return i;
+		}
+	}
+	return value;
+}
+
+function getFacility(fac) {
+	try {
+		return java.lang.Integer.parseInt(fac);
+	} catch(err) {
+		return getArrValue(fac, facility);
+	}
+}
+
+function getSeverity(sev) {
+	try {
+		return java.lang.Integer.parseInt(sev);
+	} catch(err) {
+		return getArrValue(sev, severity);
+	}
+}
+
+function getPriority(e) {
+	var fac = e.getString("$facility");
+	if(fac == null) {
+		fac = connector.getParam("facility");
+	}	
+	if(fac == null) {
+		fac = "local0";
+	}	
+	fac = getFacility(fac);
+	
+	var sev = e.getString("$severity");
+	if(sev == null) {
+		sev = connector.getParam("severity");
+	}	
+	if(sev == null)
+		sev = "Informational";
+	sev = getSeverity(sev);
+	
+	return java.lang.Integer.toString( (fac << 3) + sev );
+}
+
+function getHost(str) {
+	if(str == null)
+		str = connector.getParam("hostname");
+	if(str == null)
+		str = "localhost";
+		
+	return java.net.InetAddress.getByName(str);
+}
+
+function getPort(str) {
+	if(str == null) {
+		str = connector.getParam("port");
+	}
+	
+	try {
+		var port = java.lang.Integer.parseInt(str)
+	} catch (ex) {
+		port = 9514
+	}
+
+	return port
+}
+
+function getDate(date) {
+	if(date == null)
+		date = new java.util.Date();
+	else if (!(date instanceof java.util.Date))
+		date = parseDate(date);
+
+	return system.formatDate(date, ISOdateMask);
+}
+
+function getLocalhost(str) {
+	if(str != null)
+		return str;
+		
+	var iaddr = socket.getInetAddress();
+	if(iaddr == null)
+		iaddr = java.net.InetAddress.getLocalHost();
+		
+	return iaddr.getHostName();
+}
+
+function prepareSyslogAttributes() {
+	var fields = ["$host", "$port", "$severity", "$facility"];
+	for(var i = 0; i < fields.length; i++) {
+		var f = fields[i]
+		if (f == "$port") {
+			syslogAttributes.setAttribute(f, { type:"Integer", range: [0, 65535] })
+		} else {
+			syslogAttributes.setAttribute(f, { type:"String", length: 1024 })
+		}
+	}	
+}
+
+function syslog_initialize() {
+	prepareSyslogAttributes()	
+}
+
+/**
+ * <PRI><TIME-STAMP><HOSTNAME><MSG>
+ * 
+ * <27>Jul 27 00:30:13 Shelob newsyslog[24155]: logfile turned over
+ * 
+ *
+ */
+function syslog_putEntry(entry) {
+	var buf = new java.lang.StringBuffer();
+	var msg = buildLeefMessage(entry);
+
+	buf.append("<");
+	buf.append(getPriority(entry));
+	buf.append(">");
+	
+	buf.append(getDate(entry.getObject("SyslogHeader_Timestamp")));
+	buf.append(" ");
+	
+	buf.append(getLocalhost(entry.getString("SyslogHeader_IPAddress")));
+	buf.append(" ");
+	
+	buf.append(msg);
+
+	if (debug) connector.logmsg(buf.toString());
+
+	var bytes = buf.toString().getBytes();
+	var packet = new java.net.DatagramPacket(bytes, bytes.length, getHost(entry.getString("$hostname")),
+		getPort(entry.getString("$port")) );
+		
+	socket.send(packet);
+}
+
+function syslog_querySchema(schema) {
+	addToSchema(syslogAttributes, schema)
+}
+
+function syslog_terminate() {
+	if(socket != null) {
+		socket.close();
+		socket = null;
+	}
+}
+
+// -------------------------------------------------------------------------------------------
+// Functions for LEEF output 
+// -------------------------------------------------------------------------------------------
+
+function openFile(filePath) {
+	var mode = connector.getMode()
+}
+
+
+function leef_initialize() {
+	leef_terminate()
+
+	// get parameters
+	if (!syslog) {
+		paramFilePath = connector.getParam("filePath")
+		if (paramFilePath == null || paramFilePath == "") {
+			throw "File path parameter not specified"
+		}	
+	}	
+
+	paramDateMask = connector.getParam("dateMask")
+	if (paramDateMask == null || paramDateMask == "")
+		paramDateMask = QRadarDateMask
+		
+	if (system.formatDate(new java.util.Date(), paramDateMask) == null)
+		throw "Invalid date mask parameter value: " + paramDateMask
+
+	getProtocolNumbers()
+	prepareLEEFHeaderAttributes()
+	prepareSyslogHeaderAttributes()
+	preparePredefinedLEEFAttributes(prefinedLEEFAttributesStr)
+
+	paramSplitOnEvents = connector.getParam("splitOnEvents")
+	if (paramSplitOnEvents != null && system.isValidInt(paramSplitOnEvents))
+		maxEvent = system.toInt(paramSplitOnEvents)
+	else
+		maxEvent = -1	
+
+//	paramSplitOnFileSize = connector.getParam("splitOnFileSize")
+//	if (paramSplitOnFileSize != null && system.isValidInt(paramSplitOnFileSize))
+//		maxFileSize = system.toInt(paramSplitOnFileSize)
+//	else
+//		maxFileSize = -1	
+
+	var cal = new java.util.GregorianCalendar()
+	currentYear = cal.get(java.util.Calendar.YEAR)
+
+	entryCnt = 0
+}	
+
+function leef_terminate() {
+	if (debug)
+		connector.logmsg(RESOLVER.getString("CLOSING.LEEF"));
+
+	// first close input file (in case of Connect/Next opening)
+	try {
+		if (typeof(inFile) != "undefined" && inFile != null) {
+			inFile.close()
+		}
+	} catch(ex) {
+		// do nothing		
+	}
+	inFile = null
+
+	// now, if output mode, close the output file
+	try {
+		if (config.getMode() == "AddOnly" && typeof(outFile) != "undefined" && outFile != null) {
+			outFile.flush()
+			outFile.close()
+		}
+	}  catch (ex) {
+		outFile = null
+		throw RESOLVER.getString("ERROR.CLOSING.LEEF", ex);
+	}
+	
+	outFile = null
+}
+
+function leef_querySchema (schema) {
+	addToSchema(leefHeaderAttributes, schema, true /* required = true */)
+	addToSchema(syslogHeaderAttributes, schema)
+	addToSchema(predefinedLEEFAttributes, schema)
+
+	result.setStatus(0)
+}
+
+function addToSchema(attlist, schema, required) {
+	var atts = attlist.getAttributeNames()
+	var presenceFlag = (typeof(required) == "undefined" || !required) ? "Optional" : "Required"
+	
+//	connector.logmsg("addToSchema - attList: " + attlist.toString() + "\nschema: " + schema + "\nrequired: " + required)
+	
+	for (var attname in atts) {
+		var p = attlist.getObject(attname)
+		try {
+			var item = schema.newItem(attname);
+			item.setExternalSyntax(p.type);
+			item.setPresenceFlag(presenceFlag)
+		} catch (ex) {
+			// do nothing - attribute already exists in the schema
+		}	
+		
+//		connector.logmsg("LEEFConnector - adding to schema: " + attname + " (" + p.type + ") " + presenceFlag)
+	}
+}
+
+// To enable Connect + Read next (In/Out Maps) & the Data Browser
+function leef_getNextEntry() { // to enable Data Browser functionality
+	var idx = 0
+	var attName
+	var attValue
+	var useFileName = paramFilePath
+	var file
+	
+	if (typeof(inFile) == "undefined" || inFile == null) {
+		file = new java.io.File(useFileName)
+		if (!file.exists()) {
+			file = new java.io.File(newFileName(useFileName,0))
+			if (file.exists()) {
+				useFileName = newFileName(useFileName,0)
+			}
+		}
+	
+		inFile = system.openFileForInput(useFileName)
+	}
+
+	inLine = inFile.readLine()
+
+	if (inLine == null) {
+		result.setStatus(0)
+		return null
+	}
+
+//	if (inLine.matches(QRadarSyslogHeaderMask)) {
+//		logmsg("Matches: " + QRadarSyslogHeaderMask)
+//	}
+
+	parts = inLine.split("\t")
+	if (parts.length < 2) {
+		throw RESOLVER.getString("ERROR.TABS.3", inLine);
+	}
+
+	bits = parts[0].split("|")
+
+	var readVersion = bits[0].substring(bits[0].length-8)
+	if (readVersion != "LEEF:" + LEEFVersion)
+		throw RESOLVER.getString("ERROR.VERSION", [LEEFVersion, inLine]);
+
+	bits[0] = bits[0].substring(0, bits[0].length - readVersion.length).trim()
+
+	var p = -1
+	for (p = bits[0].length-1; p >= 0; p--)
+		if (bits[0].substring(p,p+1) == " ")
+			break; 
+		
+	var date = parseDate(bits[0].substring(0,p).trim())
+	if (date != null) {	
+		entry["SyslogHeader_Timestamp"] = date
+
+		var ip = bits[0].substring(bits[0].lastIndexOf(" ")).trim()
+		if (ip.indexOf(".") > 0) // @@@@@ TODO - need to add handling of IPv6
+			entry["SyslogHeader_IPAddress"] = ip
+	}	
+
+	idx++
+	entry["LEEFHeader_Vendor"] = bits[idx++]
+	entry["LEEFHeader_Product"] = bits[idx++]
+	entry["LEEFHeader_ProductVersion"] = bits[idx++]
+	entry["LEEFHeader_EventID"] = bits[idx++]
+	
+	// 20121218 need to grab the first attribute after the LEEF Header
+	if (idx < bits.length) {
+		var p = bits[idx].indexOf("=")
+		attValue = bits[idx].substring(p+1)
+		attName = bits[idx].substring(0, p)
+		entry[attName] = attValue
+	}	
+	
+
+	for (idx = 1; idx < parts.length; idx++) {
+		p = parts[idx].indexOf("=")
+		attValue = parts[idx].substring(p+1)
+		attName = parts[idx].substring(0, p)
+		entry[attName] = attValue
+	}
+
+	result.setStatus(1)
+}
+
+function digits(num, len) {
+	var zeroes = "00000000"
+	var dig = zeroes + Math.round(num)
+	return dig.substring(dig.length-len)
+}
+
+function newFileName(fileName, fileNumber) {
+	var newName = fileName
+	var p = newName.lastIndexOf(".")
+	if (p > 0 && p < (newName.length-1) ) {
+		newName = newName.substring(0, p) + "_" + digits(fileNumber,3) + newName.substring(p)
+	} else
+		newName += "_" + fileNumber
+	return newName
+}
+
+function buildLeefMessage(entry) {
+	var attNames
+	var attName
+	var attValue
+	var parseObj
+	var customAtts = new java.util.ArrayList()
+	var outLine = ""
+	var eventAtts = new java.lang.StringBuffer()
+	var str
+	var dateMask
+	var outLine = new java.lang.StringBuffer()
+
+	// first make sure required attributes are present
+	attNames = leefHeaderAttributes.getAttributeNames()
+	for (attName in attNames)
+		if (entry.getString(attName) == null)
+			throw RESOLVER.getString("MISSING.ATTRIBUTE", attName);
+
+	// validate attribute values and look for custom ones
+	attNames = entry.getAttributeNames()
+	for (attName in attNames) {
+		attValue = entry.getObject(attName)
+		parseObj = getParseObj(attName)
+		if (parseObj == null)
+			customAtts.add(attName) // now you must have the devTime attribute
+		else
+			validateAttribute(attName, attValue, parseObj)
+	}
+
+	// if custom attributes detected, make sure devTime is present
+	if (customAtts.size() > 0) {
+		if (entry.getString("devTime") == null)
+			throw RESOLVER.getString("MISSING.ATTRIBUTE.DEVTIME", arrayList2String(customAtts));
+	}	
+
+	if (entry.devTime != null && entry.devTimeFormat == null)
+		entry.devTimeFormat = paramDateMask
+
+	if (entry.devTimeFormat == null || entry.devTimeFormat.getValue() == null)
+		dateMask = paramDateMask
+	else
+		dateMask = entry.devTimeFormat.getValue()
+
+	if (dateMask == null || dateMask.trim().length == 0)
+		dateMask = ISODateMask
+
+	// create output line
+	// start with Syslog header if not syslog
+	if (entry.getString("SyslogHeader_Timestamp") != null && !syslog) {
+		str = system.formatDate(parseDate(entry.getObject("SyslogHeader_Timestamp"), true), QRadarDateMask)
+		outLine.append(str + " " + entry.getString("SyslogHeader_IPAddress") + " ")
+	}
+
+	// now the LEEF header
+//	if (!syslog)
+		outLine.append("LEEF:")
+	outLine.append(LEEFVersion
+					+ "|" + entry.getString("LEEFHeader_Vendor") 
+					+ "|" + entry.getString("LEEFHeader_Product")
+					+ "|" + entry.getString("LEEFHeader_ProductVersion")
+					+ "|" + entry.getString("LEEFHeader_EventID")
+					+ "|")
+
+	// collect event attributes
+	correctCase(entry)
+	attNames = entry.getAttributeNames()
+	for (attName in attNames) {
+		if (!attName.startsWith("LEEFHeader_") && !attName.startsWith("SyslogHeader_") && !attName.startsWith("$")) {
+			if (eventAtts.length() > 0)
+				eventAtts.append("\t")
+
+			var att = predefinedLEEFAttributes.getAttribute(attName);
+
+			if (att != null)
+				attName = att.getName()
+
+			attValue = entry.getObject(attName)
+
+			var dateValue = parseDate(attValue)
+			if (dateValue != null)
+				attValue = system.formatDate(dateValue, dateMask)
+
+			eventAtts.append(attName + "=" + attValue)
+		}
+	}
+
+	return outLine.toString() + eventAtts.toString()
+}
+
+function leef_putEntry(entry) {
+	var outLine = ""
+
+	if (typeof(outFile) == "undefined" || outFile == null) {
+		outFile = system.openFileForOutput(paramFilePath)
+	}
+
+	eventCnt++
+
+	if ((maxEvent > 0 && (eventCnt % maxEvent) == 0)) {
+		var fileNumber = Math.floor(eventCnt/maxEvent)
+
+		outFile.flush()
+		outFile.close()
+
+		if (fileNumber == 1) {
+			system.renameFile(paramFilePath,newFileName(paramFilePath,0))
+			connector.logmsg(RESOLVER.getString("RENAMING.LEEF", newFileName(paramFilePath, 0)));
+		}
+
+		newName = newFileName(paramFilePath, fileNumber)
+		outFile = system.openFileForOutput(newName)
+		connector.logmsg(RESOLVER.getString("SPLITTING.LEEF", [eventCnt, newName]));
+	}
+
+	outLine = buildLeefMessage(entry)
+	
+	// write line
+	outFile.write(outLine)
+	outFile.newLine()
+}
+
+function correctCase(e) {
+	var attNames = e.getAttributeNames();
+	var attName
+	var LEEPName
+	for (attName in attNames) {
+		var att = predefinedLEEFAttributes.getAttribute(attName);
+		if (att != null)
+			e.getAttribute(attName).setName(attName);
+	}	
+}
+
+function arrayList2String(arrList) {
+	var s = ""
+	for (var i = 0; i < arrList.size(); i++)
+		s += arrList.get(i) + ","
+	return s.substring(0,s.length-1)
+}
+
+function parseDate(attValue) {
+	var date = null
+	var Zs = ["z","Z"]
+	var zcnt = 0
+	
+	if (attValue.getClass().getName() == "java.lang.String") {
+		attValue = attValue.trim()
+		if (attValue.endsWith("Z")) {
+			attValue = attValue.substring(0, attValue.length-1) + "+0000"
+		}
+		date = system.parseDate(attValue, paramDateMask)
+		if (date === null) {
+			date = system.parseDate(attValue, QRadarDateMask)
+	
+			if (date == null && system.isValidInt(attValue.substring(0,1)))
+				date = system.parseDate(attValue, ISOdateMask)
+	
+			if (date === null && system.isValidInt(attValue.substring(0,1)))
+				date = system.parseDate(attValue, ISOdateMask2)
+	
+			zcnt = 0
+			
+			if (date == null) {
+				do {
+					date = system.parseDate(attValue, "MMM dd yyyy HH:mm:ss.SSS " + Zs[zcnt])
+					if (date === null)
+						date = system.parseDate(attValue, "MMM dd yyyy HH:mm:ss " + Zs[zcnt])
+					if (date === null)
+						date = system.parseDate(attValue, "MMM dd yyyy HH:mm:ss")
+		
+					if (date === null) {
+							date = system.parseDate(attValue, "MMM dd yy HH:mm:ss.SSS " + Zs[zcnt])
+						if (date === null)
+							date = system.parseDate(attValue, "MMM dd yy HH:mm:ss " + Zs[zcnt])
+						if (date === null)
+							date = system.parseDate(attValue, "MMM dd yy HH:mm:ss")
+			
+						if (date === null) {
+							date = system.parseDate(attValue, "MMM dd HH:mm:ss.SSS " + Zs[zcnt])
+							if (date === null)
+								date = system.parseDate(attValue, "MMM dd HH:mm:ss " + Zs[zcnt])
+							if (date === null)
+								date = system.parseDate(attValue, "MMM dd HH:mm:ss")
+								
+							if (date != null) { // in this case, year will be 1970, so we make it the same as the current year
+								var dtval = system.formatDate(date, "MMM dd HH:mm:ss.SSS z")
+								date = system.parseDate(dtval.substring(0,7) + currentYear + dtval.substring(6), "MMM dd yyyy HH:mm:ss.SSS z")									
+							}
+						}
+					}	
+					
+					if (date === null) {
+						date = system.parseDate(attValue, "EEE MMM dd HH:MM:ss " + Zs[zcnt] + " yyyy")
+					}
+					zcnt++
+				} while (date === null && zcnt < Zs.length)
+			}	
+		}
+	} else
+	if (attValue.getClass().getName() == "java.util.Date")
+		date = attValue
+	return date
+}
+
+function validateAttribute(attName, attValue, parseObj) {
+	var numValue
+	switch (parseObj.type) {
+		case "String":		if (attValue.length > parseObj.length)
+						throw RESOLVER.getString("ATTR.ERR.1", [attName, attValue, parseObj.length])
+					break
+		case "Integer":		if (attValue.getClass().getName() == "java.lang.String") {
+						if (!system.isValidInt(attValue)) {
+							throw RESOLVER.getString("ATTR.ERR.2", [attName, attValue])
+						} else {
+							numValue = system.toInt(attValue)
+						}	
+					} else {
+						numValue = Math.round(attValue)
+					}	
+					if (numValue < parseObj.range[0] || numValue > parseObj.range[1])
+						throw RESOLVER.getString("ATTR.ERR.3", [attName, attValue, parseObj.range[0], parseObj.range[1]])
+					break
+		case "Date":		if (parseDate(attValue) == null)
+						throw RESOLVER.getString("ATTR.ERR.4", [attName, attValue])
+					break
+		case "IPAddress": 	if (!validIPAddress(attValue))
+						throw RESOLVER.getString("ATTR.ERR.5", [attName, attValue])
+					break
+		case "MACAddress": 	if (!validMACAddress(attValue))
+						throw RESOLVER.getString("ATTR.ERR.6", [attName, attValue])
+					break
+		case "Protocol": 	if (system.isValidInt(attValue)) {
+						if (protocolNumbers.get(attValue) == null)
+							throw RESOLVER.getString("ATTR.ERR.7", [attName, attValue])
+					} else {
+						if (protocolNames.get(attValue) == null)
+							throw RESOLVER.getString("ATTR.ERR.8", [attName, attValue])
+					}
+					break
+	}
+	
+}
+
+function getParseObj(attName) {
+	var parseObj = predefinedLEEFAttributes.getObject(attName)
+	if (parseObj == null)
+		parseObj = syslogHeaderAttributes.getObject(attName)
+	if (parseObj == null)
+		parseObj = leefHeaderAttributes.getObject(attName)
+	return parseObj
+}
+
+// Retrieve the list of Protocol Numbers defined
+var protocolNumbersURL = "http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xml"
+var protoNumbers='A/N,107@' // in case no internet connectivity or site is down
+			+'SECURE-VMTP,82@'
+			+'MICP,95@'
+			+'PVP,75@'
+			+'STP,118@'
+			+'BBN-RCC-MON,10@'
+			+'IPX-in-IP,111@'
+			+'SWIPE,53@'
+			+'ARIS,104@'
+			+'CFTP,63@'
+			+'SAT-EXPAK,64@'
+			+'KRYPTOLAN,65@'
+			+'IL,40@'
+			+'XNET,15@'
+			+'AH,51@'
+			+'CPHB,73@'
+			+'DCN-MEAS,19@'
+			+'CRTP,126@'
+			+'DCCP,33@'
+			+'DGP,86@'
+			+'NARP,54@'
+			+'FIRE,125@'
+			+'SMP,121@'
+			+'PGM,114@'
+			+'IPv6-Frag,44@'
+			+'TRUNK-1,23@'
+			+'RSVP-E2E-IGNORE,134@'
+			+'PNNI,102@'
+			+'TRUNK-2,24@'
+			+'ICMP,1@'
+			+'IGMP,2@'
+			+'VISA,70@'
+			+'Reserved,255@'
+			+'SDRP,42@'
+			+'SCPS,105@'
+			+'ARGUS,13@'
+			+'SNP,109@'
+			+'SM,122@'
+			+'IPPC,68@'
+			+'AX.25,93@'
+			+'IDPR,35@'
+			+'RDP,27@'
+			+'CHAOS,16@'
+			+'ST,5@'
+			+'NSFNET-IGP,85@'
+			+'L2TP,115@'
+			+'ESP,50@'
+			+'MERIT-INP,32@'
+			+'IPv6-ICMP,58@'
+			+'ISIS over IPv4,124@'
+			+'IRTP,28@'
+			+'SAT-MON,69@'
+			+'WB-EXPAK,79@'
+			+'3PC,34@'
+			+'IPv6-Opts,61@'
+			+'ENCAP,99@'
+			+'HIP,139@'
+			+'GGP,3@'
+			+'VMTP,81@'
+			+'LARP,91@'
+			+'PIM,103@'
+			+'BNA,49@'
+			+'SCC-SP,96@'
+			+'SKIP,57@'
+			+'IFMP,101@'
+			+'RVD,66@'
+			+'LEAF-1,25@'
+			+'LEAF-2,26@'
+			+'NVP-II,11@'
+			+'manet,138@'
+			+'MTP,92@'
+			+'UTI,120@'
+			+'PRM,21@'
+			+'ETHERIP,97@'
+			+'IPIP,94@'
+			+'ISO-IP,80@'
+			+'IATP,117@'
+			+'SPS,130@'
+			+'IDRP,45@'
+			+'I-NLSP,52@'
+			+'UDP,17@'
+			+'EIGRP,88@'
+			+'Mobility Header,135@'
+			+'MOBILE,55@'
+			+'DSR,48@'
+			+'MFE-NSP,31@'
+			+'WESP,141@'
+			+'MPLS-in-IP,137@'
+			+'NETBLT,30@'
+			+'PIPE,131@'
+			+'MUX,18@'
+			+'TCF,87@'
+			+'GRE,47@'
+			+'EMCON,14@'
+			+'RSVP,46@'
+			+'FC,133@'
+			+'TCP,6@'
+			+'IPv6-Route,43@'
+			+'HOPOPT,0@'
+			+'SCTP,132@'
+			+'PTP,123@'
+			+'DDP,37@'
+			+'ISO-TP4,29@'
+			+'TTP,84@'
+			+'SRP,119@'
+			+'CRUDP,127@'
+			+'XTP,36@'
+			+'CBT,7@'
+			+'TLSP,56@'
+			+'IPComp,108@'
+			+'IDPR-CMTP,38@'
+			+'DDX,116@'
+			+'OSPFIGP,89@'
+			+'IPCV,71@'
+			+'QNX,106@'
+			+'TP++,39@'
+			+'Sprite-RPC,90@'
+			+'IPTM,84@'
+			+'GMTP,100@'
+			+'IPv6-NoNxt,59@'
+			+'IPv4,4@'
+			+'XNS-IDP,22@'
+			+'IPv6,41@'
+			+'BR-SAT-MON,76@'
+			+'VINES,83@'
+			+'WB-MON,78@'
+			+'SSCOPMCE,128@'
+			+'PUP,12@'
+			+'HMP,20@'
+			+'EGP,8@'
+			+'UDPLite,136@'
+			+'IPLT,129@'
+			+'Compaq-Peer,110@'
+			+'IGP,9@'
+			+'WSN,74@'
+			+'CPNX,72@'
+			+'SUN-ND,77@'
+			+'ROHC,254@'
+			+'VRRP,112@'
+			+'Shim6,140'
+
+function getProtocolNumbers() {
+	var entry = null
+/*	
+	try {
+		entry = system.httpGet(protocolNumbersURL)
+	} catch (ex) {
+		entry = null
+	}	
+*/	
+	if (entry != null) { 
+		var parser = system.getParser("ibmdi.XML2")
+	
+		var html = entry.getString("http.bodyAsString")
+		parser.setInputStream(java.io.StringReader(html))
+		parser.setParam("entry.tag",null)
+		parser.initParser()
+		var xml = parser.readEntry()
+		var recs = xml.getElementsByTagName("record")
+	
+		for (var r in recs) {
+			for (var a in r) {
+				if (a.getName() == "value")
+					v = a.getValue()
+				else
+				if (a.getName() == "name")
+					n = a.getValue()
+			}
+			if (system.isValidInt(v) && a != null && a != "") {
+				protocolNames.put(n, v)
+				protocolNumbers.put(v, n)
+			}	
+		}	
+	}	
+	else { // use backup numbers
+		var parts = system.splitString(protoNumbers,"@")
+		for (var p in parts) {
+			var bits = system.splitString(p,",")
+			protocolNames.put(bits[0],bits[1])
+			protocolNumbers.put(bits[1],bits[0])
+		}
+	}
+}
+
+var zeroCode = "0".getBytes()[0]
+var aCode = "A".getBytes()[0]
+function fromHex(hexStr) {
+	hexStr = hexStr.toUpperCase()
+	var hexVal = hexStr.toCharArray()
+	var numValue = 0
+	var bytes = hexStr.getBytes()
+	if (hexVal.length == 0)
+		return 0
+	for (var i = hexVal.length-1; i >= 0; i--) {
+		var ch = hexVal[i]
+		if (ch >= "0" && ch <= "9")
+			numValue = numValue + ((bytes[i] - zeroCode)*Math.pow(16,(3-i)))
+		else
+		if (ch >= "A" && ch <= "F")
+			numValue = numValue + ((bytes[i] - aCode + 10)*Math.pow(16,(3-i)))
+		else
+			return -1
+	}
+	return numValue
+}
+
+// should rewrite to use Regex matching instead // @@@@@@@@@ TODO
+function validIPAddress(val) {
+	var parts
+	return true; // short-circuited until I add support for hostnames  // @@@@@@@@@ TODO
+	if (val.indexOf(":") > 0) { // IPv6
+		parts = val.split(":")
+		if (parts.length != 8)
+			return false
+		for (var i = 0; i < parts.length; i++) {
+			var p = parts[i]
+//		for (var p in parts) {
+			if (p != null && p != "") {
+				if (p.length != 4)
+					return false
+				if (fromHex(p) < 0)
+					return false
+			}				
+		}
+		return true
+	}
+	else { // IPv4
+		parts = system.splitString(val,".")
+		if (parts.length != 4)
+			return false
+		for (p in parts) {
+			if (!system.isValidInt(p))
+				return false
+				
+			var v = system.toInt(p)
+			if (v < 0 || v > 255)
+				return false
+		}
+		return true
+	}
+}
+
+// should rewrite to use Regex matching instead // @@@@@@@@@ TODO
+function validMACAddress(val) {
+	var parts
+	if (val.indexOf(":") > 0)
+		parts = system.splitString(val,":")
+	else
+	if (val.indexOf("-") > 0)
+		parts = system.splitString(val,"-")
+	else
+		return false
+		
+	if (parts.length != 6)
+		return false
+		
+	for (var p in parts) {
+		if (p.length != 2)
+			return false
+		if (fromHex(p) < 0)
+			return false
+	}
+	
+	return true
+}
+
+//Custom event attributes must conform to the following rules:
+//â€¢ Alphanumeric (A-Z, a-z, and 0-9)
+//â€¢ Contain a single word for the key value
+//â€¢ Spaces between characters in the key are not allowed
+//â€¢ Cannot be named the same as any predefined attribute key
+//â€¢ Key values must be human readable and concise
+//For example, item1111=172.16.100.110 is not allowed.
+function validCustomLEEFAttribute(aname) {
+	return true
+}
+
+prefinedLEEFAttributesStr =  'cat,String@'
+							+'devTime,Date@'
+							+'devTimeFormat,String@'
+							+'proto,Protocol@'
+							+'sev,Integer,1-10@'
+							+'src,IPAddress@'
+							+'dst,IPAddress@'
+							+'srcPort,Integer,0-65535@'
+							+'dstPort,Integer,0-65535@'
+							+'srcPreNAT,IPAddress@'
+							+'dstPreNAT,IPAddress@'
+							+'srcPostNAT,IPAddress@'
+							+'dstPostNAT,IPAddress@'
+							+'usrName,String,255@'
+							+'srcMAC,MACAddress@'
+							+'dstMAC,MACAddress@'
+							+'srcPreNATPORT,Integer,0-65535@'
+							+'dstPreNATPORT,Integer,0-65535@'
+							+'srcPostNATPORT,Integer,0-65535@'
+							+'dstPostNATPORT,Integer,0-65535@'
+							+'identSrc,IPAddress@'
+							+'identHostName,String,255@'
+							+'identNetBios,String,255@'
+							+'identGrpName,String,255@'
+							+'identMAC,MACAddress@'
+							+'vSrc,IPAddress@'
+							+'vSrcName,String,255@'
+							+'accountName,String,255@'
+							+'srcBytes,Integer@'
+							+'dstBytes,Integer@'
+							+'srcPackets,Integer@'
+							+'dstPackets,Integer@'
+							+'totalPackets,Integer@'
+							+'role,String@'
+							+'realm,String@'
+							+'policy,String@'
+							+'resource,String@'
+							+'url,String,@'
+							+'groupID,String@'
+							+'domain,String'
+function preparePredefinedLEEFAttributes(listStr) {
+	var parts = system.splitString(listStr,"@")
+	var parseObj
+	for (var p in parts) {
+		parseObj = null		
+		var bits = system.splitString(p, ",")
+		if (bits.length >= 2) {
+			if (bits[1].toLowerCase().startsWith("string")) {
+				if (bits.length == 2)
+					len = 1024
+				else
+				if (!system.isValidInt(bits[2]))
+					break
+				else
+					len = system.toInt(bits[2])
+
+				parseObj = { type:"String", length:len }
+			}
+			else
+			if (bits[1].toLowerCase().startsWith("integer")) {
+				if (bits.length == 2) {
+//					parseObj = { type:"Integer", range: [-32768.0, 32767] }
+					parseObj = { type:"Integer", range: [0, 65535] }
+				} else {
+					intRange = system.splitString(bits[2], "-")
+					parseObj = { type:"Integer", range: [0, 0] }
+					for (var i = 0; i < intRange.length; i++) {
+						if (system.isValidInt(intRange[i]))
+							parseObj.range[i] = system.toInt(intRange[i])
+					}
+				}
+			}
+			else
+			if (bits[1].toLowerCase().startsWith("date")) {
+				parseObj = { type: "Date" }
+			}
+			else
+			if (bits[1].toLowerCase().startsWith("ipaddress")) {
+				parseObj = { type: "IPAddress" }
+			}
+			else
+			if (bits[1].toLowerCase().startsWith("macaddress")) {
+				parseObj = { type: "MACAddress" }
+			}
+			else
+			if (bits[1].toLowerCase().startsWith("protocol")) {
+				parseObj = { type: "Protocol" }
+			}
+		}	
+		
+		if (parseObj == null)
+			throw "**ERROR parsing predefined LEEF attributes string: " + p
+		else
+			predefinedLEEFAttributes.setAttribute(bits[0], parseObj)
+	}
+} 
+
+function prepareSyslogHeaderAttributes() {
+	syslogHeaderAttributes.setAttribute("SyslogHeader_Timestamp",{ type:"Date" })
+	syslogHeaderAttributes.setAttribute("SyslogHeader_IPAddress",{ type:"IPAddress" })
+}
+
+function prepareLEEFHeaderAttributes() {
+//	leefHeaderAttributes.setAttribute("LEEFHeader_LEEFVersion",{ type:"String", length: 1024 })
+	leefHeaderAttributes.setAttribute("LEEFHeader_Vendor",{ type:"String", length: 1024 })
+	leefHeaderAttributes.setAttribute("LEEFHeader_Product",{ type:"String", length: 1024 })
+	leefHeaderAttributes.setAttribute("LEEFHeader_ProductVersion",{ type:"String", length: 1024 })
+	leefHeaderAttributes.setAttribute("LEEFHeader_EventID",{ type:"String", length: 1024 })
+}
+
+// returns true if aname is a valid predefined LEEF attribute
+function validPredefinedLEEFAttributeName(aname) {
+	return protocolNames.get(aname) != null
+}]]></parameter>
+            <parameter name="useSyslog">true</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1399493526083</ModTime>
+            <SchemaItem>
+                <Name>$facility</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$host</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$port</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>$severity</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LEEFHeader_EventID</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Required</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LEEFHeader_Product</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Required</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LEEFHeader_ProductVersion</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Required</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>LEEFHeader_Vendor</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Required</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SyslogHeader_IPAddress</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>SyslogHeader_Timestamp</Name>
+                <NativeSyntax>Date</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>accountName</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>cat</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>devTime</Name>
+                <NativeSyntax>Date</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>devTimeFormat</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>domain</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dst</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstBytes</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstMAC</Name>
+                <NativeSyntax>MACAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPackets</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPort</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPostNAT</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPostNATPORT</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPreNAT</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>dstPreNATPORT</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>groupID</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>identGrpName</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>identHostName</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>identMAC</Name>
+                <NativeSyntax>MACAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>identNetBios</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>identSrc</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>policy</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>proto</Name>
+                <NativeSyntax>Protocol</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>realm</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>resource</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>role</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>sev</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>src</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcBytes</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcMAC</Name>
+                <NativeSyntax>MACAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPackets</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPort</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPostNAT</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPostNATPORT</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPreNAT</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>srcPreNATPORT</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>totalPackets</Name>
+                <NativeSyntax>Integer</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>url</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>usrName</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>vSrc</Name>
+                <NativeSyntax>IPAddress</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>vSrcName</Name>
+                <NativeSyntax>String</NativeSyntax>
+                <Presence>Optional</Presence>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="64" UUID="eafb42bd-b2e9-4fdd-8d89-6182894a3d9a" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="callReadAL" modified="Mon May 18 12:35:47 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="callReadAL">
+        <ModTime>1431945347410</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (typeof(lastType) == "undefined") {
+	lastType = ""
+}
+
+if (processRetryList || saveRetryList) {
+	if (currentType != lastType) {
+		retryList = new RetryList(flowKey, currentType, !isSync);
+	}
+}
+
+endpointEntry = null; // initialize the source entry (used for simulate-sync reporting)
+skipEntry = false
+
+if (processRetryList) {
+	// See if there are items to retry first
+	retryItem = retryList.next();
+	if (retryItem != null && retryItem.entry != null && retryItem.entry.size() > 0) {
+		// no sourceLDAP is being set to work - will this fail? @@TODO EH
+		readError = "";
+		if (deBug) {
+			logmsg("Retrying " + currentType + " entry for DN: " + retryItem.entry.getString("$dn"));
+		}
+		work.merge(retryItem.entry);
+		
+		oc = work.getAttribute("objectClass");
+		typeOfEntry = entryType(oc);
+		lastType = currentType;
+		return;
+	}
+}
+
+if (!processLiveData) {
+	work.removeAllAttributes();
+	return;
+}
+
+// Initialize the first time only
+if (currentType != lastType || typeof(readInitialized) == "undefined" || !readInitialized) {
+	readInitialized = true;
+	
+	readALFC = system.getFunction("ibmdi.AssemblyLineFC");
+
+	readALFC.setParam("assemblyLine", ALName);
+	readALFC.setParam("userComment", new java.util.Date().toString());
+	readALFC.setParam("shareLog", "true");
+	readALFC.setParam("mode", "2"); // Manual mode
+
+	try {
+		tcb = readALFC.getTCB();
+		passGlobalVariablesViaTCB(tcb);
+/*
+		task.logmsg("................................ resetting the readALFC\n\n"
+						+ "    al name: " + ALName + "\n\n.............................................")
+*/
+		opEntry["$typeOfEntry"] = typeOfEntry;
+		tcb.setOperationInitParams(opEntry);
+		tcb.setTaskName(flowKey + "_" + ALName + "_" + typeOfEntry);
+
+		readALFC.initialize(null);
+	
+	} catch (ex) {
+		logmsg("ERROR", ex);
+		throw ex;
+	}	
+}
+
+lastType = currentType;
+
+work.removeAllAttributes();
+
+try {
+	readError = "";
+	entry = null;
+	
+	entry = readALFC.perform(null);
+
+	if (entry != null && entry.size() > 0) {
+		work.merge(entry);
+		work.setOperation(entry.getOperation());
+		endpointEntry = system.newEntry();
+		endpointEntry.merge(work);
+	}
+	
+	// get the source LDAP Connector (if one exists) for later use to filter on groups
+	opEntry.setAttribute("$sourceLDAP", work.getObject("$sourceLDAP"));
+	opEntry.removeAttribute("$error");
+	opEntry.removeAttribute("$errorLogged");
+} catch (ex) {
+	setException(ex, "input")
+	
+	errorMsg = flowKey + "_" + thisConnector.getName(), resource.getString("LDAPSYNC.ERROR.READING.NEXT.ENTRY.FROM.SOURCE") + " - exception: " + ex
+	cname = thisConnector.getName()
+	failed.put(cname, errorMsg)
+	
+	addToStats(flowKey, "error", "error");
+	if (typeof(typeOfEntry) != "undefined")
+		addToStats(flowKey, typeOfEntry, "error")	
+		
+	logmsg("ERROR", errorMsg)
+	
+	skipEntry = true;
+	readError = errorMsg;
+
+	addToStats(flowKey, "skipping", "skipping");
+	if (typeof(typeOfEntry) != "undefined") {
+		addToStats(flowKey, typeOfEntry, "skipping");
+	}
+	
+	try {
+		readALFC.terminate();
+	} catch (ex) {
+		// do nothing
+	}	
+	readInitialized = true;
+	skipEntry = true;
+	abortFlow = true;
+	
+	system.exitBranch("Loop");
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

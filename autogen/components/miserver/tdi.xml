@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Feb 06 20:11:28 SGT 2008" version="7.1.1">
+	<Folder name="Loggers">
+		<Logger name="ibmdi.ConsoleAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.ConsoleAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">Console</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.CustomAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.CustomAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">Custom</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.DailyRollingFileAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.DailyRollingFileAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">DailyRollingFile</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.FileAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.FileAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">File</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.FileRollerAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.FileRollerAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">IDIFileRoller</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.JLOGCategoryBased">
+			<parameter name="categoryBased">true</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.JLOGCategoryBased</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDIJLog</parameter>
+		</Logger>
+		<Logger name="ibmdi.JLOGFileHandler">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.JLOGFileHandler</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDIJLog</parameter>
+			<parameter name="handler">FileHandler</parameter>
+		</Logger>
+		<Logger name="ibmdi.JULCategoryBased">
+			<parameter name="categoryBased">true</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.JULCategoryBased</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILogJUL</parameter>
+		</Logger>
+		<Logger name="ibmdi.JavaUtilLoggingFile">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.JavaUtilLoggingFile</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILogJUL</parameter>
+			<parameter name="handler">FileHandler</parameter>
+		</Logger>
+		<Logger name="ibmdi.Log4JCategoryBased">
+			<parameter name="categoryBased">true</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.Log4JCategoryBased</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.NTEventLogAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.NTEventLogAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">NTEventLog</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.SyslogAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.SyslogAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">Syslog</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+		<Logger name="ibmdi.SystemLogAppender">
+			<parameter name="categoryBased">false</parameter>
+			<parameter name="com.ibm.di.formName">ibmdi.SystemLogAppender</parameter>
+			<parameter name="com.ibm.di.log.appender">SystemLog</parameter>
+			<parameter name="com.ibm.di.log.interface">com.ibm.di.log.TDILog4j</parameter>
+		</Logger>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="ibmdi.ConsoleAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+			</FormItemNames>
+			<parameter name="title">CONSOLEAPPENDER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.CustomAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>Custom.AppenderParams</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+			</FormItemNames>
+			<FormItem name="Custom.AppenderParams">
+				<parameter name="description">CUSTOM_APPENDER_DESCR</parameter>
+				<parameter name="label">CUSTOM_APPENDER_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<parameter name="title">CUSTOM_APPENDER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.DailyRollingFileAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>DailyRollingFile.File</ListItem>
+				<ListItem>DailyRollingFile.Append</ListItem>
+				<ListItem>DailyRollingFile.DatePattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+				<ListItem>DailyRollingFile.Encoding</ListItem>
+			</FormItemNames>
+			<FormItem name="DailyRollingFile.Append">
+				<parameter name="default">false</parameter>
+				<parameter name="description">DAILYROLLER_APPEND_DESC</parameter>
+				<parameter name="label">DAILYROLLER_APPEND_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="DailyRollingFile.DatePattern">
+				<Values>
+					<ListItem>'.'yyyy-MM</ListItem>
+					<ListItem>'.'yyyy-MM-dd</ListItem>
+					<ListItem>'.'yyyy-MM-dd-HH</ListItem>
+					<ListItem>'.'yyyy-MM-dd-HH-mm</ListItem>
+					<ListItem>'.'dd-MM-yyyy</ListItem>
+				</Values>
+				<parameter name="default">'.'yyyy-MM-dd</parameter>
+				<parameter name="description">DAILYROLLER_DATEP_DESC</parameter>
+				<parameter name="label">DAILYROLLER_DATEP_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="DailyRollingFile.Encoding">
+				<parameter name="description">ENCODING_DESC</parameter>
+				<parameter name="label">ENCODING_LABEL</parameter>
+			</FormItem>
+			<FormItem name="DailyRollingFile.File">
+				<parameter name="description">DAILYROLLER_FILE_DESC</parameter>
+				<parameter name="label">DAILYROLLER_FILE_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<parameter name="title">DAILYROLLER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.FileAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>File.File</ListItem>
+				<ListItem>File.Append</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+				<ListItem>File.Encoding</ListItem>
+			</FormItemNames>
+			<FormItem name="File.Append">
+				<parameter name="default">false</parameter>
+				<parameter name="description">FILEAPPENDER_APPEND_DESC</parameter>
+				<parameter name="label">FILEAPPENDER_APPEND_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="File.Encoding">
+				<parameter name="description">ENCODING_DESC</parameter>
+				<parameter name="label">ENCODING_LABEL</parameter>
+			</FormItem>
+			<FormItem name="File.File">
+				<parameter name="description">FILEAPPENDER_FILEPATH_DESC</parameter>
+				<parameter name="label">FILEAPPENDER_FILEPATH_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<parameter name="title">FILEAPPENDER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.FileRollerAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>IDIFileRoller.File</ListItem>
+				<ListItem>IDIFileRoller.RollCount</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+				<ListItem>IDIFileRoller.Encoding</ListItem>
+			</FormItemNames>
+			<FormItem name="IDIFileRoller.Encoding">
+				<parameter name="description">ENCODING_DESC</parameter>
+				<parameter name="label">ENCODING_LABEL</parameter>
+			</FormItem>
+			<FormItem name="IDIFileRoller.File">
+				<parameter name="description">FILEROLLER_FILE_DESC</parameter>
+				<parameter name="label">FILEROLLER_FILE_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<FormItem name="IDIFileRoller.RollCount">
+				<parameter name="default">5</parameter>
+				<parameter name="description">FILEROLLER_NUMBER_DESC</parameter>
+				<parameter name="label">FILEROLLER_NUMBER_LABEL</parameter>
+			</FormItem>
+			<parameter name="title">FILEROLLER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.JLOGCategoryBased">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>categoryName</ListItem>
+			</FormItemNames>
+			<FormItem name="categoryName">
+				<parameter name="description">CATEGORY_DESCRIPTION</parameter>
+				<parameter name="label">CATEGORY_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">JLOG_CAT_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.JLOGFileHandler">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>File.File</ListItem>
+				<ListItem>File.Append</ListItem>
+				<ListItem>com.ibm.di.log.layout</ListItem>
+			</FormItemNames>
+			<FormItem name="File.Append">
+				<parameter name="default">false</parameter>
+				<parameter name="description">FILEAPPENDER_APPEND_DESC</parameter>
+				<parameter name="label">FILEAPPENDER_APPEND_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="File.File">
+				<parameter name="description">FILEAPPENDER_FILEPATH_DESC</parameter>
+				<parameter name="label">FILEAPPENDER_FILEPATH_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<FormItem name="com.ibm.di.log.layout">
+				<Values>
+					<ListItem>CBE101</ListItem>
+					<ListItem>Enhanced</ListItem>
+					<ListItem>Simple</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>CBE101</Key>
+						<Value>Localized.CBE101</Value>
+					</Item>
+					<Item>
+						<Key>Enhanced</Key>
+						<Value>Localized.Enhanced</Value>
+					</Item>
+					<Item>
+						<Key>Simple</Key>
+						<Value>Localized.Simple</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="default">CBE101</parameter>
+				<parameter name="description">JLOG_FILE_FORMATTER_DESC</parameter>
+				<parameter name="label">JLOG_FILE_FORMATTER_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<parameter name="title">JLOG_FILEHANDLER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.JULCategoryBased">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>categoryName</ListItem>
+			</FormItemNames>
+			<FormItem name="categoryName">
+				<parameter name="description">CATEGORY_DESCRIPTION</parameter>
+				<parameter name="label">CATEGORY_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">JUL_CAT_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.JavaUtilLoggingFile">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>fileName</ListItem>
+				<ListItem>formatter</ListItem>
+				<ListItem>limit</ListItem>
+				<ListItem>count</ListItem>
+				<ListItem>append</ListItem>
+			</FormItemNames>
+			<FormItem name="append">
+				<parameter name="default">false</parameter>
+				<parameter name="description">JUL_APPEND_DESC</parameter>
+				<parameter name="label">JUL_APPEND_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="count">
+				<parameter name="description">JUL_COUNT_DESC</parameter>
+				<parameter name="label">JUL_COUNT_LABEL</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<FormItem name="fileName">
+				<parameter name="description">JUL_FILE_DESC</parameter>
+				<parameter name="label">JUL_FILE_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">SELECT_FILE_LABEL</parameter>
+				<parameter name="scripthelp">SELECT_FILE_DESC</parameter>
+			</FormItem>
+			<FormItem name="formatter">
+				<Values>
+					<ListItem>Simple</ListItem>
+					<ListItem>XML</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>Simple</Key>
+						<Value>Localized.Simple</Value>
+					</Item>
+					<Item>
+						<Key>XML</Key>
+						<Value>Localized.XML</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="default">Simple</parameter>
+				<parameter name="description">FORMATTER_DESC</parameter>
+				<parameter name="label">FORMATTER_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="limit">
+				<parameter name="description">JUL_LIMIT_DESC</parameter>
+				<parameter name="label">JUL_LIMIT_LABEL</parameter>
+				<parameter name="syntax">number</parameter>
+			</FormItem>
+			<parameter name="title">JUL_FILE_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.Log4JCategoryBased">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>categoryName</ListItem>
+			</FormItemNames>
+			<FormItem name="categoryName">
+				<parameter name="description">CATEGORY_DESCRIPTION</parameter>
+				<parameter name="label">CATEGORY_LABEL</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">LOG4J_CAT_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.NTEventLogAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>NTEventLog.Source</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+			</FormItemNames>
+			<FormItem name="NTEventLog.Source">
+				<parameter name="default">itdi</parameter>
+				<parameter name="description">NTAPPENDER_SOURCE_DESC</parameter>
+				<parameter name="label">NTAPPENDER_SOURCE_LABEL</parameter>
+			</FormItem>
+			<parameter name="title">NTAPPENDER_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.SyslogAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>Syslog.SyslogHost</ListItem>
+				<ListItem>Syslog.Facility</ListItem>
+				<ListItem>Syslog.FacilityPrinting</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.layout</ListItem>
+				<ListItem>$GLOBAL.Pattern.ConversionPattern</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+			</FormItemNames>
+			<FormItem name="Syslog.Facility">
+				<Values>
+					<ListItem>kern</ListItem>
+					<ListItem>user</ListItem>
+					<ListItem>mail</ListItem>
+					<ListItem>daemon</ListItem>
+					<ListItem>auth</ListItem>
+					<ListItem>syslog</ListItem>
+					<ListItem>lpr</ListItem>
+					<ListItem>news</ListItem>
+					<ListItem>cron</ListItem>
+					<ListItem>authpriv</ListItem>
+					<ListItem>ftp</ListItem>
+					<ListItem>local0</ListItem>
+					<ListItem>local1</ListItem>
+					<ListItem>local2</ListItem>
+					<ListItem>local3</ListItem>
+					<ListItem>local4</ListItem>
+					<ListItem>local5</ListItem>
+					<ListItem>local6</ListItem>
+					<ListItem>local7</ListItem>
+				</Values>
+				<parameter name="default">local7</parameter>
+				<parameter name="description">SYSLOG_FACILITY_DESC</parameter>
+				<parameter name="label">SYSLOG_FACILITY_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="Syslog.FacilityPrinting">
+				<parameter name="default">true</parameter>
+				<parameter name="description">SYSLOG_FACILITY_PRINT_DESC</parameter>
+				<parameter name="label">SYSLOG_FACILITY_PRINT_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="Syslog.SyslogHost">
+				<parameter name="default">127.1.0.1</parameter>
+				<parameter name="description">SYSLOG_HOST_DESC</parameter>
+				<parameter name="label">SYSLOG_HOST_LABEL</parameter>
+			</FormItem>
+			<parameter name="title">SYSLOG_TITLE</parameter>
+		</Form>
+		<Form name="ibmdi.SystemLogAppender">
+			<TranslationFile>NLS/idi_ser_miserver</TranslationFile>
+			<FormItemNames>
+				<ListItem>SystemLog.LogPattern</ListItem>
+				<ListItem>information.systemlog</ListItem>
+				<ListItem>$GLOBAL.com.ibm.di.log.level</ListItem>
+				<ListItem>SystemLog.Encoding</ListItem>
+				<ListItem>SystemLog.MaxGenerations</ListItem>
+				<ListItem>$GLOBAL.enabled</ListItem>
+			</FormItemNames>
+			<FormItem name="SystemLog.MaxGenerations">
+				<parameter name="description">MAX_GENERATIONS_DESC</parameter>
+				<parameter name="label">MAX_GENERATIONS_LABEL</parameter>
+				<parameter name="syntax">number</parameter>
+				<parameter name="minValue">1</parameter>
+			</FormItem>
+			<FormItem name="SystemLog.Encoding">
+				<parameter name="description">ENCODING_DESC</parameter>
+				<parameter name="label">ENCODING_LABEL</parameter>
+			</FormItem>
+			<FormItem name="SystemLog.LogPattern">
+				<Values>
+					<ListItem>%d{DEFAULT} %-5p [%c] - %m%n</ListItem>
+					<ListItem>%d{HH:mm:ss} %p [%t] - %m%n</ListItem>
+					<ListItem>%p [%t] %c %d{HH:mm:ss,SSS} - %m%n</ListItem>
+				</Values>
+				<parameter name="default">%d{DEFAULT} %-5p [%c] - %m%n</parameter>
+				<parameter name="description">LOG_PATTERN_DESC</parameter>
+				<parameter name="label">LOG_PATTERN_LABEL</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="information.systemlog">
+				<parameter name="description">SYSTEMLOG_INFORMATION_TEXT</parameter>
+				<parameter name="label">SYSTEMLOG_INFORMATION_LABEL</parameter>
+				<parameter name="syntax">static</parameter>
+			</FormItem>
+			<parameter name="title">SYSTEMLOG_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

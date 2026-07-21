@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Parsers">
+		<Parser name="ibmdi.SPMLv2Parser">
+			<parameter name="class">com.ibm.di.parser.SPMLv2Parser</parameter>
+			<parameter name="binaryAttributes"><![CDATA[photo, personalSignature, audio, jpegPhoto, javaSerializedData, thumbnailPhoto, 
+thumbnailLogo, userPassword, userCertificate, authorityRevocationList, 
+certificateRevocationList, crossCertificatePair, x500UniqueIdentifier, 
+objectGUID, objectSid]]></parameter>
+			<parameter name="characterSet">UTF-8</parameter>
+			<parameter name="description">PAR_DESC</parameter>
+		</Parser>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.parser.SPMLv2Parser">
+			<TranslationFile>NLS/idi_par_spmlv2</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>binaryAttributes</ListItem>
+					<ListItem>characterSet</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>binaryAttributes</ListItem>
+				<ListItem>characterSet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="binaryAttributes">
+				<parameter name="description">BA_DESC</parameter>
+				<parameter name="label">BA_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="characterSet">
+				<parameter name="description">CHAR_DESC</parameter>
+				<parameter name="label">CHAR_TITLE</parameter>
+				<parameter name="suntax">STRING</parameter>
+			</FormItem>
+			<parameter name="title">PAR_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

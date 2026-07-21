@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="25" UUID="48cd05a2-6b52-48b8-8430-c5d991617cfc" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="ignoreNoDataReturnedForALFC" modified="Fri May 15 11:35:47 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="ignoreNoDataReturnedForALFC">
+        <ModTime>1431682547413</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (typeof writeInitError !== "undefined") {
+	throw writeInitError;
+}
+
+alError = work.getObject("$error");
+
+if (alError != null) {
+	error.cause = alError;
+	error.merge(alError);
+}
+
+try {
+	errorstr = error.getString("message");
+} catch (ex) {
+	errorstr = "";
+}
+
+if (errorstr.indexOf("CTGDIS047W") >= 0) { // no data returned
+	tcb = thisConnector.getFunction().getTCB();
+	
+	if (tcb["$error"] !== null && tcb["$exception"] !== null) {
+		error.merge(tcb.getObject("$error"));
+	}
+
+	if (tcb["$stopFlow"] !== null) {
+		abortFlow = "true".equalsIgnoreCase(tcb.getString("$stopFlow"));
+	}	
+	system.ignoreEntry()
+}
+
+// for all other FC errors, skip processing
+skipEntry = true;
+work["$writeStatus"] = "failed";
+work["$change"] = false;]]></parameter>
+    </Script>
+</MetamergeConfig>

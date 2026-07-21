@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.Axis2WSClientFC">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.axis2.Axis2WSClientFC</parameter>
+				<parameter name="wsdlUrl"/>
+				<parameter name="service"/>
+				<parameter name="operation"/>
+				<parameter name="endpoint"/>
+				<parameter name="username"/>
+				<parameter name="password"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$soapHeader</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-length</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.content-type</Name> 
+					<Syntax>String</Syntax> 
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$soapHeader</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.axis2.Axis2WSClientFC">
+			<TranslationFile>NLS/idi_fc_axis2_ws_client</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>wsdlUrl</ListItem>
+					<ListItem>service</ListItem>
+					<ListItem>operation</ListItem>
+					<ListItem>endpoint</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>username</ListItem>
+					<ListItem>password</ListItem>
+					<ListItem>axis2.connection.timeout</ListItem>
+					<ListItem>wsdlAuthUser</ListItem>
+					<ListItem>wsdlAuthPass</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>wsdlUrl</ListItem>
+				<ListItem>service</ListItem>
+				<ListItem>operation</ListItem>
+				<ListItem>endpoint</ListItem>
+				<ListItem>username</ListItem>
+				<ListItem>password</ListItem>
+				<ListItem>axis2.connection.timeout</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="wsdlUrl">
+				<parameter name="description">WSDL_DESC</parameter>
+				<parameter name="label">WSDL_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="service">
+				<parameter name="description">SERVICE_DESC</parameter>
+				<parameter name="label">SERVICE_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="script">getServicesFromWSDL</parameter>
+				<parameter name="scriptLabel">SERVICE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">SERVICE_SCRIPT_HELP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="operation">
+				<parameter name="description">OP_DESC</parameter>
+				<parameter name="label">OP_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="script">getServiceOperations</parameter>
+				<parameter name="scriptLabel">OP_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">OP_SCRIPT_HELP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="endpoint">
+				<parameter name="description">EP_DESC</parameter>
+				<parameter name="label">EP_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="script">getServiceEndPoints</parameter>
+				<parameter name="scriptLabel">EP_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">EP_SCRIPT_HELP</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="username">
+				<parameter name="description">USER_DESC</parameter>
+				<parameter name="label">USER_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="password">
+				<parameter name="description">PASS_DESC</parameter>
+				<parameter name="label">PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="wsdlAuthUser">
+				<parameter name="description">WSDL_USERNAME_DESC</parameter>
+				<parameter name="label">WSDL_USERNAME_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="wsdlAuthPass">
+				<parameter name="description">WSDL_PASS_DESC</parameter>
+				<parameter name="label">WSDL_PASS_LBL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="axis2.connection.timeout">
+				<parameter name="description">timeout_desc</parameter>
+				<parameter name="label">timeout_label</parameter>
+				<parameter name="syntax">number</parameter>
+				<parameter name="minValue">0</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

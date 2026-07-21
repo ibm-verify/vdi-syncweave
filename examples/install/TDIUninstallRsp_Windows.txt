@@ -1,0 +1,44 @@
+################################################################################
+# 
+# IBM Tivoli Directory Integrator v7.2 Response File
+# This file contains values that were specified during a recent execution of
+# the WBE install. It can be used to configure the WBE install with the options 
+# specified below when the wizard is run with the "-f" command line option. 
+# 
+# A common use of a response file is to run the wizard in silent mode. This lets
+# the response file author specify wizard settings without having to run the
+# wizard in graphical or console mode. To use this response file for silent mode
+# execution, use the following command line arguments when running the wizard:
+# 
+# -f "C:\Documents and Settings\Administrator\Local Settings\Temp\tdi_respfile72.txt" -i silent
+# 
+################################################################################
+################################################################################
+# TDI Uninstallation Panel"
+# 
+# TDI Section defines which type of uninstallation is chosen
+# If complete uninstall is selected then it will uninstall the
+# whole product. If you want to uninstall some of TDI features
+# select Unistall type 'SELECTED' and the select features
+# Example: 
+#   CHOSEN_UNINSTALL_SET=COMPLETE/SELECTED
+
+CHOSEN_UNINSTALL_SET =COMPLETE
+
+################################################################################
+# A comma separated list of features to uninstall.  Only valid if
+# FEATURE_UNINSTALL=SELECTED.  For "+TDIVer+" the choices are:
+#    Server
+#    Configuration Editor
+#    Configuration Editor Update Site
+#    IBM User Interface Help System built on Eclipse
+#    Examples
+#    Embedded Web Platform
+#    Administration and Monitoring Console
+#    Password Synchronization Plugins
+#
+# Example:
+#    FEATURE_UNINSTALL_LIST=Server,CE,Examples,JavaDocs,IBM User Interface Help System built on Eclipse,embedded web platform,
+#                           Administration and Monitoring Console,Password Synchronization Plugins,Configuration Editor Update Site
+
+FEATURE_UNINSTALL_LIST=JavaDocs,Examples,Server,CE,embedded web platform,Administration and Monitoring Console

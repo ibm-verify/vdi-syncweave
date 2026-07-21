@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Fri May 19 18:31:59 IST 2006" createdBy="administrator" modified="Fri May 19 18:31:59 IST 2006" modifiedBy="administrator" version="1.2">
+<Folder name="AssemblyLines"/>
+<Folder name="Connectors">
+<Connector name="msoutlook">
+<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="includeFiles"/>
+<parameter name="script"><![CDATA[//
+// This script implements all the necessary functions for accessing
+// the Contacts register in MS Outlook.
+// Assumes that the number of entries in contact folder is constant for the run
+
+ol = system.createCOMInstance("Outlook.Application");
+
+ns = COMProxy.call(ol,"GetNameSpace","MAPI");
+
+contacts = COMProxy.call(ns.toObject(),"getDefaultFolder",10);
+
+var item;
+var counter = 0;
+var oldstring="";
+
+var decode="";
+
+var outlookEntry = system.newEntry();
+
+function selectEntries(){
+	counter = 0;
+}
+
+function getNextEntry (){
+	ol = system.createCOMInstance("Outlook.Application");
+
+	ns = COMProxy.call(ol,"GetNameSpace","MAPI");
+
+	contacts = COMProxy.call(ns.toObject(),"getDefaultFolder",10);
+
+	items = COMProxy.call(contacts.toObject(),"Items");
+
+	count = COMProxy.get(items.toObject(),"count");
+
+	counter++;
+	if(counter > count){ 
+		result.setStatus(0);
+		result.setMessage("End of input");
+	}else{
+		item = COMProxy.call(items.toObject(),"Item",counter);
+		populateEntry();
+	}
+}
+
+function findEntry (){
+	flt = "[" + search.getFirstCriteriaName() + "] = " + search.getFirstCriteriaValue();
+	items = COMProxy.call(contacts.toObject(),"Items");
+	item = COMProxy.call(items.toObject(),"Find",flt);
+	if (item == null){
+		result.setStatus(0)
+		result.setMessage("Not found" + "--->["+ flt + "]");
+	}
+	else
+		populateEntry();
+}
+
+function modEntry (){
+    populateItem();
+    COMProxy.call(item.toObject(),"Save");
+}
+
+function deleteEntry (){
+	COMProxy.call(item.toObject(),"Delete");
+}
+
+function putEntry (){
+	items = COMProxy.call(contacts.toObject(),"Items");
+	item = COMProxy.get(items.toObject(),"Add");
+	if(item==null){
+		result.setStatus(2)
+		result.setMessage("Unabled to create item");
+		return;
+	}
+	oldString = entry.getString("FullName");
+	COMProxy.put(item.toObject(),"FileAs",oldString);
+	populateItem();
+	COMProxy.call(item.toObject(),"Save");
+}
+
+function populateEntry (){
+	entry.setAttribute("FileAs", COMProxy.get(item.toObject(),"FileAs"));
+	entry.setAttribute("FullName", COMProxy.get(item.toObject(),"FullName"));
+	entry.setAttribute("Email1Address", COMProxy.get(item.toObject(),"Email1Address"));
+	entry.setAttribute("Birthday", COMProxy.get(item.toObject(),"Birthday"));
+
+	entry.setAttribute("BusinessAddress", COMProxy.get(item.toObject(),"BusinessAddress"));
+	entry.setAttribute("BusinessTelephoneNumber", COMProxy.get(item.toObject(),"BusinessTelephoneNumber"));
+	entry.setAttribute("BusinessFaxNumber", COMProxy.get(item.toObject(),"BusinessFaxNumber"));
+	entry.setAttribute("CompanyName", COMProxy.get(item.toObject(),"CompanyName"));
+	entry.setAttribute("JobTitle", COMProxy.get(item.toObject(),"JobTitle"));
+
+	entry.setAttribute("HomeAddress", COMProxy.get(item.toObject(),"HomeAddress"));
+	entry.setAttribute("HomeTelephoneNumber", COMProxy.get(item.toObject(),"HomeTelephoneNumber"));
+	entry.setAttribute("HomeFaxNumber", COMProxy.get(item.toObject(),"HomeFaxNumber"));
+
+	entry.setAttribute("MobileTelephoneNumber", COMProxy.get(item.toObject(),"MobileTelephoneNumber"));
+
+	entry.setAttribute("Categories", COMProxy.get(item.toObject(),"Categories"));
+	entry.setAttribute("LastModificationTime", COMProxy.get(item.toObject(),"LastModificationTime"));
+        outlookEntry = entry.clone(entry);
+}
+
+function populateItem (){
+	outlookEntry.merge(entry);
+        COMProxy.put(item.toObject(),"FileAs", outlookEntry.getString("FileAs"));
+	COMProxy.put(item.toObject(),"FullName", outlookEntry.getString("FullName"));
+	COMProxy.put(item.toObject(),"Email1Address", outlookEntry.getString("Email1Address"));
+	COMProxy.put(item.toObject(),"BusinessAddress", outlookEntry.getString("BusinessAddress"));
+	COMProxy.put(item.toObject(),"BusinessTelephoneNumber", outlookEntry.getString("BusinessTelephoneNumber"));
+	COMProxy.put(item.toObject(),"BusinessFaxNumber",outlookEntry.getString("BusinessFaxNumber"));
+	COMProxy.put(item.toObject(),"JobTitle", outlookEntry.getString("JobTitle")) ;
+	COMProxy.put(item.toObject(),"CompanyName", outlookEntry.getString("CompanyName")) ;
+	COMProxy.put(item.toObject(),"HomeAddress",outlookEntry.getString("HomeAddress")) ;
+	COMProxy.put(item.toObject(),"HomeTelephoneNumber", outlookEntry.getString("HomeTelephoneNumber")) ;
+	COMProxy.put(item.toObject(),"HomeFaxNumber", outlookEntry.getString("HomeFaxNumber")) ;
+	COMProxy.put(item.toObject(),"Categories", outlookEntry.getString("Categories"));
+	if (outlookEntry.getString("Birthday")!=null && !outlookEntry.getString("Birthday").equals(" "))
+		COMProxy.put(item.toObject(),"Birthday", outlookEntry.getString("Birthday"));
+}
+
+function querySchema(o){
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "FileAs");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+	
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "FullName");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "Email1Address");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "BusinessAddress");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "BusinessTelephoneNumber");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "BusinessFaxNumber");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "JobTitle");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "CompanyName");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "HomeAddress");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "HomeTelephoneNumber");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "HomeFaxNumber");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "Categories");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+
+	e = new Packages.com.ibm.di.entry.Entry();
+	e.setAttribute("name", "Birthday");
+	e.setAttribute("syntax", "java.lang.String");
+	e.setAttribute("size", "");
+	e.setAttribute("type", "");
+	list.add(e);
+}
+]]></parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>Birthday</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>BusinessAddress</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>BusinessFaxNumber</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>BusinessTelephoneNumber</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Categories</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>CompanyName</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Email1Address</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FileAs</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>FullName</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomeAddress</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomeFaxNumber</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>HomeTelephoneNumber</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>JobTitle</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<NativeSyntax>java.lang.String</NativeSyntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>LastModificationTime</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>MobileTelephoneNumber</Name>
+<Syntax>com.ibm.di.automation.VARIANT</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+<Enabled>false</Enabled>
+<MinPoolSize>0</MinPoolSize>
+<PurgeInterval>0</PurgeInterval>
+<InitializeAttempts>1</InitializeAttempts>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</Folder>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="12" UUID="1d92d24e-2f80-422a-ae59-094103649087" created="Thu Mar 13 14:41:44 CET 2014" createdBy="Administrator" main="RulesEngine" modified="Fri Mar 14 10:18:19 CET 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="RulesEngine">
+        <ModTime>1394788699576</ModTime>
+        <parameter name="autoInclude">true</parameter>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[var Rules_vrs = "20140313 1442" // Fixing writeback problem when out-of-scope changes occur
+
+task.logmsg("RulesEngine vrs. " + Rules_vrs);
+//
+// Rules Engine - RulesEngine and support objects
+//
+mapFileTypes = {
+	mapFile : "mapfile"
+}
+
+ruleComponents = {
+	config : "config",
+	flow : "flow",
+	endpoint : "endpoint",
+	condition : "condition",
+	response : "response"
+}	
+
+responseParts = {
+	al : "al",
+	mapfile : "mapfile"
+}
+
+conditionTypes = {
+	builtin : "builtin",
+	script : "script"
+}
+
+conditionOperators = {
+	childof : "childof",
+	equals : "equals",
+	contains : "contains",
+	startswith : "startswith",
+	endswith : "endswith"
+}
+
+// OBJECT Response - the respose to a rule that is satisfied - typically an AL to run
+function Response(ruleNumber, responseNumber, responseType, entryType, payload, paramEntry, config, flow) {
+	this.ruleNumber = ruleNumber
+	this.responseNumber = responseNumber
+	this.type = responseType
+	this.entrytype = entryType
+	this.alname = payload
+	this.alfcs = new java.util.concurrent.ConcurrentHashMap()
+	this.paramEntry = paramEntry
+	this.mapFile = null
+	
+	this.config = config
+	this.flow = flow
+	
+	this.make = function () {
+		var wasMade = false
+		if (this.alfcs.size() == 0) {
+			throw "No response AL specified"
+		}
+		
+		var alfc = this.alfcs.get(this.alname)
+		
+		if (typeof(alfc) == "string") {
+			throw resource.getString("LDAPSYNC.RESPONSE.AL.IN.FAILED.STATE") + ": " + this.alname + " - " + alfc
+		}
+		
+		try {
+			var entry = alfc.perform(work)
+			return true
+		} catch (ex) {
+			this.alfcs.put(this.alname, alfc)
+			throw resource.getString("LDAPSYNC.RESPONSE.AL.FAILED") + ": " + this.alname + " - " + ex
+		}
+	}
+	
+	this.initialize = function () {
+		var alName = this.alname
+		var tcb;
+
+		opEntry[flowKey + "_temp.prop"] = alName
+		alName = getALName(flowKey + "_temp.prop")
+		
+		if (alName == null || alName.length == 0) {
+			throw resource.getString("LDAPSYNC.RESPONSE.AL.NOT.SPECIFIED.OR.NOT.FOUND") + ": " + alName
+		}
+		
+		var alfc = this.alfcs.get(this.alname)
+		
+		if (alfc == null) {
+			try {
+				alfc = system.getFunction("ibmdi.AssemblyLineFC")
+			
+				alfc.setParam("assemblyLine", alName)
+				alfc.setParam("userComment", new java.util.Date().toString())
+				alfc.setParam("shareLog", "true")
+				alfc.setParam("mode", "2") // Manual mode
+
+				tcb = alfc.getTCB();
+				passGlobalVariablesViaTCB(tcb);	
+				this.paramEntry["response.mapFile"] = this.mapFile
+				this.paramEntry["response.flow"] = this.flow
+				this.paramEntry["response.config"] = this.config
+				this.paramEntry["response.endpoint"] = this.endpoint
+				tcb.setOperationInitParams(this.paramEntry)	
+				tcb.setTaskName(flowKey + "_" + alName + "_response")
+		
+				alfc.initialize(null)
+
+				this.alfcs.put(this.alname, alfc)
+			} catch (ex) {
+				alfc = resource.getString("LDAPSYNC.RESPONSE.AL.INITIALIZATION.FAILED") + " - " + ex
+				this.alfcs.put(this.alname, alfc)
+				throw ex
+			}
+		}
+	}
+	
+	this.setMapFile = function(mapFile) {
+		this.mapFile = mapFile
+	}
+	
+	this.setFlow = function(flow) {
+		this.flow = flow
+	}
+	
+	this.setConfig = function(config) {
+		this.config = config
+	}
+	
+	this.terminate = function() {
+		if (typeof(this.alfcs) == "undefined" || this.alfcs == null) {
+			return
+		}
+		
+		var keys = this.alfcs.keySet().toArray()
+		for (var key in keys) {
+			var alfc = this.alfcs.get(key)
+			try {
+				alfc.terminate()
+			} catch (ex) {
+				// do nothing @@TODO perhaps
+			}
+			this.alfcs.remove(key)
+		}
+	}
+
+	this.print = function () {
+		logmsg("    ALname: " + this.payload)
+	}
+		
+	this.initialize();
+	
+	return this;
+}
+
+// OBJECT: Condition - can be script or built-in
+function Condition(ruleNumber, conditionNumber, type, payload, paramEntry) {
+	this.ruleNumber = ruleNumber
+	this.conditionNumber = conditionNumber
+	this.type = type
+	this.payload = payload
+	// these are built-in codition parameters
+	this.negate = false
+	this.operand = "?operand?"
+	this.operator = "?operator?"
+	this.value = "?value?"
+	this.conditionType = "* not defined *"
+	this.paramEntry = paramEntry
+
+	this.parseCondition = function(condition) {
+		if (condition == null) {
+			return
+		}
+		
+		condition = condition.trim()
+		var termndx = 0
+		var changeTerm = false
+		var parts = system.splitString(condition, " ")
+		
+		if (parts.length < 3) {
+			throw "Invalid rule condition property value: " + condition
+		}
+		
+		ndx = 0
+		
+		if (parts[ndx].toLowerCase().equals("not")) {
+			this.negate = true
+			ndx++
+		}
+		
+		this.operand = parts[ndx++].toLowerCase()
+		this.operator = parts[ndx++].toLowerCase()
+		this.value = parts[ndx++]
+		this.valueLC = this.value.toLowerCase()
+		
+		if (conditionOperators[this.operator] == null) {
+			throw "Invalid rule condition operator"
+		}
+		
+		if (this.valueLC.equals("source.searchbase")) {
+			this.value = dnLC(this.paramEntry.getString("source.ldap.searchBase"), false);
+			
+		} else
+		if (this.valueLC.equals("target.container")) {
+			if ("true".equalsIgnoreCase(this.paramEntry.getString("mirroring.enabled")) && "true".equalsIgnoreCase(this.paramEntry.getString("global.preserveSourceContainers"))) {
+				this.value = dnLC(this.paramEntry.getString("target.ldap.searchBase"), false);
+			} else {
+				this.value = dnLC(this.paramEntry.getString("target.suffixForUsers"), false);
+			}	
+		}
+		
+		if (this.operator.equals(conditionOperators.childof)) {
+			this.operator = conditionOperators.endswith
+		}
+	}
+
+	this.satisfiedBuiltIn = function () {
+		var operand = work.getString(this.operand)
+		if (operand == null) {
+			return false
+		}
+		
+		operand = dnLC(operand, false);
+		
+		if (operand == null) {
+			satisfied = false
+		} else {
+			var satisfied = false
+			switch (this.operator) {
+				case conditionOperators.equals :
+					satisfied = operand.equals(this.value)
+					break
+				case conditionOperators.startswith :
+					satisfied = operand.startsWith(this.value)
+					break
+				case conditionOperators.endswith :
+					satisfied = operand.endsWith(this.value)
+					break
+				case conditionOperators.contains :
+					satisfied = operand.indexOf(this.value) >= 0
+					break
+			}
+		}	
+
+		if (deBug) logmsg("[Built-In] #" + this.ruleNumber + "/" + this.conditionNumber 
+							+ " (" + satisfied + ") "
+							+ " -> " + operand + " " 
+							+ "<" + this.operator.toUpperCase() + "> " + this.value)
+
+		return satisfied
+	}
+	
+	this.satisfiedScript = function () {
+		if (deBug) logmsg("[Script] #" + this.ruleNumber + "/" + this.conditionNumber + " -> " + this.type + " - " + this.payload)
+		return true
+	}
+	
+	this.initialize = function() {
+		if (this.type == conditionTypes.builtin) {
+			this.parseCondition(this.payload)
+			this.satisfied = this.satisfiedBuiltIn
+		} else
+		if (this.type == conditionTypes.script) {
+			this.satisfied = this.satisfiedScript
+		} else {
+			throw resource.getString("LDAPSYNC.UNKNOWN.CONDITION.TYPE") + ": " + this.type
+		}
+	}
+	
+	this.print = function () {
+		logmsg("    type: " + this.type + "    payload: " + this.payload)
+	}
+	
+	this.initialize();
+	
+	return this;
+}
+
+// OBJECT: Rule - represents a single rule: condition + response
+//
+function Rule(ruleNumber, paramEntry) {
+	this.ruleNumber = ruleNumber
+	this.conditions = new java.util.concurrent.ConcurrentHashMap()
+	this.responses = new java.util.concurrent.ConcurrentHashMap()
+	this.endpoint = "* undefined *"
+	this.paramEntry = paramEntry
+	this.flow = "* undefined *"
+	this.config = "* undefined *"
+	
+	this.addCondition = function (conditionNumber, type, payload) {
+		var cond = new Condition(this.ruleNumber, conditionNumber, type, payload, this.paramEntry)
+		this.conditions.put(conditionNumber, cond)
+	}
+	
+	this.addResponse = function (responseNumber, responseType, entryType, payload) {
+		var resp = new Response(this.ruleNumber, responseNumber, responseType, entryType, payload, this.paramEntry, this.config, this.flow)
+		this.responses.put(responseNumber, resp)
+	}
+	
+	this.setFlow = function(flow) {
+		this.flow = flow
+		if (typeof(this.responses) == "undefined" || this.responses == null) {
+			return
+		}
+		var keys = this.responses.keySet().toArray()
+		for (var key in keys) {
+			var response = this.responses.get(key)
+			response.setFlow(flow)
+		}
+	}
+	
+	this.setConfig = function(config) {
+		this.config = config
+		if (typeof(this.responses) == "undefined" || this.responses == null) {
+			return
+		}
+		var keys = this.responses.keySet().toArray()
+		for (var key in keys) {
+			var response = this.responses.get(key)
+			response.setConfig(config)
+		}
+	}
+	
+	this.setEndpoint = function (payload) {
+		this.endpoint = payload
+	}
+	
+	this.addMapFile = function (responseNumber, mapFile) {
+		var response = this.responses.get(responseNumber)
+		if (response != null) {
+			response.setMapFile(mapFile)
+		}	
+	}
+	
+	this.satisfied = function () {
+		if (typeof(this.conditions) == "undefined" || this.conditions == null) {
+			return
+		}
+		if (deBug) logmsg("---- RULE " + this.ruleNumber + "(ep: " + this.flow + ") checking conditions")
+		var keys = this.conditions.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		for (var key in keys) {
+			var condition = this.conditions.get(key)
+			try {
+				if (!condition.satisfied()) {
+					return false
+				}
+			} catch (ex) {
+				throw ex
+				return false
+			}	
+		}
+		return true
+	}
+	
+	this.makeResponse = function () {
+
+		// if no responses defined, add the default to call WriteBack AL
+		if (this.responses.size() == 0) {
+			if (deBug) logmsg(".... RULE " + this.ruleNumber + "(" + this.endpoint + ") no responses defined")
+			return
+		}
+
+		if (deBug) logmsg(".... RULE " + this.ruleNumber + "(" + this.endpoint + ") making responses")
+
+		var keys = this.responses.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		for (var key in keys) {
+			var response = this.responses.get(key)
+			try {
+				response.make()
+			} catch (ex) {
+				throw ex
+			}	
+		}
+		
+		return true
+	}
+	
+	this.terminate = function() {
+		if (typeof(this.responses) == "undefined" || this.responses == null) {
+			return
+		}
+		
+		var keys = this.responses.keySet().toArray()
+		for (var key in keys) {
+			var response = this.responses.get(key)
+			response.terminate()
+			this.responses.remove(key)
+		}
+	}
+	
+	this.print = function() {
+		if (typeof(this.conditions) == "undefined" || this.conditions == null) {
+			logmsg("  No conditions found")
+			return
+		}
+		var keys = this.conditions.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		for (var key in keys) {
+			var condition = this.conditions.get(key)
+			logmsg("  condition " + key)
+			try {
+				condition.print()
+			} catch (ex) {
+				logmsg("ERROR", "  ERROR printing condition: " + ex)
+			}	
+		}
+		return true
+		if (typeof(this.responses) == "undefined" || this.responses == null) {
+			logmsg("  No responses found")
+			return
+		}
+		
+		var keys = this.responses.keySet().toArray()
+		for (var key in keys) {
+			var response = this.responses.get(key)
+			logmsg("  response " + key)
+			try {
+				response.print()
+			} catch (ex) {
+				logmsg("ERROR", "  ERROR printing response: " + ex)
+			}
+		}
+	}
+	
+	return this;
+}
+
+// OBJECT: RulesEngine - which maintains of rules'
+//
+function RulesEngine(typeString) {
+	if (typeof(typeString) == "undefined") {
+		typeString = "writeback"
+	}
+	this.type = typeString.toLowerCase()
+	this.rules = null
+	this.baseErrorMsg = resource.getString("LDAPSYNC.ERROR.PARSING.RULES")
+	this.badPropertyMsg = resource.getString("LDAPSYNC.PROPERTY.NAME.INVALID")
+	
+	this.reportError = function(msg) {
+		this.error = msg
+		logmsg("ERROR", this.error)
+	}
+	
+	this.terminate = function () {
+		if (typeof(this.rules) == "undefined" || this.rules == null) {
+			this.rules = null
+			return
+		}
+		
+		var keys = this.rules.keySet().toArray()
+		for (var key in keys) {
+			var rule = this.rules.get(key)
+			rule.terminate()
+			this.rules.remove(key)
+		}
+	}
+	
+	this.parseRules = function (paramEntry) {
+		if (typeof(this.rules) == "undefined" || this.rules == null) {
+			this.rules = new java.util.concurrent.ConcurrentHashMap()
+		}	
+		var currentRule = null
+		var lastCondition = null
+		
+		// --- build rules
+
+		paramNames = paramEntry.getAttributeNames()
+		java.util.Arrays.sort(paramNames)
+		var searchStr = this.type + ".rule."
+		var rule = null
+		
+		for (var paramName in paramNames) {
+			paramValue = paramEntry.getObject(paramName)
+			
+			var p = paramName.indexOf(searchStr)
+			
+			if (p < 0) {
+				continue
+			}
+			
+			try {
+				var pName = paramName.substring(p+searchStr.length)
+				var ruleParts = system.splitString(pName, ".")
+				
+				if (ruleParts.length <= 1) {
+					throw "Invalid rule property"
+				}
+				
+				var ndx = 0
+				// get rule number/id
+				var ruleNumber = ruleParts[ndx++]
+				
+				if (currentRule != ruleNumber){
+					rule = this.rules.get(ruleNumber)
+					if (rule == null) {
+						rule = new Rule(ruleNumber, paramEntry)
+						this.rules.put(ruleNumber, rule)
+					}	
+					
+					currentRule = ruleNumber
+				}
+	
+				// get rule component (enpoint, condition or response)
+				var componentType = ruleParts[ndx++].toLowerCase().trim()
+				// get rule payload (after = sign)
+				var rulePayload = paramValue
+	
+				if (componentType.equals(ruleComponents.endpoint)) {
+					rule.setEndpoint(rulePayload)
+					continue
+				} else
+				if (componentType.equals(ruleComponents.flow)) {
+					rule.setFlow(rulePayload)
+					continue
+				} else
+				if (componentType.equals(ruleComponents.config)) {
+					rule.setConfig(rulePayload)
+					continue
+				}
+				
+				if ((ndx+1) >= ruleParts.length) {
+					throw "Incomplete rule property"
+				}
+				
+				var itemNumber = ruleParts[ndx++]
+				var itemType = ruleParts[ndx++].toLowerCase().trim()
+				
+				if (componentType.equals(ruleComponents.condition)) {
+					rule.addCondition(itemNumber, itemType, rulePayload)	
+				} else
+				if (componentType.equals(ruleComponents.response)) {
+					if (ndx >= ruleParts.length) {
+						throw "Invalid rule response property"
+					}
+					var responsePart = ruleParts[ndx].toLowerCase().trim()
+					if (responsePart.equals(responseParts.al)) {
+						rule.addResponse(itemNumber, responsePart, itemType, rulePayload)
+					} else
+					if (responsePart.equals(responseParts.mapfile)) {
+						rule.addMapFile(itemNumber, itemType, rulePayload)
+					}	
+				} else {
+					throw badPropertyMsg
+				}	
+			} catch (ex) {
+				this.reportError(ex + " - " + paramName)
+			}		
+		}
+	}
+	
+	this.initialized = function () {
+		return rules != null
+	}
+	
+	this.runRules = function () {
+		if (this.rules == null) {
+			return
+		}
+		var keys = this.rules.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		for (var key in keys) {
+			var rule = this.rules.get(key)
+			try {
+				if (rule.satisfied()) {
+					rule.makeResponse()
+				}
+			} catch (ex) {
+				this.reportError(resource.getString("LDAPSYNC.RULERESPONSE.ERROR") + " (" + rule.ruleNumber + ") - " + ex)
+			}
+		}
+	}
+	
+	this.print = function() {
+		if (this.rules == null) {
+			logmsg("No rules found")
+			return
+		}
+		var keys = this.rules.keySet().toArray()
+		java.util.Arrays.sort(keys)
+		for (var key in keys) {
+			var rule = this.rules.get(key)
+			try {
+				rule.print()
+			} catch (ex) {
+				this.reportError(resource.getString("LDAPSYNC.RULERESPONSE.ERROR") + " (" + rule.ruleNumber + ") - " + ex)
+			}
+		}
+	}
+	
+	return this;
+}
+
+function refreshRulesEngine(rulesType) {
+	if (typeof(rulesEngine) != "undefined" && rulesEngine != null) {
+		rulesEngine.terminate()
+	} 
+	
+	rulesEngine = new RulesEngine(rulesType)
+	
+	var CIs = session.getConfigInstances()
+	var CI
+	var counter = 0
+	
+	for (CI in CIs) {
+		if (CI.getConfigId().startsWith("SE_")) {
+			var ALnames = CI.getAssemblyLineNames()
+			for (var ALname in ALnames) {
+				if (ALname.startsWith("Flow_")) {
+					var paramEntry = getFlowParameters(CI.getConfigId(), ALname, null);
+					applyCustomProperties(ALname, paramEntry);
+					// now add the two default rules for a Flow
+					if ("true".equals(paramEntry.getString(ALname + ".writeback.enabled"))) {
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".config"] = CI.getConfigId()
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".flow"] = ALname
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".endpoint"] = paramEntry.getString(ALname + ".source.form")
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".condition.00.builtin"] = "targetdn childof target.container"
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".condition.01.builtin"] = auxLinkedDNAttribute + " childof source.searchbase"
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".response.00.person.AL"] = "WritebackToLDAP"
+						paramEntry["writeback.rule." + ALname.replace('.', '_') + ".response.00.person.mapFile"] = paramEntry.getString(ALname + ".writeback.person.mapFile");
+						rulesEngine.parseRules(paramEntry)
+					}	
+				}
+			}
+		}
+	}
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

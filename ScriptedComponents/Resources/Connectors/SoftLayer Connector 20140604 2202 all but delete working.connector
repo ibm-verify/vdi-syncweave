@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="544" UUID="03b28606-d3bd-4841-884d-48936fc96b7e" created="Mon May 26 12:36:10 CEST 2014" createdBy="Administrator" main="SoftLayer Connector" modified="Wed Jun 04 21:58:59 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <Connector name="SoftLayer Connector">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ModTime>1401911938498</ModTime>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401911938498</ModTime>
+            <parameter name="$form$"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="45" UUID="a8ad3eb7-a05b-4a69-b5c2-397f536ac120" created="Sun Jun 01 21:17:26 CEST 2014" createdBy="Administrator" main="Form" modified="Wed Jun 04 11:33:16 CEST 2014" modifiedBy="Administrator" version="7.1.1">
+    <Form name="Form">
+        <ModTime>1401831393270</ModTime>
+        <FormItemNames>
+            <ListItem>$GLOBAL.script</ListItem>
+            <ListItem>keepGlobalState</ListItem>
+            <ListItem>$GLOBAL.includeFiles</ListItem>
+            <ListItem>includePrologs</ListItem>
+            <ListItem>$GLOBAL.help</ListItem>
+            <ListItem>host</ListItem>
+            <ListItem>port</ListItem>
+            <ListItem>user</ListItem>
+            <ListItem>password</ListItem>
+            <ListItem>database</ListItem>
+            <ListItem>ssl</ListItem>
+            <ListItem>pagesize</ListItem>
+            <ListItem>deBug</ListItem>
+            <ListItem>descending</ListItem>
+            <ListItem>view</ListItem>
+            <ListItem>reduce</ListItem>
+            <ListItem>grouplevel</ListItem>
+            <ListItem>generateviews</ListItem>
+            <ListItem>createoninit</ListItem>
+            <ListItem>deleteonclose</ListItem>
+            <ListItem>returnas</ListItem>
+            <ListItem>enabletempview</ListItem>
+            <ListItem>map</ListItem>
+            <ListItem>apikey</ListItem>
+        </FormItemNames>
+        <FormSectionNames>
+            <ListItem>General</ListItem>
+            <ListItem>Advanced</ListItem>
+        </FormSectionNames>
+        <FormItem name="apikey">
+            <ModTime>1401829153870</ModTime>
+            <parameter name="description">Enter the API Key for the user used to authenticate.</parameter>
+            <parameter name="label">API Key</parameter>
+        </FormItem>
+        <FormItem name="createoninit">
+            <ModTime>1401651110445</ModTime>
+            <parameter name="description">Enable to have the Database created if it does not already exist.</parameter>
+            <parameter name="label">Create Database if not found</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="database">
+            <ModTime>1401699361880</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">CouchDB database to access.</parameter>
+            <parameter name="label">Database</parameter>
+            <parameter name="script">queryDatabases</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+        </FormItem>
+        <FormItem name="deBug">
+            <ModTime>1401650878867</ModTime>
+            <parameter name="description">Enable to provide debugging messages in the log output and console.</parameter>
+            <parameter name="label">Debug log</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="deleteonclose">
+            <ModTime>1401651145645</ModTime>
+            <parameter name="description">Enable to have the Connector delete the databse when it closes.</parameter>
+            <parameter name="label">Delete on close</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="descending">
+            <ModTime>1401651520845</ModTime>
+            <parameter name="description">Enable to return the Documents of the view in descending order. Otherwise the order will be ascending.</parameter>
+            <parameter name="label">Descending</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="enabletempview">
+            <ModTime>1401652243838</ModTime>
+            <parameter name="description">Enable to enable creation of temporary views. Otherwise LinkCriteria Attribute must be 'key' (key of the selected view).</parameter>
+            <parameter name="label">Allow ad-hoc query</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="generateviews">
+            <ModTime>1401651547693</ModTime>
+            <Values>
+                <ListItem>Do not generate</ListItem>
+                <ListItem>After every write operation</ListItem>
+                <ListItem>On connector close</ListItem>
+            </Values>
+            <parameter name="description">Set when views should be updated.</parameter>
+            <parameter name="label">Generate views</parameter>
+            <parameter name="modes">AddOnly,Delete,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="grouplevel">
+            <ModTime>1401699410305</ModTime>
+            <Values>
+                <ListItem>Do not group</ListItem>
+                <ListItem>1</ListItem>
+                <ListItem>2</ListItem>
+                <ListItem>3</ListItem>
+                <ListItem>4</ListItem>
+                <ListItem>5</ListItem>
+                <ListItem>6</ListItem>
+                <ListItem>7</ListItem>
+                <ListItem>8</ListItem>
+                <ListItem>9</ListItem>
+            </Values>
+            <parameter name="description">Select to the key index to group on.</parameter>
+            <parameter name="label">Group level</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="host">
+            <ModTime>1401831113636</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The hostname or IP address of the CouchDB server</parameter>
+            <parameter name="label">Host</parameter>
+            <parameter name="script">getCertificate</parameter>
+            <parameter name="scriptLabel">Get SSL Certificate</parameter>
+        </FormItem>
+        <FormItem name="includePrologs">
+            <parameter name="description">pro_desc</parameter>
+            <parameter name="label">pro_label</parameter>
+            <parameter name="script">selectGlobalProlog</parameter>
+            <parameter name="scriptLabel">pro_script_label</parameter>
+            <parameter name="scripthelp">pro_script_help</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="keepGlobalState">
+            <parameter name="description">SCRIPT_CONN_KEEP_GLOBAL_STATE_DESC</parameter>
+            <parameter name="label">SCRIPT_CONN_KEEP_GLOBAL_STATE_LABEL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="map">
+            <ModTime>1401712244303</ModTime>
+            <parameter name="description">Enter Javascript definition of the map() function. This parameter is optional and overrides the View setting.</parameter>
+            <parameter name="label">map() function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">textarea</parameter>
+        </FormItem>
+        <FormItem name="pagesize">
+            <ModTime>1401651509493</ModTime>
+            <parameter name="description">The number of Documents to return for each read request. Default is 100.</parameter>
+            <parameter name="label">Page size</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+        </FormItem>
+        <FormItem name="password">
+            <ModTime>1401651396440</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">Password for the login User name</parameter>
+            <parameter name="label">Password</parameter>
+            <parameter name="syntax">password</parameter>
+        </FormItem>
+        <FormItem name="port">
+            <ModTime>1401650623263</ModTime>
+            <parameter name="Required">true</parameter>
+            <parameter name="description">The CouchDB port. Default is 5984.</parameter>
+            <parameter name="label">Port</parameter>
+        </FormItem>
+        <FormItem name="reduce">
+            <ModTime>1401651531285</ModTime>
+            <parameter name="description">Enable to use the Reduce function in the view.</parameter>
+            <parameter name="label">Use Reduce function</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="returnas">
+            <ModTime>1401713206329</ModTime>
+            <Values>
+                <ListItem>Flat Entry (note that some Attributes may be Javascript objects)</ListItem>
+                <ListItem>Hierarchical Entry</ListItem>
+            </Values>
+            <parameter name="description">Select how Documents are returned as Entry objects</parameter>
+            <parameter name="label">Return Document as</parameter>
+            <parameter name="syntax">droplist</parameter>
+        </FormItem>
+        <FormItem name="ssl">
+            <ModTime>1401650704078</ModTime>
+            <parameter name="description">Enable if CouchDB requires an SSL connection.</parameter>
+            <parameter name="label">Use SSL</parameter>
+            <parameter name="syntax">boolean</parameter>
+        </FormItem>
+        <FormItem name="user">
+            <ModTime>1401651393459</ModTime>
+            <parameter name="Required">false</parameter>
+            <parameter name="description">The user name for authentication to CouchDB</parameter>
+            <parameter name="label">User</parameter>
+        </FormItem>
+        <FormItem name="view">
+            <ModTime>1401712231591</ModTime>
+            <parameter name="description">Name of the MapReduce view to read from. This parameter is ignored if a map() function is defined.</parameter>
+            <parameter name="label">View name</parameter>
+            <parameter name="modes">Iterator,Lookup,Update</parameter>
+            <parameter name="script">queryViews</parameter>
+            <parameter name="scriptLabel">Query</parameter>
+            <parameter name="syntax">dropedit</parameter>
+        </FormItem>
+        <FormSection name="Advanced">
+            <FormSectionNames>
+                <ListItem>pagesize</ListItem>
+                <ListItem>$GLOBAL.script</ListItem>
+            </FormSectionNames>
+            <parameter name="initiallyExpanded">false</parameter>
+            <parameter name="title">Advanced</parameter>
+        </FormSection>
+        <FormSection name="General">
+            <FormSectionNames>
+                <ListItem>host</ListItem>
+                <ListItem>port</ListItem>
+                <ListItem>user</ListItem>
+                <ListItem>apikey</ListItem>
+                <ListItem>returnas</ListItem>
+                <ListItem>deBug</ListItem>
+            </FormSectionNames>
+        </FormSection>
+        <parameter name="formevents"><![CDATA[var host, port, user, apiKey;
+
+function getCertificate () {
+	host = form.getControl("host").getText();
+	port = form.getControl("port").getText();
+	user = form.getControl("user").getText();
+	apiKey = form.getControl("apikey").getText();
+	var usePort = "";
+	if (port != null && !"80".equalsIgnoreCase(port)) {
+		usePort = ":" + port;
+	}
+	var url = "https://" + user + ":" + apiKey + "@" + host + usePort + "/rest/v3/";
+//	form.alert("Trying to retrieve cert from " + url)
+	form.setWaitCursor();
+	try {
+		var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(url, 443);
+	} finally {
+		form.setNormalCursor();
+	}
+	form.alert(msg);
+}
+
+
+function write(fname, str) {
+	var bw = new java.io.BufferedWriter(new java.io.FileWriter("C:\\temp\\" + fname))
+//	for (var m in obj.getClass().getMethods()) {
+//		bw.write(m)
+//		bw.newLine()
+//	}
+
+	bw.write(str)
+	bw.newLine()	
+	bw.close()
+}
+
+function makeCall(useURI, errorMsg, callType) {
+	var url
+	var user
+	var password
+	var httpEntry
+	var jsonStr
+	var json
+	var p
+	var p2
+	var embeddedURI
+	var userAndPassword
+	
+	user = form.getControl("user").getText()
+	password = form.getControl("password").getText()
+	url = form.getControl("baseURL").getText()
+	
+	p = useURI.indexOf("|<<")
+	p2 = useURI.indexOf(">>|")
+	if (p > 0 && p2 > 0 && p2 > p) {
+		embeddedURI = useURI.substring(p+3, p2)
+		useURI = embeddedURI + useURI.substring(p2+3)
+	}	
+
+	if (useURI.startsWith("/providers//providers"))
+		useURI = useURI.substring(11)
+		
+//	p = url.indexOf("//")
+//	url = url.substring(0,p+2) + userAndPassword + url.substring(p+2)
+
+//	form.alert("baseURL: " + url)
+//	form.alert("useURI: " + useURI)
+//	form.alert("both combined: " + url + useURI)
+
+	http.setParam("url", url + useURI)
+	http.setParam("username", user)
+	http.setParam("password", password)
+	try {
+		http.terminate();
+	} catch (ex) {
+		// ignore
+	}
+	http.initialize(null)
+	httpEntry = system.newEntry();
+	httpEntry["http.content-type"] = "application/json"
+	httpEntry["http.method"] = "GET"
+	httpEntry["http.accept"] = "application/json"
+
+//	form.alert("@@@ making call to " + http.getParam("url") + " with: \n" + httpEntry.toString()) // @@@
+
+	httpEntry = http.queryReply(httpEntry)
+	
+//	form.alert(httpEntry)
+	
+	if (httpEntry == null) {
+		throw "Communication error * " + errorMsg + " - url used: " url + useURI + " --> return http.body:\n" + jsonStr
+	}	
+
+	jsonStr = httpEntry.getString("http.bodyAsString")
+	
+//	write("makeCall " + callType + ".txt", "url: " + url // @@@@
+//						+ "\nuser: " + user
+//						+ "\npassword: " + password
+//						+ "\npayload:\n" + httpEntry.toString())
+//	form.alert("@@@ " + callType + "\n" + jsonStr)
+	
+	if (jsonStr == null) {
+		throw errorMsg + " (Nothing returned) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+	}	
+
+//	eval("json=" + jsonStr)
+	try {
+		json = fromJson(jsonStr)
+	} catch (ex) {
+		throw errorMsg + " - Error parsing JSON received: " + ex + "   JSON: " + jsonStr
+	}
+
+	if (typeof(json) == "undefined" || !json || json == null) {
+		throw errorMsg + "(Could not parse) - url used: " http.getParam("url") + " --> return http.body:\n" + jsonStr
+	}	
+
+	return json
+}
+
+function updateDropdown(uri, controlName, propertyName, errorMsg) {
+	var json
+	var uri
+	var combo = ""
+	var i
+	var p
+	var val
+	var label
+	var arr
+	
+	json = makeCall(uri, errorMsg, controlName)
+
+	if (!json) {
+		return
+	}	
+			
+	form.getClass()
+	combo = form.getControl(controlName)
+	combo.removeAll()
+
+	if (!json.items) {
+		combo.add(json[propertyName])
+	} else {
+		arr = new java.util.ArrayList()
+		for (i = 0; i < json.items.length; i++) {
+			p = json.items[i]
+			label = p["label"]
+			if (typeof(label) == "undefined")
+				val = p[propertyName]
+			else
+				val = label + " |<<" + p[propertyName] + ">>|"
+//			form.alert(">> provider: " + p.uri)
+			arr.add(val)
+		}
+		
+		arr = arr.toArray()
+		java.util.Arrays.sort(arr)
+
+		for (var a in arr) {
+			combo.add(a)
+		}	
+	}
+	
+	combo.select(0)
+}
+
+function getProviders() {
+	updateDropdown("/providers", "provider", "uri", "No Providers returned")
+}
+
+function getDatasources() {
+	updateDropdown(form.getControl("provider").getText() + "/datasources", 
+					"datasource", "uri", "No Datasources returned")
+}
+
+function getDatasets() {
+	updateDropdown(form.getControl("datasource").getText() + "/datasets", 
+					"dataset", "uri", "No Datasets returned")
+}
+
+
+function getParams(paramJSON) {
+	var params = null
+	var formconfig = form.getFormConfig()
+	var fs
+	var p
+	var fic
+	var saveJSON = false
+
+	if (typeof(paramJSON) != "undefined") {
+		params = paramJSON
+		form.setConfig("paramJSON", "")
+//		form.alert("getParams passed " + toJson(paramJSON))
+	} else {
+		params = makeCall(form.getControl("dataset").getText() + "/parameters", 
+							"No Dataset parameters returned",
+							"getParams")
+		saveJSON = true
+	}	
+
+	// create dataset section
+	if( formconfig.getSection("Dataset") == null ) {
+		throw "Connection form is missing the 'Dataset' section!"
+//		fs = new com.ibm.di.config.base.FormSectionImpl()
+//		fs.setName("Dataset")
+//		fs.setTitle("Provider Dataset")
+//		formconfig.addSection(fs)
+	}
+
+	// get fs as section handle
+	fs = formconfig.getSection("Dataset");
+
+	// remove all dataset section fields
+	for(str in fs.getNames()) {
+		formconfig.removeFormItem(str);
+	}
+
+	// remove all params from section dataset
+	fs.getNames().removeAllElements();
+
+	
+	// create a new param_* field and add it to Dataset section
+
+	for (var i = 0; i < params.items.length; i++)  {
+		if (params.items[i].hidden != "true") {
+			p = params.items[i]
+			fic = formconfig.newFormItem(p.id)
+			fic.setLabel(p.label)
+			fic.setSyntax(p.type)
+			fic.setToolTip(p.description)
+			fic.setRequired(p.required != "false")
+			
+			if ( ("!" + p["default"]) != "!undefined" ) {
+				fic.setDefaultValue(p["default"])
+			} else {
+				fic.setDefaultValue("")
+			}	
+			
+			fs.getNames().add(fic.getShortName())
+		}
+	}		
+		
+	form.resetForm();
+	form.initialize();
+	
+	if (saveJSON) {
+		form.setConfig("paramJSONisNew", "true")
+		form.setConfig("paramJSON", toJson(params))	
+	}	
+}
+
+	]]]]><![CDATA[></parameter>
+        <parameter name="title">SoftLayer Connector</parameter>
+    </Form>
+</MetamergeConfig>]]></parameter>
+            <parameter name="apikey">46461d1bf64bc974e171cc150130163124c6ac8a689c8b8ebdb35faa191f2122</parameter>
+            <parameter name="database">produce</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="grouplevel">Do not group</parameter>
+            <parameter name="host">api.softlayer.com</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="pagesize">100</parameter>
+            <parameter encrypted="true" name="password">OQHzKKHogVyoYL4Lijl1aFK1KHlt2AqqHAbpRsREw6zortA4pDRKqLNyXnJegs8wKtSX7N1eE3VgeGalG1jXCvcMZ/zV1vKl0jM3F/QU4XjHsbybIwMpLy1eFaZ6BjZTXzEW5QeIKLdqV/1VKUdltd5ohmYBC7rE7QR9NRSRjFQ=</parameter>
+            <parameter name="port">80</parameter>
+            <parameter name="returnas">Flat Entry (note that some Attributes may be Javascript objects)</parameter>
+            <parameter name="script"><![CDATA[// SoftLayer Users Script connector
+// 
+var version = "20140603 1956" // started
+
+var http = system.getConnector("ibmdi.HTTPClient");
+var host, port, user, apiKey, baseurl, pagesize, accountId, account, authToken, returnas;
+var list, listCnt, totalCnt, startkey;
+var cookies = system.newEntry();
+var requestEntry = system.newEntry();
+var deBug = true;
+var initialized = false;
+var tempPassword = "Abcdefg123#";
+
+var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["SoftLayer Connector vrs."] = "SoftLayer Connector vrs.";
+message["Response from SoftLayer"] = "Response from SoftLayer";
+message["Request to SoftLayer"] = "Request to SoftLayer";
+message["Unnamed entry"] = "Unnamed entry";
+message["Error from SoftLayer"] = "Error from SoftLayer";
+message["User not found"] = "User not found";
+message["The URL does not reference a valid SoftLayer service"] = "The URL does not reference a valid SoftLayer service, or the account is not active.";
+message["Unrecognizable return from SoftLayer"] = "Unrecognizable return from SoftLayer";
+
+// service functions
+
+function verifySoftLayer() {
+	var reply;
+	reply = makeRequest({verb : "GET", 
+						 url : baseurl + "SoftLayer_Account/getAccountStatus.json",
+						 where : "verifySoftLayer"});
+						 
+	if (reply == null || reply.id == null || !"Active".equalsIgnoreCase(reply.name)) {
+		throwException({msg: message["The URL does not reference a valid SoftLayer service"],
+						where: "verifySoftLayer - getAccountStatus"});
+	}
+
+	reply = makeRequest({verb : "GET", 
+						 url : baseurl + "SoftLayer_Account/getCurrentUser.json",
+						 where : "verifySoftLayer"});
+
+	if (reply == null || reply.accountId == null)	{
+		throwException({msg: message["The URL does not reference a valid SoftLayer service"],
+						where: "verifySoftLayer - getCurrentUser"})
+	} else {	
+		accountId = reply.accountId;
+		account = reply.accound;
+		authToken = reply.authenticationToken;
+	}	
+}
+
+
+function checkForErrors(jsonReply, where) {
+	if (typeof where === "undefined") { where = null; }
+	 	
+	if (jsonReply.error != null) {
+		var msg = "reply.error: " + jsonReply.error;
+		if (jsonReply.reason != null) {
+			msg += " - reply.error: " + jsonReply.error;	
+		}
+		
+		throwException({msg: message["Error from SoftLayer"] + ": " + msg,
+						where: where});
+	}
+}
+
+function makeRequest(params) {
+	var verb = params.verb; 	// HTTP method
+	var url = params.url;		// URL
+	var body = params.body;		// payload to send (for a POST)
+	var ctype = params.ctype;	// MIME Content-Type
+	var accept = params.accept;	// MIME Accept
+	var where = params.where;	// where makeRequest is called from
+
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (accept == null) { accept = "application/json"; } 
+	if (where == null) { where = ""; } 
+	
+	if (url.toLowerCase().indexOf(baseurl.toLowerCase()) < 0) {
+		url = baseurl + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		requestEntry["http.body"] = body;
+	}
+	
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url);
+	http.setParam("username", user);
+	http.setParam("password", apiKey);
+
+	requestEntry["http.Content-Type"] = ctype;
+	
+	if (cookies.size() > 0) {
+		requestEntry.merge(cookies);
+	}	
+
+	http.terminate();
+	
+	http.initialize(null);
+	
+	if (deBug) {
+		logDetails({"msg" : message["Request to SoftLayer"], 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype,
+					"accept" : accept, 
+					"where" : where});
+	}
+	
+	var retEntry = http.queryReply(requestEntry);
+	
+	if (deBug) {
+		logDetails({"msg" : message["Response from SoftLayer"], 
+				    "obj" : retEntry});
+	}
+	
+	try {
+		reply = parseReply(retEntry);
+		checkForErrors(reply, where);
+	} catch (ex) {
+		if (!"true".equalsIgnoreCase(retEntry["http.bodyAsString"])) {
+			throwException({msg: ex,
+							where: "makeRequest"});
+		}
+	}
+	
+	
+	return reply;
+}
+
+function throwException(params) {
+	var msg = params.msg;
+	var where = params.where;
+	var whereStr = "";
+	
+	if (where != null) {
+		whereStr = "(" + where + ") "
+	}
+	
+	throw new java.lang.IllegalArgumentException(whereStr + msg);
+}
+
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		task.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+function getParam(pname, required) {
+	if (typeof required === "undefined") { required = true; }
+	var pval = connector.getParam(pname);
+	
+	if (pval === null && required) {
+		throwException({ msg: message["Required parameter not set"] + ": " + pname,
+						 where: "getParam"});
+	} 
+	
+	return pval;
+}
+
+function parseReply(replyEntry) {
+	if (replyEntry === null) { return; } 
+	
+	var body = replyEntry.getString("http.bodyAsString");
+	var reply = fromJson(body);
+	
+	var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+	if (setCookie !== null) {
+		for (var i = 0; i < setCookie.size(); i++) {
+			var thisCookie = setCookie.getValue(i);
+			var p = thisCookie.indexOf("=");
+			if (p > 0) {
+				cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+			}
+		}	
+	}
+	
+	return reply;
+}
+
+function item2Entry(item) {
+	var entry = system.newEntry();
+
+	if (typeof item === "undefined" || item == null) {
+		return entry;
+	}
+	
+	if (returnas.toLowerCase().startsWith("flat")) {
+		for (var prop in item) {
+			entry[prop] = item[prop];
+		}
+	} else {
+		entry = entry.fromJSON(toJson(item));
+	}	
+	entry["$js_object"] = item;
+	entry["$json"] = toJson(item);
+	
+	return entry;
+}
+
+function resetConnector() {
+	initialized = false;
+	view = null;
+	list = null;
+	listCnt = 0;
+	startkey = "";
+	cookies.removeAllAttributes();
+}
+
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				if (a.indexOf("http.") >= 0 && 
+					!("http.body".equalsIgnoreCase(a)
+						|| "http.bodyAsBytes".equalsIgnoreCase(a)) ) {
+					s.append(" " + a + ": " + obj[a] + "\n");
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	logmsg(s.toString());
+}
+
+function matchFound(search, entry) {
+	var code, op1, op2, not, match, searchType, finalMatch;
+	
+	searchType = search.getType();
+	finalMatch = null;
+	
+	for (var i = 0; i < search.size(); i++) {
+		crit = search.getCriteria(i);
+		code = crit.match;
+		op1 = crit.name;
+		op1value = entry.getString(op1);
+		if (op1value !== null) { op1value = String(op1value).toLowerCase(); } 
+		op2 = String(crit.value).toLowerCase();
+		not = crit.negate;
+		match = false;
+		
+		switch (code) {
+			case com.ibm.di.server.SearchCriteria.EXACT: 
+				match = op1value == op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.GREATER_THAN: 
+				match = op1value > op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.GREATER_THAN_OR_EQUAL: 
+				match = op1value >= op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.LESS_THAN: 
+				match = op1value < op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.LESS_THAN_OR_EQUAL: 
+				match = op1value <= op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.NOT_STRING: 
+				match = op1value != op2;
+				break;
+			case com.ibm.di.server.SearchCriteria.FINAL_STRING:
+				match = op1value.endsWith(op2);
+				break;
+			case com.ibm.di.server.SearchCriteria.INITIAL_STRING: 
+				match = op1value.startsWith(op2);
+				break;
+			case com.ibm.di.server.SearchCriteria.SUBSTRING: 
+				match = op1value.indexOf(op2) >= 0;
+				break;
+			default: throwException({msg: message["Unrecognized operator for Link Criteria"] + ": " + code,
+									 where: "findEntry - matchFound"});
+		}
+		
+		if (not) {
+			match = !match;
+		}
+		
+		if (finalMatch === null) {
+			finalMatch = match;
+		} else 
+		if (searchType == search.SEARCH_AND) {
+			finalMatch = finalMatch && match;
+		} else
+		if (searchType == search.SEARCH_OR) {
+			finalMatch = finalMatch || match;
+		} else {
+			throwException({msg: message["Unrecognized Link Criteria type: "] + searchType,
+							where: "findEntry - matchFound"})
+		}
+		
+		if (!finalMatch && searchType == search.SEARCH_AND) {
+			return false;
+		}
+	}	
+
+	return finalMatch;
+}
+
+function entry2SLObject(entry) {
+	var json = entry.getString("$json");
+	var item = entry.getObject("$object");
+	var itemEntry = system.newEntry();
+	
+	if (item === null && json !== null && json.trim() != "") {
+		item = fromJson(json);
+	} 
+	
+	if (item == null) {
+		var itemEntry = system.newEntry();
+		itemEntry.merge(entry);
+		var attNames = itemEntry.getAttributeNames();
+		for (var name in attNames) {
+			if (name.startsWith("$")) {
+				itemEntry.removeAttribute(name);
+			}
+		}
+		item = fromJson(itemEntry.toJSON());
+	}
+
+	return item;
+}
+
+// --------------------------------------------------------------------
+// connector interface functions
+// --------------------------------------------------------------------
+
+function initialize() {
+	logmsg(message["SoftLayer Connector vrs."] + " " + version);
+
+	if (initialized) {
+		terminate();
+	}
+	
+	// reset variables
+	resetConnector();
+
+	// get all parameter settings
+	host = getParam("host");
+	port = getParam("port");
+	user = getParam("user", false);
+	apiKey = getParam("apikey", false);
+	returnas = getParam("returnas", false);
+	pagesize = getParam("pagesize", false);
+	deBug = "true".equals(getParam("deBug", false));
+	
+	if (returnas == null) { returnas = "flat"; } 
+	
+	if (!system.isValidInt(pagesize)) {
+		// not a valid number
+		pagesize = 100;
+	} else {
+		pagesize = pagesize*1.0;
+	}
+	
+	// prepare base URL
+	var usePort = "";
+	if (port != null && !"80".equals(port)) {
+		usePort = ":" + port;
+	}
+//	baseurl = "https://" + user + ":" + apiKey + "@" + host + usePort + "/rest/v3/";
+	baseurl = "https://" + host + usePort + "/rest/v3/";
+
+	// verify that this is a SoftLayer service
+	verifySoftLayer();
+	
+	initialized = true;
+}	
+
+function selectEntries() {
+	list = null;
+	listCnt = 0;
+	totalCnt = 0;
+	startkey = "";
+	
+	list = makeRequest({verb : "GET", 
+						url : baseurl + "SoftLayer_Account/getUsers.json", 
+						where : "selectEntries"});
+						 
+}
+
+function getNextEntry() {
+	if (typeof entry === "undefined" || entry === null) { entry = system.newEntry(); } 
+	if (list !== null && listCnt < list.length) {
+		var item = list[listCnt];
+		listCnt++;
+		totalCnt++;
+		var hEntry = item2Entry(item);
+		entry.merge(hEntry);
+		result.setStatus(1);
+		return entry;
+	} else {
+		result.setStatus(0);
+		return null;
+	}
+}
+
+function putEntry() {
+	var item = entry2SLObject(entry);
+	var reply = makeRequest({verb : "POST",
+							 url : baseurl + "SoftLayer_User_Customer.json",
+							 body : '{"parameters":[' + toJson(item) + ',"' + tempPassword + '"]}',
+							 where : "putEntry"});
+							 
+	entry["$response"] = reply;
+	entry["$id"] = reply.id;
+}
+
+function findEntry() {
+	var foundEntry, matchEntry, key, itr;
+	var matches = new java.util.concurrent.ConcurrentHashMap();
+	
+	current = system.newEntry();
+	
+	// get all users
+	selectEntries();
+
+	do {
+		foundEntry = getNextEntry();
+		
+		if (foundEntry !== null) {
+			if (matchFound(search, foundEntry)) {
+				matchEntry = system.newEntry();
+				matchEntry.merge(foundEntry);
+				matches.put(foundEntry.id, matchEntry);
+			}
+		}	
+	} while (foundEntry !== null);
+	
+	if (matches.size() == 0) {
+		result.setStatus(0);
+		return null;
+	} else
+	if (matches.size() == 1) {
+		result.setStatus(1);
+		key = matches.keySet().toArray()[0];
+		entry.merge(matches.get(key));
+		current.merge(entry);
+		return entry;
+	} else {
+		result.setStatus(1);
+		itr = matches.keySet().iterator();
+		while (itr.hasNext()) {
+			key = itr.next();
+			connector.addFindEntry(matches.get(key)); 
+		}
+		return matches;
+	}
+}
+
+function modEntry() {
+	var item = entry2SLObject(entry);
+	var reply = makeRequest({verb : "PUT",
+							 url : baseurl + "SoftLayer_User_Customer/" + current.id + "/setObject.json",
+							 body : '{"parameters":[' + toJson(item) + ']}',
+							 where : "modEntry"});
+}
+
+function deleteEntry() {
+	var item = entry2SLObject(entry);
+	var reply = makeRequest({verb : "DELETE",
+							 url : baseurl + "SoftLayer_User_Customer/" + current.id + ".json",
+							 where : "deleteEntry"});
+}
+
+function terminate() {
+	resetConnector();
+	
+	try {
+		http.terminate();
+	} catch (ex) {
+		// do nothing
+	}
+}
+
+]]></parameter>
+            <parameter name="user">SL337878</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </AttributeMap>
+        <DeltaSettings>
+            <ModTime>1401625276934</ModTime>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <RowLocking>SERIALIZABLE</RowLocking>
+            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401100559524</ModTime>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <ModTime>1401625277220</ModTime>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <MaxPoolSize>0</MaxPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+            <InitializeSleepInterval>0</InitializeSleepInterval>
+        </PoolDefinition>
+        <PoolInstance/>
+    </Connector>
+</MetamergeConfig>

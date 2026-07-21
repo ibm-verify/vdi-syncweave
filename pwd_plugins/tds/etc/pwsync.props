@@ -1,0 +1,246 @@
+#
+# This is the configuration file of the Password Synchronizer.
+# It is used by all parts of the Password Synchronizer: the Plug-in, 
+# the Proxy and the Password Store component.
+#
+# Enter <name>=<value> to set configuration properties.
+#
+# Follow the Java properties file format. Backslashes must be escaped:
+# e.g. instead of 'c:\myfile.txt' type 'c:\\myfile.txt'.
+#
+
+
+
+
+# Executable (binary or shell script) used to start the Java Proxy.
+# If this property is set, both 'jvmPath' and 'jvmClassPath' will be ignored.
+proxyStartExe=$startProxy$
+
+# Port number, on which the Java Proxy listens for commands.
+serverPort=18001
+
+# The log file of the Plug-in part of the Password Synchronizer.
+# If empty, no logging will be done.
+logFile=$change$/pwd_plugins/tds/plugin.log
+
+# Restrict the part of the directory tree where passwords are intercepted.
+# If this property is empty, password changes from the whole directory tree will be intercepted.
+syncBase=
+
+# Whether to reject password changes if the Password Store is down.
+checkRepository=true
+
+# The log file of the Java Proxy part of the Password Synchronizer. If empty, no logging will be done.
+javaLogFile=$change$/pwd_plugins/tds/proxy.log
+# Encoding used for log file. Default is platform specific encoding.
+#logEncoding=UTF-8
+# Log file rotation pattern, specifies how often the log file should be rotated,
+# and which extension to use for old files.
+# If specified, will also cause log file to be opened in append mode.
+# Suggested patterns
+# dd - Day in month
+# EEE - day in week
+#javaLogRotationPattern=EEE
+
+
+# Number of Attempt to retry Proxy connection
+ProxyRetryAttempt=15
+
+# Turn on debug logging for all parts of the Password Synchronizer.
+debug=true
+
+# Custom data that will be send with each password change.
+# This string can be used to uniquely identify the machine or product that generates the changes (e.g. machine IP, application name and version).
+#customData=machine1
+
+
+
+#
+# The Password Store component 
+#
+# Specify the full name of the Java class.
+# Choose one of the following:
+#	com.ibm.di.plugin.pwstore.log.LogPasswordStore
+#	com.ibm.di.plugin.pwstore.jms.JMSPasswordStore
+#	com.ibm.di.plugin.pwstore.ldap.LDAPPasswordStore
+#
+# LogPasswordStore is for testing purposes only - you should NEVER use it in production environment.
+#
+syncClass=com.ibm.di.plugin.pwstore.log.LogPasswordStore
+
+
+
+
+#
+# Public key encryption of passwords
+#
+# encrypt=true
+# encryptKeyStoreFilePath=
+# encryptKeyStoreFilePassword=
+# encryptKeyStoreCertificate=
+
+# 'encryptKeyPassword' is required by the LDAP Password Store (the rest do not need it)
+# encryptKeyPassword=
+
+
+
+
+#
+# PKCS7 encapsulation of passwords
+#
+# pkcs7=true
+# pkcs7KeyStoreFilePath=
+# pkcs7KeyStoreFilePassword=
+# pkcs7MqeStoreCertificateAlias=
+# pkcs7MqeConnectorCertificateAlias=
+
+
+
+
+#
+# SSL configuration properties
+#
+# javax.net.ssl.trustStore=
+# javax.net.ssl.trustStorePassword=
+# javax.net.ssl.trustStoreType=
+# javax.net.ssl.keyStore=
+# javax.net.ssl.keyStorePassword=
+# javax.net.ssl.keyStoreType=
+
+
+
+
+#
+# LDAP Password Store Configuration
+#
+
+# LDAP server host
+# ldap.hostname=localhost
+
+# LDAP server port
+# ldap.port=389
+
+# LDAP bind dn
+# ldap.admindn=cn=root
+
+# LDAP bind password
+# This field must be encoded. Use the 'encryptPasswd' utility.
+# ldap.password=0c0bf0e3146b
+
+# If set to true, password changes will be committed synchronously to the Password Store when
+# a password change notification is received. The source of the password change will be blocked
+# until the password change is written to the Password Store.
+# 
+# If set to false, the commit will be asynchronous. Use the 'ldap.delayMillis' property to configure
+# the time to wait before committing the password change.
+# ldap.waitForStore=true
+
+# Time to wait (in milliseconds), before committing the password change to the Password Store.
+# Will be ignored if 'waitForStore' is set to true.
+# ldap.delayMillis=2000
+
+# Use SSL for LDAP communication.
+# If set to true, JSSE must be configured (set the javax.net.ssl.trustStore and javax.net.ssl.keyStore properties).
+# ldap.ssl=false
+
+# Location in the LDAP directory tree, where the Password Synchronizer will store data.
+# ldap.suffix=dc=carnd11,o=ibm,c=us
+
+# Name of an LDAP object class used to hold information for a given user.
+# ldap.schemaPersonObjectName=ibm-diPerson
+
+# Name of an LDAP attribute which represents user identifier.
+# This attribute must be a member of the object class specified by the 'ldap.schemaPersonObjectName' property.
+# ldap.schemaUseridAttributeName=ibm-diUserId
+
+# Name of an LDAP attribute which represents user password.
+# This attribute must be a member of the object class specified by the 'ldap.schemaPersonObjectName' property.
+# ldap.schemaPasswordAttributeName=ibm-diPassword
+
+
+
+
+#
+# MQe Password Store Configuration
+#
+
+# JMS driver, used to establish connecton to the message broker.
+# jmsDriverClass=com.ibm.di.plugin.pwstore.jms.driver.IBMMQe
+
+# The path to the .ini file of the MQe QueueManager.
+# mqe.file.ini=
+
+# The TCP/IP port that is used when the MQe Connector sends notifications to the Storage Component.
+# mqe.notify.port=41002
+
+
+#
+# ActiveMQ Password Store Configuration
+#
+
+# JMS driver, used to establish connecton to the message broker.
+# jmsDriverClass=com.ibm.di.plugin.pwstore.jms.driver.ActiveMQ
+
+# JMS Server address (jms.broker=tcp://<activeMQhost>:61616 or jms.broker=ssl://<activeMQhost>:61617)
+# jms.broker=
+
+
+#
+# Websphere MQ Password Store Configuration
+#
+
+# JMS driver, used to establish connecton to the message broker.
+# jmsDriverClass=com.ibm.di.plugin.pwstore.jms.driver.IBMMQ
+
+# The ID of this client. This value is used when connecting to a broker.
+# Most brokers do not allow clients to have the same ID.
+# jms.clientId=
+
+# JMS Server address (ip host and tcp port number).
+# jms.broker=<host>:<port>
+
+# Login username for the password queue.
+# jms.username=
+
+# Login password for password queue.
+# This field must be encoded. Use the 'encryptPasswd' utility.
+# jms.password=
+
+# MQ Server Channel
+# jms.serverChannel=
+
+# Queue Manager Name
+# jms.qManager=
+
+# Turn on SSL
+# jms.sslUseFlag=false
+
+# SSL cipher suite
+# (See the WebSphere MQ documentation for a full list of supported cipher suites).
+# jms.sslCipher=SSL_RSA_WITH_RC4_128_MD5
+
+
+
+
+#
+# Tivoli Identity Manager Integration
+#
+# Passwords will be be verified by a Tivoli Identity Manager Server's Password Strength Servlet prior to synchronization.
+# To enable TIM integration, set the 'syncClass' property to one of the following:
+#	com.ibm.di.plugin.pwstore.log.LogPasswordStoreITIMDecorator
+#	com.ibm.di.plugin.pwstore.jms.JMSPasswordStoreITIMDecorator
+#	com.ibm.di.plugin.pwstore.ldap.LDAPPasswordStoreITIMDecorator
+
+# URL of the Tivoli Identity Manager hosted Password Strength Servlet. 
+# Note: If https is used, the javax.net.ssl.trustStore* properties must be set. Where the specified truststore contains the Tivoli Identity Manager Server's certificate.
+# itimPasswordUrl=https://<host>:<port>/passwordsynch/synch
+
+# Tivoli Identity Manager user account permitted to perform a password check.
+# itimPrincipalName=
+
+# The password for the Tivoli Identity Manager user account specified by the 'itimPrincipalName' property.
+# This field must be encoded. Use the 'encryptPasswd' utility.
+# itimPrincipalPassword=
+
+# The Tivoli Identity Manager service name against which the password check would be performed.
+# itimSourceDN=erservicename=TDIPasswordService, o=IBM, ou=IBM, dc=com

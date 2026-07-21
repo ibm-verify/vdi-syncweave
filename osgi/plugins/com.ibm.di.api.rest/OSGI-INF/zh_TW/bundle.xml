@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="com.ibm.di.api.rest" tmsVersion="1.0" xml:lang="zh-TW">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB201E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.HANDLE.CLOSED" varFormat="Java">
+    AssemblyLine 控點已關閉。
+   </MsgText>
+   <Explanation> <p>
+	AssemblyLine 的控點無效。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查應用程式邏輯。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB202E" prefix="yes">
+   <MsgText pgmKey="REST.API.OBJECT.UNAVAILABLE" varFormat="Java">
+   找不到遠端物件。
+   </MsgText>
+   <Explanation> <p>
+	無法存取遠端物件。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	當物件生命週期已完成且已經過記憶體回收，便可能會發生這個情況。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB203E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.NAME.INVALID" varFormat="Java">
+   提供的 AssemblyLine 名稱無效。
+   </MsgText>
+   <Explanation> <p>
+	您所指定的名稱無法指派給 AssemblyLine。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請提供符合 AssemblyLine 命名原則的名稱。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB204E" prefix="yes">
+   <MsgText pgmKey="REST.API.PS.NAME.MISSING" varFormat="Java">
+	遺漏 <q/>name<q/> 參數。
+   </MsgText>
+   <Explanation> <p>
+	已將「Touchpoint 提供者」配置成使用「本端 API」，但它未出現在現行執行時期中。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	將「Touchpoint 伺服器」配置成改用「遠端伺服器 API」。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB205E" prefix="yes">
+   <MsgText pgmKey="REST.API.CI.CONFIG.MISSING" varFormat="Java">
+   未提供任何配置資料。
+   </MsgText>
+   <Explanation> <p>
+	您未提供現有配置檔的參照，也未提供配置本身。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請在建立「配置實例」時指定配置資料。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB206E" prefix="yes">
+   <MsgText pgmKey="REST.API.CONFIG.MISSING" varFormat="Java">
+    未提供任何配置資料。
+   </MsgText>
+   <Explanation> <p>
+	您尚未提供配置資料。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請在建立「配置檔」時指定配置資料。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB207E" prefix="yes">
+   <MsgText pgmKey="REST.API.HTTP.LISTENER.ERROR" varFormat="Java">
+   無法通知接聽器：<q/><Variable formatSpec="{0}">listener identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	無法傳送通知至遠端伺服器。</p> </Explanation>
+   <OperatorResponse> <p>
+	請確認遠端伺服器在執行中，且該網路可以進行通訊。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB208E" prefix="yes">
+   <MsgText pgmKey="REST.API.SERIALIZATION.ERROR" varFormat="Java">
+   無法序列化物件：<q/><Variable formatSpec="{0}">object identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	物件序列化期間發生錯誤。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請檢查來源異常狀況訊息以取得詳細說明。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB209E" prefix="yes">
+   <MsgText pgmKey="REST.API.LISTENER.NO.CHANNEL" varFormat="Java">
+    遺漏 TransportChannel 物件規格。
+   </MsgText>
+   <Explanation> <p>
+	提供的接聽器物件沒有附加 TransportChannel 物件。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請確認您傳送的接聽器物件符合定義的通訊協定。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB210E" prefix="yes">
+   <MsgText pgmKey="REST.API.JMS.CONFIG.MISSING" varFormat="Java">
+   尚未配置「JMS 提供者」。
+   </MsgText>
+   <Explanation> <p>
+	配置遺漏「JMS 提供者」規格。使用輪詢型 TransportChannel 時會將「JMS 提供者」用於緩衝訊息。
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	請確認當您要使用此訊息傳輸類型時，指定有效的「JMS 提供者」配置。
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB211I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.ACTIVE" varFormat="Java">
+   現在已啟動「REST 伺服器 API」引擎。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB212I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.INACTIVE" varFormat="Java">
+   現在已停止「REST 伺服器 API」引擎。
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

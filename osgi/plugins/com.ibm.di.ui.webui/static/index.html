@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html style="width: 100%; height: 100%; margin: 0; padding: 0">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Federated Directory Server</title>
+	
+		<script type="text/javascript" src="djconfig.js"></script>
+		<script type="text/javascript" src="dojo/dojo.js"></script>
+		
+		<style>
+			@import "tdi/styles.css";
+		</style>
+	
+		<script type="text/javascript">
+			var modules = [
+			    "dojo/parser",
+		       	"dojo/_base/declare",
+		   		"dojo/i18n",
+		       	"idx/ext",
+		       	"idx/app/A11yPrologue",
+		       	"idx/app/AppFrame",
+		       	"idx/app/AppMarquee",
+		       	"idx/string",
+		       	"idx/resources",
+		       	"idx/bus",
+		       	"idx/app/Workspace",
+		       	"idx/app/_A11yAreaProvider",
+		       	"idx/app/_Launcher",
+		       	"idx/a11y",
+		       	"idx/app/WorkspaceType",
+		       	"idx/app/TabMenuLauncher",
+		       	"idx/form/Link",
+		       	"idx/layout/HeaderPane",
+		       	"idx/layout/BorderContainer",
+		       	"idx/layout/ButtonBar",
+		       	"dijit/form/Button",
+				"dijit/form/DropDownButton",
+		       	"dijit/Menu",
+		       	"dijit/Tree",
+		       	"dijit/Toolbar",
+		       	"dijit/layout/TabContainer",
+		       	"dojo/domReady!"       	
+			];
+			
+			var module = "tdi/Main";
+			var debug = false;
+			try {
+				debug = window.location.href.indexOf("debug=true") > 0;
+			} catch(err) {
+			}
+			
+			if(debug) {
+				module = "tdi/ldapsync/LDSMain";
+			}
+
+			require([module], function(main) {
+				require(modules);
+			});
+			
+			window.onbeforeunload = function (evt) {
+				var widget = dijit.byId("ldsMain");
+				var ret = null;
+				if(widget && widget.onBeforeUnload) {
+					var msg = widget.onBeforeUnload();
+					if(msg) {
+						return msg;
+					}
+				}
+	    	}
+			
+		</script>
+	</head>
+	
+	<body style="width: 100%; height: 100%; margin: 0; padding: 0;" class="dijit_a11y oneui">
+	
+		<div dojoType="idx.app.A11yPrologue"></div>
+		
+		<div data-dojo-type="tdi/ldapsync/LDSMain" id="ldsMain" style="width: 100%; height: 100%; margin: 0; padding: 0"></div>
+	
+	</body>
+
+</html>

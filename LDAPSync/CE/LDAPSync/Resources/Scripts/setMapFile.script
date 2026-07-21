@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="47" UUID="8af54e37-c68a-41ff-a4a7-daa7f70ef1de" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="setMapFile" modified="Mon Apr 27 15:25:10 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="setMapFile">
+        <ModTime>1430141109904</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[if (typeof skipThisEntry !== "undefined" && skipThisEntry) {
+	work["$writeStatus"] = "skipped";
+	system.ignoreEntry();
+}
+
+work["$writeStatus"] = null;
+
+try{
+	var alname = task.getShortName().toLowerCase();
+	var mapFile = null;
+	var mapToUse = false; // output map
+	var mapEverything = false;
+		
+	if (alname.indexOf("monitorqradar") >= 0 ||
+		alname.indexOf("monitorsnmp") >= 0 ||
+		alname.indexOf("monitorcustom") >= 0) {
+		mapFile = getProperty("mapFile");
+	} else {
+		mapToUse = false;
+		if (typeof(responseLogFile) != "undefined") {
+			if(responseLogFile.toLowerCase().startsWith("writeback")) {
+				prefix = "writeback.";
+			} else {
+				prefix = "response.";
+			}	
+		} else 
+		if (typeof(joining) != "undefined" && joining) {
+			mapToUse = true; // input map
+			prefix = "join.";
+		} else {
+			prefix = "target.";
+		}
+
+		if (typeof typeOfEntry !== "undefined") {
+			mapFile = getProperty(prefix + typeOfEntry + ".mapFile");
+		}	
+		
+		mapEverything = false
+		if (mapFile == null && typeof(responseLogFile) != "undefined") {
+			// leave default map in place
+			return;
+		} else
+		if (mapFile == null && prefix == "join.") {
+			if (deBug) logmsg("--@@@ MAP @@@--> mapping everything for join")
+			mapEverything = true;
+			return;
+		}
+	}	
+
+	if (mapFile === null && typeof typeOfEntry !== "undefined") {
+		mapFile = typeOfEntry + ".map";
+	}
+
+	if (mapFile != null) {
+		try {
+			thisConnector.useAttributeMap(mapFile, mapToUse, true)
+			if (deBug) logmsg("--@@@ MAP @@@--> using: " + mapFile)
+			return
+		} catch (exc) {
+			// do nothing
+		}
+	}	
+
+	if (mapFile == null || mapFile.length == 0 && typeof typeOfEntry !== "undefined") {
+		mapFile = typeOfEntry + ".map";
+	}	
+
+	// Look first in configs, and if not found then in LDAPSync
+	var testFile = null;
+	mapFilePath = mapFile;
+	if (mapFilePath.indexOf("/") < 0 && mapFilePath.indexOf("\\") < 0) {
+		testFile = new java.io.File(configDirectory + "/" + mapFilePath);
+		if (testFile.exists()) {
+			mapFilePath = configDirectory + "/" + mapFile;
+		}
+	} 
+
+	if (testFile === null || !testFile.exists()) {
+		testFile = new java.io.File(mapFilePath);
+		if (!testFile.exists()) {
+			throw resource.getString("LDAPSYNC.MAP.FILE.IS.MISSING");
+		}
+	}	
+	
+	
+	
+	thisConnector.useAttributeMap(mapFilePath, mapToUse, true);
+	if (deBug) logmsg("--@@@ MAP FILE @@@--> using: " + mapFilePath)
+} catch (ex){
+	var msg = resource.getString("LDAPSYNC.ERROR.FINDING.MAP")
+	logmsg("ERROR", msg + " - " + ex + " - " + mapFile);
+	addToStats(flowKey, "error","error");	
+
+	throw (msg + " - " + ex + " - " + mapFile);
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

@@ -1,0 +1,21 @@
+<div style="width:100%; height:100%; background-color: white">
+  <div data-dojo-type="dijit.form.Form" data-dojo-attach-point="FormObject" style="width:100%; height:100%">
+
+	<div data-dojo-type="dijit/layout/BorderContainer" gutters="false" style="width:100%; height:100%" data-dojo-attach-point="border">
+		<div data-dojo-type="dijit/layout/ContentPane" region="top">
+			<div dojoAttachPoint="frmToolbar" dojoType="dijit.Toolbar" style="display:none;">
+				<button dojoType="dijit.form.Button" dojoAttachPoint="okButton" dojoAttachEvent="onClick:closeForm">${nls.WebCE_more}</button>
+				<button dojoType="dijit.form.Button" dojoAttachPoint="resetButton" dojoAttachEvent="onClick:querySchema">${nls.WebCE_discover}</button>
+				<button dojoType="dijit.form.Button" dojoAttachPoint="testButton" dojoAttachEvent="onClick:testConnection">${nls.ConfigSettingsEditor_TestConnection}</button>
+			</div>
+		</div>
+		
+		<div data-dojo-type="dijit/layout/ContentPane" region="left" style="margin-top:25px">
+			<div data-dojo-type="idx/layout/ListNavController" containerid="${id}formStack"></div>
+		</div>
+		
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="formStack" id="${id}formStack" region="center">
+		</div>
+	</div>
+  </div>
+</div>

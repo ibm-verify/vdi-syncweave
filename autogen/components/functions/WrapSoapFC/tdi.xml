@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.WrapSoap">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.webservice.WrapSoap</parameter>
+				<parameter name="headerAndBodyTagsPresent">true</parameter>
+				<parameter name="inputXMLType">String</parameter>
+				<parameter name="returnXMLType">String</parameter>
+				<parameter name="simulate">Enabled</parameter>
+				<parameter name="soapBodyAttributes"/>
+				<parameter name="soapBodyNSDecl"/>
+				<parameter name="soapEnvelopeAttributes"/>
+				<parameter name="soapEnvelopeNSDecl"/>
+				<parameter name="soapHeaderAttributes"/>
+				<parameter name="soapHeaderNSDecl"/>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>soapBodyDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapBodyString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapHeaderDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapHeaderString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.webservice.WrapSoap">
+			<TranslationFile>NLS/idi_fc_wrap_soap</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>inputXMLType</ListItem>
+					<ListItem>returnXMLType</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>headerAndBodyTagsPresent</ListItem>
+					<ListItem>soapEnvelopeAttributes</ListItem>
+					<ListItem>soapEnvelopeNSDecl</ListItem>
+					<ListItem>soapBodyAttributes</ListItem>
+					<ListItem>soapBodyNSDecl</ListItem>
+					<ListItem>soapHeaderAttributes</ListItem>
+					<ListItem>soapHeaderNSDecl</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>inputXMLType</ListItem>
+				<ListItem>returnXMLType</ListItem>
+				<ListItem>headerAndBodyTagsPresent</ListItem>
+				<ListItem>soapEnvelopeAttributes</ListItem>
+				<ListItem>soapEnvelopeNSDecl</ListItem>
+				<ListItem>soapBodyAttributes</ListItem>
+				<ListItem>soapBodyNSDecl</ListItem>
+				<ListItem>soapHeaderAttributes</ListItem>
+				<ListItem>soapHeaderNSDecl</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="headerAndBodyTagsPresent">
+				<parameter name="description">HABTP_DESC</parameter>
+				<parameter name="label">HABTP_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="inputXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">IXT_DESC</parameter>
+				<parameter name="label">IXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="returnXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">RXT_DESC</parameter>
+				<parameter name="label">RXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="soapBodyAttributes">
+				<parameter name="description">SBA_DESC</parameter>
+				<parameter name="label">SBA_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="soapBodyNSDecl">
+				<parameter name="description">SBND_DESC</parameter>
+				<parameter name="label">SBND_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="soapEnvelopeAttributes">
+				<parameter name="description">SEA_DESC</parameter>
+				<parameter name="label">SEA_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="soapEnvelopeNSDecl">
+				<parameter name="description">SEND_DESC</parameter>
+				<parameter name="label">SEND_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="soapHeaderAttributes">
+				<parameter name="description">SHA_DESC</parameter>
+				<parameter name="label">SHA_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="soapHeaderNSDecl">
+				<parameter name="description">SHND_DESC</parameter>
+				<parameter name="label">SHND_LBL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

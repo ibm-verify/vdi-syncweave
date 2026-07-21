@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Mon May 08 10:43:34 IST 2006" createdBy="administrator" modified="Mon May 08 17:56:54 IST 2006" modifiedBy="administrator" version="1.2">
+<Folder name="AssemblyLines">
+<AssemblyLine name="generateCBELog">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">true</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog0</Name>
+<Script>var counter = 0;</Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="readFile">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/cbe_demo/event_config.txt</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="characterSet"/>
+<parameter name="debug">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>OtherSituation.any</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Priority</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.component</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.componentType</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.subcomponent</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended2</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>extensionName</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>message</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>severity</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>situation.CategoryName</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>situation.reasoningScope</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Function name="generateCBE">
+<InheritFrom>system:/Functions/ibmdi.CBEGeneratorFC</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="state">Enabled</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>default_ok</Name>
+<Script><![CDATA[
+]]></Script>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>event</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>event</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>eventXml</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>eventXml</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>OtherSituation.any</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>OtherSituation.any</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Priority</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>Priority</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.component</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.component</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.componentType</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.componentType</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.subcomponent</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.subcomponent</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.TestingEXTENDEDelement</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.TestingEXTENDEDelement</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.TestingEXTENDEDelement2.childTestingExtended</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended2</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.TestingEXTENDEDelement2.childTestingExtended2</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>extensionName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>extensionName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>message</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>message</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>severity</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>severity</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.CategoryName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.CategoryName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.reasoningScope</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.reasoningScope</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="writeFile">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/cbe_demo/cbe.xml</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.LineReader</InheritFrom>
+<parameter name="attributeName">eventXml</parameter>
+<parameter name="characterSet"/>
+<parameter name="debug">false</parameter>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>eventXml</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>eventXml</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_initialize</Name>
+<Enabled>false</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Connector name="getLog">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[
+// Script converts CBE to log records 
+var l_event = work.getAttribute("event").getValue(0);
+var logEvent = com.ibm.di.fc.cbe.CBEGeneratorFC.getCBELogXml(l_event,false);
+work.setAttribute("logXML",logEvent);
+]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Connector name="writeLogFile">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/cbe_demo/cbe_log.xml</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.LineReader</InheritFrom>
+<parameter name="attributeName">logXML</parameter>
+<parameter name="characterSet"/>
+<parameter name="debug">false</parameter>
+<parameter name="isnamespaceaware">false</parameter>
+<parameter name="isvalidating">false</parameter>
+<parameter name="omitxmldeclaration">false</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>logXML</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>logXML</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_initialize</Name>
+<Script/>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>before_initialize</Name>
+<Script/>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+<AssemblyLine name="sendCBEEvent">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+<parameter name="automapattributes">false</parameter>
+<parameter name="createTombstones">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+</Settings>
+<Hooks>
+<Hook>
+<Name>prolog0</Name>
+<Script/>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="ReadCBEevent">
+<InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="filePath">examples/cbe_demo/event_config.txt</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+<parameter name="attributeName">line</parameter>
+<parameter name="characterSet">UTF-8</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="ldifDNAttributeName">$dn</parameter>
+<parameter name="ldifVersion">true</parameter>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>CreationTime</Name>
+<Type>advanced</Type>
+<Enabled>false</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>CreationTime</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>OtherSituation.any</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>OtherSituation.any</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Priority</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>Priority</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.component</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.component</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.componentType</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.componentType</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.subcomponent</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.subcomponent</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.TestingEXTENDEDelement</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.TestingEXTENDEDelement</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.machineName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.machineName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>extensionName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>extensionName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>message</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>message</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>severity</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>severity</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.CategoryName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.CategoryName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.reasoningScope</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.reasoningScope</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<WhenToCommit>After every database operation</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<SchemaItem>
+<Name>OtherSituation.any</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>Priority</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.component</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.componentType</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>SCI.subcomponent</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>X.TestingEXTENDEDelement2.childTestingExtended2</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>extensionName</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>message</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>severity</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>situation.CategoryName</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+<SchemaItem>
+<Name>situation.reasoningScope</Name>
+<Syntax>java.lang.String</Syntax>
+<Presence>null</Presence>
+</SchemaItem>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance>
+<Enabled>false</Enabled>
+<ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+</PoolInstance>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Function name="testCbeGenerator">
+<InheritFrom>system:/Functions/ibmdi.CBEGeneratorFC</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="event_source_location">9.157.147.65</parameter>
+<parameter name="state">Enabled</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="event_source_location">9.157.147.65</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>event</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>event</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>eventXml</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>eventXml</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>CreationTime</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>CreationTime</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>OtherSituation.any</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>OtherSituation.any</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Priority</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>Priority</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.component</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.component</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.componentType</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.componentType</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>SCI.subcomponent</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>SCI.subcomponent</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>X.machineName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>X.machineName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>event</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>event</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>extensionName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>extensionName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>message</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>message</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>severity</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>severity</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.CategoryName</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.CategoryName</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>situation.reasoningScope</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>situation.reasoningScope</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="prepareParamsForWS">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[
+//Get CBE Event
+var event = work.getAttribute("event").getValue(0);
+
+var notificationArray = new com.ibm.wtci.samples.axiswsn10.wsn.NotificationMessageHolderType[1];
+
+//Creating an instance of NotificationMessageHolderType
+notificationArray[0] = new com.ibm.wtci.samples.axiswsn10.wsn.NotificationMessageHolderType();
+
+//Creating a Topic element with name 'Topic' and value of
+//dialect attribute as 'tec'
+var msgTopic = new org.apache.axis.message.MessageElement[1];
+
+msgTopic[0] = new org.apache.axis.message.MessageElement();
+msgTopic[0].setName("Topic");
+msgTopic[0].setAttribute("dialect", "none");
+
+var topicExpType = new com.ibm.wtci.samples.axiswsn10.wsn.TopicExpressionType();
+
+topicExpType.set_any(msgTopic);
+
+//Setting the Topic of the notification
+notificationArray[0].setTopic(topicExpType);
+
+//Setting the event to be the message of the notification
+notificationArray[0].setMessage(event);
+
+//Setting information about the producer of the event in
+//the notification
+var endPointRef = new com.ibm.wtci.samples.axiswsn10.wsa.EndpointReferenceType();
+var au = new com.ibm.wtci.samples.axiswsn10.wsa.AttributedURI();
+var value = new org.apache.axis.types.URI("protocol", "9.182.182.71");
+au.set_value(value);
+endPointRef.setAddress(au);
+notificationArray[0].setProducerReference(endPointRef);
+
+work.setAttribute("event_as_notification", notificationArray);]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Function name="eventToSoap">
+<InheritFrom>system:/Functions/ibmdi.AxisJavaToSoap</InheritFrom>
+<parameter name="complexTypes"><![CDATA[com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultType
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeDescription
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeFaultCause
+com.ibm.wtci.samples.axiswsn13.wsrf.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.AbsoluteOrRelativeTimeType
+com.ibm.wtci.samples.axiswsn13.wsn.FilterType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidFilterFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidMessageContentExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidProducerPropertiesExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidTopicExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidUseRawValueFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.MultipleTopicsSpecifiedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.NoCurrentMessageOnTopicFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.NotificationMessageHolderType
+com.ibm.wtci.samples.axiswsn13.wsn.NotificationMessageHolderTypeMessage
+com.ibm.wtci.samples.axiswsn13.wsn.Notify
+com.ibm.wtci.samples.axiswsn13.wsn.PauseFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.QueryExpressionType
+com.ibm.wtci.samples.axiswsn13.wsn.ResumeFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.SubscribeCreationFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicExpressionDialectUnknownFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicExpressionType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicNotSupportedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToCreatePullPointType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToDestroyPullPointType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToDestroySubscriptionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnacceptableInitialTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnacceptableTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn13.wsa.AttributedNonNegativeIntegerType
+com.ibm.wtci.samples.axiswsn13.wsa.AttributedURIType
+com.ibm.wtci.samples.axiswsn13.wsa.EndpointReferenceType
+com.ibm.wtci.samples.axiswsn13.wsa.FaultCodesOpenEnumType
+com.ibm.wtci.samples.axiswsn13.wsa.FaultCodesType
+com.ibm.wtci.samples.axiswsn13.wsa.MetadataType
+com.ibm.wtci.samples.axiswsn13.wsa.ReferenceParametersType
+com.ibm.wtci.samples.axiswsn13.wsa.RelatesToType
+com.ibm.wtci.samples.axiswsn13.wsa.RelationshipType
+com.ibm.wtci.samples.axiswsn13.wsa.RelationshipTypeOpenEnum
+com.ibm.wtci.samples.axiswsn10.wsrp.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsrp.DeleteType
+com.ibm.wtci.samples.axiswsn10.wsrp.InsertType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidQueryExpressionFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidResourcePropertyQNameFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidSetResourcePropertiesRequestContentFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.QueryEvaluationErrorFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.QueryExpressionType
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationType
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationTypeNewValue
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationTypeOldValue
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.SetRequestComponentType
+com.ibm.wtci.samples.axiswsn10.wsrp.SetResourcePropertyRequestFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UnableToModifyResourcePropertyFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UnknownQueryExpressionDialectFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UpdateType
+com.ibm.wtci.samples.axiswsn10.wsrl.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsrl.ResourceNotDestroyedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.TerminationTimeChangeRejectedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.UnableToSetTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsn.InvalidTopicExpressionFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.NoCurrentMessageOnTopicFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.NotificationMessageHolderType
+com.ibm.wtci.samples.axiswsn10.wsn.PauseFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.ResumeFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.SubscribeCreationFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicExpressionType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicNotSupportedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicPathDialectUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsa.AttributedQName
+com.ibm.wtci.samples.axiswsn10.wsa.AttributedURI
+com.ibm.wtci.samples.axiswsn10.wsa.EndpointReferenceType
+com.ibm.wtci.samples.axiswsn10.wsa.ReferencePropertiesType
+com.ibm.wtci.samples.axiswsn10.wsa.Relationship
+com.ibm.wtci.samples.axiswsn10.wsa.RelationshipTypeValues
+com.ibm.wtci.samples.axiswsn10.wsa.ServiceNameType]]></parameter>
+<parameter name="debug">false</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="operationParamList">event_as_notification</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">Notify</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="useMultiRefs">true</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">wsdl/wsn10/wsn10-wtci-1.0.0.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>after_initialize</Name>
+<Script><![CDATA[var cbeClass = java.lang.Class.forName("org.eclipse.hyades.logging.events.cbe.CommonBaseEvent");
+var cbeQName = new javax.xml.namespace.QName("http://www.ibm.com/AC/commonbaseevent1_0_1", "CommonBaseEvent");
+var cbeSerializerFactory = new com.ibm.wtci.samples.axis.source.CbeSerializerFactory();
+
+
+eventToSoap.getFunction().registerTypeMapping(cbeClass, cbeQName, cbeSerializerFactory, null);]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="complexTypes"><![CDATA[com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultType
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeDescription
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn13.wsrf.BaseFaultTypeFaultCause
+com.ibm.wtci.samples.axiswsn13.wsrf.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.AbsoluteOrRelativeTimeType
+com.ibm.wtci.samples.axiswsn13.wsn.FilterType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidFilterFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidMessageContentExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidProducerPropertiesExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidTopicExpressionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.InvalidUseRawValueFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.MultipleTopicsSpecifiedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.NoCurrentMessageOnTopicFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.NotificationMessageHolderType
+com.ibm.wtci.samples.axiswsn13.wsn.NotificationMessageHolderTypeMessage
+com.ibm.wtci.samples.axiswsn13.wsn.Notify
+com.ibm.wtci.samples.axiswsn13.wsn.PauseFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.QueryExpressionType
+com.ibm.wtci.samples.axiswsn13.wsn.ResumeFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.SubscribeCreationFailedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicExpressionDialectUnknownFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicExpressionType
+com.ibm.wtci.samples.axiswsn13.wsn.TopicNotSupportedFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToCreatePullPointType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToDestroyPullPointType
+com.ibm.wtci.samples.axiswsn13.wsn.UnableToDestroySubscriptionFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnacceptableInitialTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn13.wsn.UnacceptableTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn13.wsa.AttributedNonNegativeIntegerType
+com.ibm.wtci.samples.axiswsn13.wsa.AttributedURIType
+com.ibm.wtci.samples.axiswsn13.wsa.EndpointReferenceType
+com.ibm.wtci.samples.axiswsn13.wsa.FaultCodesOpenEnumType
+com.ibm.wtci.samples.axiswsn13.wsa.FaultCodesType
+com.ibm.wtci.samples.axiswsn13.wsa.MetadataType
+com.ibm.wtci.samples.axiswsn13.wsa.ReferenceParametersType
+com.ibm.wtci.samples.axiswsn13.wsa.RelatesToType
+com.ibm.wtci.samples.axiswsn13.wsa.RelationshipType
+com.ibm.wtci.samples.axiswsn13.wsa.RelationshipTypeOpenEnum
+com.ibm.wtci.samples.axiswsn10.wsrp.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsrp.DeleteType
+com.ibm.wtci.samples.axiswsn10.wsrp.InsertType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidQueryExpressionFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidResourcePropertyQNameFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.InvalidSetResourcePropertiesRequestContentFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.QueryEvaluationErrorFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.QueryExpressionType
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationType
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationTypeNewValue
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourcePropertyValueChangeNotificationTypeOldValue
+com.ibm.wtci.samples.axiswsn10.wsrp.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.SetRequestComponentType
+com.ibm.wtci.samples.axiswsn10.wsrp.SetResourcePropertyRequestFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UnableToModifyResourcePropertyFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UnknownQueryExpressionDialectFaultType
+com.ibm.wtci.samples.axiswsn10.wsrp.UpdateType
+com.ibm.wtci.samples.axiswsn10.wsrl.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsrl.ResourceNotDestroyedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.TerminationTimeChangeRejectedFaultType
+com.ibm.wtci.samples.axiswsn10.wsrl.UnableToSetTerminationTimeFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.BaseFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.BaseFaultTypeErrorCode
+com.ibm.wtci.samples.axiswsn10.wsn.InvalidTopicExpressionFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.NoCurrentMessageOnTopicFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.NotificationMessageHolderType
+com.ibm.wtci.samples.axiswsn10.wsn.PauseFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.ResourceUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.ResumeFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.SubscribeCreationFailedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicExpressionType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicNotSupportedFaultType
+com.ibm.wtci.samples.axiswsn10.wsn.TopicPathDialectUnknownFaultType
+com.ibm.wtci.samples.axiswsn10.wsa.AttributedQName
+com.ibm.wtci.samples.axiswsn10.wsa.AttributedURI
+com.ibm.wtci.samples.axiswsn10.wsa.EndpointReferenceType
+com.ibm.wtci.samples.axiswsn10.wsa.ReferencePropertiesType
+com.ibm.wtci.samples.axiswsn10.wsa.Relationship
+com.ibm.wtci.samples.axiswsn10.wsa.RelationshipTypeValues
+com.ibm.wtci.samples.axiswsn10.wsa.ServiceNameType]]></parameter>
+<parameter name="debug">false</parameter>
+<parameter name="mode">Request</parameter>
+<parameter name="operationParamList">event_as_notification</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">Notify</parameter>
+<parameter name="useMultiRefs">true</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/cbe_demo/wsdl/wsn10/wsn10-wtci-1.0.0.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>event_as_notification</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>event_as_notification</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+<Connector name="watchEventAsSoap">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[var soap = work.getAttribute("xmlString").getValue(0);
+
+
+main.logmsg("--------------------GENERATED SOAP MESSAGE----------------------");
+main.logmsg(soap);
+main.logmsg("----------------------------------------------------------------");]]></ConnectorScript>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+<Function name="invokeWS">
+<InheritFrom>system:/Functions/ibmdi.InvokeSoapWS</InheritFrom>
+<parameter name="Password"/>
+<parameter name="Username"/>
+<parameter name="debug">false</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="invokeOneWay">false</parameter>
+<parameter name="providerUrl">http://&lt;hostname&gt;:9080/wsnt-was/services/NotificationConsumer10Soap</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">Notify</parameter>
+<parameter name="state">Enabled</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">wsdl/wsn10/wsn10-wtci-1.0.0.wsdl</parameter>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="Password"/>
+<parameter name="Username"/>
+<parameter name="debug">false</parameter>
+<parameter name="inputType">String</parameter>
+<parameter name="invokeOneWay">false</parameter>
+<parameter name="providerUrl">http://&lt;hostname&gt;:9080/wsnt-was/services/NotificationConsumer10Soap</parameter>
+<parameter name="returnXMLType">String</parameter>
+<parameter name="soapOperation">Notify</parameter>
+<parameter name="userComment"/>
+<parameter name="wsdlUrl">examples/cbe_demo/wsdl/wsn10/wsn10-wtci-1.0.0.wsdl</parameter>
+</Configuration>
+<SandboxConfig/>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>responseCode</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>responseCode</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+<AttributeMapItem>
+<Name>xmlString</Name>
+<Type>simple</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>xmlString</Simple>
+<SubstitutionTemplate>null</SubstitutionTemplate>
+</AttributeMapItem>
+</AttributeMap>
+</Function>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>

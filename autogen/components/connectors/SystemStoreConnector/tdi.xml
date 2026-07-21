@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SystemStoreConnector">
+                        <SupportedModes>Iterator,AddOnly,Delete,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.PESConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="createTable"/>
+				<parameter name="dbTableName"/>
+				<parameter name="deleteOnClose">false</parameter>
+				<parameter name="jdbcLogin"/>
+				<parameter name="jdbcPassword"/>
+				<parameter name="keyAttribute"/>
+				<parameter name="pesCommit">After every database operation</parameter>
+				<parameter name="sDBName"/>
+				<parameter name="searchFilter"/>
+				<parameter name="selectDBDriver"/>
+				<parameter name="selectionMode">All</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.PESConnector">
+			<TranslationFile>NLS/idi_conn_PESConnector</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>keyAttribute</ListItem>
+					<ListItem>dbTableName</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>sDBName</ListItem>
+					<ListItem>jdbcLogin</ListItem>
+					<ListItem>jdbcPassword</ListItem>
+					<ListItem>selectionMode</ListItem>
+					<ListItem>selectDBDriver</ListItem>
+					<ListItem>createTable</ListItem>
+					<ListItem>deleteOnClose</ListItem>
+					<ListItem>searchFilter</ListItem>
+					<ListItem>pesCommit</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>sDBName</ListItem>
+				<ListItem>jdbcLogin</ListItem>
+				<ListItem>jdbcPassword</ListItem>
+				<ListItem>keyAttribute</ListItem>
+				<ListItem>selectionMode</ListItem>
+				<ListItem>dbTableName</ListItem>
+				<ListItem>selectDBDriver</ListItem>
+				<ListItem>createTable</ListItem>
+				<ListItem>deleteOnClose</ListItem>
+				<ListItem>searchFilter</ListItem>
+				<ListItem>pesCommit</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="createTable">
+				<parameter name="description">createTable_desc</parameter>
+				<parameter name="label">createTable_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="dbTableName">
+				<parameter name="description">tablename_desc</parameter>
+				<parameter name="label">tablename_label</parameter>
+				<parameter name="script">selectSysStoreTable</parameter>
+				<parameter name="script2">deleteTable</parameter>
+				<parameter name="scriptLabel">table_sc_label</parameter>
+				<parameter name="scriptLabel2">table_sc2_label</parameter>
+				<parameter name="scripthelp">table_sc_help</parameter>
+				<parameter name="scripthelp2">table_sc2_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="deleteOnClose">
+				<parameter name="description">delOnClose_desc</parameter>
+				<parameter name="label">delOnClose_label</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<FormItem name="jdbcLogin">
+				<parameter name="description">login_desc</parameter>
+				<parameter name="label">login_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="jdbcPassword">
+				<parameter name="description">pass_desc</parameter>
+				<parameter name="label">pass_label</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+			<FormItem name="keyAttribute">
+				<parameter name="description">key_desc</parameter>
+				<parameter name="label">key_label</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">AddOnly,Delete,Lookup,Update</parameter>
+			</FormItem>
+			<FormItem name="pesCommit">
+				<Values>
+					<ListItem>After every database operation</ListItem>
+					<ListItem>On Connector close</ListItem>
+					<ListItem>Manual</ListItem>
+					<ListItem>End of Cycle</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>After every database operation</Key>
+						<Value>Localized.After.every.database.operation</Value>
+					</Item>
+					<Item>
+						<Key>Manual</Key>
+						<Value>Localized.Manual</Value>
+					</Item>
+					<Item>
+						<Key>On Connector close</Key>
+						<Value>Localized.On.Connector.close</Value>
+					</Item>
+					<Item>
+						<Key>End of Cycle</Key>
+						<Value>Localized.End.of.Cycle</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">pesCommit_desc</parameter>
+				<parameter name="label">pesCommit_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="sDBName">
+				<parameter name="description">dbname_desc</parameter>
+				<parameter name="label">dbname_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="searchFilter">
+				<parameter name="description">searchFlt_desc</parameter>
+				<parameter name="label">searchFlt_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="selectDBDriver">
+				<Values>
+					<ListItem>org.apache.derby.jdbc.ClientDriver</ListItem>
+					<ListItem>org.apache.derby.jdbc.EmbeddedDriver</ListItem>
+					<ListItem>com.ibm.db2.jcc.DB2Driver</ListItem>
+					<ListItem>oracle.jdbc.OracleDriver</ListItem>
+					<ListItem>com.microsoft.sqlserver.jdbc.SQLServerDriver</ListItem>
+					<ListItem>solid.jdbc.SolidDriver</ListItem>
+				</Values>
+				<parameter name="description">seldriver_desc</parameter>
+				<parameter name="label">seldriver_label</parameter>
+				<parameter name="syntax">dropedit</parameter>
+			</FormItem>
+			<FormItem name="selectionMode">
+				<Values>
+					<ListItem>All</ListItem>
+					<ListItem>Existing</ListItem>
+					<ListItem>Deleted</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>All</Key>
+						<Value>mode_All</Value>
+					</Item>
+					<Item>
+						<Key>Deleted</Key>
+						<Value>mode_Deleted</Value>
+					</Item>
+					<Item>
+						<Key>Existing</Key>
+						<Value>mode_Existing</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">mode_desc</parameter>
+				<parameter name="label">mode_label</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+function selectDBDriver_changed(){
+	var selDriver = form.getConfig("selectDBDriver");
+	if(selDriver == null || selDriver.trim().length() <= 0) {
+		selDriver = com.ibm.di.store.StoreFactory.getJdbcDriver();
+	}
+	var crtStmt = com.ibm.di.store.StoreFactory.getSysStoreCreateStmtByDriver(selDriver);
+	if(crtStmt != null){
+		form.getControl("createTable").setText(crtStmt);
+	}
+}
+selectDBDriver_changed();
+			]]>
+			</parameter>			
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

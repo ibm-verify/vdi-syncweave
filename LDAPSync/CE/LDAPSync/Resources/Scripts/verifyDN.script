@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="9" UUID="d50a2ce0-7439-4805-9abd-cb227bffae93" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="verifyDN" modified="Fri Aug 08 16:20:33 CEST 2014" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="verifyDN">
+        <InheritFrom>[no inheritance]</InheritFrom>
+        <ModTime>1407507632582</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[try {
+	dn = work.getString("$dn");
+	
+	if (dn === null) {
+		logmsg("ERROR", where() + " - " + resource.getString("LDAPSYNC.NO.DN.ATTRIBUTE.FOUND.IN.ENTRY.SKIPPING"));
+		addToStats(flowKey, "error", "error");
+		system.continueLoop();
+	}
+	
+	work["$dn"] = cleanDN(dn);
+} catch (ex) {
+	logmsg("ERROR", where() + " - " + resource.getString("LDAPSYNC.ERROR.PARSING.SOURCE.DN") + ": " + dn + " - " + ex);
+	logmsg("WARN", where() + " - " + resource.getString("LDAPSYNC.SKIPPING"));
+	addToStats(flowKey, "error", "error");
+	system.continueLoop();
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

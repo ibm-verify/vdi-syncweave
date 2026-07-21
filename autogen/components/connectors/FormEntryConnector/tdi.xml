@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Dec 4 10:59:10 SGT 2008" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.FormEntryConnector">
+                        <SupportedModes>Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.FormEntryConnector</parameter>
+				<parameter name="parserOption">Required</parameter>
+				<parameter name="isLoop">false</parameter>
+				<parameter name="entryRawData"><![CDATA[id:1
+first:John
+last:Smith
+.
+id:2
+first:Jane
+last:Doe
+.]]></parameter>
+			</Configuration>
+			<Parser>
+				<InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
+			</Parser>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.FormEntryConnector">
+			<TranslationFile>NLS/idi_conn_formentry</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>isLoop</ListItem>
+                                        <ListItem>entryRawData</ListItem>
+                                        <ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>isLoop</ListItem>
+                                <ListItem>entryRawData</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="isLoop">
+				<parameter name="description">loop_desc</parameter>
+				<parameter name="label">loop_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="entryRawData">
+				<parameter name="description">data_desc</parameter>
+				<parameter name="label">data_label</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:complexType name="service-endpoint-type">
+        <xsd:choice maxOccurs="unbounded">
+            <xsd:element name="service-url" type="xsd:anyURI" minOccurs="1" maxOccurs="1" >
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>Service URL</scmp:display>
+                        <scmp:summary>The URL at which the service is available</scmp:summary>
+                        <scmp:description>The URL at which the service is available.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="wsdl-url" type="xsd:anyURI" minOccurs="1" maxOccurs="1" >
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>WSDL Source URL</scmp:display>
+                        <scmp:summary>URL of the WSDL file</scmp:summary>
+                        <scmp:description>The location (URL) of the WSDL file.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="wsdl-port" type="xsd:NCName" minOccurs="1" maxOccurs="1" >
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <scmp:display>WSDL Port name</scmp:display>
+                        <scmp:summary>The name of a port in the WSDL file</scmp:summary>
+                        <scmp:description>The name of a port in the WSDL file.</scmp:description>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:element name="service-endpoint" type="scmp:service-endpoint-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Service Reference</scmp:display>
+                <scmp:summary>Service Reference</scmp:summary>
+                <scmp:description>
+                    A service endpoint or virtual service instance.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

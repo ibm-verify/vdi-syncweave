@@ -1,0 +1,67 @@
+<div>
+	<form dojoAttachPoint="Form" id="form01" method="POST" action="/etl/templates" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td valign="top">
+					<table cellspacing="5">
+						<tr>
+							<td>
+							<h2>Installed Solutions</h2>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<div dojoAttachPoint="installedFiles"></div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+							<h2>Template Solutions</h2>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<div dojoAttachPoint="templateFiles"></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+				
+				<td width="40"></td>
+				
+				<td valign="top">
+					<table cellspacing="5">
+						<tr>
+							<td colspan="2">
+							<h2>Upload SDI Solution</h2>
+							</td>
+			
+						</tr>
+						<tr>
+							<td></td>
+							<td><input dojoAttachEvent="onchange:_fileChanged" dojoAttachPoint="_file" type="file" name="filename"></input></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="checkbox" name="template"></input>${nls.WebCE_uploadAsTemplate}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="checkbox" name="replace"></input>${nls.WebCE_replaceExisting}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>${nls.WebCE_solutionName}: <input dojoType="dijit.form.TextBox" dojoAttachEvent="onChange:_solChanged" dojoAttachPoint="solution" type="input" name="solutionname"></input></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><div dojoAttachPoint="_sendButton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:sendFile"/>${nls.WebCE_ok}</td>
+						</tr>
+					</table>
+				</td>
+				
+			</tr>
+		</table>
+	</form>
+</div>

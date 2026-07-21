@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.FileSystem">
+                        <SupportedModes>AddOnly,Iterator</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.FileConnector</parameter>
+				<parameter name="parserOption">Required</parameter>
+				<parameter name="exclusiveLock">false</parameter>
+				<parameter name="fileAppend">false</parameter>
+				<parameter name="skipForwardAfterReconnect">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.FileConnector">
+			<TranslationFile>NLS/idi_conn_filesys</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>filePath</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>fileAwaitDataTimeout</ListItem>
+					<ListItem>fileAppend</ListItem>
+					<ListItem>exclusiveLock</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>filePath</ListItem>
+				<ListItem>fileAwaitDataTimeout</ListItem>
+				<ListItem>fileAppend</ListItem>
+				<ListItem>exclusiveLock</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="exclusiveLock">
+				<parameter name="description">exlock_desc</parameter>
+				<parameter name="label">exlock_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="fileAppend">
+				<parameter name="modes">-Iterator</parameter>
+				<parameter name="description">append_desc</parameter>
+				<parameter name="label">append_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="fileAwaitDataTimeout">
+				<Values>
+					<ListItem>-1</ListItem>
+					<ListItem>10</ListItem>
+					<ListItem>60</ListItem>
+				</Values>
+				<parameter name="description">time_desc</parameter>
+				<parameter name="label">time_label</parameter>
+				<parameter name="syntax">DROPEDIT</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="filePath">
+				<parameter name="description">path_desc</parameter>
+				<parameter name="label">path_label</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">path_sript_label</parameter>
+				<parameter name="scripthelp">path_script_help</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

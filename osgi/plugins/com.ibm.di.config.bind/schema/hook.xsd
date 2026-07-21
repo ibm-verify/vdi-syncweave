@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+
+
+
+
+
+
+	<include schemaLocation="base.xsd"></include>
+
+
+
+	<complexType name="HooksBinding">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="hook" type="tns:HookBinding" maxOccurs="unbounded"
+						minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="HookBinding">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="script" type="string" maxOccurs="1"
+						minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="enabled" type="boolean" default="true">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

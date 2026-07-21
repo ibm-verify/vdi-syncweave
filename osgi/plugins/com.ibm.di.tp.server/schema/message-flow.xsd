@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ibm.com/xmlns/prod/scmp"
+	xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" elementFormDefault="qualified">
+
+	<include schemaLocation="base.xsd" />
+
+	<element name="message-flow">
+		<complexType>
+			<sequence>
+				<element ref="tns:admin-state" minOccurs="0"></element>
+				<element name="message-flowID" type="string" />
+				<element name="version" type="string" />
+				<element name="bpmn" type="tns:bpmnFlowType" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="bpmnFlowType">
+		<sequence>
+			<!--
+				Need to pin down the form of document(s) that will be included below.
+				Will likely be narrowed from xs:any to something more specific
+			-->
+			<element name="bpmnXML">
+				<complexType>
+					<sequence>
+						<any minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<!--
+				ID of the process within the definitions element in the BPMN file
+				which corresponds to the message-flow.
+			-->
+			<element name="processID" type="string" />
+			<!--
+				Map of ID to interesting info... e.g. ID of partnerEntity(?) to
+				req.in
+			-->
+			<element name="map" type="tns:uuidmapType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="uuidmapType">
+		<sequence>
+			<element name="entry">
+				<complexType mixed="true">
+					<sequence>
+						<any minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+					<attribute name="uuid" />
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<element name="message-flow-status">
+		<complexType>
+			<sequence>
+				<element ref="tns:request-in" />
+				<element ref="tns:op-state" />
+				<any minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+</schema>

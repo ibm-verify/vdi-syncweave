@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.Mailbox">
+                        <SupportedModes>Iterator,Lookup,Delete,AddOnly,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.MailboxConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="createFolder"/>
+				<parameter name="excludeFolders"/>
+				<parameter name="getSubfolders"/>
+				<parameter name="mailFolder">INBOX</parameter>
+				<parameter name="mailPassword"/>
+				<parameter name="mailProtocol">pop3</parameter>
+				<parameter name="mailServer"/>
+				<parameter name="mailUser"/>
+				<parameter name="pollInterval">60</parameter>
+				<parameter name="supportsSkipLookup">true</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>event.originator</Name>
+					<Syntax>com.ibm.di.connector.ConnectorInterface</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Answered</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Deleted</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Draft</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Recent</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Seen</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Flagged</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.body</Name>
+					<Syntax>javax.mail.Multipart</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.bodyparts</Name>
+					<Syntax>javax.mail.BodyPart</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.cc</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.folder</Name>
+					<Syntax>javax.mail.Folder</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.from</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.message</Name>
+					<Syntax>javax.mail.Message</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.messageid</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.messagenumber</Name>
+					<Syntax>Integer</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.operation</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.originator</Name>
+					<Syntax>com.ibm.di.connector.ConnectorInterface</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.received</Name>
+					<Syntax>Date</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.replyto</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.sent</Name>
+					<Syntax>Date</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.session</Name>
+					<Syntax>javax.mail.Session</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.size</Name>
+					<Syntax>Integer</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.store</Name>
+					<Syntax>javax.mail.Store</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.subject</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.to</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mailbox.folder</Name>
+					<Syntax>javax.mail.Folder</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mailbox.message</Name>
+					<Syntax>javax.mail.Message</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mailbox.operation</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mailbox.session</Name>
+					<Syntax>javax.mail.Session</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mailbox.store</Name>
+					<Syntax>javax.mail.Store</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>Flag.Answered</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Deleted</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Draft</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Seen</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>Flag.Flagged</Name>
+					<Syntax>boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.addMessage</Name>
+					<Syntax>javax.mail.Message|javax.mail.Message[]</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.cc</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.from</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.messageid</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.messagenumber</Name>
+					<Syntax>Integer</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.subject</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>mail.to</Name>
+					<Syntax>javax.mail.Address</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.MailboxConnector">
+			<TranslationFile>NLS/idi_conn_mailbox</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>mailServer</ListItem>
+					<ListItem>mailProtocol</ListItem>
+					<ListItem>mailUser</ListItem>
+					<ListItem>mailPassword</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>mailFolder</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>createFolder</ListItem>
+					<ListItem>getSubfolders</ListItem>
+					<ListItem>excludeFolders</ListItem>
+					<ListItem>pollInterval</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>mailServer</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>mailProtocol</ListItem>
+				<ListItem>mailUser</ListItem>
+				<ListItem>mailPassword</ListItem>
+				<ListItem>mailFolder</ListItem>
+				<ListItem>createFolder</ListItem>
+				<ListItem>getSubfolders</ListItem>
+				<ListItem>excludeFolders</ListItem>
+				<ListItem>pollInterval</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="createFolder">
+				<parameter name="description">MAIL_CREATE_FOLDER_DESC</parameter>
+				<parameter name="label">MAIL_CREATE_FOLDER_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">AddOnly</parameter>
+			</FormItem>
+			<FormItem name="excludeFolders">
+				<parameter name="description">MAIL_EXCLUDE_FOLDER_DESC</parameter>
+				<parameter name="label">MAIL_EXCLUDE_FOLDER_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="modes">-AddOnly</parameter>
+			</FormItem>
+			<FormItem name="getSubfolders">
+				<parameter name="description">MAIL_GET_SUBFOLDER_DESC</parameter>
+				<parameter name="label">MAIL_GET_SUBFOLDER_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+				<parameter name="modes">-AddOnly</parameter>
+			</FormItem>
+			<FormItem name="mailFolder">
+				<parameter name="description">MAIL_FOLDER_DESC</parameter>
+				<parameter name="label">MAIL_FOLDER_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+			</FormItem>
+			<FormItem name="mailPassword">
+				<parameter name="description">MAIL_PASSWORD_DESC</parameter>
+				<parameter name="label">MAIL_PASSWORD_LABEL</parameter>
+				<parameter name="syntax">password</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="mailProtocol">
+				<Values>
+					<ListItem>pop3</ListItem>
+					<ListItem>imap</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>imap</Key>
+						<Value>Localized.imap</Value>
+					</Item>
+					<Item>
+						<Key>pop3</Key>
+						<Value>Localized.pop3</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">MAIL_PROTOCOL_DESC</parameter>
+				<parameter name="label">MAIL_PROTOCOL_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="mailServer">
+				<parameter name="description">MAIL_SERVER_DESC</parameter>
+				<parameter name="label">MAIL_SERVER_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="mailUser">
+				<parameter name="description">MAIL_USER_DESC</parameter>
+				<parameter name="label">MAIL_USER_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="pollInterval">
+				<parameter name="description">MAIL_POLLINTERVAL_DESC</parameter>
+				<parameter name="label">MAIL_POLLINTERVAL_LABEL</parameter>
+				<parameter name="syntax">String</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">MAIL_USESSL_DESC</parameter>
+				<parameter name="label">MAIL_USESSL_LABEL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="formevents"><![CDATA[
+				function mailProtocol_changed () {
+					var val = form.getConfig("mailProtocol");
+					var enabled = "imap".equalsIgnoreCase(val);
+					var control = form.getControl("getSubfolders");
+					if (control != null) {
+						control.setEnabled(enabled);
+					}
+				}
+				mailProtocol_changed ();
+			]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

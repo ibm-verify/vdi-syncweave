@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.AxisEasyWSServerConnector">
+                        <SupportedModes>Server</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.AxisEasyWSServerConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="authRealm">IBM Security Verify Directory Integrator</parameter>
+				<parameter name="charset">UTF-8</parameter>
+				<parameter name="requireClientAuth">false</parameter>
+				<parameter name="serverReply">true</parameter>
+				<parameter name="tagOpEntry">false</parameter>
+				<parameter name="useBasicAuth">false</parameter>
+				<parameter name="useSSL">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>host</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.password</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>http.username</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>requestObjArray</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>requestedResource</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapAction</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapFault</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapRequest</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapResponse</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>wsdlRequested</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>http.credentialsValid</Name>
+					<Syntax>Boolean</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>responseContentType</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>responseObjArray</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapFault</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>soapResponse</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>wsdlRequested</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.AxisEasyWSServerConnector">
+			<TranslationFile>NLS/idi_conn_axiseasywsserver</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>tcpPort</ListItem>
+					<ListItem>wsdlFile</ListItem>
+					<ListItem>soapOperation</ListItem>
+					<ListItem>wsdlToGenFileName</ListItem>
+					<ListItem>webServiceLocation</ListItem>
+					<ListItem>runGenWsdlScriptButton</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>backlog</ListItem>
+					<ListItem>complexTypes</ListItem>
+					<ListItem>tagOpEntry</ListItem>
+					<ListItem>useSSL</ListItem>
+					<ListItem>requireClientAuth</ListItem>
+					<ListItem>authRealm</ListItem>
+					<ListItem>useBasicAuth</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>tcpPort</ListItem>
+				<ListItem>backlog</ListItem>
+				<ListItem>wsdlFile</ListItem>
+				<ListItem>soapOperation</ListItem>
+				<ListItem>complexTypes</ListItem>
+				<ListItem>tagOpEntry</ListItem>
+				<ListItem>useSSL</ListItem>
+				<ListItem>requireClientAuth</ListItem>
+				<ListItem>authRealm</ListItem>
+				<ListItem>useBasicAuth</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>wsdlToGenFileName</ListItem>
+				<ListItem>webServiceLocation</ListItem>
+				<ListItem>runGenWsdlScriptButton</ListItem>
+			</FormItemNames>
+			<FormItem name="authRealm">
+				<parameter name="description">AUTH_REALM_DESC</parameter>
+				<parameter name="label">AUTH_REALM_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="translatedefault">AUTH_REALM_DEF</parameter>
+			</FormItem>
+			<FormItem name="backlog">
+				<parameter name="description">TCP_BACKLOG_DESC</parameter>
+				<parameter name="label">TCP_BACKLOG_LABEL</parameter>
+				<parameter name="syntax">Number</parameter>
+			</FormItem>
+			<FormItem name="complexTypes">
+				<parameter name="description">CT_DESC</parameter>
+				<parameter name="label">CT_LBL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name="requireClientAuth">
+				<parameter name="description">REQUIRE_CLIENT_AUTHENTICATION_DESC</parameter>
+				<parameter name="label">REQUIRE_CLIENT_AUTHENTICATION</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="runGenWsdlScriptButton">
+				<parameter name="script">genWsdl</parameter>
+				<parameter name="scriptLabel">RGWSB_SCRLBL</parameter>
+				<parameter name="scripthelp">RGWSB_SCRHLP</parameter>
+				<parameter name="syntax">static</parameter>
+			</FormItem>
+			<FormItem name="soapOperation">
+				<parameter name="description">SO_DESC</parameter>
+				<parameter name="label">SO_LBL</parameter>
+				<parameter name="script">selectWSOperation</parameter>
+				<parameter name="scriptLabel">SO_SCRLBL</parameter>
+				<parameter name="scripthelp">SO_SCRHLP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="tagOpEntry">
+				<parameter name="description">TOE_DESC</parameter>
+				<parameter name="label">TOE_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="tcpPort">
+				<parameter name="description">TP_DESC</parameter>
+				<parameter name="label">TP_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="useBasicAuth">
+				<parameter name="description">UBA_DESC</parameter>
+				<parameter name="label">UBA_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useSSL">
+				<parameter name="description">US_DESC</parameter>
+				<parameter name="label">US_LBL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="webServiceLocation">
+				<parameter name="description">WSL_DESC</parameter>
+				<parameter name="label">WSL_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="wsdlFile">
+				<parameter name="description">WF_DESC</parameter>
+				<parameter name="label">WF_LBL</parameter>
+				<parameter name="script">selectFile</parameter>
+				<parameter name="scriptLabel">WF_SCRLBL</parameter>
+				<parameter name="scripthelp">WF_SCRHLP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="wsdlToGenFileName">
+				<parameter name="description">WTGFN_DESC</parameter>
+				<parameter name="label">WTGFN_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<parameter name="formscript"><![CDATA[
+function genWsdl () {
+	var wsdlToGenFileName = form.getConfigValue("wsdlToGenFileName");
+	var webServiceLocation = form.getConfigValue("webServiceLocation");
+	form.setWaitCursor();
+	var generatedSuccessfully = false;
+	try {
+		Packages.com.ibm.di.fc.webservice.axis2.WSDLGenerator.generateWsdl(config, wsdlToGenFileName, webServiceLocation);
+		generatedSuccessfully = true;
+	} finally {
+		form.setNormalCursor();
+	}
+	if (generatedSuccessfully) {
+		form.alert(form.translate("ALERT_WFGS"));
+	}
+}
+
+function selectWSOperation() {
+	var wsdlFile = form.getConfigValue("wsdlFile");
+	if (wsdlFile == null || wsdlFile.equals("")) {
+		form.alert(form.translate("ALERT_WFMNBE"));
+		return;
+	}
+	form.setWaitCursor();
+	var operations = null;
+	try {
+		operations = Packages.com.ibm.di.fc.webservice.axis2.WSDLData.getSoapOperations(wsdlFile);
+	} finally {
+		form.setNormalCursor();
+	}
+	var sel = null;
+	if (operations.size() == 0) {
+		form.alert(form.translate("ALERT_CNFASODIW") + " '" + wsdlFile + "'");
+	} else {
+		sel = form.chooseFromList (form.translate("BT_SWSO"), operations);
+	}
+	if (sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}
+]]></parameter>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

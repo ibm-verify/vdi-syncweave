@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="10" UUID="ab8fc920-11dc-4bb6-85cb-802df9d3a715" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="TestConnection" modified="Mon Dec 07 12:41:40 CET 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="TestConnection">
+        <ModTime>1449488497576</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="debug test" state="Enabled"/>
+                <Component name="Test the connection and return result" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig>
+            <ModTime>1449488497576</ModTime>
+            <Logger name="FileRollerAppender">
+                <InheritFrom>system:/Loggers/ibmdi.FileRollerAppender</InheritFrom>
+                <ModTime>1449488497576</ModTime>
+                <parameter name="IDIFileRoller.Encoding">UTF-8</parameter>
+                <parameter name="IDIFileRoller.File"><![CDATA[@SUBSTITUTE{javascript opEntry = task.getOpEntry()
+if (opEntry != null) {
+	flowKey = opEntry.getString("flowKey")
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = opEntry.getString(flowKey + ".global.logDirectory")
+	}
+}
+
+if (folder == null) {
+	folder = opEntry.getString("global.logDirectory")
+	if (folder == null) {
+		folder = "LDAPSync/logs"
+	}
+}
+
+logFile = folder + "/" + task.getShortName() + "_server.log"
+
+return logFile}]]></parameter>
+                <parameter name="IDIFileRoller.RollCount">1</parameter>
+                <parameter name="Pattern.ConversionPattern">%d{ISO8601} %-5p- %m%n</parameter>
+                <parameter name="com.ibm.di.log.layout">Pattern</parameter>
+                <parameter name="com.ibm.di.log.level">INFO</parameter>
+                <parameter name="enabled">true</parameter>
+            </Logger>
+        </LogConfig>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1427192050157</ModTime>
+            <Script name="debug test">
+                <ModTime>1378286720093</ModTime>
+                <parameter name="enabled">false</parameter>
+                <parameter name="script"><![CDATA[choose = "CSVFile"
+
+opEntry = task.getOpEntry()
+
+function addPropToOpEntry(p, prefix) {
+	if (typeof(prefix) == "undefined") {
+		prefix = ""
+	} else {
+		if (!prefix.endsWith(".")) {
+			prefix += "."
+		}
+	}
+	opEntry[prefix + p.@name.getValue()] = p.getValue()
+}
+
+function handleEndpoint(c) {
+	if (!c.@name.getValue().toLowerCase().startsWith("source_")) {
+		return
+	}
+	
+	var params = c.Configuration.getElementsByTagName("parameter")
+	var inheritFrom = c.InheritFrom.getValue()
+	var p = inheritFrom.lastIndexOf("/")
+	inheritFrom = inheritFrom.substring(p+1)
+	
+	opEntry.removeAllAttributes()
+	
+	opEntry["endpoint.name"] = c.@name.getValue()
+	opEntry["source.form"] = inheritFrom
+
+	for (p in params) {
+		addPropToOpEntry(p)
+	}
+
+	if (c.Parser != null && c.Parser.InheritFrom != null) {
+		opEntry["source.parser.name"] = c.Parser.InheritFrom.getValue()
+		params = c.Parser.getElementsByTagName("parameter")
+		for (p in params) {
+			addPropToOpEntry(p, "source.parser.parameter.")
+		}
+	}
+
+//	task.dumpEntry(opEntry)
+}	
+
+
+file = system.openFileForInput("configs/SE_Test.xml")
+xml = new java.lang.StringBuffer()
+
+do {
+	line = file.readLine()
+	if (line != null) {
+		xml.append(line + "\n")
+	}	
+} while (line != null)
+
+xmlEntry = work.fromXML(xml.toString(), "*", "")
+
+form = xmlEntry.getNodeList('//*[@name="source.form"]')
+
+ctrs = xmlEntry.getNodeList('//Folder[@name="Connectors"]/Connector')
+
+foundIt = null
+for (c in ctrs) {
+	handleEndpoint(c)
+	
+	try {
+		jsonEntry = testConnection()
+		jsonEntry.operation = "initialize,select"
+		json = jsonEntry.toJSON()
+		task.logmsg(json)
+	} catch (ex) {
+		task.logmsg("ERROR", "Problem with Connection: " + ex)
+	}	
+	
+}]]></parameter>
+            </Script>
+            <Script name="Test the connection and return result">
+                <ModTime>1427192050157</ModTime>
+                <parameter name="script"><![CDATA[//
+// posting application/json data causes parsers to escape dotted property names
+//
+var ope = task.getOpEntry();
+var names = ope.getAttributeNames();
+for(i = 0; i < names.length; i++) {
+	var f = names[i];
+	var ff = f.replaceAll("\\\\", ""); // source\.ldap -> source.ldap
+	if(!ff.equals(f)) {
+		ope.setAttribute(ff, ope.getAttribute(f));
+		ope.removeAttribute(f);
+	}
+}
+
+testId = ope.getString("testId");
+
+task.logmsg("Test connection: " + testId);
+java.lang.System.out.println("Test connection: " + testId);
+
+if ("SE_DefaultFDS.Source_IDaaS_AD".equalsIgnoreCase(testId)) {
+	flow = "Flow_User2TDS"; // also tested in utils loadProperties()
+	getAllFlowParameters(ope, flow);	
+	initUtils(flow);
+}
+jsonEntry = testConnection()
+var json = jsonEntry.toJSON();
+work.result = json;
+
+sendCustomNotification("fds.testconnection",
+						task.getOpEntry().getString("testId"), 
+						json);]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+                <SchemaItem>
+                    <Name>synchronize</Name>
+                    <NativeSyntax>Boolean</NativeSyntax>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

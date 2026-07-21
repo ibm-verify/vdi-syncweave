@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="hook.xsd"></include>	<include schemaLocation="schema.xsd"></include>
+
+	<element name="parser" type="tns:ParserBinding"
+		substitutionGroup="tns:config">
+	</element>
+
+	<complexType name="ParserBinding">
+		<complexContent>
+			<extension base="tns:InheritingBinding">
+				<sequence>
+					<element name="userComment" type="string"
+						maxOccurs="1" minOccurs="0">
+					</element>
+                    <element name="rawConfig" type="tns:JavaClassBinding" maxOccurs="1" minOccurs="0"></element>
+                    <element ref="tns:schema" maxOccurs="unbounded"
+						minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

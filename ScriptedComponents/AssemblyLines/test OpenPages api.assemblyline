@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="142" UUID="339ab8c4-de7b-466c-8d58-d2758c5305ca" created="Wed Sep 10 17:26:54 CEST 2014" createdBy="Administrator" main="test OpenPages api" modified="Fri Sep 12 13:06:59 CEST 2014" modifiedBy="Administrator" project="ScriptedComponents" version="7.1.1">
+    <AssemblyLine name="test OpenPages api">
+        <ModTime>1410520019593</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="connector" state="Enabled"/>
+                <Component name="functions" state="Enabled"/>
+                <Component name="test" state="Enabled"/>
+                <Component name="HTTPClientConnector" state="Simulated"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1410520019593</ModTime>
+            <Script name="connector">
+                <ModTime>1410516667331</ModTime>
+                <parameter name="script"><![CDATA[connector = {
+	getParam: function(pname) {
+		if (typeof pname === "undefined" || pname == null || pname.trim().length == 0) { throw "getParam needs a parameter name!"; } 
+		
+		pname = pname.toLowerCase().trim();
+		
+		switch (pname) {
+			case "url": return "http://158.85.75.220:10108/grc/api";
+			case "username" :
+			case "password" : return "OpenPagesAdministrator";
+			case "object" : return "Incident";
+			case "query" : return null;
+			default: throw "Invalid connector parameter: " + pname;
+		}
+	}
+}]]></parameter>
+            </Script>
+            <Script name="functions">
+                <ModTime>1410520019593</ModTime>
+                <parameter name="script"><![CDATA[// OpenPages Connector
+//
+// 
+var version = "20140910 1730" // started
+var deBug = true;
+var requestEntry = system.newEntry();
+var cookies = system.newEntry();
+
+/*
+*/
+
+// Messages returned by the Connector are kept in an Array and set here to make it
+// simpler to localize this component later.
+//
+var message = new Array();
+message["Required parameter not set"] = "Required parameter not set";
+message["Response from"] = "Response from";
+message["Request to"] = "Request to";
+message["Error from"] = "Error from";
+message["You must restart the SDI server in order for the imported certificate to be trusted."] = "You must restart the SDI server in order for the imported certificate to be trusted.";
+message["Unable to parse JSON return from"] = "Unable to parse JSON return from";
+
+// Global variables defined here
+//
+var http = system.getConnector("ibmdi.HTTPClient");
+var initialized = false;
+var params = {	url : "", 
+				username : "", 
+				password : "",
+				object : "",
+				query : "",
+				
+				refresh : function(connector) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							this[pname] = connector.getParam(pname);
+						}	
+					}
+				},
+				
+				apply : function(http) {
+					for (var pname in this) {
+						if (typeof this[pname] !== "function") {
+							http.setParam(pname, this[pname]);
+						}	
+					}
+				}
+			}
+			
+var resultSet = {
+	set : new java.util.ArrayList(),
+	index : 0,
+	
+	add : function(entry) {
+		var setEntry = system.newEntry();
+		setEntry.merge(entry);
+		this.set.add(setEntry);
+	},
+	
+	size : function() {
+		return set.size();
+	},
+	
+	clear : function() {
+		this.set.clear();
+		this.index = 0;
+	},
+	
+	hasNext : function() {
+		return (this.set !== null && this.index < this.set.size());
+	},
+	
+	next : function() {
+		if (this.set === null || this.index >= this.set.size()) {
+			return null;
+		} else {
+			return this.set.get(this.index++);
+		}
+	}
+}
+
+function initialize() {
+	logmsg("OpenPages Connector vrs." + version);
+	if (initialized) {
+		terminate();
+	}
+	params.refresh(connector);
+	params.apply(http);
+	
+	http.initialize(null);
+	
+	authenticate();
+	
+	initialized = true;
+}
+
+function terminate() {
+	initialized = false;
+	http.terminate();
+}
+
+function selectEntries() {
+	if (!initialized) { notInitializedError(); } 
+	
+	resultSet.clear();
+	
+	var url = "/query?q=";
+	var query = "SELECT * from [" + params.object + "]";
+	if (params.query && params.query.length > 0) {
+		query = params.quary	
+	}
+	
+	var reply = makeRequest({"verb" : "GET", 
+//							 "url" : "/query?q=" + query, 
+							 "url" : "/types", 
+							 "ctype" : "application/json", 
+							 "where" : "selectEnries"});
+
+	if (typeof reply.rows !== "undefined") {
+		var rows = reply.rows;
+		for (var i = 0; i < rows.length; i++) {
+			resultSet.add(GrcObjectToEntry(rows[i]));
+		}
+	} else {
+		resultSet.add(GrcObjectToEntry(reply));
+	}
+}
+
+function getNextEntry() {
+	if (!initialized) { notInitializedError(); } 
+	
+	if (resultSet.hasNext()) {
+		entry = resultSet.next();
+		result.setStatus(1);
+	} else {
+		entry = null;
+		result.setStatus(0);
+	}
+	
+	return entry;
+}
+
+// requests the client cert from the service and installs it into the SDI keystore
+function getCertificate () {
+	var msg = com.ibm.di.security.GetSSLCertificate.installCertificateFrom(params.url, 443);
+}
+
+// examine the reply from OpenPages for any errors returned
+//
+function verifyResponse(replyEntry) {
+	var respCode = replyEntry.getString("http.responseCode");
+	if (!respCode.startsWith("2")) {
+		throwException(message["Error from"] 
+						+ " OpenPage server - code: " + respCode
+						+ "  message: " + replyEntry.getString("http.responseMsg"));
+	}
+}
+
+// makes the authentication call to OpenPages
+function authenticate() {
+/*	
+	var reply = makeRequest({"verb" : "POST", 
+							 "url" : "_session", 
+							 "body" : "name=" + user + "&password=" + password, 
+							 "ctype" : "application/x-www-form-urlencoded", 
+							 "where" : "authenticate"});
+
+ */ 
+ }
+
+// workhorse function that handles all comms with OpenPages. It accepts a single
+// argument that is a Javascript object containing the properties set in the first
+// lines of the function. Note that many of these properties are optional and that
+// default values are set by the script is not specified.
+//
+function makeRequest(args) {
+	var verb = args.verb;		// HTTP method, e.g. GET, POST, PUT, ...
+	var url = args.url;		// url for the request. May be partial (only the path & query string params)
+	var body = args.body;		// HTTP body to be passed for the request
+	var ctype = args.ctype;	// Content-Type of the HTTP body
+	var where = args.where;	// where this method is called from - for debugging purposes
+
+	// set default values for missing params/properties
+	if (verb == null) { verb = "GET"; } 
+	if (url == null) { url = ""; } 
+	if (ctype == null) { ctype = "application/json"; }
+	if (where == null) { where = ""; } 
+
+	// prepend the base url if not found in the url passed to the function
+	if (url.toLowerCase().indexOf(params.url.toLowerCase()) < 0) {
+		url = params.url + url;
+	}
+	
+	requestEntry.removeAllAttributes();
+	
+	if (typeof body !== "undefined" && body !== null && body.trim().length > 0) {
+		requestEntry["http.body"] = body;
+	}
+	
+	// set Connector parameters
+	http.setParam("method", verb.toUpperCase());
+	http.setParam("url", url);
+
+	// prepare the request Entry (used for POST/PUT calls)
+	requestEntry["http.Content-Type"] = ctype;
+	requestEntry["http.Accept"] = "application/json";
+	requestEntry["http.Connection"] = "keep-alive";
+	requestEntry["http.remote_user"] = params.username;
+	requestEntry["http.remote_pass"] = params.password;
+
+// commented out for now
+//
+//	requestEntry["http.Accept-Encoding"] = "gzip, deflate";
+//	requestEntry["http.Accept-Language"] = "en-US,en;q=0.5";
+//	requestEntry["http.User-Agent"] = "IBM Security Verify Directory Integrator";
+//	requestEntry["http.Authorization"] = "BASIC " + system.base64Encode(String(user + ":" + password).getBytes());
+	
+	// add any cookies received on previous calls
+	if (cookies.size() > 0) {
+//		requestEntry["X-CouchDB-WWW-Authenticate"] = "Cookie"; // TODO
+		requestEntry.merge(cookies);
+	}	
+
+	// if Detailed Log is enabled then write request details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Request to"] + " OpenPages", 
+					"obj" : requestEntry, 
+					"url" : url, 
+					"verb" : verb, 
+					"ctype" : ctype, 
+					"where" : where});
+	}
+
+	var retry = 0;
+	var maxRetry = 2;
+	var retEntry = null;
+	
+	// this loop makes the actual request. If an SSL handshake error occurs, attempt to retrieve
+	// and import the client certificate and inform the user that TDI must be restarted.
+	//
+	do {
+		try {	
+			retEntry = http.queryReply(requestEntry);
+		} catch (ex) {
+			if (ex instanceof javax.net.ssl.SSLHandshakeException) {
+				if (retry == 0) {
+					getCertificate();
+				} else {	
+					throwException(message["You must restart the SDI server in order for the imported certificate to be trusted."])
+				}
+			} else {
+				throw ex;
+			}	
+		}
+		
+		retry++;
+	} while (retEntry === null && retry < maxRetry);
+	
+	// if Detailed Log is enabled, write reply details to the log
+	if (deBug) {
+		logDetails({"msg" : message["Response from"] + " OpenPages", 
+				    "entry" : retEntry});
+	}
+	
+	verifyResponse(retEntry);
+	
+	// parse the reply from OpenPages
+	var reply = parseReply(retEntry);
+	
+	return reply;
+}
+
+function parseReply(replyEntry) {
+	var body = replyEntry.getString("http.bodyAsString");
+	
+	try {
+//		if (deBug) logmsg("DEBUG", "body: " + body);
+		var jobj = fromJson(body);
+		
+		// save any cookies passed back	
+		var setCookie = replyEntry.getAttribute("http.Set-Cookie");
+		if (setCookie !== null) {
+			for (var i = 0; i < setCookie.size(); i++) {
+				var thisCookie = setCookie.getValue(i);
+				var p = thisCookie.indexOf("=");
+				if (p > 0) {
+					cookies["http." + thisCookie.substring(0,p)] = thisCookie.substring(p+1);
+				}
+			}	
+		}
+	} catch (ex) {
+		throwException(message["Unable to parse JSON return from"] + " OpenPages - " + ex);
+	}	
+	
+	return jobj;
+}
+
+// wrapper function for throwing exceptions. Otherwise exceptions throw will be 'script' exceptions
+function throwException(msg) {
+	throw new java.lang.IllegalArgumentException(msg);
+}
+
+// wrapper function for writing log messages
+function logmsg(lvl, msg) {
+	if (typeof lvl === "undefined") { lvl = ""; } 
+	if (typeof msg === "undefined") {
+		msg = lvl;
+		lvl = "INFO";
+	}
+	
+	// if Detailed Log is enabled then log output is also sent to the stdout
+	if (deBug) {
+		java.lang.System.out.println(msg);
+	}
+		
+	try {
+		task.logmsg(lvl, msg);
+	} catch (ex) {
+		main.logmsg(lvl, msg);
+	}	
+}
+
+// write request or reply details to the log
+function logDetails(params) {
+	var msg = params.msg;
+	var obj = params.obj; 
+	var url = params.url;
+	var verb = params.verb;
+	var ctype = params.ctype; 
+	var where = params.where;
+	
+	if (msg == null) {
+		msg = message["Unnamed entry"];
+	}
+
+	var s = new java.lang.StringBuffer();
+	
+	if (where != null) {
+		s.append("\n@@@------> (" + where + ") " + msg);
+	} else {
+		s.append("\n---------> " + msg);
+	}
+	
+	
+	if (verb != null) { s.append("   " + verb.toUpperCase()); } 
+	if (ctype != null) { s.append("   " + ctype); } 
+	if (url != null) { s.append("   " + url); } 
+	s.append("\n");
+
+	if (obj != null) {
+		if (obj instanceof com.ibm.di.entry.Entry) {	
+			var attNames = obj.getAttributeNames();
+			for (var a in attNames) {
+				// include all "http.*" attributes, except bodyAsBytes
+				if (a.indexOf("http.") >= 0
+					&& !"http.bodyAsBytes".equalsIgnoreCase(a) ) {
+					s += " " + a + ": " + obj[a] + "\n";
+				}
+			}	
+		} else {
+			s.append(obj.toString());
+		}
+	}	
+	logmsg(s.toString());
+}
+
+function notInitializedError() {
+	throwException("The OpenPages Connector must be initialized before use.")
+}
+
+function GrcObjectToEntry(jobj) {
+	var entry = system.newEntry();
+	
+	try {
+		var type = null;
+		
+		var links = jobj.links;
+		if (typeof links !== "undefined") {
+			for (var i = 0; i < links.length; i++) {
+				if ("describedby".equals(links[i].rel)) {
+					type = links[i].href.substring(9);
+					var p = type.indexOf("?");
+					type = type.substring(0, p);
+				}
+			}
+			if (type !== null) {
+				entry["GRC Type"] = type;
+			}
+		}	
+		
+		var fields = jobj.fields.field;
+		if (fields !== "undefined") {
+			for (var i = 0; i < fields.length; i++) {
+				addGrcField(entry, fields[i]);
+			}	
+		}	
+	} catch(ex) {
+		if (deBug) logmsg("--!!--> OPtoEntry - Error parsing json: " + ex + "\nJSON: " + toJson(jobj));
+	}
+	
+	if (entry.size() === 0) {
+		return null;
+	} else {
+		return entry;
+	}	
+}
+
+function addGrcField(entry, field) {
+	if (typeof field === "undefined" || field == null) { return; }
+	
+	var fieldName = field.name;
+	var fieldValue = field.value;
+	
+	if (typeof fieldName !== "undefined" && fieldName !== null && fieldName.trim().length > 0) {
+
+		fieldName = fieldName.trim();
+
+		try {
+			switch(field.dataType) {
+				case "STRING_TYPE":
+				case "ID_TYPE": 
+									addAttributeValue(entry, fieldName, fieldValue);
+									break;
+				case "INTEGER_TYPE":
+									if (typeof fieldValue !== "undefined") {
+										var intValue = 0;
+										try {
+											intValue = system.toInt(fieldValue);
+										} catch(ex) {
+											intValue = "Error parsing integer value: " + fieldValue;
+										}
+										addAttributeValue(entry, fieldName, intValue);
+									} else {
+										entry[fieldName] = null;
+									}	
+									break;
+				case "ENUM_TYPE": 	
+									if (typeof field.enumValue !== "undefined") {
+										addAttributeValue(entry, fieldName, field.enumValue.name);
+									}	
+									break;
+				case "MULTI_VALUE_ENUM":
+									if (typeof field.multiEnumValue !== "undefined") {
+										var enums = field.multiEnumValue.enumValue;
+										if (typeof enums !== "undefined" && enums.length > 0) {
+											for (var i = 0; i < enums.length; i++) {
+												addAttributeValue(entry, fieldName, enums[i].name, false);
+											}
+										}
+									}	
+									break;
+				case "DATE_TYPE":
+									var dateValue = system.parseDate(fieldValue, "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+									addAttributeValue(entry, fieldName, dateValue);
+									break;
+				case "CURRENCY_TYPE":
+									addAmount(entry, fieldName, "", field.baseAmount, field.baseCurrency);
+									addAmount(entry, fieldName, " Local Amount", field.localAmount, field.localCurrency);
+									break;
+			} 
+		} catch (ex) {
+			if (deBug) logmsg("ERROR", "--!!--> Error parsing GRC field: " + toJson(field) + " - " + ex);
+		}
+	}	
+}
+
+function addAttributeValue(entry, attName, attValue, replace) {
+	if (typeof attName === "undefined" || attName == null) { return; }
+	
+	if (typeof replace === "undefined" || !"false".equalsIgnoreCase(replace)) { replace = true; } 
+		
+	if (typeof attValue === "undefined" || attValue == null) {
+		entry[attName] = null;
+	} else 
+	if (replace) {
+		entry.setAttribute(attName, attValue);
+	} else {	
+		entry.addAttributeValue(attName, attValue);
+	}	
+}
+
+function addAmount(entry, attName, attSuffix, attValue, currency) {
+	if (typeof attName === "undefined" || attName == null) { return; }
+	
+	var doubleVal;
+	try {
+		doubleVal = java.lang.Double.parseDouble(attValue); // TODO use BigDecimal?
+	} catch (ex) {
+		doubleVal = "Error parsing amount: " + attValue + " - " + ex;
+	}
+	
+	addAttributeValue(entry, attName + attSuffix, doubleVal);
+	
+	if (typeof currency !== "undefined" && typeof currency.isoCode !== "undefined") {
+		addAttributeValue(entry, attName + attSuffix + " Currency", currency.isoCode);
+	} 	
+}]]></parameter>
+            </Script>
+            <Script name="test">
+                <ModTime>1410517647338</ModTime>
+                <parameter name="script"><![CDATA[initialize();
+
+selectEntries();
+
+while ((entry = getNextEntry()) !== null) {
+	task.dumpEntry(entry);
+}]]></parameter>
+            </Script>
+            <Connector name="HTTPClientConnector">
+                <InheritFrom>system:/Connectors/ibmdi.HTTPClient</InheritFrom>
+                <ModTime>1410362900760</ModTime>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Disabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </AttributeMap>
+                <DeltaSettings/>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1410362878880</ModTime>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

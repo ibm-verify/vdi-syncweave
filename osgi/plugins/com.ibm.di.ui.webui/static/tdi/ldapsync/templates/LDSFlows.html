@@ -1,0 +1,106 @@
+<div style="width:100%; height:100%; padding:0px; margin:0px">
+	<div data-dojo-type="idx/layout/BorderContainer" gutters="false" style="margin:0; padding:0; width:100%; height:100%">
+	
+		<div data-dojo-type="idx/layout/ContentPane" region="top">
+			<div data-dojo-type="dijit/Toolbar" style="width:100%; padding:5;" data-dojo-attach-point="_toolbar">
+				<div data-dojo-type="tdi/ToolbarLabel" data-dojo-attach-point="projectlabel" label="${nls.FDS_selectProject}: "></div>
+				<div data-dojo-type="idx/form/Select" data-dojo-attach-point="project" data-dojo-attach-event="onChange:readConfigFile"></div>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="btnNewProject" data-dojo-attach-event="onClick:createConfig">${nls.NewProject_2}</div>
+				<div data-dojo-type="tdi/ToolbarLabel" data-dojo-attach-point="statusLabel" label=""></div>
+				<div data-dojo-type="dijit/form/Button" placement="primary" data-dojo-attach-point="btnSave" style="display:none" data-dojo-attach-event="onClick:saveConfig">${nls.WebCE_save}</div>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="btnUpdate" style="display:none" 
+					tooltip="${nls.FDS_updateFdsConfigTooltip}" data-dojo-attach-event="onClick:updateFDS">${nls.FDS_updateFdsConfig}</div>
+			</div>
+		</div>
+		
+		<div data-dojo-type="idx/layout/BorderContainer" region="center" gutters="false" style="margin:0; padding:0; width:100%; height:100%">
+		
+			<div data-dojo-type="idx/layout/ContentPane" region="left" style="width:25%" splitter="true" data-dojo-attach-point="_endpointsHdr" >
+			
+				<div data-dojo-type="idx/layout/BorderContainer" gutters="false" style="margin:0; padding:0; width:100%; height:100%">
+					<div data-dojo-type="idx/layout/ContentPane" region="top" style="margin:0px; padding:0;">
+						<div data-dojo-type="idx/layout/HeaderPane" data-dojo-attach-point="_dsHeaderPane" region="top" class="tdiDropBox" title="${nls.FDS_sds}" collapsible=false style="margin:0px 10px 10px 10px; height:12em">
+							<table class="dijitReset" width="100%" style="border-spacing:5px" data-dojo-attach-point="_directoryConfigTable" >
+							<tr><td width="85%">
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onShowGlobalProps">${nls.FDS_connectionSettings}</div>
+								<div message="${nls.FDS_preConfigureSDS}" data-dojo-attach-point="_helpSDS"></div>
+							</td><td>
+								<img width="16" height="16" data-dojo-attach-point="ds_status" src=""></img>
+							</td></tr>
+							<tr><td>
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-point="_manageWriteBackBtn" data-dojo-attach-event="onClick:onManageWriteback">${nls.FDS_writeBack}</div>
+							</td><td>
+								<img width="16" height="16" data-dojo-attach-point="wb_status" src=""></img>
+							</td></tr>
+							<tr><td>
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-point="_configPtaBtn" data-dojo-attach-event="onClick:onManagePta">${nls.FDS_configurePTA}</div>
+							</td></tr>
+							<tr><td>
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-point="_browseDirectoryBtn" data-dojo-attach-event="onClick:onBrowseDirectory">${nls.FDS_browseDirectory}</div>
+							</td></tr>
+							</table>
+							
+							<table class="dijitReset" width="100%" style="display:none; border-spacing:5px" data-dojo-attach-point="_customConfigTable" >
+							<tr><td width="85%">
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onShowGlobalProps">${nls.FDS_connectionSettings}</div>
+								<div message="${nls.FDS_preConfigureSDS}" data-dojo-attach-point="_helpSDSCustom"></div>
+							</td><td>
+								<img width="16" height="16" data-dojo-attach-point="ds_status_custom" src=""></img>
+							</td></tr>
+							</table>
+							
+						</div>
+									
+						<div data-dojo-type="idx/layout/HeaderPane" region="center" data-dojo-attach-point="_commonHdrPane" class="tdiDropBox" title="${nls.FDS_commonSettings}" collapsible=false style="margin:10px; height:12em">
+							<table class="dijitReset" width="100%" style="border-spacing:5px">
+							<tr><td width="85%">
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onShowLogSettings">${nls.assemblyline_tabs_logging_tooltip}</div>
+							</td></tr>
+							<tr><td>
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onCustomizeAttributeMaps">${nls.WorkEntryWidget_2}</div>
+							</td></tr>
+							<tr><td>
+								<div data-dojo-type="idx/form/Link" data-dojo-attach-event="onClick:onCustomizeMonitoring">${nls.FDS_configureMonitoring}</div>
+							</td></tr>
+							</table>
+						</div>
+					</div>
+					
+					<div data-dojo-type="idx/layout/HeaderPane" region="center" data-dojo-attach-point="_endpointsHdrPane" class="tdiDropBox" title="${nls.FDS_endpoints}" collapsible=false style="margin:10px;">
+						<div  
+							message="${nls.FDS_preConfigureEP}" 
+							data-dojo-attach-point="_helpEndpoint" 
+							region="titleActions">
+						</div>
+						<div data-dojo-type="idx/form/Link" region="titleActions" data-dojo-attach-event="onClick:addEndpoint">${nls.SolutionInterfaceWidget_Add}&nbsp;</div>
+						<div data-dojo-type="dijit/ToolbarSeparator" region="titleActions"></div>
+						<div data-dojo-type="idx/form/Link" region="titleActions" data-dojo-attach-event="onClick:testConnections">${nls.serverview_refresh}</div>
+						<div class="dijitReset" xstyle="width:100%; height:100%;" data-dojo-attach-point="EndpointTable"></div>
+					</div>
+				</div>
+			</div>
+			
+		
+			<div data-dojo-type="idx/layout/ContentPane" region="center" gutters="false" style="width:100%; height:100%; margin:0; padding:0">
+				<div data-dojo-type="dijit/layout/TabContainer" region="center" style="width:100%; height:100%; margin:0px 0 10px 0; padding:0" data-dojo-attach-point="tabContainer">
+					<div data-dojo-type="idx/layout/ContentPane" title="${nls.FDS_flows}" style="padding:0; margin:0">
+						<div data-dojo-type="idx/layout/HeaderPane" region="center" xtitle="${nls.FDS_flows}" style="height:100%; padding:0px; margin:0px;"
+							data-dojo-attach-point="Header">
+						
+							<div data-dojo-type="idx/form/Link" region="majorActions" data-dojo-attach-event="onClick:addFlow">${nls.SolutionInterfaceWidget_Add}</div>
+							
+							<div message="${nls.FDS_preConfigureFlow}" data-dojo-attach-point="_helpFlow" region="majorActions"></div>
+							
+							<!-- This part is only shown when the page is missing either SDS config, endpoints or flows -->
+							<div data-dojo-attach-point="helpText" style="display:none; border-radius:8px; margin:15%; padding:5px; border:2px solid blue">
+							</div>
+							
+							<div data-dojo-attach-point="TableDiv" style="width:100%; height:100%; padding:0px; margin:0px">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

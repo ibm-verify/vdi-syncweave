@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+	<xsd:complexType name="share-link-type">
+		<xsd:complexContent>
+			<xsd:extension base="tns:base-resource">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="share-link" type="tns:share-link-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Share Link</scmp:display>
+                <scmp:summary>Share Link</scmp:summary>
+                <scmp:description>
+                    A Share Link shows maintains the linkage between a Service Group from
+                    one Service Domain that has been shared and exposed as a Service Group
+                    in another Service Domain. Share Link is also used to remember any 
+                    proxies that were created in order to perform the share with the 
+                    desired QoS features.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

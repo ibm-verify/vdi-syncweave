@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<!--
+  ===========================================================================
+     File:  rules_mk/eclipse_rules.xml
+
+    Purpose:  Contains some basic rules we use for eclipse plugin builds
+
+    The file assumes that the base
+    import file project_setup.xml has already been imported.
+
+  ===========================================================================
+  Change history:
+
+  Defect   Date         CMVC ID     Description
+  ?????    2007.11.20   jtodoroff   Create the file.
+   ===========================================================================
+-->
+<project name="eclipse_rules" basedir="." >
+
+  <description>
+    =========================================================================
+      Macro:  build_eclipse_plugin
+
+      Purpose:  Builds an Eclipse plugin based on the input given.
+    =========================================================================
+  </description>
+  <macrodef name="build_eclipse_plugin">
+    <!-- The build file used used to generate the given rcp Give full path and location. -->
+    <attribute name="buildfile.loc"/>
+    <!-- The location and name to send the output. -->
+    <attribute name="errorlog.log"/>
+
+    <sequential>
+       <exec executable="java" failonerror="yes" error="@{errorlog.log}"> 
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -Dproduct="${project.root.export.ce_rcp}/plugins/com.ibm.tdi.rcp/tdieclipse.product" -DrunPackager=true -consoleLog' /> 
+       </exec>
+    </sequential>
+
+  </macrodef>
+
+  <description>
+    =========================================================================
+      Macro:  build_eclipse_plugin_updatesite
+
+      Purpose:  Builds an Eclipse plugin update site based on the input given.
+    =========================================================================
+  </description>
+  <macrodef name="build_eclipse_plugin_updatesite">
+    <!-- The build file used used to generate the given rcp Give full path and location. -->
+    <attribute name="buildfile.loc"/>
+    <!-- The location and name to send the output. -->
+    <attribute name="errorlog.log"/>
+
+    <sequential>
+       <exec executable="java" failonerror="yes" error="@{errorlog.log}">
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile_updatesite}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -consoleLog -DbuildDirectory="${project.root.export.ce_rcp}" -DarchivesFormat="*,*,* - folder" -DoutputUpdateJars="true" -Dconfigs="*,*,*" -DarchivePrefix="updatesite"' /> 
+       </exec>
+    </sequential>
+
+  </macrodef>
+
+</project>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ibm.com/xmlns/prod/tdi/72/config"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ibm.com/xmlns/prod/tdi/72/config">
+
+	<include schemaLocation="base.xsd"></include>
+	<include schemaLocation="alc.xsd"></include>
+
+	<element name="script" type="tns:ScriptBinding"
+		substitutionGroup="tns:simpleConfig"></element>
+
+	<complexType name="ScriptBinding">
+		<complexContent>
+			<extension base="tns:SimpleComponentBinding">
+
+				<sequence>
+					<element name="script" type="string" maxOccurs="1"
+						minOccurs="0">
+					</element>
+					<element name="file" type="string" maxOccurs="unbounded"
+						minOccurs="0">
+					</element>
+
+				</sequence>
+				<attribute name="autoInclude" type="boolean" use="optional"
+					default="false"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

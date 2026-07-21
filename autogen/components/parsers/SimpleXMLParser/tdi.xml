@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Parsers">
+		<Parser name="ibmdi.XML">
+			<parameter name="class">com.ibm.di.parser.XMLParser</parameter>
+			<parameter name="characterSet">UTF-8</parameter>
+			<parameter name="description">PAR_DESC</parameter>
+			<parameter name="indentoutput">true</parameter>
+			<parameter name="xmlEntryTag">Entry</parameter>
+			<parameter name="xmlRootTag">DocRoot</parameter>
+			<parameter name="xmlValueTag">ValueTag</parameter>
+		</Parser>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.parser.XMLParser">
+			<TranslationFile>NLS/idi_par_simplexml</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>xmlRootTag</ListItem>
+					<ListItem>xmlEntryTag</ListItem>
+					<ListItem>xmlValueTag</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>characterSet</ListItem>
+					<ListItem>$GLOBAL.omitxmldeclaration</ListItem>
+					<ListItem>$GLOBAL.isvalidating</ListItem>
+					<ListItem>$GLOBAL.isnamespaceaware</ListItem>
+					<ListItem>indentoutput</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>xmlRootTag</ListItem>
+				<ListItem>xmlEntryTag</ListItem>
+				<ListItem>xmlValueTag</ListItem>
+				<ListItem>characterSet</ListItem>
+				<ListItem>$GLOBAL.omitxmldeclaration</ListItem>
+				<ListItem>$GLOBAL.isvalidating</ListItem>
+				<ListItem>$GLOBAL.isnamespaceaware</ListItem>
+				<ListItem>indentoutput</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="characterSet">
+				<parameter name="description">set_desc</parameter>
+				<parameter name="label">set_label</parameter>
+				<parameter name="suntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="indentoutput">
+				<parameter name="description">indent_desc</parameter>
+				<parameter name="label">indent_label</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="xmlEntryTag">
+				<parameter name="description">entry_desc</parameter>
+				<parameter name="label">entry_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="xmlRootTag">
+				<parameter name="description">root_desc</parameter>
+				<parameter name="label">root_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="xmlValueTag">
+				<parameter name="description">value_desc</parameter>
+				<parameter name="label">value_label</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">PAR_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

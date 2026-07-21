@@ -1,0 +1,198 @@
+{
+  "id":"urn:ibm:schemas:userpwdpolicy:1.0:Policy",
+  "name":"Policy",
+  "description":"Policy",
+  "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+  "endpoint":"/Policy",
+  "attributes":[
+  {
+    "name":"pwdAttribute",
+    "type":"string",
+    "multiValued":false,
+    "description":"Specifies the name of the attribute this password policy applies to. This attribute is only allowed to be set to userPassword.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":true,
+    "required":true
+  },
+  {
+    "name":"ibm-pwdPolicy",
+    "type":"boolean",
+    "multiValued":false,
+    "description":"A boolean (true or false) indicating if this password policy entry is active.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdMinAge",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdMinAge attribute specifies the number of seconds that must pass since the last password modification, before modifying a password.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdMaxAge",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdMaxAge attribute specifies the number of seconds after which a modified password will expire (0 means password does not expire).",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdInHistory",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdInHistory attribute specifies the number of passwords, which are stored in the pwdHistory attribute.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdCheckSyntax",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdCheckSyntax attribute indicates whether or not the password will be checked for syntax. ( '0' means syntax checking will not be enforced, '1' means the server will check the syntax, and if the server is unable to check the syntax (due to a hashed password or other reasons) it will be accepted. '2' means the server will check the syntax, and if the server is unable to check the syntax it returns an error refusing the password).",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdMinLength",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdMinLength attribute specifies the minimum length of the password string.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdExpireWarning",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdExpireWarning attribute specifies the maximum number of seconds before a password is about to expire that expiration warning messages will be returned to an authenticating user.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdGraceLoginLimit",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdGraceLoginLimit attribute specifies the number of times an expired password can be used to authenticate user.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdLockoutDuration",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdLockoutDuration attribute specifies the number of seconds that the password cannot be used to authenticate due to specified 'pwdMaxFailure' failed bind attempts.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdMaxFailure",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdMaxFailure attribute specified the maximum number of consecutive failed bind attempts allowed, after which the password may not be used to authenticate.(0 means the value of pwdLockout will be ignored).",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdFailureCountInterval",
+    "type":"integer",
+    "multiValued":false,
+    "description": "pwdFailureCountInterval attribute specifies the number of seconds after which the password failures are removed from the failure counter even though no successful authentication has happened.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"passwordMinAlphaChars",
+    "type":"integer",
+    "multiValued":false,
+    "description": "passwordMinAlphaChars attribute specifies the minimum number of alphabet characters which the password string must have. If the server is unable to check the number of alphabetic characters, then the server will continue processing depending on the value of the pwdCheckSyntax attribute.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"passwordMinOtherChars",
+    "type":"integer",
+    "multiValued":false,
+    "description": "passwordMinOtherChars attribute specifies the minimum number of numeric and special characters which the password string must have. If the server is unable to check the number of other characters, then the server will continue processing depending on the value of the pwdCheckSyntax attribute.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"passwordMaxRepeatedChars",
+    "type":"integer",
+    "multiValued":false,
+    "description": "passwordMaxRepeatedChars attribute specifies the maximum number of times a given character can be used in a password. If the server is unable to check the actual password characters, then the server will continue processing depending on the value of the pwdCheckSyntax attribute.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"passwordMaxConsecutiveRepeatedChars",
+    "type":"integer",
+    "multiValued":false,
+    "description": "Specifies the maximum number of successive repetitions of a given character in a password value. If set to 0, the number of consecutive repeated characters is not checked in the password value. For example, if set to 1, a given character cannot be followed by another character of the same type. Therefore, 'aba' is valid and 'aab' is not valid. For example, if set to 2, the maximum number of times a given character can occur consecutively is 2. Therefore, 'aaba' is valid and 'aaab' is not valid.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"passwordMinDiffChars",
+    "type":"integer",
+    "multiValued":false,
+    "description": "passwordMinDiffChars attribute specifies the minimum number of characters in the new password that must be different from the characters in the old password, and any passwords stored in the pwdHistory. If the password has been one-way encrypted the server is unable to check actual password characters, then the server will continue processing depending on the value of the pwdCheckSyntax attribute.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdLockout",
+    "type":"boolean",
+    "multiValued":false,
+    "description": "A boolean (true or false) used to indicate if a password might be used for authentication when the maximum number of consecutive failed authentication attempts specified in the pwdMaxFailure attribute is exceeded. If set to true, the user's account is eligible to be locked for the number of seconds specified in the pwdLockoutDuration attribute value. If set to false, the user's account is not eligible to be locked.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdAllowUserChange",
+    "type":"boolean",
+    "multiValued":false,
+    "description": "pwdAllowUserChange attribute specifies whether or not the users are allowed to change their own passwords",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdMustChange",
+    "type":"boolean",
+    "multiValued":false,
+    "description": "pwdMustChange attribute specifies whether or not the users must change their password when they first bind to the directory after the administrator has reset their password.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  },
+  {
+    "name":"pwdSafeModify",
+    "type":"boolean",
+    "multiValued":false,
+    "description": "A boolean (true or false) indicating the existing or current password value must be sent when changing a password value.",
+    "schema":"urn:ibm:schemas:userpwdpolicy:1.0",
+    "readOnly":false,
+    "required":false
+  }
+  ]
+}

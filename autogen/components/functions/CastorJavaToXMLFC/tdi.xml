@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Functions">
+		<Function name="ibmdi.CastorJavaToXML">
+			<Configuration>
+				<parameter name="javaclass">com.ibm.di.fc.castorbind.CastorJavaToXML</parameter>
+				<parameter name="mappingFile">file:etc/di_castor_mapping.xml</parameter>
+				<parameter name="returnXMLType">String</parameter>
+				<parameter name="rootElementName">Entry</parameter>
+				<parameter name="simulate">Enabled</parameter>
+				<parameter name="useAttributeNames">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>xmlDOMElement</Name>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>xmlString</Name>
+					<Syntax>string</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Function>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.fc.castorbind.CastorJavaToXML">
+			<TranslationFile>NLS/idi_fc_castor_java_to_xml</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>mappingFile</ListItem>
+					<ListItem>rootElementName</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>useAttributeNames</ListItem>
+					<ListItem>returnXMLType</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>mappingFile</ListItem>
+				<ListItem>rootElementName</ListItem>
+				<ListItem>useAttributeNames</ListItem>
+				<ListItem>returnXMLType</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+				<ListItem>$GLOBAL.userComment</ListItem>
+			</FormItemNames>
+			<FormItem name="mappingFile">
+				<parameter name="description">MF_DESC</parameter>
+				<parameter name="label">MF_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="returnXMLType">
+				<Values>
+					<ListItem>String</ListItem>
+					<ListItem>DOMElement</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>DOMElement</Key>
+						<Value>Localized.DOMElement</Value>
+					</Item>
+					<Item>
+						<Key>String</Key>
+						<Value>Localized.String</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">RXT_DESC</parameter>
+				<parameter name="label">RXT_LBL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="rootElementName">
+				<parameter name="description">REN_DESC</parameter>
+				<parameter name="label">REN_LBL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="useAttributeNames">
+				<parameter name="description">UAN__DESC</parameter>
+				<parameter name="label">UAN_LBL</parameter>
+				<parameter name="syntax">BOOLEAN</parameter>
+			</FormItem>
+			<parameter name="title">FC_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

@@ -1,0 +1,686 @@
+<?xml version="1.0"?>
+
+<project name="tools" basedir=".">
+
+	<!-- TOOLS TREE START (Set up the items from the tools tree) -->
+
+	<property name="tdiant.home" location="${project.adks_home}/ibm/sdi"/>
+	
+	<!-- set properties for javac -->
+	<property name="root.javac_src.vers"     value="11"/>
+	<property name="root.javac_tgt.vers"     value="11"/>
+	<property name="root.javac_dbg"          value="on" />
+	<property name="root.javadocs_url"       value="http://java.sun.com/j2se/1.5.0/docs/api/" />
+
+	<!-- set properties for tmsxml information -->
+	<property name="root.tms_vers"     value="1.1.9a"/>
+	<property name="root.tms_src"      location="${project.tools_home}/common/tivoli/tmsxml/${root.tms_vers}"/>
+	<property name="root.tms_specs"    location="${root.tms_src}/specs"/>
+	<property name="root.tms_tools"    location="${root.tms_src}/tools"/>
+
+	<!-- The location of the main style sheet. -->
+	<property name="root.XSL_SPEC_SOURCE"     location="${root.tms_specs}"/>
+
+	<!-- list of required jars in backingchain-aware classpath format for a tmsxml to properties file conversion. -->
+	<property name="root.tms_jars_"      value="${root.tms_tools}/DTDDirResolver.jar"/>
+	<property name="root.tms_props_jars"  value="${root.tms_tools}/xalan_2.5.1.jar:${root.tms_tools}/xalan_2.5.1.jar:${root.tms_tools}/xml-apis_2.5.0.jar:${root.tms_tools}/tmsutil.jar"/>
+
+	<!-- TMS XML style sheet for the TMS XML to properties file conversion. -->
+	<property name="root.XSL_MSG_SOURCE"      location="${root.tms_tools}/propertiesResourceBundle.xsl"/>
+
+	<!-- Name of the tms xml java class to run for conversion to properties file -->
+	<property name="root.XML_TO_MSG_PROG"      value="org.apache.xalan.xslt.Process"/>
+
+	<!-- list of required jars in backingchain-aware classpath format for a tmsxml to .idd and .ide file conversion. -->
+	<property name="root.tms_jars_base"     location="${root.tms_tools}/tms2iddoc.jar"/>
+	<property name="root.tms_sgml_jars"     value="${root.tms_jars_base}:${root.tms_tools}/xalan_2.7.3.jar:${root.tms_tools}/DTDDirResolver.jar:${root.tms_tools}/xercesImpl_2.12.2.jar"/>
+
+	<!-- TMS XML style sheet for the TMS XML to .ide and .idd file conversion. -->
+	<property name="root.XSL_TO_SGML_MSG_SOURCE"      location="${root.tms_tools}/ibmiddoc.xsl"/>
+
+	<!-- Name of the tms xml java class to run for the conversion to .ide and .idd files. -->
+	<property name="root.XML_TO_SGML_PROG"      value="TMS2IDDoc"/>
+
+	<!-- end setup for tmsxml processing -->
+
+	<!-- Set up the location of IA being used -->
+	<property name="root.ia_vers"     value="2012_SP1"/>
+	<!-- <property name="root.ia_vers"     value="2009"/> -->
+	<property name="root.ia_src"      location="${project.tools_home}/common/ia/${root.ia_vers}"/>
+	
+	<!-- set up the Eclipse RCP information -->
+ 	<property name="root.eclipse_runtime_vers"     value="4.27"/>
+	<property name="root.eclipse_runtime_src"  location="${project.tools_home}/eclipse/eclipse_runtime/${root.eclipse_runtime_vers}/eclipse"/>
+	<property name="root.eclipse_jars"  location="${project.tools_home}/eclipse/eclipse_runtime/${root.eclipse_runtime_vers}/eclipse/plugins"/>
+	<property name="root.eclipse_rt_scripts"   location="${root.eclipse_runtime_src}/plugins/org.eclipse.pde.build_3.11.400.v20220923-1253/scripts"/>
+	<property name="root.eclipse_rt_buildfile" location="${root.eclipse_rt_scripts}/productBuild/productBuild.xml"/>
+	<property name="root.eclipse_rt_buildfile_updatesite"   location="${root.eclipse_rt_scripts}/build.xml"/>
+	<property name="root.eclipse_rt_launcher"  location="${root.eclipse_runtime_src}/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar"/>
+
+	<!-- TOOLS TREE END -->
+
+	<!-- ADKS TREE START (Set up the items from the adks tree) -->
+
+	<!-- Beginning of setup information and rules for static code analysis tools.
+       NOTE:  None of the static code analysis libraries can be shipped -->
+	
+	<!-- Gather the name of the plugins in the OSGi folder -->
+	<pathconvert property="project.root.osgi.plugins.src" pathsep=":" dirsep="/">
+		<dirset dir="${project.root.osgi}/plugins" includes="*/src,*/java" />
+	</pathconvert>
+
+	<!-- The location of all of the directories we must include for static code analysis. -->
+	<property name="sca_src_paths" value="${project.root.server.src}:${project.root.amc.src}:${project.root.am.src}:${project.root.console.src}:${project.root.amc_migration.src}:${project.root.amc_tools.src}:${project.root.ce_rcp.base.plugin}/src:${project.root.ce_rcp.loader.plugin}/src:${project.root.osgi.plugins.src}" />
+
+	<!-- Findbugs setup information. -->
+	<property name="findbugs.home" location="${ivy.lib.dir}"/>
+	<property name="findbugs-ant.vers"     value="1.3.7"/>
+	<property name="findbugs-ant.home" location="${project.adks_home}/apache/findbugs-ant/${findbugs-ant.vers}"/>
+
+	<!-- PMD setup information. -->
+	<property name="pmd.vers"     value="4.2.5"/>
+	<property name="pmd.home" location="${project.adks_home}/apache/pmd/${pmd.vers}"/>
+
+	<!-- Sanalyze setup information. -->
+	<property name="sanalyze.vers"     value="0.3.3"/>
+	<property name="sanalyze.home" location="${project.adks_home}/ibm/sanalyze/${sanalyze.vers}"/>
+
+	<!-- setup the Findbugs task definition. -->
+<!-- SAE: Not currently working
+	<taskdef name="findbugs"
+           classname="edu.umd.cs.findbugs.anttask.FindBugsTask"
+           classpath="${findbugs-ant.home}/lib/findbugs-ant.jar"/>
+ -->
+
+	<!-- setup the PMD task definition.
+	     erroronmissingdir="false" prevents a parse-time failure when the
+	     adks tree is not present (e.g. during Mend/WhiteSource scans that
+	     clone the repo without the adks volume mount). PMD targets still
+	     fail at runtime if the jars are genuinely missing. -->
+	<path id="pmd.classpath">
+		<fileset dir="${pmd.home}/lib" erroronmissingdir="false">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<taskdef name="pmd"
+	          classname="net.sourceforge.pmd.ant.PMDTask"
+	          classpathref="pmd.classpath"/>
+	<!-- This is the path to look up and replace in the basline when doing the delta processing.
+       Will need to be checked and modified as new pmd baselines are checked in. -->
+	<property name="pmd_baseline_root"   value="C:\\pmd_baseline" />
+
+	<!-- setup the sanalyze task definition. -->
+	<taskdef name="sanalyze"
+           classname="com.ibm.haystack.ant.Parse"
+           classpath="${sanalyze.home}/haystack.jar"/>
+
+	<taskdef name="sanalyze_delta"
+           classname="com.ibm.haystack.ant.DeltaReport"
+           classpath="${sanalyze.home}/haystack.jar"/>
+
+	<!-- chkpii setup information. -->
+	<property name="chkpii.vers"       value="16.01"/>
+	<property name="chkpii.home"       location="${project.adks_home}/ibm/chkpii/${chkpii.vers}"/>
+
+	<!-- End setup for information and rules for static code analysis tools. -->
+
+	<!-- set up the MQ information -->
+	<property name="root.mq_vers"     value="7.1.0.2"/>
+	<property name="root.mq_src"      location="${project.adks_home}/websphere/mq/${root.mq_vers}"/>
+
+	<!-- set up the ESB information -->
+	<property name="root.esb_vers"     value="6.1"/>
+	<property name="root.esb_src"      location="${project.adks_home}/websphere/esb/${root.esb_vers}"/>
+
+	<!-- set up the ws-runtime.jar information -->
+	<property name="root.wsruntime_vers"     value="6.1"/>
+	<property name="root.wsruntime_src"      location="${project.adks_home}/websphere/ws-runtime/${root.wsruntime_vers}"/>
+
+	<!-- set up the RXA information -->
+	<property name="root.rxa_vers"     value="2.3.0.20"/>
+	<property name="root.rxa_src"      location="${project.adks_home}/tivoli/rxa/${root.rxa_vers}"/>
+
+	<!-- set up the JLOG information -->
+	<property name="root.jlog_vers"     value="3.1.7"/>
+	<property name="root.jlog_src"      location="${project.adks_home}/tivoli/jlog/${root.jlog_vers}"/>
+
+	<!-- set up the JFFDC information -->
+	<property name="root.jffdc_vers"     value="1.1.4"/>
+	<property name="root.jffdc_src"      location="${project.adks_home}/tivoli/jffdc/${root.jffdc_vers}"/>
+
+	<!-- set up the LOGVIEWER information -->
+	<property name="root.lgvw_vers"     value="2.1.0"/>
+	<property name="root.lgvw_src"      location="${project.adks_home}/tivoli/logviewer/${root.lgvw_vers}"/>
+
+	<!-- set up the Tivoli Java SNMP protocol stack information -->
+	<property name="root.tivsnmp_vers"     value="7.3.6"/>
+	<property name="root.tivsnmp_src"      location="${project.adks_home}/tivoli/snmp/${root.tivsnmp_vers}"/>
+
+	<!-- set up the tim dsml information -->
+	<property name="root.tim_dsml_vers"     value="5.1"/>
+	<property name="root.tim_dsml_src"      location="${project.adks_home}/tivoli/tim/${root.tim_dsml_vers}/dsmlv2"/>
+
+	<!-- set up the tim daml information -->
+	<property name="root.tim_daml_vers"     value="5.1"/>
+	<property name="root.tim_daml_src"      location="${project.adks_home}/tivoli/tim/${root.tim_daml_vers}/daml"/>
+
+	<!-- set up the TDS ber jar file information -->
+	<property name="root.tds_ber_vers"     value="6.3.1"/>
+	<property name="root.tds_ber_src"      location="${project.adks_home}/tivoli/tds/${root.tds_ber_vers}/ber"/>
+
+	<!-- set up the TDS dsmlv2 jar file information -->
+	<property name="root.tds_dsml_vers"     value="6.3.1"/>
+	<property name="root.tds_dsml_src"      location="${project.adks_home}/tivoli/tds/${root.tds_dsml_vers}/dsmlv2"/>
+
+	<!-- set up the TDS JNDI toolkit jar file information -->
+	<property name="root.tds_jnditoolkit_vers"     value="6.3.1"/>
+	<property name="root.tds_jnditoolkit_src"      location="${project.adks_home}/tivoli/tds/${root.tds_jnditoolkit_vers}/jnditoolkit"/>
+
+	<!-- set up the TAM Java API information -->
+	<property name="root.tam_javaapi_vers"     value="6.0"/>
+	<property name="root.tam_javaapi_src"      location="${project.adks_home}/tivoli/tam/${root.tam_javaapi_vers}/javaapi"/>
+
+	<!-- set up the Sun library for POP/IMAP information -->
+	<property name="root.javamail_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the JUnit library information -->
+	<property name="root.junit_src"      location="${ivy.lib.dir}/unittest"/>
+
+	<!-- set up the Hamcrest library information -->
+	<property name="root.hamcrest_src" location="${ivy.lib.dir}/unittest" />
+
+	<!-- set up the Sun library for Java Activation Framework information -->
+	<property name="root.jaf_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the SAP JCo information -->
+	<property name="root.sapjco_vers"     value="2.1.6"/>
+	<property name="root.sapjco_src"      location="${project.adks_home}/sap/jco/${root.sapjco_vers}"/>
+
+	<!-- set up the SAP JCo information -->
+	<property name="root.sapjcov3_vers"     value="3.0.15"/>
+	<property name="root.sapjcov3_src"      location="${project.adks_home}/sap/jco/${root.sapjcov3_vers}"/>
+
+	<!-- set up the SAP IDoc information -->
+	<property name="root.sapidocv3_vers"     value="1.8.0"/>
+	<property name="root.sapidocv3_src"      location="${project.adks_home}/sap/idoc/${root.sapidocv3_vers}"/>
+
+	<!-- set up the SAP IDoc information -->
+	<property name="root.sapidoc_vers"     value="1.0.3"/>
+	<property name="root.sapidoc_src"      location="${project.adks_home}/sap/idoc/${root.sapidoc_vers}"/>
+
+	<!-- set up the SAP JCo IDoc information -->
+	<property name="root.sapjcoidoc_vers"     value="1.0.6"/>
+	<property name="root.sapjcoidoc_src"      location="${project.adks_home}/sap/idocjco/${root.sapjcoidoc_vers}"/>
+
+	<!-- set up the ACTL GLA Runtime information -->
+	<property name="root.actl_gla_vers"     value="4.5.0.3"/>
+	<property name="root.actl_gla_src"      location="${project.adks_home}/ibm/actl_gla/${root.actl_gla_vers}"/>
+
+	<!-- set up the TPTP GLA Runtime information. This use to be part of eclipse but now its part of actl_gla.
+       They are basically keeping up with the source code now. So we will point to actl_gal where the files are. -->
+	<property name="root.tptp_gla_vers"     value="${root.actl_gla_vers}"/>
+	<property name="root.tptp_gla_src"      location="${root.actl_gla_src}"/>
+
+	<!-- set up the IBM DB2 Driver for JDBC and SQLJ information -->
+	<property name="root.db2drv_vers"     value="3.8.47"/>
+	<property name="root.db2drv_src"      location="${project.adks_home}/ibm/db2/jdbct4/${root.db2drv_vers}"/>
+
+	<!-- set up the Derby information -->
+	<!-- <property name="root.derby_src"      location="${ivy.lib.dir}/derby"/> -->
+	<!-- set up the Derby information -->
+	<property name="root.derby_vers"     value="10.16.1.2"/>
+	<property name="root.derby_src"      location="${project.adks_home}/ibm/derby_sdk/${root.derby_vers}"/>
+	<property name="root.derby_build_src" location="${ivy.lib.dir}/derby-build"/>
+
+	<!-- set up the OIDC information -->
+	<property name="root.oidc_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the AXIS2 information -->
+	<property name="root.axis2_src"      location="${ivy.lib.dir}/axis-2"/>
+
+	<!-- The DE version information -->
+	<property name="root.de_vers"     value="1.4"/>
+	<property name="root.de_src"   location="${project.adks_home}/ibm/de/${root.de_vers}"/>
+
+	<!-- Set up PIT version information -->
+	<property name="root.pit_vers"     value="2.2"/>
+	<property name="root.pit_src"   location="${project.adks_home}/ibm/pit/${root.pit_vers}"/>
+
+	<!-- Set up LUM version information -->
+	<property name="root.lum_vers"     value="4.6.8.15_64bit"/>
+	<property name="root.lum_src"   location="${project.adks_home}/ibm/lum/${root.lum_vers}"/>
+
+	<!-- set up the launchpad information -->
+	<property name="root.launchpad_vers"   value="3.2"/>
+	<property name="root.launchpad_src"    location="${project.adks_home}/ibm/launchpad/${root.launchpad_vers}"/>
+	<!-- end of the launchpad information -->
+
+	<!-- set up the ICU4J information -->
+	<property name="root.icu4j_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the OpenSPML v2 information -->
+	<property name="root.spml_vers"     value="1.0"/>
+	<property name="root.spml_src"      location="${project.adks_home}/openspml_v2/${root.spml_vers}"/>
+
+	<!-- set up the Cloudscape to Derby migration tool information -->
+	<property name="root.derb_mig_vers"     value="1.0"/>
+	<property name="root.derb_mig_src"      location="${project.adks_home}/ibm/migratetoderby/${root.derb_mig_vers}"/>
+
+	<!-- set up the jtopen information -->
+	<property name="root.jtopen_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the LOG4J information -->
+	<property name="root.log4j_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the AXIS information -->
+	<property name="root.axis_src"      location="${ivy.lib.dir}"/>
+	<!-- <property name="root.axis2_vers"     value="1.6.3"/>
+	<property name="root.axis2-manual"   location="${project.adks_home}/apache/axis2/${root.axis2_vers}"/> -->
+
+	<!-- set up the Castor information -->
+	<property name="root.castor_vers"     value="0.9.5.4.new"/>
+	<property name="root.castor_src"      location="${project.adks_home}/castor/${root.castor_vers}"/>
+
+	<!-- set up the antlr information -->
+	<property name="root.antlr_src"      location="${ivy.lib.dir}"/>
+
+	<!-- set up the AUIML information -->
+	<property name="root.auiml_vers"     value="8.1.0.6"/>
+	<property name="root.auiml_src"      location="${project.adks_home}/ibm/csa/auiml/${root.auiml_vers}"/>
+	<!-- Name and location of the AUIML template WAR file that is used to create a real WAR file that needs the AUIML renderer. -->
+	<property name="root.auiml_war_file" value="${root.auiml_src}/aui_war_template.zip"/>
+
+	<!-- set up the EMF-SDO information -->
+	<property name="root.emfsdo_vers"  value="2.4.1"/>
+	<property name="root.emfsdo_src"   location="${project.adks_home}/eclipse/emfsdo/${root.emfsdo_vers}"/>
+
+	<!-- set up the XSD information -->
+	<property name="root.xsd_src"   location="${root.eclipse_jars}"/>
+
+	<!-- set up the Eclipse RCP information -->
+	<property name="root.rcp_src"   location="${root.eclipse_jars}"/>
+
+	<!-- Additional CBE jars path. TPTP information -->
+	<property name="root.tptp_vers"  value="4.7.1"/>
+	<property name="root.tptp_src"   location="${project.adks_home}/eclipse/tptp/${root.tptp_vers}"/>
+
+	<!-- Additional CBE jars path. TPTP information -->
+	<property name="root.regex4j_vers"  value="1.0"/>
+	<property name="root.regex4j_src"   location="${project.adks_home}/ibm/regex4j/${root.regex4j_vers}"/>
+
+	<!-- Internal WS Schema JARS from TDI 6.1.  Shipped as backup incase someone is using them. -->
+	<property name="root.tdi_ws_schema_vers"  value="6.1"/>
+	<property name="root.tdi_ws_schema_src"   location="${project.adks_home}/tivoli/tdi/${root.tdi_ws_schema_vers}"/>
+
+	<!-- IBM JS Engine: The javascript engine TDI uses. -->
+	<property name="root.jsengine_vers"  value="2.2"/>
+	<property name="root.jsengine_src"   location="${project.adks_home}/ibm/jsengine/${root.jsengine_vers}"/>
+
+	<!-- IBM Tivoly Enterprise Console's Event Integration Facility library -->
+	<property name="root.tec_vers"  value="3.9.0" />
+	<property name="root.tec_src"   location="${project.adks_home}/ibm/tec/${root.tec_vers}" />
+
+	<!-- set up the Apache Wink information (data models only - runtime replaced by Jersey) -->
+	<property name="root.wink_vers" value="1.2" />
+	<property name="root.wink_src" location="${project.adks_home}/ibm/wink/${root.wink_vers}" />
+	<!-- Only include ibm-wink-jaxrs.jar for Atom/APP data models, exclude runtime JARs -->
+	<fileset id="root.wink_fileset" dir="${root.wink_src}" includes="ibm-wink-jaxrs.jar" />
+
+	<!-- set up the Jackson information -->
+	<property name="root.jackson_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.jackson_fileset" dir="${root.jackson_src}" includes="com.fasterxml.jackson.core.jackson-annotations_2.15.2.jar com.fasterxml.jackson.core.jackson-core_2.15.2.jar com.fasterxml.jackson.core.jackson-databind_2.15.2.jar com.fasterxml.jackson.module.jackson-module-jaxb-annotations_2.15.2.jar" />
+	<!-- Jackson JAXRS providers for Jersey (separate fileset for OSGi bundle conversion) -->
+	<fileset id="root.jackson_jaxrs_fileset" dir="${root.jackson_src}" includes="com.fasterxml.jackson.jaxrs.jackson-jaxrs-base_2.15.2.jar com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider_2.15.2.jar" />
+
+	<!-- set up the javx.servlet information -->
+	<property name="root.servlet_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.servlet_fileset" dir="${root.servlet_src}" includes="javax.servlet-api.jar javax.annotation-api.jar javax.activation-api.jar javax.inject_1.0.0.jar javax.persistence-api.jar"/>
+
+	<!-- set up the JAX-RS information -->
+	<property name="root.jaxrs_src" location="${ivy.lib.dir}"/>
+	<!-- <fileset id="root.jaxrs_fileset" dir="${root.jaxrs_src}" includes="jsr311-api.jar" /> -->
+	<fileset id="root.jaxrs_fileset" dir="${root.jaxrs_src}" includes="javax.ws.rs-api.jar" />
+
+	<!-- set up the JAXB information -->
+	<property name="root.jaxb_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.jaxb_fileset" dir="${root.jaxb_src}" includes="javax.xml.bind_2.3.1.jar" />
+
+	<!-- set up the Jersey information -->
+	<property name="root.jersey_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.jersey_fileset" dir="${ivy.lib.dir}"
+		includes="
+			org.glassfish.jersey.core.jersey-common_2.41.0.jar
+			org.glassfish.jersey.core.jersey-server_2.41.0.jar
+			org.glassfish.jersey.containers.jersey-container-servlet_2.41.0.jar
+			org.glassfish.jersey.containers.jersey-container-servlet-core_2.41.0.jar
+			org.glassfish.jersey.inject.jersey-hk2_2.41.0.jar
+			org.glassfish.jersey.core.jersey-client_2.41.0.jar
+			org.glassfish.jersey.ext.jersey-entity-filtering_2.41.0.jar
+			org.glassfish.jersey.media.jersey-media-json-jackson_2.41.0.jar"/>
+
+	<property name="root.hk2_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.hk2_fileset" dir="${ivy.lib.dir}"
+		includes="
+			org.glassfish.hk2.api_2.6.1.jar
+			org.glassfish.hk2.locator_2.6.1.jar
+			org.glassfish.hk2.utils_2.6.1.jar
+			org.glassfish.hk2.osgi-resource-locator_1.0.3.jar
+			org.glassfish.hk2.external.aopalliance-repackaged_2.6.1.jar"/>
+
+	<property name="root.aries_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.spifly_fileset" dir="${ivy.lib.dir}"
+		includes="
+			org.apache.aries.util.jar
+			org.apache.aries.spifly.dynamic.bundle.jar"/>
+
+	<property name="root.asm_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.asm_fileset" dir="${ivy.lib.dir}"
+    	includes="org.ow2.asm*.jar"/>
+
+	<property name="root.javassist_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.javassist_fileset" dir="${ivy.lib.dir}"
+    	includes="javassist.jar"/>
+
+	<!-- set up the Apache commons net information -->
+	<property name="root.commons_net_src" location="${ivy.lib.dir}"/>
+	<fileset id="root.commons_net_fileset" dir="${root.commons_net_src}" includes="commons-net.jar" />
+
+	<!-- set up the SLF4J information -->
+	<property name="root.slf4j_src" location="${ivy.lib.dir}" />
+	<fileset id="root.slf4j_fileset" dir="${root.slf4j_src}" includes="slf4j.api_2.0.3.jar" />
+	<fileset id="root.slf4j_jdk_fileset" dir="${root.slf4j_src}" includes="slf4j.jdk14_1.7.36.jar" />
+
+	<!-- set up the SLF4J information -->
+	<property name="root.jakarta_src" location="${ivy.lib.dir}" />
+	<fileset id="root.jakarta_fileset" dir="${root.jakarta_src}" includes="jakarta.*.jar" />
+
+	<!-- IEHS packages we ship -->
+	<property name="root.iehs_vers1"  value="3.3.1" />
+	<property name="root.iehs_vers2"  value="3.3.1r" />
+	<property name="root.iehs_vers3"  value="3.4.1" />
+	<property name="root.iehs_vers4"  value="3.4.3" />
+	<property name="root.iehs_src1"      location="${project.adks_home}/eclipse/iehs/${root.iehs_vers1}" />
+	<property name="root.iehs_src2"      location="${project.adks_home}/eclipse/iehs/${root.iehs_vers2}" />
+	<property name="root.iehs_src3"      location="${project.adks_home}/eclipse/iehs/${root.iehs_vers3}" />
+	<property name="root.iehs_src4"      location="${project.adks_home}/eclipse/iehs/${root.iehs_vers4}" />
+	<property name="root.iehs_win32"     location="${root.iehs_src4}/x86_nt_4" />
+	<property name="root.iehs_lin32"     location="${root.iehs_src4}/x86_linux_2" />
+	<property name="root.iehs_aix"       location="${root.iehs_src4}/rios_aix_5" />
+	<property name="root.iehs_sol_sparc" location="${root.iehs_src2}/sparc_solaris_2" />
+	<property name="root.iehs_hp_parisc" location="${root.iehs_src2}/hp9000_ux_11" />
+	<property name="root.iehs_lin_ppc"   location="${root.iehs_src3}/ppc_linux_2" />
+	<property name="root.iehs_lin_390"   location="${root.iehs_src1}/s390_linux_2" />
+	<property name="root.iehs_i5os"      location="${root.iehs_src1}/i5os_4" />
+	<property name="IEHSZipName"  	     value="IBM-Help.zip" />
+
+	<!-- set up the  IT registry information -->
+	<property name="root.it_registry_vers"     value="1.1"/>
+	<property name="root.it_registry_src"      location="${project.adks_home}/ibm/it_registry/${root.it_registry_vers}"/>
+
+	<!-- set up the CDM information -->
+	<property name="root.cdm_vers"     value="2.10.10"/>
+	<property name="root.cdm_src"      location="${project.adks_home}/ibm/cdm/${root.cdm_vers}"/>
+
+	<!-- set up the EasyMock information -->
+	<property name="root.easymock_src"      location="${ivy.lib.dir}/unittest"/>
+
+	<!-- set up the Spring information -->
+	<property name="root.spring_src"      location="${ivy.lib.dir}/unittest"/>
+	
+	<!-- set up the ActiveMQ information -->
+	<property name="root.activemq_vers"     value="5.16.7_mod"/>
+	<property name="root.activemq_adks"     location="${project.adks_home}/apache/activemq/${root.activemq_vers}"/>
+	<property name="root.activemq_src"      location="${ivy.lib.dir}"/>
+	<fileset id="root.activemq_fileset"     dir="${root.activemq_adks}" includes="activemq-all.jar" />
+
+	<!-- Dojo library information -->
+	<property name="root.dojo_vers" value="1.6.1" />
+	<property name="root.dojo_src" location="${project.adks_home}/ibm/dojo/${root.dojo_vers}/standard_1.6.1-20111114-IBM_dojo_profilebuild.zip" />
+	
+	<!-- Tivoli Enhanced Dojo widgets (TED) library information -->
+	<property name="root.ted_src" location="${project.adks_home}/tivoli/ted/TED_1111_bin_20120209_1633.zip" />
+    
+	<!-- OneUI library information -->
+	<property name="root.oneui_vers" value="1.3.0.0" />
+	<property name="root.oneui_src" location="${project.adks_home}/ibm/oneui/${root.oneui_vers}/ibm-one-ui-1-3-0-0-ga.zip" />
+	
+	<!-- CodeMirror library information -->
+	<property name="root.codemirror_vers" value="2.24" />
+	<property name="root.codemirror_src" location="${project.adks_home}/codemirror/${root.codemirror_vers}/codemirror.zip" />
+	
+	<!-- ADKS TREE END  -->
+
+	<!-- CLASSPATHS BEGIN -
+       This part of the setup is to setup some commonly used classpaths that can be used by various parts of the build as needed -->
+
+	<!-- All of the external files needed to the server components. Includes Connectors, Parsers, and Function Components.
+       Its does not include anything dealing with AMC or the CE (Eclispe based version) -->
+	<path id="tdi.extern.class.path">
+		<pathelement path="${root.tim_daml_src}/enroleagent.jar"/>
+		<pathelement path="${root.jsengine_src}/ibmjs.jar"/>
+		<pathelement path="${root.regex4j_src}/regex4j.jar"/>
+		<pathelement path="${root.tdi_ws_schema_src}/wsprov.jar"/>
+		<pathelement path="${root.tdi_ws_schema_src}/wstrust.jar"/>
+		<pathelement path="${root.icu4j_src}/icu4j-51_1.jar"/>
+		<pathelement path="${ivy.lib.dir}/javax.jms-api.jar"/>
+		<pathelement path="${root.mq_src}/com.ibm.mqjms.jar"/>
+		<pathelement path="${root.rxa_src}/remoteaccess.jar"/>
+		<pathelement path="${root.rxa_src}/jlanclient.jar"/>
+		<pathelement path="${root.rxa_src}/ssh.jar"/>
+		<pathelement path="${root.db2drv_src}/db2jcc.jar"/>
+		<pathelement path="${root.derby_build_src}/derby.jar"/>
+		<pathelement path="${root.derby_build_src}/derbynet.jar"/>
+		<pathelement path="${root.derby_build_src}/derbytools.jar"/>
+		<pathelement path="${root.derby_build_src}/derbyshared.jar"/>
+		<fileset dir="${root.eclipse_jars}">
+			<include name="org.eclipse.emf.common_*.jar"/>
+			<include name="org.eclipse.emf.ecore.change_*.jar"/>
+			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="org.eclipse.xsd_*.jar"/>
+		</fileset>
+		<pathelement path="${root.emfsdo_src}/org.eclipse.emf.ecore.sdo.jar"/>
+		<pathelement path="${root.emfsdo_src}/org.eclipse.emf.commonj.sdo.jar"/>
+		<pathelement path="${root.emfsdo_src}/org.eclipse.xsd.jar"/>
+		<pathelement path="${root.jlog_src}/jlog.jar"/>
+		<pathelement path="${root.jffdc_src}/jffdc.jar"/>
+		<!--<pathelement path="${root.axis2-manual}/axis2.jar"/> -->
+		<pathelement path="${root.axis_src}/commons-logging-1.2.jar"/>
+		<fileset dir="${root.axis2_src}">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement path="${root.sapjco_src}/sapjco.jar"/>
+		<pathelement path="${root.sapidoc_src}/sapidoc.jar"/>
+		<pathelement path="${root.sapjcoidoc_src}/sapidocjco.jar"/>
+		<pathelement path="${root.sapjcov3_src}/sapjco3.jar"/>
+		<pathelement path="${root.sapidocv3_src}/sapidoc3.jar"/>
+		<pathelement path="${root.tivsnmp_src}/snmp.jar"/>
+		<pathelement path="${root.javamail_src}/mail.jar"/>
+		<pathelement path="${root.jaf_src}/activation.jar"/>
+		<pathelement path="${root.castor_src}/castor-core-0.9.5.4.jar"/>
+		<pathelement path="${root.castor_src}/castor-xml-0.9.5.4.jar"/>
+		<pathelement path="${root.castor_src}/oro-2.0.8.jar"/>
+		<pathelement path="${root.antlr_src}/antlr.jar"/>
+		<pathelement path="${root.spml_src}/openspml2-toolkit.jar"/>
+		<pathelement path="${root.tptp_gla_src}/hexr.jar"/>
+		<pathelement path="${root.tptp_gla_src}/hparse.jar"/>
+		<pathelement path="${root.tptp_gla_src}/hgla.jar"/>
+		<pathelement path="${root.tptp_gla_src}/hlcore.jar"/>
+		<pathelement path="${root.tptp_gla_src}/tlcore.jar"/>
+		<pathelement path="${root.tptp_gla_src}/hlcbe101.jar"/>
+		<pathelement path="${root.tam_javaapi_src}/PD.jar"/>
+		<pathelement path="${root.jtopen_src}/jt400.jar"/>
+		<pathelement path="${root.tds_ber_src}/IBMLDAPJavaBer.jar"/>
+		<pathelement path="${root.tds_dsml_src}/dsml.jar"/>
+		<pathelement path="${root.log4j_src}/log4j-1.2-api-2.25.4.jar"/>
+		<pathelement path="${root.log4j_src}/log4j-api-2.25.4.jar"/>
+		<pathelement path="${root.log4j_src}/log4j-core-2.25.4.jar"/>
+		<pathelement path="${root.tec_src}/evd.jar"/>
+		<pathelement path="${root.tec_src}/log.jar"/>
+		<pathelement path="${root.it_registry_src}/COMMON.jar"/>
+		<pathelement path="${root.it_registry_src}/DCS.jar"/>
+		<pathelement path="${root.it_registry_src}/DIS.jar"/>
+		<pathelement path="${root.it_registry_src}/METADATA.jar"/>
+		<pathelement path="${root.it_registry_src}/NRS.jar"/>
+		<pathelement path="${root.it_registry_src}/NLS.jar"/>
+		<pathelement path="${root.it_registry_src}/NLS-LANG.jar"/>
+		<pathelement path="${root.it_registry_src}/BULKLOAD.jar"/>
+		<pathelement path="${root.it_registry_src}/CLI.jar"/>
+		<pathelement path="${root.it_registry_src}/icl.jar"/>
+		<pathelement path="${root.cdm_src}/dl_core.jar"/>
+		<pathelement path="${root.cdm_src}/idmlcert.jar"/>
+		<pathelement path="${root.esb_src}/sibc.jms.jar"/>
+		<pathelement path="${root.activemq_src}/activemq-all.jar"/>
+		<pathelement path="${root.oidc_src}/accessors-smart-2.5.1.jar"/>
+		<pathelement path="${root.oidc_src}/json-smart-2.5.1.jar"/>
+		<pathelement path="${root.oidc_src}/content-type-2.3.jar"/>
+		<pathelement path="${root.oidc_src}/lang-tag-1.7.jar"/>
+		<pathelement path="${root.oidc_src}/nimbus-jose-jwt-9.40.jar"/>
+		<pathelement path="${root.oidc_src}/oauth2-oidc-sdk-11.13.jar"/>									
+		<fileset dir="${ivy.lib.dir}">
+			<include name="glassfish-corba-*.jar"/>
+			<include name="servlet-*.jar"/>
+			<include name="commons-net.jar"/>			
+		</fileset>
+		<fileset refid="root.activemq_fileset" />
+						
+		<!-- CBE related -->
+		<pathelement path="${root.tptp_src}/hl14.jar"/>
+		<pathelement path="${root.tptp_src}/tptpcore.jar"/>
+		
+		<!--DIS related -->
+		<pathelement path="${root.auiml_src}/JSON4J.jar" />
+	</path>
+
+	<!-- All of the jars necessary for compiling the ISC, LWI and WAS specific code. -->
+	<path id="isc.class.path">
+		<fileset dir="${root.wsruntime_src}" >
+			<include name="ws_runtime.jar" />
+		</fileset>
+	</path>
+
+	<!-- All of the jars necessary for compiling the AUIML specific code. -->
+	<path id="auiml.class.path">
+		<fileset dir="${root.auiml_src}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<!-- Some additional files that are useful for certain parts of the build. -->
+	<path id="tdi.extern.additional.class.path">
+		<!-- Including the isc necessary jars -->
+		<path refid="isc.class.path" />
+
+		<!-- A few extras we don't normally need but the static analysis tools needs them to finish its checking. -->
+		<pathelement path="${project_env_vars.JAVA_HOME}/jre/lib/ext/ibmpkcs11impl.jar"/>
+		<pathelement path="${project_env_vars.JAVA_HOME}/jre/lib/ext/ibmjceprovider.jar"/>
+		<pathelement path="${root.auiml_src}/auifw.jar"/>
+		<pathelement path="${root.auiml_src}/auiweb.jar"/>
+		<pathelement path="${root.auiml_src}/wcl.jar"/>
+		<pathelement path="${root.auiml_src}/auibase.jar"/>
+
+		<!-- Some external files not in the tools tree..  -->
+		<fileset dir="${project.adks.lib.nodist}">
+			<include name="*.jar"/>
+		</fileset>
+
+		<!-- Including the isc necessary jars -->
+		<path refid="eclipse.sca.class.path" />
+	</path>
+
+	<!-- This classpath contains all possible external jars we use in build. -->
+	<path id="tdi.extern.all.class.path">
+		<!-- include all of the external files needed to build.  -->
+		<path refid="tdi.extern.class.path"/>
+
+		<!-- Including some additional external files not normally needed. -->
+		<path refid="tdi.extern.additional.class.path" />
+
+		<!-- Include the jars that are shipped within the OSGi bundles but not in TDI jars folder -->
+
+		<!-- Web Container libs - Wink data models (Atom/APP), Jersey runtime, jax-rs api, etc.. -->
+		<fileset refid="root.wink_fileset" />
+		<!-- Web Container libs - Jersey, jax-rs api, etc.. -->
+		<fileset refid="root.jersey_fileset" />
+		<fileset refid="root.hk2_fileset" />
+		<fileset refid="root.spifly_fileset" />
+		<fileset refid="root.asm_fileset" />
+		<fileset refid="root.jaxrs_fileset" />
+		<fileset refid="root.servlet_fileset" />
+		<fileset refid="root.jackson_fileset" />
+		<fileset refid="root.jackson_jaxrs_fileset" />
+		<fileset refid="root.slf4j_fileset" />
+		<fileset refid="root.commons_net_fileset" />
+		<fileset refid="root.jaxb_fileset" />
+		<fileset refid="root.javassist_fileset" />
+	</path>
+
+	<!-- All of the extra eclipse jar files needed for findbug... -->
+	<path id="eclipse.sca.class.path">
+		<fileset dir="${root.eclipse_runtime_src}/plugins" >
+			<include name="org.eclipse.core.runtime_*.jar"/>
+			<include name="org.eclipse.core.filesystem_*.jar"/>
+			<include name="org.eclipse.core.resources_*.jar"/>
+			<include name="org.eclipse.core.commands_*.jar"/>
+			<include name="org.eclipse.core.contenttype_*.jar"/>
+			<include name="org.eclipse.core.jobs_*.jar"/>
+			<include name="org.eclipse.core.runtime.compatibility.auth_*.jar"/>
+			<include name="org.eclipse.debug.core_*.jar"/>
+			<include name="org.eclipse.debug.ui_*.jar"/>
+			<include name="org.eclipse.equinox.app_*.jar"/>
+			<include name="org.eclipse.equinox.common_*.jar"/>
+			<include name="org.eclipse.equinox.registry_*.jar"/>
+			<include name="org.eclipse.equinox.preferences_*.jar"/>
+			<include name="org.eclipse.jdt_*.jar"/>
+			<include name="org.eclipse.jdt.apt.core_*.jar"/>
+			<include name="org.eclipse.jdt.ui_*.jar"/>
+			<include name="org.eclipse.jface_*.jar"/>
+			<include name="org.eclipse.jface.text_*.jar"/>
+			<include name="org.eclipse.rcp_*.jar"/>
+			<include name="org.eclipse.pde.runtime_*.jar"/>
+			<include name="org.eclipse.swt_*.jar"/>
+			<include name="org.eclipse.swt.win32.win32.x86_*.jar"/>
+			<include name="org.eclipse.ui_*.jar"/>
+			<include name="org.eclipse.ui.win32_*.jar"/>
+			<include name="org.eclipse.ui.editors_*.jar"/>
+			<include name="org.eclipse.ui.console_*.jar"/>
+			<include name="org.eclipse.ui.forms.source_*.jar"/>
+			<include name="org.eclipse.ui.navigator_*.jar"/>
+			<include name="org.eclipse.ui.views.properties.tabbed_*.jar"/>
+			<include name="org.eclipse.ui.ide_*.jar"/>
+			<include name="org.eclipse.ui.workbench.texteditor_*.jar"/>
+			<include name="org.eclipse.ui.workbench_*.jar"/>
+			<include name="org.eclipse.ui.views_*.jar"/>
+			<include name="org.eclipse.text_*.jar"/>
+		</fileset>
+	</path>
+
+	<!-- list the plugins to copy in the final osgi folder 
+		 Note: Only plugins as jar files are expected if something changes 
+		 see osgi/build.xml{embedded} for more details -->
+	<fileset id="root.osgi.runtime.fileset" dir="${root.eclipse_runtime_src}/plugins">
+		<include name="com.ibm.icu*.jar" />
+		<include name="javax.servlet*.jar" />
+		<include name="org.eclipse.equinox.common*.jar" />
+		<include name="org.apache.felix.scr*.jar" />
+		<include name="org.eclipse.equinox.http.jetty*.jar" />
+		<include name="org.eclipse.equinox.http.servlet*.jar" />
+		<include name="org.eclipse.osgi.services*.jar" />
+		<include name="org.eclipse.osgi_*.jar" />
+		<include name="org.eclipse.update.configurator*.jar" />
+		<include name="org.eclipse.jetty.*.jar" />
+                <include name="org.eclipse.core.runtime*.jar" />
+                <include name="org.osgi.service.*.jar" />
+                <include name="org.osgi.util.function_*.jar" />
+                <include name="org.osgi.util.promise_*.jar" />
+                <include name="org.eclipse.core.jobs*.jar" />
+                <include name="org.eclipse.equinox.registry*.jar" />
+                <include name="org.eclipse.equinox.preferences*.jar" />
+                <include name="org.eclipse.core.contenttype*.jar" />
+                <include name="org.osgi.service.prefs*.jar" />
+                <include name="org.eclipse.equinox.app*.jar" />
+
+		<exclude name="*source*" />
+		<exclude name="*jsp*" />
+	</fileset>
+</project>

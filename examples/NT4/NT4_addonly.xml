@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Sun Oct 24 11:19:02 IST 2004" createdBy="chetant" modified="Sun Oct 24 11:19:02 IST 2004" modifiedBy="chetant" version="1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="AddOnly">
+<LogEnabled>true</LogEnabled>
+<Settings>
+<parameter name="automapattributes">false</parameter>
+<parameter name="debug">false</parameter>
+<parameter name="includeGlobalPrologs">true</parameter>
+<parameter name="nullBehavior">Default Behavior</parameter>
+</Settings>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer">
+<Connector name="Iterator">
+<InheritFrom>system:/Connectors/ibmdi.NT4</InheritFrom>
+<ConnectorMode>Iterator</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="ComputerName">@PROPERTY{NT_Machine}</parameter>
+<parameter name="EntryType">User</parameter>
+<parameter name="PageSize">100</parameter>
+<parameter name="Password">@PROPERTY{NT_Password}</parameter>
+<parameter name="UserName">@PROPERTY{NT_Username}</parameter>
+<parameter name="debug">false</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>AccountComment</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("AccountComment");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>AccountExpDate</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("AccountExpDate");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ApplicationsParams</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("ApplicationsParams");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>AuthFlags</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("AuthFlags");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>BadPasswordCnt</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("BadPasswordCnt");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>CodePage</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("CodePage");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>CountryCode</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("CountryCode");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Flags</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("Flags");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>FullName</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("FullName");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>GlobalGroups</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("GlobalGroups");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>HomeDirectory</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("HomeDirectory");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>HomeDirectoryDrive</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("HomeDirectoryDrive");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastLogoff</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LastLogoff");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastLogon</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LastLogon");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LocalGroups</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LocalGroups");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonHours</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LogonHours");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonServer</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LogonServer");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonWorkstations</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LogonWorkstations");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonsNum</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("LogonsNum");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MaxAccDiskSpace</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("MaxAccDiskSpace");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Password</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("Password");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PasswordAge</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PasswordAge");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PasswordExpired</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PasswordExpired");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrimaryGroup</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PrimaryGroup");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrimaryGroupID</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PrimaryGroupID");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrivilegeLevel</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("PrivilegeLevel");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ProfilePath</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("ProfilePath");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>RelativeUserID</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("RelativeUserID");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ScriptPath</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("ScriptPath");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UnitsPerWeek</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("UnitsPerWeek");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UserComment</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("UserComment");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UserName</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>false</Add>
+<Modify>false</Modify>
+<Script>ret.value = conn.getAttribute("UserName");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerEF>
+<ContainerDF name="DataFlowContainer">
+<Connector name="AddOnly">
+<InheritFrom>system:/Connectors/ibmdi.NT4</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="ComputerName">@PROPERTY{NT_Machine}</parameter>
+<parameter name="EntryType">User</parameter>
+<parameter name="PageSize">100</parameter>
+<parameter name="Password">@PROPERTY{NT_Password}</parameter>
+<parameter name="UserName">@PROPERTY{NT_Username}</parameter>
+<parameter name="debug">false</parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output">
+<AttributeMapItem>
+<Name>AccountComment</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("AccountComment");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>AccountExpDate</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("AccountExpDate");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ApplicationsParams</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("ApplicationsParams");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>AuthFlags</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("AuthFlags");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>BadPasswordCnt</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("BadPasswordCnt");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>CodePage</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("CodePage");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>CountryCode</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("CountryCode");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Flags</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("Flags");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>FullName</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("FullName");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>GlobalGroups</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("GlobalGroups");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>HomeDirectory</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("HomeDirectory");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>HomeDirectoryDrive</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("HomeDirectoryDrive");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastLogoff</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LastLogoff");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LastLogon</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LastLogon");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LocalGroups</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LocalGroups");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonHours</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LogonHours");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonServer</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LogonServer");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonWorkstations</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LogonWorkstations");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>LogonsNum</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("LogonsNum");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>MaxAccDiskSpace</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("MaxAccDiskSpace");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>Password</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("Password");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PasswordAge</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PasswordAge");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PasswordExpired</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PasswordExpired");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrimaryGroup</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PrimaryGroup");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrimaryGroupID</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PrimaryGroupID");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>PrivilegeLevel</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("PrivilegeLevel");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ProfilePath</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("ProfilePath");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>RelativeUserID</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("RelativeUserID");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>ScriptPath</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("ScriptPath");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UnitsPerWeek</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("UnitsPerWeek");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UserComment</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = work.getAttribute("UserComment");</Script>
+<Simple></Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>UserName</Name>
+<Type>advanced</Type>
+<Enabled>true</Enabled>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script>ret.value = "NewGuest";</Script>
+<Simple></Simple>
+</AttributeMapItem>
+</AttributeMap>
+<DeltaSettings>
+<Driver>BTree</Driver>
+</DeltaSettings>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria>
+<MatchAny>false</MatchAny>
+<AdvancedLinkMode>false</AdvancedLinkMode>
+</LinkCriteria>
+<Hooks>
+<Hook>
+<Name>addonly_fail</Name>
+<Script><![CDATA[main.logmsg("Was not able to add User: " + conn.getString("UserName"));
+main.logmsg("Maybe it already exist?");]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+<Hook>
+<Name>before_add</Name>
+<Script><![CDATA[if (! work.getString("UserName").toUpperCase().equals("GUEST"))
+{
+	system.ignoreEntry();
+}
+]]></Script>
+<Enabled>true</Enabled>
+<DebugBreak>false</DebugBreak>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<CallReturn>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<AttributeMap name="Output"/>
+<AttributeMap name="Input"/>
+</CallReturn>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors"/>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts"/>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="ExternalProperties">
+<ExternalProperties name=" Default">
+<Path>examples/NT4/NT.properties</Path>
+<Encrypted>false</Encrypted>
+</ExternalProperties>
+</Folder>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+</MetamergeConfig>

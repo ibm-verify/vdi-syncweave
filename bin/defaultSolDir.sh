@@ -1,0 +1,1 @@
+TDI_SOLDIR="/opt/IBM/TDI/V7.1.1"

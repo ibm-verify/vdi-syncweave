@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="axis2wsserverconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIA101E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.MULTIPLE.SERVICES" varFormat="Java">   
+   There are multiple services described in the WSDL document at &apos;<Variable formatSpec="{0}">URL</Variable>&apos;.
+   Select one of them.
+   </MsgText>
+   <Explanation><p>
+   When there are multiple services described in the WSDL document, you must specify a service name. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that a valid service name is provided in the Connector configuration.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA102E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.SERVICE.NOT.FOUND" varFormat="Java">   
+   The WSDL document at &apos;<Variable formatSpec="{0}">URL</Variable>&apos; 
+   does not contain a description of service &apos;<Variable formatSpec="{1}">service name</Variable>&apos;. 
+   </MsgText>
+   <Explanation><p>
+   The Connector could not find a service with the specified name in the WSDL document. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the specified service name is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA103I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.CLIENT.CONNECTION.ERROR" varFormat="Java">
+   An HTTP client connection failed with error: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA104E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.PARSE.REQUEST.ERROR" varFormat="Java">  
+   A problem was encountered while parsing the SOAP request &apos;<Variable formatSpec="{0}">SOAP request</Variable>&apos;.
+   The error is: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   The Connector could not process the specified SOAP request message. 
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the SOAP message is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA105I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.EXPECTED.RESPONSE.ATTRIBUTE" varFormat="Java">
+   The response payload is expected in an Attribute with name &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA106E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.MESSAGE.AND.FAULT" varFormat="Java">  
+   The Connector has been passed both a normal message and a fault message. Only one outgoing message is allowed.
+   </MsgText>
+   <Explanation><p>
+   The web service cannot return both a normal SOAP message and a SOAP fault.
+   Modify the AssemblyLine logic so that it constructs either a normal response or a fault response, 
+   but not both at the same time.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the logic of the associated AssemblyLine is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA107E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.PREPARE.RESPONSE.ERROR" varFormat="Java">  
+   A problem was encountered while constructing the SOAP response message. The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine logic is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA108I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.NO.SOAP.RESPONSE" varFormat="Java">
+   Neither a normal response payload, nor a fault has been passed to the Connector. Will not generate a SOAP response.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA109E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.MISSING.FAULT.REASON" varFormat="Java">  
+   Provide a $faultReason Attribute.
+   </MsgText>
+   <Explanation><p>
+   The fault reason is a mandatory field of a SOAP fault.
+   When you set the $faultCode Attribute at run-time, you must also set the $faultReason Attribute.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine logic is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA110E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.PREPARE.FAULT.ERROR" varFormat="Java">  
+   A problem was encountered while constructing the SOAP fault message.
+   The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine logic is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA111E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.CREATE.AXIS2.CONFIG.ERROR" varFormat="Java">  
+   A problem was encountered while configuring the underlying Axis2 library.
+   The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the Security Verify Directory Integrator installation is not corrupt.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA112E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.READ.WSDL.ERROR" varFormat="Java">  
+   A problem was encountered while reading the WSDL document at &apos;<Variable formatSpec="{0}">URL</Variable>&apos;.
+   The error is: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the WSDL document exists and is valid.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA113E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.UNKNOWN.SOAP.VERSION" varFormat="Java">  
+   Unknown SOAP version: &apos;<Variable formatSpec="{0}">SOAP namespace URI</Variable>&apos;.
+   </MsgText>
+   <Explanation><p>
+   The Connector could not determine the SOAP version based on the specified namespace URI.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the SOAP namespace URI is valid.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA114E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.MISSING.WSDL.PARAMETER" varFormat="Java">  
+   Missing &apos;wsdlUrl&apos; parameter.
+   </MsgText>
+   <Explanation><p>
+   The WSDL URL is a mandatory parameter.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the configuration is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA115E" prefix="yes">
+   <MsgText pgmKey="SCHEMAUTILS.NO.AL.CONFIG" varFormat="Java">  
+   Could not obtain AssemblyLine configuration.
+   </MsgText>
+   <Explanation><p>
+   The WSDL generation process uses the configuration of the AssemblyLine that contains the current Connector.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the Connector is part of an AssemblyLine.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA116E" prefix="yes">
+   <MsgText pgmKey="SCHEMAUTILS.CANNOT.MAKE.SERVICE.FROM.AL" varFormat="Java">  
+   Cannot derive a web service description from the AssemblyLine configuration.
+   The error is: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine configuration is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA117E" prefix="yes">
+   <MsgText pgmKey="SCHEMAUTILS.CANNOT.WRITE.WSDL" varFormat="Java">  
+   A problem was encountered while writing the WSDL document to file &apos;<Variable formatSpec="{0}">file name</Variable>&apos;.
+   The error is: <Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation><p>
+   See the exception message.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the file name is correct.
+   Verify that the file system permissions allow the file to be written.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA118E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.FAULT.RESPONSE.NOT.ALLOWED" varFormat="Java">  
+   The message exchange pattern &apos;<Variable formatSpec="{0}">URL</Variable>&apos; of operation
+   &apos;<Variable formatSpec="{1}">operation name</Variable>&apos; does not allow a SOAP fault response.
+   </MsgText>
+   <Explanation><p>
+   A SOAP fault has been passed to the Connector, but the WSDL operation does not allow a fault response.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine logic is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA119E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.RESPONSE.REQUIRED" varFormat="Java">  
+   The message exchange pattern &apos;<Variable formatSpec="{0}">URL</Variable>&apos; of operatio
+   &apos;<Variable formatSpec="{1}">operation name</Variable>&apos; requires a response.
+   Either provide a normal response in an Attribute named &apos;<Variable formatSpec="{2}">Attribute name</Variable>&apos;
+   or provide a SOAP fault.
+   </MsgText>
+   <Explanation><p>
+   A SOAP fault has been passed to the Connector, but the WSDL operation does not allow a fault response.
+   </p></Explanation>
+   <OperatorResponse><p>
+   Verify that the AssemblyLine logic is correct.
+   </p></OperatorResponse>
+</Message>
+
+<Message ID="CTGDIA120I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.HTTP.BODY.OVERWRITE" varFormat="Java">
+   Will not generate a SOAP response, because an HTTP body is provided in the &apos;conn&apos; Entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIA121I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.AXIS2WSSERVER.SCRIPT.WSDL.GENERATED" varFormat="Java">
+   WSDL file generated successfully.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

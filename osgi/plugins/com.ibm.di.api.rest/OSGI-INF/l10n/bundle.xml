@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="com.ibm.di.api.rest" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDIB201E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.HANDLE.CLOSED" varFormat="Java">
+    The AssemblyLine Handle has already been closed.
+   </MsgText>
+   <Explanation> <p>
+	The handle to the AssemblyLine is invalid.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check your application logic.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB202E" prefix="yes">
+   <MsgText pgmKey="REST.API.OBJECT.UNAVAILABLE" varFormat="Java">
+   The remote object could not be found.
+   </MsgText>
+   <Explanation> <p>
+	The remote object is not accessible.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	This could happen if the object life-cycle has completed 
+	and the it has been garbage collected.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB203E" prefix="yes">
+   <MsgText pgmKey="REST.API.AL.NAME.INVALID" varFormat="Java">
+   The provided AssemblyLine name is invalid.
+   </MsgText>
+   <Explanation> <p>
+	You have specified a name that cannot be assigned to an AssemblyLine.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Provide a name complying with the naming policies for AssemblyLines.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB204E" prefix="yes">
+   <MsgText pgmKey="REST.API.PS.NAME.MISSING" varFormat="Java">
+	Missing <q/>name<q/> parameter.
+   </MsgText>
+   <Explanation> <p>
+	A Touchpoint Provider was configured to use the Local API, which is not 
+	present in the current runtime.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Configure the Touchpoint Server to use the Remote Server API instead.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB205E" prefix="yes">
+   <MsgText pgmKey="REST.API.CI.CONFIG.MISSING" varFormat="Java">
+   No Configuration Data provided.
+   </MsgText>
+   <Explanation> <p>
+	You have neither provided a reference to an existing configuration file
+	nor have you provided the configuration itself.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Specify a configuration data on ConfigInstance creation.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB206E" prefix="yes">
+   <MsgText pgmKey="REST.API.CONFIG.MISSING" varFormat="Java">
+    No Configuration Data Provided.
+   </MsgText>
+   <Explanation> <p>
+	You have not provided the the configuration data.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Specify a configuration data on Configuration File creation.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB207E" prefix="yes">
+   <MsgText pgmKey="REST.API.HTTP.LISTENER.ERROR" varFormat="Java">
+   Couldn't notify listener: <q/><Variable formatSpec="{0}">listener identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	Unable to send a notification to the remote server
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the remote server is running and that network communication is possible.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB208E" prefix="yes">
+   <MsgText pgmKey="REST.API.SERIALIZATION.ERROR" varFormat="Java">
+   Unable to serialize object: <q/><Variable formatSpec="{0}">object identifier</Variable><q/>
+   </MsgText>
+   <Explanation> <p>
+	An error has occurred during object serialization.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Check the source exception message for more help.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB209E" prefix="yes">
+   <MsgText pgmKey="REST.API.LISTENER.NO.CHANNEL" varFormat="Java">
+    Missing TransportChannel object specification.
+   </MsgText>
+   <Explanation> <p>
+	The provided Listener object has no TransportChannel object attached. 
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure the Listener object you send complies with the defined protocol.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB210E" prefix="yes">
+   <MsgText pgmKey="REST.API.JMS.CONFIG.MISSING" varFormat="Java">
+   No JMS Provider has been configured.
+   </MsgText>
+   <Explanation> <p>
+	The configuration is missing a JMS Provider specification.
+	A JMS Provider is used to buffer messages when using Poll-based TransportChannel.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+	Make sure valid JMS Provider configuration is specified if you 
+	want to use this type of message transportation.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDIB211I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.ACTIVE" varFormat="Java">
+   The REST Server API engine is now started.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDIB212I" prefix="no">
+   <MsgText pgmKey="REST.API.SERVER.INACTIVE" varFormat="Java">
+   The REST Server API engine is now stopped.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+</TMSSource>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="40" UUID="54516e55-fbb9-46b4-86ef-8c57722a291a" created="Mon Dec 30 13:03:44 CET 2013" createdBy="Administrator" main="launchFlow" modified="Tue Apr 07 13:04:27 CEST 2015" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <Script name="launchFlow">
+        <ModTime>1428404664080</ModTime>
+        <parameter name="includeFiles"/>
+        <parameter name="script"><![CDATA[//
+// -- Build props from the Input and Output components and
+// -- launch LDAPSync or LDAPMigrate based on the opentry request.
+//
+
+var tcb = system.newTCB();
+var initParams = tcb.getOperationInitParams();
+var flow = task.getShortName();
+var alname = task.getOpEntry().getString("SyncOper");
+if(!alname) {
+	alname = "LDAPSync";
+}
+
+if ("LDAPSync".equals(alname)) {
+	initParams["synchronize"] = true;
+}
+
+var simulate = task.getOpEntry().getString("Simulate");
+if(!simulate) {
+	simulate = "false";
+}
+var prefix = flow + ".";
+
+tcb.setAssemblyLineName(alname);
+initParams.setAttribute("$flowKey", flow);
+initParams.setAttribute("global.flows", flow);
+initParams.setAttribute("simulate", simulate);
+
+//
+// -- Make sure SyncEngine is running
+//
+var server = main.getServer("LDAPSync");
+if(server == null) {
+	task.logmsg("Starting LDAPSync")
+	server = main.startServer("configs/LDAPSync.xml", null, null, true);
+	server.waitForInitializationToComplete(5000);
+}
+
+task.getScriptEngine().loadScript(
+	"getFlowParameters",
+	main.getScript("LDAPSync:/Scripts/getFlowParameters"),
+	false
+);
+//getFlowParameters(config, flowname, target, prefix)
+getAllFlowParameters(initParams, flow);
+/*
+ns = initParams.getAttributeNames();
+s = "";
+java.util.Arrays.sort(ns);
+for (nn in ns) {
+	s += "\n   " + initParams[nn].toString();
+}
+task.logmsg(s);
+java.lang.System.out.println(s);
+//return;
+*/
+task.logmsg("Launch and wait for " + alname);
+var syncAL = server.startAL(tcb);
+syncAL.join();
+
+ex = syncAL.getStats().getError()
+
+if (ex != null) {
+	task.getStats().exception(ex)
+	throw ex
+}]]></parameter>
+    </Script>
+</MetamergeConfig>

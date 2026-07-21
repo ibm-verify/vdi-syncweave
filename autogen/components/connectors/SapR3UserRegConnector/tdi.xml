@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Wed Nov 21 16:20:10 SGT 2007" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.SapR3UserRegConnector">
+                        <SupportedModes>AddOnly,Delete,Iterator,Lookup,Update</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.sapr3.user.UserRegistryConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="ashost"/>
+				<parameter name="client">000</parameter>
+				<parameter name="gwhost"/>
+				<parameter name="optional"/>
+				<parameter name="passwd"/>
+				<parameter name="sapr3.userconn.deleteStylesheets"><![CDATA[xsl/bapi_user_delete.xsl
+]]></parameter>
+				<parameter name="sapr3.userconn.findPostStylesheet">xsl/bapi_user_getdetail_postcall.xsl</parameter>
+				<parameter name="sapr3.userconn.findPreStylesheet">xsl/bapi_user_getdetail_precall.xsl</parameter>
+				<parameter name="sapr3.userconn.getNextPostStylesheet">xsl/bapi_user_getdetail_postcall.xsl</parameter>
+				<parameter name="sapr3.userconn.getNextPreStylesheet">xsl/bapi_user_getdetail_precall.xsl</parameter>
+				<parameter name="sapr3.userconn.modifyStylesheets"><![CDATA[xsl/bapi_user_change.xsl
+xsl/bapi_user_actgroups_assign.xsl
+xsl/bapi_user_profiles_assign.xsl
+]]></parameter>
+				<parameter name="sapr3.userconn.putStylesheets"><![CDATA[xsl/bapi_user_create.xsl
+xsl/bapi_user_actgroups_assign.xsl
+xsl/bapi_user_profiles_assign.xsl
+]]></parameter>
+				<parameter name="sapr3.userconn.rfcFC">ibmdi.SapR3RfcFC</parameter>
+				<parameter name="sapr3.userconn.selectEntriesPostStylesheet">xsl/bapi_user_getlist_postcall.xsl</parameter>
+				<parameter name="sapr3.userconn.selectEntriesPreStylesheet">xsl/bapi_user_getlist_precall.xsl</parameter>
+				<parameter name="sysnr">00</parameter>
+				<parameter name="trace">0</parameter>
+				<parameter name="user"/>
+				<parameter name="supportsSkipLookup">true</parameter>
+			</Configuration>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.sapr3.user.UserRegistryConnector">
+			<TranslationFile>NLS/idi_conn_sapr3userreg</TranslationFile>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>user</ListItem>
+					<ListItem>passwd</ListItem>
+					<ListItem>client</ListItem>
+					<ListItem>sysnr</ListItem>
+					<ListItem>ashost</ListItem>
+					<ListItem>gwhost</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>trace</ListItem>
+					<ListItem>optional</ListItem>
+					<ListItem>sapr3.userconn.rfcFC</ListItem>
+					<ListItem>sapr3.userconn.deleteStylesheets</ListItem>
+					<ListItem>sapr3.userconn.modifyStylesheets</ListItem>
+					<ListItem>sapr3.userconn.putStylesheets</ListItem>
+					<ListItem>sapr3.userconn.findPostStylesheet</ListItem>
+					<ListItem>sapr3.userconn.findPreStylesheet</ListItem>
+					<ListItem>sapr3.userconn.getNextPostStylesheet</ListItem>
+					<ListItem>sapr3.userconn.getNextPreStylesheet</ListItem>
+					<ListItem>sapr3.userconn.selectEntriesPostStylesheet</ListItem>
+					<ListItem>sapr3.userconn.selectEntriesPreStylesheet</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+				<ListItem>client</ListItem>
+				<ListItem>user</ListItem>
+				<ListItem>passwd</ListItem>
+				<ListItem>sysnr</ListItem>
+				<ListItem>ashost</ListItem>
+				<ListItem>gwhost</ListItem>
+				<ListItem>trace</ListItem>
+				<ListItem>optional</ListItem>
+				<ListItem>sapr3.userconn.rfcFC</ListItem>
+				<ListItem>sapr3.userconn.putStylesheets</ListItem>
+				<ListItem>sapr3.userconn.modifyStylesheets</ListItem>
+				<ListItem>sapr3.userconn.deleteStylesheets</ListItem>
+				<ListItem>sapr3.userconn.findPreStylesheet</ListItem>
+				<ListItem>sapr3.userconn.findPostStylesheet</ListItem>
+				<ListItem>sapr3.userconn.selectEntriesPreStylesheet</ListItem>
+				<ListItem>sapr3.userconn.selectEntriesPostStylesheet</ListItem>
+				<ListItem>sapr3.userconn.getNextPreStylesheet</ListItem>
+				<ListItem>sapr3.userconn.getNextPostStylesheet</ListItem>
+				<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="ashost">
+				<parameter name="description">SAPUSERREG_ASHOST_DESC</parameter>
+				<parameter name="label">SAPUSERREG_ASHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="client">
+				<parameter name="description">SAPUSERREG_CLIENT_DESC</parameter>
+				<parameter name="label">SAPUSERREG_CLIENT_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="gwhost">
+				<parameter name="description">SAPUSERREG_GWHOST_DESC</parameter>
+				<parameter name="label">SAPUSERREG_GWHOST_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="optional">
+				<parameter name="description">SAPUSERREG_OPTION_DESC</parameter>
+				<parameter name="label">SAPUSERREG_OPTION_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="passwd">
+				<parameter name="description">SAPUSERREG_PASSWD_DESC</parameter>
+				<parameter name="label">SAPUSERREG_PASSWD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.deleteStylesheets">
+				<parameter name="description">SAPUSERREG_DELSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_DELSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.findPostStylesheet">
+				<parameter name="description">SAPUSERREG_PSTSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_PSTSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete,Update,Lookup</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.findPreStylesheet">
+				<parameter name="description">SAPUSERREG_FNDSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_FNDSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Delete,Update,Lookup</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.getNextPostStylesheet">
+				<parameter name="description">SAPUSERREG_GTTSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_GTTSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.getNextPreStylesheet">
+				<parameter name="description">SAPUSERREG_GETSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_GETSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.modifyStylesheets">
+				<parameter name="description">SAPUSERREG_MODSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_MODSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Update</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.putStylesheets">
+				<parameter name="description">SAPUSERREG_PUTSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_PUTSTS_LABEL</parameter>
+				<parameter name="syntax">TEXTAREA</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">AddOnly</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.rfcFC">
+				<parameter name="description">SAPUSERREG_RFCFC_DESC</parameter>
+				<parameter name="label">SAPUSERREG_RFCFC_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.selectEntriesPostStylesheet">
+				<parameter name="description">SAPUSERREG_SLLSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_SLLSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sapr3.userconn.selectEntriesPreStylesheet">
+				<parameter name="description">SAPUSERREG_SELSTS_DESC</parameter>
+				<parameter name="label">SAPUSERREG_SELSTS_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+				<parameter name="modes">Iterator</parameter>
+			</FormItem>
+			<FormItem name="sysnr">
+				<parameter name="description">SAPUSERREG_SYSNR_DESC</parameter>
+				<parameter name="label">SAPUSERREG_sysnr_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<FormItem name="trace">
+				<parameter name="description">SAPUSERREG_TRACE_DESC</parameter>
+				<parameter name="label">SAPUSERREG_TRACE_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+			</FormItem>
+			<FormItem name="user">
+				<parameter name="description">SAPUSERREG_USER_DESC</parameter>
+				<parameter name="label">SAPUSERREG_USER_LABEL</parameter>
+				<parameter name="syntax">STRING</parameter>
+				<parameter name="Required">true</parameter>
+			</FormItem>
+			<parameter name="title">CONN_TITLE</parameter>
+		</Form>
+	</Folder>
+</MetamergeConfig>

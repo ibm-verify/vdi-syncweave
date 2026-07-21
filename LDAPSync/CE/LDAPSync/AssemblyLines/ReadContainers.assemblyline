@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="8" UUID="554932ea-2646-44ea-9f29-7e83c378c403" created="Mon Dec 30 13:03:45 CET 2013" createdBy="Administrator" main="ReadContainers" modified="Fri Apr 01 12:45:23 CEST 2016" modifiedBy="Administrator" project="LDAPSync" version="7.1.1">
+    <AssemblyLine name="ReadContainers">
+        <ModTime>1459507522752</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="epilog2">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <Name>epilog2</Name>
+                <Script>//dumpSummary();</Script>
+                <Enabled>true</Enabled>
+            </Hook>
+            <Hook name="prolog0">
+                <InheritFrom>/Scripts/libPrologHook</InheritFrom>
+                <Name>prolog0</Name>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="First time initialization" state="Enabled"/>
+                <Component name="Initialize" state="Enabled"/>
+                <Component name="Container in source" state="Enabled"/>
+                <Component name="checkForDN" state="Enabled"/>
+                <Component name="Accumulate container" state="Enabled"/>
+                <Component name="Sort container dns by hierarchy" state="Enabled"/>
+                <Component name="Empty Work Entry" state="Enabled"/>
+                <Component name="More containers" state="Enabled"/>
+                <Component name="debug output" state="Enabled"/>
+                <Component name="Get next container" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1459507522752</ModTime>
+            <Branch name="First time initialization">
+                <ModTime>1459507522752</ModTime>
+                <Script name="Initialize">
+                    <ModTime>1458560758900</ModTime>
+                    <parameter name="script"><![CDATA[//containers = new java.util.concurrent.ConcurrentHashMap()
+containers = new java.util.HashMap()
+sortedKeys = new java.util.ArrayList()
+
+firstTime = false
+
+try {
+	searchBaseRDNS = new javax.naming.ldap.LdapName(sourceSearchBase).getRdns()
+} catch (ex) {
+	logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.PARSING") + "source.searchBase: " + ex + " - dn: " + sourceSearchBase)
+	system.ignoreEntry()
+}]]></parameter>
+                </Script>
+                <Loop name="Container in source">
+                    <ModTime>1459507508841</ModTime>
+                    <LoopType>1</LoopType>
+                    <Connector name="Container in source">
+                        <InheritFrom>/Connectors/SourceLDAP</InheritFrom>
+                        <ModTime>1459507508841</ModTime>
+                        <ConnectorMode>Iterator</ConnectorMode>
+                        <ConnectorState>Enabled</ConnectorState>
+                        <Configuration>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <parameter name="ldapSearchFilter">@SUBSTITUTE{javascript return "objectClass=organizationalUnit"}</parameter>
+                        </Configuration>
+                        <Parser>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Parser>
+                        <AttributeMap name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                            <AttributeMapItem>
+                                <Name>*</Name>
+                                <Type>simple</Type>
+                                <Simple>*</Simple>
+                            </AttributeMapItem>
+                        </AttributeMap>
+                        <AttributeMap name="Output"/>
+                        <DeltaSettings>
+                            <ModTime>1392896607968</ModTime>
+                            <Enabled><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></Enabled>
+                            <UniqueAttribute>$dn</UniqueAttribute>
+                            <FilePath><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return "DEFAULT"
+opEntry = task.getOpEntry()
+return opEntry.getString("$deltaStore")}]]></FilePath>
+                            <ReadDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></ReadDeleted>
+                            <RemoveDeleted><![CDATA[@SUBSTITUTE{javascript if (typeof(task) == "undefined") return true
+opEntry = task.getOpEntry()
+delta = opEntry.getString("$enableDelta")
+return "true".equals(delta)}]]></RemoveDeleted>
+                            <DeltaFastAlgorithm>true</DeltaFastAlgorithm>
+                            <WhenToCommit>After every database operation</WhenToCommit>
+                            <RowLocking>REPEATABLE_READ</RowLocking>
+                            <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                        </DeltaSettings>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <UserComment>{extsyntax=TEXTAREA, name=userComment}</UserComment>
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <SchemaItem>
+                                <Name>automapADPassword</Name>
+                                <NativeSyntax>boolean</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>connectorFlags</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>debug</Name>
+                                <NativeSyntax>boolean</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>jndiExtraProviderParams</Name>
+                                <NativeSyntax>textarea</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapAddAttr</Name>
+                                <NativeSyntax>BOOLEAN</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapAuthenticationMethod</Name>
+                                <NativeSyntax>DROPLIST</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapBERTrace</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapBinaryAttributes</Name>
+                                <NativeSyntax>textarea</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapPageSize</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapPassword</Name>
+                                <NativeSyntax>PASSWORD</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapReferrals</Name>
+                                <NativeSyntax>droplist</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapReturnAttributes</Name>
+                                <NativeSyntax>textarea</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapSearchBase</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapSearchFilter</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapSearchScope</Name>
+                                <NativeSyntax>droplist</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapSizeLimit</Name>
+                                <NativeSyntax>string</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapSortAttribute</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapTimeLimit</Name>
+                                <NativeSyntax>string</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapUrl</Name>
+                                <NativeSyntax>panel</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapUseSSL</Name>
+                                <NativeSyntax>BOOLEAN</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapUsername</Name>
+                                <NativeSyntax>DN</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>ldapVLVPageSize</Name>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>setOprAttributes</Name>
+                                <NativeSyntax>BOOLEAN</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>simulateRename</Name>
+                                <NativeSyntax>boolean</NativeSyntax>
+                            </SchemaItem>
+                            <SchemaItem>
+                                <Name>userComment</Name>
+                                <NativeSyntax>TEXTAREA</NativeSyntax>
+                            </SchemaItem>
+                        </Schema>
+                        <LinkCriteria/>
+                        <Hooks>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ModTime>1459507508841</ModTime>
+                            <Hook name="before_getnext">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <Name>before_getnext</Name>
+                                <Script>work.removeAllAttributes()</Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                            <Hook name="before_initialize">
+                                <InheritFrom>[no inheritance]</InheritFrom>
+                                <ModTime>1459507508841</ModTime>
+                                <Name>before_initialize</Name>
+                                <Script><![CDATA[//Refer: Utils->prepareObjectClasses()
+
+searchFilter = "(|";
+iter = containerOC.keySet().iterator();
+while (iter.hasNext()){
+	key = iter.next();
+	searchFilter += "(objectClass="+key+")";
+}
+/* should not be necessry anymore
+if ("AD".equals(getProperty("source.changeDetectionType"))) {
+	searchFilter += "(objectClass=container)"
+}
+*/
+searchFilter += ")";
+logmsg("> " + resource.getString("LDAPSYNC.MIGRATING.CONTAINER.ENTRIES.USING.SEARCH.FILTER") + ": "+searchFilter);
+thisConnector.connector.setParam("ldapSearchFilter",searchFilter);
+
+sourceLDAP = thisConnector.connector]]></Script>
+                                <Enabled>true</Enabled>
+                            </Hook>
+                        </Hooks>
+                        <CheckpointConfig/>
+                        <SandboxConfig/>
+                        <Reconnect>
+                            <InheritFrom>[parent]</InheritFrom>
+                            <ReconnectRules/>
+                        </Reconnect>
+                        <Operations/>
+                        <PoolDefinition>
+                            <InheritFrom>[parent]</InheritFrom>
+                        </PoolDefinition>
+                        <PoolInstance/>
+                    </Connector>
+                    <Branch name="Container in source">
+                        <ModTime>1459507508841</ModTime>
+                        <Script name="checkForDN">
+                            <InheritFrom>[no inheritance]</InheritFrom>
+                            <ModTime>1369294759187</ModTime>
+                            <parameter name="script"><![CDATA[dn = work.getString("$dn")
+
+if (dn === null) {
+	logmsg("ERROR", where() + " - " + resource.getString("LDAPSYNC.NO.DN.ATTRIBUTE.FOUND.IN.ENTRY.SKIPPING"))
+	addToStats(flowKey, "error", "error");
+	system.continueLoop()	
+}
+
+work["$dn"] = cleanDN(dn)]]></parameter>
+                        </Script>
+                        <Script name="Accumulate container">
+                            <ModTime>1382376241296</ModTime>
+                            <parameter name="script"><![CDATA[dn = work.getString("$dn")
+
+if (useDN(dn)) {
+	// must reverse the order of RDNs in the entry DN in order to sort correctly
+	try {
+		ldapName = new javax.naming.ldap.LdapName(dn)
+		rdns = ldapName.getRdns()
+	} catch (ex) {
+		logmsg("ERROR", resource.getString("LDAPSYNC.ERROR.PARSING.CONTAINER.DN") + ": " + ex + " - dn: " + dn)
+		system.ignoreEntry()
+	}
+	
+	for (j = rdns.size(); j--; ) {
+		dnRdns = ldapName.getRdns()
+
+		dn = ""
+		for (k = 0; k < dnRdns.size(); k++) {
+			if (dn.length > 0) {
+				dn = dn + ","
+			}
+			dn = dn + dnRdns[k]
+		}
+
+		if (j >= searchBaseRDNS.size() && !containers.containsKey(dn)) {
+			try {
+				e = sourceLDAP.findEntry("$dn", ldapName.toString())
+				containers.put(dn,e)
+			} catch (ex) {
+				// ignore @@TODO perhaps
+			}	
+		}	
+		ldapName.remove(j)
+	}
+}]]></parameter>
+                        </Script>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                </Loop>
+                <Script name="Sort container dns by hierarchy">
+                    <ModTime>1459507522752</ModTime>
+                    <parameter name="enabled">true</parameter>
+                    <parameter name="script"><![CDATA[keys = containers.keySet().toArray()
+java.util.Arrays.sort(keys)
+count = 0]]></parameter>
+                </Script>
+                <ScriptCondition>return typeof(firstTime) == "undefined"</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Script name="Empty Work Entry">
+                <ModTime>1367573917906</ModTime>
+                <parameter name="script">work.removeAllAttributes()</parameter>
+            </Script>
+            <Branch name="More containers">
+                <ModTime>1382377018312</ModTime>
+                <Script name="debug output">
+                    <ModTime>1382377018312</ModTime>
+                    <parameter name="enabled">false</parameter>
+                    <parameter name="script"><![CDATA[for (i = 0; i < keys.length; i++) {
+	task.logmsg("#" + i + " - " + keys[i])
+}]]></parameter>
+                </Script>
+                <Script name="Get next container">
+                    <ModTime>1372761571515</ModTime>
+                    <parameter name="script"><![CDATA[dn = keys[count]
+
+e = containers.get(dn)
+
+work.removeAllAttributes()
+work.merge(e)
+
+count++]]></parameter>
+                </Script>
+                <ScriptCondition>return count &lt; keys.length</ScriptCondition>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams">
+                <SchemaItem>
+                    <Name>flowKey</Name>
+                </SchemaItem>
+            </Schema>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

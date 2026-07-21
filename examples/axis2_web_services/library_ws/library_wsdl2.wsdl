@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description name="Library" 
+		xmlns="http://www.w3.org/ns/wsdl"
+		targetNamespace="http://www.example.com/library/"
+        xmlns:tns="http://www.example.com/library/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://www.w3.org/2004/08/wsdl/soap12/"
+        xmlns:wsoap="http://www.w3.org/ns/wsdl/soap">
+		
+	<types>
+		<xsd:schema targetNamespace="http://www.example.com/library/">
+			<xsd:element name="book">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="title" type="xsd:string"/>
+						<xsd:element name="author" type="xsd:string"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="isAvailable" type="xsd:boolean"/>
+			<xsd:element name="headerMessage" type="xsd:string"/>
+		</xsd:schema>
+	</types>
+	
+	<interface name="LibraryInterface">
+		<operation name="GetBookAvailability" pattern="http://www.w3.org/ns/wsdl/in-out">
+			<input message="BookInput" element="tns:book"/>
+			<output message="BooleanOutput" element="tns:isAvailable"/>
+		</operation>
+    </interface>
+	
+	<binding name="LibrarySoap11Binding" interface="tns:LibraryInterface" type="http://www.w3.org/ns/wsdl/soap"
+			wsoap:protocol="http://www.w3.org/2006/01/soap11/bindings/HTTP/" wsoap:version="1.1">
+		<operation ref="tns:GetBookAvailability" wsoap:action="tns:GetBookAvailability">
+			<input>
+				<wsoap:header message="MyInputHeader" element="tns:headerMessage" use="literal"/>
+				<wsoap:body use="literal"/>
+			</input>
+			<output>
+				<wsoap:header message="MyOutputHeader" element="tns:headerMessage" use="literal"/>
+				<wsoap:body use="literal"/>
+			</output>
+		</operation>
+    </binding>
+	<binding name="LibrarySoap12Binding" interface="tns:LibraryInterface" 
+			type="http://www.w3.org/2004/08/wsdl/soap12" 
+			soap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP">
+		<operation ref="tns:GetBookAvailability" soap:action="http://example.com/library"
+				wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response" />
+	</binding>
+	
+	<service name="LibraryService" interface="tns:LibraryInterface">
+		<documentation>My library service</documentation>
+        <endpoint name="LibraryEndPoint" 
+					binding="tns:LibrarySoap11Binding" 
+					address="http://localhost:9998" />
+    </service>
+	<service name="SecondLibraryService" interface="tns:LibraryInterface">
+		<documentation>Backup library service</documentation>
+		<endpoint name="SecondLibraryEndPoint" 
+					binding="tns:LibrarySoap12Binding" 
+					address="http://localhost:9988" />
+	</service>
+	
+</description>

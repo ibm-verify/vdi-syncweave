@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig created="Tue Sep 20 12:00:00 IST 2009" version="7.1.1">
+	<Folder name="Connectors">
+		<Connector name="ibmdi.ITRegistryConnector">
+                        <SupportedModes>CallReply,Iterator,Lookup</SupportedModes>
+			<Configuration>
+				<parameter name="connectorType">com.ibm.di.connector.ITRegistryConnector</parameter>
+				<parameter name="parserOption">Useless</parameter>
+				<parameter name="artifactType">CI</parameter>
+				<parameter name="classType"/>
+				<parameter name="bookName"/>
+				<parameter name="mssName" />
+				<parameter name="useDate">false</parameter>
+				<parameter name="dateFilter"/>
+				<parameter name="attributeFilter"/>
+				<parameter name="useITRegistryCdm">true</parameter>
+				<parameter name="jdbcUrl"/>
+				<parameter name="jdbcDriver"/>
+				<parameter name="dbUsername"/>
+				<parameter name="dbPassword"/>
+				<parameter name="scope">false</parameter>
+				<parameter name="isDeleted">false</parameter>
+			</Configuration>
+			<Schema name="Input">
+				<SchemaItem>
+					<Name>$classType</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$guid</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$aliasGuid</Name>
+					<Syntax>com.ibm.tivoli.namereconciliation.guid.Guid[]</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$managementSoftwareSystem</Name>
+					<Syntax>java.util.HashMap</Syntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<SchemaItem>
+					<Name>$classType</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$mssGuid</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$operation</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>$itRegistryBookName</Name>
+					<Syntax>String</Syntax>
+				</SchemaItem>
+			</Schema>
+		</Connector>
+	</Folder>
+	<Folder name="Forms">
+		<Form name="com.ibm.di.connector.ITRegistryConnector">
+			<TranslationFile>NLS/idi_conn_itregistry</TranslationFile>
+			<Validators>
+				<ListItem type="map" name="output">com.ibm.di.cdm.jar.CDMComponentAttributesValidator</ListItem>
+			</Validators>
+			<parameter name="title">ITREGISTRY_CONNECTOR_TITLE</parameter>
+			<parameter name="description">CONN_DESC</parameter>
+			<parameter name="formevents"><![CDATA[
+				function artifactType_changed() {
+					var val = form.getConfig("artifactType");
+					if ( val != null ) {
+						form.getControl("classType").setText("");
+					}
+				}
+				function useDate_changed(){
+					var val = form.getConfig("useDate");
+					if(val!=null){
+						var enableDate=false;
+						var enableAttr=false;
+						if(val.equalsIgnoreCase("true")){
+							enableDate=true;
+							enableAttr=false;
+						}else{
+							enableDate=false;
+							enableAttr=true;
+						}
+						var dateFilter = form.getControl("dateFilter");
+						if (dateFilter != null) {
+							dateFilter.setEnabled(enableDate);
+						}
+						var attributeFilter = form.getControl("attributeFilter");
+						if (attributeFilter != null) {
+							attributeFilter.setEnabled(enableAttr);
+						}
+					}
+				}
+				useDate_changed();
+			]]></parameter>
+			<FormSectionNames>
+				<ListItem>General</ListItem>
+				<ListItem>Advanced</ListItem>
+			</FormSectionNames>
+			<FormSection name="General">
+				<FormSectionNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormSection name="Advanced">
+				<parameter name="title">Advanced</parameter>
+				<parameter name="initiallyExpanded">false</parameter>
+				<FormSectionNames>
+					<ListItem>bookName</ListItem>
+					<ListItem>mssName</ListItem>
+					<ListItem>useDate</ListItem>
+					<ListItem>dateFilter</ListItem>
+					<ListItem>attributeFilter</ListItem>
+					<ListItem>scope</ListItem>
+					<ListItem>isDeleted</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+				</FormSectionNames>
+			</FormSection>
+			<FormItemNames>
+					<ListItem>artifactType</ListItem>
+					<ListItem>classType</ListItem>
+					<ListItem>bookName</ListItem>
+					<ListItem>mssName</ListItem>
+					<ListItem>useDate</ListItem>
+					<ListItem>dateFilter</ListItem>
+					<ListItem>attributeFilter</ListItem>
+					<ListItem>scope</ListItem>
+					<ListItem>isDeleted</ListItem>
+					<ListItem>useITRegistryCdm</ListItem>
+					<ListItem>jdbcUrl</ListItem>
+					<ListItem>jdbcDriver</ListItem>
+					<ListItem>dbUsername</ListItem>
+					<ListItem>dbPassword</ListItem>
+					<ListItem>$GLOBAL.userComment</ListItem>
+					<ListItem>$GLOBAL.debug</ListItem>
+			</FormItemNames>
+			<FormItem name="artifactType">
+				<Values>
+					<ListItem>CI</ListItem>
+					<ListItem>RELATIONSHIP</ListItem>
+				</Values>
+				<LocalizedValues>
+					<Item>
+						<Key>CI</Key>
+						<Value>ITREGISTRY_CONN_CI</Value>
+					</Item>
+					<Item>
+						<Key>RELATIONSHIP</Key>
+						<Value>ITREGISTRY_CONN_RELATIONSHIP</Value>
+					</Item>
+				</LocalizedValues>
+				<parameter name="description">ITREGISTRY_CONN_ARTIFACTTYPE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_ARTIFACTTYPE_LABEL</parameter>
+				<parameter name="syntax">droplist</parameter>
+			</FormItem>
+			<FormItem name="classType">
+				<parameter name="description">ITREGISTRY_CONN_CLASSTYPE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_CLASSTYPE_LABEL</parameter>
+				<parameter name="script">getCdmTypes</parameter>
+				<parameter name="scriptLabel">ITREGISTRY_CONN_CLASSTYPE_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">ITREGISTRY_CONN_CLASSTYPE_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="bookName">
+				<parameter name="description">ITREGISTRY_CONN_BOOK_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_BOOK_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="modes">CallReply</parameter> 
+			</FormItem>
+			<FormItem name="mssName">
+				<parameter name="description">ITREGISTRY_CONN_MSS_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_MSS_LABEL</parameter>
+				<parameter name="script">getMSS</parameter>
+				<parameter name="scriptLabel">ITREGISTRY_CONN_MSS_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">ITREGISTRY_CONN_MSS_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+				<parameter name="modes">Iterator,Lookup</parameter> 
+			</FormItem>
+			<FormItem name="useDate">
+				<parameter name="modes">Iterator</parameter>
+				<parameter name="description">ITREGISTRY_CONN_IS_DATE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_IS_DATE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name ="attributeFilter">
+				<parameter name="modes">Iterator</parameter> 
+				<parameter name="description">ITREGISTRY_CONN_FILTER_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_FILTER_LABEL</parameter>
+				<parameter name="syntax">textarea</parameter>
+			</FormItem>
+			<FormItem name ="dateFilter">
+				<parameter name="modes">Iterator</parameter> 
+				<parameter name="description">ITREGISTRY_CONN_DATE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_DATE_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name ="scope">
+				<parameter name="modes">Iterator</parameter> 
+				<parameter name="description">ITREGISTRY_CONN_SCOPE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_SCOPE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name ="isDeleted">
+				<parameter name="modes">Iterator</parameter> 
+				<parameter name="description">ITREGISTRY_CONN_DELETE_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_DELETE_LABEL</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="useITRegistryCdm">
+				<parameter name="description">ITREGISTRY_CONN_USEITREGISTRYCDM_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_USEITREGISTRYCDM_LABEL</parameter>
+				<parameter name="script">getCdmVersion</parameter>
+				<parameter name="scriptLabel">ITREGISTRY_CONN_CHECKCDM_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">ITREGISTRY_CONN_CHECKCDM_SCRIPT_HELP</parameter>
+				<parameter name="syntax">boolean</parameter>
+			</FormItem>
+			<FormItem name="jdbcUrl">
+				<parameter name="description">ITREGISTRY_CONN_JDBCURL_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_JDBCURL_LABEL</parameter>
+				<parameter name="script">checkDbConnection</parameter>
+				<parameter name="scriptLabel">ITREGISTRY_CONN_QUERYDB_SCRIPT_LABEL</parameter>
+				<parameter name="scripthelp">ITREGISTRY_CONN_QUERYDB_SCRIPT_HELP</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="jdbcDriver">
+				<parameter name="description">ITREGISTRY_CONN_JDBCDRIVER_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_JDBCDRIVER_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbUsername">
+				<parameter name="description">ITREGISTRY_CONN_DBUSERNAME_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_DBUSERNAME_LABEL</parameter>
+				<parameter name="syntax">string</parameter>
+			</FormItem>
+			<FormItem name="dbPassword">
+				<parameter name="description">ITREGISTRY_CONN_DBPASSWORD_DESC</parameter>
+				<parameter name="label">ITREGISTRY_CONN_DBPASSWORD_LABEL</parameter>
+				<parameter name="syntax">PASSWORD</parameter>
+			</FormItem>
+		</Form>
+	</Folder>
+</MetamergeConfig>

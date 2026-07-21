@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsd:schema 
+    targetNamespace="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:tns="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:scmp="http://www.ibm.com/xmlns/prod/scmp" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:include schemaLocation="scmp.xsd"/>
+
+    <xsd:complexType name="registry-type">
+		<xsd:complexContent>
+            <xsd:extension base="tns:server-resource"> 
+        		<xsd:sequence>
+        		</xsd:sequence>
+       		</xsd:extension>
+     	</xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="registry" type="tns:registry-type">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <scmp:display>Service Registry</scmp:display>
+                <scmp:summary>Service Registry</scmp:summary>
+                <scmp:description>
+                    A Service Registry contains collections of Service References and Visibility Groups.
+                </scmp:description>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

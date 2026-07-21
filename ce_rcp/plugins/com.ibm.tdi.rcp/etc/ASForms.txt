@@ -1,0 +1,877 @@
+importPackage(Packages.com.ibm.tdi.eclipse);
+
+function selectLDAPSearchFilter() {
+	str = com.ibm.tdi.eclipse.widget.LinkCriteriaDialog.generateLdapSearchFilter(form.getShell(), form.getConfigObject());
+	if(str != null) {
+		if (str.contains("{"))
+			str = "@SUBSTITUTE" + str;
+
+		form.setConfig (button.getName(), str);
+		form.updateControl (button.getName());
+	}
+}
+
+function selectNotesSearchFilter() {
+	str = com.ibm.tdi.eclipse.widget.LinkCriteriaDialog.generateNotesSearchFilter(form.getShell(), form.getConfigObject());
+	if(str != null) {
+		if (str.contains("{"))
+			str = "@SUBSTITUTE" + str;
+
+		form.setConfig (button.getName(), str);
+		form.updateControl (button.getName());
+	}
+}
+
+function selectJdbcSearchFilter() {
+	str = com.ibm.tdi.eclipse.widget.LinkCriteriaDialog.generateJdbcSearchFilter(form.getShell(), form.getConfigObject());
+	if(str != null) {
+		cur = form.getConfig(button.getName());
+		if(cur != null && cur.length() > 0) {
+			ix = cur.toLowerCase().indexOf(" where ");
+			if(ix != -1) {
+				cur = cur.substring(0, ix);
+			}
+		} else {
+			cur = "select * from " + form.getConfig("jdbcTable");
+		}
+		str = cur + " where " + str;
+
+		if (!cur.startsWith("@SUBSTITUTE") && str.contains("{"))
+			str = "@SUBSTITUTE" + str;
+
+ 		form.setConfig (button.getName(), str);
+		form.updateControl (button.getName());
+	}
+}
+
+function selectNotesDatabase ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   var sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.Database"), conn.queryDatabases());
+   if (sel != null)
+   {
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   conn.terminate();
+}
+
+function selectNotesView()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   var sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.View"), conn.queryViews());
+   if (sel != null)
+   {
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   conn.terminate();
+}
+
+function selectJDBCTable ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   var sel;
+   try 
+   {
+      sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.Table"), conn.queryTables());
+   }
+   catch (e)
+   {
+      conn.terminate();
+      throw e;
+   }
+   if (sel != null)
+   {
+      if ( sel.indexOf(" ") != -1 ) {
+         try {
+            if (conn.isMSSqlServerDB()) {
+                sel = "[" + sel + "]";
+            } else {
+                sel = "'" + sel + "'";
+            }
+         } catch (e) {
+            sel = "'" + sel + "'";
+         }
+      }
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   conn.terminate();
+}
+
+function selectSysStoreTable ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   var sel;
+   try 
+   {
+      sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.Table"), conn.queryTables());
+   }
+   catch (e)
+   {
+      conn.terminate();
+      throw e;
+   }
+   if (sel != null)
+   {
+      if ( sel.indexOf(" ") != -1 )
+         sel = "'" + sel + "'";
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   conn.terminate();
+}
+
+
+
+function deleteDelta ()
+{
+   var path = form.getConfigValue ("deltaDB");
+   if (path == null || path.length() == 0)
+      return;
+
+      if ( form.prompt (Messages.getMessage("ASForms.DeleteDeltaTable.Prompt", path) ) )
+      {
+	var table = path;
+	if (! table.startsWith("IDI_DS_"))
+	   table = "IDI_DS_" + path;
+         var str = Packages.com.ibm.di.store.StoreFactory.dropTable ( table );
+         Packages.com.ibm.di.store.DeltaSysTable["delete"](path); // ugly way to call delete method
+         if ( str != null )
+            form.alert ( str );
+         else
+            form.alert (Messages.getMessage("ASForms.Table.Deleted", path));
+		Packages.com.ibm.di.store.StoreFactory.shutdown();
+      }
+}
+
+function selectFile ()
+{
+   selectFileWithFilter ( null )
+}
+
+function selectXMLFile ()
+{
+   selectFileWithFilter ( "xml" )
+}
+
+function verifyXMLFile ()
+{
+   form.loadNamespace()
+}
+
+function selectConfigFile ()
+{
+   selectFileWithFilter ( "config" )
+}
+
+function selectFileWithFilter ( filter )
+{
+   var name = button.getName();
+   var path = form.selectFile ( form.getConfig ( name ), filter );
+   if ( path != null )
+   {
+      form.setConfig ( name, path );
+      form.updateControl ( name );
+   }
+}
+
+function selectMultipleFiles ()
+{
+   var name = button.getName();
+   var paths = form.addFiles ( form.getConfig ( name ) );
+   if ( paths != null )
+   {
+        form.setConfig ( name, paths );
+        form.updateControl ( name );
+   }
+}
+
+function selectDirectory ()
+{
+   var name = button.getName();
+   var path = form.selectDirectory ( form.getConfig ( name ));
+   if ( path != null )
+   {
+      form.setConfig ( name, path );
+      form.updateControl ( name );
+   }
+}
+
+function chooseColor ()
+{
+   form.chooseColor ( button.getName() );
+}
+
+function selectGlobalProlog ()
+{
+   var value = form.selectGlobalScripts (form.getConfig(button.getName()));
+   if ( value != null )
+   {
+      form.setConfig (button.getName(), value);
+      form.updateControl ( button.getName() );
+   }
+}
+
+function selectLDAPSearchBase ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   sel = com.ibm.tdi.eclipse.widget.LDAPSearchBaseWidget.selectSearchBase(form.getShell(), conn.getLdapContext());
+   if (sel != null)
+   {
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   conn.terminate();
+}
+
+function checkLDAPPageSize () {
+   conn = form.loadConnector();
+   conn.initialize (null);
+   if ( conn.supportsPagedResults() )
+   {
+      form.alert (Messages.getString("ASForms.Server.supports.paged.search"));
+   } else
+   {
+      var e = conn.getServerInfo();
+      if (e.getString("error") != null )
+         form.alert (Messages.getString("ASForms.Server.not.responding"));
+      else
+         form.alert (Messages.getString("ASForms.Server.no.support"));
+   }
+
+}
+
+function getLastNSChangeNumber ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null)
+   var ctx = conn.getLdapContext();
+   var attrs = ctx.getAttributes("", ["firstchangenumber", "lastchangenumber"]);
+   if ( attrs == null )
+   {
+      form.alert (Messages.getString("ASForms.Server.no.information.fcn"));
+      conn.terminate();
+      return;
+   }
+   var fcn = attrs.get("firstchangenumber");
+   var lcn = attrs.get("lastchangenumber");
+   if ( fcn == null )
+   {
+      form.alert (Messages.getString("ASForms.Server.no.fcn"));
+   } else
+   {
+      var str = "";
+	  if ( lcn != null )
+		 str = lcn.get();
+      form.alert ( Messages.getMessage("ASForms.Server.fcn.lcn", fcn.get(), str ));
+      form.setConfig (button.getName(), fcn.get());
+   }
+   
+   form.updateControl (button.getName());
+   conn.terminate();
+   
+}
+
+function deleteIteratorStateKey ()
+{
+   var ss = new Packages.com.ibm.di.store.PropertyStore (Packages.com.ibm.di.store.StoreFactory.DEFAULT_PROPERTYSTORE);
+   ss.removeProperty ( form.getConfig ( button.getName() ) );
+   ss.closeStore();
+   Packages.com.ibm.di.store.StoreFactory.shutdown();
+}
+
+function getChangelogBase ()
+{
+   conn = form.loadConnector();
+   conn.initialize (null)
+   var ctx = conn.getLdapContext();
+   var attrs = ctx.getAttributes("");
+   if ( attrs == null )
+   {
+      form.alert (Messages.getString("ASForms.Server.no.information"));
+      conn.terminate();
+      return;
+   }
+   var fcn = attrs.get("changelog");
+   if ( fcn == null )
+   {
+      form.alert (Messages.getString("ASForms.Server.no.changelog"));
+   } else
+   {
+      form.alert (Messages.getMessage("ASForms.Server.changelog", fcn.get()));
+      form.setConfig (button.getName(), fcn.get());
+   }
+   form.updateControl (button.getName());
+   conn.terminate();
+}
+
+function getNamingContext () {
+   var configObj = form.getConfigObject();
+   var namingContexts = configObj.getParameter("namingContextList");
+   var namingContextArray = new java.util.ArrayList();
+   
+   if (namingContexts != null)
+   {
+      namingContexts.trim();   
+      if (namingContexts.length() == 0)
+      {
+         namingContexts = null;
+      }
+   } 
+
+   if (namingContexts != null)
+   {
+      var tokenizer = new Packages.com.ibm.icu.util.StringTokenizer(namingContexts, "&");
+      while (tokenizer.hasMoreTokens())
+      {
+         namingContextArray.add(tokenizer.nextToken());
+      }
+   }
+   var newNamingContextRet = form.addDeleteEntry( namingContextArray.toArray() );
+   
+   if (newNamingContextRet != null)
+   {
+      var command = newNamingContextRet.get(0);
+      var newNamingContext = newNamingContextRet.get(1);
+      
+      var p = form.getControl("namingContext");
+      var combo = p.getComponent(0);
+      var button = p.getComponent(1);
+
+      var alAdd = form.getControl("addAssemblyLine");
+      var alSearch = form.getControl("searchAssemblyLine");
+      var alModify = form.getControl("modifyAssemblyLine");
+      var alDelete = form.getControl("deleteAssemblyLine");
+      var alCompare = form.getControl("compareAssemblyLine");
+      var alModifyDn = form.getControl("modifyDnAssemblyLine");
+      
+      
+      if (command.equalsIgnoreCase("Add"))
+      {
+         if (newNamingContext != null)
+         {
+            
+            if (!namingContextArray.contains(newNamingContext))
+            {
+               if (namingContexts == null)
+               { 
+                  namingContexts = newNamingContext;
+               }
+               else
+               {
+                  namingContexts = namingContexts + "&" + newNamingContext;
+               }
+               configObj.setParameter("namingContextList", namingContexts);
+               combo.addItem(newNamingContext);
+               combo.setSelectedItem(newNamingContext);
+               form.setConfig ("namingContext", newNamingContext);
+               form.updateControl ("namingContext");
+               configObj.setParameter("selectedNamingContext", newNamingContext);
+               alAdd.setSelectedIndex(0);
+               alSearch.setSelectedIndex(0);
+               alModify.setSelectedIndex(0);
+               alDelete.setSelectedIndex(0);
+               alCompare.setSelectedIndex(0);
+               alModifyDn.setSelectedIndex(0);
+            } else
+            {
+               combo.setSelectedItem(newNamingContext);
+               form.setConfig ("namingContext", newNamingContext);
+               form.updateControl ("namingContext");
+               configObj.setParameter("selectedNamingContext", newNamingContext);
+               var addSelected = configObj.getParameter(newNamingContext + "." + "addAssemblyLine");
+               var searchSelected = configObj.getParameter(newNamingContext + "." + "searchAssemblyLine");
+               var modifySelected = configObj.getParameter(newNamingContext + "." + "modifyAssemblyLine");
+               var deleteSelected = configObj.getParameter(newNamingContext + "." + "deleteAssemblyLine");
+               var compareSelected = configObj.getParameter(newNamingContext + "." + "compareAssemblyLine");
+               var modifyDnSelected = configObj.getParameter(newNamingContext + "." + "modifyDnAssemblyLine");
+               
+               alAdd.setSelectedItem(addSelected);
+               alSearch.setSelectedItem(searchSelected);
+               alModify.setSelectedItem(modifySelected);
+               alDelete.setSelectedItem(deleteSelected);
+               alCompare.setSelectedItem(compareSelected);
+               alModifyDn.setSelectedItem(modifyDnSelected);
+            }
+         }
+      } else
+      {
+         if (namingContextArray.contains(newNamingContext))
+         {
+            namingContextArray.remove(newNamingContext);
+            combo.removeItem(newNamingContext);
+            
+            if (namingContextArray.size() > 0)
+            {
+               namingContexts = namingContextArray.get(0);
+               for (var i = 1; i < namingContextArray.size(); i++)
+               {
+                  namingContexts =  namingContexts + "&" + namingContextArray.get(i); 
+               }
+            }
+            else
+            {
+               namingContexts = null;
+            } 
+            
+            configObj.setParameter("namingContextList", namingContexts);
+            
+            configObj.removeParameter(newNamingContext + "." + "addAssemblyLine");
+            configObj.removeParameter(newNamingContext + "." + "searchAssemblyLine");
+            configObj.removeParameter(newNamingContext + "." + "modifyAssemblyLine");
+            configObj.removeParameter(newNamingContext + "." + "deleteAssemblyLine");
+            configObj.removeParameter(newNamingContext + "." + "compareAssemblyLine");
+            configObj.removeParameter(newNamingContext + "." + "modifyDnAssemblyLine");
+         }
+
+      }        
+
+   }
+
+}
+
+function deleteTable()
+{
+   conn = form.loadConnector();
+   conn.initialize (null);
+   var path = form.getConfigValue ("dbTableName");
+   if (path == null || path.length() == 0)
+      return;
+
+	if ( form.prompt (Messages.getMessage("ASForms.DeleteTable.Prompt", path)))
+      {
+	 var str = conn.dropPesTable ( path );
+         if ( str != null )
+            form.alert ( str );
+         else{
+            form.alert (Messages.getMessage("ASForms.Table.Deleted", path));
+            form.updateControl(button.getName());
+         }
+      }
+}
+
+function helpMe ()
+{
+   form.helpMe();
+}
+
+function useDefaultColors()
+{
+   form.useDefaultColors();
+}
+
+function showNullBehavior()
+{
+	form.showNullBehaviorDialog(config);
+}
+
+function showALPoolSettings()
+{
+	var alc = config.getParent();
+	form.openFormDialog(alc.getThreadOptions(), "ALPoolSettings");
+}
+
+function listConfiguration()
+{
+	var ip = form.getConfigValue("IP");
+	var port = form.getConfigValue("Port");
+	var p = (new Packages.java.lang.Integer(port)).intValue();	
+	var username = form.getConfigValue("Username");
+	var password = form.getConfigValue("Password");
+
+	var list = (new Packages.com.ibm.di.admin.remote.RemoteConfigProxy(ip, p, "",username,password)).getRemoteInstances();
+
+	if(list.size() > 0) {
+		var flist = form.getControl("FileList");
+		if(flist != null)
+		{
+			flist.getViewport().getView().setListData(list);
+			flist.getViewport().getView().setSelectedIndex(0);
+			form.updateControl("FileList");
+		}
+	}
+}
+
+function showParamSubstEditor()
+{
+	form.showParamSubstEditor(button.getName(), true);
+}
+
+function selectFromSchema() {
+	if(config.getConnectionConfig().getInheritsFrom() == null) {
+		form.alert(Messages.getString("ASForms.Connector.not.configured"));
+		return;
+	}
+	
+	conn = form.loadConnector();
+	if(conn == null)
+		return;
+		
+	conn.initialize (null);
+	s = conn.querySchema(null);
+	if(s == null || s.size() == 0) {
+		try {
+			conn.selectEntries();
+			s = conn.querySchema(null);
+		} catch (ignore) {
+		}
+	}
+	conn.terminate();
+	v = new java.util.Vector();
+	if (s != null) {
+		for(i = 0; i < s.size(); i++) {
+			e = s.get(i);
+			v.add(e.getString("name"));
+		}
+	}
+	if(v.size() == 0) {
+		c = config.getConnectionConfig().getInheritsFrom().getParent();
+		s = c.getSchema(true).getItemNames();
+		if(s != null) {
+			for(i = 0; i < s.size(); i++)
+				v.add(s.get(i));
+		}
+	}
+		
+	sel = form.chooseFromList (Messages.getString("FormUI.Localized.Select.Attribute"), v);
+
+	if (sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}
+
+function getServicesFromWSDL() {
+	var file = form.getConfigValue("wsdlUrl");
+	if(file == null || file.trim().length() == 0) {
+		form.alert(Messages.getString("ASForms.Enter.WSDL.File.First"));
+		return;
+	}
+
+	var services = Packages.com.ibm.di.connector.axis2.util.WSUtils.createAllAxisServicesFromWSDLFile(file)
+	if(services.size() == 0) {
+		form.alert(Messages.getString("ASForms.No.Services.Were.Found.In.WSDL"));
+		return;
+	}
+	var sel = form.chooseFromList (Messages.getString("ASForms.Select.Service"), services);
+	if(sel != null) {
+		form.setConfig (button.getName(), sel.toString());
+		form.updateControl (button.getName());
+	}
+}
+
+function getServiceEndPoints() {
+	var file = form.getConfigValue("wsdlUrl");
+	if(file == null || file.trim().length() == 0) {
+		form.alert(Messages.getString("ASForms.Enter.WSDL.File.First"));
+		return;
+	}
+
+	var serviceName = form.getConfigValue("service");
+	if(serviceName == null || serviceName.trim().length() == 0) {
+		form.alert(Messages.getString("ASForms.Enter.Service.Name.First"));
+		return;
+	}
+
+	var endpoints = Packages.com.ibm.di.connector.axis2.util.WSUtils.getServiceEndPointNames(file, serviceName)
+	if(endpoints.size() == 0) {
+		form.alert(Messages.getString("ASForms.No.Endpoints.Were.Found.In.WSDL"));
+		return;
+	}
+	var sel = form.chooseFromList (Messages.getString("ASForms.Select.Endpoint"), endpoints);
+	if(sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}
+
+function getServiceOperations() {
+	var file = form.getConfigValue("wsdlUrl");
+	if(file == null || file.trim().length() == 0) {
+		form.alert(Messages.getString("ASForms.Enter.WSDL.File.First"));
+		return;
+	}
+
+	var serviceName = form.getConfigValue("service");
+	if(serviceName == null || serviceName.trim().length() == 0) {
+		form.alert(Messages.getString("ASForms.Enter.Service.Name.First"));
+		return;
+	}
+
+	var operations = Packages.com.ibm.di.connector.axis2.util.WSUtils.getServiceOperationNames(file, serviceName)
+	if(operations.size() == 0) {
+		form.alert(Messages.getString("ASForms.No.Operations.Were.Found.In.WSDL"));
+		return;
+	}
+	var sel = form.chooseFromList (Messages.getString("ASForms.Select.Operation"), operations);
+	if(sel != null) {
+		form.setConfig (button.getName(), sel);
+		form.updateControl (button.getName());
+	}
+}
+
+// returns the Attribute Types available to the DCS Component.
+function getAttributeTypes() {
+	var DCS_ATTRIBUTE_TYPE = "cdmAttributeType";
+	
+	var fn = form.loadFunction();
+	fn.initialize (null);
+	var Types = fn.getAttributeTypes();
+	fn.terminate();
+
+	if (Types == null || Types.isEmpty()) {
+		form.alert(Messages.getString("ASForms.No.Types.Were.Found"));
+		return;
+	}
+	var selection = com.ibm.tdi.eclipse.dialogs.CdmTypesSelectionDialog.chooseCdmTypesFromList(form.getShell(), Messages.getString("ASForms.Select.ClassType"), Types, 25);
+	if (selection != null) {
+		form.setConfig (DCS_ATTRIBUTE_TYPE, selection.toString());
+		form.updateControl (DCS_ATTRIBUTE_TYPE);
+	}
+}
+
+// returns the CDM types available to the IdML Connector
+function getCdmTypes() {
+	var IDML_CONN_CLASSTYPE = "classType";
+	
+	var conn = form.loadConnector();
+	conn.initialize (null);
+	var classTypes = conn.getTypes();
+	conn.terminate();
+
+	if (classTypes == null || classTypes.isEmpty()) {
+		form.alert(Messages.getString("ASForms.No.ClassTypes.Were.Found"));
+		return;
+	}
+	var selection = com.ibm.tdi.eclipse.dialogs.CdmTypesSelectionDialog.chooseCdmTypesFromList(form.getShell(), Messages.getString("ASForms.Select.ClassType"), classTypes, 25);
+	if (selection != null) {
+		form.setConfig (IDML_CONN_CLASSTYPE, selection.toString());
+		form.updateControl (IDML_CONN_CLASSTYPE);
+	}
+}
+
+// tests if a connection to a remote IT registry system can be established by a Connector
+function checkDbConnection() {
+	var conn = form.loadConnector();
+	
+	conn.initialize (null);
+	var exceptionText = null;
+
+	exceptionText = conn.checkDbConnection();
+	var jdbcParams = "";
+	jdbcParams += conn.getJdbcUrl() + ", ";
+	jdbcParams += conn.getJdbcDriver() + ", ";
+	jdbcParams += conn.getDbUsername() ;
+	conn.terminate();
+	
+	if (exceptionText == null) {
+		form.alert(Messages.getMessage("ASForms.DbConnection.Success", jdbcParams));
+	} else {
+		// log the values of the jdbc parameters used in the connecion attempt
+		form.alert(Messages.getMessage("ASForms.DbConnection.Failure", jdbcParams, exceptionText));
+	}	
+}
+
+// returns the version of the CDM used by the IdML Connector (it is displayed in a dialog box). Used by Connectors.
+function getCdmVersion() {
+	var conn = form.loadConnector();
+	
+	conn.initialize (null);
+	var version = conn.getCdmVersion();
+	conn.terminate();
+	
+	if (version != null && version != "") {
+		form.alert(Messages.getMessage("ASForms.Cdm.Version", version));
+	} else {
+		form.alert(Messages.getString("ASForms.Cdm.Version.Unaccessible"));
+	}
+}
+
+// tests if a connection to a remote IT registry system can be established by a Function Component
+function checkDbConnection2() {
+	var fn = form.loadFunction();
+	var exceptionText = null;
+	exceptionText = fn.checkDbConnection();
+	var jdbcParams = "";
+	jdbcParams += fn.getJdbcUrl() + ", ";
+	jdbcParams += fn.getJdbcDriver() + ", ";
+	jdbcParams += fn.getDbUsername();
+	fn.terminate();	
+	
+	if (exceptionText == null) {
+		form.alert(Messages.getMessage("ASForms.DbConnection.Success", jdbcParams));
+	} else {
+		// log the values of the jdbc parameters used in the connecion attempt
+		form.alert(Messages.getMessage("ASForms.DbConnection.Failure", jdbcParams, exceptionText));
+	}	
+}
+
+// returns the version of the CDM used by our solution and sets it in the Component's configuration. Used by FCs.
+function getCdmVersion2() {
+	var CDM_VERSION = "cdmVersion";
+
+	var fn = form.loadFunction();
+	var version = fn.getCdmVersion();
+	fn.terminate();
+	
+	if (version != null && version != "") {
+		form.setConfig (CDM_VERSION, version.toString());
+		form.updateControl (CDM_VERSION);
+	} else {
+		form.alert(Messages.getString("ASForms.Cdm.Version.Unaccessible"));
+	}
+}
+
+// returns the MSS-s available in the configured system (e.g. IT registry, TADDM).
+function getMSS() {
+	var PARAM_MSS = "mssName";
+	
+	var conn = util.loadConnector();
+	//defect 15108
+	var mss = null;
+	try
+	{
+		mss = conn.getMSS(); 
+	}
+	catch(err)
+	{
+		if(err.getMessage().indexOf("Unknown member") != -1)
+		{
+			mss = conn.getDelegate().getMSS();
+		}
+	}
+	if (mss == null || mss.isEmpty()) {
+		form.alert(Messages.getString("ASForms.No.MSS.Were.Found"));
+		return;
+	}
+	var selection = com.ibm.tdi.eclipse.dialogs.MSSDetailsDialog.chooseMSSFromList(form.getShell(), Messages.getString("ASForms.Select.MSS"), mss, 25);
+	if (selection != null) {
+		form.setConfig (PARAM_MSS, selection.toString());
+		form.updateControl (PARAM_MSS);
+	}
+}
+
+// returns the CDM types available to the TADDM Connector
+function getTADDMTypes() {
+	var TADDM_CONN_ARTIFACTTYPE = "artifactType";
+	var TADDM_CONN_CLASSTYPE = "classType";
+	var IDML_MODE = "idmlMode";
+	
+	var idmlMode = form.getConfig(IDML_MODE);
+	if ( idmlMode == null ) {
+		idmlMode = "false";
+	}
+	var artifactType = form.getConfig(TADDM_CONN_ARTIFACTTYPE);
+	
+	var conn = util.loadConnector();
+	var metaData = conn.getDelegate().getNoConnectionMetadata(java.lang.Boolean.parseBoolean(idmlMode));
+	var classTypes = metaData.getTypes(artifactType);
+
+	if (classTypes == null || classTypes.isEmpty()) {
+		form.alert(Messages.getString("ASForms.No.ClassTypes.Were.Found"));
+		return;
+	}
+	var selection = com.ibm.tdi.eclipse.dialogs.CdmTypesSelectionDialog.chooseCdmTypesFromList(form.getShell(), Messages.getString("ASForms.Select.ClassType"), classTypes, 25);
+	if (selection != null) {
+		form.setConfig (TADDM_CONN_CLASSTYPE, selection.toString());
+		form.updateControl (TADDM_CONN_CLASSTYPE);
+	}
+}
+
+function selectTADDMSearchFilter() {
+	var TADDM_CONN_CLASSTYPE = "classType";
+	var IDML_MODE = "idmlMode";
+	var TADDM_CONN_DEPTH = "depth";
+	
+	var idmlModeString = form.getConfig(IDML_MODE);
+	var idmlMode = false;
+	if ( idmlModeString != null ) {
+		idmlMode = java.lang.Boolean.parseBoolean(idmlModeString);	
+	}	
+	
+	var depthString = form.getConfig(TADDM_CONN_DEPTH);
+	var depth = -1;
+	if ( depthString != null && depthString.length() > 0 ) {
+		depth = java.lang.Integer.parseInt(depthString);
+	}
+	var whereClause = com.ibm.tdi.eclipse.widget.LinkCriteriaDialog.generateMQLSearchFilter(form.getShell(), form.getConfigObject());
+	if ( whereClause != null ) {
+		var currentMQL = form.getConfig(button.getName());
+		if(currentMQL != null && currentMQL.length() > 0) {
+			var index = currentMQL.toLowerCase().indexOf(" where ");
+			if(index != -1) {
+				currentMQL = currentMQL.substring(0, index);
+			}
+		} else {
+			currentMQL = "SELECT ";
+			if (depth != 0) {
+				currentMQL = currentMQL + "*";
+			} else if(idmlMode) {
+					currentMQL = currentMQL + "cdm:Guid";
+			} else {
+					currentMQL = currentMQL + "guid";
+			}
+			var conn = util.loadConnector();
+			var metaData = conn.getDelegate().getNoConnectionMetadata(idmlMode);
+			var classType = form.getConfig(TADDM_CONN_CLASSTYPE);
+			currentMQL = currentMQL + " FROM " + metaData.getClassType(classType)
+		}
+		currentMQL= currentMQL + " WHERE" + whereClause;
+
+		if (!currentMQL.startsWith("@SUBSTITUTE") && whereClause.contains("{"))
+			str = "@SUBSTITUTE" + str;
+		
+ 		form.setConfig (button.getName(), currentMQL);
+		form.updateControl (button.getName());
+	} 
+}
+
+function getSourceProtocols() {
+	getProtocol("source");
+}
+
+function getTargetProtocols() {
+	getProtocol("target");
+}
+
+function getProtocol(endPoint){
+	var isSrc;
+	var Protocols;
+	var sel;
+	var fn = form.loadFunction();
+	if(endPoint == "source") {
+		isSrc = true;
+		Protocols = fn.getProtocols(isSrc)
+	} else {
+		isSrc = false;
+		Protocols = fn.getProtocols(isSrc)
+	}
+	if(Protocols.size() == 0) {
+		form.alert (Messages.getString("ASForms.No.Protocol.Were.Found"));
+      	fn.terminate();
+		return;
+	}
+	
+   try 
+   {
+      sel = form.chooseFromList(Messages.getString("FormUI.Localized.Select.Protocol"), Protocols);
+   }
+   catch (e)
+   {
+      throw e;
+   }
+   if (sel != null)
+   {
+      form.setConfig (button.getName(), sel);
+      form.updateControl (button.getName());
+   }
+   fn.terminate();
+	
+}

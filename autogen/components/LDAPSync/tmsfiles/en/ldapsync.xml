@@ -1,0 +1,2312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+<TMSSource name="ldapsync" tmsVersion="1.0" xml:lang="en">
+<Message ID="CTGDII501E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SKIPPING.UNDEFINED.FLOW.SPECIFIED" varFormat="Java">Skipping undefined flow specified</MsgText>
+	<Explanation>
+		<p>A Flow id has been specified in the global.flows property that is not defined.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Check the Error log for more information and adjust the configuration accordingly.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII502E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.STARTING.MIGRATION.FOR.FLOW" varFormat="Java">Error starting migration for Flow</MsgText>
+	<Explanation>
+		<p>An error occurred trying to start the Flow.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Check the Error log for more information.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII503E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.STARTING.SYNCHRONIZATION.FOR.FLOW" varFormat="Java">Error starting synchronization for Flow</MsgText>
+	<Explanation>
+		<p>An error occurred trying to start the Flow.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Check the Error log for more information.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII504I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CHECK.THAT.THE.SOURCE.CHANGEDETECTIONTYPE.PROPERTY.IS.SET.TO.SUN.AD.OR.TDS" varFormat="Java">Check that the source.changeDetectionType property is set to Sun, AD, SDS or Delta</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII505E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CANNOT.HANDLE.DELETE.OF.ENTRY.LASTKNOWNPARENT.NOT.FOUND" varFormat="Java">Cannot handle delete of entry - lastKnownParent not found.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII506E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.AD.CHANGE.DN" varFormat="Java">Error parsing the DN attribute returned by the Active Directory Change Detection Connector</MsgText>
+	<Explanation>
+		<p>The $dn attribute returned by the Active Directory Change Detection Connector was invalid. This is most likely caused by an invalid response by the AD system.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII507I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MIGRATING.CONTAINER.ENTRIES.USING.SEARCH.FILTER" varFormat="Java">migrating container entries using search filter</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII508E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NO.DN.ATTRIBUTE.FOUND.IN.ENTRY.SKIPPING" varFormat="Java">No $dn attribute found in entry - skipping</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII509E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.CONTAINER.DN" varFormat="Java">Error parsing container DN</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII510W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.TYPE.OF.ENTRY.NOT.SET.DEFAULTING.TO.PERSON" varFormat="Java">Type of entry not set - defaulting to 'person'</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII511E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PARSER.NOT.FOUND" varFormat="Java">Parser not found</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII512I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NO.RDN.ATTRIBUTE.FOUND.IN.ENTRY.READ" varFormat="Java">No RDN attribute found in entry read</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII513I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MIGRATING.GROUP.ENTRIES.USING.SEARCH.FILTER" varFormat="Java">migrating group entries using search filter</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII514I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MIGRATING.PERSON.ENTRIES.USING.SEARCH.FILTER" varFormat="Java">migrating person entries using search filter</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII515I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RESETTING.CHANGE.DETECTION.STATE.FOR.FLOW" varFormat="Java">Resetting change detection state for Flow</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII516I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MIRRORING.HIERARCHY" varFormat="Java">Mirroring hierarchy</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII517I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.FLATTENING.HIERARCHY" varFormat="Java">Flattening hierarchy</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII518I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.STARTING.MIGRATION" varFormat="Java">Starting migration</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII519I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CONTAINERS.TO.MIGRATE" varFormat="Java">containers to migrate</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII520I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CONTAINERS.TO.SKIP" varFormat="Java">containers to skip</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII521I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.NOT.SET" varFormat="Java">Property not set</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII522I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.YOU.MUST.SPECIFY.WHERE.PERSON.ENTRIES.ARE.TO.BE.FLATTENED.UNDER" varFormat="Java">You must specify where person entries are to be flattened under.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII523I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.YOU.MUST.SPECIFY.WHERE.GROUP.ENTRIES.ARE.TO.BE.FLATTENED.UNDER" varFormat="Java">You must specify where group entries are to be flattened under.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII524E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.REPARSING.CONTAINER.DN" varFormat="Java">Error re-parsing container DN</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII525I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CREATING.SUFFIX.IN.TARGET" varFormat="Java">Creating suffix in target</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII526W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.LDAPSYNC.CAN.NOT.BE.SIMULATED.PLEASE.CHANGE.THE.SIMULATE.PROPERTY" varFormat="Java">LDAPSync can not be simulated. Please change the simulate property</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII527W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PLEASE.SET.THE.FOLLOWING.PROPERTY.SIMULATEFALSE" varFormat="Java">Please set the following property: simulate=false</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII528W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.OR.USE.THE.COMMANDLINE.OPTION.0.ACTUAL" varFormat="Java">or use the commandline option: -0 actual</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII529E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.DROPPING.DELTA.SNAPSHOT.TABLE" varFormat="Java">Error dropping delta snapshot table</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII530W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNABLE.TO.DELETE.DELTA.STORE.TABLE" varFormat="Java">Unable to delete delta store table</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII531E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTIES.IN.ERROR.CANNOT.CONFIGURE.CONNECTOR" varFormat="Java">Properties in error - cannot configure Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII532E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CONNECTOR.NOT.FOUND" varFormat="Java">Connector not found</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII533I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.INITIALIZING.CONNECTOR" varFormat="Java">Initializing Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII534I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SEARCH.BASE" varFormat="Java">Include entries from the following container</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII535E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.INITIALIZING.CONNECTOR" varFormat="Java">Error initializing Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII536E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.DURING.OPERATION" varFormat="Java">Error during operation</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII537I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SEARCHING.WITH.CONNECTOR" varFormat="Java">Searching with Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII538I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SUCCESS" varFormat="Java">success</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII539E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.SELECTING.ENTRIES.WITH.CONNECTOR" varFormat="Java">Error selecting entries with Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII540E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.CHANGE.ENTRY.WITH.CONNECTOR" varFormat="Java">Error reading change entry with Connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII541E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CHECK.PROPERTIES.UNABLE.TO.SET.UP" varFormat="Java">Check properties - unable to set up</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII542I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CONFIRMING.CONTAINER.EXISTS" varFormat="Java">Confirming container exists</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII543E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CONTAINER.NOT.FOUND" varFormat="Java">Container not found</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII544I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CHECKING.FOR.PROPERTY" varFormat="Java">Checking for property</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII545I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.NOT.DEFINED" varFormat="Java">Property not defined</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII546E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MAP.FILE.IS.MISSING" varFormat="Java">Map file is missing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII547I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.TESTING.CONFIGURATION.AND.CONNECTIONS" varFormat="Java">Testing configuration and connections</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII548I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.TESTING.CONFIGURATION.AND.CONNECTION.FOR.FLOW" varFormat="Java">Testing configuration and connection for Flow</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII549I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SUCCESS.ALL.CONNECTIONS.WORKED.CORRECTLY" varFormat="Java">!SUCCESS! All connections worked correctly!</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII550E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.FAILURE.YOU.MUST.CORRECT.THE.PROBLEMS.LISTED.ABOVE" varFormat="Java">!FAILURE! You must correct the problems listed above</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII551E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.GROUP.MAP.FILE" varFormat="Java">error reading group.map file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII552E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.PERSON.MAP.FILE" varFormat="Java">error reading person.map file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII553E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.CREATING.MISSING.MEMBERS.FILE" varFormat="Java">Error creating missing members file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII554E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.DURING.INITIAL.PARSING.OF.SOURCE.DN" varFormat="Java">Error during initial parsing of source dn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII555I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.CHANGELOG.NUMBER" varFormat="Java">changelog number</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII556I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.FAILED" varFormat="Java">failed</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII557E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.SOURCE.DN.AFTER.TARGET.LOOKUP" varFormat="Java">Error parsing source dn after target lookup</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII558I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.DETECTED.RENAME" varFormat="Java">detected rename!</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII559I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SIMULATED.RUN.NO.DATA.WILL.BE.MODIFIED" varFormat="Java">SIMULATED RUN - NO DATA WILL BE MODIFIED</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII560I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.IS.NOT.SET" varFormat="Java">Property is not set</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII561I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.COUNT.FOR.PROGRESS.DISPLAY" varFormat="Java">Count for progress display</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII562E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.SOURCE.DN.TO.HANDLE.MODDN" varFormat="Java">Error parsing source dn to handle moddn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII563E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.SOURCE.DN.FOR.MODDNMODRDN" varFormat="Java">Error parsing source dn for moddn/modrdn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII564I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MULTIPLE.ENTRIES.WERE.FOUND.IN.THE.TARGET" varFormat="Java">Multiple entries were found in the target.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII565W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.DUPLICATE.ENTRY" varFormat="Java">Duplicate entry</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII566W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MORE.ENTRIES.EXIST" varFormat="Java">More entries exist</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII567W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNABLE.TO.IDENTIFY.TYPE.OF.ENTRY" varFormat="Java">Unable to identify type of entry</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII568W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CANNOT.FIND.RDN.ATTRIBUTE" varFormat="Java">Cannot find RDN attribute</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII569I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.PROCESSING" varFormat="Java">Processing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII570I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.CURRENT.COUNT" varFormat="Java">current count</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII571I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SKIPPING.MEMBER.BECAUSE.MULTIPLE.ENTRIES.WERE.FOUND.IN.THE.TARGET" varFormat="Java">Skipping member because multiple entries were found in the target:</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII572I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SKIPPING.MEMBER.BECAUSE.NO.ENTRY.WAS.FOUND.IN.THE.TARGET" varFormat="Java">Skipping member because no entry was found in the target:</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII573W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.THE.FOLLOWING.MEMBERS.WERE.NOT.ADDED.FROM.SOURCE.GROUP" varFormat="Java">The following members were not added from source group</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII574I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CANNOT.FIND.THESE.MEMBERS.OF.THE.GROUP" varFormat="Java">cannot find these members of the Group</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII575W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SKIPPING.ENTRY.BECAUSE.MEMBER.ATTRIBUTE.IS.EMPTY" varFormat="Java">Skipping entry because member attribute is empty.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII576I">
+	<LabelText pgmKey="LDAPSYNC.THIS.PARAMETER.MUST.BE.SET.TO.THE.ROOT.SUFFIX.OF.THE.AD.DC.OTHERWISE.DELETES.WILL.NOT.BE.CAUGHT.DURING.SYNCHRONIZATION" varFormat="Java">This parameter must be set to the root suffix of the AD DC, otherwise deletes will not be caught during synchronization.</LabelText>
+</Label>
+<Label ID="CTGDII577I">
+	<LabelText pgmKey="LDAPSYNC.DC.ROOT.SUFFIX" varFormat="Java">DC Root Suffix</LabelText>
+</Label>
+<Label ID="CTGDII578I">
+	<LabelText pgmKey="LDAPSYNC.CONTEXTS" varFormat="Java">Contexts</LabelText>
+</Label>
+<Label ID="CTGDII579I">
+	<LabelText pgmKey="LDAPSYNC.CHANGE" varFormat="Java">Change</LabelText>
+</Label>
+<Label ID="CTGDII580I">
+	<LabelText pgmKey="LDAPSYNC.ENTER.THE.LIST.OF.BINARY.ATTRIBUTES.ONE.LINE.FOR.EACH.ATTRIBUTE.NAME" varFormat="Java">Enter the list of binary attributes (one line for each attribute name).</LabelText>
+</Label>
+<Label ID="CTGDII581I">
+	<LabelText pgmKey="LDAPSYNC.BINARY.ATTRIBUTES" varFormat="Java">Binary Attributes</LabelText>
+</Label>
+<Label ID="CTGDII582I">
+	<LabelText pgmKey="LDAPSYNC.NUMBER.OF.SECONDS.WITHOUT.DETECTING.CHANGES.DURING.POLLING.BEFORE.THE.ENDPOINT.TIMES.OUT.AND.SYNCHRONIZATION.STOPS" varFormat="Java">Number of seconds without detecting changes during polling before the endpoint times out and synchronization stops.</LabelText>
+</Label>
+<Label ID="CTGDII583I">
+	<LabelText pgmKey="LDAPSYNC.SECONDS.BEFORE.TIMEOUT" varFormat="Java">Seconds Before Timeout</LabelText>
+</Label>
+<Label ID="CTGDII584I">
+	<LabelText pgmKey="LDAPSYNC.SETTING.A.VALUE.GT.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS" varFormat="Java">Setting a value &amp;gt; 0 will cause the endpoint to perform paged read operations.</LabelText>
+</Label>
+<Label ID="CTGDII585I">
+	<LabelText pgmKey="LDAPSYNC.PAGE.SIZE" varFormat="Java">Page Size</LabelText>
+</Label>
+<Label ID="CTGDII586I">
+	<LabelText pgmKey="LDAPSYNC.PASSWORD.USED.TO.AUTHENTICATE.TO.THE.SOURCE.SYSTEM" varFormat="Java">Password used to authenticate to the source system</LabelText>
+</Label>
+<Label ID="CTGDII587I">
+	<LabelText pgmKey="LDAPSYNC.PASSWORD" varFormat="Java">Password</LabelText>
+</Label>
+<Label ID="CTGDII588I">
+	<LabelText pgmKey="LDAPSYNC.SEARCH.BASE.IN.THE.SOURCE.DIRECTORY" varFormat="Java">Search base in the source directory.</LabelText>
+</Label>
+<Label ID="CTGDII589I">
+	<LabelText pgmKey="LDAPSYNC.LDAP.FILTER.USED.TO.SELECT.ENTRIES.FOR.PROCESSING" varFormat="Java">LDAP filter used to select entries for processing</LabelText>
+</Label>
+<Label ID="CTGDII590I">
+	<LabelText pgmKey="LDAPSYNC.SEARCH.FILTER" varFormat="Java">Search Filter</LabelText>
+</Label>
+<Label ID="CTGDII591I">
+	<LabelText pgmKey="LDAPSYNC.CONTROLS.HOW.OFTEN.THE.ENPOINT.IS.POLLED.FOR.CHANGES" varFormat="Java">Controls how often the enpoint is polled for changes.</LabelText>
+</Label>
+<Label ID="CTGDII592I">
+	<LabelText pgmKey="LDAPSYNC.SECONDS.BETWEEN.POLLING" varFormat="Java">Seconds Between Polling</LabelText>
+</Label>
+<Label ID="CTGDII593I">
+	<LabelText pgmKey="LDAPSYNC.KEY.USED.TO.SAVE.CHANGE.STATE.FOR.THIS.SOURCE" varFormat="Java">Key used to save change state for this source</LabelText>
+</Label>
+<Label ID="CTGDII594I">
+	<LabelText pgmKey="LDAPSYNC.CHANGE.STATE.KEY" varFormat="Java">Change State Key</LabelText>
+</Label>
+<Label ID="CTGDII595I">
+	<LabelText pgmKey="LDAPSYNC.DELETE" varFormat="Java">Delete</LabelText>
+</Label>
+<Label ID="CTGDII596I">
+	<LabelText pgmKey="LDAPSYNC.URL.TO.THE.SOURCE.DIRECTORY.SYSTEM" varFormat="Java">URL to the source directory system</LabelText>
+</Label>
+<Label ID="CTGDII597I">
+	<LabelText pgmKey="LDAPSYNC.LDAP.URL" varFormat="Java">LDAP URL</LabelText>
+</Label>
+<Label ID="CTGDII598I">
+	<LabelText pgmKey="LDAPSYNC.ENABLE.TO.SUBSCRIBE.TO.CHANGE.NOTIFICATIONS.OTHERWISE.THE.ENPOINT.WILL.BE.PERIODICALLY.POLLED.FOR.CHANGES" varFormat="Java">Enable to subscribe to change notifications; Otherwise the enpoint will be periodically polled for changes.</LabelText>
+</Label>
+<Label ID="CTGDII599I">
+	<LabelText pgmKey="LDAPSYNC.USE.NOTIFICATIONS" varFormat="Java">Use Notifications</LabelText>
+</Label>
+<Label ID="CTGDII600I">
+	<LabelText pgmKey="LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.SOURCE.SYSTEM" varFormat="Java">User id for authentication to the source system</LabelText>
+</Label>
+<Label ID="CTGDII601I">
+	<LabelText pgmKey="LDAPSYNC.USER.LOGIN" varFormat="Java">User Login</LabelText>
+</Label>
+<Label ID="CTGDII602I">
+	<LabelText pgmKey="LDAPSYNC.IGNORE.THE.NEXT.TWO.PARAMETERS.IF.NOTIFICATIONS.ARE.ENABLED.ABOVE.OTHERWISE.THEY.ARE.REQUIRED" varFormat="Java">Ignore the next two parameters if Notifications are enabled above, otherwise they are required.</LabelText>
+</Label>
+<Label ID="CTGDII603I">
+	<LabelText pgmKey="LDAPSYNC.FILE.PATH.TO.USE.THE.SPECIAL.VALUE.LTGT.MEANS.THAT.THE.CONNECTOR.SHOULD.USE.STANDARD.IO.STREAMS" varFormat="Java">File Path to use. The special value &amp;lt;&amp;gt; means that the connector should use standard I/O streams</LabelText>
+</Label>
+<Label ID="CTGDII604I">
+	<LabelText pgmKey="LDAPSYNC.FILE.PATH" varFormat="Java">File Path</LabelText>
+</Label>
+<Label ID="CTGDII605I">
+	<LabelText pgmKey="LDAPSYNC.SELECT" varFormat="Java">Select...</LabelText>
+</Label>
+<Label ID="CTGDII606I">
+	<LabelText pgmKey="LDAPSYNC.IDENTIFIES.THE.TYPE.OF.ENTRY.BEING.RETURNED" varFormat="Java">Identifies the type of entry being returned</LabelText>
+</Label>
+<Label ID="CTGDII607I">
+	<LabelText pgmKey="LDAPSYNC.TYPE.OF.ENTRY" varFormat="Java">Type of Entry</LabelText>
+</Label>
+<Label ID="CTGDII608I">
+	<LabelText pgmKey="LDAPSYNC.JDBC.DRIVER" varFormat="Java">JDBC Driver</LabelText>
+</Label>
+<Label ID="CTGDII609I">
+	<LabelText pgmKey="LDAPSYNC.USERNAME" varFormat="Java">Username</LabelText>
+</Label>
+<Label ID="CTGDII610I">
+	<LabelText pgmKey="LDAPSYNC.SCHEMA" varFormat="Java">Schema</LabelText>
+</Label>
+<Label ID="CTGDII611I">
+	<LabelText pgmKey="LDAPSYNC.OPTIONAL.PARAMETER.TO.SPECIFY.THE.SELECT.STATEMENT.TO.USE" varFormat="Java">Optional parameter to specify the SELECT statement to use</LabelText>
+</Label>
+<Label ID="CTGDII612I">
+	<LabelText pgmKey="LDAPSYNC.CUSTOM.SELECT" varFormat="Java">Custom Select</LabelText>
+</Label>
+<Label ID="CTGDII613I">
+	<LabelText pgmKey="LDAPSYNC.JDBC.URL" varFormat="Java">JDBC URL</LabelText>
+</Label>
+<Label ID="CTGDII614I">
+	<LabelText pgmKey="LDAPSYNC.TABLE.NAME" varFormat="Java">Table name</LabelText>
+</Label>
+<Label ID="CTGDII615I">
+	<LabelText pgmKey="LDAPSYNC.CHG" varFormat="Java">Chg</LabelText>
+</Label>
+<Label ID="CTGDII616I">
+	<LabelText pgmKey="LDAPSYNC.THE.FOLDER.WHERE.LOG.FILES.ARE.WRITTEN.DEFAULT.IS.LDAPSYNCLOGS.IN.THE.TDI.SOLUTION.DIRECTORY" varFormat="Java">The folder where log files are written (default is LDAPSync/logs in the VDI Solution Directory)</LabelText>
+</Label>
+<Label ID="CTGDII617I">
+	<LabelText pgmKey="LDAPSYNC.LOG.DIRECTORY" varFormat="Java">Log Directory</LabelText>
+</Label>
+<Label ID="CTGDII618I">
+	<LabelText pgmKey="LDAPSYNC.THE.NUMBER.OF.HISTORICAL.LOG.FILES.MAINTAINED.BY.THE.SOLUTION" varFormat="Java">The number of historical log files maintained by the solution</LabelText>
+</Label>
+<Label ID="CTGDII619I">
+	<LabelText pgmKey="LDAPSYNC.LOG.FILE.HISTORY" varFormat="Java">Log File History</LabelText>
+</Label>
+<Label ID="CTGDII620I">
+	<LabelText pgmKey="LDAPSYNC.SETTING.A.VALUE.0.WILL.CAUSE.THE.ENDPOINT.TO.PERFORM.PAGED.READ.OPERATIONS" varFormat="Java">Setting a value &gt; 0 will cause the endpoint to perform paged read operations.</LabelText>
+</Label>
+<Label ID="CTGDII621I">
+	<LabelText pgmKey="LDAPSYNC.LOGIN.PASSWORD.TO.TDS" varFormat="Java">Login password to SDS</LabelText>
+</Label>
+<Label ID="CTGDII622I">
+	<LabelText pgmKey="LDAPSYNC.THIS.IS.THE.PLACE.IN.TDS.WHERE.THE.DIRECTORY.SUBTREE.BEING.MIRRORED.IN.THE.HOST.IS.CREATED" varFormat="Java">This is the place in SDS where the directory sub-tree being mirrored in the host is created.</LabelText>
+</Label>
+<Label ID="CTGDII623I">
+	<LabelText pgmKey="LDAPSYNC.MIRRORING.TARGET.SUFFIX" varFormat="Java">Mirroring Target Suffix</LabelText>
+</Label>
+<Label ID="CTGDII624I">
+	<LabelText pgmKey="LDAPSYNC.URL.TO.THE.TARGET.TDS.DIRECTORY.SYSTEM" varFormat="Java">URL to the target SDS directory system</LabelText>
+</Label>
+<Label ID="CTGDII625I">
+	<LabelText pgmKey="LDAPSYNC.USER.ID.FOR.AUTHENTICATION.TO.THE.TARGET.TDS.SYSTEM" varFormat="Java">User id for authentication to the target SDS system</LabelText>
+</Label>
+<Message ID="CTGDII626I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NO.RDN.VALUE.ATTRIBUTE.FOUND.IN.ENTRY.READ" varFormat="Java">No RDN value attribute found in entry read</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Label ID="CTGDII627I">
+	<LabelText pgmKey="LDAPSYNC.ENTER.EACH.PROPERTY.SETTING.ON.A.SEPARATE.LINE.FOR.EXAMPLE.SOURCE.READ.PERSON.ALMYCONFIGASSEMBLYLINESMYAL" varFormat="Java">Enter each property setting on a separate line, for example: source.read.person.AL=MyConfig:/AssemblyLines/MyAL</LabelText>
+</Label>
+<Label ID="CTGDII628I">
+	<LabelText pgmKey="LDAPSYNC.CUSTOM.PROPERTY.SETTINGS" varFormat="Java">Custom properties</LabelText>
+</Label>
+<Label ID="CTGDII629I">
+	<LabelText pgmKey="LDAPSYNC.DEBUG.LOG.OUTPUT" varFormat="Java">Debug log output</LabelText>
+</Label>
+<Label ID="CTGDII630I">
+	<LabelText pgmKey="LDAPSYNC.INCLUDE.DEBUG.MESSAGES.IN.THE.LOG.OUTPUT" varFormat="Java">Include debug messages in the log output</LabelText>
+</Label>
+<Label ID="CTGDII631I">
+	<LabelText pgmKey="LDAPSYNC.NUMBER.OF.HISTORICAL.LOG.FILES.TO.MAINTAIN" varFormat="Java">Number of historical log files to maintain.</LabelText>
+</Label>
+<Label ID="CTGDII632I">
+	<LabelText pgmKey="LDAPSYNC.LOG.FILE.HISTORY.SIZE.1999" varFormat="Java">Log file history size (1-999)</LabelText>
+</Label>
+<Label ID="CTGDII633I">
+	<LabelText pgmKey="LDAPSYNC.ENABLE.IF.YOU.WANT.THE.DIRECTORY.INFORMATION.TREE.STRUCTURE.COPIED.FROM.THE.SOURCE.TO.THE.TARGET" varFormat="Java">Enable if you want the directory information tree structure copied from the source to the target</LabelText>
+</Label>
+<Label ID="CTGDII634I">
+	<LabelText pgmKey="LDAPSYNC.MIRROR.SOURCE.HIERARCHY.IN.TARGET" varFormat="Java">Mirror the source hierarchy into Directory Server</LabelText>
+</Label>
+<Label ID="CTGDII635I">
+	<LabelText pgmKey="LDAPSYNC.AFLOW.PERIODICALLY.UPDATES.ITS.PROGRESS.INFORMATION.THIS.PARAMTER.INDICATES.HOW.OFTEN.SPECIFIED.IN.THE.NUMBER.OF.ENTRIES.PROCESSED.BETWEEN.UPDATES" varFormat="Java">AFlow periodically updates its progress information. This paramter indicates how often, specified in the number of entries processed between updates.</LabelText>
+</Label>
+<Label ID="CTGDII636I">
+	<LabelText pgmKey="LDAPSYNC.PROGRESS.UPDATE.FREQUENCY" varFormat="Java">Progress update frequency</LabelText>
+</Label>
+<Label ID="CTGDII637I">
+	<LabelText pgmKey="LDAPSYNC.SIMULATE.THE.MIGRATION.SO.NO.DATA.IS.ACTUALLY.WRITTEN.TO.TDS" varFormat="Java">Simulate the migration so no data is actually written to SDS</LabelText>
+</Label>
+<Label ID="CTGDII638I">
+	<LabelText pgmKey="LDAPSYNC.TEST.FLOW.OPERATION" varFormat="Java">Test Flow Operation</LabelText>
+</Label>
+<Label ID="CTGDII639I">
+	<LabelText pgmKey="LDAPSYNC.THE.LIST.OF.NODES.IN.THE.SOURCE.TO.MIGRATESYNC.ONE.PER.LINE.CAN.BE.FULL.DNS.OR.PARTIAL.TEXTS.FOR.EXAMPLE.OUEMPLOYEESOUGROUPS" varFormat="Java">The  list of nodes in the source to migrate/sync, one per line. Can be full DNs, or partial texts - for example, ou=Employees;ou=Groups</LabelText>
+</Label>
+<Label ID="CTGDII640I">
+	<LabelText pgmKey="LDAPSYNC.INCLUDE.THE.FOLLOWING" varFormat="Java">Include the following</LabelText>
+</Label>
+<Label ID="CTGDII641I">
+	<LabelText pgmKey="LDAPSYNC.THE.LIST.OF.NODES.IN.THE.SOURCE.TO.SKIP.ONE.PER.LINE.CAN.BE.FULL.DNS.OR.PARTIAL.TEXTS.FOR.EXAMPLE.CNADMINISTRATORTEST" varFormat="Java">The list of nodes in the source to skip, one per line. Can be full DNs, or partial texts - for example, cn=Administrator,;$;Test</LabelText>
+</Label>
+<Label ID="CTGDII642I">
+	<LabelText pgmKey="LDAPSYNC.EXCLUDE.THE.FOLLOWING" varFormat="Java">Exclude the following</LabelText>
+</Label>
+<Label ID="CTGDII643I">
+	<LabelText pgmKey="LDAPSYNC.A.COMMASEPARATED.LIST.OF.ENRY.TYPES.BY.DEFAULT.PERSON.GROUPCONTAINER" varFormat="Java">A comma-separated list of enry types. By default: person, group,container</LabelText>
+</Label>
+<Label ID="CTGDII644I">
+	<LabelText pgmKey="LDAPSYNC.TYPES.OF.ENTRIES.TO.HANDLE" varFormat="Java">Types of Entries to Handle</LabelText>
+</Label>
+<Label ID="CTGDII645I">
+	<LabelText pgmKey="LDAPSYNC.OBJECT.CLASS.FOR.GROUP.ENTRIES.FOR.EXAMPLE.GROUP.OR.GROUPOFUNIQUENAMES" varFormat="Java">Object Class for group entries - for example, Group or groupOfUniqueNames</LabelText>
+</Label>
+<Label ID="CTGDII646I">
+	<LabelText pgmKey="LDAPSYNC.SOURCE.GROUP.ENTRY.OBJECT.CLASS" varFormat="Java">Source Group Entry Object Class</LabelText>
+</Label>
+<Label ID="CTGDII647I">
+	<LabelText pgmKey="LDAPSYNC.THE.OBJECT.CLASS.OF.PERSON.ENTRIES.IN.THE.SOURCE.FOR.EXAMPLE.USER.OR.INETORGPERSON" varFormat="Java">The object class of Person entries in the source - for example, User or inetOrgPerson</LabelText>
+</Label>
+<Label ID="CTGDII648I">
+	<LabelText pgmKey="LDAPSYNC.SOURCE.PERSON.ENTRY.OBJECT.CLASS" varFormat="Java">Source Person Entry Object Class</LabelText>
+</Label>
+<Label ID="CTGDII649I">
+	<LabelText pgmKey="LDAPSYNC.THE.ATTRIBUTE.USED.AS.THE.RDN.FOR.A.PERSON.ENTRYS.DN.E.G.UID.OR.CN" varFormat="Java">The attribute used as the RDN for a Person entry's DN - e.g.  UID or CN</LabelText>
+</Label>
+<Label ID="CTGDII650I">
+	<LabelText pgmKey="LDAPSYNC.SOURCE.USER.RDN.ATTRIBUTE" varFormat="Java">Source User RDN attribute</LabelText>
+</Label>
+<Label ID="CTGDII651I">
+	<LabelText pgmKey="LDAPSYNC.THE.NEXT.PARAMETER.IS.REQUIRED.WHEN.MIRRORING.IS.ENABLED.OTHERWISE.IT.IS.IGNORED" varFormat="Java">The next parameter is required when mirroring is enabled. Otherwise it is ignored.</LabelText>
+</Label>
+<Label ID="CTGDII652I">
+	<LabelText pgmKey="LDAPSYNC.IGNORE.THE.FOLLOWING.TWO.PARAMETERS.IF.MIRRORING.IS.ENABLED.OTHERWISE.THEY.ARE.REQUIRED" varFormat="Java">Ignore the following two parameters if Mirroring is enabled, otherwise they are required.</LabelText>
+</Label>
+<Label ID="CTGDII653I">
+	<LabelText pgmKey="LDAPSYNC.NOTE.THAT.THE.FOLLOWING.TWO.PARAMETERS.ARE.ONLY.USED.WHEN.THE.ABOVE.MIRRORING.CHECKBOX.IS.DISABLED.IN.THIS.CASE.THEY.ARE.MANDATORY.SETTINGS" varFormat="Java">Note that the following two parameters are only used when the above Mirroring checkbox is disabled. In this case they are mandatory settings.</LabelText>
+</Label>
+<Label ID="CTGDII654I">
+	<LabelText pgmKey="LDAPSYNC.THE.ATTRIBUTE.FOR.HOLDING.GROUP.MEMBERS.FOR.EXAMPLE.UNIQUEMEMBER.OR.MEMBER" varFormat="Java">The attribute for holding group members - for example, uniqueMember or member</LabelText>
+</Label>
+<Label ID="CTGDII655I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.GROUP.MEMBERSHIP.ATTRIBUTE" varFormat="Java">Target Group Membership attribute</LabelText>
+</Label>
+<Label ID="CTGDII656I">
+	<LabelText pgmKey="LDAPSYNC.OBJECT.CLASS.USED.TO.CREATE.GROUPS.IN.TDS" varFormat="Java">Object Class used to create groups in SDS</LabelText>
+</Label>
+<Label ID="CTGDII657I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.GROUP.ENTRY.OBJECT.CLASS" varFormat="Java">Target Group Entry Object Class</LabelText>
+</Label>
+<Label ID="CTGDII658I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.IS.TDS" varFormat="Java">Target is SDS</LabelText>
+</Label>
+<Label ID="CTGDII659I">
+	<LabelText pgmKey="LDAPSYNC.THIS.IS.THE.SEARCH.BASE.IN.THE.TARGET.TDS.DIRECTORY.AND.IS.USED.AS.THE.ROOT.WHEN.MIRRORING.THE.SOURCE.HIERARCHY" varFormat="Java">This is the Search Base in the target SDS directory and is used as the root when mirroring the source hierarchy.</LabelText>
+</Label>
+<Label ID="CTGDII660I">
+	<LabelText pgmKey="LDAPSYNC.TDS.SEARCH.BASE" varFormat="Java">SDS Search base</LabelText>
+</Label>
+<Label ID="CTGDII661I">
+	<LabelText pgmKey="LDAPSYNC.THE.CONTAINER.UNDER.WHICH.GROUP.ENTRIES.WILL.BE.WRITTEN.ONLY.USED.IF.FLATTENING.THE.SOURCE.HIERARCHY" varFormat="Java">The container under which Group entries will be written - only used if flattening the source hierarchy</LabelText>
+</Label>
+<Label ID="CTGDII662I">
+	<LabelText pgmKey="LDAPSYNC.FLATTENING.TARGET.SUFFIX.FOR.GROUPS" varFormat="Java">Target container for Groups</LabelText>
+</Label>
+<Label ID="CTGDII663I">
+	<LabelText pgmKey="LDAPSYNC.THE.CONTAINER.UNDER.WHICH.PERSON.ENTRIES.WILL.BE.WRITTEN.ONLY.USED.IF.FLATTENING.THE.SOURCE.HIERARCHY" varFormat="Java">The container under which Person entries will be written - only used if flattening the source hierarchy</LabelText>
+</Label>
+<Label ID="CTGDII664I">
+	<LabelText pgmKey="LDAPSYNC.FLATTENING.TARGET.SUFFIX.FOR.USERS" varFormat="Java">Target container for Users</LabelText>
+</Label>
+<Label ID="CTGDII665I">
+	<LabelText pgmKey="LDAPSYNC.THE.ENTRY.USED.WHEN.CREATING.PERSON.ENTRIES.IN.TDS" varFormat="Java">The entry used when creating Person entries in SDS</LabelText>
+</Label>
+<Label ID="CTGDII666I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.PERSON.ENTRY.OBJECT.CLASS" varFormat="Java">Target Person Entry Object Class</LabelText>
+</Label>
+<Label ID="CTGDII667I">
+	<LabelText pgmKey="LDAPSYNC.THE.ATTRIBUTE.TO.USE.AS.THE.RDN.FOR.ENTRIES.WRITTEN.TO.TDS" varFormat="Java">The attribute to use as the RDN for entries written to SDS.</LabelText>
+</Label>
+<Label ID="CTGDII668I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.USER.RDN.ATTRIBUTE" varFormat="Java">Target User RDN attribute</LabelText>
+</Label>
+<Message ID="CTGDII669I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ACCUMULATING.MEMBERSHIP" varFormat="Java">accumulating membership</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII670W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNABLE.TO.FIND.MEMBER.ENTRY.IN.SOURCE.LDAP" varFormat="Java">Unable to find member entry in source ldap</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII671E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.NEXT.ENTRY.FROM.SOURCE" varFormat="Java">Error reading next entry from source</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII672E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.THE.PROPERTY.GLOBAL.FLOWS.IS.INCORRECT" varFormat="Java">The property 'global.flows' is incorrect</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII673E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.SOURCE.DN" varFormat="Java">Error parsing source dn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII674I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.READING.DATA" varFormat="Java">reading data</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII675I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PERFORMING.SEARCH" varFormat="Java">performing search</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII676E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.DURING.INITIALIZATION" varFormat="Java">Error during initialization</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII677W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNABLE.TO.FIND.ENTRY.IN.TARGET.SYSTEM.UNABLE.TO.DELETE.TYPE" varFormat="Java">Unable to find entry in target system - unable to delete. Type:</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII678E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SOURCE.ENDPOINT.FORM.IS.MISSING" varFormat="Java">Source Endpoint form is missing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII679E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.TARGET.FLOW.FORM.IS.MISSING" varFormat="Java">Target Flow form is missing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII680E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC..FORM.IS.MISSING" varFormat="Java">** Form is missing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII681I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SOURCE.ENDPOINT" varFormat="Java">Source Endpoint</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII682I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.FLOW.SETTINGS" varFormat="Java">Flow Settings</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII683I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.ENDPOINT" varFormat="Java">Endpoint</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII684E" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.NOT.SPECIFIED" varFormat="Java">property not specified</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII685I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.OK" varFormat="Java">Ok</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII686E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NOT.FOUND.OR.INACCESSIBLE" varFormat="Java">Not found or inaccessible!</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII687I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.MAPPING.FILES" varFormat="Java">Mapping Files</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII688I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.BEHAVIOR" varFormat="Java">Behavior</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII689I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.NOT.SET" varFormat="Java">not set</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII690I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SIMULATION.ONLY.NO.DATA.WILL.BE.CHANGED.IN.THE.TARGET" varFormat="Java">Simulation Only - no data will be changed in the target</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII691I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SIMULATION.ONLY.NO.DATA.HAS.BEEN.CHANGED.IN.THE.TARGET" varFormat="Java">Simulation Only - no data has been changed in the target</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII692I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SUMMARY.FOR.FLOW" varFormat="Java">Summary for Flow</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII693I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.TOTAL" varFormat="Java">Total</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII694I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.ADD" varFormat="Java">Add</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII695I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.MOD" varFormat="Java">Mod</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII696I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.UNCHANGED" varFormat="Java">Unchanged</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII697I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SKIP" varFormat="Java">Skip</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII698E" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.ERROR" varFormat="Java">Error</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII699E" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.ERRORS" varFormat="Java">Errors</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII700I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.WARNINGS" varFormat="Java">Warnings</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII701I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ONE.OR.MORE.GROUP.MEMBERS.WERE.NOT.MIGRATED" varFormat="Java">One or more group members were not migrated.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII702E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.THESE.ARE.LISTED.IN.THE.GROUPMEMBERSMISSING.LOG.FILE.LOCATED.IN.THE.LOG.FOLDER" varFormat="Java">These are listed in the GroupMembersMissing.log file located in the log folder</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII703E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.TO.TROUBLESHOOT.ERRORS.AND.WARNINGS.CHECK.THE.LOG.FILE" varFormat="Java">To troubleshoot errors and warnings, check the log file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII704I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SUCCESSFUL" varFormat="Java">Successful</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII705I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.SKIPPING" varFormat="Java">Skipping</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII706I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SOURCEUSEROBJECTCLASS.ANDOR.SOURCEGROUPOBJECTCLASS.IS.UNDEFINED" varFormat="Java">sourceUserObjectClass and/or sourceGroupObjectClass is undefined.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII707E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.DELETING.OLD.LOG" varFormat="Java">Error deleting old log</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII708E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.RENAMING.OLD.LOG" varFormat="Java">Error renaming old log</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII709E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.RENAMING.PREVIOUS.LOG" varFormat="Java">Error renaming previous log</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII710E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.RENAMING.LATEST.LOG" varFormat="Java">Error renaming latest log</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII711E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.WRITING.TO.LOG" varFormat="Java">Error writing to log</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII712E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.IS.MISSING.OR.BLANK" varFormat="Java">Property is missing or blank</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII713I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.IS.INVALID" varFormat="Java">Property is invalid</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII714I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MAKE.SURE.THAT.THE.SEARCH.BASE.IS.VISIBLE.IN.THE.SOURCE.SYSTEM.FOR.EXAMPLE.FROM.AN.LDAP.BROWSER" varFormat="Java">Make sure that the search base is visible in the source system, for example from an LDAP browser.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII715I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ALSO.ENSURE.THAT.THE.CREDENTIALS.DEFINED.FOR.THE.SOURCE.CONNECTION.ARE.AUTHORIZED.TO.SEE.ENTRIES.IN.THIS.CONTAINER" varFormat="Java">Also ensure that the credentials defined for the Source connection are authorized to see entries in this container.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII716I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.INVALID.SEARCH.FILTER.SPECIFIED" varFormat="Java">Invalid search filter specified</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII717I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MAKE.SURE.THAT.THE.PROPERTIES.SOURCE.USEROBJECTCLASS.AND.SOURCE.GROUPOBJECTCLASS.ARE.CORRECT" varFormat="Java">Make sure that the properties source.userObjectClass and source.groupObjectClass are correct.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII718I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ALSO.MAKE.SURE.THE.CLIENT.CERTIFICATE.FOR.THIS.SERVER.HAS.BEEN.IMPORTED.TO.THE.TDI.KEYSTORE" varFormat="Java">Also, make sure the client certificate for this server has been imported to the VDI keystore.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII719I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.USERNAME.ANDOR.PASSWORD.PROPERTIES.ARE.INCORRECT" varFormat="Java">Username and/or password properties are incorrect.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII720I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.USERNAME.ANDOR.SEARCHBASE.PROPERTIES.ARE.INCORRECT" varFormat="Java">Username and/or SearchBase properties are incorrect.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII721I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NOTE.MAKE.SURE.THE.CHANGELOG.FEATURE.IS.ENABLED.FOR.THE.SOURCE.DIRECTORY.SERVER" varFormat="Java">Note: make sure the Changelog feature is enabled for the source directory server.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII722I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MAKE.SURE.THAT.THE.USER.NAME.SPECIFIED.REFERENCES.A.PERSON.ENTRY.THAT.EXISTS.IN.THE.DIRECTORY" varFormat="Java">Make sure that the user name specified references a Person entry that exists in the directory.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII723I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ALSO.THAT.CONTAINERS.HAVE.BEEN.MIGRATED.BEFORE.PERSON.OR.GROUP.ENTRIES" varFormat="Java">Also that containers have been migrated before Person or Group entries.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII724I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MAKE.SURE.THAT.THE.TARGET.SUFFIX.REFERENCES.A.NODE.THAT.EXISTS.IN.THE.TARGET" varFormat="Java">Make sure that the target suffix references a node that exists in the target.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII725I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.START.DUMPING" varFormat="Java">Start dumping</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII726I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.END.DUMPING" varFormat="Java">End dumping</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII727E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.RETRIEVING.PROPERTY" varFormat="Java">Error retrieving property</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII728I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.FLOWKEY.IS.UNDEFINED" varFormat="Java">flowKey is undefined</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII729E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.DN.TO.TRANSLATE.IT" varFormat="Java">Error parsing dn to translate it</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII730E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.NEWSUPERIOR" varFormat="Java">Error parsing newSuperior</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII731E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.TARGETDN" varFormat="Java">Error parsing targetDn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII732I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.CONNECTOR.PARAMETERS" varFormat="Java">Connector parameters</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII733E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.SOURCE.SEARCHBASE" varFormat="Java">Error parsing source searchBase</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII734E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.OPENING.FILE" varFormat="Java">Error opening file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII735W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ANY.ENTRIES.THAT.WERE.NOT.WRITTEN.TO.THE.TARGET.CAN.BE.FOUND.HERE" varFormat="Java">Any entries that were not written to the target can be found here</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII736I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SOURCE.ENTRY.NOT.WRITTEN.TO.TARGET" varFormat="Java">Source entry not written to target</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII737E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.INITIALIZING.JOIN.CONNECTOR" varFormat="Java">Error initializing join connector</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII738E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.JOINING.DATA" varFormat="Java">Error joining data</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII739E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING" varFormat="Java">Error parsing</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII740E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.INTERNAL.ERROR" varFormat="Java">Internal error</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII741I">
+	<LabelText pgmKey="LDAPSYNC.ENTER.CUSTOM.PROPERTIES.WITHOUT.FLOW.PREFIX.ONE.PER.LINE" varFormat="Java">Enter custom properties (without Flow prefix), one per line.</LabelText>
+</Label>
+<Label ID="CTGDII742I">
+	<LabelText pgmKey="LDAPSYNC.CUSTOM.PROPERTIES" varFormat="Java">Custom properties</LabelText>
+</Label>
+<Label ID="CTGDII743I">
+	<LabelText pgmKey="LDAPSYNC.TDI.PROJECT.CONFIG.NAME" varFormat="Java">VDI Project configuration name</LabelText>
+</Label>
+<Label ID="CTGDII744I">
+	<LabelText pgmKey="LDAPSYNC.IF.LEFT.BLANK.THEN.THE.READ.AL.IS.USED" varFormat="Java">If left blank then the Read AL is used</LabelText>
+</Label>
+<Label ID="CTGDII745I">
+	<LabelText pgmKey="LDAPSYNC.AL.TO.DETECT.CHANGES.FOR.PERSON.ENTRIES" varFormat="Java">AL to detect changes for Person entries</LabelText>
+</Label>
+<Label ID="CTGDII746I">
+	<LabelText pgmKey="LDAPSYNC.AL.TO.READ.CONTAINER.ENTRIES" varFormat="Java">AL to read Container entries</LabelText>
+</Label>
+<Label ID="CTGDII747I">
+	<LabelText pgmKey="LDAPSYNC.AL.TO.READ.GROUP.ENTRIES" varFormat="Java">AL to read Group entries</LabelText>
+</Label>
+<Label ID="CTGDII748I">
+	<LabelText pgmKey="LDAPSYNC.AL.TO.READ.PERSON.ENTRIES" varFormat="Java">AL to read Person entries</LabelText>
+</Label>
+<Label ID="CTGDII749I">
+	<LabelText pgmKey="LDAPSYNC.INCLUDE.THE.FOLLOWING.NOTE.THAT.THESE.VALUES.WILL.BE.USED.FOR.SUBSTRING.SEARCHES.IN.RETURNED.ENTRY.DNS" varFormat="Java">Include the following - Note that these values will be used for sub-string searches in returned entry DNs</LabelText>
+</Label>
+<Label ID="CTGDII750I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.SEARCH.BASE" varFormat="Java">Target container in Directory Server</LabelText>
+</Label>
+<Message ID="CTGDII751I" prefix="no">
+	<MsgText pgmKey="LDAPSYNC.WARNING" varFormat="Java">Warning</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII752E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.CREATING.LOG.FILE" varFormat="Java">Error creating log file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII753I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNABLE.TO.CREATE.FILE" varFormat="Java">Unable to create file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII754E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.PARSING.RULES" varFormat="Java">Error parsing rules</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII755I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.PROPERTY.NAME.INVALID" varFormat="Java">property name invalid</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII756E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MULTIPLE.MATCHES.FOUND.BY.JOIN" varFormat="Java">Multiple matches found by join</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII757E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NO.MATCH.FOUND.BY.JOIN" varFormat="Java">No match found by join</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII758I">
+	<LabelText pgmKey="LDAPSYNC.IF.BLANK.THEN.THE.SAME.AL.AS.USED.TO.READ.ENTRIES.E.G.READENTRIES" varFormat="Java">Unless specified this will be the same AL as used to read entries (e.g. ReadEntries)</LabelText>
+</Label>
+<Label ID="CTGDII759I">
+	<LabelText pgmKey="LDAPSYNC.ASSEMBLYLINE.FOR.DETECTING.CHANGES" varFormat="Java">AssemblyLine for detecting changes</LabelText>
+</Label>
+<Label ID="CTGDII760I">
+	<LabelText pgmKey="LDAPSYNC.ASSEMBLYLINE.FOR.READING.ENTRIES" varFormat="Java">AssemblyLine for reading entries</LabelText>
+</Label>
+<Message ID="CTGDII761E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.CALLING.POSTWRITE.AL" varFormat="Java">Error calling post-write AL</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII762E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.LOADING.CI" varFormat="Java">Error loading CI</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII763E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ASSEMBLYLINE.NAME.NOT.SPECIFIED" varFormat="Java">AssemblyLine name not specified</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII764I">
+	<LabelText pgmKey="LDAPSYNC.THIS.THE.SPOT.IN.THE.TARGET.SDS.WHERE.DATA.WILL.BE.SYNCHRONIZED.TO" varFormat="Java">This is the spot in the target SDS where data will be synchronized to</LabelText>
+</Label>
+<Label ID="CTGDII765I">
+	<LabelText pgmKey="LDAPSYNC.DEFAULT.TARGET.CONTAINER" varFormat="Java">Default Target Container</LabelText>
+</Label>
+<Label ID="CTGDII766I">
+	<LabelText pgmKey="LDAPSYNC.WHEN.PERSON.ADDED" varFormat="Java">When Person Added</LabelText>
+</Label>
+<Label ID="CTGDII767I">
+	<LabelText pgmKey="LDAPSYNC.WHEN.PERSON.DELETED" varFormat="Java">When Person Deleted</LabelText>
+</Label>
+<Label ID="CTGDII768I">
+	<LabelText pgmKey="LDAPSYNC.WHEN.PERSON.MODIFIED" varFormat="Java">When Person Modified</LabelText>
+</Label>
+<Message ID="CTGDII769I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RESPONSE.AL.IN.FAILED.STATE" varFormat="Java">Response AL in failed state</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII770I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RESPONSE.AL.FAILED" varFormat="Java">Response AL failed</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII771E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RESPONSE.AL.NOT.SPECIFIED.OR.NOT.FOUND" varFormat="Java">Response AL not specified or not found</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII772I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RESPONSE.AL.INITIALIZATION.FAILED" varFormat="Java">Response AL initialization failed</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII773I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.UNKNOWN.CONDITION.TYPE" varFormat="Java">Unknown condition type</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII774E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.RULERESPONSE.ERROR" varFormat="Java">Rule-response error</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII775E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.WRITEBACK.COULD.NOT.FIND.ENTRY.WITH.DN" varFormat="Java">Writeback could not find entry with dn</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII776I">
+	<LabelText pgmKey="LDAPSYNC.FLATTEN.THE.SOURCE.HIERARCHY.INTO.DIRECTORY.SERVER" varFormat="Java">Flatten the source hierarchy into Directory Server</LabelText>
+</Label>
+<Message ID="CTGDII777E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ENDPOINT.IS.NOT.AN.ACTIVE.DIRECTORY.DOMAIN.CONTROLLER" varFormat="Java">Endpoint is not an Active Directory Domain Controller</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Label ID="CTGDII778I">
+	<LabelText pgmKey="LDAPSYNC.SPECIFY.ANY.CUSTOM.BINARY.ATTRIBUTES.ONE.PER.LINE" varFormat="Java">Specify any binary attributes (for example, jpegPhoto) that this system will handle</LabelText>
+</Label>
+<Message ID="CTGDII779E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.OPENING.RESPONSE.LOG.FILE" varFormat="Java">Error opening response log file</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII780I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ENSURE.THAT.NOTHING.IS.BLOCKING.YOUR.ACCESS.TO.THE.SYSTEM.FOR.EXAMPLE.A.FIREWALL" varFormat="Java">Ensure that nothing is blocking your access to the system, for example a firewall.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII781I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.OR.THAT.THE.SYSTEM.IS.RUNNING.AND.COMMUNICATION.PORTS.OPEN" varFormat="Java">Ensure that the system is running and ensure the communication port is open.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<NoHelp/>
+</Message>
+<Message ID="CTGDII782E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CHANGELOG.NOT.ENABLED" varFormat="Java">Changelog is not enabled for the directory server</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII783I">
+	<LabelText pgmKey="LDAPSYNC.FILE.ENDPOINT" varFormat="Java">File</LabelText>
+</Label>
+<Label ID="CTGDII784I">
+	<LabelText pgmKey="LDAPSYNC.CUSTOMAL.ENDPOINT" varFormat="Java">Custom AssemblyLine</LabelText>
+</Label>
+<Message ID="CTGDII785E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SSL.MAY.NOT.BE.ENABLED.ON.SERVER" varFormat="Java">SSL has been specified for this directory (ldaps://), but may not be enabled for the LDAP server itself</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII786E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SSL.MAY.BE.ENABLED.ON.SERVER" varFormat="Java">SSL has not been specfied for this server (ldap://), but may be required by the LDAP server.</MsgText>
+	<Explanation>
+		<p>@</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>@</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII787I">
+	<LabelText pgmKey="LDAPSYNC.GENERAL.SETTINGS" varFormat="Java">General settings</LabelText>
+</Label>
+<Label ID="CTGDII788I">
+	<LabelText pgmKey="LDAPSYNC.PLACEMENT.IN.SDS" varFormat="Java">Placement in directory server</LabelText>
+</Label>
+<Label ID="CTGDII789I">
+	<LabelText pgmKey="LDAPSYNC.FILTERING.DETAILS" varFormat="Java">Filtering details</LabelText>
+</Label>
+<Label ID="CTGDII790I">
+	<LabelText pgmKey="LDAPSYNC.USER.SETTINGS" varFormat="Java">User/Person settings</LabelText>
+</Label>
+<Label ID="CTGDII791I">
+	<LabelText pgmKey="LDAPSYNC.GROUP.SETTINGS" varFormat="Java">Group settings</LabelText>
+</Label>
+<Label ID="CTGDII792I">
+	<LabelText pgmKey="LDAPSYNC.ALS.TO.CALL.AFTER" varFormat="Java">AssemblyLines To Call After Write Operation</LabelText>
+</Label>
+<Label ID="CTGDII793I">
+	<LabelText pgmKey="LDAPSYNC.ADVANCED.SETTINGS" varFormat="Java">Advanced Settings</LabelText>
+</Label>
+<Label ID="CTGDII794I">
+	<LabelText pgmKey="LDAPSYNC.ADVANCED.OPTIONS" varFormat="Java">Advanced</LabelText>
+</Label>
+<Label ID="CTGDII795I">
+	<LabelText pgmKey="LDAPSYNC.HANDLE.PERSON" varFormat="Java">Handle Person entries</LabelText>
+</Label>
+<Label ID="CTGDII796I">
+	<LabelText pgmKey="LDAPSYNC.HANDLE.GROUP" varFormat="Java">Handle Group entries</LabelText>
+</Label>
+<Label ID="CTGDII797I">
+	<LabelText pgmKey="LDAPSYNC.FILE.TIMEOUT" varFormat="Java">Read timeout</LabelText>
+</Label>
+<Label ID="CTGDII798I">
+	<LabelText pgmKey="LDAPSYNC.FILE.TIMEOUT.TOOLTIP" varFormat="Java">Number of seconds before timing out when reading this file.</LabelText>
+</Label>
+<Label ID="CTGDII799I">
+	<LabelText pgmKey="LDAPSYNC.FILE.LOCK" varFormat="Java">Exclusive lock</LabelText>
+</Label>
+<Label ID="CTGDII800I">
+	<LabelText pgmKey="LDAPSYNC.FILE.LOCK.TOOLTIP" varFormat="Java">Enable if no other process should be allowed to access this file.</LabelText>
+</Label>
+<Label ID="CTGDII801I">
+	<LabelText pgmKey="LDAPSYNC.BROWSE" varFormat="Java">Browse...</LabelText>
+</Label>
+<Label ID="CTGDII802I">
+	<LabelText pgmKey="LDAPSYNC.FILTERING" varFormat="Java">If specified, the next two fields include and exclude entries from synchronization</LabelText>
+</Label>
+<Label ID="CTGDII803I">
+	<LabelText pgmKey="LDAPSYNC.POST.WRITE.HOOK" varFormat="Java">Configure and enable Hooks</LabelText>
+</Label>
+<Label ID="CTGDII804I">
+	<LabelText pgmKey="LDAPSYNC.ENABLED" varFormat="Java">Enabled</LabelText>
+</Label>
+<Label ID="CTGDII805I">
+	<LabelText pgmKey="LDAPSYNC.FLOW.HOOKS" varFormat="Java">Flow Hooks</LabelText>
+</Label>
+<Label ID="CTGDII806I">
+	<LabelText pgmKey="LDAPSYNC.SOURCE.ENTRY.SETTINGS" varFormat="Java">Source entry definitions</LabelText>
+</Label>
+<Label ID="CTGDII807I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.ENTRY.SETTINGS" varFormat="Java">Target entry definitions</LabelText>
+</Label>
+<Label ID="CTGDII808I">
+	<LabelText pgmKey="LDAPSYNC.PATH.TO.ISAM.API.PROPERTIES.FILE" varFormat="Java">Path to the ISAM API properties file.</LabelText>
+</Label>
+<Label ID="CTGDII809I">
+	<LabelText pgmKey="LDAPSYNC.ISAM.PRINCIPALNAME" varFormat="Java">How the ISAM principalName is generated for each entry. Recommended setting is targetRDN.</LabelText>
+</Label>
+<Label ID="CTGDII810I">
+	<LabelText pgmKey="LDAPSYNC.ISAM.SECDN" varFormat="Java">How the secDN is generated for new ISAM users and groups. Recommended setting is targetDN.</LabelText>
+</Label>
+<Label ID="CTGDII811I">
+	<LabelText pgmKey="LDAPSYNC.ISAM.DOMAIN" varFormat="Java">ISAM Domain for users and groups.</LabelText>
+</Label>
+<Label ID="CTGDII812I">
+	<LabelText pgmKey="LDAPSYNC.ISAM.MAPFILE" varFormat="Java">Path to the map file. By default this is configs/FDS_ISAM_Plugin.map.</LabelText>
+</Label>
+<Label ID="CTGDII813I">
+	<LabelText pgmKey="LDAPSYNC.SETTING.CHANGE.STATE" varFormat="Java">Setting change state</LabelText>
+</Label>
+<Label ID="CTGDII814I">
+	<LabelText pgmKey="LDAPSYNC.EXTRA.PROVIDER.PARAMETERS" varFormat="Java">Extra provider parameters</LabelText>
+</Label>
+<Label ID="CTGDII816I">
+	<LabelText pgmKey="LDAPSYNC.TARGET.NOT.INITIALIZED" varFormat="Java">Target connector is not initialized</LabelText>
+</Label>
+<Label ID="CTGDII817I">
+	<LabelText pgmKey="LDAPSYNC.CANNOT.LOAD.CONFIG" varFormat="Java">Cannot load config</LabelText>
+</Label>
+<Label ID="CTGDII818I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.SETTING.UP.HOOK.AL" varFormat="Java">Error setting up Hook AL</LabelText>
+</Label>
+<Label ID="CTGDII819I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.DEFINING.MAP.FOR.HOOK.AL" varFormat="Java">Error defining map for Hook</LabelText>
+</Label>
+<Label ID="CTGDII820I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.INVOKING.HOOK" varFormat="Java">Error calling Hook</LabelText>
+</Label>
+<Label ID="CTGDII821I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.LOADING.HOOK" varFormat="Java">Error loading hook</LabelText>
+</Label>
+<Label ID="CTGDII822I">
+	<LabelText pgmKey="LDAPSYNC.HOOK.CALLED.SIMULTANEOUSLY" varFormat="Java">Error calling same Hook multiple times simultaneously</LabelText>
+</Label>
+<Label ID="CTGDII823I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.DEFINING.HOOK.MAP" varFormat="Java">Error defining map for Hook</LabelText>
+</Label>
+<Label ID="CTGDII824I">
+	<LabelText pgmKey="LDAPSYNC.CANNOT.LOAD.TARGET.SYSTEM.AL" varFormat="Java">Cannot load target system AL</LabelText>
+</Label>
+<Label ID="CTGDII825I">
+	<LabelText pgmKey="LDAPSYNC.CANNOT.LOAD.TARGET.SYSTEM.CONNECTOR" varFormat="Java">Cannot load target system connector</LabelText>
+</Label>
+<Label ID="CTGDII826I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.READING.CUSTOM.PROPERTIES.FILE" varFormat="Java">Error reading custom properties file</LabelText>
+</Label>
+<Label ID="CTGDII827I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.WRITING.TO.LOG.FILE" varFormat="Java">Error writing to log file</LabelText>
+</Label>
+<Label ID="CTGDII828I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.WRITING.TO.ERROR.LOG.FILE" varFormat="Java">Error writing to error log file</LabelText>
+</Label>
+<Label ID="CTGDII829I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.CLEANING.RDN" varFormat="Java">Error cleaning RDN</LabelText>
+</Label>
+<Label ID="CTGDII830I">
+	<LabelText pgmKey="LDAPSYNC.ISAM.SYNCHRONIZING" varFormat="Java">Synchronizing</LabelText>
+</Label>
+<Label ID="CTGDII831I">
+	<LabelText pgmKey="LDAPSYNC.MODIFYING.ISAM.USER" varFormat="Java">Modifying ISAM user</LabelText>
+</Label>
+<Label ID="CTGDII832I">
+	<LabelText pgmKey="LDAPSYNC.ADDING.ISAM.USER" varFormat="Java">Adding ISAM user</LabelText>
+</Label>
+<Label ID="CTGDII833I">
+	<LabelText pgmKey="LDAPSYNC.NO.MODIFICATION.FOR.ISAM.USER" varFormat="Java">No modification required for ISAM user</LabelText>
+</Label>
+<Label ID="CTGDII834I">
+	<LabelText pgmKey="LDAPSYNC.DELETING.ISAM.USER" varFormat="Java">Deleting ISAM user</LabelText>
+</Label>
+<Label ID="CTGDII835I">
+	<LabelText pgmKey="LDAPSYNC.MODIFYING.ISAM.GROUP" varFormat="Java">Modifying ISAM group</LabelText>
+</Label>
+<Label ID="CTGDII836I">
+	<LabelText pgmKey="LDAPSYNC.NO.MODIFICATION.FOR.ISAM.GROUP" varFormat="Java">No modification required for ISAM group</LabelText>
+</Label>
+<Label ID="CTGDII837I">
+	<LabelText pgmKey="LDAPSYNC.ADDING.ISAM.GROUP" varFormat="Java">Adding ISAM group</LabelText>
+</Label>
+<Label ID="CTGDII838I">
+	<LabelText pgmKey="LDAPSYNC.DELETING.ISAM.GROUP" varFormat="Java">Deleting ISAM group</LabelText>
+</Label>
+<Label ID="CTGDII839I">
+	<LabelText pgmKey="LDAPSYNC.UNABLE.TO.FIND.ISAM.MAPFILE" varFormat="Java">Unable to find map file</LabelText>
+</Label>
+<Label ID="CTGDII841I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.EMITTING.MONITORING.EVENT" varFormat="Java">Error emitting monitoring event</LabelText>
+</Label>
+<Label ID="CTGDII842I">
+	<LabelText pgmKey="LDAPSYNC.HOSTNAME" varFormat="Java">Hostname</LabelText>
+</Label>
+<Label ID="CTGDII843I">
+	<LabelText pgmKey="LDAPSYNC.PORT" varFormat="Java">Port</LabelText>
+</Label>
+<Label ID="CTGDII844I">
+	<LabelText pgmKey="LDAPSYNC.MAP.FILE" varFormat="Java">Map file</LabelText>
+</Label>
+<Label ID="CTGDII845I">
+	<LabelText pgmKey="LDAPSYNC.SEVERITY" varFormat="Java">Severity</LabelText>
+</Label>
+<Label ID="CTGDII846I">
+	<LabelText pgmKey="LDAPSYNC.FACILITY" varFormat="Java">Facility</LabelText>
+</Label>
+<Label ID="CTGDII847I">
+	<LabelText pgmKey="LDAPSYNC.DATE.MASK" varFormat="Java">Date format mask</LabelText>
+</Label>
+<Label ID="CTGDII848I">
+	<LabelText pgmKey="LDAPSYNC.TRAP.PORT" varFormat="Java">Trap port</LabelText>
+</Label>
+<Label ID="CTGDII849I">
+	<LabelText pgmKey="LDAPSYNC.ENABLE.HOOK" varFormat="Java">Enable Hook</LabelText>
+</Label>
+<Label ID="CTGDII850I">
+	<LabelText pgmKey="LDAPSYNC.CONFIGURE.AND.ENABLE.HOOKS" varFormat="Java">Configure and enable Hooks</LabelText>
+</Label>
+<Label ID="CTGDII851I">
+	<LabelText pgmKey="LDAPSYNC.COMMUNITY" varFormat="Java">Community string</LabelText>
+</Label>
+<Label ID="CTGDII852I">
+	<LabelText pgmKey="LDAPSYNC.FILE.PATH.TOOLTIP" varFormat="Java">File path to use. The special value &lt;&gt; specifies that the connector should use standard I/O streams</LabelText>
+</Label>
+<Label ID="CTGDII853I">
+	<LabelText pgmKey="LDAPSYNC.USER.ABORT" varFormat="Java">Flow aborted</LabelText>
+</Label>
+<Label ID="CTGDII854I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.SNMP.TRAP.PORT" varFormat="Java">The port on which the monitoring system listens for traps. The default is 162.</LabelText>
+</Label>
+<Label ID="CTGDII855I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.SNMP.COMMUNITY" varFormat="Java">The SNMP Community value for traps emitted. The monitoring system filters traps based on this value. For example: public</LabelText>
+</Label>
+<Label ID="CTGDII856I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.SNMP.HOST" varFormat="Java">The hostname or IP address of the monitoring system that will receive the SNMP traps.</LabelText>
+</Label>
+<Label ID="CTGDII857I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.MAPFILE" varFormat="Java">The path to the map file used when emitting events.</LabelText>
+</Label>
+<Label ID="CTGDII858I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.QRADAR.HOST" varFormat="Java">The hostname or IP address of the QRadar system.</LabelText>
+</Label>
+<Label ID="CTGDII859I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.QRADAR.PORT" varFormat="Java">The port on which the QRadar system listens to syslog events.</LabelText>
+</Label>
+<Label ID="CTGDII860I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.QRADAR.SEVERITY" varFormat="Java">The severity setting for syslog events emitted to QRadar.</LabelText>
+</Label>
+<Label ID="CTGDII861I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.QRADAR.FACILITY" varFormat="Java">The facility setting for syslog events emitted to QRadar.</LabelText>
+</Label>
+<Label ID="CTGDII862I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.QRADAR.DATEMASK" varFormat="Java">An option date mask that is passed in the event as the devTimeFormat and used to format date values.</LabelText>
+</Label>
+<Label ID="CTGDII862I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.CUSTOM.AL" varFormat="Java">Choose the AssemblyLine to be called at each Hook point during Flow processing - whether Hooks are enabled or not.</LabelText>
+</Label>
+<Label ID="CTGDII863I">
+	<LabelText pgmKey="LDAPSYNC.TOOLTIP.CUSTOM.ENDPOINT.CONFIG" varFormat="Java">The name of the XML configuration file that holds the following AssemblyLines. Note that project configuration XML file must be in the %SDI_SOLDIR%/configs folder.</LabelText>
+</Label>
+<Label ID="CTGDII864I">
+	<LabelText pgmKey="LDAPSYNC.CUSTOM.TARGET.MISSING.TESTCONNECTION" varFormat="Java">Ensure that the FDS_Target project contains a TestConnection AssemblyLine.</LabelText>
+</Label>
+<Label ID="CTGDII865I">
+	<LabelText pgmKey="LDAPSYNC.PLACEHOLDER.INCLUDE" varFormat="Java">For example, two lines with OU=Users,O=IBM,C=US and OU=Groups,O=IBM,C=US</LabelText>
+</Label>
+<Label ID="CTGDII866I">
+	<LabelText pgmKey="LDAPSYNC.PLACEHOLDER.EXCLUDE" varFormat="Java">For example, CN=Administrator - Remember that each line can be a full DN or substring.</LabelText>
+</Label>
+<Label ID="CTGDII867I">
+	<LabelText pgmKey="LDAPSYNC.STACKTRACE" varFormat="Java">Stacktrace (for support)</LabelText>
+</Label>
+<Label ID="CTGDII868I">
+	<LabelText pgmKey="LDAPSYNC.GROUP.FILTER" varFormat="Java">Group filter</LabelText>
+</Label>
+<Label ID="CTGDII869I">
+	<LabelText pgmKey="LDAPSYNC.ATTRIBUTE.FILTER" varFormat="Java">Attribute filter</LabelText>
+</Label>
+<Message ID="CTGDII870I" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.MOVED.OUT.OF.SCOPE" varFormat="Java">Entry has been moved out of scope for this flow.</MsgText>
+	<Explanation>
+		<p>This entry has not passed filtering settings, for example Include/Exclude, group membership or attribute filters.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that filtering settings for the Flow are correct.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII871E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.GROUP.FILTER.INVALID" varFormat="Java">Group filter DN is invalid</MsgText>
+	<Explanation>
+		<p>A DN entered as a group membership filter is not valid.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that that all group DNs entered in the filter for this Flow are correct.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII872E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.FOR.GROUP.FILTER" varFormat="Java">Error filtering on group membership for group DN</MsgText>
+	<Explanation>
+		<p>An error occurred during group membership checking, as specified by the group filter for this Flow.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that that all group DNs entered in the filter for this Flow are correct.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII873E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.FINDING.MAP" varFormat="Java">Unable to find attribute map (or map file)</MsgText>
+	<Explanation>
+		<p>The map specified was not found.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Try to edit the map in FDS and run the Flow again.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII874I">
+	<LabelText pgmKey="LDAPSYNC.GROUP.FILTER.LABEL" varFormat="Java">User must be a group member of any of the following</LabelText>
+</Label>
+<Label ID="CTGDII875I">
+	<LabelText pgmKey="LDAPSYNC.GROUP.FILTER.TOOLTIP" varFormat="Java">Enter the full DN for each group on a separate line</LabelText>
+</Label>
+<Label ID="CTGDII876I">
+	<LabelText pgmKey="LDAPSYNC.ATTRIBUTE.FILTER.LABEL" varFormat="Java">Attribute filter</LabelText>
+</Label>
+<Label ID="CTGDII877I">
+	<LabelText pgmKey="LDAPSYNC.ATTRIBUTE.FILTER.TOOLTIP" varFormat="Java">Attribute/value match for users</LabelText>
+</Label>
+<Label ID="CTGDII878I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.OR.LABEL" varFormat="Java">Match any attribute filter</LabelText>
+</Label>
+<Label ID="CTGDII879I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.OR.TOOLTIP" varFormat="Java">If enabled then any attribute filters that match will cause the entry to be processed. Otherwise all filters must match.</LabelText>
+</Label>
+<Message ID="CTGDII880E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.INVALID.ATTRIBUTE.FILTER" varFormat="Java">Invalid attribute filter</MsgText>
+	<Explanation>
+		<p>An attribute filter is invalid.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that all attribute filters set are correct.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII881I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.ON.ATTRIBUTES" varFormat="Java">Enable filter based on attribute values</LabelText>
+</Label>
+<Label ID="CTGDII882I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.ON.ATTRIBUTES.TOOLTIP" varFormat="Java">If enabled then attribute filters will be applied during processing.</LabelText>
+</Label>
+<Label ID="CTGDII883I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.ON.GROUPS" varFormat="Java">Enable filter based on group membership</LabelText>
+</Label>
+<Label ID="CTGDII884I">
+	<LabelText pgmKey="LDAPSYNC.FILTER.ON.GROUPS.TOOLTIP" varFormat="Java">If enabled then group membership filters will be applied during processing.</LabelText>
+</Label>
+<Message ID="CTGDII885E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.INVALID.ATTRIBUTE.OPERATOR" varFormat="Java">Invalid attribute filter operator</MsgText>
+	<Explanation>
+		<p>The operator for an attribute filter is invalid.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that all attribute filters have valid operators.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII886E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.NOTE.MAKE.SURE.DELETED.OBJECTS.CAN.BE.READ.IN.THE.SOURCE.ACTIVE.DIRECTORY" varFormat="Java">Deleted objects cannot be read from the source Active Directory server.</MsgText>
+	<Explanation>
+		<p>The AD domain controller has not been configured to allow deleted objects to be read.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Consult Microsoft documentation for the configuration steps needed to enable reading the CN=Deleted Objects branch of the Active Directory tree.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII887I">
+	<LabelText pgmKey="LDAPSYNC.URL.TO.SCIM" varFormat="Java">URL to SCIM service</LabelText>
+</Label>
+<Label ID="CTGDII888I">
+	<LabelText pgmKey="LDAPSYNC.URL.TO.SCIM.TOOLTIP" varFormat="Java">The http URL to the SCIM service to connect to (e.g. http://scim.service.com:8060)</LabelText>
+</Label>
+<Label ID="CTGDII889I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.LOGIN.NAME" varFormat="Java">User id</LabelText>
+</Label>
+<Label ID="CTGDII890I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.LOGIN.NAME.TOOLTIP" varFormat="Java">The user id used to authenticate to SCIM.</LabelText>
+</Label>
+<Label ID="CTGDII891I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.LOGIN.PASSWORD" varFormat="Java">Password</LabelText>
+</Label>
+<Label ID="CTGDII892I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.LOGIN.PASSWORD.TOOLTIP" varFormat="Java">The password associated with the User id for SCIM authentication.</LabelText>
+</Label>
+<Label ID="CTGDII893I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.USE.PROXY" varFormat="Java">Enable Proxy</LabelText>
+</Label>
+<Label ID="CTGDII894I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.USE.PROXY.TOOLTIP" varFormat="Java">If enabled then FDS will use the proxy settings below to connect with SCIM.</LabelText>
+</Label>
+<Label ID="CTGDII895I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.SERVER" varFormat="Java">SCIM Server</LabelText>
+</Label>
+<Label ID="CTGDII896I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.SERVER.TOOLTIP" varFormat="Java">Enter the hostname (or ip address) and port of the proxy server. For example: my.proxy.com:3128</LabelText>
+</Label>
+<Label ID="CTGDII897I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.USERNAME" varFormat="Java">User id</LabelText>
+</Label>
+<Label ID="CTGDII898I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.USERNAME.TOOLTIP" varFormat="Java">The user id used to authenticate to the proxy server.</LabelText>
+</Label>
+<Label ID="CTGDII899I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.PASSWORD" varFormat="Java">Password</LabelText>
+</Label>
+<Label ID="CTGDII900I">
+	<LabelText pgmKey="LDAPSYNC.SCIM.PROXY.PASSWORD.TOOLTIP" varFormat="Java">The password associated with the user id used to authenticate to the proxy server.</LabelText>
+</Label>
+<Label ID="CTGDII901I">
+	<LabelText pgmKey="LDAPSYNC.OPTIONAL.PROXY.SETTINGS" varFormat="Java">Optional proxy settings</LabelText>
+</Label>
+<Message ID="CTGDII902E" prefix="yes">
+	<MsgText pgmKey="VIRTPTA.CANNOT.FIND.AL.FOR.THIS.PROPERTY" varFormat="Java">Cannot find AL specfied for VirtFDS operation property setting.</MsgText>
+	<Explanation>
+		<p>The AssemblyLine specified by the property displayed in the error message was not found.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the Config XML containing the required AssemblyLine is located in the configs sub-folder of the Solution Directory.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII903E" prefix="yes">
+	<MsgText pgmKey="VIRTPTA.NO.ENDPOINT.FOUND" varFormat="Java">No VirtPTA endpoint found for dn</MsgText>
+	<Explanation>
+		<p>The endpoint specified for this Person entry in the adDn attribute is not valid.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Either edit the adDn attribute for this Person entry so that the endpoint is valid, or re-run Initial Synchronization.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII904W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.RETRYLIST.LINE" varFormat="Java">Error reading retry-list line</MsgText>
+	<Explanation>
+		<p>The specified line in the retrylist.json file has been corrupted.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Remove this line from the retrylist.json file and try to run the synchronization operation again.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII905E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.READING.RETRYLIST" varFormat="Java">Error reading retry-list</MsgText>
+	<Explanation>
+		<p>The retrylist.json file has been corrupted.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Delete the retrylist.json file and manually handle the entries listed by DN in the file.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII906W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.SAVING.RETRYLIST.ITEM" varFormat="Java">Error saving retry-list item</MsgText>
+	<Explanation>
+		<p>The specified entry could not be saved to the retry-list.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>This entry must be manually handled.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII907E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.SAVING.RETRYLIST" varFormat="Java">Error saving retry-list</MsgText>
+	<Explanation>
+		<p>The retrylist.json file could not be written to disk.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Possible causes are write permissions to the LDAPSync sub-folder of the Solution Directory, or lack of sufficient free disk space. See the error message for more information on this.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII908W" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ITEM.ALREADY.IN.RETRYLIST" varFormat="Java">Item already in retry-list</MsgText>
+	<Explanation>
+		<p>This entry is already in the retry-list.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Please report this error message (including all log files) to support.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII909W" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ENTRY.MISSING.DATA" varFormat="Java">Cannot send email to new user - entry is missing necessary data</MsgText>
+	<Explanation>
+		<p>This is an internal error.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Please report this error message (including all log files) to support.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII910W" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ENTRY.MISSING.MAIL.ATTRIBUTE" varFormat="Java">Cannot send email to new user - person entry has no mail address</MsgText>
+	<Explanation>
+		<p>This person entry does not have an email address attribute (mail)</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>The person in question must be notified manually of their new account.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII911E" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ERROR.IN.MAILSHOT.INIT" varFormat="Java">Error initializing for automatic email of login information to new users.</MsgText>
+	<Explanation>
+		<p>The feature for automatic email of login information to new users could not be initialized.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that SMTP settings are correct. Check the full error message for details about this problem.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII912E" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.CERT.IMPORTED" varFormat="Java">Client certificate attempted imported. FDS/VDI must be restarted whenever certificates are modified.</MsgText>
+	<Explanation>
+		<p>An import of the client certificate was attempted. See the full message for details.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Check the full message to ensure that the certificate was successfully imported and then restart FDS/VDI.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII913E" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ERROR.SENDING.MAIL" varFormat="Java">Error sending email with login information to new user.</MsgText>
+	<Explanation>
+		<p>An error occurred during automatic sending of the email with login information to a new user.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Check the full error message for details on this error. Ensure that the settings for message subject and body, as well as SMTP server details, are correct.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII914I">
+	<LabelText pgmKey="CLOUDSYNC.NEW.USER.MAIL.MESSAGE" varFormat="Java">New user password notification mail</LabelText>
+</Label>
+<Message ID="CTGDII915E" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ERROR.WITH.SUBJECT" varFormat="Java">Error creating mail subject</MsgText>
+	<Explanation>
+		<p>The template used to create the subject for emails sent to newly provisioned users is incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the template text set for the subject of New User emails is correct.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII916I">
+	<LabelText pgmKey="CLOUDSYNC.SUMMARY" varFormat="Java">Summary of Sync Activity</LabelText>
+</Label>
+<Message ID="CTGDII917E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.ERROR.WRITING.AUDIT.LOG" varFormat="Java">Unable to write to the audit log file</MsgText>
+	<Explanation>
+		<p>An error occurred when attempting to write to the audit log.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that IBM Verify Directory Integrator has write permission to the LDAPSync/logs folder, and that there is sufficient free disk space available.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII918E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.URL.IS.INVALID" varFormat="Java">The URL that is specified is invalid.</MsgText>
+	<Explanation>
+		<p>The format of the specified URL is incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the URL is in the correct format.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII919E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SYSTEM.UNREACHABLE" varFormat="Java">The remote system is unreachable.</MsgText>
+	<Explanation>
+		<p>The remote system is unreachable.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the hostname or IP address, and the port number specified are correct. Ensure that no firewalls are blocking the access.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII920E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SSL.IS.REQUIRED" varFormat="Java">This service requres an SSL connection. Use 'https://' in the URL.</MsgText>
+	<Explanation>
+		<p>The remote server requires an SSL connection.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that SSL is enabled for this connection. The SSL variant of the protocol specifier must be used for URL parameters.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII921E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.USER.OR.PASSWORD.INCORRECT" varFormat="Java">The username and/or password that are specified are incorrect.</MsgText>
+	<Explanation>
+		<p>The login credentials that are specified are incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the credentials that are specified are correct and have adequate permissions.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII922E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SPECIFIED.SSL.NOT.SUPPORTED" varFormat="Java">SSL is not supported by the remote system.</MsgText>
+	<Explanation>
+		<p>An SSL connection has been specified, but is not supported by the remote system.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Use a non-secure connection setting.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII923E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.CLIENT.CERT.INCORRECT" varFormat="Java">The client certificate for this system is incorrect or has been in correctly imported followed by a restart of IBM Verify Directory Integrator.</MsgText>
+	<Explanation>
+		<p>The client certificate is incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Remove the current certificate and import a new client certificate from the remote system again.</p>
+	</OperatorResponse>
+</Message>
+<Message ID="CTGDII924E" prefix="yes">
+	<MsgText pgmKey="LDAPSYNC.SEARCH.BASE.IS.INVALID" varFormat="Java">The Search Base that is specified is invalid.</MsgText>
+	<Explanation>
+		<p>The Search Base that is specified is incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the Search Base that is specified is a valid DN value and that it refers to a node in the directory tree.</p>
+	</OperatorResponse>
+</Message>
+<Label ID="CTGDII925I">
+	<LabelText pgmKey="LDAPSYNC.CLIENT.CERT.REQUESTED" varFormat="Java">Requesting client certificate</LabelText>
+</Label>
+<Label ID="CTGDII926I">
+	<LabelText pgmKey="LDAPSYNC.ERROR.REQUESTING.CERT" varFormat="Java">Unable to request client certificate</LabelText>
+</Label>
+<Message ID="CTGDII927E" prefix="yes">
+	<MsgText pgmKey="CLOUDSYNC.ERROR.WITH.BODY" varFormat="Java">Error creating mail body</MsgText>
+	<Explanation>
+		<p>The template used to create the body for emails sent to newly provisioned users is incorrect.</p>
+	</Explanation>
+	<OperatorResponse>
+		<p>Ensure that the template text set for the body of New User emails is correct.</p>
+	</OperatorResponse>
+</Message>
+</TMSSource>

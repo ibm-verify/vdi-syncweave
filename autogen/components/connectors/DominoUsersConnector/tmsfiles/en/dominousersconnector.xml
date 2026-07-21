@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TMSSource SYSTEM "tms.dtd">
+
+<TMSSource name="dominousersconnector" tmsVersion="1.0" xml:lang="en">
+
+<!--
+***************************************************************
+* The above copyright notice applies to this XML file as well *
+*  as any other source/text files generated from this file.   *
+***************************************************************
+-->
+
+<Message ID="CTGDKC001E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CONNECTOR.NOTES.THREAD.NOT.ALIVE" varFormat="Java">
+   Connector Notes Thread not alive. Cannot perform.
+   </MsgText>
+   <Explanation> <p>
+   The user tries to execute operation after the Connector has been terminated.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the business logic of the solution, 
+   so that the Connector is not used after it has been terminated.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC002E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.NOTESEXCEPTION" varFormat="Java">
+   Failed to execute the command. NotesException occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Notes Run time might be not initialized or 
+   error has occurred during operation execution.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that Security Verify Directory Integrator and the external systems are configured correctly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC003E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FATAL.ERROR" varFormat="Java">
+   Fatal error while executing the command. Exception occurred: <Variable formatSpec="{0}">exception</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   This error occurs in result of class linkage, thread or virtual machine error.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Review the exception to find further details on the error.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC004E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CONNECTOR.ALREADY.INITIALIZED" varFormat="Java">
+   Connector already initialized. You must terminate it before initializing again.
+   </MsgText>
+   <Explanation> <p>
+   The user tries to initialize the Connector, for example through script, 
+   that has been already initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the values of the configuration parameters and the business logic of your solution.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC005W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ERROR.WHILE.TERMINATING" varFormat="Java">
+   Exception occurred while terminating: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The user may has loaded a Connector without initializing it. For example through 
+   the getConnector method.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the values of the configuration parameters 
+   and the business logic of the solution.
+   </p> </OperatorResponse>
+</Message>
+
+<!-- The message CTGDKC006I has been deleted since dominoSessionType is implemented -->
+
+<!-- The message CTGDKC007I has been deleted since dominoSessionType is implemented -->
+
+<!-- The message CTGDKC008E has been deleted since dominoSessionType is implemented -->
+
+<Message ID="CTGDKC009I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.INITIALIZE.WILL.USE.FULL.TEXT.SEARCH" varFormat="Java">
+   Will use full-text search in Iterator and Lookup modes.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC010I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.INITIALIZE.WILL.USE.REGULAR.DATABASE.SEARCH" varFormat="Java">
+   Will use regular database search in Iterator and Lookup modes.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<!-- The message CTGDKC011E has been deleted since dominoSessionType is implemented -->
+
+<Message ID="CTGDKC012I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.INITIALIZE.CONNECTED.TO" varFormat="Java">
+   Sucessfully connected to Domino Server:
+   Name=&apos;&apos;<Variable formatSpec="{0}">server name</Variable>&apos;&apos;,
+   Version=&apos;&apos;<Variable formatSpec="{1}">version number</Variable>&apos;&apos;,
+   Platform=&apos;&apos;<Variable formatSpec="{2}">operating system</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC013E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UNABLE.TO.OPEN.NAME.AND.ADDRESS.BOOK" varFormat="Java">
+   Unable to open &apos;Name and Address Book&apos; database: <Variable formatSpec="{0}">database name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The configuration parameter, pointing to the server where the database is or 
+   the database name may be mistyped or 
+   the user may have not rights to access the database.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the database exists and is available as well as check 
+   the other configuration parameters of the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC014I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.NAME.AND.ADDRESS.BOOK.IS.OPENED" varFormat="Java">
+   Successfully opened &apos;Name and Address Book&apos; database 
+   <Variable formatSpec="{0}">database name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC015I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DB.IS.FULL.TEXT.INDEXED" varFormat="Java">
+   The Database <Variable formatSpec="{0}">database name</Variable> is full-text indexed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC016I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DB.IS.NOT.FULL.TEXT.INDEXED" varFormat="Java">
+   The database <Variable formatSpec="{0}">database name</Variable>is not full-text indexed.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC017E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UNABLE.TO.OPEN.ADMIN.DATABASE" varFormat="Java">
+   Unable to open Admin database: <Variable formatSpec="{0}">database name</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The user may have not rights to access the database or the 
+   configuration parameter, pointing to the server where the database is 
+   or the database name may be mistyped.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the configuration of the Connector as well as that the user have 
+   rights to access the database.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC018I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ADMINISTRATION.REQUESTS.DB.OPENED" varFormat="Java">
+   Successfully opened the Administration Requests Database:
+   <Variable formatSpec="{0}">database name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC019E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.VIEW.NOT.FOUND" varFormat="Java">
+   Unable to select entries. The View &apos;People&apos; was not found.
+   </MsgText>
+   <Explanation> <p>
+   If the database is local, both the public and personal views and folders are returned. 
+   If the database is on server, only public vews and folders are returned.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the view you look up is present and is not forbidden to be returned.
+   Contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC020E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.COULD.NOT.FILTER.DOCUMENTS" varFormat="Java">
+   Could not filter documents.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the operations a user can perform. 
+   If the full-text filter is mistyped, no documents will be returned.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check configuration of the Connector and security settings of the Domino server.
+   Contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC021I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.VIEW.SEARCH.RETURNS.NULL" varFormat="Java">
+   View search returned NULL.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC022I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.VIEW.SEARCH.RETURNS.DOCUMENTS" varFormat="Java">
+   View search returned <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC023E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.COULD.PERFORM.DATABASE.SEARCH" varFormat="Java">
+   Could not perform database search. NotesException occurred:
+   ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the operations a user can perform. 
+   The user might have not rights to search the database.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the security settings of the Domino server. 
+   Contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC024I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DB.SEARCH.RETURNS.NULL" varFormat="Java">
+   Database search returned NULL.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC025I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DB.SEARCH.RETURNS.DOCUMENTS" varFormat="Java">
+   Database search returned
+   <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC026E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ERROR.RETRIEVING.NEXT.USER.DOCUMENT" varFormat="Java">
+   Error retrieving next user Document.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>
+   </MsgText>
+   <Explanation> <p>
+   If one creates more than one object to represent the same Domino element, 
+   recycling one recycles all. Results are undefined if one attempts to use a recycled object.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the business logic of the solution and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC027E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.VIEW.NOT.FOUND" varFormat="Java">
+   Unable to find the entry. The View &apos;People&apos; was not found.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the operations a user can perform.
+   The user might have not proper rights.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the security settings and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC028I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.FTSEARCH.VIEW" varFormat="Java">
+   Full Text Search view for: <Variable formatSpec="{0}">filter</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC029I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.FTSEARCH.RETURNS.DOCUMENTS" varFormat="Java">
+   Full Text Search returns <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC030I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.DATABASE.SEARCH.WITH.FORMULA" varFormat="Java">
+   Database search with formula: <Variable formatSpec="{0}">formula</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC031I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.DB.SEARCH.RETURNS.NULL" varFormat="Java">
+   Database search returned NULL in the findEntry method.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC032I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDENTRY.DB.SEARCH.RETURNS.DOCUMENTS" varFormat="Java">
+   Database search returned <Variable formatSpec="{0}">number of documents</Variable> documents.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC033E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.BUILDENTRY.GIVEN.DOCUMENT.IS.NULL" varFormat="Java">
+   Given Document is NULL. Cannot build Entry.
+   </MsgText>
+   <Explanation> <p>
+   Null is returned if the document collection that 
+   results from database search contains no documents.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the configuration of the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC034I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DOCUMENT.VECTOR.IS.NULL" varFormat="Java">
+   Document vector of items is NULL.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC035I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.BUILDENTRY.ALL.ITEMS" varFormat="Java">
+   Building entry with all items: <Variable formatSpec="{0}">items</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC036I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ADDITEMTOENTRY.ITEM" varFormat="Java">
+   Item &apos;&apos;<Variable formatSpec="{0}">item name</Variable>&apos;&apos; 
+   is of type ATTACHMENT will not be added to Entry.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC037I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.NEW.ATTRIBUTE" varFormat="Java">
+   New Attribute: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC038I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ITEM.TYPE" varFormat="Java">
+   item type: <Variable formatSpec="{0}">item type</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC039I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DATA" varFormat="Java">
+   Item values: <Variable formatSpec="{0}">item values</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC040E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.MODENTRY.DOCUMENT.NOT.FOUND" varFormat="Java">
+   Unable to modify the entry. The document not found or multiple documents found.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC041E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.MODENTRY.USER.FULLNAME.NOT.FOUND" varFormat="Java">
+   Unable to modify the entry. The user FullName not found. Cannot set user&apos;s access type.
+   </MsgText>
+   <Explanation> <p>
+   The user FullName has no value or the value is numeric or date-time.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC042E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ENTRY.ATTRIBUTE.IS.REQUIRED" varFormat="Java">
+   Entry Attribute &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; 
+   is required when creating a mail database using a custom mail template.
+   </MsgText>
+   <Explanation> <p>
+   The MailFile attribute is mandatory to be present in the entry.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the entry has MailFile attribute with proper value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC043E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PUTENTRY.CANNOT.BUILD.SEARCH.CRITERIA" varFormat="Java">
+   Unable to add entry. Cannot build search criteria to find user document after registration.
+   User document not updated.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC044E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PUTENTRY.CANNOT.UPDATE.USER.DOCUMENT" varFormat="Java">
+   Unable to add the entry. Cannot update user document after registration.
+   User document not found or multiple documents found.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC045E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PUTENTRY.CANNOT.CREATE.PERSON.DOCUMENT" varFormat="Java">
+   Unable to add the entry. Cannot create person document. The required Attribute 
+   &apos;&apos;<Variable formatSpec="{0}">attribute name</Variable>&apos;&apos; is missing or empty.
+   </MsgText>
+   <Explanation> <p>
+   The LastName attribute is mandatory to be present.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure that the LastName attribute is present in the entry and has proper value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC046E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PUTENTRY.CANNOT.CREATE.NEW.USER.DOCUMENT" varFormat="Java">
+   Unable to add the entry. Cannot create new user document.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the rights of a user.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are proper and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC047E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DELETEENTRY.DOCUMENT.NOT.FOUND" varFormat="Java">
+   Unable to delete the entry. The document not found or multiple documents were found.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC048E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DELETEENTRY.USER.FULLNAME.NOT.FOUND" varFormat="Java">
+   Unable to delete the entry. The user FullName not found. Cannot delete user.
+   </MsgText>
+   <Explanation> <p>
+   The item FullName has no value or the value is numeric or date-time.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC049I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FINDPERSONDOCUMENT.USING.FORMULA" varFormat="Java">
+   Will find person document using formula: <Variable formatSpec="{0}">formula</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC050I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UPDATEDOCUMENT.UPDATE.ATTRIBUTE" varFormat="Java">
+   Updating attribute in document: <Variable formatSpec="{0}">attribute name</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC051E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.ERROR.COULD.NOT.HASH.THE.HTTP.PASSWORD" varFormat="Java">
+   Could not hash the http password.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC052I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UPDATEDOCUMENT.UPDATE.VALUE.PASSWORD" varFormat="Java">
+   Updating password value in document: <Variable formatSpec="{0}">password</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC053I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UPDATEDOCUMENT.UPDATE.VALUE.ATTRIBUTE" varFormat="Java">
+   Updating value in document: <Variable formatSpec="{0}">attribute value</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC054I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UPDATEDOCUMENT.UPDATE.VALUES" varFormat="Java">
+   Updating values in document: <Variable formatSpec="{0}">attribute values</Variable>.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC055E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UPDATEDOCUMENT.UNABLE.TO.SAVE.DOCUMENT" varFormat="Java">
+   Cannot update the document. The document cannot be saved.
+   </MsgText>
+   <Explanation> <p>
+   Someone else might be editing the document at the moment.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the business logic of the document and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC056I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FULLNAME.CRITERIA.ELEMENT.VALUE.CHANGED" varFormat="Java">
+   FullName criteria element value changed from
+   &apos;&apos;<Variable formatSpec="{0}">FullName</Variable>&apos;&apos; to 
+   &apos;&apos;<Variable formatSpec="{1}">FullName</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC057I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.FULLNAME.ATTRIBUTE.CHANGED" varFormat="Java">
+   FullName Attribute changed from 
+   &apos;&apos;<Variable formatSpec="{0}">FullName</Variable>&apos;&apos; to 
+   &apos;&apos;<Variable formatSpec="{1}">FullName</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC058W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.TEMINATE.COULD.NOT.RECYCLE.DOMINO.OBJECT" varFormat="Java">
+   Could not recycle Domino object.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC059E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.MUSTPERFORMDOMINOACTION.NOTESEXCEPTION" varFormat="Java">
+   NotesException occurred while performing Domino Action:
+   ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Required attribute, needed for the operation being executed, is missing.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Ensure all the required attributes are available in the entry and have proper values.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC060E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.RESETANDEXTRACTDATA.NOTESEXCEPTION" varFormat="Java">
+   NotesException occurred while trying to reset and extract the data:
+   ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC061E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PERFORMDOMINOACTION.CANNOT.PERFORM.DOMINO.ACTION" varFormat="Java">
+    Cannot perform Domino Action: <Variable formatSpec="{0}">error message</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can do.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings have proper values and 
+   contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC062E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PERFORMDOMINOACTION.NOTESEXCEPTION" varFormat="Java">
+   Cannot perform Domino Action.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can do.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings have proper values and 
+   contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC063E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CLEARFIXEDDOMINOACTIONATTRIBUTES.NOTESEXCEPTION" varFormat="Java">
+   Unable to clear attributes.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC064E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CANNOT.PERFORM.DOMINO.ACTION" varFormat="Java">
+   Cannot perform Domino Action: 
+   <Variable formatSpec="{0}">error message</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Review the message for explanation why the operation cannot be performed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC065E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CHECKEXTRACTANDEXECUTEDOMINOACTION.NOTESEXCEPTION" varFormat="Java">
+   Unable to execute Domino Action.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC066E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DENY.GROUP.DOCUMENT.PARAMETER.IS.NULL" varFormat="Java">
+   The isDenyGroupMember method was passed NULL for the Deny Group Document parameter.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC067E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USER.NAME.PARAMETER.IS.NULL" varFormat="Java">
+   The isDenyGroupMember method was passed NULL for the User Name parameter.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC068E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.DENY.ACCESS.GROUP.DOES.NOT.EXISTS" varFormat="Java">
+   Deny Access Group &apos;&apos;<Variable formatSpec="{0}">group name</Variable>&apos;&apos;
+   does not exists.
+   </MsgText>
+   <Explanation> <p>
+   Internal error has occurred.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Contact IBM support.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC069E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.CANNOT.INSTANTIATE.USERACCESS.NOTES.NULL" varFormat="Java">
+   Cannot instantiate UserAccess. The Connector&apos;s Notes session is NULL.
+   </MsgText>
+   <Explanation> <p>
+   The Connector did not succeed to create session to Domino server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the needed configuration for creating session is set up 
+   and contact IBM support, if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC070E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.CANNOT.INSTANTIATE.USERACCESS.DATABASE.NULL" varFormat="Java">
+   Cannot instantiate UserAccess. The Connector&apos;s database is NULL.
+   </MsgText>
+   <Explanation> <p>
+   Domino allows to restrict the actions a user can perform. 
+   Or the database may not be present on the specified server.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the security settings and the configuration of the Connector.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC071E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.ENABLEUSER.COULD.NOT.FIND.VIEW" varFormat="Java">
+   Unable to enable the user. Could not find view 
+   &apos;&apos;<Variable formatSpec="{0}">view name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC072E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.ENABLEUSER.COULD.NOT.FIND.VIEW2" varFormat="Java">
+   Unable to enable the user. Could not find view
+   &apos;&apos;<Variable formatSpec="{0}">view name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC073E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.NOTESEXCEPTION" varFormat="Java">
+   Unable to enable the user.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC074E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.DISABLEUSER.COULD.NOT.FIND.VIEW" varFormat="Java">
+   Unable to disable user. Could not find view
+   &apos;&apos;<Variable formatSpec="{0}">view name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC075E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.DISABLEUSER.COULD.NOT.FIND.VIEW2" varFormat="Java">
+   Unable to disable user. Could not find view
+   &apos;&apos;<Variable formatSpec="{0}">view name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC076E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.DISABLEUSER.DENY.ACCESS.GROUP" varFormat="Java">
+   Unable to disable user. Deny Access Group 
+   &apos;&apos;<Variable formatSpec="{0}">group name</Variable>&apos;&apos; does not exists.
+   </MsgText>
+   <Explanation> <p>
+   The specified Deny Access Group does not exist.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify an existing Deny Access Group.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC077E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.DISABLEUSER.DENY.ACCESS.GROUP2" varFormat="Java">
+   Unable to disable user. Deny Access Group 
+   &apos;&apos;<Variable formatSpec="{0}">group name</Variable>&apos;&apos; does not exists.
+   </MsgText>
+   <Explanation> <p>
+   The specified Deny Access Group does not exist.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify an existing Deny Access Group.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC078E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.DISABLEUSER.NOTESEXCEPTION" varFormat="Java">
+   Unable to disable user.
+   NotesException occurred: ID=<Variable formatSpec="{0}">ID</Variable>,
+   Error Text=<Variable formatSpec="{1}">error text</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the security settings and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC079E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERDELETION.NOTES.SESSION.IS.NULL" varFormat="Java">
+   Cannot instantiate UserDeletion. The Connector&apos;s Notes session is NULL.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has not been initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the Connector is initialized.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC080E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERDELETION.ADMIN.DATABASE.IS.NULL" varFormat="Java">
+   Cannot instantiate UserDeletion. Admin database is NULL.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has not been initialized.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the Connector is initialized.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC081E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERDELETION.CONNECTOR.DATABASE.IS.NULL" varFormat="Java">
+   Cannot instantiate UserDeletion. The Connector&apos;s database is NULL.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check the security settings and the configuration of the Connector and 
+   contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC082E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERDELETION.COULD.NOT.CREATE.ADMIN.REQUEST.DOCUMENT" varFormat="Java">
+   The UserDeletion::sendAdminRequestDeleteUser method could not create admin request document.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC083E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERDELETION.COULD.NOT.CREATE.ADMIN.REQUEST.DOCUMENT2" varFormat="Java">
+   Could not create admin request document.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC084E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.CANNOT.INSTANTIATE.USERREGISTRATION" varFormat="Java">
+   Cannot instantiate UserRegistration. The Connector&apos;s Notes session is NULL.
+   </MsgText>
+   <Explanation> <p>
+   The Connector has not created a session.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the required configuration of Security Verify Directory Integrator and all the external
+   systems are performed and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC085W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.COULD.NOT.PARSE" varFormat="Java">
+   The UserRegistration::extractAndStoreData method could not parse
+   &apos;REG_Expiration&apos; value (<Variable formatSpec="{0}">attribute value</Variable>).
+   Will use default value of NULL.
+   </MsgText>
+   <Explanation> <p>
+   The value of the REG_Expiration attribute is not a valid date object.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Make sure the attribute has a valid date object.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC086E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.COULD.NOT.CREATE.REGISTRATION" varFormat="Java">
+   The UserRegistration::perform method could not create Registration object.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC087E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.COULD.NOT.CREATE.REGISTRATION2" varFormat="Java">
+   Could not create Registration object.
+   </MsgText>
+   <Explanation> <p>
+   Domino server allows to restrict the actions a user can perform.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check that the security settings are correct and contact IBM support if the problem still exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC088E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.UNPARSEABLE" varFormat="Java">
+   Failed to convert the port parameter value to a numeric type: <Variable formatSpec="{0}">parameter value</Variable>.
+   </MsgText>
+   <Explanation> <p>
+   The specified value for the parameter does not have the appropriate format.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Specify value with appropriate format for the httpPort parameter.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC089E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.SESSION.EXCEPTION" varFormat="Java">
+   NotesException encountered while trying to create a session with the Domino Server:
+   Class Name=&apos;&apos;<Variable formatSpec="{0}">class name</Variable>&apos;&apos;,
+   Exception=<Variable formatSpec="{1}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Users Connector encountered an exception while trying to create
+   a session with the Domino Server and was unable to continue.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the Domino Server being queried is still running and that
+   the connection information in the Domino Users Connector has been configured
+   properly.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC090I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.IOR.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. The specified IOR string is used. SSL is turned on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC091I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PORT.USED.SSL.ON.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. SSL is turned on.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC092I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.IOR.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. The specified IOR string is used. SSL is turned off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC093I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.PORT.USED.SSL.OFF.SESSION.CREATED" varFormat="Java">
+   IIOP Session successfully created. SSL is turned off.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC094I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.IOR.INFO" varFormat="Java">
+   Using specified &apos;IOR&apos; in the connection information for opening the session.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC095I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.SESSION.CREATED" varFormat="Java">
+   Session to Domino Server is created.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC096I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.SESSION.INFO" varFormat="Java">
+   Opening Session to Domino Server:
+   Session Type=&apos;&apos;<Variable formatSpec="{0}">Session Type</Variable>&apos;&apos;,,
+   Hostname=&apos;&apos;<Variable formatSpec="{1}">Hostname</Variable>&apos;&apos;,
+   User ID=&apos;&apos;<Variable formatSpec="{2}">User ID</Variable>&apos;&apos;,
+   Requested IIOP/SSL=&apos;&apos;<Variable formatSpec="{3}">Boolean</Variable>&apos;&apos;.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC097E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.THREADCLASS.EXCEPTION" varFormat="Java">
+   Unable to create local Notes thread because the lotus.domino.NotesThread class
+   was not found in the classpath of the program. Exception occurred:
+   <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino Users Connector encountered an exception while trying to create
+   a local notes thread.  The lotus.domino.NotesThread class is needed to create
+   the thread and it was not found in the classpath.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the classpath of the program and ensure the Notes.jar file is in the
+   classpath.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC098I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.THREADSTART.INFO" varFormat="Java">
+   Domino Users Connector&apos;s local Notes thread started.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC099W" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.STOPTHREAD.WARNING" varFormat="Java">
+   Domino Users Connector could not terminate the local Notes thread.
+   Exception occurred: <Variable formatSpec="{0}">exception</Variable>
+   </MsgText>
+   <Explanation> <p>
+   See message.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   No action is required.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC100I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.THREADTERMINATE.INFO" varFormat="Java">
+   Domino Users Connector&apos;s local Notes thread terminated.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC101I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.MISSING.SETTYPE.VALUE" varFormat="Java">
+   Missing &apos;<Variable formatSpec="{0}">attr name set type</Variable>&apos; value
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC102I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.INVALID.SETTYPE.VALUE" varFormat="Java">
+   Invalid &apos;<Variable formatSpec="{0}">attr name set type</Variable>&apos; value
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC103I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERACCESS.MISSING.DENYGROUPNAME.VALUE" varFormat="Java">
+   Missing &apos;<Variable formatSpec="{0}">attr name deny group</Variable>&apos; value
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC104I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.GROUP.NOT.EXIST" varFormat="Java">
+   Group does not exist: <Variable formatSpec="{0}">group name</Variable>
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC105I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.MISSING.FULLNAME.VALUE" varFormat="Java">
+   Missing user&apos;s FullName value
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC106I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.INVALID.DELMAILFILE.VALUE" varFormat="Java">
+   Invalid Delete Mail File value
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC107E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.GROUP.NOT.EXIST.EXCEPTION" varFormat="Java">
+   Group does not exist: <Variable formatSpec="{0}">group name</Variable>
+   </MsgText>
+   <Explanation> <p>
+   The Domino group that the user should be added to does not exist.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify that the group name is correct and exists.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC108E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.INVALID.DELMAILFILE.VALUE.EXCEPTION" varFormat="Java">
+   Invalid Delete Mail File value
+   </MsgText>
+   <Explanation> <p>
+   See message
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Verify the delete mail file value.
+   </p> </OperatorResponse>
+</Message>
+
+<Message ID="CTGDKC109I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.REQ.ATTR.MISSING" varFormat="Java">
+   Required Attribute &apos;&apos;<Variable formatSpec="{0}">attr name</Variable>&apos;&apos; is missing.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC110I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.INVALID.ATTR.VALUE" varFormat="Java">
+   Invalid value (&apos;&apos;<Variable formatSpec="{0}">id</Variable>&apos;&apos;) set to Attribute &apos;&apos;<Variable formatSpec="{1}">type</Variable>&apos;&apos;. Check Connector's documentation.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC111I" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.USERREGISTRATION.SHOULD.NOT.PERFORM" varFormat="Java">
+   User Registration should not perform according to the &apos;<Variable formatSpec="{0}">attribute name</Variable>&apos; Attribute.
+   </MsgText>
+   <NoHelp/>
+</Message>
+
+<Message ID="CTGDKC112E" prefix="yes">
+   <MsgText pgmKey="CONNECTOR.DOMINOUSERSCONN.COULD.NOT.REGISTER.USER" varFormat="Java">
+   Could not register user &apos;&apos;<Variable formatSpec="{0}">last name</Variable>&apos;&apos;.
+   </MsgText>
+   <Explanation> <p>
+   Registration of the new user has failed.
+   </p> </Explanation>
+   <OperatorResponse> <p>
+   Check for errors reported during registration.
+   </p> </OperatorResponse>
+</Message>
+
+</TMSSource>
