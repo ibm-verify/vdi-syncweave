@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #
-# Copyright contributors to the SyncWeave project
+# Copyright IBM Corp. 2023
+
 set -e
 
 src=`dirname $0`

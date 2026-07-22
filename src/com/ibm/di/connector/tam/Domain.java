@@ -1,5 +1,5 @@
 /*
- * Copyright contributors to the SyncWeave project
+ * Copyright IBM Corp. 2025
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,9 +17,6 @@ import com.tivoli.pd.jutil.PDContext;
 import com.tivoli.pd.jutil.PDException;
 import com.tivoli.pd.jutil.PDMessages;
 
-// Note: CSAR "public domain" keyword hits in this file are false positives.
-// All occurrences refer to LDAP/TAM administrative domain names (PDDomain),
-// not public domain dedications or license statements.
 public class Domain extends CommonBase {
 	@SuppressWarnings("unused")
 	private static final String COPYRIGHT = com.ibm.di.server.CopyRight.OBJECT_CODE;

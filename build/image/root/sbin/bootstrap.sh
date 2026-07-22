@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #
-# Copyright contributors to the SyncWeave project
+# Copyright IBM Corp. 2023
+
 # This script is used to bootstrap the IVDI build environment.  This will 
 # involve creating the sandbox, if not already created, and then changing
 # into the sandbox.  If the build doesn't currently exist the build will be

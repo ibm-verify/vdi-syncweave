@@ -5,7 +5,7 @@
  *
  * 5724-D49
  *
- * Copyright contributors to the SyncWeave project
+ * (C) Copyright IBM Corporation. 2011, 2011
  *
  * The source code for this program is not published or otherwise
  * divested of its trade secrets, irrespective of what has been
@@ -29,7 +29,7 @@ import com.ibm.di.server.ResourceHash;
 
 /**
  * This class extends the {@link DailyRollingFileAppender} and adds an
- * additional parameter to its configuration ï¿½ 'Number of files'. By specifying
+ * additional parameter to its configuration – 'Number of files'. By specifying
  * this parameter the user can limit the number of the created backup log files.
  */
 public class FixedDailyRollingFileAppender extends DailyRollingFileAppender {

@@ -2,7 +2,7 @@
 
 #
 #
-# Copyright contributors to the SyncWeave project
+# Copyright IBM Corp. 2009, 2025
 #
 
 ### INSTALL VERIFY SCRIPT TDI RELATED COMPONENTS ###

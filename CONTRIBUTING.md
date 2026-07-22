@@ -56,7 +56,7 @@ e.g.
 
 ```
 /*
-Copyright contributors to the SyncWeave project
+Copyright IBM Corp. All Rights Reserved.
 
 SPDX-License-Identifier: Apache-2.0
 */

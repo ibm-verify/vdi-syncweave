@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #
-# Copyright contributors to the SyncWeave project
+# Copyright IBM Corp. 2023
+
 ##############################################################################
 
 # This script is used to install additional RPMs and files into the build 

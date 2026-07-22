@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #
-# Copyright contributors to the SyncWeave project
+# Copyright IBM Corp. 2001,2023
+
 #
 # This script is to remove the javax.xml.bind dependencies from the 
 # META-INF/MANIFEST.MF file within the specified jar file.  This is required as
