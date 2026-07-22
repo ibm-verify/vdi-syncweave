@@ -1,8 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright IBM Corp. 2024, 2025
-
+# Copyright contributors to the SyncWeave project
 set -euo pipefail
 src=`dirname $0`
 #set -vx
