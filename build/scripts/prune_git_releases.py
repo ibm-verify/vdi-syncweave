@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 #
-# Copyright IBM Corp. 2023
-
+# Copyright contributors to the SyncWeave project
 #############################################################################
 
 # This script is used to prune the github repository of all older nightly 
