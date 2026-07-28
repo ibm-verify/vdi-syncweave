@@ -1,6 +1,5 @@
 /*
 /*
- * IBM Confidential
  *
  *  OCO Source Materials
  *

@@ -60,7 +60,7 @@ These settings are meant for version 6.0 of the product. For version 5.3 refer t
     1.1.3 Extract the created certificate for further use:
       Use the "Extract certificate" button, specify a name, location and data type and click OK. 
   1.2 Configuring SSL on queue managers:
-    For these configurations use WebSphere MQ Explorer.
+    For these configurations use IBM WebSphere MQ Explorer.
     1.2.1 Set the queue manager key repository:
       Select <your queue manager> -> "Properties" -> "SSL" and modify the value of the "Key repository" attribute. The value must be the location and name of the key database file from 1.1.1 but without the ".kdb" extention.  
   1.3 Configuring SSL channels:
@@ -90,7 +90,7 @@ These settings are meant for version 6.0 of the product. For version 5.3 refer t
 	javax.net.ssl.trustStorePassword=
 	javax.net.ssl.trustStoreType=jks
 
-	javax.net.ssl.keyStore=C:\\Program Files\\IBM\\WebSphere MQ\\Java\\bin\\jmsKeyStore
+	javax.net.ssl.keyStore=C:\\Program Files\\IBM\\IBM WebSphere MQ\\Java\\bin\\jmsKeyStore
 	javax.net.ssl.keyStorePassword=changeit
 	javax.net.ssl.keyStoreType=jks
       This modifications should be made prior to starting SyncWeave.
