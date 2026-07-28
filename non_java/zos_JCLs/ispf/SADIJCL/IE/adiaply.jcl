@@ -4,7 +4,7 @@
 //**                                                                **          
 //** +----------------------------------------------------------+   **          
 //** | Licensed Materials - Property of IBM                     |   **          
-//** | 5698-B09 (C) COPYRIGHT IBM CORP. 2009, 2011              |   **          
+//** | 5698-B09 (C) . 2009, 2011              |   **          
 //** | All rights reserved.                                     |   **          
 //** |                                                          |   **          
 //** | US Government Users Restricted Rights - Use, duplication |   **          

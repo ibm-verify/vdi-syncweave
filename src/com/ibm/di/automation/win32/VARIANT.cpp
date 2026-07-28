@@ -4,7 +4,7 @@
  *  OCO Source Materials
  *
  *
- * (C) Copyright IBM Corporation. 2006
+ * (C) oration. 2006
  *
  * The source code for this program is not published or otherwise
  * divested of its trade secrets, irrespective of what has been

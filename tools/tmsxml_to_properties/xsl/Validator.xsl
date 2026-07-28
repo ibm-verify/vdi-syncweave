@@ -13,7 +13,7 @@
 <!--
   *********************************************************************
   *   Licensed materials - Property of IBM
-  *   (C) Copyright IBM Corp. 2000, 2001
+  *   (C) . 2000, 2001
   *   
   *   US Government Users Restricted Rights - Use, duplication, or
   *   disclosure restricted by GSA ADP Schedule Contract with 

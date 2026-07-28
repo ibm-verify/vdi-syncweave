@@ -3,7 +3,7 @@
 /********************************************************************/          
 /*                                                                  */          
 /*    Licensed Materials - Property of IBM                          */          
-/*    5698-B09 (C) Copyright IBM Corp. 2009, 2011                   */          
+/*    5698-B09 (C) . 2009, 2011                   */          
 /*    ALL RIGHTS RESERVED.                                          */          
 /*                                                                  */          
 /*    US GOVERNMENT USERS RESTRICTED RIGHTS                         */          

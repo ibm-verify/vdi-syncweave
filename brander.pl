@@ -8,7 +8,7 @@ $copyright = '/*
  *
  * 5724-D49
  *
- * (C) Copyright IBM Corporation. 2009, 2010
+ * (C) oration. 2009, 2010
  *
  * The source code for this program is not published or otherwise
  * divested of its trade secrets, irrespective of what has been
@@ -24,7 +24,7 @@ $copyright = '/*
 
 while (<>) {
 	changefile() if $ARGV ne $oldargv;
-	alreadybranded() if (/ \* \(C\) Copyright IBM Corporation\./);
+	alreadybranded() if (/ \* \(C\) oration\./);
 	next if $skip;
 	print;
 	$writecopyright = 1 if /^\s*public\s+(abstract\s+)?class\b/;

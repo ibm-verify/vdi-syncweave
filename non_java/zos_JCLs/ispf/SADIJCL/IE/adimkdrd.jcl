@@ -1,7 +1,7 @@
 /* REXX */                                                                      
 /********************************************************************/          
 /* Licensed Materials - Property of IBM                             */          
-/* 5698-B09 (C) Copyright IBM Corp. 2009, 2011                      */          
+/* 5698-B09 (C) . 2009, 2011                      */          
 /* All rights reserved.                                             */          
 /*                                                                  */          
 /* US Government Users Restricted Rights - Use, duplication or      */          

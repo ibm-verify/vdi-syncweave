@@ -2,7 +2,7 @@
  * IBM Confidential
  * PID 5724-K74
  *
- * Copyright IBM Corp. 2023
+ * . 2023
  */
 
 /*

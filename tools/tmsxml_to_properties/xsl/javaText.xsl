@@ -10,7 +10,7 @@
 	<!--
 		*********************************************************************
 		*   Licensed materials - Property of IBM
-		*   (C) Copyright IBM Corp. 2000-2009
+		*   (C) . 2000-2009
 		*
 		*   US Government Users Restricted Rights - Use, duplication, or
 		*   disclosure restricted by GSA ADP Schedule Contract with
@@ -44,7 +44,7 @@
 			<xsl:value-of select="$comment_start" />
 			<xsl:text>&#xa;</xsl:text>
 			<xsl:value-of select="$comment_start" />
-			<xsl:text> Copyright IBM Corp. 2000-2009. All Rights Reserved&#xa;</xsl:text>
+			<xsl:text> . 2000-2009. All Rights Reserved&#xa;</xsl:text>
 			<xsl:value-of select="$comment_start" />
 			<xsl:text>&#xa;</xsl:text>
 			<xsl:value-of select="$comment_start" />
