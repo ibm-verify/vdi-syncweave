@@ -2,9 +2,7 @@
 
 # IBM_PROLOG_BEGIN_TAG
 #
-# Licensed Materials - Property of IBM
 #
-# Restricted Materials of IBM
 #
 # (C) COPYRIGHT International Business Machines Corp. 2022
 # All Rights Reserved

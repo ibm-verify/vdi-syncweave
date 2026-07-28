@@ -6,7 +6,6 @@
 # %I%, %G%
 #
 #
-# Restricted Materials of IBM
 #
 # (C) COPYRIGHT International Business Machines Corp. 2006, 2010
 # All Rights Reserved

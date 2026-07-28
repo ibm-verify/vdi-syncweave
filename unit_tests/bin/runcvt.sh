@@ -4,9 +4,7 @@
 #
 # %I%, %G%
 #
-# Licensed Materials - Property of IBM
 #
-# Restricted Materials of IBM
 #
 # (C) COPYRIGHT International Business Machines Corp. 2009
 # All Rights Reserved

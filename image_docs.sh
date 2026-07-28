@@ -1,6 +1,5 @@
 #!/usr/bin/bash
 # ****************************************************** {COPYRIGHT-TOP} ***
-# Licensed Materials - Property of IBM
 # 5724-M07
 #
 # Copyright contributors to the SyncWeave project
