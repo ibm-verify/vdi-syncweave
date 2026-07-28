@@ -24,7 +24,7 @@ import com.ibm.di.function.SystemFunctions;
 import com.ibm.di.server.RS;
 
 /**
- * This class provides a REST based interface to IBM Tivoli Directory Integrator's server api as well as a few other
+ * This class provides a REST based interface to SyncWeave's server api as well as a few other
  * services the server api currently does not provide. Validation is performed by the local
  * server api (e.g. APIEngine.getLocalSession()) and any username/passwords passed in the request
  * is forwarded to the local server api.
@@ -35,7 +35,7 @@ import com.ibm.di.server.RS;
  * "com.ibm.di.eclipse.http.commands.StatusCommand". If no such class exists an attempt is made to
  * execute a script 
  * <p>
- * This class is not intended to be used by other clients than the IBM Tivoli Directory Integrator configuration editor. It's
+ * This class is not intended to be used by other clients than the SyncWeave configuration editor. It's
  * functions and services are considered internal use only.
  */
 public class ServerAPI implements Runnable {

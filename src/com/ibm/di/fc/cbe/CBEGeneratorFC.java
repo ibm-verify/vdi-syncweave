@@ -610,7 +610,7 @@ public class CBEGeneratorFC extends Function {
 
 	/**
 	 * Maps the fields of a Common Base Event object into the attributes of a
-	 * IBM Tivoli Directory Integrator Entry. This process is the reverse of what the CBE Generator FC's
+	 * SyncWeave Entry. This process is the reverse of what the CBE Generator FC's
 	 * 'perform' method does. All attributes in the resulting Entry are of type
 	 * java.lang.String.
 	 * 

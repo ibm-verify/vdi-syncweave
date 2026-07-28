@@ -8,7 +8,7 @@ package com.ibm.di.connector.sapr3.user;
 /**
  * UserRegistryConnectorException.
  * 
- * Base exception type for SAP R/3 User Registry Connector. IBM Tivoli Directory Integrator AssemblyLines
+ * Base exception type for SAP R/3 User Registry Connector. SyncWeave AssemblyLines
  * should expect to handle this type.
  * 
  */

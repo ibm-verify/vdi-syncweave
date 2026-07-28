@@ -6,7 +6,7 @@
 package com.ibm.di.connector.sapr3.bor;
 
 /**
- * Base exception type for SAP R/3 Connector. IBM Tivoli Directory Integrator assembly lines should expect
+ * Base exception type for SAP R/3 Connector. SyncWeave assembly lines should expect
  * to handle this type.
  */
 public class SapR3ConnectorException extends Exception {

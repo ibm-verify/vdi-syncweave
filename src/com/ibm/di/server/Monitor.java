@@ -19,7 +19,7 @@ import java.util.Vector;
 import com.ibm.di.event.ThreadEvent;
 
 /**
- * This class is the base class for all IBM Tivoli Directory Integrator classes
+ * This class is the base class for all SyncWeave classes
  * which implement executable objects, like AssemblyLines. The
  * threadStarted(...) and threadStopped(...) methods are invoked at AssemblyLine
  * start and stop. These two methods make sure that the Server API is notified

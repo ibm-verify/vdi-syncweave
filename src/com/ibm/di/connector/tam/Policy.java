@@ -153,7 +153,7 @@ public class Policy extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws PDException
 	 */
@@ -170,11 +170,11 @@ public class Policy extends CommonBase {
 	 * Policy Constructor
 	 * 
 	 * @param entry
-	 *            The Entry data from IBM Tivoli Directory Integrator
+	 *            The Entry data from SyncWeave
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 */
 	public Policy(Entry entry, PDContext context, Log log) {
 		super(context, log);
@@ -191,7 +191,7 @@ public class Policy extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector Log
+	 *            The SyncWeave Connector Log
 	 * 
 	 * @throws TAMConnectorException
 	 * @throws PDException
@@ -223,7 +223,7 @@ public class Policy extends CommonBase {
 	 * @param searchcriteria
 	 *            The Search criteria
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector Log
+	 *            The SyncWeave Connector Log
 	 * 
 	 * @throws TAMConnectorException
 	 * @throws PDException
@@ -251,7 +251,7 @@ public class Policy extends CommonBase {
 	 * Set the object with the Entry data
 	 * 
 	 * @param entry
-	 *            The IBM Tivoli Directory Integrator Entry data
+	 *            The SyncWeave Entry data
 	 */
 	public void set(Entry entry) {
 		Trace.entrymin(this, "Policy.set");

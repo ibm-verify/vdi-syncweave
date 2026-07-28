@@ -38,7 +38,7 @@ import com.ibm.icu.util.StringTokenizer;
  * 
  * <br />
  * <br />
- * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE IBM Tivoli Directory Integrator 7.0
+ * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE SyncWeave 7.0
  * RELEASE AND WILL BE COMPLETELY REMOVED IN A FUTURE RELEASE! </b>
  */
 @Deprecated

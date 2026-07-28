@@ -41,7 +41,7 @@ import com.ibm.di.exceptions.DOMException;
 
 /**
  * The Entry class is a container for attributes and their values. The Entry
- * class is widely used in the IBM Tivoli Directory Integrator. In the scripting
+ * class is widely used in the SyncWeave. In the scripting
  * environment you use the Entry and Attribute classes by accessing the object's
  * methods.
  * <p>
@@ -92,7 +92,7 @@ import com.ibm.di.exceptions.DOMException;
  * <br>
  * <li>To get a list of the keys used in the property map use the
  * {@link #getPropertyNames()} method.<br>
- * Starting from IBM Tivoli Directory Integrator 7.0 the properties could be
+ * Starting from SyncWeave 7.0 the properties could be
  * accessed using the .@ notation. <br>
  * <b>Note:</b> To use the .@ notation the properties names must be simple, this
  * means that the names should not contain any symbols that have their own
@@ -105,14 +105,14 @@ import com.ibm.di.exceptions.DOMException;
  * <li>Using the Attribute map:<br>
  * <br>
  * <ul>
- * <li>This is the most commonly used in IBM Tivoli Directory Integrator
+ * <li>This is the most commonly used in SyncWeave
  * key/value pair structure. Each key maps to a value which could be of type
  * Attribute or any user defined subclasses for example.<br>
  * <b>Note:</b> There is the limitation that the keys used for identifying the
  * Attribute objects must be unique strings. <br>
  * </li>
  * <br>
- * <li>Starting from IBM Tivoli Directory Integrator 7.0 additional wrapper
+ * <li>Starting from SyncWeave 7.0 additional wrapper
  * objects were introduced to handle XML like hierarchical data structures.<br>
  * For this purpose the Entry object now implements the
  * {@link org.w3c.dom.Document} interface, the {@link org.w3c.dom.Element}
@@ -124,7 +124,7 @@ import com.ibm.di.exceptions.DOMException;
  * Check out the JavaDoc for each of these new classes for more details.<br>
  * </li>
  * <br>
- * <li>Since IBM Tivoli Directory Integrator 7.0 it is possible to access
+ * <li>Since SyncWeave 7.0 it is possible to access
  * Entry's Attributes using the dot notation. <br>
  * <b>Note:</b> In order to be able to access the Attribute using the dot
  * notation the key name of the Attribute must be a simple one. This means that

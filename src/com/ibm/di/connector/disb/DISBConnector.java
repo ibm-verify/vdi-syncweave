@@ -34,7 +34,7 @@ import com.ibm.dl.core.certification.IdMLCertification;
 
 /**
  * The class DISBConnector facilitates the communication to the Data Integration
- * Services Bus that will be accessed by IBM Tivoli Directory Integrator. It
+ * Services Bus that will be accessed by SyncWeave. It
  * extends the JMS connector class (JMSConnector) and overrides some of its
  * methods to implement DIS-specific functionality.
  * 

@@ -41,7 +41,7 @@ import commonj.sdo.DataObject;
  * 
  * <br />
  * <br />
- * <b> THIS CLASS IS DEPRECATED FOR THE IBM Tivoli Directory Integrator 7.0 or 7.1
+ * <b> THIS CLASS IS DEPRECATED FOR THE SyncWeave 7.0 or 7.1
  * RELEASES AND WILL BE COMPLETELY REMOVED IN A FUTURE RELEASE! </b>
  */
 @Deprecated
@@ -208,10 +208,10 @@ public class EmfSdoToXml extends Function {
 	 * Directory Integrator Entry passed as parameter to the function.
 	 * 
 	 * @param obj
-	 *            the object is the working IBM Tivoli Directory Integrator
+	 *            the object is the working SyncWeave
 	 *            Entry and should be of type com.ibm.di.entry.Entry.
 	 * 
-	 * @return IBM Tivoli Directory Integrator Entry containing Entry Attributes
+	 * @return SyncWeave Entry containing Entry Attributes
 	 *         coresponding to the XML elements and attributes.
 	 * @throws Exception
 	 *             if the names of the Entry Attributes do not represent valid
@@ -319,7 +319,7 @@ public class EmfSdoToXml extends Function {
 	 * @param root
 	 *            the root of the tree structure
 	 * @param entry
-	 *            IBM Tivoli Directory Integrator Entry containing the
+	 *            SyncWeave Entry containing the
 	 *            attributes to be added to the structure
 	 * 
 	 * @throws Exception

@@ -14,7 +14,7 @@ import com.ibm.di.fc.Function;
 import com.ibm.di.fc.FunctionInterface;
 
 /**
- * This is a wrapper class for IBM Tivoli Directory Integrator Function
+ * This is a wrapper class for SyncWeave Function
  * Components. Objects of this class are instantiated by the AssemblyLine, as
  * the AssemblyLine only works with AssemblyLineComponent objects, not
  * Connectors, Functions Components, etc.
@@ -28,7 +28,7 @@ public class FunctionComponent extends AssemblyLineComponent {
 	private static final String COPYRIGHT = com.ibm.di.server.CopyRight.OBJECT_CODE;
 
 	/**
-	 * The IBM Tivoli Directory Integrator configuration of the Function
+	 * The SyncWeave configuration of the Function
 	 * Component
 	 */
 	protected FunctionConfig config;
@@ -61,7 +61,7 @@ public class FunctionComponent extends AssemblyLineComponent {
 	 * @param name
 	 *            the name of this Function Component
 	 * @param config
-	 *            the IBM Tivoli Directory Integrator configuration of this
+	 *            the SyncWeave configuration of this
 	 *            Function Component
 	 * @exception Exception
 	 *                this exception is thrown if the construction of the
@@ -80,7 +80,7 @@ public class FunctionComponent extends AssemblyLineComponent {
 	 * @param name
 	 *            the name of this Function Component
 	 * @param config
-	 *            the IBM Tivoli Directory Integrator configuration of this
+	 *            the SyncWeave configuration of this
 	 *            Function Component
 	 * @param function
 	 *            the FunctionInterface of this Function Component.

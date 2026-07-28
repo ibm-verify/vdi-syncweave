@@ -8,7 +8,7 @@ package com.ibm.di.connector.sapr3.user;
 import java.io.File;
 
 /**
- * The class represents the main method implementation for an IBM Tivoli Directory Integrator Connector
+ * The class represents the main method implementation for an SyncWeave Connector
  * modEntry().
  */
 final class XslModifyMethod extends XslWriteMethod {

@@ -15,7 +15,7 @@
 # IBM_PROLOG_END_TAG
 
 ####################################################################
-# Start up script for IBM Tivoli Directory Integrator's Unit Tests #
+# Start up script for SyncWeave's Unit Tests #
 ####################################################################
 
 # Function to source in the TDI setupCmdLine.sh script

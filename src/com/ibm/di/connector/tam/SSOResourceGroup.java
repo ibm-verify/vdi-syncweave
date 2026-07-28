@@ -50,7 +50,7 @@ public class SSOResourceGroup extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws PDException
 	 */
@@ -76,7 +76,7 @@ public class SSOResourceGroup extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connecto log
+	 *            The SyncWeave Connecto log
 	 * 
 	 */
 	public SSOResourceGroup(Entry entry, PDContext context, Log log) {
@@ -96,7 +96,7 @@ public class SSOResourceGroup extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 * @throws PDException
@@ -132,7 +132,7 @@ public class SSOResourceGroup extends CommonBase {
 	 * @param searchcriteria
 	 *            The Search criteria (usually the name of the Resource Group).
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 */
@@ -306,7 +306,7 @@ public class SSOResourceGroup extends CommonBase {
 	}
 
 	/**
-	 * Return a Vector of Schema details for IBM Tivoli Directory Integrator
+	 * Return a Vector of Schema details for SyncWeave
 	 * 
 	 * @return Vector
 	 */

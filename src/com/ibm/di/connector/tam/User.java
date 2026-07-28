@@ -26,7 +26,7 @@ import com.tivoli.pd.jutil.PDRgyUserName;
 
 /**
  * User class contains the functionality to find, add, modify and delete Users
- * from TAM using the TAM Connector for IBM Tivoli Directory Integrator
+ * from TAM using the TAM Connector for SyncWeave
  */
 public class User extends CommonBase {
 	@SuppressWarnings("unused")
@@ -180,7 +180,7 @@ public class User extends CommonBase {
 		if (mGroupsAtt != null) {
 			// Code checks attribute operation type delete, but currently this
 			// seems redundant
-			// as IBM Tivoli Directory Integrator doesn't factor this in to it's "Compute Changes" function
+			// as SyncWeave doesn't factor this in to it's "Compute Changes" function
 			// for multi-valued
 			// attributes. But does check the operation type for each of the
 			// value objects.
@@ -345,7 +345,7 @@ public class User extends CommonBase {
 	/**
 	 * Constructs an Entry object from the user details.
 	 * <p>
-	 * The Entry object is used by IBM Tivoli Directory Integrator
+	 * The Entry object is used by SyncWeave
 	 * 
 	 * @return Entry
 	 * 
@@ -409,7 +409,7 @@ public class User extends CommonBase {
 	}
 
 	/**
-	 * Creates a user in TAM from the IBM Tivoli Directory Integrator input
+	 * Creates a user in TAM from the SyncWeave input
 	 * details
 	 * 
 	 * @param importReg
@@ -811,7 +811,7 @@ public class User extends CommonBase {
 	}
 
 	/**
-	 * returns the schema for IBM Tivoli Directory Integrator.
+	 * returns the schema for SyncWeave.
 	 * 
 	 * @return Vector
 	 */

@@ -23,7 +23,7 @@ import com.tivoli.pd.jutil.PDRgyGroupName;
 
 /**
  * Group class contains the functionality to find, add, modify and delete Groups
- * from TAM using the TAM Connector for IBM Tivoli Directory Integrator.
+ * from TAM using the TAM Connector for SyncWeave.
  */
 public class Group extends CommonBase {
 	@SuppressWarnings("unused")
@@ -96,7 +96,7 @@ public class Group extends CommonBase {
 	 * Constructor for Group.
 	 * 
 	 * @param entry
-	 *            The IBM Tivoli Directory Integrator Data
+	 *            The SyncWeave Data
 	 * @param context
 	 *            The TAM Context
 	 * @param log

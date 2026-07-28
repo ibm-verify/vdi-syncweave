@@ -48,7 +48,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws PDException
 	 */
@@ -68,7 +68,7 @@ public class Domain extends CommonBase {
 	 * Domain Constructor
 	 * 
 	 * @param entry
-	 *            The Entry object containing IBM Tivoli Directory Integrator
+	 *            The Entry object containing SyncWeave
 	 *            Data
 	 * @param context
 	 *            The TAM Context
@@ -77,7 +77,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector Log
+	 *            The SyncWeave Connector Log
 	 */
 	public Domain(Entry entry, PDContext context, String adminLogin,
 			String adminPassword, Log log) {
@@ -101,7 +101,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 * @throws PDException
@@ -138,7 +138,7 @@ public class Domain extends CommonBase {
 	 * @param searchcriteria
 	 *            The specified Domain Name
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 */
@@ -166,11 +166,11 @@ public class Domain extends CommonBase {
 	}
 
 	/**
-	 * Set the object attributes from the IBM Tivoli Directory Integrator entry
+	 * Set the object attributes from the SyncWeave entry
 	 * object
 	 * 
 	 * @param entry
-	 *            The IBM Tivoli Directory Integrator Entry object
+	 *            The SyncWeave Entry object
 	 */
 	public void set(Entry entry) {
 		String dName = getStringEntryAttributeValue(entry,
@@ -256,7 +256,7 @@ public class Domain extends CommonBase {
 	}
 
 	/**
-	 * Return the IBM Tivoli Directory Integrator schema in the form of a Vector
+	 * Return the SyncWeave schema in the form of a Vector
 	 * 
 	 * @return Vector
 	 */

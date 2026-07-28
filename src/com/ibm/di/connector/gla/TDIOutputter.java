@@ -22,7 +22,7 @@ import com.ibm.di.server.ResourceHash;
 /**
  * 
  * This is an outputter class made to deliver generated CBE objects to a
- * specified connector in IBM Tivoli Directory Integrator.
+ * specified connector in SyncWeave.
  * 
  */
 public class TDIOutputter extends Outputter implements IOutputter {

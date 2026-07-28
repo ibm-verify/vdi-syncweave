@@ -58,7 +58,7 @@ interface Configuration {
 	File[] getParamAsFileArray(String paramName);
 
 	/**
-	 * Get the IBM Tivoli Directory Integrator Logger.
+	 * Get the SyncWeave Logger.
 	 * 
 	 * @return the log instance.
 	 * @throws IllegalStateException
@@ -67,7 +67,7 @@ interface Configuration {
 	Log getLog();
 
 	/**
-	 * Get the raw IBM Tivoli Directory Integrator Config object.
+	 * Get the raw SyncWeave Config object.
 	 * 
 	 * @return ConnectorConfig instance.
 	 */

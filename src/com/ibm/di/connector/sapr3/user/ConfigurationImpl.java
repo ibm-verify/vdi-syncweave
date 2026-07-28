@@ -19,7 +19,7 @@ import com.ibm.di.config.interfaces.ConnectorConfig;
 import com.ibm.di.server.Log;
 
 /**
- * Implementation of the IBM Tivoli Directory Integrator Connector configuration. This class wraps the
+ * Implementation of the SyncWeave Connector configuration. This class wraps the
  * Connector itself and exposes on the configuration parameter accessors.
  * 
  */
@@ -134,7 +134,7 @@ final class ConfigurationImpl implements Configuration {
 	}
 
 	/*
-	 * Get the raw IBM Tivoli Directory Integrator Config object. @return ConnectorConfig instance.
+	 * Get the raw SyncWeave Config object. @return ConnectorConfig instance.
 	 */
 	public Object getRawConfig() {
 		return conn.getConfiguration();

@@ -20,11 +20,11 @@ import com.ibm.di.server.ResourceHash;
  * In order for the zOS TSO Command Line Function Component to successfully
  * connect and execute commands the APPC should be started and running on the
  * zOS machine. Also this function component can execute commands only on the
- * same machine on which the IBM Tivoli Directory Integrator is running.
+ * same machine on which the SyncWeave is running.
  * <p>
  * The connection to the MVS is maintained by four native methods implemented on
  * the program language 'C' which on the other hand use REXX script to execute
- * commands on behalf of the IBM Tivoli Directory Integrator.
+ * commands on behalf of the SyncWeave.
  */
 public class zOSTSOCommandLine extends Function {
 	/**
@@ -332,7 +332,7 @@ public class zOSTSOCommandLine extends Function {
 	}
 
 	/**
-	 * Loads IBM Tivoli Directory Integrator library for APPC.
+	 * Loads SyncWeave library for APPC.
 	 */
 	public static synchronized void loadLibrary() {
 		if (!isLibLoaded) {

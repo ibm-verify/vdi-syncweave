@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents a cache for ABAP RFC return results. It it used by the Connector
  * to cache AbapErrorInfo instances recorded during the execution of any of the
- * connector methods. The cache will be registered as a scripting bean with IBM Tivoli Directory Integrator
+ * connector methods. The cache will be registered as a scripting bean with SyncWeave
  * scripting engine. It will allow connector hooks to access the ABAP errors
  * that might have occured during connector processing. The hook code can then
  * execute required behaviour.

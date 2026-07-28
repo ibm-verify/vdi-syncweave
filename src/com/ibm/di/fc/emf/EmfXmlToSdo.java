@@ -38,7 +38,7 @@ import com.ibm.di.config.interfaces.FunctionConfig;
  * 
  * <br />
  * <br />
- * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE IBM Tivoli Directory Integrator 7.0
+ * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE SyncWeave 7.0
  * RELEASE AND WILL BE COMPLETELY REMOVED IN A FUTURE RELEASE! </b>
  */
 @Deprecated
@@ -161,14 +161,14 @@ public class EmfXmlToSdo extends Function {
 	 * XML elements and attributes.
 	 * 
 	 * @param obj
-	 *            the object is the working IBM Tivoli Directory Integrator
+	 *            the object is the working SyncWeave
 	 *            Entry and should be of type com.ibm.di.entry.Entry.
 	 * 
-	 * @return IBM Tivoli Directory Integrator Entry containing Entry Attributes
+	 * @return SyncWeave Entry containing Entry Attributes
 	 *         coresponding to the XML elements and attributes.
 	 * 
 	 * @throws Exception
-	 *             if the IBM Tivoli Directory Integrator Entry does not contain
+	 *             if the SyncWeave Entry does not contain
 	 *             a <code>xmlString</code> attribute. if the
 	 *             <code>xmlString</code> does not contain valid XML document.
 	 */

@@ -8,7 +8,7 @@ package com.ibm.di.connector.sapr3.user;
 import org.w3c.dom.Document;
 
 /**
- * Adapter for IBM Tivoli Directory Integrator Function Components.
+ * Adapter for SyncWeave Function Components.
  * 
  */
 interface XmlFunctionAdapter {
