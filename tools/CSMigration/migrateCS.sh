@@ -8,7 +8,6 @@
 #
 #
 # (C) COPYRIGHT International Business Machines Corp. 2006, 2010
-# All Rights Reserved
 #
 # US Government Users Restricted Rights - Use, duplication or
 #
