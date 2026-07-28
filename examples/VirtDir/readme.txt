@@ -1,5 +1,5 @@
 ***********************************************************************************************
-* IBM Security Verify Directory Integrator Example using LdapServermode connector and Branch component 
+* SyncWeave Example using LdapServermode connector and Branch component 
 * Sample Name: VirtDir
 **********************************************************************************************
 

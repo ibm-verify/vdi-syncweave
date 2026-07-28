@@ -1,10 +1,10 @@
 ------------
 Introduction
 ------------
-This is a �first step� into the integration betwIBM Security Verify Directory Integratorator and IBM Tivoli Monitoring (ITM). It is meant to provide a proof-of-concept of this integration scenario. In the future IBM Security Verify Directory Integratorator-ITM integration capabilities could be scaled based on this.
-For this scenario JMX was chosen for communication between IBM Security Verify Directory Integrator and ITM, because IBM Security Verify Directory Integrator provides a ready-to-use JMX interface and thus no development was necessary on the IBM Security Verify Directory Integrator side.
-The purpose of this document is to present how IBM Security Verify Directory Integrator can be monitored by Tivoli Monitoring using the IBM Security Verify Directory Integrator JMX interface.
-This integration scenario will be bundled as an official IBM Security Verify Directory Integrator example and could be found in <Install Dir>/examples/Tivoli_Monitoring directory.
+This is a �first step� into the integration betwSyncWeaveator and IBM Tivoli Monitoring (ITM). It is meant to provide a proof-of-concept of this integration scenario. In the future SyncWeaveator-ITM integration capabilities could be scaled based on this.
+For this scenario JMX was chosen for communication between SyncWeave and ITM, because SyncWeave provides a ready-to-use JMX interface and thus no development was necessary on the SyncWeave side.
+The purpose of this document is to present how SyncWeave can be monitored by Tivoli Monitoring using the SyncWeave JMX interface.
+This integration scenario will be bundled as an official SyncWeave example and could be found in <Install Dir>/examples/Tivoli_Monitoring directory.
 ITM 6.2.0 was used for this example.
 Several software components were necessary in order to realize the experiments described in this document. Here is the list of these components, and the reference documentation used to realize their installation:
 �	ITM Agent Builder 6.2 - ITM Agent Builder 6.2 User�s Guide
@@ -17,19 +17,19 @@ Prerequisites:
 The following software components are needed for the example:
 
 1. IBM Tivoli Monitoring Server and Portal
-2. IBM Security Verify Directory Integrator
+2. SyncWeave
 3. IBM ITM Agent Builder
 
 
 ----------------------------------------------
-Examples of communication between IBM Security Verify Directory Integrator and ITM:
+Examples of communication between SyncWeave and ITM:
 ----------------------------------------------
 
 
 -------------------------------------------------------------------
 1.  Importing existing Agent configuration in ITM Agent Builder 6.2
 -------------------------------------------------------------------
-With this example an ITM Agent Builder 6.2 XML configuration file is shipped. It could be found in �<Install Dir>\examples\Tivoli_Monitoring� directory. To import this file right click in the ITM Agent Builder workspace, select �Import�� and select IBM Tivoli Monitoring Agent for import. Point to the configuration xml file (itm_toolkit_agent.xml) and click finish. This will create an ITM Agent Builder project IBM Security Verify Directory IntegratorIntegrator.
+With this example an ITM Agent Builder 6.2 XML configuration file is shipped. It could be found in �<Install Dir>\examples\Tivoli_Monitoring� directory. To import this file right click in the ITM Agent Builder workspace, select �Import�� and select IBM Tivoli Monitoring Agent for import. Point to the configuration xml file (itm_toolkit_agent.xml) and click finish. This will create an ITM Agent Builder project SyncWeaveIntegrator.
 
 
 -------------------------
@@ -47,21 +47,21 @@ For example if the ITM is installed in �C:\IBM\ITM� the command could look l
 3. Configuring the ITM Agent
 ----------------------------
 1. After the successful deployment of the agent (either using archive file or the ITM Agent Builder option to deploy it on the same machine) we have to configure it in ITM. To do so, start the �Manage Tivoli Monitoring Enterprise Services� where you could manage all ITM Agents:
-2. Click on the IBM Security Verify Directory Integrator Agent with right mouse button and choose �Configure Using Defaults�.
+2. Click on the SyncWeave Agent with right mouse button and choose �Configure Using Defaults�.
 3. On the next configuration window we need to configure the JVM properties for the Agent. Browse to the Java Home which you wish to use. The log trace level is set to �Error� by default. It could be changed to higher level in order to log additional information. After finishing the Java configuration click the next button. On the next configuration step you are asked to configure the JSR-160 Compliant Server properties, i.e. enter username, password, Service URL and Class Path dependencies. For our example we need to enter Service URL and Jar directories � Service URL �service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxconnector� and Jar directories �<Install Dir>\jars\3rdparty\IBM; <Install Dir>\jars\3rdparty\others; <Install Dir>\jars\common�.
 4. Click OK to complete the Agent Configuration.
 
-The IBM Security Verify Directory Integrator Agent should be ready for use. The next step is to start the Agent. We could start it from the Manage TEMS window by right clicking the IBM Security Verify Directory Integrator Agent and choosing start. If all steps are successful the IBM Security Verify Directory Integrator Agent should be running now.
+The SyncWeave Agent should be ready for use. The next step is to start the Agent. We could start it from the Manage TEMS window by right clicking the SyncWeave Agent and choosing start. If all steps are successful the SyncWeave Agent should be running now.
 
 
 ----------------------
-4. Monitoring IBM Security Verify Directory Integrator data
+4. Monitoring SyncWeave data
 ----------------------
-1. To monitor data we need to start the Tivoli Enterprise Portal (TEP) which is available in the ITM installation. In the navigator TEP window we could see the running Agents. The IBM Security Verify Directory Integrator Agent is also there and we have to expand it to see the specific monitoring data sources.
-2. We could find there our custom made data sources � AssemblyLine, ConfigInstance, Event Notifier. If we have a runninIBM Security Verify Directory Integratoror Server and running AL in it we could see it in the report table of AssemblyLine data source.
+1. To monitor data we need to start the Tivoli Enterprise Portal (TEP) which is available in the ITM installation. In the navigator TEP window we could see the running Agents. The SyncWeave Agent is also there and we have to expand it to see the specific monitoring data sources.
+2. We could find there our custom made data sources � AssemblyLine, ConfigInstance, Event Notifier. If we have a runninSyncWeaveor Server and running AL in it we could see it in the report table of AssemblyLine data source.
 
 Note:
-In order to display data in the Notifier report table the IBM Security Verify Directory Integrator Agent has to be running before a IBM Security Verify Directory Integrator notification is triggered.
+In order to display data in the Notifier report table the SyncWeave Agent has to be running before a SyncWeave notification is triggered.
 
 
 ----------------------
@@ -86,7 +86,7 @@ We have configured a condition to the �Name� column which will be true if we
 10. Change the sampling interval to 30 seconds and the State to "Warning"
 11. The situation is set, so �Apply� and validate this window.
 12. Start Security Verify Directory Integrator Server and start at least two AssemblyLines at the same time. For example two HTTP Server Connectors which are listening on different ports.
-13. The �Warning� window is opened when highlighting the warning icon of AssemblyLine field in IBM Security Verify Directory Integratorator Agent.
+13. The �Warning� window is opened when highlighting the warning icon of AssemblyLine field in SyncWeaveator Agent.
 
 
 --------------------------------
@@ -119,11 +119,11 @@ This is all which needs to be done in the AssemblyLine table.
 
 
 -----------------------------------------------------------------
-7. Setting up SSL communication between IBM Security Verify Directory Integrator and the IBM Security Verify Directory Integrator ITM Agent
+7. Setting up SSL communication between SyncWeave and the SyncWeave ITM Agent
 -----------------------------------------------------------------
 
-1. Enable the Security Verify Directory Integrator SSL. You could find how it is done in the IBM Security Verify Directory Integrator online documentation.
-2. Start the IBM Security Verify Directory Integrator Server in daemon mode with the command "ibmdisrv -d"
+1. Enable the Security Verify Directory Integrator SSL. You could find how it is done in the SyncWeave online documentation.
+2. Start the SyncWeave Server in daemon mode with the command "ibmdisrv -d"
 3. Open �Manage Tivoli Monitoring Enterprise Services� and right click on the ITM Agent which monitors Security Verify Directory Integrator and select �Reconfigure��. It must be stopped before reconfiguration.
 4. Click �OK� on the first two windows because they contain default ITM Agent configuration.
 5. On the next Agent Configuration screen we have to fill the JVM Arguments. Enter on one row the following properties

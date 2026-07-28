@@ -5,10 +5,10 @@ Overview:
 This example shows how to use the System Store Connector to write entries to the System Store and then read everything back in on a sorted key to sort their data. 
 
 How to run the example:
-1. Start IBM Security Verify Directory Integrator CE.
+1. Start SyncWeave CE.
 2. Create a new CE project ('File'->'New'->'Project').
 3. Import the example configuration in your project (by right clicking on it and choosing 'Import...').
-3.1. In the opened dialog specify 'IBM Security Verify Directory Integrator' and 'Configuration'. 
+3.1. In the opened dialog specify 'SyncWeave' and 'Configuration'. 
 3.2. In the next dialog browse to the location of the configuration xml (<install_dir>/examples/sysstore/SysStoreExample.xml)
 and click 'Finish'. 
 4. Go to the "AssemblyLines" section.

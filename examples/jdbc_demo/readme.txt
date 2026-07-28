@@ -8,13 +8,13 @@ jdbc_demo.mdb, jdbc_demo.xml, readme.txt.
 
 
 To run this demo you must:
-o Install IBM Security Verify Directory Integrator.
+o Install SyncWeave.
 o Configure a ODBC Data Source called "JDBCDemo" to point the jdbc_demo.mdb file from this package.
 
 
 There are 4 AssemblyLines in this example package. Each AssemblyLine demonstrating a mode of the connector.
 To run any of the AssemblyLines:
-1. Start the IBM Security Verify Directory Integrator Config Editor
+1. Start the SyncWeave Config Editor
 2. Open the jdbc_demo.xml configuration file
 3. Select the AssemblyLine you wish to run
 4. Click "Run".
@@ -37,7 +37,7 @@ Result: The content of the examples/jdbc_demo/lookup.csv file must match the dat
 
 o "JDBC AddOnly" - iterates the table "STUDENT", for each student calculates his average mark and adds it in the "STUDENT_RESULT" table. 
 You can find the JavaScript code that calculates the average marks: 
-IBM Security Verify Directory Integrator Config Editor -> JDBC AddOnly assembly line -> "AddOnly" connector -> click the "AVERAGE_MARK" attribute.
+SyncWeave Config Editor -> JDBC AddOnly assembly line -> "AddOnly" connector -> click the "AVERAGE_MARK" attribute.
 Result: For each record/student from the "STUDENT" table, a new record is now present in the "STUDENT_RESULT" table with its "AVERAGE_MARK" field set to the average value of the fields "MARK_MATH", "MARK_ENGLISH" and "MARK_PHYSICS" from the "STUDENT" table.
 
 o "JDBC Delete" - iterates the table "STUDENT" and for each student deletes his record (average mark) from the "STUDENT_RESULT" table.

@@ -1,5 +1,5 @@
 # Overview
-The files in this repository are used to manage a container based build environment for the IBM Security Verify Directory Integrator software.
+The files in this repository are used to manage a container based build environment for the SyncWeave software.
 
 Two main python scripts are supplied in this directory:
 

@@ -26,12 +26,12 @@ sys.ComputerSystem  CI acts as target.
 The input file (input.csv) consists of the following columns: manufacturer, serial_number, model,os ,os_fqdn. The 
 last two columns specfy identity information about an Operating System, while the rest describes a Computer System.
 
-The configuration of any of the IT registry Components can be seen by selecting IBM Security Verify Directory Integrator CE  
+The configuration of any of the IT registry Components can be seen by selecting SyncWeave CE  
 -> 'AssemblyLine' section -> 'CreateITRegistryBook' AssemblyLine -> 'RegisterMSS'/'addComputerSystem'/
 'addOperatingSystem'/'addInstalledOn', double clicking on it and selecting the Connection tab.
 
 To run the demo:
- 1.	Start the IBM Security Verify Directory Integrator CE.
+ 1.	Start the SyncWeave CE.
  2.	Select 'File' -> 'Import'.
  3.	Choose 'Configuration' and specify the path to the it_registry_suite.xml 
 	(e.g. install_dir/examples/cdm_components/it_registry_suite_/it_registry_suite.xml) in the next panel. 

@@ -282,7 +282,7 @@ public class CuriHandler {
 		item.setAttribute("type", "TDI");
 		try {
 			item.setAttribute("MSSName", "ibm-cdm:///CDMSS/Hostname=" +
-					getHostName() +	"+ManufacturerName=IBM+ProductName=IBM Security Verify Directory Integrator");
+					getHostName() +	"+ManufacturerName=IBM+ProductName=SyncWeave");
 		} catch (UnknownHostException e1) {
 			ConnectorUtils.logerror(e1.getLocalizedMessage(), e1);
 		}

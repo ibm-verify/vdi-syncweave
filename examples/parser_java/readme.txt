@@ -15,11 +15,11 @@ To build the example follow these steps (execute these steps from <Install_Direc
         cd build
         jar cvf ExampleParser.jar tdi.xml example_parser\ExampleParser.class
 
-5.Copy the newly created "ExampleParser.jar" to the <IBM Security Verify Directory Integrator>\jars\parsers directory. This is the directory where all parsers are located.
+5.Copy the newly created "ExampleParser.jar" to the <SyncWeave>\jars\parsers directory. This is the directory where all parsers are located.
 
 6.Start ibmditk and verify that you have a new parser installed.
 
 Note: 
  - The path separator is / on Unixes. 
  - The Classpath seperator is : on Unixes.
- - <Install_Directory> is the Install directory of IBM Security Verify Directory Integrator.
+ - <Install_Directory> is the Install directory of SyncWeave.
