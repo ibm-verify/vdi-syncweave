@@ -6,10 +6,8 @@
 /*    5698-B33 (C) . 2007, 2011                   */          
 /*    ALL RIGHTS RESERVED.                                          */          
 /*                                                                  */          
-/*    US GOVERNMENT USERS RESTRICTED RIGHTS                         */          
-/*    - USE, DUPLICATION OR  DISCLOSURE RESTRICTED BY               */          
-/*      GSA ADP SCHEDULE CONTRACT WITH IBM CORPORATION.             */          
-/*                                                                  */          
+/*    /*    - USE, DUPLICATION OR  DISCLOSURE RESTRICTED BY               */          
+/*      /*                                                                  */          
 /*                                                                  */          
 /********************************************************************/          
 /*                                                                  */          

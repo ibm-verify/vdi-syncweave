@@ -4,9 +4,7 @@
 /* 5698-B09 (C) . 2009, 2011                      */          
 /* All rights reserved.                                             */          
 /*                                                                  */          
-/* US Government Users Restricted Rights - Use, duplication or      */          
-/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.*/          
-/********************************************************************/          
+/* /* disclosure restricted by /********************************************************************/          
 /*                                                                  */          
 /* THIS REXX EXEC WILL CREATE THE NECESSARY DIRECTORIES AND OTHER   */          
 /* FILES FOR PRODUCT IBM TIVOLI DIRECTORY INTEGRATOR IDENTITY       */          

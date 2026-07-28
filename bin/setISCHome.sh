@@ -8,8 +8,6 @@
 #  
 # (C) COPYRIGHT International Business Machines Corp. 2007, 2010
 #  
-# US Government Users Restricted Rights - Use, duplication or 
-# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
 #  
 # IBM_PROLOG_END_TAG 
 

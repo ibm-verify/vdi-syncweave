@@ -14,8 +14,6 @@
   *   Tivoli Presentation Services
   *   (C) . 2000, 2004
   *
-  *   US Government Users Restricted Rights - Use, duplication, or
-  *   disclosure restricted by GSA ADP Schedule Contract with
   *   IBM Corp.
   *********************************************************************
 -->

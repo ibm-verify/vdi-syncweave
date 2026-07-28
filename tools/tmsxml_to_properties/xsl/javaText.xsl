@@ -12,8 +12,6 @@
 		*   Licensed materials - Property of IBM
 		*   (C) . 2000-2009
 		*
-		*   US Government Users Restricted Rights - Use, duplication, or
-		*   disclosure restricted by GSA ADP Schedule Contract with
 		*   IBM Corp.
 		*********************************************************************
 	-->
@@ -48,10 +46,8 @@
 			<xsl:value-of select="$comment_start" />
 			<xsl:text>&#xa;</xsl:text>
 			<xsl:value-of select="$comment_start" />
-			<xsl:text> US Government Users Restricted Rights - Use, duplication or&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text> disclosure restricted by GSA ADP Schedule Contract with IBM Corp.&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
+						<xsl:value-of select="$comment_start" />
+						<xsl:value-of select="$comment_start" />
 			<xsl:text>&#xa;</xsl:text>
 		</xsl:if>
 
