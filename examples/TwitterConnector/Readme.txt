@@ -1,4 +1,4 @@
-Twitter Connector - A custom connector using the Java-JavaScript framework provided by IBM Security Verify Directory Integrator - An Example
+Twitter Connector - A custom connector using the Java-JavaScript framework provided by SyncWeave - An Example
 
 This example contains a custom connector created through scripting and shows how to use the connector 
 in the Iterator and AddOnly modes. The example folder includes:
@@ -28,7 +28,7 @@ To import configuration file:
 1)  Start the Security Verify Directory Integrator Configuration Editor.
 2)  Import the TwitterConnectorExample.xml source file. To import a source file:
      a. Go to File ->Import. The Import dialog window appears.
-     b. Select IBM Security Verify Directory Integrator ->Configuration from the "Select an import source" list.
+     b. Select SyncWeave ->Configuration from the "Select an import source" list.
      c. Click Next. The Import Security Verify Directory Integrator configuration dialog window appears.
      d. In the Configuration file field, browse and select the TwitterConnectorExample.xml file.
      e. Click Finish. The New Project dialog window appears.

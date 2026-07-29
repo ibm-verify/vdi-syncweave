@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,7 @@ public class SSOResource extends CommonBase {
 	 * @param context
 	 *            The TAM Context
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector Log
+	 *            The SyncWeave Connector Log
 	 * 
 	 * @throws PDException
 	 */
@@ -60,7 +60,7 @@ public class SSOResource extends CommonBase {
 	 * SSO Resource Constructor
 	 * 
 	 * @param entry
-	 *            The Entry data from IBM Tivoli Directory Integrator
+	 *            The Entry data from SyncWeave
 	 * @param context
 	 *            The TAM Context
 	 * @param log
@@ -195,7 +195,7 @@ public class SSOResource extends CommonBase {
 	}
 
 	/**
-	 * Return the IBM Tivoli Directory Integrator Schema in the form of a Vector
+	 * Return the SyncWeave Schema in the form of a Vector
 	 * 
 	 * @return Vector
 	 */

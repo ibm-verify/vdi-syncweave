@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ import com.ibm.di.fc.Function;
 
 /**
  * Function Adapter that performs an XSL transformation on an input XML source,
- * and then uses that result as input to a IBM Tivoli Directory Integrator Function Component.
+ * and then uses that result as input to a SyncWeave Function Component.
  * 
  */
 final class XmlFunction implements XmlFunctionAdapter {
@@ -139,7 +139,7 @@ final class XmlFunction implements XmlFunctionAdapter {
 			executeResult = (Entry) fc.perform(e);
 		} catch (Exception x) {
 			// 
-			// IBM Tivoli Directory Integrator's method Function.perform declares to
+			// SyncWeave's method Function.perform declares to
 			// throw Exception.
 			throw new FunctionExecutionException(x);
 		}

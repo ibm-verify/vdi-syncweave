@@ -1,10 +1,10 @@
-This example demonstrates how to call a DB2 Stored Procedure using JDBC Connector and return the results from stored procedure call to IBM Security Verify Directory Integrator.
+This example demonstrates how to call a DB2 Stored Procedure using JDBC Connector and return the results from stored procedure call to SyncWeave.
 
 
 Explanation:
-1) The information center contains a sample of a stored procedure call from IBM Security Verify Directory Integrator, but the example returns a true or false based on the successful execution.
+1) The information center contains a sample of a stored procedure call from SyncWeave, but the example returns a true or false based on the successful execution.
 2) The following example returns values from the stored procedure call. 
-3) The sample can be used with any version of IBM Security Verify Directory Integrator and/or DB2.
+3) The sample can be used with any version of SyncWeave and/or DB2.
 
 This example consists of the following files:
 Storedprocedure.xml Readme.txt
@@ -120,7 +120,7 @@ To execute the procedure in DB2:
 This demo provides one AssemblyLine that has the above configuration.
 
 To run "ConnectToDB2":
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Import the StoredProcedure.xml file.
 3. Open the "AssemblyLine" branch.
 4. Select "ConnectToDB2" AssemblyLine.

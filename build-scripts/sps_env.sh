@@ -1,6 +1,5 @@
 #
-# Copyright IBM Corp. 2025
-
+# Copyright contributors to the SyncWeave project
 #
 # This script is used to set up the environment variables used by the
 # SPS-CI build, dependent on the branch name.

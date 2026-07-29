@@ -13,7 +13,7 @@
 /*                                                                  */          
 /* LICENSED MATERIALS - PROPERTY OF IBM                             */          
 /* THIS MACRO IS "RESTRICTED MATERIALS OF IBM"                      */          
-/* 5647-A01 (C) COPYRIGHT IBM CORP. 1998                            */          
+/* 5647-A01 (C) . 1998                            */          
 /*                                                                  */          
 /* STATUS= HBB6606                                                  */          
 /*                                                                  */          
@@ -79,7 +79,7 @@
  *       CPI Communications Reference Pseudonyms -- SC26-4399        *          
  *                                                                   *          
  * Copyright:                                                        *          
- *       (C) Copyright IBM Corp 1995                                 *          
+ *       (C)  1995                                 *          
  *       All Rights Reserved                                         *          
  *                                                                   *          
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *          

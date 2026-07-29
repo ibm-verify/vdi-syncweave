@@ -7,22 +7,22 @@ These files are included in this example:
 	* readme.txt  (this document).
 
 To run this example you must:
-o Install IBM Security Verify Directory Integrator.
+o Install SyncWeave.
 o Import the supplied configuration.
 
-This package contains a single IBM Security Verify Directory Integrator configuration file - axis2_library_example.xml, 
+This package contains a single SyncWeave configuration file - axis2_library_example.xml, 
 which consists of two AssemblyLines:
 1. "axis2wsclient" AssemblyLine uses an Axis2WSClientFunctionComponent and a FileSystemConnector. 
 The FileSystemConnector reads information (author and title attributes) from the booklist.csv. A request is formed 
 and Axis2WSClientFunctionComponent sends it to the server as a 'book' attribute. Then it accepts a response 
 (whether the book is present in the library or not). The 'book' attribute has two elements - the book's title, and its author.
-The configuration of the Axis2WSClientFunctionComponent can be seen by selecting IBM Security Verify Directory Integrator CE ->
+The configuration of the Axis2WSClientFunctionComponent can be seen by selecting SyncWeave CE ->
  "AssemblyLine" section -> "axis2wsclient" AssemblyLine -> "Axis2WebServiceClientFunctionComponent", double clicking 
  on it and selecting the Connection tab.
 2. "axis2wsserver" AssemblyLine uses an Axis2WSServerConnector. It receives requests ('book' attribute), and sends a 
 response (whether the book is present in the library or not). The list of books contained in the library is created 
 and populated in 'CreateBookMap' script component. If you wish you can add additional books to it.
-The configuration of the Axis2WSServerConnector can be seen by selecting IBM Security Verify Directory Integrator CE ->
+The configuration of the Axis2WSServerConnector can be seen by selecting SyncWeave CE ->
  "AssemblyLine" section -> "axis2wsserver" AssemblyLine -> "Axis2WebServiceServerConnector", double clicking 
  on it and selecting the Connection tab.
  
@@ -45,7 +45,7 @@ Some important points concerning the configuration of the two Axis2 components u
   are set (to 'user' and 'pass'). If you modify these values and try to run this example a SOAP fault is returned.
 
 To run the demo:
-1. Start the IBM Security Verify Directory Integrator CE.
+1. Start the SyncWeave CE.
 2. Open the axis2_library_example.xml file.
 3. Go to the "AssemblyLines" section.
 4. Select the "axis2wsserver" AssemblyLine.

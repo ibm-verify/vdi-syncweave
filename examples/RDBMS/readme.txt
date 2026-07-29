@@ -16,7 +16,7 @@ To run this example you will need to do following:
 	1.1 Run the "Command Line Processor" from the Command Line Tools and type in: "create database EXAMPLE".
 	1.2 Run the "Command Center" from the Command Line Tools and run the script that is provided in "BD2Script.txt" file
 
-2. Start the IBM Security Verify Directory Integrator CE.
+2. Start the SyncWeave CE.
 	2.1 Open the "RDBMS_example" file.
 	2.2 Go to the "AssemblyLines" section.
 	2.3 Select the "LoadAL1" AssemblyLine and click "Run" to fill in the "EMAIL" table in the database.

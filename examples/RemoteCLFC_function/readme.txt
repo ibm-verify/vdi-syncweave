@@ -1,4 +1,4 @@
-This is a simple IBM Security Verify Directory Integrator configuration that demonstrates the IBM Security Verify Directory Integrator's Remote Command 
+This is a simple SyncWeave configuration that demonstrates the SyncWeave's Remote Command 
 Line Function Component (Remote CLFC).
 
 This example consists of the following files:
@@ -6,9 +6,9 @@ remoteCLFC.xml, readme.txt
 
 The following are the requirements while running the Remote Command Line Function Component.
 
-1. The local machine must have IBM Security Verify Directory Integrator installed.
+1. The local machine must have SyncWeave installed.
 2. The machine you wish to execute the remote command on, (the target), must be available on the network from the local machine.
-That is, you should be able to successfully ping the target machine by hostname from your IBM Security Verify Directory Integrator machine.
+That is, you should be able to successfully ping the target machine by hostname from your SyncWeave machine.
 3. The target machine must have one of the available protocols (SSH, RSH, REXEC or Windows) installed and configured and running 
 in order for the Remote CLFC to successfully connect and perform a command.
 

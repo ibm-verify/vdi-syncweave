@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2003, 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */

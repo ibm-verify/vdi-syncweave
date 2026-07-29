@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ import com.ibm.di.server.ResourceHash;
  * 
  * <br />
  * <br />
- * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE IBM Tivoli Directory Integrator 7.0
+ * <b> THIS CLASS HAS BEEN DEPRECATED SINCE THE SyncWeave 7.0
  * RELEASE AND WILL BE COMPLETELY REMOVED IN A FUTURE RELEASE! </b>
  */
 @Deprecated

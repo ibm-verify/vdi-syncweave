@@ -6,7 +6,7 @@ Prerequisites -
 
 1. Websphere Integration Developer 6.0
 2. Websphere Process Server 6.0
-3. IBM Security Verify Directory Integrator 10.0.0.6
+3. SyncWeave 10.0.0.6
 
 The example ships a WID(Websphere Integration Developer) ProjectInterchange file which consists of the following modules - 
 
@@ -42,7 +42,7 @@ Note : When importing these jars as utility jars to the TDI_Module project, spec
 
 3. Do a complete build on all projects and resolve any errors.
 4. Deploy SampleCallModule and TDI_Module on Websphere Process Server.(Server can be configured from within WID.)
-5. Start IBM Security Verify Directory Integrator Server API on port 1099.
+5. Start SyncWeave Server API on port 1099.
 6. Run sample.jsp on -  <Server Address>:9080/SampleJSP/sampleJSP.jsp
 
-For more info refer to the User's guide ->IBM Security Verify Directory Integrator Examples ->SCA
+For more info refer to the User's guide ->SyncWeave Examples ->SCA

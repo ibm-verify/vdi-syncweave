@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,7 @@ import org.apache.axis2.AxisFault;
 import org.w3c.dom.Element;
 
 /**
- * The Axis Easy Web Service Server Connector is part of the IBM Tivoli Directory Integrator
+ * The Axis Easy Web Service Server Connector is part of the SyncWeave
  * Web Services suite. It is a simplified version of the Web Service Receiver Server
  * Connector in that it internally instantiates, configures and uses the
  * {@link AxisSoapToJava} and {@link AxisJavaToSoap} FCs. The Axis Easy Web

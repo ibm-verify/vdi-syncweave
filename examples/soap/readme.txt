@@ -8,21 +8,21 @@ soap.xml, soap.mdb, soap_in.xml, expected_soap_out.xml, readme.txt.
 
 
 To run this demo you must:
-1. Install IBM Security Verify Directory Integrator.
+1. Install SyncWeave.
 2. Obtain an JDBC/ODBC driver, this example is configured for sun.jdbc.odbc.JdbcOdbcDriver but you must acquire this driver to run the example.
 3. configure an ODBC Data Source called "Soap" to point the soap.mdb file from this package.
 You might want a copy of the soap.mdb file so you can reset it and test over (tables are being changed by the AssemblyLines).
 
-The package contains one IBM Security Verify Directory Integrator configuration file (soap.xml) with two AssemblyLines that must be executed in the following order:
+The package contains one SyncWeave configuration file (soap.xml) with two AssemblyLines that must be executed in the following order:
 1. "SOAP Reader" AssemblyLine reads an Entry from a SOAP file (soap_in.xml) and inserts it in a database table (soap.mdb -> "PRODUCT" table). 
 Note: The SOAP specific Attribute "SOAP_CALL" read from the soap_in.xml file is not included in the Attributes List of the "JDBCOutput" Connector. The reason is in the fact that there is no such field in the "PRODUCT" database table.
 2. "SOAP Writer" AssemblyLine reads an Entry from the same database table (soap.mdb -> "PRODUCT" table) and writes it in a SOAP file (soap_out.xml). 
-Note: The Attribute "SOAP_CALL" of the "SOAPOutput" Connector is added manually and its value is assigned by scripting (IBM Security Verify Directory Integrator Config Editor -> Select the assembly line "SOAP Writer" -> "SOAPOutput" Connector -> "Attribute Map" tab -> "SOAP_CALL" Attribute).
+Note: The Attribute "SOAP_CALL" of the "SOAPOutput" Connector is added manually and its value is assigned by scripting (SyncWeave Config Editor -> Select the assembly line "SOAP Writer" -> "SOAPOutput" Connector -> "Attribute Map" tab -> "SOAP_CALL" Attribute).
 
 In both reading and writing the SOAP Parser recognizes the data types of the Attributes.
 
 To run the demo:
-1. Start the IBM Security Verify Directory Integrator Config Editor
+1. Start the SyncWeave Config Editor
 2. Create a new project or select existing one
 3. Import the configuration file (soap.xml).
 4. Go to the "SOAP Reader" AssemblyLine.

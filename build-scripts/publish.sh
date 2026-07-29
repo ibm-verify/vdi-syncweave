@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright IBM Corp. 2025, 2025
-
+# Copyright contributors to the SyncWeave project
 ##############################################################################
 # This script is called as a part of the SPS pipeline to publish our build
 # artifacts.

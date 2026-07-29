@@ -7,7 +7,7 @@ This is an example of an ibmdi.scriptconnector.  The script code is provided bel
 
 This example shows how you can create a script connector that supports add,iterate,update,lookup, and delete modes.
 
-You could also copy the MSOutlook.jar file to the jars/connectors directory and it will appear in your list of available connectors to inherit from.  (this connector used to be part of IBM Security Verify Directory Integrator but has since moved into an example) 
+You could also copy the MSOutlook.jar file to the jars/connectors directory and it will appear in your list of available connectors to inherit from.  (this connector used to be part of SyncWeave but has since moved into an example) 
 
 If you open msoutlook.xml you will find a scriptconnector called msoutlook that contains this script information ("Connection" tab->"Edit script")
 

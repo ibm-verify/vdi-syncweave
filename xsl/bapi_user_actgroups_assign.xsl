@@ -4,9 +4,7 @@
  Licensed Materials - Property of IBM
  (c) Copyright International Business Machines Corp. 2004, 2006
  All Rights Reserved.
- US Government Users Restricted Rights - Use, duplicaion or disclosure
- restricted by GSA ADP Schedule Contract with IBM Corp.
--->
+ restricted by -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0"

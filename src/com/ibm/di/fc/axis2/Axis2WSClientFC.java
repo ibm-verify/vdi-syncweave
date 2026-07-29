@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -325,17 +325,17 @@ public class Axis2WSClientFC extends Function {
 
 	/**
 	 * Gathers the passed information and creates invocation payload for the
-	 * client. The FC expects a IBM Tivoli Directory Integrator Attribute which
+	 * client. The FC expects a SyncWeave Attribute which
 	 * corresponds to the input message of the configured operation. If the
 	 * attribute is not found an Exception will be thrown. The FC expects only
-	 * IBM Tivoli Directory Integrator Entry object for input and Exception will
+	 * SyncWeave Entry object for input and Exception will
 	 * be thrown if other type is given.
 	 * 
 	 * @param input
-	 *            The input IBM Tivoli Directory Integrator Entry.
+	 *            The input SyncWeave Entry.
 	 * @return Entry object with the server response.
 	 * @exception Exception
-	 *                If the required IBM Tivoli Directory Integrator Attribute
+	 *                If the required SyncWeave Attribute
 	 *                is missing, if the input is not an entry or if an Axis
 	 *                specific fault occurs.
 	 */
@@ -498,7 +498,7 @@ public class Axis2WSClientFC extends Function {
 	 * 
 	 * @param src
 	 *            not used.
-	 * @return IBM Tivoli Directory Integrator Schema (SchemaConfig) object
+	 * @return SyncWeave Schema (SchemaConfig) object
 	 *         filled with the schema extracted for the operations.
 	 * @throws Exception
 	 *             If an error occurs during the process.

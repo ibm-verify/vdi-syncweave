@@ -21,7 +21,7 @@ Note:	The reference to the free Regular Expressions for Java library "gnu.regxep
  is provided as a convenience. IBM does not support code obtained from 	this site and is not responsible for the continued availability or any consequences of use of such code.
 
 The Regular Expression parser is designed as a useful example that shows how to integrate 
-a custom parser in the IBM Security Verify Directory Integrator.
+a custom parser in the SyncWeave.
 
 
 Functional specification:
@@ -76,7 +76,7 @@ The parser provides the following parameters:
 Installation:
 
 Do the following to install:
-1. Create a new folder, named RegExpParser, in the jars subfolder of the IBM Security Verify Directory Integrator
+1. Create a new folder, named RegExpParser, in the jars subfolder of the SyncWeave
 	installation directory.
 2. Go to the the Regular Expressions for Java Web site (http://www.cacas.org/java/gnu/regexp/) and 
 	download the package gnu.regexp-1.1.4.tar.gz
@@ -104,8 +104,8 @@ The first subexpression in parentheses is the version number, the second one is 
 the third one is the description of the release.
 
 To run this demo you must:
-o install IBM Security Verify Directory Integrator.
-o install the Regular Expression Parser as a Base Template in IBM Security Verify Directory Integrator (as described above)
+o install SyncWeave.
+o install the Regular Expression Parser as a Base Template in SyncWeave (as described above)
 o the file RegExpParser.jar has a precompiled version of parser as well as the neccessary tdi.xml and properties files.
 
 Note:  you will still need to download regular expression for java package as mentioned above.
@@ -126,7 +126,7 @@ JavaScript code is used to assign value to the helper "Hyphen" Attribute.
 
 
 To run any of the AssemblyLines:
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Open the regexp_parser.xml file.
 3. Go to the "AssemblyLine" section.
 4. Select the AssemblyLine you have chosen ("RegExp_Input" or "RegExp_Output").

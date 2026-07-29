@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,7 @@ import com.ibm.di.store.StoreFactory;
 
 /**
  * The class ADChangelogConnector represents the Active Directory Changelog
- * connector class that will be accessed by IBM Tivoli Directory Integrator. It
+ * connector class that will be accessed by SyncWeave. It
  * extends the LDAP connector class (LDAPConnector) and overrides some of its
  * methods to implement AD-specific functionality.
  */

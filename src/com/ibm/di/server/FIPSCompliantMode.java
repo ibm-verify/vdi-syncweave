@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,12 +11,12 @@ import java.security.Provider;
 
 /**
  * This is the main class which enables the Federal Information Processing
- * Standard(FIPS) in IBM Tivoli Directory Integrator. In order to be FIPS
+ * Standard(FIPS) in SyncWeave. In order to be FIPS
  * compliant a specific cryptogaphic and SSL providers must be set in correct
- * order to be used by IBM Tivoli Directory Integrator. To turn on FIPS mode in
- * IBM Tivoli Directory Integrator, users must set the
+ * order to be used by SyncWeave. To turn on FIPS mode in
+ * SyncWeave, users must set the
  * "com.ibm.di.server.fipsmode.on" property to true in global.properties file.
- * This will enforce the IBM Tivoli Directory Integrator Server to arrange the
+ * This will enforce the SyncWeave Server to arrange the
  * correct providers in the desired order at start up.
  * 
  * @since 7.0

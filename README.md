@@ -1,11 +1,11 @@
-IBM SyncWeave
+SyncWeave
 
-Welcome to IBM SyncWeave!
+Welcome to SyncWeave!
 
-This repository contains coden and documentation for IBM SyncWeave, an enterprise data synchronization and integration tool which acts as a bridge between different identity repositories, databases, and operating systems.
+This repository contains coden and documentation for SyncWeave, an enterprise data synchronization and integration tool which acts as a bridge between different identity repositories, databases, and operating systems.
 
-What is IBM SyncWeave?
-IBM SyncWeave  provides extensive capabilities for developing complex data integration solutions. The Federated Directory Server console builds upon these capabilities and provides a quick and easy solution for connecting and synchronizing data from various sources.
+What is SyncWeave?
+SyncWeave  provides extensive capabilities for developing complex data integration solutions. The Federated Directory Server console builds upon these capabilities and provides a quick and easy solution for connecting and synchronizing data from various sources.
 
 SyncWeave is a multi-purpose, multi-directional, real-time, even-driven data integration, synchronization, and transformation service, consisting of: ​
 
@@ -25,17 +25,17 @@ A lightweight Java based application (no app server necessary) that consists of 
 
 Supported as self-hosted Software and Container deployment
 
-For comprehensive documentation on IBM SyncWeave, please visit the official IBM documentation https://www.ibm.com/docs/en/vdi.
+For comprehensive documentation on SyncWeave, please visit the official IBM documentation https://www.ibm.com/docs/en/vdi.
 
 Repository Structure
-This repository is intended to provide example recipes and configurations for IBM SyncWeave. As the repository grows, it will include:
+This repository is intended to provide example recipes and configurations for SyncWeave. As the repository grows, it will include:
 
 Example configurations for common integration scenarios
 Best practices and implementation guides
 Getting Started
 Note: This section will be expanded as example recipes are added to the repository.
 
-To get started with IBM SyncWeave:
+To get started with SyncWeave:
 
 Review the official IBM documentation
 Explore the example recipes in this repository

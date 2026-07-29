@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -193,7 +193,7 @@ public class ConfigLabelProvider extends ColumnLabelProvider {
 		else if (str == null)
 			str = Messages.getMessage("ConfigLabelProvider.6", element.getClass().getName());
 
-		if (str != null && str.startsWith("IBM Security Verify Directory Integrator"))
+		if (str != null && str.startsWith("SyncWeave"))
 			str = str.substring(32);
 
 		if (element instanceof LoopConfig) {

@@ -3,10 +3,10 @@ This example shows how the Command Line Connector can be used.
 This example consists of the following files:
 cmd.xml, readme.txt
 
-To run this demo you must install IBM Security Verify Directory Integrator.
+To run this demo you must install SyncWeave.
 
 To run the assembly lines:
-1. Start the IBM Security Verify Directory Integrator Config Editor
+1. Start the SyncWeave Config Editor
 2. Open the cmd.xml file
 3. Select RunOnWindows if you are running on Windows, or select RunOnUnix if you are running on Unix/Linux
 4. Click "Run".

@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ import com.ibm.di.exceptions.DOMException;
  * value simply means that the object is used as it is - an AttributeValue
  * object.
  * <p>
- * Since IBM Tivoli Directory Integrator 7.0 an Attribute object could be
+ * Since SyncWeave 7.0 an Attribute object could be
  * treated as an array of objects (Object[]), the following script illustrates
  * this:
  * 

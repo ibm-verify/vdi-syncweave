@@ -18,7 +18,7 @@ To run the configuration files:
 1)  Start the SDI Configuration Editor.
 2)  Import the SimpleTpaeIFConnector_example.xml source file. To import a source file:
       a. 	Go to File ->Import. The Import dialog window appears.
-      b.	Select IBM Security Verify Directory Integrator ->Configuration from the Select an import source list.
+      b.	Select SyncWeave ->Configuration from the Select an import source list.
       c.	Click Next. The Import Security Verify Directory Integrator configuration dialog window appears.
       d.	In the Configuration File field, browse and select the SimpleTpaeIFConnector_example.xml file.
       e.	Click Finish. The New Project dialog window appears.
