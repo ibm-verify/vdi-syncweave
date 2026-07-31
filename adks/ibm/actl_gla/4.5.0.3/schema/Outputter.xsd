@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema ecore:nsPrefix="op" ecore:package="outputter"
+    elementFormDefault="qualified"
+    targetNamespace="http://www.eclipse.org/hyades/schema/Outputter.xsd"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:op="http://www.eclipse.org/hyades/schema/Outputter.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd">
+    <annotation>
+      <documentation xml:lang="en">
+        Copyright (c) 2005 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+      </documentation>
+    </annotation>
+    <import
+        namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+    <complexType name="OutputterConfigType">
+        <annotation>
+            <documentation>     An outputter takes an object and writes
+                it out to some destination.     Depending on the type of
+                outputter, the destination and parameters are
+                specified in process unit property elements.  </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="pu:ProcessUnitType">
+                <choice maxOccurs="1" minOccurs="0">
+                    <annotation>
+                    	<documentation>
+                    	Deprecated since TPTP 3.3.  Outputter type elements are deprecated as
+                		of TPTP 3.3 so this type element choice is optional since
+                		TPTP 3.3.  Type elements are required if the adapter is
+                    	executed by Hyades GLA 1.3 or older run-time.
+                    	</documentation>
+                	</annotation>
+                    <element ref="op:SingleFileOutputterType"/>
+                    <element ref="op:StandardOutOutputterType"/>
+                    <element ref="op:LoggingAgentOutputterType"/>
+                    <element ref="op:NotificationOutputterType"/>
+                </choice>
+                <attribute name="type" type="op:OutputterType" use="required"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    <element name="SingleFileOutputterType">
+        <annotation>
+            <documentation>     Deprecated since Hyades 1.3.     A
+                single file outputter directs data to a given file in
+                a given directory.</documentation>
+        </annotation>
+        <complexType>
+            <attribute name="directory" type="string" use="required">
+                <annotation>
+                    <documentation>       Name of the destination
+                        directory. </documentation>
+                </annotation>
+            </attribute>
+            <attribute name="fileName" type="string" use="required">
+                <annotation>
+                    <documentation>       Name of the destination file. </documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="StandardOutOutputterType">
+        <annotation>
+            <documentation>     Deprecated since Hyades 1.3.     A
+                simple outputter to direct data to standard out.</documentation>
+        </annotation>
+        <complexType/>
+    </element>
+    <element name="LoggingAgentOutputterType">
+        <annotation>
+            <documentation>     Deprecated since Hyades 1.3.     A
+                logging agent outputter directs data to a given
+                logging agent. </documentation>
+        </annotation>
+        <complexType>
+            <attribute name="agentName" type="string" use="required">
+                <annotation>
+                    <documentation>       Name of the destination
+                        logging agent. </documentation>
+                </annotation>
+            </attribute>
+            <attribute name="waitUntilLoggingTime" type="string" use="optional">
+                <annotation>
+                    <documentation>       The time in milliseconds to
+                        wait for the agent to be monitored.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="NotificationOutputterType">
+        <annotation>
+            <documentation>     Deprecated since Hyades 1.3. An outputter which directs data to a
+                Notification Source. </documentation>
+        </annotation>
+        <complexType>
+            <attribute name="resourceURL" type="string" use="required">
+                <annotation>
+                    <documentation>       The URL of the notification source.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <simpleType name="OutputterType">
+        <annotation>
+            <documentation>     The basic outputter types that are understood</documentation>
+        </annotation>
+        <restriction base="NCName">
+            <!--
+				A simple outputter to direct output to standard out
+			-->
+            <enumeration value="StandardOutOutputter"/>
+            <!--
+				A simple outputter to direct output to a single file
+			-->
+            <enumeration value="SingleFileOutputter"/>
+            <!--
+				An outputter to direct output to a logging agent
+			-->
+            <enumeration value="LoggingAgentOutputter"/>
+            <!--
+				An outputter to direct output to a Notification source
+			-->
+            <enumeration value="NotificationOutputter"/>
+            <!--
+				The role of undeclared component role is to allow a context to exploit components not as yet standardized.
+			-->
+            <enumeration value="undeclared"/>
+        </restriction>
+    </simpleType>
+</schema>

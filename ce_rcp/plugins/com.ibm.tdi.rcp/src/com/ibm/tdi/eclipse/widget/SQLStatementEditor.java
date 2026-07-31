@@ -213,7 +213,7 @@ public class SQLStatementEditor extends Composite {
 			contentAssistant.setContentAssistProcessor(proc, IDocument.DEFAULT_CONTENT_TYPE);		
 			contentAssistant.setInformationControlCreator(new IInformationControlCreator() {
 				public IInformationControl createInformationControl(Shell parent) {
-					return new DefaultInformationControl(parent, "Security Verify Directory Integrator");
+					return new DefaultInformationControl(parent, "SyncWeave");
 				}
 			});
 			contentAssistant.setAutoActivationDelay(500);

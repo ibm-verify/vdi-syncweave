@@ -102,9 +102,6 @@ fi
 
 dst=`realpath $dst`
 
-# Add the license files.
-cp -R $src/license $dst/
-
 # Extract the TDI zips to the destination directory...
 for i in `ls $src/*.zip 2>/dev/null`; do
     extract=0

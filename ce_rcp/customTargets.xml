@@ -57,6 +57,29 @@
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
 	<target name="preSetup">
+
+		<!-- Patch org.eclipse.osgi to add JavaSE-10 through JavaSE-25 EE profile
+		     descriptors.  Eclipse 4.27's org.eclipse.osgi_3.18.300 only ships
+		     profiles up to JavaSE-9.  Eclipse's own plugins (e.g. org.eclipse.ant.core,
+		     org.eclipse.pde.spy.bundle) declare Bundle-RequiredExecutionEnvironment:
+		     JavaSE-11, which causes PDE's BuildTimeSite resolver to fail with
+		     "Host plug-in JavaSE_0.0.0 has not been found" for every such bundle.
+		     The script is idempotent and skips patching if already done. -->
+		<exec executable="/bin/sh" failonerror="true">
+			<arg value="${project.root}/build/scripts/patch_osgi_ee_profiles.sh"/>
+			<arg value="${root.eclipse_runtime_src}/plugins"/>
+		</exec>
+
+		<!-- Copy Log4j JARs from Ivy lib to RCP plugin directory -->
+		<echo message="Copying Log4j ${root.log4j.vers} JARs to RCP plugin directory..."/>
+		<mkdir dir="${builder}/../plugins/com.ibm.tdi.rcp/jars/3rdparty/others"/>
+		<copy todir="${builder}/../plugins/com.ibm.tdi.rcp/jars/3rdparty/others" verbose="true">
+			<fileset dir="${project.root}/lib/ivy">
+				<include name="log4j-1.2-api-${root.log4j.vers}.jar"/>
+				<include name="log4j-api-${root.log4j.vers}.jar"/>
+				<include name="log4j-core-${root.log4j.vers}.jar"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- ===================================================================== -->

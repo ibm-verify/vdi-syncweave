@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:parser="http://www.eclipse.org/hyades/schema/Parser.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="parser" ecore:package="parser" targetNamespace="http://www.eclipse.org/hyades/schema/Parser.xsd">
+    
+    <xsd:annotation>
+		<xsd:documentation xml:lang="en">
+        Copyright (c) 2005 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+			
+		This document describes the format for representation of parser rules
+		which can be consumed by the generic parser component.
+		*********************************************************************
+		Change History:
+		31 Oct 2003 - Richard K Duggan initial implementation 
+		10 Nov 2003 - Richard K Duggan general fixes for id's
+		*********************************************************************
+		</xsd:documentation>
+	</xsd:annotation>
+    <xsd:import namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+
+	<xsd:complexType name="ParserConfigType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This is the root element description.  All the parser
+			rules are hierarchically arranged under this element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" ref="parser:RuleElement"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="pu:ProcessUnitAttributes"/>
+		<xsd:attribute name="separatorToken" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				This attribute is used during global processing of the log record to parse the record into
+				a series of properties that are separated by the separator token specified here. 
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="designationToken" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				This attribute is used during global processing of the log record to split the properties parsed
+				with the separatorToken into names and values if the designation token specified here is included 
+				in the property.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="RuleElementType">
+		<xsd:annotation>
+			<xsd:documentation>
+			RuleElementTypes are meta descriptors for any structured types.
+			The structured type must have a name and it contains an optional
+			set of attributes. Structured types may be nested under other
+			structured types. 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" ref="parser:RuleElement"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" ref="parser:RuleAttribute"/>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				The name of the structured type this rule element represents. For example: CommonBaseEvent.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="id" type="xsd:integer" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				An ID number for this rule element.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="index" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				An unique index for this rule element.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute default="false" name="isRequiredByParent" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				This attribute indicates whether a value for this structured type is required by its parent structured type.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+        <xsd:attribute default="false" name="isChildChoice" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				This attribute indicates whether only one of this structured type's children can be included in the
+				parsing result.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+    </xsd:complexType>
+	
+	
+    <xsd:element name="RuleElement" type="parser:RuleElementType"/>
+    <xsd:complexType name="RuleAttributeType">
+		<xsd:annotation>
+			<xsd:documentation>
+			RuleAttributeTypes describe the attributes of a structured type.
+			Attributes have a name and a value as well as a set of rules that
+			are used to create a value for the attribute.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="SubstitutionRule">
+				<xsd:complexType>
+					<xsd:attribute name="positions" type="xsd:string" use="optional">
+						<xsd:annotation>
+							<xsd:documentation>
+								An optional specification of fields, either named or by position, 
+								within a record.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="match" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								A match pattern specified as a regular expression.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="substitute" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								A specification of substitution values.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="useBuiltInFunction" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>
+								A boolean indicator of whether a parser built in function be used 
+								to generate the value.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="substitutionExtensionClass" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								An optional specification of a user class to perform substitution 
+								logic.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="timeFormat" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								For time values, an optional specification of a Java time format that 
+								will be used to parse the substitution value to produce a time in 
+								milliseconds.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>		
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				The name of the attribute of the structured type this rule attribute represents. For example: creationTIme.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="id" type="xsd:integer" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				An ID number for this rule attribute.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="index" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+				An unique index for this rule attribute.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="defaultValue" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					An optional specification of a default value to be returned if  
+					there is no substitution rule or no successful substitution rules.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="usePreviousMatchSubstitutionAsDefault" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>
+					A boolean indicator of whether a previously parsed value be returned if
+					no substitution rules are successful.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute default="false" name="isRequiredByParent" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					A boolean indicator of whether this RuleAttribute must produce a valid
+					value in order for the parent RuleElement to be considered valid.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:element name="RuleAttribute" type="parser:RuleAttributeType"/>	
+
+</xsd:schema>

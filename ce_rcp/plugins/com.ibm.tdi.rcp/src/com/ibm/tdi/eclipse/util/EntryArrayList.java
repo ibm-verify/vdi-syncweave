@@ -20,14 +20,38 @@ import org.eclipse.core.runtime.CoreException;
 import com.ibm.di.config.interfaces.TDIProperties;
 import com.ibm.di.entry.Entry;
 
-public class EntryArrayList extends ArrayList<Entry> implements Comparator<Entry> {
+// EntryArrayList no longer implements Comparator<Entry> directly.
+// Java 21 added List.reversed() as a default method, which conflicts with
+// Comparator.reversed() when both interfaces are implemented simultaneously.
+// The ordering logic is preserved as a public static COMPARATOR field so
+// callers that sort this list can reference EntryArrayList.COMPARATOR.
+public class EntryArrayList extends ArrayList<Entry> {
 	@SuppressWarnings("unused")
 	private static final String COPYRIGHT = com.ibm.di.server.CopyRight.OBJECT_CODE;
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Comparator that orders entries by status + key attribute.
+	 * Extracted from the former {@code implements Comparator<Entry>} to avoid
+	 * the duplicate {@code reversed()} default method conflict introduced in
+	 * Java 21 between {@link java.util.List} and {@link java.util.Comparator}.
+	 */
+	public static final Comparator<Entry> COMPARATOR = (o1, o2) -> {
+		String s1 = o1.getString("status");
+		if (s1 == null)
+			s1 = "local";
+		String s2 = o2.getString("status");
+		if (s2 == null)
+			s2 = "local";
+
+		s1 += "." + o1.getString(TDIProperties.KEY_ATTRIBUTE);
+		s2 += "." + o2.getString(TDIProperties.KEY_ATTRIBUTE);
+		return s1.compareTo(s2);
+	};
 
 	public EntryArrayList() {
 		super();
@@ -44,7 +68,7 @@ public class EntryArrayList extends ArrayList<Entry> implements Comparator<Entry
 				return;
 			}
 		}
-		
+
 		e = e.clone(e);
 		e.setAttribute("status", "server");
 		add(e);
@@ -63,19 +87,6 @@ public class EntryArrayList extends ArrayList<Entry> implements Comparator<Entry
 				entry.setAttribute("status", "delete");
 		}
 		return e;
-	}
-
-	public int compare(Entry o1, Entry o2) {
-		String s1 = o1.getString("status");
-		if (s1 == null)
-			s1 = "local";
-		String s2 = o2.getString("status");
-		if (s2 == null)
-			s2 = "local";
-		
-		s1 += "." + o1.getString(TDIProperties.KEY_ATTRIBUTE);
-		s2 += "." + o2.getString(TDIProperties.KEY_ATTRIBUTE);
-		return s1.compareTo(s2);
 	}
 
 }

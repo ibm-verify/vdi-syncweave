@@ -302,8 +302,13 @@ public class Activator extends AbstractUIPlugin {
 		// file set
 		ServerUtils.readSolutionDirectory(server);
 
-		// -- Update solution directory
-		ServerUtils.createSolutionDirectory(server);
+		// -- Update solution directory (best-effort — failure must not prevent
+		// the Default server entry from being written to the workspace)
+		try {
+			ServerUtils.createSolutionDirectory(server);
+		} catch (Exception e) {
+			EclipseAppender.logerror("createDefaultServer: createSolutionDirectory failed: " + e, e); //$NON-NLS-1$
+		}
 
 		// -- Create Default server entry in TDI Servers project
 		Utils.createServerEntry("Default", server); //$NON-NLS-1$

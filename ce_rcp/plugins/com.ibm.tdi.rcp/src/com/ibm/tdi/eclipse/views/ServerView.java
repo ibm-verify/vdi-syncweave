@@ -1760,7 +1760,8 @@ public class ServerView extends ViewPart {
 
 				// Verify that the address is filled in
 				TDIConfigurationFile cfg = TDIConfigurationFile.loadFile(file);
-				if (cfg.getDefaultConfigObject().getStringParameter(RestServerAPI.TDI_ADDRESS) == null)
+				BaseConfiguration cfgObj = cfg.getDefaultConfigObject();
+				if (cfgObj == null || cfgObj.getStringParameter(RestServerAPI.TDI_ADDRESS) == null)
 					return Status.CANCEL_STATUS;
 
 				// -- No session yet, try to connect

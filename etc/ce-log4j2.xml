@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
   <Appenders>
-    <RollingFile name="Default" 
-	append="true"
-        fileName="logs/ibmditk.log"
-	filePattern="logs/ibmditk-%i.log">
+    <RollingFile name="Default"
+ append="true"
+        fileName="${env:TDI_SOLDIR:-${sys:user.home}}/logs/ibmditk.log"
+ filePattern="${env:TDI_SOLDIR:-${sys:user.home}}/logs/ibmditk-%i.log">
       <PatternLayout pattern="%d{DEFAULT} %-5p [%c] - %m%n" />
       <Policies>
 	<OnStartupTriggeringPolicy minSize="1" />

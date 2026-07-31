@@ -27,29 +27,12 @@
     </description>
 
     <property name="install.build.path" location="${project.root.ship}/install" />
-    <property name="archive.root" location="${install.build.path}/ibm-svdi-10.0.0.6-"/>
+    <property name="archive.root" location="${install.build.path}/SyncWeave-1.0.0-"/>
     <property name="jre.root" location="${project.adks_home}/ibm/jre"/>
     <property name="install.bin" location="${project.root}/install/bin"/>
     <property name="install.license" location="${project.root}/install/lib/license"/>
     <property name="stage.dir" location="${install.build.path}/stage"/>
     <property name="tmp.dir" location="${install.build.path}/tmp"/>
-
-    <description>
-    =========================================================================
-    Convert the name of the specified zip file to a tar.gz file.
-    =========================================================================
-    </description>
-    <macrodef name="convertZipNameToTgz">
-        <attribute name="zip"/>
-        <sequential>
-            <local name="before"/>
-            <property name="before" value="@{zip}"/>
-            <script language="javascript">
-                var before = project.getProperty("before");
-                project.setProperty("tgz.file", before.replace("\.zip", ".tar.gz"));
-            </script>
-        </sequential>
-    </macrodef>
 
     <description>
     =========================================================================
@@ -60,12 +43,22 @@
         <attribute name="file"/>
         <attribute name="tofile"/>
         <sequential>
+            <!-- Replaced <script language="javascript"> which used Nashorn,
+                 removed in Java 15 (JEP 372).  Pure-Ant equivalent using
+                 <loadresource> + <tokenfilter> replaceregex, available since
+                 Ant 1.7, no external dependencies required. -->
             <local name="tgz.file"/>
+            <loadresource property="tgz.file">
+                <string value="@{tofile}"/>
+                <filterchain>
+                    <tokenfilter>
+                        <replaceregex pattern="\.zip$" replace=".tar.gz"/>
+                    </tokenfilter>
+                </filterchain>
+            </loadresource>
 
             <delete dir="${tmp.dir}"/>
             <mkdir dir="${tmp.dir}"/>
-            <convertZipNameToTgz zip="@{tofile}"/>
-
             <unzip src="@{file}" dest="${tmp.dir}"/>
             <tar destfile="${tgz.file}" basedir="${tmp.dir}" compression="gzip"
                     longfile="posix"/>
@@ -135,8 +128,6 @@
                         tofile="${stage.dir}/install_ce.sh" if:set="isCEUNIX"/>
             <copy file="${install.bin}/install.sh" 
                         tofile="${stage.dir}/install_server.sh" if:set="isUNIX"/>
-			<copy file="${install.bin}/applyUpdates.sh" 
-                        tofile="${stage.dir}/applyUpdates.sh" if:set="isUNIX"/>            
             <!-- Stage the files which are specific to Windows. -->
             <copy todir="${stage.dir}" unless:set="isUNIX">
                 <fileset dir="${project.root.img.zips_bundles}">
@@ -170,15 +161,6 @@
                         tofile="${stage.dir}/TDI_ServerIdentity.zip" to.tar="@{to.tar}"/>
             <stageFile file="${project.root.img.zips_bundles}/it_registry_dbscript.zip" 
                         tofile="${stage.dir}/it_registry_dbscript.zip" to.tar="@{to.tar}"/>
-
-            <!-- Stage the license files. -->
-            <copy todir="${stage.dir}/license">
-                <fileset dir="${install.license}">
-                    <include name="LA_*"/>
-                    <include name="non_ibm_license"/>
-                    <include name="notices"/>
-                </fileset>
-            </copy>
 
             <!-- Stage the NLS files. -->
             <copy todir="${stage.dir}/NLS">
@@ -323,11 +305,8 @@
                         tofile="${stage.dir}/install_ce.vbs"/>
         <copy file="${install.bin}/install.vbs" 
                         tofile="${stage.dir}/install_server.vbs"/>
-		<copy file="${install.bin}/applyUpdates.vbs" 
-                        tofile="${stage.dir}/applyUpdates.vbs"/>
-        <copy file="${install.bin}/eclipsece.zip" 
-                        tofile="${stage.dir}/eclipsece.zip"/>                       
-		
+        <copy file="${install.bin}/eclipsece.zip"
+                        tofile="${stage.dir}/eclipsece.zip"/>
         <mkdir dir="${stage.dir}/bin"/>
         <copy file="${install.bin}/unzip/ibm_vdi_unzip.exe"
                         tofile="${stage.dir}/bin/ibm_vdi_unzip.exe"/>

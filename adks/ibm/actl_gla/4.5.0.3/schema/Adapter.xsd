@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema ecore:nsPrefix="adapter" ecore:package="adapter" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/Adapter.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:Adapter="http://www.eclipse.org/hyades/schema/Adapter.xsd" xmlns:Context="http://www.eclipse.org/hyades/schema/Context.xsd" xmlns:cc="http://www.eclipse.org/hyades/schema/ComponentConfiguration.xsd" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+	<annotation>
+	  <documentation xml:lang="en">
+        Copyright (c) 2005 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+	  </documentation>
+	 </annotation>
+	<import namespace="http://www.eclipse.org/hyades/schema/Context.xsd" schemaLocation="Context.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/ComponentConfiguration.xsd" schemaLocation="ComponentConfiguration.xsd"/>
+	<element name="Adapter">
+		<annotation>
+			<documentation>
+			This is the root element of a Generic Log Adapter configuration file.
+			It contains a Contexts element defined in Context.xsd and a Configuration element defined in ComponentConfiguration.xsd.
+			</documentation>
+        </annotation>
+		<complexType>
+			<sequence>
+				<element maxOccurs="1" minOccurs="1" ref="Context:Contexts"/>
+				<element maxOccurs="1" minOccurs="0" ref="cc:Configuration"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

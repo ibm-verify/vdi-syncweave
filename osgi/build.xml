@@ -10,6 +10,14 @@
 	<!-- Import the project setup properties and macros -->
 	<import file="${basedir}/../rules_mk/project_setup.xml" />
 
+	<!-- Add Nashorn JavaScript engine to classpath for Java 15+ compatibility -->
+	<path id="nashorn.classpath">
+		<fileset dir="${basedir}/../lib/ivy">
+			<include name="nashorn-core*.jar"/>
+			<include name="asm*.jar"/>
+		</fileset>
+	</path>
+
 	<!-- Import the project setup properties and macros -->
 	<import file="${basedir}/../rules_mk/doc_rules.xml" />
 
@@ -103,8 +111,8 @@
 				<arg line='-DjavacDebugInfo=true ' />
 				<arg line='-DjavacFailOnError=true' />
 				<arg line='-DjavacVerbose=false' />
-				<arg line='-DjavacSource=1.6' />
-				<arg line='-DjavacTarget=1.6' />
+				<arg line='-DjavacSource=25' />
+				<arg line='-DjavacTarget=25' />
 			</exec>
 
 			<!-- the build output is producing a zip which when extracted produces
@@ -161,7 +169,7 @@
 		<attribute name="deps" description="The list of jar names to exclude. The list is comma separated" />
 
 		<sequential>
-			<script language="javascript" >
+			<script language="javascript" classpathref="nashorn.classpath">
 				<![CDATA[
 			try {
 				load("nashorn:mozilla_compat.js");
@@ -304,7 +312,7 @@
 		<attribute name="deps" description="Comma-separated list of JAR names to remove from Bundle-ClassPath" />
 		
 		<sequential>
-			<script language="javascript">
+			<script language="javascript" classpathref="nashorn.classpath">
 				<![CDATA[
 			try {
 				load("nashorn:mozilla_compat.js");
@@ -397,7 +405,7 @@
 		<sequential>
 			<fileset dir="@{pluginsDir}/@{plugin}" id="@{plugin}.nls" includes="@{tmsXmlBaseName}*.xml" />
 
-			<script language="javascript">
+			<script language="javascript" classpathref="nashorn.classpath">
 				<![CDATA[
 		try {
 			load("nashorn:mozilla_compat.js");
@@ -445,7 +453,7 @@
 
 			<echo message="Starting TMS XML to Properties conversation for all plugins in: @{pluginsDir}" />
 
-			<script language="javascript">
+			<script language="javascript" classpathref="nashorn.classpath">
 				<![CDATA[
 		try {
 			load("nashorn:mozilla_compat.js");
@@ -512,7 +520,7 @@
 		<attribute name="version" />
 
 		<sequential>
-			<script language="javascript">
+			<script language="javascript" classpathref="nashorn.classpath">
 				<![CDATA[
 		try {
 			load("nashorn:mozilla_compat.js");
@@ -581,6 +589,11 @@
 			file="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static/tdi"
 			todir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static.build"
 		/>
+
+		<!-- preserve static image assets in the generated WebUI release -->
+		<copy todir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static.build/images">
+			<fileset dir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/static/images" />
+		</copy>
 
 		<!-- Copy EasyETL nls properties to WebUI -->
 		<copy todir="${project.root.export.osgi.build.plugins}/com.ibm.di.ui.webui/nls">
