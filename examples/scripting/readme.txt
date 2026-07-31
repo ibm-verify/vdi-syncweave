@@ -1,4 +1,4 @@
-This sample configuration shows how you can use some of the scripting functionality of IBM Security Verify Directory Integrator.
+This sample configuration shows how you can use some of the scripting functionality of SyncWeave.
 
 
 This example contains the the following files: 
@@ -15,10 +15,10 @@ should be changed to "<installation_directory>/examples/scripting/sample.csv"
 such that the line may read as follows:
 conn.setParam ( "filePath", "C:\Program Files\IBM\TDI\V7.2\examples\scripting\sample.csv" );
 
-To run this demo you must install IBM Security Verify Directory Integrator 7.2.
+To run this demo you must install SyncWeave 7.2.
 
 To run the AssemblyLines:
-1. Start the IBM Security Verify Directory Integrator 7.2 Config Editor.
+1. Start the SyncWeave 7.2 Config Editor.
 2. Import the rawConnectorScripting.xml file.
 3. Select "ConnectorConfigSample" AssemblyLine.
 4. Click "Run".

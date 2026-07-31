@@ -1,4 +1,4 @@
-This example demonstrates the use of the SNMPConnector in IBM Security Verify Directory Integrator.
+This example demonstrates the use of the SNMPConnector in SyncWeave.
 
 
 This package contains 3 files:  
@@ -10,7 +10,7 @@ sendTrap and grabTrap
 sendTrap waits for some seconds, before sending 5 traps to port 5488. 
 grabTrap listens to port 5488 and outputs a short message to the file snmpTrap.txt for each received trap. It terminates after 5 iterations (set in config panel of AL).  
 
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Open examples/snmpTrap/snmp.xml.
 3. Select the AssemblyLine called grabTrap. Click "Start".
 4. Select the AssemblyLine called sendTrap. Click "Start".

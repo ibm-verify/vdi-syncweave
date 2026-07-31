@@ -1,9 +1,9 @@
-IBM Security Verify Directory Integrator Audit Example
+SyncWeave Audit Example
 ======================
 
 Description:
 ----------------------
-The IBM Security Verify Directory Integrator Audit example consists of an IBM Security Verify Directory Integrator configuration (audit2W7.xml), which receives audit information in form of notifications and stores it in .csv files by first transforming it in W7 format.
+The SyncWeave Audit example consists of an SyncWeave configuration (audit2W7.xml), which receives audit information in form of notifications and stores it in .csv files by first transforming it in W7 format.
 
 The config contains the following two AssemblyLines:
 	- notification2W7
@@ -14,19 +14,19 @@ The second one is supplementary and is called by the AssemblyLine Connector. It 
 
 Prerequisites:
 ----------------------
-In order to use the audit capabilities of the IBM Security Verify Directory Integrator Server the property "api.audit.on" in global/solution.properties must be set to "true" and the suppression of desired events in global/solution.properties should be disabled.
-By default all IBM Security Verify Directory Integrator audit notifications are suppressed, thus the property api.notification.suppress should be commented or modified appropriately.
-For example setting api.notification.suppress=di.server.api.authorize.* will allow the user to receive all notifications, which are not of the above defined types. Thus the IBM Security Verify Directory Integrator Server will broadcast audit events of type e.g.: di.server.api.authenticate.   
+In order to use the audit capabilities of the SyncWeave Server the property "api.audit.on" in global/solution.properties must be set to "true" and the suppression of desired events in global/solution.properties should be disabled.
+By default all SyncWeave audit notifications are suppressed, thus the property api.notification.suppress should be commented or modified appropriately.
+For example setting api.notification.suppress=di.server.api.authorize.* will allow the user to receive all notifications, which are not of the above defined types. Thus the SyncWeave Server will broadcast audit events of type e.g.: di.server.api.authenticate.   
  
 
 Configure the Server Notifications Connector:
 ----------------------
-There are two options for running the configuration � inside the samIBM Security Verify Directory Integratoror Server instance or using differenIBM Security Verify Directory Integratoror instance. According to this the Server Notifications Connector should be run in local/ correspondingly remote connection type.
-By default the Connector is configured to receive notifications from the local IBM Security Verify Directory Integrator Server, when they are not suppressed. Thus the Audit configuration could be automatically loaded by the same IBM Security Verify Directory Integrator Server it audits after setting an appropriate value to the com.ibm.di.server.autoload property in global/solution properties. Loading the configuration in the same IBM Security Verify Directory Integrator instance though carries the risk of not processing all audit events since the Notifications Connector stores the notifications it receives in an internal queue. Thus when stopping the server or performing a shutdown request, some of the messages in the queue might not be processed and will be lost.
-The solution of the above mentioned problem is to have a separate IBM Security Verify Directory Integrator instance running the Audit config; for example executing ibmdisrv command from a different solution folder:
+There are two options for running the configuration � inside the samSyncWeaveor Server instance or using differenSyncWeaveor instance. According to this the Server Notifications Connector should be run in local/ correspondingly remote connection type.
+By default the Connector is configured to receive notifications from the local SyncWeave Server, when they are not suppressed. Thus the Audit configuration could be automatically loaded by the same SyncWeave Server it audits after setting an appropriate value to the com.ibm.di.server.autoload property in global/solution properties. Loading the configuration in the same SyncWeave instance though carries the risk of not processing all audit events since the Notifications Connector stores the notifications it receives in an internal queue. Thus when stopping the server or performing a shutdown request, some of the messages in the queue might not be processed and will be lost.
+The solution of the above mentioned problem is to have a separate SyncWeave instance running the Audit config; for example executing ibmdisrv command from a different solution folder:
  ibmdisrv �s <Path to Solution Dir> �i �c <Path to Audit Configuration>\audit2W7 �r notification2W7 . 
-By this means the audited server does not need to take care of its auditing and the generated data will be processed even if it is stopped. Another advantage of this approach is the ability to apply more restrictive security measures to the second IBM Security Verify Directory Integrator instance and thus reduce the exposure to malicious internal IBM Security Verify Directory Integrator developer that otherwise the audit mechanism would have when running in the same instance.
-The inconvenience of this approach is the more administrative work that should be performed. The Server Notifications Connector should be configured to communicate with the audited IBM Security Verify Directory Integrator Server and the Audit config must be started/restarted manually each time the audited server is started.
+By this means the audited server does not need to take care of its auditing and the generated data will be processed even if it is stopped. Another advantage of this approach is the ability to apply more restrictive security measures to the second SyncWeave instance and thus reduce the exposure to malicious internal SyncWeave developer that otherwise the audit mechanism would have when running in the same instance.
+The inconvenience of this approach is the more administrative work that should be performed. The Server Notifications Connector should be configured to communicate with the audited SyncWeave Server and the Audit config must be started/restarted manually each time the audited server is started.
 The audit notifications are recognized by the Connector as Custom Notifications, so the �Use custom notification� must be checked and the types of the desired events should be listed. By default all audit notification types are listed.
 
 Configure the AssemblyLine Connector:
@@ -39,11 +39,11 @@ The actual mapping in the output map of the AssemblyLine Connector follows the s
 �	whorealname, whologonname
 	Both attributes are given the same value - event.userData.logonname.
 �	whatverb, whatnoun 
-	The first field whatverb reveals the performed action. By authentication audits it is always given the value -�authenticate�. Whatnoun is then set to �user�. When performing authorization these two Attributes represent an actiIBM Security Verify Directory Integratortegrator object IBM Security Verify Directory Integratortegrator object itself (e.g. whatverb = �start�; whatnoun = �AssemblyLine�)
+	The first field whatverb reveals the performed action. By authentication audits it is always given the value -�authenticate�. Whatnoun is then set to �user�. When performing authorization these two Attributes represent an actiSyncWeavetegrator object SyncWeavetegrator object itself (e.g. whatverb = �start�; whatnoun = �AssemblyLine�)
 �	whatsuccess
 	its field can take two different values - "success" - when the Attribute event.userData.success returns �true� and "failure" otherwise.
 �	wheretype, wherename
-	Both fields give information about the machine, where the IBM Security Verify Directory Integrator Server is running. Wheretype is mapped to the concatenation of the Attributes event.userData.os.name and event.userData.os.version. The other Attribute contains the value of event.userData.hostname.
+	Both fields give information about the machine, where the SyncWeave Server is running. Wheretype is mapped to the concatenation of the Attributes event.userData.os.name and event.userData.os.version. The other Attribute contains the value of event.userData.hostname.
 �	wheretotype, wheretoname
 	The same information as in the above fields (wheretype, wherename) is presented.
 �	wherefromtype, wherefromname
@@ -52,7 +52,7 @@ The actual mapping in the output map of the AssemblyLine Connector follows the s
 �	onwhattype
 	It is populated with the type of the session - event.userData.session.type.
 �	onwhatpath, onwhatname
-	These two Attributes are left empty, where not relevant, for example when performing authentication. Otherwise onwhatpath is filled in with the physical path to the IBM Security Verify Directory Integrator instance or the name of the Java class, when auditing custom code invocation (event.userData.path). The value of onwhatname is the name of the IBM Security Verify Directory Integrator object (event.userData.name). The value could be: IBM Security Verify Directory Integrator Server ID, ConfigInstance ID, AL Name or Java Method (by custom code invocation).
+	These two Attributes are left empty, where not relevant, for example when performing authentication. Otherwise onwhatpath is filled in with the physical path to the SyncWeave instance or the name of the Java class, when auditing custom code invocation (event.userData.path). The value of onwhatname is the name of the SyncWeave object (event.userData.name). The value could be: SyncWeave Server ID, ConfigInstance ID, AL Name or Java Method (by custom code invocation).
 �	info
 	Any specific relevant information to the concrete notification, which is not available in the previous Attributes, can be passed to the Entry through the info Attribute. By authentication audit points for example, it stores the authentication type (LDAP, SSL, etc�) in format:
  	�Type of authentication:<the performed authentication>�.

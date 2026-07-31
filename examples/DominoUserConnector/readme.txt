@@ -1,7 +1,7 @@
 
-This is a simple IBM Security Verify Directory Integrator configuration that demonstrates the IBM Security Verify Directory Integrator's Domino Users Connector.
+This is a simple SyncWeave configuration that demonstrates the SyncWeave's Domino Users Connector.
 
-NOTE: IBM Security Verify Directory Integrator must be installed on the same machine as the Domino server, i.e. locally. Even though the Domino Users Connector supports both local and remote deployment, this example covers the local deployment only.
+NOTE: SyncWeave must be installed on the same machine as the Domino server, i.e. locally. Even though the Domino Users Connector supports both local and remote deployment, this example covers the local deployment only.
 
 This example consists of the following files:
 dominoconnector.xml, addreg.csv, updatereg.csv, readme.txt
@@ -34,7 +34,7 @@ user to the Domino server
 
 
 To run this demo:
-1. start the IBM Security Verify Directory Integrator Admin.
+1. start the SyncWeave Admin.
 2. Open the dominoconnector.xml file.
 3. Open the AssemblyLine you wish to run.
 4. Change the passwords on the Domino Connector's to match those of your server.

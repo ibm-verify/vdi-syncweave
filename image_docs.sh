@@ -1,12 +1,9 @@
 #!/usr/bin/bash
 # ****************************************************** {COPYRIGHT-TOP} ***
-# Licensed Materials - Property of IBM
 # 5724-M07
 #
-# (C) Copyright IBM Corp. 2008 All Rights Reserved.
+# Copyright contributors to the SyncWeave project
 #
-# US Government Users Restricted Rights - Use, duplication, or
-# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 # ****************************************************** {COPYRIGHT-END} ***
 #=============================================================================
 # Change History:

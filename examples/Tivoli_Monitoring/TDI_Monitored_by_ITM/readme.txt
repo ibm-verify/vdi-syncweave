@@ -10,14 +10,14 @@ These files are included in the example:
 Prerequisites:
 The following software components are needed for the example:
 	1. IBM Tivoli Monitoring Server and Portal
-	2. IBM Security Verify Directory Integrator
+	2. SyncWeave
 	3. IBM ITM Agent Builder
 	
 This demo provides one AssemblyLine. Here is a brief description of it:
 "Custom_Notifications" - This AssemblyLine demonstrates how to send custom notifications to ITM.
 
 To run this demo:
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Import the custom_notifications.xml file.
 3. Open the "AssemblyLine" branch.
 4. Select "Custom_Notifications" AssemblyLine.

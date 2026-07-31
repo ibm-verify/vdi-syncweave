@@ -2,7 +2,7 @@
 :: IBM Confidential
 :: PID 5724-K74
 ::
-:: Copyright IBM Corp. 2009, 2025
+:: . 2009, 2025
 :: All Rights Reserved
 ::
 :: INSTALL VERIFY SCRIPT TDI RELATED COMPONENTS

@@ -1,5 +1,5 @@
 
-This example demonstrates how IBM Security Verify Directory Integrator is able to work with various XML documents using the capabilities of the XMLParser. You can find one IBM Security Verify Directory Integrator configuration with the following AssemblyLines defined:
+This example demonstrates how SyncWeave is able to work with various XML documents using the capabilities of the XMLParser. You can find one SyncWeave configuration with the following AssemblyLines defined:
 
 	SimpleXML-filtering - Shows how the XML Parser could be configured to filter unneeded entries when at the same time is unwrapping both Entry and Value Tags. When the AL is executed the XML Parser will return only the three entries which are matched by the configured filter. The returned entries will be output on the standard log.
 
@@ -14,10 +14,10 @@ This example demonstrates how IBM Security Verify Directory Integrator is able t
 	AdvancedXML-scripting - Shows how to create hierarchical entry structure in a script and feed it to the XML Parser. The XML Parser is configured to wrap neither Entry nor Value Tags. When executed the AL will use the FormEntryConnector to provide a simple feed of information. That information is used to create a hierarchy which is then provided to a XML Parser that interprets that hierarchical Entry and outputs a XML.
 
 
-To run this demo you must have installed IBM Security Verify Directory Integrator.
+To run this demo you must have installed SyncWeave.
 
 To run the configuration (configs/xmlparser.xml) included in this package, do the following:
-	1. start the IBM Security Verify Directory Integrator Configuration Editior.
+	1. start the SyncWeave Configuration Editior.
 	2. import the .xml configuration file.
 	3. select the desired AssemblyLine.
 	4. Click "Run" button.

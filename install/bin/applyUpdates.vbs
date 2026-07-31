@@ -2,7 +2,7 @@
 ' IBM Confdential 
 ' PID 5724-K74
 '
-' Copyright IBM Corp. 2025
+' . 2025
 '
 
 On Error Resume Next

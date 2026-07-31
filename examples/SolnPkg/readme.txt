@@ -4,11 +4,11 @@ IBM Verify Directory Integration: Solution Packaging Example
 This example demonstrates how to use the newly introduced features
 of AL Operations in conjunction with ALFC/ALConnector and Solution Packaging.
 For an in-depth explanation of AL Operations and related features it is 
-recommended to read the IBM Security Verify Directory Integrator Reference/User Guides.
+recommended to read the SyncWeave Reference/User Guides.
 
 The files provided with this example are as follows: 
 1. customOperations.xml
-   This is the IBM Security Verify Directory Integrator config file which contains five AssemblyLines. 
+   This is the SyncWeave config file which contains five AssemblyLines. 
    a) mainAL is the AssemblyLine that exposes the various custom operations, 
       such as ldapadd, ldapdelete, ldapmodify, etc.
    b) call_ldapadd, call_ldapdelete, call_ldapmod, and call_lookup AssemblyLines
@@ -25,7 +25,7 @@ to connect to. Mention the ldap Url, the bind DN, the bind password, the
 base Dn for searches and search filter. All these parameters are read
 by the "ldapConnector" in the Connector library.
 
-2. Open the "customOperations.xml" in the IBM Security Verify Directory Integrator Config Editor(CE).
+2. Open the "customOperations.xml" in the SyncWeave Config Editor(CE).
 
 3. Open the "call_ldapadd" AssemblyLine. The call_ldapadd AssemblyLine contains the following components:
    a) PrepareWorkForAdd - This is a simple script that sets the work entry parameters needed to be
@@ -75,7 +75,7 @@ the AL being called.
 
 AL FC, AL Connector and Operations
 ----------------------------------
-The AL FC and AL Connector were improved in IBM Security Verify Directory Integrator v6.1 to "discover" the operations of an AL.
+The AL FC and AL Connector were improved in SyncWeave v6.1 to "discover" the operations of an AL.
 In this example an AL Connector has been used to run the "mainAL" in ldapadd "mode". The AL FC has been
 used to run the "mainAL" in the ldapmod, ldapdelete and ldapsearch "modes". Whenever an AL is selected
 and its operation is selected, the appropriate attributes show up in the Input and Output Maps for the
@@ -85,7 +85,7 @@ The AL Connector also has built in intelligence to support the various standard 
 Iterator, Lookup, etc. For that to work there are certain operations that must be exposed by the AL.
 For example for Iterator mode to be supported, the AL must expose initialize, selectEntries, getNextEntry,
 terminate,etc. These are the same "standard" methods that a connector needs to implement programmatically.
-More details on this can be found in the IBM Security Verify Directory Integrator Documentation. This feature is outside the scope
+More details on this can be found in the SyncWeave Documentation. This feature is outside the scope
 of the current example.
 
 Steps to be carried out to create an AL which exposes operations
@@ -100,7 +100,7 @@ Steps to be carried out to create an AL which exposes operations
 
 Steps required to Publish an AL to a Package
 --------------------------------------------
-An AL can also now be published for distribution and use in other IBM Security Verify Directory Integrator configs. This allows
+An AL can also now be published for distribution and use in other SyncWeave configs. This allows
 developers to share and re-use AssemblyLines without diving deep into the implementation
 of the AL. Solution developers can create AssemblyLines that expose custom (and user friendly)
 operations, and then Publish there AL's as a package and distribute them to other developers.
@@ -112,7 +112,7 @@ AL FC.
    The Package information dialog box pops up. 
 2. Mention a unique (any) package Id, and other details like description, author, version, etc.
 3. Click on "Save" button on top right hand corner to save this package into the "packages"
-   folder of your IBM Security Verify Directory Integrator Installation Directory. 
+   folder of your SyncWeave Installation Directory. 
 4. Now this package is ready to be distributed and re-used in other solutions, just like the "mainAL"
    was used by the "call_" ALs. You will notice in the bottom left hand window - there is a tab called
    "Packages" where this newly saved package automatically shows up. Also, in the AL FC's and ALConnector's

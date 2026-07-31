@@ -2,17 +2,17 @@ SPMLv2Parser Example.
 
 Overview:
 ---------
-The example contains two IBM Security Verify Directory Integrator configurations - "SPMLExample" and "SPMLStreamSearchExample". 
-The first configuration is IBM Security Verify Directory Integrator solution illustrating the ability to perform SPML communication over HTTP. 
+The example contains two SyncWeave configurations - "SPMLExample" and "SPMLStreamSearchExample". 
+The first configuration is SyncWeave solution illustrating the ability to perform SPML communication over HTTP. 
 It is a general solution, which could handle different SPML requests.
 The "SPMLStreamSearchExample" is a solution, developed to handle only SPML search requests.
-It provides the opportunity to flush large result sets on smaller parts thus lowering the IBM Security Verify Directory Integrator Server memory overhead.
+It provides the opportunity to flush large result sets on smaller parts thus lowering the SyncWeave Server memory overhead.
 For this purpose communication over TCP is used.  
  
 
 SPMLExample
 -----------
-This IBM Security Verify Directory Integrator configuration consists of three AssemblyLines. The first two AssemblyLines act as the SPMLv2 clients
+This SyncWeave configuration consists of three AssemblyLines. The first two AssemblyLines act as the SPMLv2 clients
 and contain HTTP Client Connectors configured with SPMLv2 Parsers. The first AssemblyLine (SendAddRequest) 
 creates a simple SPMLv2 Batch Add Request and sends it over http. The second AssemblyLine (SendSearchRequest)
 creates a simple SPMLv2 Search Request and sends it over http. The third AssemblyLine (Server) 
@@ -40,18 +40,18 @@ When more than one Entry is returned to the LDAP connector, then each one is sen
 
 This example consists of the following files:
 
-SPMLExample.xml �IBM Security Verify Directory Integratorr configuration file for handling SPML Add and Search requests
-SPMLStreamSearchExample - IBM Security Verify Directory Integrator configuration file for handling SPML Search requests and processing stream search results  
+SPMLExample.xml �SyncWeaver configuration file for handling SPML Add and Search requests
+SPMLStreamSearchExample - SyncWeave configuration file for handling SPML Search requests and processing stream search results  
 AddRequest.xml - The file which contains the Add Request.
 SearchRequest.xml - The file which contains the Search Request.
 readme.txt � this file.
 
-How to run the sample IBM Security Verify Directory Integrator configs:
+How to run the sample SyncWeave configs:
 ----------------------------------
 
 SPMLExample
 -----------
-1.	Start IBM Security Verify Directory Integrator Config Editor (ibmditk.bat).
+1.	Start SyncWeave Config Editor (ibmditk.bat).
 2.	Open the SPMLExample.xml file.
 3.	Reconfigure the LDAP Connector to connect to your LDAP Server.
 4.	Start Server with Run, not with Step Mode.
@@ -62,7 +62,7 @@ If you start the SendAddRequest AL more than once the LDAPConnector will ignore 
 
 SPMLStreamSearchExample
 -----------------------
-1.	Start IBM Security Verify Directory Integrator Config Editor (ibmditk.bat).
+1.	Start SyncWeave Config Editor (ibmditk.bat).
 2.	Open the SPMLStreamSearchExample.xml file.
 3.	Reconfigure the LDAP Connector to connect to your LDAP Server.
 4.	Start Server with Run, not with Step Mode.

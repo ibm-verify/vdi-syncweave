@@ -1,5 +1,5 @@
 /*
-*	(c) Copyright IBM Corp. 1991, 2007 All Rights Reserved
+*	(c) . 1991, 2007 All Rights Reserved
 */
 #ifndef jniport_h
 #define jniport_h

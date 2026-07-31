@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import com.ibm.di.exceptions.DOMException;
 
 /**
  * This class is just a place holder for all the methods that are not relevant
- * to the IBM Tivoli Directory Integrator's DOM implementation and that are not
+ * to the SyncWeave's DOM implementation and that are not
  * implemented. This class is extended by the Entry class.
  * 
  * @since 7.0

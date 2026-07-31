@@ -3,13 +3,11 @@
 /********************************************************************/          
 /*                                                                  */          
 /*    Licensed Materials - Property of IBM                          */          
-/*    5698-B09 (C) Copyright IBM Corp. 2009, 2011                   */          
+/*    5698-B09 (C) . 2009, 2011                   */          
 /*    ALL RIGHTS RESERVED.                                          */          
 /*                                                                  */          
-/*    US GOVERNMENT USERS RESTRICTED RIGHTS                         */          
-/*    - USE, DUPLICATION OR  DISCLOSURE RESTRICTED BY               */          
-/*      GSA ADP SCHEDULE CONTRACT WITH IBM CORPORATION.             */          
-/*                                                                  */          
+/*    /*    - USE, DUPLICATION OR  DISCLOSURE RESTRICTED BY               */          
+/*      /*                                                                  */          
 /*                                                                  */          
 /********************************************************************/          
 /*                                                                  */          

@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.ibm.di.connector.sapr3.bor;
 import org.w3c.dom.Document;
 
 /**
- * Adapter for IBM Tivoli Directory Integrator Function Components.
+ * Adapter for SyncWeave Function Components.
  * 
  */
 interface XmlFunctionAdapter {

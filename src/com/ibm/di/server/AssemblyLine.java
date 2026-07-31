@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ import com.ibm.jscript.types.FBSGlobalObject;
 import com.ibm.jscript.types.FBSNull;
 
 /**
- * This class represents a IBM Tivoli Directory Integrator AssemblyLine.
+ * This class represents a SyncWeave AssemblyLine.
  *
  * When an AssemblyLine needs to be started the com.ibm.di.server.RS object
  * creates an instance of the AssemblyLine class and then calls the start()

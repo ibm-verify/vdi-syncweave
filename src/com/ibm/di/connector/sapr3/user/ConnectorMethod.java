@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * ConnectorMethod
  * 
- * Representation of an IBM Tivoli Directory Integrator Connector method. Concrete impls will perform the
+ * Representation of an SyncWeave Connector method. Concrete impls will perform the
  * real work for the Connector method, e.g. putEntry().
  * 
  */

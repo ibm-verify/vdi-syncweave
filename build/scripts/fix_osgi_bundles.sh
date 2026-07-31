@@ -1,8 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright IBM Corp. 2025
-
+# Copyright contributors to the SyncWeave project
 #
 # This script fixes OSGi manifests for third-party JARs that don't have
 # proper OSGi bundle metadata. This is required for Java 17 migration.

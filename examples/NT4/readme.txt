@@ -17,14 +17,14 @@ Sample output files:
 and readme.txt 
 
 To run this demo you must:
-o install IBM Security Verify Directory Integrator.
+o install SyncWeave.
 o have administrator privileges on the NT/AD machine accessed by the NT4 Connector.
 
 There are 5 configuration .xml files included in this package, each demonstrating one NT4 connector mode.
 All are using the external property file nt.properties for defining server, username and password for the Connector Configurations.
 To run any of the AssemblyLines:
 o Edit the file nt.properites to match your local configuration.
-o Start the IBM Security Verify Directory Integrator.
+o Start the SyncWeave.
 o Open the configuration .xml file for the mode you chose (for example, NT4_iterator.xml to run Iterator connector's mode).
 o Open AssemblyLine.
 o Click the "Run" icon.
@@ -80,7 +80,7 @@ JavaScript code is used on the following places:
 	(-) "Update" Connector -> "Hooks" tab -> "On Error Hook" -> Message logged if entry not found.
 	
 Result: 
-If a user account "NewGuest" exists, its "AccountComment" attribute is updated with the value "A test user account added by IBM Security Verify Directory Integrator". You can view the update by running the Iterator AssemblyLine or with any NT/AD admin tool (for example, "User Manager").
+If a user account "NewGuest" exists, its "AccountComment" attribute is updated with the value "A test user account added by SyncWeave". You can view the update by running the Iterator AssemblyLine or with any NT/AD admin tool (for example, "User Manager").
 
 
 o "Delete" (NT4_delete.xml): iterates through all users on your NT/AD machine. If a user "NewGuest" is found, it is deleted.

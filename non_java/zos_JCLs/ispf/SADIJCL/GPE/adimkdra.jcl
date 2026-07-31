@@ -2,12 +2,10 @@
 //  CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1)                                           
 //***************************************************************               
 //** Licensed Materials - Property of IBM                      **               
-//** 5698-B33 (C) Copyright IBM Corp. 2007, 2011               **               
+//** 5698-B33 (C) . 2007, 2011               **               
 //** All rights reserved.                                      **               
 //**                                                           **               
-//** US Government Users Restricted Rights - Use, duplication  **               
-//** or disclosure restricted by GSA ADP Schedule Contract     **               
-//** with IBM Corp.                                            **               
+//** //** or disclosure restricted by //** with IBM Corp.                                            **               
 //***************************************************************               
 //**                                                           **               
 //**     PROCEDURE:  ADIMKDRA                                  **               

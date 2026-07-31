@@ -5,8 +5,8 @@ This example consists of the following files:
 
 TDICustomInstallRsp_Unix.txt     - Response file for doing a custom install, all features selected, on a Unix system
 TDICustomInstallRsp_Windows.txt  - Response file for doing a custom install, all features selected, on a Windows system
-TDICustomUpgradeRsp_Unix.txt     - Response file for doing an upgrade from IBM Security Verify Directory Integrator 7.1.1 to 7.2 on a Unix system
-TDICustomUpgradeRsp_Windows.txt  - Response file for doing an upgrade from IBM Security Verify Directory Integrator 7.1.1 to 7.2 on a Windows system
+TDICustomUpgradeRsp_Unix.txt     - Response file for doing an upgrade from SyncWeave 7.1.1 to 7.2 on a Unix system
+TDICustomUpgradeRsp_Windows.txt  - Response file for doing an upgrade from SyncWeave 7.1.1 to 7.2 on a Windows system
 TDITypicalInstallRsp_Unix.txt    - Response file for doing a typical install on a Unix system
 TDITypicalInstallRsp_Windows.txt - Response file for doing a typical install on a Windows system
 TDIUninstallRsp_Unix.txt         - Response file for doing an uninstall on a Unix system

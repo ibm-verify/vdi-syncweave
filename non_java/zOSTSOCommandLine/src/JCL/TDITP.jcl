@@ -2,11 +2,9 @@
 //******************************************************************
 //*LICENSED MATERIALS - PROPERTY OF IBM
 //*SOURCE FILE NAME = TDITP
-//*(C) COPYRIGHT IBM CORP. 2004, 2006 ALL RIGHTS RESERVED
+//*(C) . 2004, 2006 ALL RIGHTS RESERVED
 //*
-//*US GOVERNMENT USERS RESTRICTED RIGHTS - USE, DUPLICATION OR
-//*DISCLOSURE RESTRICTED BY GSA ADP SCHEDULE CONTRACT WITH IBM CORP.
-//******************************************************************
+//*//*DISCLOSURE RESTRICTED BY //******************************************************************
 //*
 //*  THIS JCL IS USED TO REGISTER THE APPC/MVS TRANSACTION
 //*  FOR THE TIVOLI DIRECTORY INTEGRATOR EXPRESS COMMAND TRANSACTION.

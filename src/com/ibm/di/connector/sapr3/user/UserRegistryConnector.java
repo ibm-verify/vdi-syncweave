@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,9 +26,9 @@ import org.w3c.dom.Document;
  * %sapurcn.release.build.version%.
  * </p>
  * <p>
- * The connector enables external applications, using IBM Tivoli Directory Integrator, to manage users in
- * SAP R/3. It projects the SAP user database as a "registry" into the IBM Tivoli Directory Integrator
- * infrastructure. It supports the following IBM Tivoli Directory Integrator Connector Modes: <b>Add Only,
+ * The connector enables external applications, using SyncWeave, to manage users in
+ * SAP R/3. It projects the SAP user database as a "registry" into the SyncWeave
+ * infrastructure. It supports the following SyncWeave Connector Modes: <b>Add Only,
  * Delete, Update, Iterator, Lookup.</b> The connector supports design time
  * schema query via {@link #querySchema}.
  * </p>
@@ -364,7 +364,7 @@ public final class UserRegistryConnector extends Connector implements
 	 * been provided by the caller.
 	 * 
 	 * @param o
-	 *            IBM Tivoli Directory Integrator config object. Not used.
+	 *            SyncWeave config object. Not used.
 	 * 
 	 * @throws UserRegistryConnectorException
 	 *             When an error happens during super class init.
@@ -378,7 +378,7 @@ public final class UserRegistryConnector extends Connector implements
 			super.initialize(o);
 			setConfig(new ConfigurationImpl(this));
 		} catch (Exception x) {
-			// IBM Tivoli Directory Integrator's method Connector.initialize declares to
+			// SyncWeave's method Connector.initialize declares to
 			// throw Exception.
 			throw new UserRegistryConnectorException(LogMessageHelper
 					.getMsgResource().getMessage(
@@ -388,11 +388,11 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Return the IBM Tivoli Directory Integrator Entry schema supported by this connector. The connector
+	 * Return the SyncWeave Entry schema supported by this connector. The connector
 	 * supports two attributes named "sapUserXml" and "sapUserName". sapUserXml
 	 * is an XML string representing the attributes of a user to be operated on.
 	 * sapUserName is a string representing a given user name in SAP. It is
-	 * supported to allow the definition of IBM Tivoli Directory Integrator "LinkCriteria" when the
+	 * supported to allow the definition of SyncWeave "LinkCriteria" when the
 	 * connector is deployed in Lookup, Delete, or Update modes.
 	 * 
 	 * @param source
@@ -400,7 +400,7 @@ public final class UserRegistryConnector extends Connector implements
 	 * 
 	 * @throws UserRegistryConnectorException
 	 *             If an error occurs.
-	 * @return A vector containg one Entry for IBM Tivoli Directory Integrator schema display.
+	 * @return A vector containg one Entry for SyncWeave schema display.
 	 */
 	public Object querySchema(Object source)
 			throws UserRegistryConnectorException {
@@ -433,7 +433,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Called by IBM Tivoli Directory Integrator AL to add a new user and associated attributes to SAP R/3.
+	 * Called by SyncWeave AL to add a new user and associated attributes to SAP R/3.
 	 * 
 	 * @param entry
 	 *            The AL connector entry input. This connector must have an
@@ -492,7 +492,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Called by IBM Tivoli Directory Integrator AL to remove an existing user and associated attributes
+	 * Called by SyncWeave AL to remove an existing user and associated attributes
 	 * from SAP R/3.
 	 * 
 	 * @param entry
@@ -589,7 +589,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 	
 	/**
-	 * Called by IBM Tivoli Directory Integrator AL to update an existing user and associated attributes in
+	 * Called by SyncWeave AL to update an existing user and associated attributes in
 	 * SAP R/3.
 	 * 
 	 * @param entry
@@ -657,7 +657,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Called by IBM Tivoli Directory Integrator AL to find an existing user and associated attributes in
+	 * Called by SyncWeave AL to find an existing user and associated attributes in
 	 * SAP R/3.
 	 * 
 	 * @param search
@@ -739,7 +739,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Called by IBM Tivoli Directory Integrator AL when the connector operates in Iterator mode inside an
+	 * Called by SyncWeave AL when the connector operates in Iterator mode inside an
 	 * assembly line. It finds all user names currently managed by the connected
 	 * SAP R/3 instance. It stores all users names in a cached
 	 * R3UsernameIterator following a RFC lookup to obtain the names.
@@ -849,7 +849,7 @@ public final class UserRegistryConnector extends Connector implements
 	}
 
 	/**
-	 * Get the version string. Used by IBM Tivoli Directory Integrator to log version info at AL startup.
+	 * Get the version string. Used by SyncWeave to log version info at AL startup.
 	 * 
 	 * @return The version info string for this connector.
 	 */

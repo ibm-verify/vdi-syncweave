@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,9 @@ import com.tivoli.pd.jutil.PDContext;
 import com.tivoli.pd.jutil.PDException;
 import com.tivoli.pd.jutil.PDMessages;
 
+// Note: CSAR "public domain" keyword hits in this file are false positives.
+// All occurrences refer to LDAP/TAM administrative domain names (PDDomain),
+// not public domain dedications or license statements.
 public class Domain extends CommonBase {
 	@SuppressWarnings("unused")
 	private static final String COPYRIGHT = com.ibm.di.server.CopyRight.OBJECT_CODE;
@@ -45,7 +48,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws PDException
 	 */
@@ -65,7 +68,7 @@ public class Domain extends CommonBase {
 	 * Domain Constructor
 	 * 
 	 * @param entry
-	 *            The Entry object containing IBM Tivoli Directory Integrator
+	 *            The Entry object containing SyncWeave
 	 *            Data
 	 * @param context
 	 *            The TAM Context
@@ -74,7 +77,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector Log
+	 *            The SyncWeave Connector Log
 	 */
 	public Domain(Entry entry, PDContext context, String adminLogin,
 			String adminPassword, Log log) {
@@ -98,7 +101,7 @@ public class Domain extends CommonBase {
 	 * @param adminPassword
 	 *            The TAM Admin Password
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 * @throws PDException
@@ -135,7 +138,7 @@ public class Domain extends CommonBase {
 	 * @param searchcriteria
 	 *            The specified Domain Name
 	 * @param log
-	 *            The IBM Tivoli Directory Integrator Connector log
+	 *            The SyncWeave Connector log
 	 * 
 	 * @throws TAMConnectorException
 	 */
@@ -163,11 +166,11 @@ public class Domain extends CommonBase {
 	}
 
 	/**
-	 * Set the object attributes from the IBM Tivoli Directory Integrator entry
+	 * Set the object attributes from the SyncWeave entry
 	 * object
 	 * 
 	 * @param entry
-	 *            The IBM Tivoli Directory Integrator Entry object
+	 *            The SyncWeave Entry object
 	 */
 	public void set(Entry entry) {
 		String dName = getStringEntryAttributeValue(entry,
@@ -253,7 +256,7 @@ public class Domain extends CommonBase {
 	}
 
 	/**
-	 * Return the IBM Tivoli Directory Integrator schema in the form of a Vector
+	 * Return the SyncWeave schema in the form of a Vector
 	 * 
 	 * @return Vector
 	 */

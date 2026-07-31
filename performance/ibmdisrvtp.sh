@@ -4,15 +4,10 @@
 #
 # %I%, %G%
 #
-# Licensed Materials - Property of IBM
 #
-# Restricted Materials of IBM
 #
 # (C) COPYRIGHT International Business Machines Corp. 2006, 2010
-# All Rights Reserved
 #
-# US Government Users Restricted Rights - Use, duplication or
-# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 #
 # IBM_PROLOG_END_TAG
 

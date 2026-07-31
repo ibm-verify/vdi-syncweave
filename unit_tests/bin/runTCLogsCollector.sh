@@ -4,20 +4,15 @@
 #
 # 1.1, 11/25/09
 #
-# Licensed Materials - Property of IBM
 #
-# Restricted Materials of IBM
 #
 # (C) COPYRIGHT International Business Machines Corp. 2009
-# All Rights Reserved
 #
-# US Government Users Restricted Rights - Use, duplication or
-# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 #
 # IBM_PROLOG_END_TAG
 
 ####################################################################
-# Start up script for IBM Tivoli Directory Integrator's Unit Tests #
+# Start up script for SyncWeave's Unit Tests #
 ####################################################################
 
 # Function to source in the TDI setupCmdLine.sh script

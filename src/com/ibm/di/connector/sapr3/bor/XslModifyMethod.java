@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.ibm.di.connector.sapr3.bor;
 import java.io.File;
 
 /**
- * The class represents the main method implementation for an IBM Tivoli Directory Integrator Connector
+ * The class represents the main method implementation for an SyncWeave Connector
  * modEntry().
  * 
  */

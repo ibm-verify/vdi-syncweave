@@ -2,7 +2,7 @@
 Password Decryption (pwsync_decryption)  Example:
 Note: If viewing this file with Notepad, set Format->Word Wrap from the toolbar.
 
-This example demonstrates the use of the password decryption function provided with the IDIPasswordSynchronizer Plugin provided with IBM Security Verify Directory Integrator.  Specifically, the assemblyline demonstrates how to use the 
+This example demonstrates the use of the password decryption function provided with the IDIPasswordSynchronizer Plugin provided with SyncWeave.  Specifically, the assemblyline demonstrates how to use the 
 cryptography helper class, com.ibm.di.function.UserFunctions.getRsaDecrypted which is packaged in miserver.jar and is accessible by the assemblyline.
 The GetNextSuccessful hook of the getPasswords connector uses the following static method call to decrypt the passwords captured by the PasswordSynchronizer: 
  

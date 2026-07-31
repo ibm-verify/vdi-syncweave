@@ -16,7 +16,7 @@ This demo provides two AssemblyLines. Here is a brief description of them:
 
 
 To run "Remove_Delta_Tagging_At_Value_Level":
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Import the delta_tagging.xml file.
 3. Open the "AssemblyLine" branch.
 4. Select "Remove_Delta_Tagging_At_Value_Level" AssemblyLine.
@@ -24,7 +24,7 @@ To run "Remove_Delta_Tagging_At_Value_Level":
 6. Check the generated output (output.xml).
 
 To run "Regular_Entry_To_Delta_Entry":
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Import the delta_tagging.xml file.
 3. Open the "AssemblyLine" branch.
 4. Select "Regular_Entry_To_Delta_Entry" AssemblyLine.
@@ -41,7 +41,7 @@ Make sure you don't add an user with already existing key in the database.
 Here is a brief description of "Remove_Delta_Tagging_At_Value_Level" workflow:
 1. Iterate a sample input file "input.ldif".
 2. Convert the read Delta tagged Entry to a regular Entry. You can find the JavaScript code that does it in:
-IBM Security Verify Directory Integrator -> "Remove_Delta_Tagging_At_Value_Level" AssemblyLine -> select "Remove_Delta_Tagging_At_Value_Level" script
+SyncWeave -> "Remove_Delta_Tagging_At_Value_Level" AssemblyLine -> select "Remove_Delta_Tagging_At_Value_Level" script
 3. Write the Entries to the output file "output.xml" using SPMLv2 Parser.
 
 
@@ -55,7 +55,7 @@ Here is a brief description of "Regular_Entry_To_Delta_Entry" workflow:
 	"modify" -> "modify"
 	<anything else> --> "unchanged"
 	You can find the JavaScript code that does it in:
-	IBM Security Verify Directory Integrator -> "Regular_Entry_To_Delta_Entry" AssemblyLine -> select "Regular_Entry_To_Delta_Entry" script
+	SyncWeave -> "Regular_Entry_To_Delta_Entry" AssemblyLine -> select "Regular_Entry_To_Delta_Entry" script
 3. Write the Delta Entries to "users.mdb" using JDBC Connector.
 
 NOTE:

@@ -1,5 +1,5 @@
 
-This demo package demonstrates how IBM Security Verify Directory Integrator built-in XMLParser functionality can be extended by script-overriding some of its mechanisms. You can find 2 IBM Security Verify Directory Integrator configurations - one that implements XMLParser when handling 3 levels depth XML documents, and one that implements XMLParser when handling arbitrary depth XML documents.
+This demo package demonstrates how SyncWeave built-in XMLParser functionality can be extended by script-overriding some of its mechanisms. You can find 2 SyncWeave configurations - one that implements XMLParser when handling 3 levels depth XML documents, and one that implements XMLParser when handling arbitrary depth XML documents.
 
 
 This example contains the following files:
@@ -11,10 +11,10 @@ This example contains the following files:
 	expected_deep_xml_out.xml (expected output data,
 	readme.txt (this file).
 
-To run this demo you must have installed IBM Security Verify Directory Integrator.
+To run this demo you must have installed SyncWeave.
 
 There are 2 .xml configuration files included in this package (3level_xml.xml and arbitrary_deep_xml_parser.xml). To run any of them:
-1 start the IBM Security Verify Directory Integrator.
+1 start the SyncWeave.
 2 open the .xml configuration file of your choice.
 3 select the AssemblyLine.
 4 Click "Run" icon.

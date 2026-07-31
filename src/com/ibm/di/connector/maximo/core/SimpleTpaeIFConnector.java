@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ import com.ibm.di.server.SearchCriteria;
 import com.ibm.di.server.Trace;
 
 /**
- * IBM Tivoli Directory Integrator connector for TPAE IF.
+ * SyncWeave connector for TPAE IF.
  * <p>
  * Supported Modes:
  * </p>

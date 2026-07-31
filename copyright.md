@@ -11,24 +11,11 @@ correct in any files they create or modify. This is checked during code review.
 
 ## Format
 
-The first listed year is the year the file was created. When modifying an
-existing file, update the second year to the current year.
-
 ### Java / C / C++
 
 ```java
 /*
- * Copyright IBM Corp. YYYY, 2025
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-```
-
-For new files created in the current year, omit the second year:
-
-```java
-/*
- * Copyright IBM Corp. 2025
+ * Copyright contributors to the SyncWeave project
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,7 +24,7 @@ For new files created in the current year, omit the second year:
 ### Shell Scripts / Makefiles / Python
 
 ```sh
-# Copyright IBM Corp. YYYY, 2025
+# Copyright contributors to the SyncWeave project
 #
 # SPDX-License-Identifier: Apache-2.0
 ```

@@ -3,10 +3,8 @@ REM * --------------------------------------------------------------------------
 REM *  Licensed Materials - Property of IBM
 REM *
 REM *  5724-O62
-REM *  (C) Copyright IBM Corp. 2008
+REM *  (C) . 2008
 REM *
-REM *  US Government Users Restricted Rights - Use, duplication, or
-REM *  disclosure restricted by GSA ADP Schedule Contract with
 REM *  IBM Corp.
 REM * ------------------------------------------------------------------------------
 REM This file is the top level build command file.  It is referenced

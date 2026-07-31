@@ -13,7 +13,7 @@ Prerequisites:
 The following software components are needed for the example:
 
 1. IBM Tivoli Netcool/OMNIbus
-2. IBM Security Verify Directory Integrator
+2. SyncWeave
 3. Probe for Tivoli EIF 
 Note: the "log.jar" and "evd.jar" file that go with the EIF probe must be copied to the jars directory of SDI.
 
@@ -21,7 +21,7 @@ This demo provides one AssemblyLine. Here is a brief description of it:
 "TDI_Monitoring" - This AssemblyLine monitors the SDI Server and listens to SDI events. Then they are sent to OMNIbus.
 
 To run this demo:
-1. Start the IBM Security Verify Directory Integrator Config Editor.
+1. Start the SyncWeave Config Editor.
 2. Import the tdi_omnibus.xml file.
 3. Modify the "EventPropertiesFile" so that it matches the set of events that you want to receive. (For more detailed information refer to the "Work with properties" section)
 4. Open the "AssemblyLine" branch.
