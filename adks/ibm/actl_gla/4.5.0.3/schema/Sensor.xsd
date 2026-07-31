@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:Sensor="http://www.eclipse.org/hyades/schema/Sensor.xsd" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="sensor" ecore:package="sensor" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/Sensor.xsd">
+    <annotation>
+        <documentation xml:lang="en">
+          Copyright (c) 2005 IBM Corporation and others.
+          All rights reserved.   This program and the accompanying materials
+          are made available under the terms of the Eclipse Public License v1.0
+          which accompanies this distribution, and is available at
+          http://www.eclipse.org/legal/epl-v10.html
+        </documentation>
+    </annotation>
+    <import namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+    <complexType name="SensorConfigType">
+        <annotation>
+            <documentation>   A sensor reads data from a source and returns it 
+                to the next component in the context.  It has some common space
+                control related attributes.  A sensor is a processing unit, aka
+                component, and has those implied attributes as well.  Specific 
+                sensor implementation parameters are specified as process unit
+                property elements.  </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="pu:ProcessUnitType">
+                <choice maxOccurs="1" minOccurs="0">
+                    <annotation>
+                    	<documentation>
+                    	Deprecated since TPTP 3.3.  Sensor type elements are deprecated as
+                		of TPTP 3.3 so this type element choice is optional since
+                		TPTP 3.3.  Type elements are required if the adapter is
+                    	executed by Hyades GLA 1.3 or older run-time.
+                    	</documentation>
+                	</annotation>
+                    <element name="SingleFileSensor" type="Sensor:SingleFileSensorType"/>
+                    <element name="AdapterCBESensor" type="Sensor:AdapterCBESensorType"/>
+                    <element name="StaticParserSensor" type="Sensor:StaticParserSensorType"/>
+                </choice>
+                <attribute name="type" type="Sensor:SensorType" use="required"/>
+                <attribute name="maximumBlocking" type="string" use="required">
+                    <annotation>
+                        <documentation>
+                            maximumBlocking is used to determine how
+                            many records can be
+                            passed out of the sensor. For example a
+                            value of 5 implies that
+                            5 or less records can be provided in one
+                            call to a sensor.                       This
+                            is an important tuning feature because large
+                            blocks                       reduce context
+                            flow overhead, yet also often require more memory.</documentation>
+                    </annotation>
+                </attribute>
+                <attribute name="confidenceBufferSize" type="integer" use="optional">
+                <annotation>
+                        <documentation>
+                            confidenceBufferSize is used to store the historic information at the
+                            end of a file.  Then, subsequent checks to determine if the file has been 
+                            appended to or replaced can use this buffer to compare where the append 
+                            operation started at. If no value is specified the adapter assumes 
+                            a confidenceBufferSize of 1024 bytes.
+                        </documentation>
+                </annotation>
+                </attribute>
+                <attribute name="fileFooterSize" type="integer" use="optional">
+                <annotation>
+                        <documentation>
+                            fileFooterSize is used  in conjunction with the confidenceBufferSize.  This
+                            is the tail portion of a file which is used to store footer information and will
+                            not be used as part of the comparison to determine if an append has occured.
+                            If no value is specified the adapter assumes a fileFooterSize of 90 bytes.
+                        </documentation>
+                </annotation>
+                </attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+    <attributeGroup name="SensorAttributes">
+        <annotation>
+            <documentation>     Deprecated since TPTP 3.3. This is a group of attributes that are
+                common to some of the sensors.</documentation>
+        </annotation>
+        <attribute name="directory" type="string" use="required">
+            <annotation>
+                <documentation>      The directory path of the input
+                    file that will be      read.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="fileName" type="string" use="required">
+            <annotation>
+                <documentation>      The name of the input file that
+                    will be      read.</documentation>
+            </annotation>
+        </attribute>
+    </attributeGroup>
+    <complexType name="SensorPropertyType">
+        <annotation>
+            <documentation>     Deprecated since TPTP 3.3. A generic sensor configuration property. </documentation>
+        </annotation>
+        <attribute name="propertyName" type="string" use="required"/>
+        <attribute name="propertyValue" type="string" use="required"/>
+    </complexType>
+    <complexType name="SensorBaseType">
+        <annotation>
+            <documentation>     Deprecated since TPTP 3.3. The sensor base type that contains a
+                sequence of zero or more properties. </documentation>
+        </annotation>
+        <sequence>
+            <element maxOccurs="unbounded" minOccurs="0" name="SensorProperty" type="Sensor:SensorPropertyType"/>
+        </sequence>
+    </complexType>
+    <complexType name="AdapterCBESensorType">
+        <annotation>
+            <documentation>     Deprecated since TPTP 3.3. This is a special sensor because it is
+                monitoring the adapter itself. It also takes CBEs as
+                input in order     to minumize processing costs of the
+                adpator itself. It has no special configuration.</documentation>
+        </annotation>
+        <complexContent>
+            <extension base="Sensor:SensorBaseType"/>
+        </complexContent>
+    </complexType>    
+    <complexType name="SingleFileSensorType">
+        <annotation>
+            <documentation>    Deprecated since TPTP 3.3. A single file sensor monitors a given
+                file in a given directory. If a converter is provided
+                it is used to preprocess the entire file as it existed
+                before reading it.</documentation>
+        </annotation>
+        <complexContent>
+            <extension base="Sensor:SensorBaseType">
+                <attributeGroup ref="Sensor:SensorAttributes"/>
+                <attribute name="converter" type="string" use="optional"/>
+                <attribute name="shell" type="string" use="optional"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="StaticParserSensorType">
+        <annotation>
+            <documentation>    Deprecated since TPTP 3.3. A sensor that runs a static parser to
+                parse a log file.</documentation>
+        </annotation>
+        <complexContent>
+            <extension base="Sensor:SensorBaseType">
+                <attributeGroup ref="Sensor:SensorAttributes"/>
+                <attribute name="parserClassName" type="string" use="required">
+                    <annotation>
+                        <documentation>        The full class name of
+                            the static parser that will        be
+                            executed.  The name must include the package.</documentation>
+                    </annotation>
+                </attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+    <simpleType name="SensorType">
+        <annotation>
+            <documentation>     The basic sensor types that are understood and can be configured.</documentation>
+        </annotation>
+        <restriction base="NCName">
+            <!--
+				A simple sensor to monitor the adpator itself
+			-->
+            <enumeration value="AdapterCBESensor"/>
+            <!--
+				A simple sensor to monitor a single file
+			-->
+            <enumeration value="SingleFileSensor"/>
+            <!--
+				A sensor to run a static parser against a log file
+			-->
+            <enumeration value="StaticParserSensor"/>
+            <!--
+				The role of undeclared component role is to allow a context to exploit components not as yet standardized.
+			-->
+            <enumeration value="undeclared"/>
+        </restriction>
+    </simpleType>
+</schema>

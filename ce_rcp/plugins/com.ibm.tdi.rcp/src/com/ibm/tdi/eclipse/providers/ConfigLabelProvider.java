@@ -194,7 +194,7 @@ public class ConfigLabelProvider extends ColumnLabelProvider {
 			str = Messages.getMessage("ConfigLabelProvider.6", element.getClass().getName());
 
 		if (str != null && str.startsWith("SyncWeave"))
-			str = str.substring(32);
+			str = str.substring(9);
 
 		if (element instanceof LoopConfig) {
 			LoopConfig lc = (LoopConfig) element;

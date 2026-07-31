@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema ecore:nsPrefix="hga" ecore:package="context" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/Context.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:Context="http://www.eclipse.org/hyades/schema/Context.xsd" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+	<annotation>
+	  <documentation xml:lang="en">
+        Copyright (c) 2005 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+	  </documentation>
+	 </annotation>
+	<element name="Contexts" type="Context:ContextsType">
+		<annotation>
+			<documentation>
+			The Contexts element has the purpose of holding a sequence of Context elements. 
+		The purpose of an instance that conforms to this schema is to define the basic
+		information needed to run an adapter. This is done by providing one or more context configurations.
+		For the adapter to run, it only needs to know the names of the classes involved. In particular the
+		adapter only needs to know the name of the class that implements a particular context.
+		It is then up to that context implementation to deal with the components in that context.
+		The context implementation in turn only needs to know the class names that implement the components.
+			</documentation>
+        </annotation>
+    </element>
+	<complexType name="ContextsType">
+			<sequence maxOccurs="unbounded" minOccurs="1">
+				<element name="Context" type="Context:contextType"/>
+			</sequence>
+	</complexType>
+	<element name="Context" type="Context:contextType"/>
+	<!-- Context	-->
+	<complexType name="contextType">
+		<annotation>
+			<documentation>
+				This type describes a context. A context contains a sequence of Component elements as well as its own definition.
+				The purpose of a concrete context is to use a set of components to typically monitor a data source
+				and produce Common Base Events. Logically a context can leverage any number of components and it is up to
+				the context and it's contract with components as to how it uses the components. For example the basic
+				context implementation provided in TPTP simply passes the results of one component to the next in the
+				order they are declared in this document, and the first component is asserted to be a sensor.
+			</documentation>
+		</annotation>
+		<sequence maxOccurs="unbounded" minOccurs="1">
+			<element name="Component" type="Context:component"/>
+		</sequence>
+		<attribute name="name" type="string" use="required">
+			<annotation>
+				<documentation>
+				The context name is a simple name used to identify the context. It is a short human readable string.
+				Typically a very small number of descriptive words that would not change over time as the context is perhaps
+				enhanced over releases. For example "Product X error log monitor".
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="description" type="string">
+			<annotation>
+				<documentation>
+				A Context Description is simply that, a detailed descriptive string, likely hilighting the the unique 
+				behavioural features of the context implementation. For example "A context that simply uses the sequential
+				components as they are provided and assumes the first component is a sensor".
+				This is an optional attribute and purely for documentation purposes.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="role" type="Context:contextRoleNames" use="required">
+			<annotation>
+				<documentation>
+				A context is itself a component. It is a specific type of component know as a context. This is it's role.
+				See the component role attribute for more details.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="loggingLevel" type="string" use="required">
+			<annotation>
+				<documentation>
+				All components have a logger and the logging level is used to indicate what level of logging is allowed for a 
+				component.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="executableClass" type="string" use="required">
+			<annotation>
+				<documentation>
+				The executable class is the class that implements the context behaviour and complies with
+				the apis required at the code level. This should be a fully package qualified class name.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="uniqueID" type="ID" use="required">
+			<annotation>
+				<documentation>
+				The unique ID is used to uniquely identify the specific context instance in the adapter. See the component
+				unique ID description for more information.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attributeGroup ref="Context:version">
+			<annotation>
+				<documentation>
+				A context defintion and implemenation is versioned, thus there is versioning information for both the role and 
+				the implementation.
+				</documentation>
+			</annotation>
+		</attributeGroup>
+	</complexType>
+	<!-- Component	-->
+	<complexType name="component">
+		<annotation>
+			<documentation>
+				This type describes a loadable component, by providing the executable class name and 
+				descriptive information for the purpose of compatability checking for the component.
+				A component provides a stage of processing within a context. There is a minmal interface contract between the context
+				and the components it uses. As long as a component implements the interface it can be managed by a context. 
+				The role of the component is optionally used by a context implementation to determine how to manage and leverage the
+				component.
+			</documentation>
+		</annotation>
+		<sequence maxOccurs="unbounded" minOccurs="0">
+			<annotation>
+				<documentation>
+				A component is allowed to have sub components. If this is the case, it is completely up to the component to understand
+				how to use these sub-components as well as how to manage them as components in the overall context in the adapter.
+				</documentation>
+			</annotation>
+			<element name="Component" type="Context:component"/>
+		</sequence>
+		<attribute name="name" type="string" use="required">
+			<annotation>
+				<documentation>
+					The component name is a simple name used to identify the component. It is a short human readable string.
+					Typically a very small number of descriptive words that would not change over time as the component is perhaps
+					enhanced over releases. For example "local file system sensor".
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="description" type="string">
+			<annotation>
+				<documentation>
+				A Component description is simply that, a detailed descriptive string, likely hilighting the the unique 
+				behavioural features of the context implementation. For example "A sensor of a single file in the local
+				file system and monitors updates based on a timer".
+				This is an optional attribute and purely for documentation purposes.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="role" type="Context:roleNames" use="required">
+			<annotation>
+				<documentation>
+				A component plays a specific role in a given context or parent component in the sense that it provides a specific
+				type of processing within the context. There are a specific set of phases that are promoted by the adapter and these
+				are described in the roleNames schema of this schema.
+				A key reason for typing or categorizing a component is to allow a context or parent component to categorically 
+				leverage the component. For example a context implementation may just use each component in the order they are 
+				declared in this schema. However the context may also determine the processing order base on the role of the component.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="loggingLevel" type="string" use="required">
+			<annotation>
+				<documentation>
+				All components have a logger and the logging level is used ot indicate what level of logging is allowed for a 
+				component.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="executableClass" type="string" use="required">
+			<annotation>
+				<documentation>
+				The executable class is the class that implements the component behaviour and complies with
+				the apis required at the code level. This should be a fully package qualified class name.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="uniqueID" type="ID" use="required">
+			<annotation>
+				<documentation>
+				The unique ID is used to uniquely identify the specific component instance in the adapter. This is the primary way 
+				the instance in this config is connected with a component configuration in the component configuration xml file that
+				will be associated with a running adapter.
+				This is needed because a given component implemenation may be used multiple times within an adapter. In the case of
+				a context, the adapter may be running and monitoring dozens of data sources, but all the context implementations may
+				in fact be the same executable class etcetera.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attributeGroup ref="Context:version">
+			<annotation>
+				<documentation>
+					A component defintion and implemenation is versioned, thus there is versioning information for both the role and 
+					the implementation.
+				</documentation>
+			</annotation>
+		</attributeGroup>
+	</complexType>
+	<!-- context role names	-->
+	<simpleType name="contextRoleNames">
+		<annotation>
+			<documentation>
+				A list of all the allowable roles for a context. Currently there is only one.
+			</documentation>
+		</annotation>
+		<restriction base="Context:roleNames">
+			<enumeration value="context"/>
+		</restriction>
+	</simpleType>
+	<!-- role names	-->
+	<simpleType name="roleNames">
+		<annotation>
+			<documentation>
+				A list of all the allowable roles for a component.
+			</documentation>
+		</annotation>
+		<restriction base="NCName">
+			<enumeration value="sensor">
+				<annotation>
+					<documentation>
+					The role of a sensor is to collect data from a data source and provide it in stream segments, aka lines, to down
+					stream components. It is typically the first component in a context.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="messageExtractor">
+				<annotation>
+					<documentation>
+					The role of a messageExtactor is to identify a complete message or unit from a stream segment.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="parser">
+				<annotation>
+					<documentation>
+					The role of a parser is to take a given message and break it into a set of named values or tokens, and then map them to 
+					Common Base Event structures.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="formatter">
+				<annotation>
+					<documentation>
+					The role of a formatter is to take a set of named values and format them into an object. For example creating a 
+					CommonBaseEvent object and filling it with the content as provided in the named values.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="messageFilter">
+				<annotation>
+					<documentation>
+					The role of a message filter is to take a set of named values and determine if it should continue to be processed or not.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="cbeFilter">
+				<annotation>
+					<documentation>
+					The role of a cbe filter is to take a Common Base Event and determine if it should continue to be processed or not.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="outputter">
+				<annotation>
+					<documentation>
+					The role of an outputter is when given an object, distribute it to the various interested output targets. This could be 
+					done by sending a standardized XML fragment over a socket, or by writting a simple string to a file.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="context">
+				<annotation>
+					<documentation>
+					The role of a context is to manage a set of components. Typically a context is the top level managed component and the 
+					components it manages are used to monitor a data source and distribute the data collected in a standardized format such
+					as the Common Base Event.
+					</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="undeclared">
+				<annotation>
+					<documentation>
+					The role of undeclared component role is to allow a context to exploit components not as yet standardized.
+					</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<attributeGroup name="version">
+		<annotation>
+			<documentation>
+				Attribute group for the version information.  It is included in the context
+				and component elements.  Each role or implemenation can be versioned. A version is identified by having a unique version number. The version
+				is further refined by the version CreationDate which would typically be the publishing date of the role definition or
+				implementation build date. The version number itself can be used to check compatability between component and context 
+				implemenations.
+				The version description is an optional property, and like the creation time is most typically used during problem 
+				determination of the adapter configuration itself.
+			</documentation>
+		</annotation>
+		<attribute name="roleVersion" type="string" use="required">
+			<annotation>
+				<documentation>
+				A number representing the version of the role defintion. This attribute is required.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="roleCreationDate" type="dateTime">
+			<annotation>
+				<documentation>
+				An optional attribute that provides the date this version of the role definition was created or published.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="roleVersionDescription" type="string">
+			<annotation>
+				<documentation>
+				An optional attribute that provides a description of the version of the role definition.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="implementationVersion" type="string" use="required">
+			<annotation>
+				<documentation>
+				A number representing the version of the component implementation. This attribute is required.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="implementationCreationDate" type="dateTime">
+			<annotation>
+				<documentation>
+				An optional attribute that provides the date this version of the component implemenation was created or built.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="implementationVersionDescription" type="string">
+			<annotation>
+				<documentation>
+				n optional attribute that provides a description of the version of the component implementation.
+				</documentation>
+			</annotation>
+		</attribute>
+	</attributeGroup>
+</schema>

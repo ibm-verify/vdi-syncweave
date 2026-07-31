@@ -566,7 +566,7 @@ public class IntroPart implements IIntroPart {
 	}
 
 	public String getTitle() {
-		return "Security Verify Directory Integrator"; //$NON-NLS-1$
+		return "SyncWeave"; //$NON-NLS-1$
 	}
 
 	public Image getTitleImage() {

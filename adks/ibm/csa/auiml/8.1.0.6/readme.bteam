@@ -1,0 +1,55 @@
+Initial Creation Date: 2013.05.15
+
+Product added to build tree: AUIML 8.1.0.1203070211 BLD (8.1.0.6 release)
+
+Language Pack: v8.1.0.4_2012.08.02.06.42.zip 
+Person performing tools isolation and addition to build tree: Vivek Shende
+
+Location the product was retrieved from:
+
+http://rtpgsa.ibm.com/projects/a/auiml/AuimlUpdate/
+http://rtpgsa.ibm.com/projects/a/auiml/l10n_auiml/dev/output/
+
+Any special instruction needed to get the product.  Like a special
+user name or password. (May not be applicable):
+
+None.
+
+Instruction on how you created the tools isolation for this product.
+Please include platform you installed on, where you installed it, what
+you copied where, etc.:
+
+Go to http://rtpgsa.ibm.com/projects/a/auiml/AuimlUpdate/site.xml and find the build you need.
+   ex: features/com.ibm.auiml.toolkit.install_feature_8.1.0.1203070211.jar
+Look at the feature.xml file inside the downloaded jar and check the plugin version (e.g. 8.1.0.1203070211)
+Download the plugin with the above mentioned version from http://rtpgsa.ibm.com/projects/a/auiml/AuimlUpdate/plugins/
+   ex: com.ibm.auiml.toolkit.install_8.1.0.1203070211.jar
+Then you can download the correct plugin by using the info in that xml file:
+   ex: http://rtpgsa.ibm.com/projects/a/auiml/AuimlUpdate/plugins/com.ibm.auiml.toolkit.install_8.1.0.1203070211.jar
+
+
+The following files from the install image were checked into CMVC under adks/csa/auiml/8.1.0.6:
+
+Copied from <auiml install>\Toolkit\csa_runtime
+-----------------------------------------------
+aui_war_template.zip
+
+Copied from <auiml install>\Toolkit\csa_runtime\aui_war_template.zip\WEB-INF\lib
+---------------------------------------------------------------------------------
+*.jar
+
+Starting from release AUIML 8.1 the translation files are shipped in a separate location, specified as the second
+download link above. I downloaded the zip:
+	http://rtpgsa.ibm.com/projects/a/auiml/l10n_auiml/dev/output/2012-08-02/auiml_langpack.v8.1.0.4_2012.08.02.06.42.zip
+And extracted it in a temporary folder (later referred to as <ln_temp>).
+
+Copied from <ln_temp>
+-----------------------
+auii18n_*.jar
+wcl_*.jar
+wua_*.jar
+
+Update History (Use only if you have to actually make more changes after the product
+has been used in a tools tree build.  Should be rare) :
+-----------------
+2011.08.05 - Initial check in of AUIML 8.1.0.5 (8.1.0.1107150740  build)

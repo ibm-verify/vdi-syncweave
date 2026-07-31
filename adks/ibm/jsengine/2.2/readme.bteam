@@ -1,0 +1,65 @@
+Initial Creation Date: 2009.04.01
+
+Product added to build tree: IBM Javascript Engine 2.2
+
+Location the product was retrieved from:
+
+https://cs.opensource.ibm.com/projects/ibmjs/
+
+Used branch "ibmjs_220".
+
+Any special instruction needed to get the product.  Like a special
+user name or password. (May not be applicable):
+
+You have to be granted access to this project.
+
+Instruction on how you created the tools isolation for this product.
+Please include platform you installed on, where you installed it, what
+you copied where, etc.:
+
+Downloaded the 2.2 project from the site. Fixes were made and sent back to
+Phil.  Project was built.  The classes and source code from the build were
+put in a file called jsengine-eclipse-22.zip.  The built jar is called ibmjs.jar.
+There is an L3 process for updating this JAR file in the TDI dev teamroom tht we follow.
+The following files were checked into the adks/ibm/jsengine/2.2 in cmvc:
+	jsengine-eclipse-22.zip
+	ibmjs.jar
+	readme.bteam
+
+Update History (Use only if you have to actually make more changes after the product
+has been used in a tools tree build.  Should be rare) :
+-----------------
+Changed the following files:
+ASTFor.java - Added a check for null
+ASTWhile.java - Added a check for null
+JSContext.java - Use WeakHashMap instead of SystemCache for caching
+FBSNumber.java - convert an integer to a java.lang.Integer instead of a java.lang.Double
+
+The changed files are in the file changes.zip.
+Compare them to the files in jsengine-eclipse-22.zip to see the changes.
+
+Checked in a new ibmjs.jar with the changed classes.
+--------------- Jan 24, 2013 ---------------------------
+Also changed the following files:
+com/ibm/jscript/ASTTree/binaryop/ASTBinaryAdd.java: Added a line to normalize objects.
+com/ibm/jscript/std/ArrayPrototype.java: Rewrote the splice() method.
+com/ibm/jscript/types/FBSGlobalObject: The eval() method should also work on Strings returned from Java methods.
+com/ibm/jscript/std/RegExpJDK14.java: The match() method should work properly with the g (global) flag.
+
+The changed files are in the file changes.zip.
+Compare them to the files in jsengine-eclipse-22.zip to see the changes.
+
+Checked in a new ibmjs.jar with the changed classes.
+--------------- Mar 6, 2013 ------------------------
+Also changed
+com/ibm/jscript/types/JavaAccessObject.java: Bad synchronization might cause constructor to not be found
+--------------- Nov 4, 2013 ------------------------
+com/ibm/jscript/JSContext.java - Use a WeakReference as the value in the WeakHashMap, to avoid referencing the key.
+--------------- Sep 4, 2014 ------------------------
+com/ibm/jscript/ASTTree/ASTWhile.java - Fixed a typo, to be able to use continue statement in while loops
+--------------- Mar 19, 2019 -----------------------
+com/ibm/jscript/std/StringPrototype.java - Added optional parameter to toLocaleLowerCase() and toLocaleUpperCase()
+--------------- Aug 13, 2019 -----------------------
+com/ibm/jscript/std/DateObject.java - Changed toISOString() to conform to ISO 8601, as in ECMAScript 5.1, section 15.9.1.15.
+--------------- Oct 15, 2019 -----------------------
+com/ibm/jscript/types/JavaAccessObject.java: In ClassInfoCache, treat Entry as a Map, to avoid storing null for unknown keys.

@@ -1,0 +1,37 @@
+-----------------------------------------------------------------------------------------------------------
+
+Follows details about the updated castor->
+
+Reasons->IGI when performed pen test of their product, they are reported with following vulnerability in castor which SDI belong.
+castor-0.9.5.4-xml.jar 	/src/opt/ibm/SDI1/V7.2/jars/3rdparty/others/castor-0.9.5.4-xml.jar 	 CVE-2014-3004 	MEDIUM
+
+Vulnerability details can be found in the below links->
+
+https://nvd.nist.gov/vuln/detail/CVE-2014-3004
+
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3004
+
+The vulnrability says that
+
+The default configuration for the Xerces SAX Parser in Castor before 1.3.3 allows context-dependent attackers to conduct XML External Entity (XXE) attacks via a crafted XML document. 
+
+What we did ->
+
+Attempt  [1] -> To fix the vulnerability we tried to upgrade the castor libraries to the version 1.4.1.
+
+But it failed with the exception which is the creator of this support ticket. (JNDIConnector fails to initialize)
+
+Attempt [2]-> I get from GitHub notes (https://github.ibm.com/sec-di/adks/tree/sdi72/castor/0.9.5.4#readme) that we are not using castor file as-is which are downloaded. We are adding Marshaller & UnmarshalHandler classes into it. So now what I did is that in castor (0.9.5.4) version, I replaced vulnerable class of Xerces SAX Parser with non-vulnerable class got from castor (1.4.1) version.
+
+This way we achieve both the goals ->
+
+    Marshaller & UnmarshalHandler classes remain in-tact.
+    Castor becomes non-vulnerable i.e. we fixed it.
+
+About oro jar ->
+
+We are using oro 2.0.8 library for the first time. https://mvnrepository.com/artifact/oro/oro/2.0.8
+
+This library is pretty stable and old released in 2005 and no more vulnerability is reported on it as of today's date.
+
+-----------------------------------------------------------------------------------------------------------

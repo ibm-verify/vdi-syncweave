@@ -15,26 +15,28 @@ Ivy Settings Configuration
 -->
 <ivysettings>
   <settings defaultResolver="chain-resolver"/>
-  
+
   <resolvers>
-    <!-- Chain resolver tries repositories in order until successful -->
+    <!-- Chain resolver with returnFirst="true": stops at the first resolver
+         that successfully delivers the artifact.  checkmodified="false" on
+         each resolver prevents Ivy from issuing extra HEAD/GET requests to
+         verify freshness against every mirror after a successful download,
+         which is what triggers the spurious "proxy server not well configured"
+         warning even when the network is perfectly fine. -->
     <chain name="chain-resolver" returnFirst="true">
-      
-      <!-- Google Maven Central Mirror - Fast and reliable -->
-      <ibiblio name="google-maven-central" 
-               root="https://maven-central.storage-download.googleapis.com/maven2/" 
-               m2compatible="true"/>
-      
-      <!-- Maven Central - Official repository -->
-      <ibiblio name="maven-central" 
-               root="https://repo1.maven.org/maven2/" 
-               m2compatible="true"/>
-      
-      <!-- UK Maven Mirror - Additional fallback -->
-      <ibiblio name="uk-maven-mirror" 
-               root="https://uk.maven.org/maven2/" 
-               m2compatible="true"/>
-      
+
+      <!-- Maven Central - primary -->
+      <ibiblio name="maven-central"
+               root="https://repo1.maven.org/maven2/"
+               m2compatible="true"
+               checkmodified="false"/>
+
+      <!-- Google Maven Central Mirror - fallback -->
+      <ibiblio name="google-maven-central"
+               root="https://maven-central.storage-download.googleapis.com/maven2/"
+               m2compatible="true"
+               checkmodified="false"/>
+
     </chain>
   </resolvers>
 </ivysettings>

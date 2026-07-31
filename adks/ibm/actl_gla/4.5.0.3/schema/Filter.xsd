@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:filter="http://www.eclipse.org/hyades/schema/Filter.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" ecore:nsPrefix="filter" ecore:package="filter" targetNamespace="http://www.eclipse.org/hyades/schema/Filter.xsd">
+    
+    <xsd:annotation>
+		<xsd:documentation xml:lang="en">
+	        Copyright (c) 2005,2006 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+		
+		*********************************************************************
+		* Note:  This is an internal schema definition and subject to change.
+		*        Do not code to this schema definition.
+		*********************************************************************
+		
+		This document describes the format for representation of filter rules
+		which can be consumed by a generic filter component.
+		
+		*********************************************************************
+		Change History:
+		23 Mar 2005 - Dave Smith initial implementation
+		26 Jul 2006 - bugzilla 140451 - added string operators 
+		*********************************************************************
+		</xsd:documentation>
+	</xsd:annotation>
+    <xsd:import namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+	<xsd:element name="Filter" type="filter:FilterConfigType">
+		<xsd:annotation>
+    		<xsd:documentation xml:lang="en">This is the root element for the filter component. All the filter rules are hierarchically arranged under this element.
+    		</xsd:documentation>
+    	</xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="FilterConfigType">
+    	<xsd:annotation>
+    		<xsd:documentation xml:lang="en">This type describes the filter component configuration.
+    		This type extends ProcessUnitType and includes a choice of an AbstractFilter Rule or a FilterRuleBlock
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:complexContent>
+    		<xsd:extension base="pu:ProcessUnitType">
+    			<xsd:choice>
+            	<xsd:element name="AbstractFilterRule" type="filter:AbstractFilterRuleType"/>
+            	<xsd:element name="FilterRuleBlock" type="filter:FilterRuleBlockType"/>
+    			</xsd:choice>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType abstract="true" name="AbstractFilterRuleType">
+    	<xsd:annotation>
+    		<xsd:documentation>AbstractFilterRuleType gives an abstract definition for a filter rule. Rules are defined
+    		for a particular attribute relative to a particular value for that attribute. The attribute can have a 
+    		string name or can be a path of type pathExpressionType.  It also has a value, an optional negation indication
+    		and an implementation class for performing the filter processing.
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:choice>
+    		<xsd:element name="attributeName" type="xsd:string"/>
+    		<xsd:element name="attributeNamePath" type="filter:pathExpressionType"/>
+    	</xsd:choice>
+    	<xsd:attribute name="attributeValue" type="xsd:string" use="required"/>
+    	<xsd:attribute default="false" name="negation" type="xsd:boolean" use="optional"/>
+    	<xsd:attribute name="implementationClass" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FilterRuleType">
+        <xsd:annotation>
+            <xsd:documentation>    FilterRuleType gives a
+                definition for a generic filter rule on a generic
+                attribute. Rules are defined for a
+                particular attribute which has a name
+                and a value and an operator that describes
+                the relationship between the attribute and its value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="filter:AbstractFilterRuleType">
+                <xsd:attribute name="operator" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="StringFilterRuleType">
+        <xsd:annotation>
+            <xsd:documentation>    StringFilterRuleType gives a
+                definition for a filter rule on a string attribute.
+                Rules are defined for a particular attribute which
+                has a name and a value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="filter:AbstractFilterRuleType">
+                <xsd:attribute name="operator" type="filter:StringRelationalOperatorType" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="NumericalFilterRuleType">
+        <xsd:annotation>
+        	<xsd:documentation>NumericalFilterRuleType gives a definition for a filter rule on a numerical attribute. Rules are defined for a particular attribute which has a name and a value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+        	<xsd:extension base="filter:AbstractFilterRuleType">
+        		<xsd:attribute name="operator" type="filter:NumericalRelationalOperatorType" use="required"/>
+        	</xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="RangeFilterRuleType">
+        <xsd:annotation>
+        	<xsd:documentation>RangeFilterRuleType gives a definition for a filter rule describing a range of items. Rules are defined for a particular scope which has a name and a value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+        	<xsd:extension base="filter:AbstractFilterRuleType">
+        		<xsd:attribute name="operator" type="filter:RangeRelationalOperatorType" use="required"/>
+        	</xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="StringRelationalOperatorType">
+        <xsd:annotation>
+            <xsd:documentation>    Relational operators that can operate on
+                a string value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="equals"/>
+            <xsd:enumeration value="startsWith"/>
+            <xsd:enumeration value="endsWith"/>
+            <xsd:enumeration value="contains"/>
+            <xsd:enumeration value="greaterThan"/>
+            <xsd:enumeration value="lessThan"/>
+            <xsd:enumeration value="greaterThanOrEqual"/>
+            <xsd:enumeration value="lessThanOrEqual"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="NumericalRelationalOperatorType">
+        <xsd:annotation>
+            <xsd:documentation>    Relational operators that can operate on
+                a numerical value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="equals"/>
+            <xsd:enumeration value="greaterThan"/>
+            <xsd:enumeration value="lessThan"/>
+            <xsd:enumeration value="greaterThanOrEqual"/>
+            <xsd:enumeration value="lessThanOrEqual"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+        <xsd:simpleType name="RangeRelationalOperatorType">
+        <xsd:annotation>
+            <xsd:documentation>    Relational operators that can specify a range.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="last"/>
+            <xsd:enumeration value="first"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LogicalOperatorType">
+        <xsd:annotation>
+            <xsd:documentation>    Logical operators that can operate on
+                two or more attributes.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AND"/>
+            <xsd:enumeration value="OR"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="FilterRuleBlockType">
+        <xsd:annotation>
+            <xsd:documentation>
+                FilterRuleBlockType gives a
+                definition for a logical expression made up of a block
+                of two or more filter rules or other filter rule
+                blocks and an associated logical operator.</xsd:documentation>
+        </xsd:annotation>
+            <xsd:choice maxOccurs="unbounded" minOccurs="2">
+            	<xsd:element name="AbstractFilterRule" type="filter:AbstractFilterRuleType"/>
+            	<xsd:element name="FilterRuleBlock" type="filter:FilterRuleBlockType"/>
+            </xsd:choice>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="operator" type="filter:LogicalOperatorType" use="required"/>
+        <xsd:attribute default="false" name="negation" type="xsd:boolean" use="optional"/>            
+    </xsd:complexType>
+    <xsd:complexType name="pathExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                pathExpressionType gives a definition for a sequence of string nodes that
+                represents a path name for an object.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="node" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>  
+</xsd:schema>

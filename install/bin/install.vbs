@@ -72,13 +72,6 @@ If Err.Number <> 0 Then
     call displayMessageAndExit("unzip_failed", Err.Description)
 End If
 
-' Copy the license directory to the destination folder.
-objFso.CopyFolder folder + "\license", dst + "\license"
-
-If Err.Number <> 0 Then
-    call displayMessageAndExit("license_copy_failed", Err.Description)
-End If
-
 ' Correct the location of Java
 call fixJavaPath(dst)
 

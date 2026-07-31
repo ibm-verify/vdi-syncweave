@@ -175,7 +175,8 @@ public class ServerUtils {
 		if (file.exists()) {
 			PropertiesFile propsFile = new PropertiesFile(null, file.getAbsolutePath(), true);
 			config.setStringParameter(RestServerAPI.TDI_TYPE, RestServerAPI.TYPE_RMI);
-			String namingPort = propsFile.getProperty("api.remote.naming.port"); //$NON-NLS-1$ 
+			String namingPort = propsFile.getProperty("api.remote.naming.port"); //$NON-NLS-1$
+			try { Integer.parseInt(namingPort); } catch (Exception e) { namingPort = null; }
 			if (namingPort != null && namingPort.length() > 0) {
 				String address = config.getStringParameter(RestServerAPI.TDI_ADDRESS);
 				if (address == null || address.length() == 0)

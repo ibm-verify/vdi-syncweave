@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" ecore:nsPrefix="pu" ecore:package="unit" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd">
+    <annotation>
+        <documentation xml:lang="en">
+          Copyright (c) 2005,2006 IBM Corporation and others.
+          All rights reserved.   This program and the accompanying materials
+          are made available under the terms of the Eclipse Public License v1.0
+          which accompanies this distribution, and is available at
+          http://www.eclipse.org/legal/epl-v10.html
+        </documentation>
+    </annotation>
+    <element name="ProcessUnit" type="pu:ProcessUnitType">
+        <annotation>
+            <documentation>    A Process Unit is the most basic
+                component of execution in a context. It is provided
+                as an abstract component and for the development of custom 
+                components that do not conform to any of the other defined
+                component types.</documentation>
+        </annotation>
+    </element>
+    <complexType name="ProcessUnitType">
+        <sequence>
+            <element maxOccurs="unbounded" minOccurs="0" name="Property" type="pu:PropertyType"/>
+        </sequence>
+        <attributeGroup ref="pu:ProcessUnitAttributes"/>
+    </complexType>
+    <attributeGroup name="ProcessUnitAttributes">
+        <annotation>
+            <documentation>       These attributes are required by all
+                processing units in a context. The unique ID is used
+                to match it with the component defined in the context
+                configuration. The description is     optionally used
+                for documentation and diagnosis purposes. The optional
+                disabled boolean indicates whether the process unit is
+                disabled.  If it is disabled, it will not be executed.</documentation>
+        </annotation>
+        <attribute name="uniqueID" type="string" use="required"/>
+        <attribute name="description" type="string" use="optional"/>
+        <attribute name="disabled" type="boolean" use="optional"/>
+    </attributeGroup>
+    <complexType name="PropertyType">
+        <annotation>
+            <documentation> A generic configuration property. </documentation>
+        </annotation>
+        <attribute name="propertyName" type="string" use="required">
+            <annotation>
+                <documentation> Property name. </documentation>
+            </annotation>
+        </attribute>
+        <attribute name="propertyValue" type="string" use="required">
+            <annotation>
+                <documentation> Property value. </documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+</schema>

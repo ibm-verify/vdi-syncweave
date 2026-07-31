@@ -1,0 +1,67 @@
+<div class="${baseClass}">
+    <div class="${baseClass}BoxWithShadow">
+      <div class="${baseClass}Box">
+
+       <div class="${baseClass}BoxInner">
+   
+          <div data-dojo-attach-point="loginTitleNode" class="${baseClass}Title">${loginTitle}</div>
+          
+          <iframe data-dojo-attach-point="_hiddenFrame"
+          		  style="visibility: hidden; display: none, width: 0px; height: 0px" name="SubmitFrame${id}"></iframe>
+          
+          <form data-dojo-type="dijit/form/Form"
+          		data-dojo-attach-point="_form" 
+          		data-dojo-attach-event="onSubmit:_onFormSubmit"
+          		data-dojo-props="autocomplete:'on',method:'post',name:'${formName}',action:'${formAction}',target:'SubmitFrame${id}'">
+          	
+            <div data-dojo-attach-point="loginSubtitleNode" class="${baseClass}SubTitle">${loginSubTitle}</div>
+
+            <input data-dojo-attach-point="loginUserName" type="text" data-dojo-type="idx/form/TextBox" 
+            	   name="${userFieldName}" required=true value="" intermediateChanges= true autocomplete= "on"
+            	   					label="${labelUserName}${labelSeparator}" labelAlignment="vertical" instantValidate= true
+            	   					missingMessage="${invalidMessage}" invalidMessage="${invalidMessage}" regExp="${regExp}"
+            	   	></input><br>
+            
+            <input type="password" data-dojo-type="idx/form/TextBox" data-dojo-attach-point="loginPassword" 
+            	   id="${id}Password", name="${passwordFieldName}", required="true", intermediateChanges= true, autocomplete= "on",
+            	   					label= "${labelPassword}${labelSeparator}", labelAlignment= "vertical", instantValidate= true,
+            	   					value="", "class"= "${baseClass}Field", missingMessage="${invalidMessage}", invalidMessage="${invalidMessage}", regExp="${regExp}"
+            	   	></input>
+			<div data-dojo-attach-point="containerNode"></div>
+			
+		    <div data-dojo-attach-point="inactivityMessageNode" class="idxLoginFrameInactivityMessage">${inactivityMessage}</div>
+            
+
+            <div class="${baseClass}ButtonBar">
+              <button data-dojo-type="dijit.form.Button" data-dojo-attach-point="loginButton" data-dojo-attach-event="onClick:_onSubmitClick"
+              		  data-dojo-props="name:'login'">${labelSubmitButton}</button>
+              <button data-dojo-type="dijit.form.Button" data-dojo-attach-point="cancelButton" data-dojo-attach-event="onClick:_onCancelClick"
+              		  data-dojo-props="name:'cancel', 'style':'visibility:hidden;display:none;'">${labelCancelButton}</button>
+            </div>
+          </form>
+            
+          <div data-dojo-attach-point="copyrightNode" class="${baseClass}Copyright">${loginCopyright}</div>
+
+       </div>
+       
+      </div>
+      <div class="${baseClass}ShadowTop"><div class="${baseClass}ShadowInner"></div></div>
+      <div class="${baseClass}ShadowMiddle"><div class="${baseClass}ShadowInner"></div></div>
+      <div class="${baseClass}ShadowBottom"><div class="${baseClass}ShadowInner"></div></div>
+    </div>
+    
+	<div data-dojo-attach-point="invalidLoginDialog" data-dojo-type="dijit/Dialog" data-dojo-props="title:'${invalidMessageTitle}', 'style':'display:none;'">
+		<div class="dijitDialogPaneContentArea" style="width: 350px; height: 90px; overflow: auto;">
+			<table role="presentation">
+				<tr>
+					<td><div class="idxDialogIconError" /></td>
+					<td><span data-dojo-attach-point="invalidMessageNode" class='idxDialogIconText'>${invalidMessage}</span></td>
+				</tr>
+			</table>		
+		</div>			
+		<div class="dijitDialogPaneActionBar">
+			<button data-dojo-attach-point="dialogOKButton" data-dojo-type="dijit/form/Button" data-dojo-props="type: 'submit', label: '${labelOkButton}'" ></button>	
+		</div>
+	</div>
+	
+</div>

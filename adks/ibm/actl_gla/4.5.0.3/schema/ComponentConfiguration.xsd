@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cc="http://www.eclipse.org/hyades/schema/ComponentConfiguration.xsd" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ex="http://www.eclipse.org/hyades/schema/Extractor.xsd" xmlns:fmt="http://www.eclipse.org/hyades/schema/Formatter.xsd" xmlns:op="http://www.eclipse.org/hyades/schema/Outputter.xsd" xmlns:parser="http://www.eclipse.org/hyades/schema/Parser.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" xmlns:s="http://www.eclipse.org/hyades/schema/Sensor.xsd" ecore:nsPrefix="cc" ecore:package="configuration" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/ComponentConfiguration.xsd" xmlns:filter="http://www.eclipse.org/hyades/schema/Filter.xsd">
+	<annotation>
+	  <documentation xml:lang="en">
+        Copyright (c) 2005,2006 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+	  </documentation>
+	</annotation>
+	<import namespace="http://www.eclipse.org/hyades/schema/Sensor.xsd" schemaLocation="Sensor.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/Extractor.xsd" schemaLocation="Extractor.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/Formatter.xsd" schemaLocation="Formatter.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/Outputter.xsd" schemaLocation="Outputter.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/Parser.xsd" schemaLocation="Parser.xsd"/>
+	<import namespace="http://www.eclipse.org/hyades/schema/Filter.xsd" schemaLocation="Filter.xsd"/>
+	<element name="Configuration" type="cc:ConfigurationType">
+		<annotation>
+			<documentation>
+			The Configuration element contains a sequence of ContextInstance elements 
+			as defined in ConfigurationType.  For every ContextInstance element there must be a
+			corresponding Context element in the Contexts element as defined in Context.xsd.
+			The Configuration element represents the configuration of all of the components
+			of all of the contexts of a Generic Log Adapter instance. The Configuration element
+			also contains the common ProcessingUnit attributes.
+			</documentation>
+		</annotation>
+	</element>	
+	<complexType name="ConfigurationType">
+		<sequence>
+			<element maxOccurs="unbounded" minOccurs="0" name="ContextInstance" type="cc:ContextInstanceType"/>
+		</sequence>
+		<attributeGroup ref="pu:ProcessUnitAttributes"/>
+	</complexType>
+	<complexType name="ContextInstanceType">
+		<annotation>
+			<documentation>
+				A context instance has a set of properties that are
+				common to every context when it is running. It also
+				contains a variety of components or "processing units"
+				including at least one sensor which is always needed to
+				start the sequence. The components are executed in the
+				order they are declared, and this order has to match the
+				context configuration file.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="Sensor" type="s:SensorConfigType"/>
+			<element maxOccurs="1" minOccurs="0" ref="ex:Extractor"/>
+			<element maxOccurs="1" minOccurs="0" name="Parser" type="parser:ParserConfigType"/>
+			<element maxOccurs="unbounded" minOccurs="0" ref="pu:ProcessUnit"/>
+			<element maxOccurs="unbounded" minOccurs="0" ref="fmt:Formatter"/>
+			<element maxOccurs="unbounded" minOccurs="0" ref="filter:Filter"/>
+			<element maxOccurs="unbounded" minOccurs="0" name="Outputter" type="op:OutputterConfigType"/>
+		</sequence>
+		<attribute name="continuousOperation" type="boolean" use="required">
+			<annotation>
+				<documentation>
+					A context has the sole purpose of running it's
+					components. These components are typically used to
+					process input. This processing occurs either only
+					once when started, or until an amount of time has passed 
+					with no processing to do. To support this a boolean option
+					of continuous operation is provided. False indicates the 
+					processing of the input is only done once.  True indicates
+					the processing of the input is done continuously to process
+					any new data since processing was started. The maximumIdleTime
+					and pauseInterval attributes are used to control the meaning
+					of continuous operation.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="maximumIdleTime" type="string" use="required">
+			<annotation>
+				<documentation>
+				    This attribute is only used when continuousOperation
+				    is true. Maximum idle time means how long the context
+					will run with no input, hence idle. A maximum idle
+					time of zero means run forever. Any other
+					time is a maximum amount of time the context will
+					wait for more input.  Once no input has been detected
+					the context will pause before attempting to determine
+					if there is more input.  The pause time is defined by
+					the pauseInterval attribute.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="pauseInterval" type="string" use="required">
+			<annotation>
+				<documentation>
+					This attribute is only used when continuousOperation
+					is true.  Once no input has been detected by
+					the context, the context will pause before attempting to
+					determine if there is more input.  The amount of time the
+					context will pause is set with this attribute.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute default="en" name="isoLanguageCode" type="string" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the ISO two letter Language Code to use to parse the log
+				file. It is used along with the isoCountryCode value to determine the
+				locale to use to parse the log file.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute default="US" name="isoCountryCode" type="string" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the ISO two letter Country Code to use to parse the log
+				file. It is used along with the isoLanguageCode value to determine the
+				locale to use to parse the log file.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute default="UTF-8" name="charset" type="string" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the encoding of the log file that is used
+				to read the log file.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="timezone" type="string" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the timezone where the log file was generated.  This
+				value is used when parsing the time from the log records.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="year" type="integer" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the year when the log file was generated.  This
+				value is used when parsing the date from the log records.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="month" type="integer" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the month of the year when the log file was generated.  This
+				value is used when parsing the date from the log records.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="day" type="integer" use="optional">
+			<annotation>
+				<documentation>
+				This attribute defines the day of the month when the log file was generated.  This
+				value is used when parsing the date from the log records.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="enableICU" type="boolean" use="optional">
+			<annotation>
+				<documentation>
+				This attribute enables ICU support in GLA run-time if the value is true.  Specifically, if this
+				attribute value is true, ICU4J versions of Locale and SimpleDateFormat will be used for parsing
+				timestamps in the log file.
+				</documentation>
+			</annotation>
+		</attribute>		
+		<attributeGroup ref="pu:ProcessUnitAttributes"/>
+	</complexType>
+</schema>

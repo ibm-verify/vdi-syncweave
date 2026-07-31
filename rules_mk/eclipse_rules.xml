@@ -32,8 +32,8 @@
     <attribute name="errorlog.log"/>
 
     <sequential>
-       <exec executable="java" failonerror="yes" error="@{errorlog.log}"> 
-         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -Dproduct="${project.root.export.ce_rcp}/plugins/com.ibm.tdi.rcp/tdieclipse.product" -DrunPackager=true -consoleLog' /> 
+       <exec executable="java" failonerror="yes" error="@{errorlog.log}">
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${root.eclipse_runtime_src}/plugins:${project.root.export.osgi.embedded}" -Dproduct="${project.root.export.ce_rcp}/plugins/com.ibm.tdi.rcp/tdieclipse.product" -DrunPackager=true -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -consoleLog' />
        </exec>
     </sequential>
 
@@ -54,7 +54,7 @@
 
     <sequential>
        <exec executable="java" failonerror="yes" error="@{errorlog.log}">
-         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile_updatesite}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -consoleLog -DbuildDirectory="${project.root.export.ce_rcp}" -DarchivesFormat="*,*,* - folder" -DoutputUpdateJars="true" -Dconfigs="*,*,*" -DarchivePrefix="updatesite"' /> 
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile_updatesite}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${root.eclipse_runtime_src}/plugins:${project.root.export.osgi.embedded}" -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -consoleLog -DbuildDirectory="${project.root.export.ce_rcp}" -DarchivesFormat="*,*,* - folder" -DoutputUpdateJars="true" -Dconfigs="*,*,*" -DarchivePrefix="updatesite"' />
        </exec>
     </sequential>
 

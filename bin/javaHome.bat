@@ -1,1 +1,1 @@
-set TDI_JAVA_HOME=c:\Program Files\IBM\TDI\V7.1\jvm
+set TDI_JAVA_HOME=%TDI_HOME_DIR%\jvm

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema ecore:nsPrefix="ex" ecore:package="extractor" elementFormDefault="qualified" targetNamespace="http://www.eclipse.org/hyades/schema/Extractor.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ex="http://www.eclipse.org/hyades/schema/Extractor.xsd" xmlns:pu="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd">
+	<annotation>
+	  <documentation xml:lang="en">
+        Copyright (c) 2005,2006 IBM Corporation and others.
+        All rights reserved.   This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License v1.0
+        which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+	  </documentation>
+	 </annotation>
+    <import namespace="http://www.eclipse.org/hyades/schema/ProcessUnit.xsd" schemaLocation="ProcessUnit.xsd"/>
+	<element name="Extractor" type="ex:ExtractorType"/>
+	<complexType name="ExtractorType">
+		<annotation>
+			<documentation>
+				An extractor has the role of given the input array of
+				for example strings to create a structure that hold
+				exactly one complete message. An extractor actually
+				returns an array of these structured objects.
+			</documentation>
+		</annotation>
+        <complexContent>
+            <extension base="pu:ProcessUnitType">
+				<attributeGroup ref="ex:ExtractorAttributes"/>
+			</extension>
+        </complexContent>
+	</complexType>
+	<attributeGroup name="ExtractorAttributes">
+		<attribute name="containsLineBreaks" type="boolean" use="required">
+			<annotation>
+				<documentation>
+					If a message can contain or more precisely span
+					multiple lines of an input file which would
+					typically mean spans Objects in the input array then
+					this attribute would be set to true.
+				</documentation>
+			</annotation>
+		</attribute>
+				<attribute name="replaceLineBreaks" type="boolean" use="required">
+			<annotation>
+				<documentation>
+					If a message contains line breaks, sometimes it is desireable 
+					to leave them in and sometimes replace them with an alternate
+					string. This can be achieved by setting this attribute to
+					false or true respectively. In the case where they should simply
+					be removed set this attribute to true and the replacement string
+					to "". 
+				</documentation>
+			</annotation>
+		</attribute>
+		
+		<attribute name="lineBreakSymbol" type="string" use="required">
+			<annotation>
+				<documentation>
+					If a message spans multiple lines of an input file,
+					those lines are concatenated into one line. In cases
+					where preserving the line boundary is needed, a
+					substitution string can be defined by providing a
+					value for this attribute.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="startPattern" type="string" use="required">
+			<annotation>
+				<documentation>
+					This string defines the expression used by the
+					extractor to identify the beginning of a message.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="includeStartPattern" type="boolean" use="required">
+			<annotation>
+				<documentation>
+					Define if the matched starting string should be
+					included in the resulting message string.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="endPattern" type="string" use="required">
+			<annotation>
+				<documentation>
+					This string defines the expression used by the
+					extractor to identify the end of a message.
+				</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="includeEndPattern" type="boolean" use="required">
+			<annotation>
+				<documentation>
+					Define if the matched ending string should be
+					included in the resulting message string.
+				</documentation>
+			</annotation>
+		</attribute>
+	</attributeGroup>
+</schema>

@@ -1,1 +1,1 @@
-set TDI_SOLDIR="C:\Program Files\IBM\TDI\V7.1.1"
+set TDI_SOLDIR=%~d0%~p0..

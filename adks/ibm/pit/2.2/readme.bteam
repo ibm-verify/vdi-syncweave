@@ -1,0 +1,53 @@
+
+Initial Creation Date: 2008.11.18
+
+Product added to build tree: Platform Integration Toolkit 2.2 fixpack 2
+
+Person performing tools isolation and addition to build tree: Alan Watkins
+
+Location the product was retrieved from: https://cs.opensource.ibm.com/forum/forum.php?forum_id=10145
+
+Any special instruction needed to get the product.  Like a special
+user name or password. (May not be applicable):
+
+Need IBM ID and password and you need to be registered for the opensource project
+
+Instruction on how you created the tools isolation for this product.
+Please include platform you installed on, where you installed it, what
+you copied where, etc.:
+
+The Pltform Integration Toolkit provides some services that TDI can make use
+of as well as beans for ISMP and IA that make things like adding Linux shortcuts
+better supported.  To get the code, the steps involved are:
+
+1.  Download the latest version/fixpack from https://cs.opensource.ibm.com/forum/forum.php?forum_id=10145
+    Currently v2.2 fixpack 3: PlatformIntegrationToolkit2.2fp3.zip from
+
+2.  Unzip PlatformIntegrationToolkit2.2fp3.zip into a temporary directory
+
+3.  Check the following files into CMVC:
+
+    All files under GenericWindowsService into adks/ibm/pit/2.2/GenericWindowsService
+    All files under InstallShieldCustomBeans/SystemUtilities into adks/ibm/pit/2.2/InstallShieldCustomBeans/SystemUtilities
+    InstallShieldCustomBeans/InstallShieldCustomBeans.jar adks/ibm/pit/2.2/InstallShieldCustomBeans
+
+4. If anything in the ISMP project needs to change, like adding an action, append the following 
+   to the ismp.registry file found in the installation location of InstallShield.  See the
+   readme downloaded with PIT to see if other actions have been added.
+   (This is not needed for the installer to build)
+      com.ibm.eec.pit.ismp.product.actions.AddSystemGroupWithDeletionOptionAction
+      com.ibm.eec.pit.ismp.product.actions.AddSystemUserAccountWithDeletionOptionAction
+      com.ibm.eec.pit.ismp.product.actions.CreateLinuxDaemonAction
+      com.ibm.eec.pit.ismp.product.actions.CreateLinuxShortcutAction
+      com.ibm.eec.pit.ismp.wizard.actions.JVMDump
+      com.ibm.eec.pit.ismp.wizard.conditions.CredentialCheckCondition
+      com.ibm.eec.pit.ismp.wizard.conditions.SystemGroupExistsCondition
+      com.ibm.eec.pit.ismp.wizard.conditions.SystemUserAccountExistsCondition
+      com.ibm.eec.pit.ismp.wizard.conditions.WindowsAccountHasPrivilegesCondition
+
+   Also note...DO NOT put spaces on the end of theese action names in the registry file as ISMP
+   will not recognize them.
+ 
+Update History (Use only if you have to actually make more changes after the product
+has been used in a tools tree build.  Should be rare) :
+-----------------

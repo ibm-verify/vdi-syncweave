@@ -7,10 +7,29 @@
 	<property name="tdiant.home" location="${project.adks_home}/ibm/sdi"/>
 	
 	<!-- set properties for javac -->
-	<property name="root.javac_src.vers"     value="11"/>
-	<property name="root.javac_tgt.vers"     value="11"/>
-	<property name="root.javac_dbg"          value="on" />
-	<property name="root.javadocs_url"       value="http://java.sun.com/j2se/1.5.0/docs/api/" />
+	<!-- Single release version used by all javac tasks via ${root.javac_release.vers}.
+	     Both legacy properties are kept pointing at the same value so existing
+	     source= / target= attributes in build.xml continue to work unchanged. -->
+	<property name="root.javac_release.vers"  value="17"/>
+	<property name="root.javac_src.vers"      value="${root.javac_release.vers}"/>
+	<property name="root.javac_tgt.vers"      value="${root.javac_release.vers}"/>
+	<property name="root.javac_dbg"           value="on" />
+	<property name="root.javadocs_url"        value="https://docs.oracle.com/en/java/javase/17/docs/api/index.html" />
+
+	<!-- Global <javac> preset (Ant 1.9.3+ presetdef).
+	     build.xml tasks use source= and target= explicitly; passing \-\-release
+	     alongside those flags is a javac error ("option \-\-release cannot be used
+	     together with -source or -target").  The correct fix that touches zero
+	     call sites is therefore to suppress the advisory warning itself via
+	     -Xlint:-options, which silences:
+	       "location of system modules is not set in conjunction with -source N"
+	     Future migration path: change root.javac_src.vers/root.javac_tgt.vers
+	     usages in build.xml to release= and drop source=/target= entirely. -->
+	<presetdef name="javac">
+		<javac>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+	</presetdef>
 
 	<!-- set properties for tmsxml information -->
 	<property name="root.tms_vers"     value="1.1.9a"/>
@@ -639,12 +658,11 @@
 			<include name="org.eclipse.rcp_*.jar"/>
 			<include name="org.eclipse.pde.runtime_*.jar"/>
 			<include name="org.eclipse.swt_*.jar"/>
-			<include name="org.eclipse.swt.win32.win32.x86_*.jar"/>
+			<include name="org.eclipse.swt.gtk.linux.x86_64_*.jar"/>
 			<include name="org.eclipse.ui_*.jar"/>
-			<include name="org.eclipse.ui.win32_*.jar"/>
 			<include name="org.eclipse.ui.editors_*.jar"/>
 			<include name="org.eclipse.ui.console_*.jar"/>
-			<include name="org.eclipse.ui.forms.source_*.jar"/>
+			<include name="org.eclipse.ui.forms_*.jar"/>
 			<include name="org.eclipse.ui.navigator_*.jar"/>
 			<include name="org.eclipse.ui.views.properties.tabbed_*.jar"/>
 			<include name="org.eclipse.ui.ide_*.jar"/>
