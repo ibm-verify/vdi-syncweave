@@ -14,7 +14,7 @@ The SyncWeave toolset is built on Eclipse and centres on two programs that work 
 
 | Feature | Description |
 |---|---|
-| **AssemblyLines** | Components are assembled into ordered pipelines called AssemblyLines. Each AL carries a single **Entry** — a schema-flexible bucket of Attribute-Value pairs — from input sources through transformation logic to one or more output targets, one record at a time per cycle. |
+| **AssemblyLines** | Components are assembled into ordered pipelines called AssemblyLines. Each AL carries a single Entry — a schema-flexible bucket of Attribute-Value pairs — from input sources through transformation logic to one or more output targets, one record at a time per cycle. |
 | **Configuration Editor** | An Eclipse-based graphical IDE for writing, testing, and debugging AssemblyLines. Configs are stored as XML and deployed to one or more ", " Servers; the CE and Server work in concert so developers can build locally and run remotely on a mainframe or in a container. |
 | **Delta and change-only synchronization** | A Connector in Delta mode snapshots the source, compares it against the previous run's snapshot stored in the System Store, and feeds only added, modified, or deleted entries into the pipeline. Update mode additionally compares outgoing attributes against what already exists on the target — writing only what has actually changed. |
 | **SCIM 2.0 service and connector** | A built-in SCIM service exposes SyncWeave over the SCIM protocol for standards-based provisioning and authentication. A companion SCIM Connector lets AssemblyLines read from and write to any SCIM-compliant server, making SyncWeave a first-class citizen in modern cloud and governance identity ecosystems. |
