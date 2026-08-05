@@ -1,6 +1,9 @@
 # SyncWeave
 
-This is the official GitHub repository for SyncWeave — an open-source version of IBM Verify Directory Integrator.
+SyncWeave is the official open-source version of IBM Verify Directory Integrator. It makes VDI accessible to the community under an open-source model, enabling contributions to be submitted, reviewed, and accepted into future VDI releases — spanning both Community and Enterprise editions.
+
+SyncWeave ships with IBM Java Community Edition (distinct from the JRE bundled with the Enterprise Edition) and is driven by IBM and active contributors.
+For identity engineers looking to contribute, evaluate, or extend VDI without an enterprise licence, SyncWeave is the recommended entry point. Source code and binaries are published to the IBM SyncWeave GitHub repository, and core VDI concepts — AssemblyLines, connectors, scripting, and the Configuration Editor — apply equally to both editions.
 
 ## Overview
 
