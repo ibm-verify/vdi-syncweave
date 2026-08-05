@@ -28,6 +28,17 @@ The SyncWeave toolset is built on Eclipse and centres on two programs that work 
 | **Federated Directory Server** | A built-in LDAP V3 front-end that virtualises heterogeneous backends — LDAP directories, JDBC databases, flat files, and custom targets — behind a single endpoint. LDAP-speaking applications see a unified directory; flow hooks call SyncWeave AssemblyLines for filtering, auditing, and custom transformation at every operation. |
 | **Event-driven and scheduled execution** | AssemblyLines can run as batch jobs on a schedule, as continuous listeners via Server Mode Connectors (HTTP, LDAP), in response to SyncWeave notification events emitted by other ALs, or triggered by Delta-detected changes — and these patterns can be freely combined in the same solution. |
 
+## Platform Support
+
+SyncWeave is available on the following platforms:
+
+| Platform | Architecture |
+|---|---|
+| AIX | POWER (PPC64) |
+| Linux | x86-64 |
+| Linux | zSeries / s/390 |
+| Windows | x86-64 |
+
 ## Documentation
 
 For comprehensive documentation on SyncWeave please visit the [official IBM documentation](https://www.ibm.com/docs/en/vdi/11.0.0).
