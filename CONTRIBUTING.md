@@ -2,18 +2,14 @@
 
 Review the following guidelines for submitting questions, issues, or changes to this repository.
 
-## Coding Style
-
-The source code adheres to [Google Javascript](https://google.github.io/styleguide/jsguide.html) and corresponndingly enforced by [eslint](https://github.com/google/eslint-config-google). Ensure to:
-
-1. Use promises/async functions
-2. Run `npm run codecheck` and fix errors
-3. Have proper syntax documentation and examples
-
 ## Issues and Questions
 
-If you encounter an issue, have a question or want to suggest an enhancement to the SyncWeave, you are welcome to submit a [request](/issues).
+If you encounter an issue, have a question or want to suggest an enhancement to the SyncWeave, you are welcome to submit a [request](https://github.com/ibm-verify/SyncWeave/issues).
 Before that, please search for similar issues. It's possible somebody has encountered this issue already.
+
+## Setup
+
+Please refer setup instructions provided in [Build Instructions](docs/syncweave_local_build_steps.md) document
 
 ## Pull Requests
 
@@ -38,15 +34,6 @@ If you want to contribute to the repository, here's a quick guide:
    - `ci` for changes to continuous integration
    - `chore` is self-explanatory
 5. Push to your fork and submit a pull request to the `main` branch. Include the tests executed in the pull request.
-
-
-## Generating documentation
-
-To generate the HTML docs for an SDK component, run `jsdoc` in the directory containing the projects file of the component. Then view the docs in the `SyncWeave/<component>/docs` directory:
-
-```
-open index.html
-```
 
 ### License header in source files
 
