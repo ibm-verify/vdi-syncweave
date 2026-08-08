@@ -22,7 +22,7 @@ cd <PROJECT_HOME>/SyncWeave
 ### 2. Verify Java 17 is available
 
 ```bash
-<PROJECT_HOME>/adks/ibm/jdk/jdk-17.0.19+10/bin/java -version
+<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-17.0.19+10/bin/java -version
 ```
 
 Expected output:
@@ -57,21 +57,9 @@ ls <PROJECT_HOME>/ant/apache-ant-1.10.17/lib/ivy.jar
 ### 4. Verify the tools tree is present
 
 ```bash
-ls <PROJECT_HOME>/tools/eclipse/eclipse_runtime/4.27/eclipse/plugins/org.eclipse.pde.build_*
+ls <PROJECT_HOME>/SyncWeave/tools/eclipse/eclipse_runtime/4.27/eclipse/plugins/org.eclipse.pde.build_*
 ```
 
-### 5. Create the `adks` symlink in the workspace
-
-`project_setup.xml` resolves `project.adks_home` as `${project.root}/adks`.
-On the Docker build this was a bind-mount; on the host it must be a symlink:
-
-```bash
-cd <PROJECT_HOME>/SyncWeave
-ln -sfn <PROJECT_HOME>/adks adks
-ls -la adks   # should show -> <PROJECT_HOME>/adks
-```
-
----
 
 ## Environment Variables
 
@@ -80,11 +68,11 @@ You can put them in `~/.bashrc` or a local `env.sh` script.
 
 ```bash
 # Java 17 from adks
-export JAVA_HOME=<PROJECT_HOME>/adks/ibm/jdk/jdk-17.0.19+10
+export JAVA_HOME=<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-17.0.19+10
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Tools tree (equivalent of /build/tools_git in Docker)
-export TOOLS_HOME=<PROJECT_HOME>/tools
+export TOOLS_HOME=<PROJECT_HOME>/SyncWeave/tools
 
 # Ant 1.10.17 standalone installation
 export ANT_HOME=<PROJECT_HOME>/ant/apache-ant-1.10.17
@@ -100,50 +88,19 @@ echo $TOOLS_HOME       # <PROJECT_HOME>/tools
 
 ---
 
-## Configuration Changes vs Docker/Java 25 Build
-
-The following files were updated to target Java 17 instead of Java 25.
-No other changes are needed — all other fixes from the Java 25 migration
-(OSGi profile patch, pluginPath, EntryArrayList, etc.) remain valid for Java 17.
-
-### `rules_mk/tools_setup.xml`
-| Property | Docker/Java 25 | Host/Java 17 |
-|---|---|---|
-| `root.javac_release.vers` | `25` | `17` |
-| `root.javadocs_url` | `.../javase/25/...` | `.../javase/17/...` |
-
-### `ce_rcp/build.properties`
-| Property | Docker/Java 25 | Host/Java 17 |
-|---|---|---|
-| `javacSource` | `25` | `17` |
-| `javacTarget` | `25` | `17` |
-
-> All other settings (`baseos=linux`, `basews=gtk`, `basearch=x86_64`,
-> `pluginPath=`, `JavaSE-1.8` through `JavaSE-25` EE mappings) are
-> unchanged and correct for this host build.
-
----
-
 ## Build Steps
 
 ### Step 1 — Set environment
 
 ```bash
-export JAVA_HOME=<PROJECT_HOME>/adks/ibm/jdk/jdk-17.0.19+10
+export JAVA_HOME=<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-17.0.19+10
 export PATH=$JAVA_HOME/bin:$PATH
-export TOOLS_HOME=<PROJECT_HOME>/tools
+export TOOLS_HOME=<PROJECT_HOME>/SyncWeave/tools
 export ANT_HOME=<PROJECT_HOME>/ant/apache-ant-1.10.17
 export PATH=$ANT_HOME/bin:$PATH
 ```
 
-### Step 2 — Create the adks symlink (first time only)
-
-```bash
-cd <PROJECT_HOME>/SyncWeave
-ln -sfn <PROJECT_HOME>/adks adks
-```
-
-### Step 3 — Patch org.eclipse.osgi (first time only, idempotent)
+### Step 2 — Patch org.eclipse.osgi (first time only, idempotent) (Optional)
 
 The patch injects JavaSE-10 through JavaSE-25 profile descriptors into the
 Eclipse OSGi JAR so that the PDE resolver accepts modern BREE declarations.
@@ -165,7 +122,7 @@ On subsequent runs:
 org.eclipse.osgi already patched with JavaSE-11+ profiles, skipping.
 ```
 
-### Step 4 — Resolve Ivy dependencies
+### Step 3 — Resolve Ivy dependencies
 
 ```bash
 cd <PROJECT_HOME>/SyncWeave
@@ -175,7 +132,7 @@ ant resolve rename_jars
 This downloads all third-party JARs into `lib/ivy/`. On a machine with no
 internet access, copy `lib/ivy/` from a previous successful build.
 
-### Step 5 — Full build
+### Step 4 — Full build
 
 ```bash
 cd <PROJECT_HOME>/SyncWeave
@@ -188,7 +145,7 @@ Or for a faster developer build (no installer, no javadoc):
 ant package 2>&1 | tee build.log
 ```
 
-### Step 6 — Check for success
+### Step 5 — Check for success
 
 ```bash
 grep "BUILD SUCCESSFUL\|BUILD FAILED" build.log
@@ -220,27 +177,15 @@ BUILD SUCCESSFUL
 
 ```bash
 echo $TOOLS_HOME   # must not be blank
-export TOOLS_HOME=<PROJECT_HOME>/tools
-```
-
-### `adks` directory not found / `project.adks_home` errors
-
-```bash
-ls <PROJECT_HOME>/SyncWeave/adks
-# If missing:
-ln -sfn <PROJECT_HOME>/adks <PROJECT_HOME>/SyncWeave/adks
+export TOOLS_HOME=<PROJECT_HOME>/SyncWeave/tools
 ```
 
 ### `Unable to create javax script engine for javascript`
 
 The `nashorn-core.jar` must be on the classpath for `osgi/build.xml` tasks.
 It is picked up automatically from `lib/ivy/` after `ant resolve`.
-If you skipped the Ivy resolve step, copy it manually:
+If you skipped the Ivy resolve step, run it.
 
-```bash
-cp <PROJECT_HOME>/build/lib/ivy/nashorn-core.jar \
-   <PROJECT_HOME>/SyncWeave/lib/ivy/
-```
 
 ### PDE build fails: `Host plug-in JavaSE_0.0.0 has not been found`
 
@@ -277,12 +222,11 @@ javadoc generation entirely.
 ## Quick Reference: One-liner for clean full build
 
 ```bash
-export JAVA_HOME=<PROJECT_HOME>/adks/ibm/jdk/jdk-17.0.19+10 && \
-export TOOLS_HOME=<PROJECT_HOME>/tools && \
+export JAVA_HOME=<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-17.0.19+10 && \
+export TOOLS_HOME=<PROJECT_HOME>/SyncWeave/tools && \
 export ANT_HOME=<PROJECT_HOME>/ant/apache-ant-1.10.17 && \
 export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$PATH && \
 cd <PROJECT_HOME>/SyncWeave && \
-ln -sfn <PROJECT_HOME>/adks adks && \
 ant images 2>&1 | tee build.log && \
 grep "BUILD SUCCESSFUL\|BUILD FAILED" build.log
 ```
