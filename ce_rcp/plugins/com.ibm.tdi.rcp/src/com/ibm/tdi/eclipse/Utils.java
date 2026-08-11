@@ -700,7 +700,14 @@ public class Utils {
 
 		if (!name.endsWith(".tdiserver"))
 			name += ".tdiserver";
-		return getTDIServersProject(true).getFile(name);
+		IFile file = getTDIServersProject(true).getFile(name);
+		// Refresh the resource handle so IFile.exists() reflects the real
+		// filesystem state (Eclipse workspace cache may be stale on Windows).
+		try {
+			file.refreshLocal(IResource.DEPTH_ZERO, null);
+		} catch (CoreException ignore) {
+		}
+		return file;
 	}
 
 	public static ArrayList<String> getScriptReferences(boolean input, String script) {

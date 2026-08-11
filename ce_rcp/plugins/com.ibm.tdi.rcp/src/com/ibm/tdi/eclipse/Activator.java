@@ -212,8 +212,8 @@ public class Activator extends AbstractUIPlugin {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					IFile server = (IFile) Utils.getTDIServer(TDINature.DEFAULT_SERVER_NAME);
-					if (server == null) {
-						// Try again later
+					if (!server.exists()) {
+						// Default.tdiserver not yet created — try again later
 						schedule(1000);
 						return Status.OK_STATUS;
 					}
@@ -383,7 +383,12 @@ public class Activator extends AbstractUIPlugin {
 		}
 
 		// Populate the entire solution directory, to be able to find key stores and such.
-		ServerUtils.copySolutionDirectoryFiles(new File(getInstallPath()), new File("."));
+		// Best-effort: failure here (e.g. restricted CWD on Windows) must not abort startup.
+		try {
+			ServerUtils.copySolutionDirectoryFiles(new File(getInstallPath()), new File("."));
+		} catch (Exception e) {
+			EclipseAppender.logerror("loadResources: copySolutionDirectoryFiles failed: " + e, e); //$NON-NLS-1$
+		}
 
 		// -- Get all system configurations
 		System.setProperty("com.ibm.di.loader.IDILoader.path", getInstallPath()); //$NON-NLS-1$

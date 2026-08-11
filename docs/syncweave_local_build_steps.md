@@ -222,7 +222,7 @@ javadoc generation entirely.
 ## Quick Reference: One-liner for clean full build
 
 ```bash
-export JAVA_HOME=<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-17.0.19+10 && \
+export JAVA_HOME=<PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-21.0.12+8 && \
 export TOOLS_HOME=<PROJECT_HOME>/SyncWeave/tools && \
 export ANT_HOME=<PROJECT_HOME>/ant/apache-ant-1.10.17 && \
 export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$PATH && \

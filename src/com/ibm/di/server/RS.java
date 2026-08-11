@@ -2259,11 +2259,23 @@ public class RS extends Thread implements RSInterface, AssemblyLine.AssemblyLine
 		// read keystore passwords
 		Vector<String> stashFilePasswords = null;
 		try {
+			// When running inside ibmditk the CE has already called
+			// StashFile.readPasswords() which sets a one-shot static flag.
+			// Fall back to readPasswordsFromFile() in that case so the server
+			// can still obtain the passwords it needs.
 			stashFilePasswords = StashFile.readPasswords();
 		} catch (Exception e) {
-			String initError = getLog().getString("cannot.read.stash.file", e.toString());
-			securityInitError(initError, secureMode);
-			return;
+			try {
+				String stashPath = StashFile.STASH_FILE_NAME;
+				File f = new File(stashPath);
+				if (!f.exists())
+					f = new File(System.getProperty("com.ibm.di.installdir", ""), stashPath);
+				stashFilePasswords = StashFile.readPasswordsFromFile(f.getAbsolutePath());
+			} catch (Exception e2) {
+				String initError = getLog().getString("cannot.read.stash.file", e2.toString());
+				securityInitError(initError, secureMode);
+				return;
+			}
 		}
 
 		if (stashFilePasswords == null || stashFilePasswords.size() == 0) {
@@ -2295,9 +2307,13 @@ public class RS extends Thread implements RSInterface, AssemblyLine.AssemblyLine
 			// com.ibm.di.api.APIEngine.setKeyStorePasswords(keyStorePassword,
 			// keyPassword);
 		} catch (Exception e) {
-			String initError = getLog().getString("cannot.setup.server.keystore", e.toString());
-			securityInitError(initError, secureMode);
-			return;
+			// When running inside ibmditk the CE has already initialized
+			// CryptoUtils. If it is already initialized we can safely continue.
+			if (!com.ibm.di.api.security.CryptoUtils.isInitialized()) {
+				String initError = getLog().getString("cannot.setup.server.keystore", e.toString());
+				securityInitError(initError, secureMode);
+				return;
+			}
 		}
 
 		Log log = getLog();

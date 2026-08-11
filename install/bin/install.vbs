@@ -248,7 +248,7 @@ End Sub
 
 Sub fixJavaPath(dst)
     For Each oFile In objFso.GetFolder(dst + "\jvm").Subfolders
-        If InStr(1, oFile, "jdk-17") > 0 Then
+        If InStr(1, oFile, "jdk-21") > 0 Then
             objFso.MoveFolder oFile, dst + "\jvm\jre"
         End If
     Next
@@ -282,7 +282,7 @@ Function getUnzipFiles(src)
         If installCE Then
             If InStr(1, oFile, ".zip") > 0 And _
                     (InStr(1, oFile, "TDI_") > 0 Or _
-                    InStr(1, oFile, "ibm-semeru-certified-jre_x64_windows") > 0 Or _
+                    InStr(1, oFile, "ibm-semeru-open-jre_x64_windows") > 0 Or _
                     InStr(1, oFile, "eclipsece-win32.win32.x86_64") > 0) Then
                 ReDim Preserve unzips(UBound(unzips)+1)
                 unzips(UBound(unzips)) = oFile.Name
@@ -323,7 +323,7 @@ Sub unzipAllFiles(unzips, src, dst)
     For Each oFile In unzips
         If InStr(1, oFile, "eclipsece-win32.win32.x86_64") > 0 Then
             zipDest = dst + "\ce"
-        Elseif InStr(1, oFile, "ibm-semeru-certified-jre_x64_windows") > 0  Then
+        Elseif InStr(1, oFile, "ibm-semeru-open-jre_x64_windows") > 0  Then
             zipDest = dst + "\jvm"
         Else
             zipDest = dst

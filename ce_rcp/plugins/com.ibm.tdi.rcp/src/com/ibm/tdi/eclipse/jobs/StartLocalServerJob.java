@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -79,16 +81,23 @@ public class StartLocalServerJob extends Job {
 
 		try {
 
-			this.api = RestServerAPI.createInstance(server);
-
-			status = SERVER_STARTING;
-
 			// Default server
 			if (server == null)
 				server = (IFile) Utils.getTDIServer(TDINature.DEFAULT_SERVER_NAME);
 
+			// Refresh the workspace cache before checking existence — on Windows
+			// the IFile handle obtained from the constructor may be stale.
+			try {
+				server.refreshLocal(IResource.DEPTH_ZERO, null);
+			} catch (CoreException ignore) {
+			}
+
 			if (!server.exists())
 				throw new FileNotFoundException(server.getProjectRelativePath().toPortableString());
+
+			this.api = RestServerAPI.createInstance(server);
+
+			status = SERVER_STARTING;
 
 			// Try a ping to the server
 			try {

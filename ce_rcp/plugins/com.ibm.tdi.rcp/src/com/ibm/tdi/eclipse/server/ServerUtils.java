@@ -224,7 +224,14 @@ public class ServerUtils {
 		// -- Read the contents of the current solution properties file
 		// -- In 7.0 and 7.1 we always copy global to solution even though installdir=workdir
 		//
-		String contents = Utils.loadTextFile(sp);
+		// -- If solution.properties doesn't exist (e.g. global.properties was absent in the
+		// -- install directory), start with an empty string so we can still write the required
+		// -- api.on / api.remote.on settings below.
+		String contents;
+		if (sp.exists())
+			contents = Utils.loadTextFile(sp);
+		else
+			contents = "";
 
 		// -- Get the address and port from the template
 		String address = config.getStringParameter(RestServerAPI.TDI_ADDRESS);
@@ -300,8 +307,16 @@ public class ServerUtils {
 			EclipseAppender.loginfo(Messages.getMessage("ServerUtils.created", target.getAbsolutePath())); //$NON-NLS-1$
 		}
 
-		// -- No need to copy more if install directory is also the solution directory
-		if(!tdiDir.equals(file)) {
+		// -- No need to copy more if install directory is also the solution directory.
+		// -- Use canonical paths so the comparison is reliable on Windows (case-insensitive
+		// -- paths, trailing separators, relative "." vs absolute path for the same dir).
+		boolean sameDir;
+		try {
+			sameDir = tdiDir.getCanonicalPath().equalsIgnoreCase(file.getCanonicalPath());
+		} catch (Exception e) {
+			sameDir = tdiDir.getAbsoluteFile().equals(file.getAbsoluteFile());
+		}
+		if (!sameDir) {
 			// the stash file (idisrv.sth)
 			source = new File(tdiDir, StashFile.STASH_FILE_NAME);
 			target = new File(file, StashFile.STASH_FILE_NAME);
