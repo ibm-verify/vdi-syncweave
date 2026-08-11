@@ -7,7 +7,8 @@ Review the following guidelines for submitting questions, issues, or changes to 
 If you encounter an issue, have a question or want to suggest an enhancement to the SyncWeave, you are welcome to submit a [request](https://github.com/ibm-verify/SyncWeave/issues).
 Before that, please search for similar issues. It's possible somebody has encountered this issue already.
 
-## Setup
+
+## Build Instructions
 
 Please refer setup instructions provided in [Build Instructions](docs/syncweave_local_build_steps.md) document
 
@@ -37,10 +38,8 @@ If you want to contribute to the repository, here's a quick guide:
 
 ### License header in source files
 
-Each source file must include a license header for the Apache
-Software License 2.0. Using the SPDX format is the simplest approach.
+Each source file must include a license header for the Apache Software License 2.0. Using the SPDX format is the simplest approach.
 e.g.
-
 ```
 /*
 Copyright contributors to the SyncWeave project
