@@ -539,8 +539,15 @@ public class CryptoUtils {
 	}
 	
 	/**
+	 * Returns true if this cryptographic module has been initialized.
+	 */
+	public static boolean isInitialized() {
+		return isInitialized;
+	}
+
+	/**
 	 * Verifies that this module is initialized.
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the module is not initialized
 	 */

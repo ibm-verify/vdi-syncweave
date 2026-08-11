@@ -135,7 +135,10 @@ public class RestServerAPI {
 	 */
 	private static boolean isServerRMI(IFile file) throws Exception {
 		TDIConfigurationFile cfg = TDIConfigurationFile.loadFile(file);
-		return TYPE_RMI.equalsIgnoreCase(cfg.getDefaultConfigObject().getStringParameter(TDI_TYPE));
+		BaseConfiguration obj = cfg.getDefaultConfigObject();
+		if (obj == null)
+			return false;
+		return TYPE_RMI.equalsIgnoreCase(obj.getStringParameter(TDI_TYPE));
 	}
 
 	/**
@@ -174,23 +177,26 @@ public class RestServerAPI {
 	 */
 	private void loadConfiguration(IFile file) throws Exception {
 		tdi = TDIConfigurationFile.loadFile(file);
-		this.address = tdi.getDefaultConfigObject().getStringParameter(TDI_ADDRESS);
-		this.install = tdi.getDefaultConfigObject().getStringParameter(TDI_INSTALL);
-		this.workdir = tdi.getDefaultConfigObject().getStringParameter(TDI_WORKDIR);
-		
+		BaseConfiguration defaultCfg = tdi.getDefaultConfigObject();
+		if (defaultCfg == null)
+			return;
+		this.address = defaultCfg.getStringParameter(TDI_ADDRESS);
+		this.install = defaultCfg.getStringParameter(TDI_INSTALL);
+		this.workdir = defaultCfg.getStringParameter(TDI_WORKDIR);
 
-		this.user = tdi.getDefaultConfigObject().getStringParameter(TDI_USERNAME);
+
+		this.user = defaultCfg.getStringParameter(TDI_USERNAME);
 		if (this.user != null && this.user.length() == 0)
 			this.user = null;
 
-		pwd = tdi.getDefaultConfigObject().getStringParameter(TDI_PASSWORD);
-		ssl = tdi.getDefaultConfigObject().getBooleanParameter(TDI_SSL, false);
-				
+		pwd = defaultCfg.getStringParameter(TDI_PASSWORD);
+		ssl = defaultCfg.getBooleanParameter(TDI_SSL, false);
+
 		// Sync with solution/global props if we are connecting to a local server
 		/*additional check has been added by L3 for defect 14375*/
 		if(getInstall() != null && getInstall().length() > 0 && workdir !=null && workdir.length() >0) {
 			try {
-				BaseConfiguration config = tdi.getDefaultConfigObject();
+				BaseConfiguration config = defaultCfg;
 				config.setModified(false);
 				ServerUtils.readSolutionDirectory(config);
 				if(config.getModified()) {
