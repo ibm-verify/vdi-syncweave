@@ -1,26 +1,26 @@
 # Contributing
 
-Review the following guidelines for submitting questions, issues, or changes to this repository.
+The following guidelines describe how to submit questions, report issues, and contribute changes to this repository.
 
 ## Issues and Questions
 
-If you encounter an issue, have a question or want to suggest an enhancement to the SyncWeave, you are welcome to submit a [request](https://github.com/ibm-verify/SyncWeave/issues).
-Before that, please search for similar issues. It's possible somebody has encountered this issue already.
+If you encounter an issue, have a question or want to suggest an enhancement to SyncWeave, you are welcome to submit a [request](https://github.com/ibm-verify/SyncWeave/issues).
+Before submitting, please search for similar issues, as someone may have reported the same one already.
 
 
 ## Build Instructions
 
-Please refer setup instructions provided in [Build Instructions](docs/syncweave_local_build_steps.md) document
+Refer to [Build Instructions](docs/syncweave_local_build_steps.md) for setup instructions.
 
 ## Pull Requests
 
-If you want to contribute to the repository, here's a quick guide:
+To contribute to the repository, follow these steps:
 
 1. Fork the repository
 2. Develop and test your code changes:
     * Follow the coding style as documented above.
-    * Please add one or more tests to validate your changes.
-3. Make sure everything builds/tests cleanly.
+    * Add one or more tests to validate your changes.
+3. Ensure that all builds and tests pass without errors.
 4. Commit your changes. Add a descriptive prefix to commits. The list allowed is as below:
    - `feat` for features
    - `fix` for bug fixes
