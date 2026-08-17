@@ -95,9 +95,9 @@
 					 in most RCP app or a plug-in,  the baseLocation should be the location of a previously
 					 installed Eclipse against which the application or plug-in code will be compiled and the RCP delta pack. -->
 				<arg line='-DbaseLocation="@{eclipse.runtime.path}"' />
-				<arg line='-Dbaseos=win32' />
-				<arg line='-Dbasews=win32' />
-				<arg line='-Dbasearch=x86' />
+				<arg line='-Dbaseos=linux' />
+					<arg line='-Dbasews=gtk' />
+					<arg line='-Dbasearch=x86_64' />
 				<!-- this property indicates whether you want the set of plug-ins and features to be considered
 				during the build to be limited to the ones reachable from the features / plugins being built -->
 				<arg line='-DfilteredDependencyCheck=false' />
@@ -111,8 +111,8 @@
 				<arg line='-DjavacDebugInfo=true ' />
 				<arg line='-DjavacFailOnError=true' />
 				<arg line='-DjavacVerbose=false' />
-				<arg line='-DjavacSource=25' />
-				<arg line='-DjavacTarget=25' />
+				<arg line='-DjavacSource=21' />
+				<arg line='-DjavacTarget=21' />
 			</exec>
 
 			<!-- the build output is producing a zip which when extracted produces
@@ -876,24 +876,27 @@
 		</copy>
 
 	
-	<!-- Copy Jetty and HTTP service bundles required for embedded OSGi server -->
+	<!-- Copy Jetty 12 and HTTP service bundles required for embedded OSGi server -->
 	<echo message="Copying Jetty and HTTP service bundles to embedded directory..." />
 	<copy todir="${project.root.export.osgi.embedded}" overwrite="true">
 		<fileset dir="${project.root.export.osgi.runtime}">
+			<!-- equinox HTTP stack -->
 			<include name="org.eclipse.equinox.http.jetty.jar" />
 			<include name="org.eclipse.equinox.http.servlet.jar" />
-			<include name="org.eclipse.equinox.http.servletbridge.jar" />
-			<include name="org.eclipse.equinox.servletbridge.jar" />
-			<include name="org.osgi.util.pushstream.jar" />
-			<include name="org.osgi.service.log.stream.jar" />
+			<include name="org.eclipse.equinox.http.service.api.jar" />
+			<!-- Jetty 12 core -->
 			<include name="org.eclipse.jetty.http.jar" />
 			<include name="org.eclipse.jetty.io.jar" />
 			<include name="org.eclipse.jetty.security.jar" />
 			<include name="org.eclipse.jetty.server.jar" />
-			<include name="org.eclipse.jetty.servlet.jar" />
+			<include name="org.eclipse.jetty.session.jar" />
 			<include name="org.eclipse.jetty.util.jar" />
-			<include name="org.eclipse.jetty.util.ajax.jar" />
-			<include name="javax.servlet.jar" />
+			<!-- Jetty 12 EE8 layer (provides javax.servlet + ee8.nested) -->
+			<include name="org.eclipse.jetty.ee8.security.jar" />
+			<include name="org.eclipse.jetty.ee8.server.jar" />
+			<include name="org.eclipse.jetty.ee8.servlet.jar" />
+			<include name="org.eclipse.jetty.servlet-api.jar" />
+			<!-- servlet API -->
 			<include name="jakarta.servlet-api.jar" />
 		</fileset>
 	</copy>
@@ -966,6 +969,7 @@
 
 		<mkdir dir="${project.root.export.osgi}" />
 		<mkdir dir="${project.root.export.osgi.embedded}" />
+		<mkdir dir="${project.root.export.logs}" />
 
 		<!-- copy the plugins here with "cleaned" names. -->
 		<mkdir dir="${project.root.export.osgi.runtime}" />

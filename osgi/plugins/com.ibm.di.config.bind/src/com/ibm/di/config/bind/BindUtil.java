@@ -620,8 +620,10 @@ public class BindUtil {
 			return null;
 		}
 
-		ComplexComponentBinding comp = fromInheritence(cfg, cfg instanceof FunctionConfig ? FunctionBinding.class
-				: ConnectorBinding.class);
+		@SuppressWarnings("unchecked")
+		Class<ComplexComponentBinding> bindingType = (Class<ComplexComponentBinding>)
+				(cfg instanceof FunctionConfig ? FunctionBinding.class : ConnectorBinding.class);
+		ComplexComponentBinding comp = fromInheritence(cfg, bindingType);
 		comp.setHooks(fromHooks(cfg.getHooks()));
 		comp.setRawConfig(fromRawConfig(cfg instanceof FunctionConfig ? ((FunctionConfig) cfg).getFunctionConfig() : cfg
 				.getConnectionConfig()));
