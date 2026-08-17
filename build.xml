@@ -220,6 +220,16 @@
       <arg value="${ivy.lib.dir}"/>
     </exec>
 
+    <!-- Remove LocalTransportSender from axis2-kernel.jar's embedded XML configs.
+         The class was removed from Axis2 1.8.x transport JARs but the two embedded
+         XML files (axis2.xml, axis2_default.xml) still reference it, causing a
+         ClassNotFoundException / DeploymentException on every Axis2 startup path
+         that loads a default configuration context. -->
+    <exec executable="/bin/sh">
+      <arg value="${project.root}/build/scripts/patch_axis2_kernel.sh"/>
+      <arg value="${ivy.lib.dir}/axis-2/axis2-kernel.jar"/>
+    </exec>
+
   </target>
 
   <description>
@@ -6076,6 +6086,9 @@
   <jar jarfile="${dist}/./WebServiceUtil.jar">
     <fileset dir="${build}">
       <include name="com/ibm/di/fc/webservice/axis2/*.class" />
+    </fileset>
+    <fileset dir="${source}">
+      <include name="com/ibm/di/fc/webservice/axis2/axis2.xml" />
     </fileset>
     <fileset dir="${project.root.autogen.comp}/WebServiceUtil">
       <include name="tdi.xml" />

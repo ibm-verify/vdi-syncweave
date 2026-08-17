@@ -44,7 +44,6 @@ import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.description.AxisOperation;
 import org.apache.axis2.description.AxisService;
@@ -283,50 +282,12 @@ public class WebServiceClient {
     public WebServiceClient(WSDLData aWsdlData, String aSoapOperation, com.ibm.di.server.Log aLog) throws Exception {
         mLog = aLog;
         wsdlData = aWsdlData;
-        
-        // Initialize configuration context using custom axis2.xml from classpath
-        // First try to load from classpath (new location)
-        InputStream axis2XmlStream = getClass().getResourceAsStream("axis2.xml");
-        
-        if (axis2XmlStream != null) {
-            try {
-                // Create a temporary file to hold the axis2.xml content
-                java.io.File tempAxis2Xml = java.io.File.createTempFile("axis2", ".xml");
-                tempAxis2Xml.deleteOnExit();
-                
-                // Copy the stream to the temporary file
-                java.io.FileOutputStream fos = new java.io.FileOutputStream(tempAxis2Xml);
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = axis2XmlStream.read(buffer)) != -1) {
-                    fos.write(buffer, 0, bytesRead);
-                }
-                fos.close();
-                axis2XmlStream.close();
-                
-                // Create configuration context from the temporary file
-                String tempDir = tempAxis2Xml.getParent();
-                configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(tempDir, tempAxis2Xml.getAbsolutePath());
-            } catch (Exception e) {
-                // If loading from classpath fails, fall back to minimal configuration
-                if (mLog != null) {
-                    mLog.logdebug("Failed to load axis2.xml from classpath: " + e.getMessage());
-                }
-                configContext = createMinimalConfigurationContext();
-            }
-        } else {
-            // Try the old file system location for backward compatibility
-            String axis2Repo = System.getProperty("axis2.repo.path", "conf");
-            String axis2Xml = System.getProperty("axis2.xml.path", axis2Repo + "/axis2.xml");
-            java.io.File axis2XmlFile = new java.io.File(axis2Xml);
 
-            if (axis2XmlFile.exists()) {
-                configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(axis2Repo, axis2Xml);
-            } else {
-                // Fallback: create minimal configuration programmatically
-                configContext = createMinimalConfigurationContext();
-            }
-        }
+        // Build a clean ConfigurationContext programmatically to avoid loading
+        // any axis2.xml / axis2_default.xml from axis2-kernel.jar or the filesystem.
+        // Both files still reference the removed LocalTransportSender class and will
+        // cause ClassNotFoundException if Axis2's XML-based config loader runs.
+        configContext = createMinimalConfigurationContext();
 
         
         // Initialize service client
@@ -365,50 +326,12 @@ public class WebServiceClient {
     public WebServiceClient(String url, com.ibm.di.server.Log aLog)
             throws Exception {
         mLog = aLog;
-        
-        // Initialize configuration context using custom axis2.xml from classpath
-        // First try to load from classpath (new location)
-        InputStream axis2XmlStream = getClass().getResourceAsStream("axis2.xml");
-        
-        if (axis2XmlStream != null) {
-            try {
-                // Create a temporary file to hold the axis2.xml content
-                java.io.File tempAxis2Xml = java.io.File.createTempFile("axis2", ".xml");
-                tempAxis2Xml.deleteOnExit();
-                
-                // Copy the stream to the temporary file
-                java.io.FileOutputStream fos = new java.io.FileOutputStream(tempAxis2Xml);
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = axis2XmlStream.read(buffer)) != -1) {
-                    fos.write(buffer, 0, bytesRead);
-                }
-                fos.close();
-                axis2XmlStream.close();
-                
-                // Create configuration context from the temporary file
-                String tempDir = tempAxis2Xml.getParent();
-                configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(tempDir, tempAxis2Xml.getAbsolutePath());
-            } catch (Exception e) {
-                // If loading from classpath fails, fall back to minimal configuration
-                if (mLog != null) {
-                    mLog.logdebug("Failed to load axis2.xml from classpath: " + e.getMessage());
-                }
-                configContext = createMinimalConfigurationContext();
-            }
-        } else {
-            // Try the old file system location for backward compatibility
-            String axis2Repo = System.getProperty("axis2.repo.path", "conf");
-            String axis2Xml = System.getProperty("axis2.xml.path", axis2Repo + "/axis2.xml");
-            java.io.File axis2XmlFile = new java.io.File(axis2Xml);
 
-            if (axis2XmlFile.exists()) {
-                configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(axis2Repo, axis2Xml);
-            } else {
-                // Fallback: create minimal configuration programmatically
-                configContext = createMinimalConfigurationContext();
-            }
-        }
+        // Build a clean ConfigurationContext programmatically to avoid loading
+        // any axis2.xml / axis2_default.xml from axis2-kernel.jar or the filesystem.
+        // Both files still reference the removed LocalTransportSender class and will
+        // cause ClassNotFoundException if Axis2's XML-based config loader runs.
+        configContext = createMinimalConfigurationContext();
         
         // Initialize service client
         serviceClient = new ServiceClient(configContext, null);

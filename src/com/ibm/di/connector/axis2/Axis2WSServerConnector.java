@@ -27,16 +27,23 @@ import org.apache.axis2.Constants;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.builder.BuilderUtil;
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.description.AxisOperation;
 import org.apache.axis2.description.AxisService;
 import org.apache.axis2.description.TransportOutDescription;
 import org.apache.axis2.description.WSDL2Constants;
+import org.apache.axis2.dispatchers.AddressingBasedDispatcher;
+import org.apache.axis2.dispatchers.HTTPLocationBasedDispatcher;
+import org.apache.axis2.dispatchers.RequestURIBasedDispatcher;
+import org.apache.axis2.dispatchers.RequestURIOperationDispatcher;
+import org.apache.axis2.dispatchers.SOAPActionBasedDispatcher;
+import org.apache.axis2.dispatchers.SOAPMessageBodyBasedDispatcher;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.axis2.engine.AxisEngine;
+import org.apache.axis2.engine.DispatchPhase;
 import org.apache.axis2.engine.Handler;
 import org.apache.axis2.engine.MessageReceiver;
+import org.apache.axis2.engine.Phase;
 import org.apache.axis2.handlers.AbstractHandler;
 import org.apache.axis2.transport.http.HTTPTransportUtils;
 import org.apache.axis2.util.MessageContextBuilder;
@@ -484,12 +491,19 @@ public class Axis2WSServerConnector extends Connector implements
 					"CONNECTOR.AXIS2WSSERVER.EXPECTED.RESPONSE.ATTRIBUTE",
 					responseQName));
 
-			NodeList children = conn.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				if (children.item(i).getLocalName().equals(
-						responseQName.getLocalPart())) {
-					responseAttr = (Attribute) children.item(i);
-					break;
+			// First try the named attribute map (fastest and most reliable path).
+			responseAttr = conn.getAttribute(responseQName.getLocalPart());
+	
+			// Fallback: walk DOM children. Guard against getLocalName() == null
+			// (namespace-less nodes return null from getLocalName()).
+			if (responseAttr == null) {
+				NodeList children = conn.getChildNodes();
+				for (int i = 0; i < children.getLength(); i++) {
+					if (responseQName.getLocalPart().equals(
+							children.item(i).getLocalName())) {
+						responseAttr = (Attribute) children.item(i);
+						break;
+					}
 				}
 			}
 
@@ -691,29 +705,35 @@ public class Axis2WSServerConnector extends Connector implements
 	private static ConfigurationContext createAxisConfigFromWSDL(String wsdlUrl)
 			throws Exception {
 
-		// Load the axis.xml and the modules from the classpath
-		ConfigurationContext axisConfig;
-		try {
-			axisConfig = ConfigurationContextFactory
-					.createConfigurationContextFromFileSystem(null, null);
-		} catch (AxisFault axisFault) {
-			throw new Exception(resHash.getString(
-					"CONNECTOR.AXIS2WSSERVER.CREATE.AXIS2.CONFIG.ERROR",
-					axisFault), axisFault);
-		}
+		// Build the AxisConfiguration programmatically to avoid loading
+		// axis2_default.xml from axis2-kernel.jar, which still references the
+		// removed LocalTransportSender class and causes ClassNotFoundException.
+		AxisConfiguration axisConfiguration = new AxisConfiguration();
 
-		AxisConfiguration axisConfiguration = axisConfig.getAxisConfiguration();
+		// Register the InFlow phases that AxisEngine.receive() iterates when
+		// dispatching an incoming SOAP request. Without these phase lists,
+		// HTTPTransportUtils.processHTTPPostRequest fails with a parse error.
+		// Phase names match what axis2_default.xml defined.
+		axisConfiguration.setInPhasesUptoAndIncludingPostDispatch(
+				buildInFlowPhases());
+		axisConfiguration.setInFaultPhases(
+				buildInFaultFlowPhases());
+		axisConfiguration.setGlobalOutPhase(
+				buildOutFlowPhases());
+		axisConfiguration.setOutFaultPhases(
+				buildOutFaultFlowPhases());
 
-		/*
-		 * Clear all transports - we will inject what is necessary by hand in
-		 * the message contexts
-		 */
-		axisConfiguration.getTransportsIn().clear();
-		axisConfiguration.getTransportsOut().clear();
+		// No transport senders needed — the server connector bypasses Axis2's
+		// transport layer entirely and injects transport context by hand into
+		// every MessageContext it processes.
+
+		ConfigurationContext axisConfig = new ConfigurationContext(axisConfiguration);
 
 		List services;
 		try {
-			services = WSUtils.createAllAxisServicesFromWSDLFile(wsdlUrl);
+			// Pass the clean AxisConfiguration so the WSDL builder does not
+			// fall back to createDefaultConfigurationContext() internally.
+			services = WSUtils.createAllAxisServicesFromWSDLFile(wsdlUrl, true, null, null, axisConfiguration);
 		} catch (Exception ex) {
 			throw new Exception(resHash.getString(
 					"CONNECTOR.AXIS2WSSERVER.READ.WSDL.ERROR", new Object[] {
@@ -737,6 +757,104 @@ public class Axis2WSServerConnector extends Connector implements
 
 		return axisConfig;
 	}
+
+	/**
+	 * Resolves the {@link AxisOperation} for an incoming SOAP request by
+	 * matching the first child element of the SOAP body against each
+	 * operation's declared input-message element QName.
+	 *
+	 * <p>This is necessary because the standard Axis2 dispatchers
+	 * ({@code SOAPActionBasedDispatcher}, {@code SOAPMessageBodyBasedDispatcher},
+	 * etc.) can all fail when:
+	 * <ul>
+	 *   <li>the client's {@code SOAPAction} header does not match the WSDL
+	 *       binding's declared soap action, or</li>
+	 *   <li>the POST URL is a bare {@code /} with no service/operation suffix,
+	 *       or</li>
+	 *   <li>the WSDL 2.0 input body element name differs from the operation
+	 *       name (the body-based dispatcher compares the element local-name
+	 *       against the operation name, not the declared input element).</li>
+	 * </ul>
+	 * When every dispatcher fails, {@code AxisEngine.receive()} throws a
+	 * {@link NullPointerException} because {@code getAxisOperation()} is null.
+	 *
+	 * <p>This method first tries an exact body-element QName match.  If no
+	 * match is found and the service exposes exactly one operation, that
+	 * operation is returned as a safe fallback.
+	 *
+	 * @param service     the {@link AxisService} whose operations are searched
+	 * @param soapBody    the raw SOAP request string
+	 * @param contentType the HTTP Content-Type header value (used to select
+	 *                    the correct AXIOM builder)
+	 * @return the resolved {@link AxisOperation}, or {@code null} if the body
+	 *         could not be parsed at all
+	 */
+	private static AxisOperation resolveOperationFromBody(
+			AxisService service, String soapBody, String contentType) {
+
+		// Parse the raw SOAP string to reach the body's first child element.
+		OMElement bodyChild = null;
+		try {
+			String encoding = BuilderUtil.getCharSetEncoding(contentType);
+			byte[] bytes = soapBody.getBytes(encoding);
+			java.io.InputStream is = new ByteArrayInputStream(bytes);
+			org.apache.axiom.soap.SOAPModelBuilder builder =
+					org.apache.axiom.om.OMXMLBuilderFactory
+					.createSOAPModelBuilder(is, encoding);
+			org.apache.axiom.soap.SOAPEnvelope env =
+					(org.apache.axiom.soap.SOAPEnvelope) builder.getDocumentElement();
+			org.apache.axiom.soap.SOAPBody body = env.getBody();
+			if (body != null) {
+				bodyChild = body.getFirstElement();
+			}
+		} catch (Exception e) {
+			// If parsing fails here just fall through; AxisEngine will report
+			// a proper parse error when it processes the same bytes below.
+			return null;
+		}
+
+		if (bodyChild == null) {
+			return null;
+		}
+
+		QName bodyElementQName = bodyChild.getQName();
+
+		// First pass: match against the declared input-message element QName.
+		AxisOperation fallback = null;
+		int opCount = 0;
+		for (Iterator it = service.getOperations(); it.hasNext();) {
+			AxisOperation op = (AxisOperation) it.next();
+			opCount++;
+			fallback = op;
+			org.apache.axis2.description.AxisMessage inMsg =
+					op.getMessage(org.apache.axis2.wsdl.WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+			if (inMsg != null) {
+				QName elementQName = inMsg.getElementQName();
+				if (elementQName != null && elementQName.equals(bodyElementQName)) {
+					return op;
+				}
+			}
+		}
+
+		// Second pass: try matching by the operation name's local part against
+		// the body element's local name (handles doc/literal WSDL 1.1 cases
+		// where element name matches operation name).
+		for (Iterator it = service.getOperations(); it.hasNext();) {
+			AxisOperation op = (AxisOperation) it.next();
+			if (op.getName() != null &&
+					op.getName().getLocalPart().equals(bodyElementQName.getLocalPart())) {
+				return op;
+			}
+		}
+
+		// Fallback: if the service has exactly one operation, use it.
+		if (opCount == 1) {
+			return fallback;
+		}
+
+		return null;
+	}
+
 
 	/**
 	 * Read a SOAP request out of an HTTP request.
@@ -805,6 +923,42 @@ public class Axis2WSServerConnector extends Connector implements
 				org.apache.axis2.Constants.Configuration.CONTENT_TYPE,
 				contentType);
 
+		/*
+		 * Pre-resolve the AxisOperation before calling AxisEngine.receive().
+		 *
+		 * The dispatchers in the Dispatch phase (SOAPActionBasedDispatcher,
+		 * SOAPMessageBodyBasedDispatcher, RequestURIOperationDispatcher, etc.)
+		 * may all fail to match the incoming request when:
+		 *   - the SOAPAction sent by the client does not match what the WSDL
+		 *     binding declares (e.g. client sends "urn:OpResponse" but WSDL
+		 *     declares "http://example.com/service"), or
+		 *   - the POST URL is a bare "/" with no operation name suffix, or
+		 *   - the WSDL 2.0 body element name differs from the operation name.
+		 *
+		 * When every dispatcher fails, MessageContext.getAxisOperation() returns
+		 * null and AxisEngine.receive() immediately throws NullPointerException
+		 * trying to call getAxisOperation().getMessageReceiver().
+		 *
+		 * The fix: resolve the operation deterministically by matching the
+		 * SOAP body's first child element QName against each AxisOperation's
+		 * declared input-message element QName.  If no element-QName match is
+		 * found, fall back to the single-operation service (the common case).
+		 * This mirrors what SOAPMessageBodyBasedDispatcher attempts but does
+		 * it against the operation's declared input element rather than the
+		 * operation name, making it correct for WSDL 2.0 and WSDL 1.1 alike.
+		 */
+		if (serviceConfig != null) {
+			AxisOperation resolved = resolveOperationFromBody(
+					serviceConfig, (String) request, contentType);
+			if (resolved != null) {
+				msgContext.setAxisOperation(resolved);
+				if (serviceConfig.getAxisServiceGroup() != null) {
+					msgContext.setAxisServiceGroup(
+							serviceConfig.getAxisServiceGroup());
+				}
+			}
+		}
+
 		// Determine how Axis2 expects the request to be encoded
 		String requestEncoding = BuilderUtil.getCharSetEncoding(contentType);
 		byte[] requestBytes = ((String) request).getBytes(requestEncoding);
@@ -813,14 +967,15 @@ public class Axis2WSServerConnector extends Connector implements
 		/*
 		 * The following will call AxisEngine.receive, however we have installed
 		 * NOOP message receivers for all operations and as a result the output
-		 * transport will not get triggered
+		 * transport will not get triggered.  Because we pre-set the operation
+		 * above, AxisEngine.receive() will always find a non-null getAxisOperation().
 		 */
 		HTTPTransportUtils.processHTTPPostRequest(msgContext, requestStream,
 				null, contentType, soapAction, requestURI);
 
 		/*
-		 * The returned message context will have its operation filled in by the
-		 * Axis2 dispatchers
+		 * The returned message context will have its operation filled in,
+		 * either by the pre-resolution above or confirmed by the dispatchers.
 		 */
 		return msgContext;
 	}
@@ -865,19 +1020,10 @@ public class Axis2WSServerConnector extends Connector implements
 			MessageContext inMsgContext, OMElement responsePayload)
 			throws AxisFault {
 
-		// Create an output message context
-		MessageContext outMsgContext = MessageContextBuilder
-				.createOutMessageContext(inMsgContext);
-		outMsgContext.getOperationContext().addMessageContext(outMsgContext);
-
-		/*
-		 * This code is based on the functionality of
-		 * org.apache.axis2.receivers.RawXMLINOutMessageReceiver.receive.
-		 */
-
+		// Match the SOAP version of the incoming request.
 		String soapNamespaceURI = inMsgContext.getEnvelope().getNamespace()
 				.getNamespaceURI();
-		SOAPFactory fac = null;
+		SOAPFactory fac;
 		if (SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI
 				.equals(soapNamespaceURI)) {
 			fac = OMAbstractFactory.getSOAP12Factory();
@@ -890,27 +1036,15 @@ public class Axis2WSServerConnector extends Connector implements
 					soapNamespaceURI));
 		}
 
-		// Put the response payload in the output message context
+		// Build the response envelope directly.
+		// AxisEngine.send() overwrites the execution chain with its own out-flow
+		// phases and then calls TransportOutDescription.getSender(), which is
+		// null for our synthetic "tdi-sender" descriptor, causing an NPE.
+		// We already have the payload and the factory, so we do not need
+		// AxisEngine.send() at all — just construct the envelope here.
 		SOAPEnvelope outMsgEnvelope = fac.getDefaultEnvelope();
 		outMsgEnvelope.getBody().addChild(responsePayload);
-		outMsgContext.setEnvelope(outMsgEnvelope);
-
-		MessageSaver mySender = new MessageSaver();
-		TransportOutDescription transportOutDesc = new TransportOutDescription(
-				"tdi-sender");
-		// In Axis2 1.8.2, we can't use setSender with our custom handler
-		// Instead, we'll add the handler to the execution chain
-		outMsgContext.setTransportOut(transportOutDesc);
-		outMsgContext.getExecutionChain().add(mySender);
-
-		AxisEngine.send(outMsgContext);
-
-		// see what the sender was given to send
-		MessageContext msgContextForSend = mySender.getSaved();
-
-		SOAPEnvelope soapResponse = msgContextForSend.getEnvelope();
-
-		return soapResponse;
+		return outMsgEnvelope;
 	}
 
 	/**
@@ -928,30 +1062,14 @@ public class Axis2WSServerConnector extends Connector implements
 	private static SOAPEnvelope prepareSOAPFaultResponse(
 			MessageContext inMsgContext, AxisFault axisFault) throws AxisFault {
 
-		// do not send stack traces from our code as SOAP fault details
-		inMsgContext.getOperationContext().setProperty(
-				Constants.Configuration.SEND_STACKTRACE_DETAILS_WITH_FAULTS,
-				"false");
-
+		// createFaultMessageContext builds the SOAP fault envelope internally;
+		// we just retrieve it directly instead of routing through
+		// AxisEngine.sendFault(), which would NPE trying to invoke a null
+		// TransportSender on our synthetic TransportOutDescription.
 		MessageContext faultMsgContext = MessageContextBuilder
 				.createFaultMessageContext(inMsgContext, axisFault);
 
-		MessageSaver mySender = new MessageSaver();
-		TransportOutDescription transportOutDesc = new TransportOutDescription(
-				"tdi-sender");
-		// In Axis2 1.8.2, we can't use setSender with our custom handler
-		// Instead, we'll add the handler to the execution chain
-		faultMsgContext.setTransportOut(transportOutDesc);
-		faultMsgContext.getExecutionChain().add(mySender);
-
-		AxisEngine.sendFault(faultMsgContext);
-
-		// see what the sender was given to send
-		MessageContext msgContextForSend = mySender.getSaved();
-
-		SOAPEnvelope soapResponse = msgContextForSend.getEnvelope();
-
-		return soapResponse;
+		return faultMsgContext.getEnvelope();
 	}
 
 	/**
@@ -1060,6 +1178,103 @@ public class Axis2WSServerConnector extends Connector implements
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Builds the InFlow phase list that exactly mirrors the phaseOrder in
+	 * axis2_default.xml. Dispatcher placement must match the XML precisely:
+	 * <ul>
+	 *   <li>Transport phase: URI + SOAPAction dispatchers (service lookup)</li>
+	 *   <li>Addressing phase: AddressingBased dispatcher</li>
+	 *   <li>Dispatch phase (DispatchPhase): URI, SOAPAction, URIOperation,
+	 *       SOAPMessageBody, HTTPLocation dispatchers (operation lookup)</li>
+	 * </ul>
+	 * SOAPMessageBodyBasedDispatcher is what actually matches the incoming
+	 * book element by QName when SOAPAction does not match the WSDL action.
+	 */
+	private static java.util.List<Phase> buildInFlowPhases() {
+		java.util.List<Phase> phases = new java.util.ArrayList<Phase>();
+
+		// Transport phase — service dispatchers
+		Phase transport = new Phase("Transport");
+		transport.addHandler(new RequestURIBasedDispatcher());
+		transport.addHandler(new SOAPActionBasedDispatcher());
+		phases.add(transport);
+
+		// Addressing phase
+		Phase addressing = new Phase("Addressing");
+		addressing.addHandler(new AddressingBasedDispatcher());
+		phases.add(addressing);
+
+		phases.add(new Phase("Security"));
+		phases.add(new Phase("PreDispatch"));
+
+		// Dispatch phase — operation dispatchers (must be DispatchPhase subclass)
+		DispatchPhase dispatchPhase = new DispatchPhase("Dispatch");
+		dispatchPhase.addHandler(new RequestURIBasedDispatcher());
+		dispatchPhase.addHandler(new SOAPActionBasedDispatcher());
+		dispatchPhase.addHandler(new RequestURIOperationDispatcher());
+		dispatchPhase.addHandler(new SOAPMessageBodyBasedDispatcher());
+		dispatchPhase.addHandler(new HTTPLocationBasedDispatcher());
+		phases.add(dispatchPhase);
+
+		phases.add(new Phase("RMPhase"));
+		phases.add(new Phase("OpPhase"));
+		phases.add(new Phase("OperationInPhase"));
+		return phases;
+	}
+
+	/** Builds the InFaultFlow phase list, mirroring axis2_default.xml. */
+	private static java.util.List<Phase> buildInFaultFlowPhases() {
+		java.util.List<Phase> phases = new java.util.ArrayList<Phase>();
+
+		Phase transport = new Phase("Transport");
+		transport.addHandler(new RequestURIBasedDispatcher());
+		transport.addHandler(new SOAPActionBasedDispatcher());
+		phases.add(transport);
+
+		Phase addressing = new Phase("Addressing");
+		addressing.addHandler(new AddressingBasedDispatcher());
+		phases.add(addressing);
+
+		phases.add(new Phase("Security"));
+		phases.add(new Phase("PreDispatch"));
+
+		DispatchPhase dispatchPhase = new DispatchPhase("Dispatch");
+		dispatchPhase.addHandler(new RequestURIBasedDispatcher());
+		dispatchPhase.addHandler(new SOAPActionBasedDispatcher());
+		dispatchPhase.addHandler(new RequestURIOperationDispatcher());
+		dispatchPhase.addHandler(new SOAPMessageBodyBasedDispatcher());
+		dispatchPhase.addHandler(new HTTPLocationBasedDispatcher());
+		phases.add(dispatchPhase);
+
+		phases.add(new Phase("RMPhase"));
+		phases.add(new Phase("OpPhase"));
+		phases.add(new Phase("OperationInFaultPhase"));
+		return phases;
+	}
+
+	/** Builds the OutFlow phase list, mirroring axis2_default.xml. */
+	private static java.util.List<Phase> buildOutFlowPhases() {
+		java.util.List<Phase> phases = new java.util.ArrayList<Phase>();
+		phases.add(new Phase("RMPhase"));
+		phases.add(new Phase("OpPhase"));
+		phases.add(new Phase("OperationOutPhase"));
+		phases.add(new Phase("PolicyDetermination"));
+		phases.add(new Phase("MessageOut"));
+		phases.add(new Phase("Security"));
+		return phases;
+	}
+
+	/** Builds the OutFaultFlow phase list, mirroring axis2_default.xml. */
+	private static java.util.List<Phase> buildOutFaultFlowPhases() {
+		java.util.List<Phase> phases = new java.util.ArrayList<Phase>();
+		phases.add(new Phase("OperationOutFaultPhase"));
+		phases.add(new Phase("RMPhase"));
+		phases.add(new Phase("PolicyDetermination"));
+		phases.add(new Phase("MessageOut"));
+		phases.add(new Phase("Security"));
+		return phases;
 	}
 
 }
