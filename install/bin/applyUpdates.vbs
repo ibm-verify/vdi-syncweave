@@ -35,7 +35,7 @@ Else
     dst = WScript.Arguments.Item(0)
 End If
 
-CURRENT_VERSION = "10.0.0.6"
+CURRENT_VERSION = "1.0.0"
 If Len(dst) = 0 Then
     call displayMessage("no_directory", Null)
     WScript.Quit

@@ -47,7 +47,7 @@ Echo() {
 
 #############################################################################
 # Main line.
-CURRENT_VERSION="10.0.0.6"
+CURRENT_VERSION="1.0.0"
 dst=$1
 BASE_ARCHIVE=""
 ECLIPSECE_ARCHIVE=""

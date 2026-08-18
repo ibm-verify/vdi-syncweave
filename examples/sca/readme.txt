@@ -6,7 +6,7 @@ Prerequisites -
 
 1. Websphere Integration Developer 6.0
 2. Websphere Process Server 6.0
-3. SyncWeave 10.0.0.6
+3. SyncWeave 1.0.0
 
 The example ships a WID(Websphere Integration Developer) ProjectInterchange file which consists of the following modules - 
 
