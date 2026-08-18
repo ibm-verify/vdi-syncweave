@@ -31,7 +31,7 @@ public class Version {
 	 * @return version information
 	 */
 	public static String version() {
-		String ver = "10.0.0.6 - " + date;		
+		String ver = "1.0.0 - " + date;		
 		return ver;
 	}
 }

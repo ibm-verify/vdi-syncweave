@@ -606,7 +606,7 @@ return declare(
 		},
 		
 		onShowHelp: function() {
-			window.open("https://www.ibm.com/docs/en/svdi/10.0.0?topic=server-federated-directory", "_FDS_HELP");
+			window.open("https://www.ibm.com/docs/en/vdi/11.0.0?topic=server-federated-directory", "_FDS_HELP");
 		},
 		
 		toggleAutoUpdate: function(auto) {
