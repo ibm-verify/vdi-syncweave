@@ -42,6 +42,7 @@ import org.apache.axis2.description.AxisService;
 import org.apache.axis2.description.WSDL11ToAllAxisServicesBuilder;
 import org.apache.axis2.description.WSDL20ToAllAxisServicesBuilder;
 import org.apache.axis2.description.WSDL2Constants;
+import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.axis2.util.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -451,6 +452,18 @@ public class WSUtils {
 	 */
 	public static Vector createAllAxisServicesFromWSDLFile(String wsdl,
 			boolean isServerSide, final String username, final String password) throws Exception {
+		return createAllAxisServicesFromWSDLFile(wsdl, isServerSide, username, password, null);
+	}
+
+	/**
+	 * Returns all services from the given WSDL file, using the supplied
+	 * {@link AxisConfiguration} to prevent Axis2 from loading its embedded
+	 * axis2.xml / axis2_default.xml (which may reference removed classes).
+	 * Pass {@code null} to let Axis2 create its own default configuration.
+	 */
+	public static Vector createAllAxisServicesFromWSDLFile(String wsdl,
+			boolean isServerSide, final String username, final String password,
+			AxisConfiguration axisConfig) throws Exception {
 		URL wsdlURL;
 		File wsdlFile = new File(wsdl);
 		if (wsdlFile.exists()) {
@@ -472,8 +485,8 @@ public class WSUtils {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(username, password.toCharArray());
-				}                                       
-			});			
+				}
+			});
 		}
 
 		InputStream inp = getInputStream(wsdlURL, username, password);
@@ -486,6 +499,9 @@ public class WSUtils {
 						inp);
 				wsdlToAxisServiceBuilder.setBaseUri(wsdlURI.toASCIIString());
 				wsdlToAxisServiceBuilder.setServerSide(isServerSide);
+				if (axisConfig != null) {
+					wsdlToAxisServiceBuilder.useAxisConfiguration(axisConfig);
+				}
 				services = new Vector(wsdlToAxisServiceBuilder.populateAllServices());
 
 			} else {
@@ -493,6 +509,9 @@ public class WSUtils {
 						inp);
 				wsdlToAxisServiceBuilder.setBaseUri(wsdlURI.toASCIIString());
 				wsdlToAxisServiceBuilder.setServerSide(isServerSide);
+				if (axisConfig != null) {
+					wsdlToAxisServiceBuilder.useAxisConfiguration(axisConfig);
+				}
 				services = new Vector(wsdlToAxisServiceBuilder.populateAllServices());
 			}
 
@@ -631,10 +650,21 @@ public class WSUtils {
 	 *             Exception message for more details.
 	 */
 	public static AxisService createAxisServiceFromWSDLFile(String wsdlFile,
-			String serviceName, boolean isServerSide,String username, String password) throws Exception {
-			
-		List services = createAllAxisServicesFromWSDLFile(wsdlFile, isServerSide, username, password);
-		
+			String serviceName, boolean isServerSide, String username, String password) throws Exception {
+		return createAxisServiceFromWSDLFile(wsdlFile, serviceName, isServerSide, username, password, null);
+	}
+
+	/**
+	 * Creates a specified service object from the WSDL file, using the supplied
+	 * {@link AxisConfiguration} to prevent Axis2 from loading its embedded
+	 * axis2.xml / axis2_default.xml (which may reference removed classes).
+	 */
+	public static AxisService createAxisServiceFromWSDLFile(String wsdlFile,
+			String serviceName, boolean isServerSide, String username, String password,
+			AxisConfiguration axisConfig) throws Exception {
+
+		List services = createAllAxisServicesFromWSDLFile(wsdlFile, isServerSide, username, password, axisConfig);
+
 		if (services != null) {
 			for (int i = 0; i < services.size(); i++) {
 				AxisService as = (AxisService) services.get(i);
@@ -643,7 +673,7 @@ public class WSUtils {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
