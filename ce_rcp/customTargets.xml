@@ -138,22 +138,58 @@
             -->
             <replace file="${project.root.ce_rcp.loader.plugin}/build.xml" token="bootclasspath=&quot;${bundleBootClasspath}&quot;" value=""/>
             <replace file="${project.root.ce_rcp.base.plugin}/build.xml" token="bootclasspath=&quot;${bundleBootClasspath}&quot;" value=""/>
-
             <!--
-             There is an issue with the generated MacOSX build in that the
-             Contents directory is in the miadmin.app sub-directory.  We 
-             manually fix this issue here.
-             -->
-            <exec executable="sed" failonerror="false">
-                <arg value="-i"/>
-                <arg value="s|/Contents/MacOS/|/miadmin.app/Contents/MacOS/|g"/>
-                <arg value="${buildDirectory}/assemble.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
-            </exec>
-            <exec executable="sed" failonerror="false">
-                <arg value="-i"/>
-                <arg value="s|/Contents/MacOS/|/miadmin.app/Contents/MacOS/|g"/>
-                <arg value="${buildDirectory}/assemble.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
-            </exec>
+              Eclipse 4.39.0's eclipse.brand requires platform-specific native launcher
+              binaries to be present in the productRootFiles root directories before
+              the assemble phase runs.  PDE only generates the .ini / configuration
+              files; it does not place the native launcher binaries.
+
+              The binaries were downloaded once from the IES 4.39.0 p2 repository
+              (org.eclipse.equinox.executable_root.<ws>.<os>.<arch> IU version
+              3.8.3200.v20260203-2149) and stored permanently under:
+                ${root.eclipse_runtime_src}/launcher        (linux x86_64 binary)
+                ${root.eclipse_runtime_src}/win32/          (win32 executables)
+                ${root.eclipse_runtime_src}/macosx/         (macOS Eclipse.app bundles)
+
+              Copy them into the PDE-generated productRootFiles here so every build
+              picks them up from local disk without any network access.
+
+              For macOS, eclipse.brand looks for Eclipse.app (or Launcher.app) in
+              the root and renames it to miadmin.app.  Remove any stale miadmin.app
+              PDE may have generated beforehand.
+            -->
+            <property name="prf"
+                      value="${buildDirectory}/features/org.eclipse.pde.build.container.feature/productRootFiles"/>
+
+            <!-- linux.gtk.x86_64: copy 'launcher' binary and about.html -->
+            <copy file="${root.eclipse_runtime_src}/launcher"
+                  tofile="${prf}/linux.gtk.x86_64/launcher"
+                  overwrite="true"/>
+            <chmod file="${prf}/linux.gtk.x86_64/launcher" perm="755"/>
+            <copy file="${root.eclipse_runtime_src}/about.html"
+                  tofile="${prf}/linux.gtk.x86_64/about.html"
+                  overwrite="true"/>
+
+            <!-- win32.win32.x86_64: copy launcher.exe and eclipsec.exe -->
+            <copy file="${root.eclipse_runtime_src}/win32/launcher.exe"
+                  tofile="${prf}/win32.win32.x86_64/launcher.exe"
+                  overwrite="true"/>
+            <copy file="${root.eclipse_runtime_src}/win32/eclipsec.exe"
+                  tofile="${prf}/win32.win32.x86_64/eclipsec.exe"
+                  overwrite="true"/>
+
+            <!-- macosx.cocoa.x86_64: copy Eclipse.app bundle (contains Contents/MacOS/launcher).
+                 Remove any stale miadmin.app first; eclipse.brand will rename Eclipse.app. -->
+            <delete dir="${prf}/macosx.cocoa.x86_64/miadmin.app" failonerror="false"/>
+            <copy todir="${prf}/macosx.cocoa.x86_64/Eclipse.app" overwrite="true">
+                <fileset dir="${root.eclipse_runtime_src}/macosx/x86_64/Eclipse.app"/>
+            </copy>
+
+            <!-- macosx.cocoa.aarch64: same as above for arm64 -->
+            <delete dir="${prf}/macosx.cocoa.aarch64/miadmin.app" failonerror="false"/>
+            <copy todir="${prf}/macosx.cocoa.aarch64/Eclipse.app" overwrite="true">
+                <fileset dir="${root.eclipse_runtime_src}/macosx/aarch64/Eclipse.app"/>
+            </copy>
 
             <!--
               I can't explain why, but when the package XML file is generated
@@ -163,65 +199,65 @@
 
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20240929-1000.*\)|file=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20240929-1000.*\)|fullpath=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="s|org.junit_4.13.2.v20240929-1000&quot;|org.junit_4.13.2.v20240929-1000.jar&quot;|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.linux.gtk.x86_64.xml"/>
             </exec>
 
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20240929-1000.*\)|file=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20240929-1000.*\)|fullpath=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="s|org.junit_4.13.2.v20240929-1000&quot;|org.junit_4.13.2.v20240929-1000.jar&quot;|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.win32.win32.x86_64.xml"/>
             </exec>
 
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20240929-1000.*\)|file=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20240929-1000.*\)|fullpath=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="s|org.junit_4.13.2.v20240929-1000&quot;|org.junit_4.13.2.v20240929-1000.jar&quot;|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.x86_64.xml"/>
             </exec>
 
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|dir=\(.*org.junit_4.13.2.v20211018-1956.*\)|file=\1|g"/>
+                <arg value="s|dir=\(.*org.junit_4.13.2.v20240929-1000.*\)|file=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|prefix=\(.*org.junit_4.13.2.v20211018-1956.*\)|fullpath=\1|g"/>
+                <arg value="s|prefix=\(.*org.junit_4.13.2.v20240929-1000.*\)|fullpath=\1|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
             </exec>
             <exec executable="sed" failonerror="false">
                 <arg value="-i"/>
-                <arg value="s|org.junit_4.13.2.v20211018-1956&quot;|org.junit_4.13.2.v20211018-1956.jar&quot;|g"/>
+                <arg value="s|org.junit_4.13.2.v20240929-1000&quot;|org.junit_4.13.2.v20240929-1000.jar&quot;|g"/>
                 <arg value="${buildDirectory}/package.org.eclipse.pde.build.container.feature.macosx.cocoa.aarch64.xml"/>
             </exec>
 

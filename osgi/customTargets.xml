@@ -137,6 +137,18 @@
 	<!-- ===================================================================== -->
 	<target name="preProcess">
 		<!--
+		  Strip bootclasspath from all generated per-plugin build.xml files.
+		  The -bootclasspath javac option is not supported at compliance level
+		  9 and above (Java 11+/21). PDE generates it unconditionally; we
+		  remove it here before compilation starts, matching the same fix
+		  applied in ce_rcp/customTargets.xml.
+		-->
+		<replace dir="${buildDirectory}/plugins"
+		         token='bootclasspath="${bundleBootClasspath}"'
+		         value=""
+		         includes="*/build.xml"/>
+
+		<!--
 		  The PDE builder automatically generates the order in which plugins
 		  are compiled, but for some strange reason the order is not
 		  consistent across build platforms, and we have a dependency on the

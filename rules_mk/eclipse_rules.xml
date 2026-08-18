@@ -33,7 +33,12 @@
 
     <sequential>
        <exec executable="java" failonerror="yes" error="@{errorlog.log}">
-         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${root.eclipse_runtime_src}/plugins:${project.root.export.osgi.embedded}" -Dproduct="${project.root.export.ce_rcp}/plugins/com.ibm.tdi.rcp/tdieclipse.product" -DrunPackager=true -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -consoleLog' />
+         <!-- resolution.devMode=true is required here: Eclipse 4.39's biz.aQute.bndlib/repository/resolve
+              jars have intrinsic uses-constraint wiring conflicts on aQute.bnd.* packages. This causes
+              org.eclipse.pde.core (included via the org.eclipse.pde feature in tdieclipse.product) to
+              fail resolution with "Package uses conflict". osgi.resolverMode=development (what devMode sets)
+              relaxes only the uses-constraint check; it does NOT hide genuinely missing bundles. -->
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -Dproduct="${project.root.export.ce_rcp}/plugins/com.ibm.tdi.rcp/tdieclipse.product" -DrunPackager=true -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -DfilteredDependencyCheck=false -Dresolution.devMode=true -consoleLog' />
        </exec>
     </sequential>
 
@@ -54,7 +59,7 @@
 
     <sequential>
        <exec executable="java" failonerror="yes" error="@{errorlog.log}">
-         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile_updatesite}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${root.eclipse_runtime_src}/plugins:${project.root.export.osgi.embedded}" -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -consoleLog -DbuildDirectory="${project.root.export.ce_rcp}" -DarchivesFormat="*,*,* - folder" -DoutputUpdateJars="true" -Dconfigs="*,*,*" -DarchivePrefix="updatesite"' />
+         <arg line=' -jar "${root.eclipse_rt_launcher}" -application org.eclipse.ant.core.antRunner -buildfile "${root.eclipse_rt_buildfile_updatesite}" -Dbuilder="@{buildfile.loc}" -DbaseLocation="${root.eclipse_runtime_src}" -DpluginPath="${project.root.export.osgi.embedded}" -Dbaseos=linux -Dbasews=gtk -Dbasearch=x86_64 -DfilteredDependencyCheck=false -consoleLog -DbuildDirectory="${project.root.export.ce_rcp}" -DarchivesFormat="linux,gtk,x86_64 - folder" -DoutputUpdateJars="true" -Dconfigs="linux,gtk,x86_64" -DarchivePrefix="updatesite"' />
        </exec>
     </sequential>
 
