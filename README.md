@@ -42,6 +42,7 @@ SyncWeave is available on the following platforms:
 ## Documentation
 
 For comprehensive documentation on SyncWeave please visit the [official IBM documentation](https://www.ibm.com/docs/en/vdi/11.0.0).
+Note that SyncWeave currently supports on-premises deployments. While the documentation also includes information related to container-based deployments, those sections apply to IBM Verify Directory Integrator (VDI). They are not supported as part of the SyncWeave open-source project.
 
 ## Contributing
 
