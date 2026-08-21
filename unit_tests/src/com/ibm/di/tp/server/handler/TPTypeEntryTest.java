@@ -7,8 +7,8 @@ import static com.ibm.di.test.utils.atom.AtomUtils.atomCategoryComparator;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeEntry;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
-import org.apache.wink.common.model.atom.AtomCategory;
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomCategory;
+import com.ibm.di.web.common.atom.AtomEntry;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -59,6 +59,7 @@ public class TPTypeEntryTest extends UnitTestTPClientContext {
 		ac.setScheme(Constants.SCHEME_TP_TYPE);
 		ac.setTerm("system:/Connectors/ibmdi.HTTPServer");
 
-		containsInAnyOrder(atomCategoryComparator, entry.getCategories(), ac, Constants.CAT_RES_TYPE_ENTRY);
+		containsInAnyOrder(atomCategoryComparator, entry.getCategories(), ac,
+				com.ibm.di.test.utils.atom.AtomUtils.winkCatToInternal(Constants.CAT_RES_TYPE_ENTRY));
 	}
 }

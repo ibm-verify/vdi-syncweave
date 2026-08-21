@@ -5,6 +5,7 @@ import static com.ibm.di.test.utils.atom.AtomUtils.containsInAnyOrder;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeEntry;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeFeed;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeService;
+import static com.ibm.di.test.utils.atom.AtomUtils.findLinksByRel;
 import static com.ibm.di.test.utils.atom.AtomUtils.serializeEntry;
 import static com.ibm.di.test.utils.atom.AtomUtils.serializeFeed;
 import static org.hamcrest.core.Is.is;
@@ -21,7 +22,6 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
-// AppCategories not needed in custom implementation
 import com.ibm.di.web.common.atom.app.AppCollection;
 import com.ibm.di.web.common.atom.app.AppService;
 import com.ibm.di.web.common.atom.app.AppWorkspace;
@@ -77,10 +77,10 @@ public abstract class AtomAppHelper {
 	public String getCollectionURLByCategory(AppService service, AtomCategory targetCat) throws Exception {
 		for (AppWorkspace wspace : service.getWorkspace()) {
 			for (AppCollection col : wspace.getCollection()) {
-				for (AppCategories cat : col.getCategories()) {
-					if (containsInAnyOrder(atomCategoryComparator, true, true, cat.getCategory(), targetCat)) {
-						return col.getHref();
-					}
+				if (col.getCategories() != null
+						&& containsInAnyOrder(atomCategoryComparator, true, true,
+								col.getCategories().getCategory(), targetCat)) {
+					return col.getHref();
 				}
 			}
 		}
@@ -167,7 +167,7 @@ public abstract class AtomAppHelper {
 	}
 
 	public static String getResourceUrlFromEntryNoException(AtomEntry entry, String rel) {
-		List<AtomLink> typeFeedLink = AtomUtils.findLinksByLitteralRelValue(entry.getLinks(), rel);
+		List<AtomLink> typeFeedLink = findLinksByRel(entry.getLinks(), rel);
 
 		return (typeFeedLink == null || typeFeedLink.size() == 0) ? null : typeFeedLink.get(0).getHref();
 	}

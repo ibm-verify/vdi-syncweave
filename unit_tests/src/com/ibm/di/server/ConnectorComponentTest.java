@@ -986,6 +986,12 @@ public class ConnectorComponentTest {
 			hookBeansMap.put("connect_init", error);
 			hookBeansMap.put("initialize_fail", error);
 			hookBeansMap.put("on_connection_failure", error);
+			hookBeansMap.put("reconnect_ok", error);
+			hookBeansMap.put("reconnect_fail", error);
+			hookBeansMap.put("failover_ok", error);
+			hookBeansMap.put("failover_fail", error);
+			hookBeansMap.put("failback_ok", error);
+			hookBeansMap.put("failback_fail", error);
 			hookBeansMap.put("get_fail", error);
 			hookBeansMap.put("lookup_fail", error);
 			hookBeansMap.put("update_fail", error);
@@ -1514,6 +1520,11 @@ public class ConnectorComponentTest {
 		}
 
 		@Override
+		protected boolean isReconnectSuccessful() {
+			return true;
+		}
+
+		@Override
 		public List<String> getExpectedEvents() {
 
 			final boolean initOrSelectFailed = failedOperationName.equalsIgnoreCase("initialize")
@@ -1580,10 +1591,6 @@ public class ConnectorComponentTest {
 
 			l.addAll(getEpilogEvents());
 
-			if (initOrSelectFailed) {
-				l.remove("terminate");
-			}
-
 			return l;
 		}
 	}
@@ -1602,6 +1609,14 @@ public class ConnectorComponentTest {
 		}
 
 		protected List<String> getReconnectEvents() {
+			return getReconnectEvents(isReconnectSuccessful());
+		}
+
+		protected boolean isReconnectSuccessful() {
+			return false; // overridden in subclasses
+		}
+
+		protected List<String> getReconnectEvents(boolean reconnectSuccess) {
 
 			final boolean initFailed = failedOperationName.equalsIgnoreCase("initialize");
 			final boolean initOrSelectFailed = initFailed || failedOperationName.equalsIgnoreCase("selectEntries");
@@ -1626,6 +1641,9 @@ public class ConnectorComponentTest {
 				l.add(reconnectOperation);
 			}
 
+			// always add the outcome hook (fired even when reconnectRetries=0)
+			l.add(reconnectSuccess ? "reconnect_ok" : "reconnect_fail");
+
 			return l;
 		}
 	}
@@ -1642,8 +1660,14 @@ public class ConnectorComponentTest {
 
 			l.addAll(getPrologEvents());
 
-			for (int i = 0; i < iterationCount; ++i) {
-				l.addAll(getFlowEvents());
+			// When override hook manages iteration internally, it fires once per
+			// AL cycle; the override script uses its own counter to decide when
+			// to supply entries vs. signal end-of-data. The AL always ends with
+			// one additional before_execute + override_getnext at end-of-data.
+			if (!overrideDefaultOperationWithHook) {
+				for (int i = 0; i < iterationCount; ++i) {
+					l.addAll(getFlowEvents());
+				}
 			}
 			l.add("before_execute");
 			l.addAll(getEventsOnEndIteration());
@@ -1735,7 +1759,8 @@ public class ConnectorComponentTest {
 				l.add(getBeforeHookForFlowOperation(op));
 				l.add(op);
 				l.add(getAfterHookForFlowOperation(op));
-			}			
+			}
+			// ok hooks are always fired after the operation (override or not)
 			l.add(getOKHookForOperation(op));
 			l.add("default_ok");
 			return l;

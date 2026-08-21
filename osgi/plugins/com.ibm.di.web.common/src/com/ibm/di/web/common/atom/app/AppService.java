@@ -8,6 +8,9 @@ package com.ibm.di.web.common.atom.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,11 +45,11 @@ public class AppService {
         this.workspace = workspace;
     }
     
-    /**
-     * Get JAXB unmarshaller (Wink compatibility method).
-     * For compatibility with unit tests - not implemented, returns null.
-     */
-    public static Object getUnmarshaller() {
-        return null;
+    public static Unmarshaller getUnmarshaller() {
+        try {
+            return JAXBContext.newInstance(AppService.class).createUnmarshaller();
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

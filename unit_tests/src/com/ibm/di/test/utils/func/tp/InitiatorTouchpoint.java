@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomLink;
+import com.ibm.di.web.common.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomLink;
 
 import com.ibm.di.test.http.HttpClientContext;
 import com.ibm.di.test.utils.atom.AtomAppHelper;
@@ -111,7 +111,7 @@ public class InitiatorTouchpoint extends Touchpoint {
 	}
 
 	private String getDestFeedUrl() throws Exception {
-		List<AtomLink> destUrls = com.ibm.di.tp.server.util.AtomUtils.findLinksByLitteralRelValue(getInstanceEntry().getLinks(),
+		List<AtomLink> destUrls = com.ibm.di.test.utils.atom.AtomUtils.findLinksByRel(getInstanceEntry().getLinks(),
 				Constants.REL_DESTINATION_FEED);
 		return destUrls.get(0).getHref();
 	}

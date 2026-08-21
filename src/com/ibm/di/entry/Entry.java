@@ -2518,7 +2518,7 @@ public class Entry extends DocImpl implements Serializable, Cloneable {
 	 * 
 	 * @since 7.0
 	 */
-	final static class KeyName implements Cloneable, Serializable {
+	public final static class KeyName implements Cloneable, Serializable {
 
 		private static final long serialVersionUID = 1958264649610037783L;
 
@@ -3443,7 +3443,7 @@ public class Entry extends DocImpl implements Serializable, Cloneable {
 	 * fields this class holds. This might have some performance optimization
 	 * for the serialization of an Entry object but that is not 100% confirmed.
 	 */
-	final static class FieldsOptimizer implements Serializable {
+	public final static class FieldsOptimizer implements Serializable {
 
 		private static final long serialVersionUID = -8040153657067486846L;
 
@@ -3464,7 +3464,7 @@ public class Entry extends DocImpl implements Serializable, Cloneable {
 		 * this object is guarded by {@link #isDOMEnabled()} or
 		 * {@link #enableDOM()}, otherwise a NPE will be thrown.
 		 */
-		private List<Attribute> children;
+		public List<Attribute> children;
 
 		// (*)(*) End of manually serialized fields...
 
@@ -3486,8 +3486,8 @@ public class Entry extends DocImpl implements Serializable, Cloneable {
 		 * This field holds a list of all the names to the leafs of this tree.
 		 * This field is cleared when a Node in the tree is added or removed.
 		 */
-		private transient Collection<String> cachedNames;
-		private transient boolean isNamesListValid;
+		public transient Collection<String> cachedNames;
+		public transient boolean isNamesListValid;
 
 		/**
 		 * we don't need to create a new List every time we have to hold the
@@ -3498,7 +3498,7 @@ public class Entry extends DocImpl implements Serializable, Cloneable {
 		/**
 		 * most of the time we only need a single Info holder so just cache that
 		 */
-		private transient KeyName tempKN;
+		public transient KeyName tempKN;
 
 		// (*)(*)(*) End of optimization fields...
 

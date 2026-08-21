@@ -125,6 +125,15 @@ public class JUnitTestsClassLocator {
 		return classes.toArray(result);
 	}
 
+	/**
+	 * Returns true if the class can be run as a JUnit test (i.e. it is a
+	 * concrete class, not an interface or annotation).
+	 */
+	private static boolean isRunnableTestClass(Class<?> clazz) {
+		return !clazz.isInterface() && !clazz.isAnnotation()
+				&& !java.lang.reflect.Modifier.isAbstract(clazz.getModifiers());
+	}
+
 	private void collectClassesFromDirectory(File dir, String currentPack, List<Class<?>> classes, String postfix) {
 		File[] children = dir.listFiles();
 
@@ -133,7 +142,10 @@ public class JUnitTestsClassLocator {
 				if (child.isFile() && child.getName().endsWith(postfix)) {
 					try {
 						String className = currentPack + "." + removeClassSuffix(child.getName());
-						classes.add(JUnitTestsClassLocator.class.getClassLoader().loadClass(className));
+						Class<?> clazz = JUnitTestsClassLocator.class.getClassLoader().loadClass(className);
+						if (isRunnableTestClass(clazz)) {
+							classes.add(clazz);
+						}
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -152,8 +164,11 @@ public class JUnitTestsClassLocator {
 			String name = entry.getName();
 			if (name.startsWith(SEARCH_PACKAGE_AS_DIR) && name.endsWith(postfix)) {
 				try {
-					classes.add(JUnitTestsClassLocator.class.getClassLoader().loadClass(
-							name.substring(0, name.length() - 6).replace('/', '.')));
+					Class<?> clazz = JUnitTestsClassLocator.class.getClassLoader().loadClass(
+							name.substring(0, name.length() - 6).replace('/', '.'));
+					if (isRunnableTestClass(clazz)) {
+						classes.add(clazz);
+					}
 				} catch (ClassNotFoundException e) {
 					// ignore...
 					e.printStackTrace();

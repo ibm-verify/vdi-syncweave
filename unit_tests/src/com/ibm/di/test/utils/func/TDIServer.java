@@ -21,10 +21,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.wink.common.model.app.AppCategories;
-import org.apache.wink.common.model.app.AppCollection;
-import org.apache.wink.common.model.app.AppService;
-import org.apache.wink.common.model.app.AppWorkspace;
+import com.ibm.di.web.common.atom.AtomCategory;
+import com.ibm.di.web.common.atom.app.AppCollection;
+import com.ibm.di.web.common.atom.app.AppService;
+import com.ibm.di.web.common.atom.app.AppWorkspace;
 
 import com.ibm.di.api.APIEngine;
 import com.ibm.di.api.remote.Session;
@@ -352,14 +352,14 @@ public class TDIServer {
 				}
 
 				AppService service = AtomUtils.deserializeService(srvcXml);
-				if (service != null && service.getWorkspace() != null) {
-					for (AppWorkspace wspace : service.getWorkspace()) {
-						if (wspace.getCollection() != null) {
-							for (AppCollection col : wspace.getCollection()) {
-								if (col.getCategories() != null) {
-									for (AppCategories cat : col.getCategories()) {
-										if (containsInAnyOrder(atomCategoryComparator, true, true, cat.getCategory(),
-												Constants.CAT_CONN_PROVIDER)) {
+					if (service != null && service.getWorkspace() != null) {
+						for (AppWorkspace wspace : service.getWorkspace()) {
+							if (wspace.getCollection() != null) {
+								for (AppCollection col : wspace.getCollection()) {
+									if (col.getCategories() != null) {
+										List<AtomCategory> cats = col.getCategories().getCategory();
+										if (containsInAnyOrder(atomCategoryComparator, true, true, cats,
+												AtomUtils.winkCatToInternal(Constants.CAT_CONN_PROVIDER))) {
 											connected = col.getHref() != null;
 										}
 									}
@@ -367,7 +367,6 @@ public class TDIServer {
 							}
 						}
 					}
-				}
 			} catch (IOException io) {
 				;
 			}

@@ -73,9 +73,28 @@ public class TestFrameworkBootLoader extends URLClassLoader {
 			e.printStackTrace();
 		}
 
-		// get the jars from the tdi's "jars" folder
+		// Add spring-core/spring-web/spring-webmvc BEFORE the recursive jars/
+		// scan so that the correct Spring version takes priority over the older
+		// one bundled inside activemq-all.jar (which lacks MimeType copy-constructor).
+		// spring-core must come first since spring-web's MediaType extends MimeType.
+		try {
+			for (String jar : new String[] { "spring-core.jar", "spring-web.jar", "spring-webmvc.jar" }) {
+				File f = new File(tdiInstallDir, "jars/" + jar);
+				if (f.exists()) {
+					urls.add(f.toURI().toURL());
+				}
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		// get the jars from the tdi's "jars" folder; exclude:
+		//   jsr311-api.jar    - JAX-RS 1.x, conflicts with JAX-RS 2.x (jersey)
+		//   jaxb-impl-2.3.0.1 - uses sun.misc.Unsafe.defineClass removed in Java 11+;
+		//                       replaced by jaxb-runtime-2.3.6.jar staged separately
+		//   spring-core/web/webmvc - already added above with priority ordering
 		File tdiJarsDir = new File(tdiInstallDir, "jars");
-		collectJars(tdiJarsDir, urls, null);
+		collectJars(tdiJarsDir, urls, new String[] { "jsr311-api", "jaxb-impl", "spring-core", "spring-web", "spring-webmvc" });
 
 		// get the jars from the plugins' "jars" folder
 		File plnsJarsDir = new File(tdiInstallDir, "pwd_plugins/jars");
@@ -83,10 +102,23 @@ public class TestFrameworkBootLoader extends URLClassLoader {
 
 		/*
 		 * get the plugins from the TP server as simple jars; exclude the
-		 * Equinox and OSGi jars
+		 * Equinox and OSGi jars, and Wink JAX-RS jars (added back after Jersey
+		 * so that Jersey's RuntimeDelegate takes priority over Wink's 1.x one).
 		 */
 		File tpJarsDir = new File(tdiInstallDir, "osgi/plugins");
-		collectJars(tpJarsDir, urls, new String[] { "org.eclipse.equinox", "org.eclipse.osgi", "org.eclipse.update" });
+		collectJars(tpJarsDir, urls, new String[] { "org.eclipse.equinox", "org.eclipse.osgi", "org.eclipse.update",
+				"ibm-wink-jaxrs", "org.apache.wink.common" });
+
+		// Add Wink common jar AFTER Jersey so Jersey's RuntimeDelegate wins;
+		// the jar is still needed for TP server type dependencies (CollectionCategories, AtomText).
+		try {
+			File winkCommon = new File(tdiInstallDir, "osgi/plugins/org.apache.wink.common.jar");
+			if (winkCommon.exists()) {
+				urls.add(winkCommon.toURI().toURL());
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 
 		// get the jars from the unit_tests' "jars" folder
 		File utJarsDir = new File("lib");

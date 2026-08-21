@@ -12,8 +12,8 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomFeed;
+import com.ibm.di.web.common.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomFeed;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -68,6 +68,6 @@ public class TPTypeFeedTest extends UnitTestTPClientContext {
 			ids.add(e.getId());
 		}
 		assertThat("Comparing feed categories", containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(),
-				Constants.CAT_TOUCHPOINT), is(true));
+				com.ibm.di.test.utils.atom.AtomUtils.winkCatToInternal(Constants.CAT_TOUCHPOINT)), is(true));
 	}
 }

@@ -1,0 +1,2308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI7.1 - 2010-01-18" created="Mon Feb 15 17:32:15 EET 2010" createdBy="Administrator" modified="Mon Feb 15 17:37:06 EET 2010" modifiedBy="Administrator" version="7.1">
+	<Folder name="AssemblyLines">
+		<AssemblyLine name="ProviderServer">
+			<Settings/>
+			<Hooks>
+				<Hook name="onfailure">
+					<Name>onfailure</Name>
+					<Script>
+						<![CDATA[// set the status in case of errors
+work.setAttribute("http.status", "500 " + task.getStats().ex);]]>
+					</Script>
+					<Enabled>true</Enabled>
+				</Hook>
+			</Hooks>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<SimulationConfig>
+				<SimulationStates>
+					<Component name="HandleRequest" state="Enabled"/>
+					<Component name="HttpServer" state="Enabled"/>
+				</SimulationStates>
+				<ProxySettings/>
+			</SimulationConfig>
+			<LogConfig/>
+			<ContainerEF name="EntryFeedContainer">
+				<Connector name="HttpServer">
+					<InheritFrom>system:/Connectors/ibmdi.HTTPServer</InheritFrom>
+					<ConnectorMode>Server</ConnectorMode>
+					<ConnectorState>Enabled</ConnectorState>
+					<Configuration>
+						<UserComment/>
+						<InheritFrom>[parent]</InheritFrom>
+						<parameter name="debug">false</parameter>
+						<parameter name="headersAsProperties">false</parameter>
+						<parameter name="tcpDataAsProperties">false</parameter>
+						<parameter name="tcpPort">80</parameter>
+						<parameter name="userComment"/>
+					</Configuration>
+					<Parser>
+						<InheritFrom>[parent]</InheritFrom>
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+					</Parser>
+					<AttributeMap name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<AttributeMapItem>
+							<Name>*</Name>
+							<Type>simple</Type>
+							<Simple>*</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+						<AttributeMapItem>
+							<Name>*</Name>
+							<Type>simple</Type>
+							<Enabled>true</Enabled>
+							<Simple>*</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<DeltaSettings/>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>http.*</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.Authorization</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.base</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.body</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.content-length</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.content-type</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.method</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.qs.*</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.remote_pass</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.remote_user</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.url</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.inputstream</Name>
+							<Syntax>InputStream</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.localHost</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.localIP</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.localPort</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.outputstream</Name>
+							<Syntax>OutputStream</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.remoteHost</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.remoteIP</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.remotePort</Name>
+							<Syntax>String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>tcp.socket</Name>
+							<Syntax>Socket</Syntax>
+						</SchemaItem>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>http.body</Name>
+							<Syntax>String|File|InputStream</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.content-type</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.redirect</Name>
+							<Syntax>String</Syntax>
+							<Presence>Optional</Presence>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>http.status</Name>
+							<Syntax>String</Syntax>
+							<Presence>Always</Presence>
+						</SchemaItem>
+					</Schema>
+					<LinkCriteria>
+						<InheritFrom>[parent]</InheritFrom>
+					</LinkCriteria>
+					<Hooks>
+						<InheritFrom>[parent]</InheritFrom>
+					</Hooks>
+					<CheckpointConfig/>
+					<SandboxConfig/>
+					<Reconnect>
+						<InheritFrom>[parent]</InheritFrom>
+						<ReconnectRules/>
+					</Reconnect>
+					<Operations/>
+					<PoolDefinition>
+						<InheritFrom>[parent]</InheritFrom>
+					</PoolDefinition>
+					<PoolInstance/>
+					<InitializeOption>0</InitializeOption>
+				</Connector>
+			</ContainerEF>
+			<ContainerDF name="DataFlowContainer">
+				<Script name="HandleRequest">
+					<parameter name="script">
+						<![CDATA[/**
+ * Delegate the request to the proper config instance and AssemblyLine.
+ */
+var httpResponseEntry = null;
+
+try {
+	var httpBase = work.getString("http.base");
+	if (httpBase != null && httpBase.length() > 0) {
+		// normalize the http.base
+		var uri = new java.net.URI(httpBase);
+		httpBase = uri.normalize().toString();		
+		
+		// remove the starting '/'
+		if (httpBase.startsWith("/")) {
+			httpBase = httpBase.substring(1);
+		}
+
+		// get the Config Instance name and AssemblyLine name
+		var configInstance = null;
+		var assemblyLine = null;
+		var baseTokens = httpBase.split("/");
+		if (baseTokens.length >= 1) {
+			configInstance = baseTokens[0];
+		}
+		if (baseTokens.length >= 2) {
+			assemblyLine = baseTokens[1];
+		}
+			
+		// get the Config Instance using the provided name	
+		var cid = null;
+		if (configInstance != null && configInstance.length() > 0) { 
+			cid = session.getConfigInstance(configInstance.replaceAll("/", "_"));
+		}
+		
+		if(cid == null) {
+			httpResponseEntry = system.newEntry();
+			httpResponseEntry.setAttribute("http.status", "404 Not Found");
+			httpResponseEntry.setAttribute("http.content-type", "text/plain");
+			httpResponseEntry.setAttribute("http.body", "The specified touchpoint instance does not exist.");
+		} else {
+			al = cid.startAssemblyLineManual(assemblyLine, null);
+			httpResponseEntry = al.executeCycle(work);
+			al.close();
+		}
+	}		
+} catch (e) {
+	httpResponseEntry = system.newEntry();
+	
+	var stringWriter = new java.io.StringWriter();
+	var printWriter = new java.io.PrintWriter(stringWriter);	
+	e.printStackTrace(printWriter);
+	printWriter.flush();
+	
+	httpResponseEntry.setAttribute("http.status", "500 Internal Server Error");
+	httpResponseEntry.setAttribute("http.content-type", "text/plain");
+	httpResponseEntry.setAttribute("http.body", stringWriter.toString());
+}
+
+work.removeAllAttributes();
+if (httpResponseEntry != null) {
+	work.merge(httpResponseEntry);
+}]]></parameter>
+				</Script>
+			</ContainerDF>
+			<ThreadOptions/>
+			<Operations/>
+			<InitParams>
+				<Schema name="AssemblyLineInitParams"/>
+			</InitParams>
+		</AssemblyLine>
+		<AssemblyLine name="Initiator">
+			<Settings/>
+			<Hooks/>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<SimulationConfig>
+				<SimulationStates>
+					<Component name="ConvertToHTTPContent" state="Enabled"/>
+					<Component name="SendToDestinations" state="Enabled"/>
+					<Component name="ServiceConnector" state="Enabled"/>
+				</SimulationStates>
+				<ProxySettings/>
+			</SimulationConfig>
+			<LogConfig/>
+			<ContainerEF name="EntryFeedContainer">
+				<Connector name="ServiceConnector">
+					<InheritFrom>/Connectors/GenericServiceConnector</InheritFrom>
+					<ConnectorMode>Iterator</ConnectorMode>
+					<ConnectorState>Enabled</ConnectorState>
+					<Configuration>
+						<UserComment/>
+						<InheritFrom>[parent]</InheritFrom>
+						<parameter name="debug">false</parameter>
+						<parameter name="keyAlias"/>
+						<parameter name="userComment"/>
+					</Configuration>
+					<Parser>
+						<InheritFrom>[parent]</InheritFrom>
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+					</Parser>
+					<AttributeMap name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<AttributeMapItem>
+							<Name>*</Name>
+							<Type>simple</Type>
+							<Simple>*</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</AttributeMap>
+					<DeltaSettings>
+						<UniqueAttribute/>
+						<WhenToCommit>After every database operation</WhenToCommit>
+						<RowLocking>SERIALIZABLE</RowLocking>
+						<ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+					</DeltaSettings>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>key</Name>
+							<Syntax>java.lang.String</Syntax>
+							<NativeSyntax>String</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>value</Name>
+							<Syntax>java.lang.String</Syntax>
+							<NativeSyntax>String</NativeSyntax>
+						</SchemaItem>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>key</Name>
+							<Syntax>java.lang.String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>value</Name>
+							<Syntax>java.lang.String</Syntax>
+						</SchemaItem>
+					</Schema>
+					<LinkCriteria>
+						<InheritFrom>[parent]</InheritFrom>
+					</LinkCriteria>
+					<Hooks>
+						<InheritFrom>[parent]</InheritFrom>
+						<Hook name="end_of_data">
+							<Name>end_of_data</Name>
+							<Script/>
+							<Enabled>false</Enabled>
+						</Hook>
+					</Hooks>
+					<CheckpointConfig/>
+					<SandboxConfig/>
+					<Reconnect>
+						<InheritFrom>[parent]</InheritFrom>
+						<ReconnectRules/>
+					</Reconnect>
+					<Operations/>
+					<PoolDefinition>
+						<InheritFrom>[parent]</InheritFrom>
+					</PoolDefinition>
+					<PoolInstance/>
+					<InitializeOption>0</InitializeOption>
+				</Connector>
+			</ContainerEF>
+			<ContainerDF name="DataFlowContainer">
+				<Script name="ConvertToHTTPContent">
+					<parameter name="script">
+						<![CDATA[var entryList = new java.util.ArrayList();
+entryList.add(work);
+
+var httpBody = parseEntryListToString(entryList);
+work.removeAllAttributes();
+
+work.setAttribute("http.content-type", "text/xml");
+work.setAttribute("http.method", "POST");
+work.setAttribute("http.body", httpBody);]]>
+					</parameter>
+				</Script>
+				<Script name="SendToDestinations">
+					<parameter name="enabled">true</parameter>
+					<parameter name="script">
+						<![CDATA[// By default the Initiator does not monitor if the 
+// communication with the Destinations is successful.
+// It just "pushes" data through HTTP and does not check
+// if it is recieved successfully. Thus, no callback function
+// for merging the Destination responses is needed (the second 
+// parameter is 'null').
+sendToDestinations(work, null);
+
+// Note: Users may need the Initiator AssemblyLine to stop 
+// its work if the communication with any of the Destinations 
+// fails. In this case, provide a reference to the following 
+// function in the 'sendToDestinations' call:
+// 
+// function mergeResponsesCallback(succeededDest, failedDest) {
+// 		if (failedDest.size() > 0) {
+// 			task.logmsg("DEBUG", failedDest.size() + " Destinations failed.");
+//			task.shutdown();
+//		}
+// }]]></parameter>
+				</Script>
+			</ContainerDF>
+			<ThreadOptions/>
+			<Operations/>
+			<InitParams>
+				<Schema name="AssemblyLineInitParams"/>
+			</InitParams>
+		</AssemblyLine>
+		<AssemblyLine name="IntermediaryHandler">
+			<Settings/>
+			<Hooks/>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<SimulationConfig>
+				<SimulationStates>
+					<Component name="SendToDestinations" state="Enabled"/>
+				</SimulationStates>
+				<ProxySettings/>
+			</SimulationConfig>
+			<LogConfig/>
+			<ContainerEF name="EntryFeedContainer"/>
+			<ContainerDF name="DataFlowContainer">
+				<Script name="SendToDestinations">
+					<parameter name="script">
+						<![CDATA[// send request to Destinations
+var connEntry = sendToDestinations(work, mergeResponsesCallback);
+					
+work.removeAllAttributes();
+if (connEntry != null) {
+	work.merge(connEntry);
+} 
+
+/**
+ * NOTE: users MAY modify the provided reconciliation 
+ * logic to better suite their purposes.
+ * 
+ * Reconciles the entries returned from each Destination into
+ * a single entry object.
+ * 
+ * Parameters:
+ * 	succeededDest: 	A java.util.List containing the successfull
+ * 					Destination responses (with error codes 20*).
+ * 					Each list element is a TDI entry that contains
+ * 					the full information returned from the destination.
+ *					In addition, if its 'http.body' contained serialized
+ * 					Entries, they are parsed and provided as a 
+ * 					java.util.List in the '$entries' attribute. 
+ * 
+ * 	failedDest: 	a java.util.List containing the failure
+ * 					responses (different from 20*, including failed 
+ * 					connections, incorrect URLs, etc.).
+ * 
+ * Returns:
+ * 	The HTTP Entry that will be returned to users. If it contains an
+ * 	'$entries' attribute holding a java.util.List of Entries, it  
+ * 	will be serialized and the resulting string will overwrite the 
+ * 'http.body' of the response. The '$entries' attribute will be removed.
+ * 
+ * 
+ * Default merging logic:
+ * 1. If there is only one destination then its respnse is directly
+ * returned to the caller.
+ * 2. Or if all Destinations fail, an Entry listing each of their 
+ * errors in its 'http.body' is returned.
+ * 3. Or if any of the Destinations succeed, the returned Entry 
+ * will contain:
+ * 	a) 'http.status' attribute with value '200 OK',
+ * 	b) '$entries' attribute containing a java.util.List of all
+ * 	Entries returned from each Destination.
+ */
+function mergeResponsesCallback(succeededDest, failedDest) {
+	var mergedEntry = null;
+	if (succeededDest.size() + failedDest.size() == 1) {
+		// the intermediary has only one destination so we don't merge anything
+		mergedEntry = succeededDest.size() == 1 ? succeededDest.get(0) : failedDest.get(0);
+		if (mergedEntry.getString("http.status") == null) {
+			// HTTPClientConnector's entry read contains the status in two separate attributes, so we need to workaround that. 
+			mergedEntry.setAttribute("http.status", mergedEntry.getString("http.responseCode") + " " + mergedEntry.getString("http.responseMsg"));
+		}
+	} else {
+		// multiple destination so merging of the response is required
+		mergedEntry = system.newEntry();
+		if (succeededDest.size() > 0) {
+			// if ANY of the destinations succeeded, show their combined result
+			var entryList = new java.util.ArrayList();		
+			for (var httpEntry in succeededDest) {
+				var passedEntries = httpEntry.getObject("$entries");
+				if (passedEntries instanceof java.util.List) {
+					entryList.addAll(passedEntries);
+				}	
+			}
+			mergedEntry.setAttribute("http.status", "200 OK");
+			if (entryList.size() > 0) {
+				mergedEntry.setAttribute("$entries", entryList);
+			}
+		} else if (failedDest.size() > 0) {
+			// if ALL Destinations failed, show their return statuses
+					
+			var errorsString = "";
+			// combine the failure reasons of all Destinations
+			for (var httpEntry in failedDest) {
+				errorsString += "Request to URL '" + httpEntry.getString("http.url") + "' failed." + "\n";
+				errorsString += "HTTP status: " + getHTTPStatus(httpEntry) + "\n";
+				errorsString += "HTTP body: " + httpEntry.getString("http.body") + "\n";
+				errorsString += "\n";
+			}
+			mergedEntry.setAttribute("http.status", "500 Internal Server Error");
+			mergedEntry.setAttribute("http.content-type", "text/plain");
+			mergedEntry.setAttribute("http.body", errorsString);
+		} else {
+			// there are NO Destinations for this Intermediary
+			mergedEntry.setAttribute("http.status", "500 Internal Server Error");
+			mergedEntry.setAttribute("http.content-type", "text/plain");
+			mergedEntry.setAttribute("http.body", "No destinations are provided.");
+		}
+	}
+	return mergedEntry;
+}
+
+/**
+ * Returns the HTTP status contained in the Entry.
+ */
+function getHTTPStatus(httpEntry) {
+	var status = httpEntry.getString("http.status");
+	if (status == null) {
+		status = httpEntry.getString("http.responseCode") + " " + httpEntry.getString("http.responseMsg");
+	}
+	
+	return status;
+}]]></parameter>
+				</Script>
+			</ContainerDF>
+			<ThreadOptions/>
+			<Operations/>
+			<InitParams>
+				<Schema name="AssemblyLineInitParams"/>
+			</InitParams>
+		</AssemblyLine>
+		<AssemblyLine name="ProviderHandler">
+			<Settings/>
+			<Hooks/>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<SimulationConfig>
+				<SimulationStates>
+					<Component name="ServiceConnector" state="Enabled"/>
+					<Component name="HandleRequest" state="Enabled"/>
+				</SimulationStates>
+				<ProxySettings/>
+			</SimulationConfig>
+			<LogConfig/>
+			<ContainerEF name="EntryFeedContainer"/>
+			<ContainerDF name="DataFlowContainer">
+				<Connector name="ServiceConnector">
+					<InheritFrom>/Connectors/GenericServiceConnector</InheritFrom>
+					<ConnectorMode>Lookup</ConnectorMode>
+					<ConnectorState>Passive</ConnectorState>
+					<Configuration>
+						<UserComment/>
+						<InheritFrom>[parent]</InheritFrom>
+						<parameter name="debug">false</parameter>
+						<parameter name="keyAlias"/>
+						<parameter name="userComment"/>
+					</Configuration>
+					<Parser>
+						<InheritFrom>[parent]</InheritFrom>
+						<Schema name="Input">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+						<Schema name="Output">
+							<InheritFrom>[parent]</InheritFrom>
+						</Schema>
+					</Parser>
+					<AttributeMap name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<AttributeMapItem>
+							<Name>*</Name>
+							<Type>simple</Type>
+							<Simple>*</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<AttributeMap name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+						<AttributeMapItem>
+							<Name>*</Name>
+							<Type>simple</Type>
+							<Simple>*</Simple>
+						</AttributeMapItem>
+					</AttributeMap>
+					<DeltaSettings>
+						<WhenToCommit>After every database operation</WhenToCommit>
+						<RowLocking>SERIALIZABLE</RowLocking>
+						<ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+					</DeltaSettings>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>key</Name>
+							<Syntax>java.lang.String</Syntax>
+							<NativeSyntax>String</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>value</Name>
+							<Syntax>java.lang.String</Syntax>
+							<NativeSyntax>String</NativeSyntax>
+						</SchemaItem>
+					</Schema>
+					<Schema name="Output">
+						<UserComment>{name=userComment}</UserComment>
+						<InheritFrom>[parent]</InheritFrom>
+						<SchemaItem>
+							<Name>automapADPassword</Name>
+							<NativeSyntax>boolean</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>connectorFlags</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>debug</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>jndiExtraProviderParams</Name>
+							<NativeSyntax>textarea</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>key</Name>
+							<Syntax>java.lang.String</Syntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapAddAttr</Name>
+							<NativeSyntax>BOOLEAN</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapAuthenticationMethod</Name>
+							<NativeSyntax>DROPLIST</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapBERTrace</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapBinaryAttributes</Name>
+							<NativeSyntax>textarea</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapPageSize</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapPassword</Name>
+							<NativeSyntax>PASSWORD</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapReferrals</Name>
+							<NativeSyntax>droplist</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapReturnAttributes</Name>
+							<NativeSyntax>textarea</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapSearchBase</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapSearchFilter</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapSearchScope</Name>
+							<NativeSyntax>droplist</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapSizeLimit</Name>
+							<NativeSyntax>string</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapSortAttribute</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapTimeLimit</Name>
+							<NativeSyntax>string</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapUrl</Name>
+							<NativeSyntax>URL</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapUseSSL</Name>
+							<NativeSyntax>BOOLEAN</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapUsername</Name>
+							<NativeSyntax>DN</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>ldapVLVPageSize</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>simulateRename</Name>
+							<NativeSyntax>boolean</NativeSyntax>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>userComment</Name>
+						</SchemaItem>
+						<SchemaItem>
+							<Name>value</Name>
+							<Syntax>java.lang.String</Syntax>
+						</SchemaItem>
+					</Schema>
+					<LinkCriteria>
+						<InheritFrom>[parent]</InheritFrom>
+					</LinkCriteria>
+					<Hooks>
+						<InheritFrom>[parent]</InheritFrom>
+						<Hook name="delete_nomatch">
+							<Name>delete_nomatch</Name>
+							<Script/>
+							<Enabled>true</Enabled>
+						</Hook>
+						<Hook name="lookup_multiple">
+							<Name>lookup_multiple</Name>
+							<Enabled>true</Enabled>
+						</Hook>
+						<Hook name="lookup_nomatch">
+							<Name>lookup_nomatch</Name>
+							<Enabled>true</Enabled>
+						</Hook>
+					</Hooks>
+					<CheckpointConfig/>
+					<SandboxConfig/>
+					<Reconnect>
+						<InheritFrom>[parent]</InheritFrom>
+						<ReconnectRules/>
+					</Reconnect>
+					<Operations/>
+					<PoolDefinition>
+						<InheritFrom>[parent]</InheritFrom>
+					</PoolDefinition>
+					<PoolInstance/>
+					<InitializeOption>0</InitializeOption>
+				</Connector>
+				<Script name="HandleRequest">
+					<parameter name="script">
+						<![CDATA[/**
+ * This script performs the operation requested in the HTTP header.
+ * A "POST" is translated to Add operation
+ * A "GET" is translated to Iterator or Lookup
+ * A "PUT" is translated to Update operation
+ * A "DELETE" is translated to a Delete mode operation
+ */
+var httpResponseEntry = null;
+
+try {
+	var httpMethod = work.getString("http.method");
+	var operationFunc = getFunctionForHTTPMethod(httpMethod);
+	httpResponseEntry = operationFunc(work, ServiceConnector);
+} catch ( exception ) {
+	if (exception instanceof com.ibm.di.entry.Entry) {
+		httpResponseEntry = prepareResponseForClientError(exception);
+	} if (exception instanceof java.lang.Exception) {
+		httpResponseEntry = prepareResponseForServerError(exception);
+	}
+}
+
+work.removeAllAttributes();
+if (httpResponseEntry != null) {
+	work.merge(httpResponseEntry);
+}
+
+/**
+ * Find the method which should be use to handle the specified HTTP method.
+ */
+function getFunctionForHTTPMethod( httpMethod ) {
+	var func = null;
+	
+	if ("POST".equals(httpMethod)) {
+		func = doPost;
+	} else if ("GET".equals(httpMethod)) {
+		func = doGet;
+	} else if ("DELETE".equals(httpMethod)) {
+		func = doDelete;
+	} else if ("PUT".equals(httpMethod)) {
+		func = doPut;
+	} else {
+		var errorEntry = system.newEntry();
+		errorEntry.setAttribute("status", "fail");
+		errorEntry.setAttribute("http.status", "405 Method Not Allowed");
+		errorEntry.setAttribute("http.Allow", "GET, POST, DELETE, PUT");
+		throw errorEntry;
+	}
+	return func;
+}
+
+/**
+ * Handle HTTP POST method.
+ */
+function doPost( httpRequestEntry, alComponent ) {
+	var httpResponseEntry = system.newEntry();
+	
+	if (httpRequestEntry.getObject("http.body") != null) {
+		var requestEntry = parseRequest(httpRequestEntry);
+		alComponent.add(requestEntry);
+		httpResponseEntry.setAttribute("http.status", "201 Created");
+	} else {
+		// POST with no body
+		httpResponseEntry.setAttribute("http.status", "204 No Content");
+	}
+	
+	return httpResponseEntry;
+}
+
+/**
+ * Handle HTTP GET method.
+ */
+function doGet( httpRequestEntry, alComponent ) {
+	var queryParamsEntry = createQueryParamsEntry(httpRequestEntry);
+	var sizeLimit = getSizeLimit(httpRequestEntry);
+	var entryList = null;
+	
+	if (queryParamsEntry.size() > 0) {
+		// has link criteria => Lookup mode
+		entryList = lookupEntries(queryParamsEntry, alComponent, sizeLimit);
+	} else {
+		// no link criteria => Iterator mode
+		entryList = iterateEntries(alComponent, sizeLimit);
+	}	
+	
+	if (entryList.size() == 0) {
+		var errorEntry = system.newEntry();
+		errorEntry.setAttribute("status", "fail");
+		errorEntry.setAttribute("http.status", "404 Not Found");
+		throw errorEntry;
+	}
+	
+	var httpResponseEntry = prepareResponse(entryList);
+	return httpResponseEntry;
+}
+
+/**
+ * Handle HTTP PUT method.
+ */
+function doPut( httpRequestEntry, alComponent ) {
+	var requestEntry = parseRequest(httpRequestEntry);
+	var queryParamsEntry = createQueryParamsEntry(httpRequestEntry);
+	var link = createSearchCriteriaWithScript( queryParamsEntry );
+	alComponent.setCriteria(link);
+	
+	var httpResponseEntry = system.newEntry();
+	var numAddBeforeUpdate = alComponent.getStats().numAdd();
+	alComponent.update(requestEntry);
+	
+	var numAddAfterUpdate = alComponent.getStats().numAdd();
+	
+	if (numAddBeforeUpdate != numAddAfterUpdate) {
+		// the entry did not exist and was added
+		httpResponseEntry.setAttribute("http.status", "201 Created");
+	} else {
+		// the entry existed and was modified
+		httpResponseEntry.setAttribute("http.status", "204 No Content");
+	}
+	
+	return httpResponseEntry;
+}
+
+/**
+ * Handle HTTP DELETE method.
+ */
+function doDelete( httpRequestEntry, alComponent ) {
+	var queryParamsEntry = createQueryParamsEntry(httpRequestEntry);
+	var link = createSearchCriteria( queryParamsEntry );
+	alComponent.setCriteria(link);
+	alComponent.deleteEntry(queryParamsEntry);
+	
+	var httpResponseEntry = system.newEntry();
+	httpResponseEntry.setAttribute("http.status", "204 No Content");
+	
+	return httpResponseEntry;
+}
+
+/**
+ * Lookup Entries which match the specified query parameters.
+ * Returns a list of Entries. Negative size limit means no size limit.
+ */
+function lookupEntries( queryParamsEntry, alComponent, sizeLimit ) {
+	var entryList = new java.util.ArrayList();
+	var link = createSearchCriteria( queryParamsEntry );
+	alComponent.setCriteria(link);
+	// the 'lookup_nomatch' hook is overridden so that we don't get exception if no entry is found
+	var entry = alComponent.lookup(queryParamsEntry);
+	var connector = alComponent.getConnector();
+	if (connector.getFindEntryCount() > 1) {
+		// multiple matches
+		entry = connector.getFirstFindEntry();
+		while (entry != null && sizeLimit != 0) {
+			entryList.add(entry);
+			if (sizeLimit > 0) {
+				--sizeLimit;
+			}
+			entry = connector.getNextFindEntry();
+		}
+	} else if (entry != null) {
+		// single match
+		entryList.add(entry);
+	}
+	
+	return entryList;
+}
+
+/**
+ * Iterate over all Entries. Returns a list of Entries.
+ * Negative size limit means no size limit.
+ */
+function iterateEntries( alComponent, sizeLimit ) {
+	var entryList = new java.util.ArrayList();
+	alComponent.getConnector().selectEntries();
+	
+	var entry = alComponent.getnext();
+	while (entry != null && sizeLimit != 0) {
+		entryList.add(entry);
+		if (sizeLimit > 0) {
+			--sizeLimit;
+		}
+		entry = alComponent.getnext();
+	}
+	
+	return entryList;
+}
+
+/**
+ * Parses the size limit setting out of the specified HTTP request.
+ * (The size limit is optional and can be included as an "X-TDI-TP-SizeLimit" HTTP header.)
+ */
+function getSizeLimit( httpRequestEntry ) {
+	var sizeLimitString = httpRequestEntry.getString("http.X-TDI-TP-SizeLimit");
+	var sizeLimit = -1;
+	if (sizeLimitString != null) {
+		try {
+			sizeLimit = java.lang.Integer.parseInt(sizeLimitString);
+		} catch ( e ) {
+			var errorEntry = system.newEntry();
+			errorEntry.setAttribute("status", "fail");
+			errorEntry.setAttribute("exception", e);
+			errorEntry.setAttribute("message", "The syntax of the X-TDI-TP-SizeLimit HTTP header is incorrect: "+e.getMessage());
+			errorEntry.setAttribute("http.status", "400 Bad Request");
+			throw errorEntry;
+		}
+		if (sizeLimit < 1) {
+			var errorEntry = system.newEntry();
+			errorEntry.setAttribute("status", "fail");
+			errorEntry.setAttribute("message", "The value of the X-TDI-TP-SizeLimit HTTP header must be an integer larger than zero. Found "+sizeLimit);
+			errorEntry.setAttribute("http.status", "400 Bad Request");
+			throw errorEntry;
+		}
+	}
+	return sizeLimit;
+}
+
+/**
+ * Extract the query parameters from the HTTP Entry.
+ * (Query parameters are named "http.qs.*".)
+ */
+function createQueryParamsEntry( httpEntry ) {
+	var queryParamsEntry = system.newEntry();
+	var prefixLen = new java.lang.String("http.qs.").length();
+	
+	for (var attrName in httpEntry.getAttributeCollection()) {
+		if (attrName.startsWith("http.qs.")) {
+			var key = attrName.substring(prefixLen);
+			var value = httpEntry.getString(attrName);
+			queryParamsEntry.setAttribute(key, value);
+		}
+	}
+	
+	return queryParamsEntry;
+}
+
+/**
+ * We need to create the search criteria with script for Update mode:
+ * Each update operation involves a lookup and an add/modify. First the 'work' Entry
+ * is used to evaluate the search criteria for lookup, then the Output Map is applied
+ * to keep only those attributes from the 'work' Entry that matter for the add/modify.
+ * However, in this solution the Output Map is "*", so it will not filter out the
+ * lookup attributes from the 'work' Entry. To resolve this we don't include the
+ * lookup attributes in the 'work' Entry at all, but build the search criteria with
+ * script.
+ * The script is generated on the fly for each update, because it contains the values
+ * that we are looking for in the lookup. This approach of generating a search criteria
+ * is expected to be slower. That is why we use it only for Update mode.
+ */
+function createSearchCriteriaWithScript( queryParamsEntry ) {
+	var script = "ret.setType(com.ibm.di.server.SearchCriteria.SEARCH_AND);ret.getCriteria().clear();";
+	
+	for (var key in queryParamsEntry.getAttributeCollection())  {
+		var value = queryParamsEntry.getString(key);
+		if (value != null) {
+			script += "\n";
+			script += "ret.addCriteria(\""+key+"\", com.ibm.di.server.SearchCriteria.EXACT, \""+value+"\");";
+		}	
+	}
+	
+	script += "\n";
+	script += "ret.filter = null;";
+	
+	var link = new com.ibm.di.server.SearchCriteria(script, task.getScriptEngine());
+	
+	return link;
+}
+
+/**
+ * Create a template search criteria. The template will be combined with the 'work'
+ * Entry at runtime to get an actual search criteria instance.
+ */
+function createSearchCriteria( queryParamsEntry ) {
+	var link = system.newSearchCriteria();
+	
+	for (var key in queryParamsEntry.getAttributeCollection())  {
+		var value = queryParamsEntry.getString(key);
+		if (value != null) {
+			link.addTemplate(key, "=", "$"+key);
+		}	
+	}
+	
+	return link;
+}
+
+/**
+ * Parse an Entry out of the HTTP content.
+ */
+function parseRequest( httpEntry ) {
+	var requestEntry = null;
+	var requestString = httpEntry.getObject("http.body");
+	
+	if (requestString instanceof java.lang.String) {
+		try {
+			var requestEntryList = parseStringToEntryList(requestString);
+			if (requestEntryList.size() > 0) {
+				requestEntry = requestEntryList.get(0);
+			}
+		} catch ( e ) {
+			var errorEntry = system.newEntry();
+			errorEntry.setAttribute("status", "fail");
+			errorEntry.setAttribute("exception", e);
+			errorEntry.setAttribute("message", e.getMessage());
+			errorEntry.setAttribute("http.status", "400 Bad Request");
+			throw errorEntry;
+		}
+		
+		if (requestEntry == null) {
+			var errorEntry = system.newEntry();
+			errorEntry.setAttribute("status", "fail");
+			errorEntry.setAttribute("message", "The content of the request violates the communication protocol:\n"+requestString);
+			errorEntry.setAttribute("http.status", "400 Bad Request");
+			throw errorEntry;
+		}
+	} else if (requestString == null) {
+		requestEntry = system.newEntry();	
+	} else {
+		var errorEntry = system.newEntry();
+		errorEntry.setAttribute("status", "fail");
+		errorEntry.setAttribute("message", "Unsupported content-type: "+httpEntry.getString("http.content-type"));
+		errorEntry.setAttribute("http.status", "415 Unsupported Media Type");	
+		throw errorEntry;
+	}
+	
+	return requestEntry;
+}
+
+/**
+ * Prepare HTTP response which incorporates the specified 
+ * Entries as its HTTP content.
+ */
+function prepareResponse( entryList ) {
+	var httpEntry = system.newEntry();
+	var httpBody = parseEntryListToString(entryList);
+	
+	httpEntry.setAttribute("http.status", "200 OK");
+	httpEntry.setAttribute("http.content-type", "text/xml");
+	httpEntry.setAttribute("http.body",  httpBody);
+	
+	return httpEntry;
+}]]></parameter>
+				</Script>
+			</ContainerDF>
+			<ThreadOptions/>
+			<Operations/>
+			<InitParams>
+				<Schema name="AssemblyLineInitParams"/>
+			</InitParams>
+		</AssemblyLine>
+	</Folder>
+	<Folder name="Connectors">
+		<Connector name="HttpClientConnector">
+			<InheritFrom>system:/Connectors/ibmdi.HTTPClient</InheritFrom>
+			<ConnectorMode>CallReply</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment/>
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">false</parameter>
+				<parameter name="timeout">30</parameter>
+				<parameter name="url">http://</parameter>
+				<parameter name="userComment"/>
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings/>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+			</Hooks>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules/>
+			</Reconnect>
+			<Operations/>
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>false</Enabled>
+				<MinPoolSize>0</MinPoolSize>
+				<MaxPoolSize>0</MaxPoolSize>
+				<PurgeInterval>0</PurgeInterval>
+				<InitializeAttempts>1</InitializeAttempts>
+				<InitializeSleepInterval>0</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance/>
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="MemoryPropertiesConnector">
+			<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+			<ConnectorMode>Delta</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment/>
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="debug">true</parameter>
+				<parameter name="includeFiles"/>
+				<parameter name="reuseScriptEngine">true</parameter>
+				<parameter name="script">
+					<![CDATA[var KEY_ATTRIBUTE = "key";
+var VALUE_ATTRIBUTE = "value";
+
+// a map storing the provided properties
+var map = new java.util.HashMap();
+var mapIterator = null;
+
+function selectEntries() {
+	mapIterator = map.entrySet().iterator();
+}
+
+function getNextEntry () {
+	if (mapIterator != null && mapIterator.hasNext()) {
+		var mapEntry = mapIterator.next();
+		var key = mapEntry.getKey();
+		var value = mapEntry.getValue();
+				
+		var tdiEntry = system.newEntry();
+		
+		tdiEntry.addAttributeValue(KEY_ATTRIBUTE, key);
+		tdiEntry.addAttributeValue(VALUE_ATTRIBUTE, value);
+				
+		entry.merge( tdiEntry );
+	} else {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}	
+}
+
+function putEntry () {
+	var key = entry.getString(KEY_ATTRIBUTE);
+	var value = entry.getObject(VALUE_ATTRIBUTE);
+	
+	if(key != null && value != null) {
+		map.put(key, value);
+	} 	
+}
+
+function modEntry () {
+	var key = getMapKey();
+	if (key != null) {
+		var newValue = entry.getObject(VALUE_ATTRIBUTE);
+		map.put(key, newValue);		
+	} else {
+		result.setStatus(0);
+	}
+}
+
+function deleteEntry () {
+	var key = getMapKey();
+	if (key != null) {
+		map.remove(key);
+		result.setStatus(1);
+	} else {
+		result.setStatus(0);
+	}
+}
+
+function findEntry () {
+	connector.clearFindEntries();
+	
+	var key = getMapKey();
+	if (key != null) {
+		var value = map.get(key);
+		
+		if (value != null) {
+			var tdiEntry = system.newEntry();
+			tdiEntry.addAttributeValue(KEY_ATTRIBUTE, key);
+			tdiEntry.addAttributeValue(VALUE_ATTRIBUTE, value);
+			connector.addFindEntry(tdiEntry);
+		}
+	}	
+
+	if (connector.getFindEntryCount() == 1) {
+		entry.merge(connector.getFirstFindEntry());
+		result.setStatus(1);
+	} else {
+		result.setStatus(0);
+	}		
+}
+
+function querySchema () {
+	var e = system.newEntry();
+	e.addAttributeValue("name", KEY_ATTRIBUTE);
+	e.addAttributeValue("syntax", "String");
+	list.add(e);
+	
+	e = system.newEntry();
+	e.addAttributeValue("name", VALUE_ATTRIBUTE);
+	e.addAttributeValue("syntax", "Object");
+	list.add(e);
+	
+	result.setStatus (1);
+}
+
+function terminate() {
+	mapIterator = null;
+}
+
+// retrieves the map key specified in the link criteria
+function getMapKey() {
+	var key = null;
+	
+	var criteriaCount = search.getCriteria().size();
+	if(criteriaCount == 1) {
+		var crName = search.getFirstCriteriaName();
+		var crMatch = search.getFirstCriteriaMatch();
+		var crValue = search.getFirstCriteriaValue();
+		if (crName != null && crName.equals(KEY_ATTRIBUTE) && 
+				crMatch == search.EXACT && crValue != null) {
+			key = crValue;
+		}
+	}
+	
+	return key;
+}
+]]>
+				</parameter>
+				<parameter name="userComment"/>
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings>
+				<WhenToCommit>After every database operation</WhenToCommit>
+				<RowLocking>SERIALIZABLE</RowLocking>
+				<ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+			</DeltaSettings>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+				<SchemaItem>
+					<Name>key</Name>
+					<Syntax>java.lang.String</Syntax>
+					<NativeSyntax>String</NativeSyntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>value</Name>
+					<Syntax>java.lang.String</Syntax>
+					<NativeSyntax>String</NativeSyntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+				<SchemaItem>
+					<Name>key</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>value</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+				<MatchAny>false</MatchAny>
+				<LinkCriteriaItem>
+					<Key>1264bba5336</Key>
+					<Attribute/>
+					<Operator>equals</Operator>
+					<Value/>
+				</LinkCriteriaItem>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+			</Hooks>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules/>
+			</Reconnect>
+			<Operations/>
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>false</Enabled>
+				<MinPoolSize>0</MinPoolSize>
+				<MaxPoolSize>0</MaxPoolSize>
+				<PurgeInterval>0</PurgeInterval>
+				<InitializeAttempts>1</InitializeAttempts>
+				<InitializeSleepInterval>0</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance/>
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+		<Connector name="GenericServiceConnector">
+			<InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+			<ConnectorMode>AddOnly</ConnectorMode>
+			<ConnectorState>Enabled</ConnectorState>
+			<Configuration>
+				<UserComment/>
+				<InheritFrom>[parent]</InheritFrom>
+				<parameter name="collection"/>
+				<parameter name="debug">false</parameter>
+				<parameter name="keyAlias"/>
+				<parameter name="userComment"/>
+			</Configuration>
+			<Parser>
+				<InheritFrom>[parent]</InheritFrom>
+				<Schema name="Input">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+				<Schema name="Output">
+					<InheritFrom>[parent]</InheritFrom>
+				</Schema>
+			</Parser>
+			<AttributeMap name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<AttributeMap name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</AttributeMap>
+			<DeltaSettings/>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+				<SchemaItem>
+					<Name>key</Name>
+					<Syntax>java.lang.String</Syntax>
+					<NativeSyntax>String</NativeSyntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>value</Name>
+					<Syntax>java.lang.String</Syntax>
+					<NativeSyntax>String</NativeSyntax>
+				</SchemaItem>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+				<SchemaItem>
+					<Name>key</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+				<SchemaItem>
+					<Name>value</Name>
+					<Syntax>java.lang.String</Syntax>
+				</SchemaItem>
+			</Schema>
+			<LinkCriteria>
+				<InheritFrom>[parent]</InheritFrom>
+			</LinkCriteria>
+			<Hooks>
+				<InheritFrom>[parent]</InheritFrom>
+			</Hooks>
+			<CheckpointConfig/>
+			<SandboxConfig/>
+			<Reconnect>
+				<InheritFrom>[parent]</InheritFrom>
+				<ReconnectRules/>
+			</Reconnect>
+			<Operations/>
+			<PoolDefinition>
+				<InheritFrom>[parent]</InheritFrom>
+				<Enabled>false</Enabled>
+				<MinPoolSize>0</MinPoolSize>
+				<MaxPoolSize>0</MaxPoolSize>
+				<PurgeInterval>0</PurgeInterval>
+				<InitializeAttempts>1</InitializeAttempts>
+				<InitializeSleepInterval>0</InitializeSleepInterval>
+			</PoolDefinition>
+			<PoolInstance/>
+			<InitializeOption>0</InitializeOption>
+		</Connector>
+	</Folder>
+	<Folder name="Parsers">
+		<Parser name="DataParser">
+			<UserComment/>
+			<InheritFrom>system:/Parsers/ibmdi.XML2</InheritFrom>
+			<parameter name="debug">false</parameter>
+			<parameter name="entry.tag">tp:entry</parameter>
+			<parameter name="ns.map">tp=http://www.ibm.com/xmlns/prod/tdi/71/tp</parameter>
+			<parameter name="static.decl">
+				<![CDATA[<tp:data xmlns:tp="http://www.ibm.com/xmlns/prod/tdi/71/tp">
+</tp:data>]]></parameter>
+			<parameter name="userComment"/>
+			<parameter name="value.tag">tp:value</parameter>
+			<parameter name="xpath.expr">tp:data</parameter>
+			<Schema name="Input">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+			<Schema name="Output">
+				<InheritFrom>[parent]</InheritFrom>
+			</Schema>
+		</Parser>
+	</Folder>
+	<Folder name="Scripts">
+		<Script name="Sender">
+			<parameter name="autoInclude">true</parameter>
+			<parameter name="includeFiles"/>
+			<parameter name="script">
+				<![CDATA[//
+// Sends requests to Destinations and reconciles 
+// the responses through user-defined logic.
+//
+
+/**
+ * The HTTP Client Connector used for sending data to Destinations.
+ */
+var httpClient = system.getConnector("HttpClientConnector");
+httpClient.initialize(null);
+
+/**
+ * Sends the provided entry to the specified Destinations.
+ * 
+ * Note: This is the place for incorporating an error recovery
+ * functionality if the default one is not sufficient. 
+ * Check out the internal catch block for more details
+ * 
+ * Parameters:
+ * 	entry:		a TDI Entry containing the data to be sent.
+ * 	mergeResponsesCallback: 
+ * 				a reference to a function that will handle 
+ * 				the Destination responses.
+ * 
+ * Returns:
+ * 	an HTTP TDI Entry that can be sent to the caller.
+ */
+function sendToDestinations(entry, mergeResponsesCallback) {
+	// get the Destination configurations, which is a java.util.List which has 
+	// elements of type java.util.Map containing both request-out and request-error urls.
+	var destsList = getDestinations();
+	
+	var ENTRIES_ATTR = "$entries";
+	var connEntry = null;	
+
+	var succeededDest = new java.util.ArrayList();
+	var failedDest = new java.util.ArrayList();
+	try { 
+		for (var destMap in destsList) {
+			reqOut = destMap.get("request-out");
+			try {
+				var requestEntry = entry.clone();
+				
+				// remove attributes that should be detetrmined from the http.url
+				removeUnneededAttributes(requestEntry);
+
+				// unite the Entry and URL query parameters
+				reqOut = prepareRequestURL(reqOut, requestEntry);
+				requestEntry.setAttribute("http.url", reqOut);
+
+				task.logmsg("DEBUG", "Sending data to URL: " + reqOut);
+						
+				// send data
+				var responseEntry = httpClient.queryReply(requestEntry);
+				if (responseEntry.getString("http.url") == null) {
+					responseEntry.setAttribute("http.url", reqOut);
+				}
+				
+				var responseCode = responseEntry.getString("http.responseCode");		
+				if (responseCode >= 200 && responseCode < 300) {
+					//on success
+					var responseString = responseEntry.getObject("http.body.response");
+					if (responseString != null) {
+						var entries = parseStringToEntryList(responseString);
+						responseEntry.setAttribute(ENTRIES_ATTR, entries);
+					}
+					succeededDest.add(responseEntry);
+				} else {
+					// on failure
+					failedDest.add(responseEntry);
+				}				
+			} catch (e) {
+				// By default we are just gathering the failed requests up, but more 
+				// custom error handling can be implemented here. 
+				// The Touchpoint Destination Entry has an element called "request-error"
+				// which could be accessed like this: 
+				// reqErr = destMap.get("request-error");
+								
+				var errorHttpEntry = prepareResponseForServerError(e);
+				errorHttpEntry.setAttribute("http.url", reqOut);
+				failedDest.add(errorHttpEntry);
+			} 	
+		}	
+		task.logmsg("DEBUG", "Failed Destinations count: " + failedDest.size());
+		task.logmsg("DEBUG", "Succeeded Destinations count: " + succeededDest.size());
+		
+		// merge Destination responses
+		if (mergeResponsesCallback != null) {
+			connEntry = mergeResponsesCallback(succeededDest, failedDest);
+		} else {
+			// if no callback function is provided, return an empty Entry
+			connEntry = system.newEntry();
+			connEntry.setAttribute("http.status", "200 OK");
+		}
+		
+		// check if entries were provided
+		var entries = connEntry.getObject(ENTRIES_ATTR);
+		if (entries instanceof java.util.List) {
+			// overwrite the http.body with the parsed entries
+			var body = parseEntryListToString (entries);
+			connEntry.setAttribute("http.body", body);
+		}
+		connEntry.removeAttribute(ENTRIES_ATTR);
+	} catch (e) {
+		connEntry = prepareResponseForServerError(e);
+	}
+	
+	return connEntry;
+}
+
+/**
+ * This function is for internal use only!
+ *
+ * Removes unneeded attributes from the provided entry.
+ * E.g. the http.base, http.host, etc. should be calculated by
+ * the HTTP server using the http.url and not retrieved from 
+ * the Entry directly. Thus, we remove them before sending the 
+ * entries to the next Destinations. 
+ */
+function removeUnneededAttributes(entry) {
+	entry.removeAttribute("http.base");
+	entry.removeAttribute("http.host");
+}
+
+/**
+ * This function is for internal use only!
+ * 
+ * Retrieves the Destination configurations from the MemoryProperties Store (from
+ * key 'com.ibm.di.tp.destinations') as a java.util.List and returns it.
+ * If the correct property is not found, an empty java.util.List is returned. 
+ */
+function getDestinations() {
+	var PROPERTY_STORE_NAME = "MemoryProperties";
+	var DESTINATION_URLS_KEY = "com.ibm.di.tp.destinations";
+	
+	var value = system.getTDIProperty(PROPERTY_STORE_NAME, DESTINATION_URLS_KEY);
+	if (value != null && value instanceof java.util.List) { 
+		return value;
+	} else {
+		return new java.util.ArrayList();
+	}
+}
+
+/**
+ * This function is for internal use only!
+ *
+ * Modifies the URL by adding the query string 
+ * parameters from the passed Entry to its own.
+ * If URL already contains a parameter with the same name as
+ * the one from the Entry, its value will be overwritten.
+ */
+function prepareRequestURL(url, entry) {
+	var tokens = system.splitString(url, "?&");
+		
+	// get the new URL base
+	var httpBase = "";
+	if (tokens.length > 0) {
+		httpBase = tokens[0];
+	}
+		
+	// a map containing all query parameters
+	var parameters = new java.util.HashMap();
+	
+	// add the URL query parameters to the map
+	if (tokens.length > 1) {
+		for (var i = 1; i < tokens.length; i++) {
+			var keyValuePair = tokens[i];	//e.g.	name=john
+			var index = keyValuePair.indexOf("=");
+			if (index != -1) {
+				var key = keyValuePair.substring(0, index);
+				var value = keyValuePair.substring(index + 1);
+				key = java.net.URLDecoder.decode(key, "UTF-8");
+				value = java.net.URLDecoder.decode(value, "UTF-8");
+				parameters.put(key, value);
+			}		
+		}
+	}	
+	 
+	// add the Entry query parameters to the map
+	var attributeNames = entry.getAttributeNames();
+	for(var i = 0; i < attributeNames.length; i++) {
+		if(attributeNames[i].startsWith("http.qs.")) {
+			var index = "http.qs.".length();
+			
+			var key = attributeNames[i].substring(index);
+			var value = entry.getString(attributeNames[i]);
+			parameters.put(key, value);
+		}
+	}
+	
+	// form the new URL
+	var newURL = httpBase;
+	
+	// add request parameters
+	if (!parameters.isEmpty()) {
+		newURL += "?";
+	}
+	var it = parameters.entrySet().iterator();
+	while(it.hasNext()) {
+		var mapEntry = it.next();
+		var key = mapEntry.getKey();
+		var value = mapEntry.getValue();
+		newURL += java.net.URLEncoder.encode(key, "UTF-8") + "=" + java.net.URLEncoder.encode(value, "UTF-8");
+		if(it.hasNext()) {
+			newURL += "&";
+		}
+	}
+	
+	return newURL;
+}]]>
+			</parameter>
+		</Script>
+		<Script name="Utils">
+			<parameter name="autoInclude">true</parameter>
+			<parameter name="includeFiles"/>
+			<parameter name="script">
+				<![CDATA[//
+// Utility functions used by the Touchpoints.
+//
+
+/**
+ * Parses the response of a Destination and returns its 
+ * Entries as a java.util.List. 
+ * 
+ * Parameters:
+ * 	entriesString:	a String representation of the Entries.
+ * 
+ * Returns:
+ * 	a java.util.List of the Entries.
+ */
+function parseStringToEntryList( entriesString ) {
+	// Handle StringBuffer as well as String objects.
+	// The HTTP Parser may return a StringBuffer.
+	if (entriesString instanceof java.lang.StringBuffer) {
+		entriesString = entriesString.toString();
+	}
+
+	var entryList = new java.util.ArrayList();
+	if (entriesString instanceof java.lang.String && entriesString.length() > 0) {
+		
+		var dataElem = stringToElement(entriesString);
+
+		if (!"data".equals(dataElem.getLocalName())) {
+			throw "Incorrect touchpoint data syntax. Unexpected name of the root element: "+dataElem.getLocalName();
+		}
+		
+		if (!NS_TP.equals(dataElem.getNamespaceURI())) {
+			throw "Incorrect touchpoint data syntax. Unexpected namespace of the root element: "+dataElem.getNamespaceURI();
+		}
+		
+		var nodeList = dataElem.getChildNodes();
+		for (var i = 0; i < nodeList.getLength(); ++i) {
+			var node = nodeList.item(i);
+			if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+				var entry = xmlToEntry(node);
+				entryList.add(entry);
+			}
+		}
+	}
+	
+	return entryList;
+}
+
+/*
+ * Parses the provided list of Entries and returns the 
+ * generated string representation. 
+ * 
+ * Parameters:
+ * 	entryList:	a java.util.List of Entries.
+ * 
+ * Returns:
+ * 	the Entries serialized as a String.
+ */
+function parseEntryListToString( entryList ) {
+	
+	var doc = domParser.newDocument();
+		
+	var dataElem = doc.createElementNS(NS_TP, "tp:data");
+		
+	for (var entry in entryList) {
+		var entryElem = entryToXml(doc, entry);
+		dataElem.appendChild(entryElem);
+	}
+	
+	return elementToString(dataElem);
+}
+
+/**
+ * Converts the passed exception to an HTTP Entry.
+ * 
+ * Parameters: 
+ * 	exception:	a java.lang.Exception which should be converted.
+ * 
+ * Returns:
+ * 	the HTTP entry representation of the Exception.
+ */
+function prepareResponseForServerError( exception ) {
+	var message = "";
+	if (exception instanceof java.lang.Exception) {
+		message = getExceptionStackTraceAsString(exception);
+	} else if (exception instanceof java.lang.String) {
+		message = exception;
+	} else if (exception != null){
+		message = exception.toString();
+	}
+	
+	var httpEntry = system.newEntry();
+	httpEntry.setAttribute("http.status", "500 Internal Server Error");
+	httpEntry.setAttribute("http.content-type", "text/plain");
+	httpEntry.setAttribute("http.body", message);
+	return httpEntry;
+}
+
+/**
+ * Prepare HTTP error response for a fault on the client side.
+ * The fault is represented by an error Entry.
+ * 
+ * Parameters:
+ * 	errorEntry:	the TDI Entry that holds information for the error.
+ * 
+ * Returns:
+ * 	the HTTP entry representation of the Exception.
+ */
+function prepareResponseForClientError( errorEntry ) {
+	var httpEntry = system.newEntry();
+	
+	// put the error message in the http body
+	var message = null;
+	if (errorEntry.getObject("exception") != null) {	
+		var ex = errorEntry.getObject("exception")
+		message = getExceptionStackTraceAsString(ex);
+	} else {
+		message = errorEntry.getString("message");
+	}	
+	if (message != null) {
+		httpEntry.setAttribute("http.content-type", "text/plain");
+		httpEntry.setAttribute("http.body", message);
+	}
+		
+	// copy http headers from the error entry
+	for (var attrName in errorEntry.getAttributeCollection()) {
+		if (attrName.startsWith("http.")) {
+			httpEntry.setAttribute(attrName, errorEntry.getObject(attrName));
+		}
+	}
+	
+	// default error status
+	if (httpEntry.getObject("http.status") == null) {
+		httpEntry.setAttribute("http.status", "400 Bad Request");
+	}
+
+	return httpEntry;
+}
+
+/**
+ * Converts the stack trace of a passed exception to a string.
+ * 
+ * Parameters: 
+ * 	exception:	a java.lang.Exception which should be converted.
+ * 
+ * Returns:
+ * 	the string representation of the Exception.
+ */
+function getExceptionStackTraceAsString( exception ) {
+	var stringWriter = new java.io.StringWriter();
+	var printWriter = new java.io.PrintWriter(stringWriter);	
+	exception.printStackTrace(printWriter);
+	printWriter.flush();
+	return stringWriter.toString();
+}
+
+/**
+ * The namespace URI of the touchpoint data element.
+ */
+var NS_TP = "http://www.ibm.com/xmlns/prod/tdi/71/tp";
+
+/**
+ * Converts Entry to XML representation.
+ * 
+ * Parameters:
+ *  doc:	org.w3c.dom.Document object. Used to create the XML representation.
+ *  entry:	Entry object.
+ * 
+ * Returns:
+ *  XML representation of the Entry. An instance of org.w3c.dom.Element.
+ */
+function entryToXml( doc, entry ) {
+	
+	var entryElem = doc.createElementNS(NS_TP, "tp:entry");
+	
+	// add the properties
+	for (var propName in entry.getPropertyNames()) {
+		var propValueObj = entry.getProperty(propName); 
+		var propValue = null;
+		if (propValueObj != null) {
+			propValue = propValueObj.toString();
+		}
+		var propElem = propertyToXml(doc, propName, null, propValue);
+		entryElem.appendChild(propElem);
+	}
+	
+	// add the attributes
+	var nodeList = entry.getChildNodes();
+	for (var i = 0; i < nodeList.getLength(); ++i) {
+		var node = nodeList.item(i);
+		if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+			var attrElem = attributeToXml(doc, node);
+			entryElem.appendChild(attrElem);
+		} else {
+			throw "Unexpected node type: " + node.getNodeType();
+		}
+	}
+	
+	return entryElem;
+}
+
+/**
+ * Converts XML representation of an Entry to Entry object.
+ * 
+ * Parameters:
+ *  entryElem:	org.w3c.dom.Element object. Must be XML representation of an Entry.
+ * 
+ * Returns:
+ *  Entry object.
+ */
+function xmlToEntry( entryElem ) {
+	
+	var domEnabled = true;
+	var entry = new com.ibm.di.entry.Entry(domEnabled);
+	
+	if (!"entry".equals(entryElem.getLocalName())) {
+		throw "Incorrect entry syntax. Unexpected element name: " + entryElem.getLocalName();
+	}
+
+	if (!NS_TP.equals(entryElem.getNamespaceURI())) {
+		throw "Incorrect entry syntax. Unexpected namespace URI: " + entryElem.getNamespaceURI();
+	}
+	
+	var nodeList = entryElem.getChildNodes();
+	for (var i = 0; i < nodeList.getLength(); ++i) {
+		var node = nodeList.item(i);
+		if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+			if ("attribute".equals(node.getLocalName())) {
+				var attr = xmlToAttribute(entry, node);
+				entry.setAttribute(attr);
+			} else if ("property".equals(node.getLocalName())) {
+				var prop = xmlToProperty(entry, node);
+				entry.setProperty(prop.getNodeName(), prop.getValue());
+			} else {
+				throw "Unexpected element: "+node.getLocalName();
+			}
+		}
+	}
+	
+	return entry;
+}
+
+/**
+ * Converts Attribute to XML representation.
+ * 
+ * Parameters:
+ *  doc:	org.w3c.dom.Document object. Used to create the XML representation.
+ *  attr:	Attribute object.
+ * 
+ * Returns:
+ *  XML representation of the Attribute. An instance of org.w3c.dom.Element.
+ */
+function attributeToXml( doc, attr ) {
+	
+	var attrElem = doc.createElementNS(NS_TP, "tp:attribute");
+	
+	// set name
+	attrElem.setAttribute("name", attr.getNodeName());
+	if (attr.getNamespaceURI() != null && attr.getNamespaceURI().length() > 0) {
+		attrElem.setAttribute("namespaceURI", attr.getNamespaceURI());
+	}
+	
+	// add properties
+	var propMap = attr.getAttributes();
+	for (var i = 0; i < propMap.getLength(); ++i) {
+		var prop = propMap.item(i);
+		var propElem = propertyObjToXml(doc, prop);
+		attrElem.appendChild(propElem);
+	}
+	
+	// add attributes and values
+	var nodeList = attr.getChildNodes();
+	for (var i = 0; i < nodeList.getLength(); ++i) {
+		var node = nodeList.item(i);
+		if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+			// child attribute
+			var childAttrElem = attributeToXml(doc, node);
+			attrElem.appendChild(childAttrElem);
+		} else if (org.w3c.dom.Node.CDATA_SECTION_NODE == node.getNodeType() || org.w3c.dom.Node.TEXT_NODE == node.getNodeType()) {
+			// value
+			 var valueElem = valueToXml(doc, node.getTextContent());
+			 attrElem.appendChild(valueElem);
+		} else {
+			throw "Unexpected node type: "+node.getNodeType();
+		}
+	}
+	
+	return attrElem;
+}
+
+/**
+ * Converts XML representation of an Attribute to Attribute object.
+ * 
+ * Parameters:
+ *  entry:		Entry object. Used to create the Attribute.
+ *  attrElem:	org.w3c.dom.Element object. Must be XML representation of an Attribute.
+ * 
+ * Returns:
+ *  Attribute object.
+ */
+function xmlToAttribute( entry, attrElem ) {
+	
+	if (!"attribute".equals(attrElem.getLocalName())) {
+		throw "Incorrect attribute syntax. Unexpected element name: " + attrElem.getLocalName();
+	}
+
+	if (!NS_TP.equals(attrElem.getNamespaceURI())) {
+		throw "Incorrect attribute syntax. Unexpected namespace URI: " + attrElem.getNamespaceURI();
+	}
+	
+	var name = attrElem.getAttribute("name");
+	if (name == null || name.length() == 0) {
+		throw "Incorrect attribute syntax. Missing attribute name.";
+	}
+	var namespaceURI = attrElem.getAttribute("namespaceURI");
+	
+	var attr;
+	if (namespaceURI != null && namespaceURI.length() > 0) {
+		attr = entry.createElementNS(namespaceURI, name);
+	} else {
+		attr = entry.createElement(name);
+	}
+	
+	var nodeList = attrElem.getChildNodes();
+	for (var i = 0; i < nodeList.getLength(); ++i) {
+		var node = nodeList.item(i);
+		if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+			if ("attribute".equals(node.getLocalName())) {
+				// child attribute
+				var childAttr = xmlToAttribute(entry, node);
+				attr.appendChild(childAttr);
+			} else if ("property".equals(node.getLocalName())) {
+				// property
+				var prop = xmlToProperty(entry, node);
+				if (prop.getNamespaceURI() != null && prop.getNamespaceURI().length() > 0) {
+					attr.setAttributeNodeNS(prop);
+				} else {
+					attr.setAttributeNode(prop);
+				}
+			} else if ("value".equals(node.getLocalName())) {
+				// value
+				var value = xmlToValue(node);
+				var valueNode = entry.createTextNode(value);
+				attr.appendChild(valueNode);
+			} else {
+				throw "Unexpected element: "+node.getLocalName();
+			}
+		}
+	}
+	
+	return attr;
+}
+
+/**
+ * Converts Attribute value to XML representation.
+ */
+function valueToXml( doc, value ) {
+	
+	var elem = doc.createElementNS(NS_TP, "tp:value");
+	
+	var data = doc.createCDATASection(value);
+	elem.appendChild(data);
+	
+	return elem;
+}
+
+/**
+ * Converts XML representation of an Attribute value to Attribute value object.
+ */
+function xmlToValue( valueElem ) {
+	
+	if (!"value".equals(valueElem.getLocalName())) {
+		throw "Incorrect value syntax. Unexpected element name: " + valueElem.getLocalName();
+	}
+
+	if (!NS_TP.equals(valueElem.getNamespaceURI())) {
+		throw "Incorrect value syntax. Unexpected namespace URI: " + valueElem.getNamespaceURI();
+	}
+	
+	return valueElem.getTextContent();
+}
+
+/**
+ * Converts Property to XML representation.
+ */
+function propertyToXml( doc, propName, namespaceURI, propValue ) {
+	
+	var elem = doc.createElementNS(NS_TP, "tp:property");
+	
+	if (propName == null || propName.length() == 0) {
+		throw "Property name must not be empty.";
+	}
+
+	elem.setAttribute("name", propName);
+
+	if (namespaceURI != null && namespaceURI.length() > 0) {
+		elem.setAttribute("namespaceURI", namespaceURI);
+	}
+
+	if (propValue != null) {
+		var data = doc.createCDATASection(propValue);
+		elem.appendChild(data);
+	}
+
+	return elem;
+	
+}
+
+/**
+ * Converts Property to XML representation.
+ */
+function propertyObjToXml( doc, prop ) {
+	return propertyToXml(doc, prop.getNodeName(), prop.getNamespaceURI(), prop.getValue());
+}
+
+/**
+ * Converts XML representation of a Property to a Property object.
+ */
+function xmlToProperty( entry, elem ) {
+
+	if (!"property".equals(elem.getLocalName())) {
+		throw "Incorrect property syntax. Unexpected element name: " + elem.getLocalName();
+	}
+
+	if (!NS_TP.equals(elem.getNamespaceURI())) {
+		throw "Incorrect property syntax. Unexpected namespace URI: " + elem.getNamespaceURI();
+	}
+
+	var name = elem.getAttribute("name");
+	if (name == null || name.length() == 0) {
+		throw "Incorrect property syntax. Missing name.";
+	}
+
+	var namespaceURI = elem.getAttribute("namespaceURI");
+	if (namespaceURI.length() == 0) {
+		namespaceURI = null;
+	}
+
+	var prop;
+	if (namespaceURI != null && namespaceURI.length() > 0) {
+		prop = entry.createAttributeNS(namespaceURI, name);
+	} else {
+		prop = entry.createAttribute(namespaceURI);
+	}
+
+	var value = elem.getTextContent();
+	if (value != null) {
+		prop.setValue(value);
+	}
+
+	return prop;
+}
+
+/**
+ * Performs DOM parsing of an XML string.
+ * 
+ * Parameters:
+ *  str:	XML string.
+ * 
+ * Returns:
+ *  org.w3c.dom.Element object.
+ */
+function stringToElement( str ) {
+	return domParser.parse(new java.io.ByteArrayInputStream(str.getBytes("UTF-8"))).getDocumentElement();
+}
+
+/**
+ * Converts DOM tree to an XML string.
+ * 
+ * Parameters:
+ *  element:	org.w3c.dom.Element object.
+ * 
+ * Returns:
+ *  XML string.
+ */
+function elementToString( element ) {
+	var t = javax.xml.transform.TransformerFactory.newInstance().newTransformer();
+	t.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+	t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	t.setOutputProperty(javax.xml.transform.OutputKeys.ENCODING, "UTF-8");
+	var stringWriter = new java.io.StringWriter();
+	t.transform(new javax.xml.transform.dom.DOMSource(element), new javax.xml.transform.stream.StreamResult(stringWriter));
+	return stringWriter.toString();
+}
+
+/**
+ * DOM Parser. An instance of javax.xml.parsers.DocumentBuilder.
+ */
+var domParser = getDOMParser();
+
+/**
+ * Creates DOM parser.
+ * 
+ * Returns:
+ *  An instance of javax.xml.parsers.DocumentBuilder.
+ */
+function getDOMParser() {
+	var factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+	factory.setNamespaceAware(true);
+	return factory.newDocumentBuilder();
+}]]>
+			</parameter>
+		</Script>
+	</Folder>
+	<JavaLibraries/>
+	<JavaProperties/>
+	<Folder name="Includes"/>
+	<Folder name="Config">
+		<LogConfig name="Logging"/>
+		<InstanceProperties name="AutoStart">
+			<AutoStart/>
+		</InstanceProperties>
+		<TombstonesConfig name="Tombstones"/>
+		<SolutionInterface name="SolutionInterface">
+			<PollInterval>-1</PollInterval>
+			<InstanceID>template</InstanceID>
+			<enabled>true</enabled>
+		</SolutionInterface>
+	</Folder>
+	<Folder name="Functions"/>
+	<Folder name="AttributeMaps"/>
+	<Properties name="Properties">
+		<Stores>
+			<PropertyStore name="Solution-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">Solution-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="Global-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">Global-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="System-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collectionType">System-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="Java-Properties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+					<parameter name="collection">@SUBSTITUTE{config.$directory}/template.properties</parameter>
+					<parameter name="collectionType">Java-Properties</parameter>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>true</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+			<PropertyStore name="MemoryProperties">
+				<Parser>
+					<Schema name="Input">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+					<Schema name="Output">
+						<InheritFrom>[parent]</InheritFrom>
+					</Schema>
+				</Parser>
+				<RawConnector>
+					<UserComment/>
+					<InheritFrom>/Connectors/MemoryPropertiesConnector</InheritFrom>
+					<parameter name="debug">false</parameter>
+					<parameter name="keyAlias"/>
+					<parameter name="userComment"/>
+				</RawConnector>
+				<Key>key</Key>
+				<Value>value</Value>
+				<ReadOnly>false</ReadOnly>
+				<InitialLoad>false</InitialLoad>
+				<CacheTimeout>0</CacheTimeout>
+			</PropertyStore>
+		</Stores>
+	</Properties>
+</MetamergeConfig>
