@@ -6,7 +6,6 @@ import com.ibm.di.web.common.atom.AtomEntry;
 import com.ibm.di.web.common.atom.AtomLink;
 import com.ibm.di.web.common.atom.AtomPerson;
 import com.ibm.di.web.common.atom.AtomText;
-import org.apache.wink.common.model.synd.SyndEntry;
 import org.w3c.dom.Element;
 
 /**
@@ -117,6 +116,6 @@ public class AtomEntryBuilder {
 	}
 
 	public AtomEntry build() {
-		return new AtomEntry(e.toSynd(new SyndEntry()));
+		return e;
 	}
 }

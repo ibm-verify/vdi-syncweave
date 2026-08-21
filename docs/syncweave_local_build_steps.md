@@ -35,9 +35,9 @@ IBM Semeru Runtime Open Edition 21.0.12.0 (build 21.0.12+8-LTS)
 
 ### 3. Place Ivy in Ant's lib directory (one-time setup)
 
-Ivy must be loaded by Ant's system classloader at startup — **not** via a
+Ivy must be loaded by Ant's system classloader at startup, **not** via a
 `<taskdef>` inside the build. Loading it via `<taskdef>` creates a child
-classloader, and when the `resolve` target runs a second time in the same
+classloader. If the `resolve` target runs more than once in the same
 build (e.g. as a dependency of both `resolve` and `rename_jars`), the two
 classloader instances produce incompatible class objects, causing:
 ```
@@ -110,10 +110,9 @@ export PATH=$ANT_HOME/bin:$PATH
 ### Step 2 — Patch org.eclipse.osgi (first time only, idempotent) (Optional)
 
 > **Note:** Eclipse 4.39.0's `org.eclipse.osgi_3.24.100` already ships
-> `JavaSE-21.profile` and earlier profiles natively, so this patch is a
-> no-op on a clean 4.39.0 tools tree. It is still run automatically by
-> the `preSetup` target in `ce_rcp/customTargets.xml` for safety, but
-> you do not need to run it manually.
+> `JavaSE-21.profile` and earlier profiles natively. On a clean 4.39.0
+> tools tree this patch has no effect. The preSetup target in ce_rcp/customTargets.xml 
+> runs it automatically as a precaution so, no manual action is required.
 
 The patch injects JavaSE-10 through JavaSE-25 profile descriptors into the
 Eclipse OSGi JAR so that the PDE resolver accepts modern BREE declarations.
@@ -242,7 +241,7 @@ If you skipped the Ivy resolve step, run it.
 
 This should not occur with Eclipse 4.39.0 as its `org.eclipse.osgi` already
 includes modern EE profiles. If it does appear, re-run the OSGi patch script
-(Step 2) — this can happen if the tools tree was refreshed or the JAR replaced:
+(Step 2). This can happen if the tools tree was refreshed or the JAR was replaced:
 
 ```bash
 build/scripts/patch_osgi_ee_profiles.sh \
@@ -276,8 +275,8 @@ Eclipse 4.39.0's bnd jars (`biz.aQute.bndlib`, `biz.aQute.repository`,
 `aQute.bnd.*` packages. This affects `org.eclipse.pde.core` resolution
 during the CE product build. The `build_eclipse_plugin` macro in
 `rules_mk/eclipse_rules.xml` passes `-Dresolution.devMode=true` to
-suppress uses-constraint checking (only) for the product build — this is
-expected and correct. It does **not** hide missing bundle errors.
+suppress uses-constraint checking (only) for the product build. This
+behaviour is expected and correct. It does **not** hide missing bundle errors.
 
 ---
 

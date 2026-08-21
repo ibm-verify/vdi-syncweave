@@ -19,9 +19,9 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomFeed;
-import org.apache.wink.common.model.atom.AtomLink;
+import com.ibm.di.web.common.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomFeed;
+import com.ibm.di.web.common.atom.AtomLink;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.w3c.dom.Element;
@@ -78,7 +78,7 @@ public class TpAppHelper extends AtomAppHelper {
 	}
 
 	public String getNodeFeedURL() throws Exception {
-		return getCollectionURLByCategory(Constants.CAT_CONN_PROVIDER);
+		return getCollectionURLByCategory(com.ibm.di.test.utils.atom.AtomUtils.winkCatToInternal(Constants.CAT_CONN_PROVIDER));
 	}
 
 	public MockHttpServletResponse getNodeFeed() throws Exception {
@@ -184,7 +184,7 @@ public class TpAppHelper extends AtomAppHelper {
 	}
 
 	public final void deleteInstEntry(AtomEntry instEntry) throws Exception {
-		String entryUrl = AtomUtils.findLinksByLitteralRelValue(instEntry.getLinks(), Constants.REL_EDIT).get(0).getHref();
+		String entryUrl = com.ibm.di.test.utils.atom.AtomUtils.findLinksByRel(instEntry.getLinks(), Constants.REL_EDIT).get(0).getHref();
 		MockHttpServletRequest request = testCtx.constructMockRequest(HttpMethod.DELETE, entryUrl, MediaType.APPLICATION_ATOM_XML);
 		checkSuccess(testCtx.invoke(request));
 	}

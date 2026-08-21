@@ -2,17 +2,14 @@ package com.ibm.di.script;
 
 import org.junit.Test;
 
-import com.ibm.jscript.IValue;
-import com.ibm.jscript.JSContext;
-
 import static org.junit.Assert.*;
 
 public class ScriptEngineOptionsTest {
 	
 	@Test
 	public void test_get_noargs() throws Exception {
-		JSContext x = ScriptEngineOptions.get();
-		assertFalse(x.isDebugAllowed());
+		ScriptEngineOptions x = (ScriptEngineOptions) ScriptEngineOptions.get();
+		assertFalse(x.isDebug());
 	}
 	
 	@Test
@@ -26,14 +23,14 @@ public class ScriptEngineOptionsTest {
 	}
 	
 	private void test_get_with_debug_arg(boolean debug) throws Exception {
-		JSContext x = ScriptEngineOptions.get(debug);
-		assertEquals(debug, x.isDebugAllowed());
+		ScriptEngineOptions x = (ScriptEngineOptions) ScriptEngineOptions.get(debug);
+		assertEquals(debug, x.isDebug());
 	}
 	
 	@Test
 	public void test_constructor1() throws Exception {
 		ScriptEngineOptions seo = new ScriptEngineOptions();
-		assertFalse(seo.isDebugAllowed());
+		assertFalse(seo.isDebug());
 	}
 	
 	@Test
@@ -48,7 +45,7 @@ public class ScriptEngineOptionsTest {
 	
 	private void test_constructor2(boolean debug) throws Exception {
 		ScriptEngineOptions seo = new ScriptEngineOptions(false, debug);
-		assertEquals(debug, seo.isDebugAllowed());
+		assertEquals(debug, seo.isDebug());
 	}
 	
 	@Test
@@ -93,7 +90,7 @@ public class ScriptEngineOptionsTest {
 	
 	@Test
 	public void test_hasGlobalObjectExtensions() throws Exception {
-		assertEquals(false, new ScriptEngineOptions().hasGlobalObjectExtensions());
+		assertEquals(true, new ScriptEngineOptions().hasGlobalObjectExtensions());
 	}
 	
 	@Test

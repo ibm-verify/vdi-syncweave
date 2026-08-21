@@ -29,7 +29,6 @@ import com.ibm.di.web.common.atom.AtomFeed;
 import com.ibm.di.web.common.atom.AtomLink;
 import com.ibm.di.web.common.atom.AtomPerson;
 import com.ibm.di.web.common.atom.AtomText;
-import org.apache.wink.common.model.synd.SyndFeed;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -596,7 +595,7 @@ public abstract class AtomUtils {
 		AtomFeed feed = new AtomFeed();
 
 		feed.setId(TPNodeFeed.URL);
-		feed.getCategories().add(Constants.CAT_CONN_PROVIDER);
+		feed.getCategories().add(winkCatToInternal(Constants.CAT_CONN_PROVIDER));
 
 		for (TdiNodeConfig tdi : config.getNodeConfigs().getTdiNodeConfigs()) {
 			feed.getEntries().add(createNodeEntryFor(rootURI, tdi));
@@ -703,13 +702,13 @@ public abstract class AtomUtils {
 
 		switch (tr) {
 		case PROVIDER:
-			e.getCategories().add(Constants.CAT_ROLE_PROVIDER);
+			e.getCategories().add(winkCatToInternal(Constants.CAT_ROLE_PROVIDER));
 			break;
 		case INITIATOR:
-			e.getCategories().add(Constants.CAT_ROLE_INITIATOR);
+			e.getCategories().add(winkCatToInternal(Constants.CAT_ROLE_INITIATOR));
 			break;
 		case INTERMEDIARY:
-			e.getCategories().add(Constants.CAT_ROLE_INTERMEDIARY);
+			e.getCategories().add(winkCatToInternal(Constants.CAT_ROLE_INTERMEDIARY));
 			break;
 		}
 
@@ -856,12 +855,22 @@ public abstract class AtomUtils {
 		throw new ImportantAssertionException(message);
 	}
 
+	/** Find links by rel value in an internal-typed AtomLink list (no Wink dependency). */
+	public static List<AtomLink> findLinksByRel(List<AtomLink> links, String rel) {
+		List<AtomLink> result = new LinkedList<AtomLink>();
+		for (AtomLink link : links) {
+			if (rel.equals(link.getRel())) {
+				result.add(link);
+			}
+		}
+		return result;
+	}
+
 	public static AtomEntry createReferenceAtomEntry(AtomEntry fullEntry, boolean ignoreMissingSelfLinks) {
-		List<AtomLink> selfLink = com.ibm.di.tp.server.util.AtomUtils.findLinksByLitteralRelValue(fullEntry.getLinks(),
-				Constants.REL_SELF);
+		List<AtomLink> selfLink = findLinksByRel(fullEntry.getLinks(), Constants.REL_SELF);
 
 		if (selfLink.size() == 0) {
-			selfLink = com.ibm.di.tp.server.util.AtomUtils.findLinksByLitteralRelValue(fullEntry.getLinks(), Constants.REL_EDIT);
+			selfLink = findLinksByRel(fullEntry.getLinks(), Constants.REL_EDIT);
 		}
 
 		if (selfLink.size() == 0 && ignoreMissingSelfLinks) {
@@ -894,11 +903,18 @@ public abstract class AtomUtils {
 	}
 
 	public static AtomFeed createReferenceAtomFeed(AtomFeed fullFeed, boolean ignoreMissingSelfLinks) {
-		AtomFeed feed = new AtomFeed(fullFeed.toSynd(new SyndFeed()));
+		AtomFeed feed = new AtomFeed();
+		feed.setId(fullFeed.getId());
+		feed.setTitle(fullFeed.getTitle());
+		feed.setUpdated(fullFeed.getUpdated());
+		feed.setLinks(new java.util.ArrayList<AtomLink>(fullFeed.getLinks()));
+		feed.setCategories(new java.util.ArrayList<AtomCategory>(fullFeed.getCategories()));
 
-		for (int i = 0; i < feed.getEntries().size(); i++) {
-			feed.getEntries().set(i, createReferenceAtomEntry(feed.getEntries().get(i), ignoreMissingSelfLinks));
+		List<AtomEntry> refEntries = new java.util.ArrayList<AtomEntry>(fullFeed.getEntries().size());
+		for (AtomEntry e : fullFeed.getEntries()) {
+			refEntries.add(createReferenceAtomEntry(e, ignoreMissingSelfLinks));
 		}
+		feed.setEntries(refEntries);
 
 		return feed;
 	}
@@ -953,5 +969,18 @@ public abstract class AtomUtils {
 			}
 		}
 		return "" + obj;
+	}
+
+	/**
+		* Converts a Wink AtomCategory to the internal AtomCategory type by term/scheme/label.
+		* Used at call sites where Constants.CAT_* (Wink) must be passed to comparators expecting
+		* the internal com.ibm.di.web.common.atom.AtomCategory type.
+		*/
+	public static AtomCategory winkCatToInternal(org.apache.wink.common.model.atom.AtomCategory wink) {
+		AtomCategory cat = new AtomCategory();
+		cat.setTerm(wink.getTerm());
+		cat.setScheme(wink.getScheme());
+		cat.setLabel(wink.getLabel());
+		return cat;
 	}
 }

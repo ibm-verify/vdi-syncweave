@@ -28,7 +28,7 @@ import static com.ibm.di.tp.server.handler.UnitAndFuncSharedTests.verify_The_New
 import static com.ibm.di.tp.server.handler.UnitAndFuncSharedTests.verify_The_Newly_Created_Intermediary_TP_Instance_Is_Started_On_The_TDI_Server;
 import static com.ibm.di.tp.server.handler.UnitAndFuncSharedTests.verify_The_Newly_Created_Provider_TP_Instance_Is_Started_On_The_TDI_Server;
 
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 import org.junit.Test;
 
 import com.ibm.di.test.CVTComponent;

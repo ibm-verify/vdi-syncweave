@@ -8,11 +8,19 @@ package com.ibm.di.web.common.atom;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.w3c.dom.Element;
 
 /**
  * Represents an Atom entry element.
@@ -61,7 +69,16 @@ public class AtomEntry {
     
     @XmlElement
     private Object source;
-    
+
+    @XmlAnyElement
+    private List<Element> any;
+
+    @XmlAttribute(name = "base", namespace = "http://www.w3.org/XML/1998/namespace")
+    private String base;
+
+    @XmlAttribute(name = "lang", namespace = "http://www.w3.org/XML/1998/namespace")
+    private String lang;
+
     public AtomEntry() {
     }
     
@@ -201,41 +218,43 @@ public class AtomEntry {
     
     /**
      * Get any additional elements (for extensibility).
-     * For compatibility with unit tests - returns empty list.
      */
-    public List<Object> getAny() {
-        return new ArrayList<Object>();
+    public List<Element> getAny() {
+        if (any == null) {
+            any = new ArrayList<Element>();
+        }
+        return any;
     }
     
-    /**
-     * Get base URI attribute.
-     * For compatibility with unit tests - returns null (not used in custom implementation).
-     */
     public String getBase() {
-        return null;
+        return base;
     }
-    
-    /**
-     * Get language attribute.
-     * For compatibility with unit tests - returns null (not used in custom implementation).
-     */
+
+    public void setBase(String base) {
+        this.base = base;
+    }
+
     public String getLang() {
-        return null;
+        return lang;
     }
-    
-    /**
-     * Get JAXB marshaller (Wink compatibility method).
-     * For compatibility with unit tests - not implemented, returns null.
-     */
-    public static Object getMarshaller() {
-        return null;
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
-    
-    /**
-     * Get JAXB unmarshaller (Wink compatibility method).
-     * For compatibility with unit tests - not implemented, returns null.
-     */
-    public static Object getUnmarshaller() {
-        return null;
+
+    public static Marshaller getMarshaller() {
+        try {
+            return JAXBContext.newInstance(AtomEntry.class).createMarshaller();
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Unmarshaller getUnmarshaller() {
+        try {
+            return JAXBContext.newInstance(AtomEntry.class).createUnmarshaller();
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

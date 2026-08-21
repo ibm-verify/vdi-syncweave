@@ -7,7 +7,7 @@ import static com.ibm.di.test.utils.atom.AtomUtils.atomEntryComparator;
 import static com.ibm.di.test.utils.atom.AtomUtils.createNodeEntryFor;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeEntry;
 
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 import org.junit.Test;
 
 import com.ibm.di.test.api.mock.ServerAPIMock;

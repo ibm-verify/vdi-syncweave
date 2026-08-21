@@ -1,6 +1,6 @@
 package com.ibm.di.test.utils.func.tp;
 
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 
 import com.ibm.di.test.http.HttpClientContext;
 import com.ibm.di.test.tp.TpAppHelper;
