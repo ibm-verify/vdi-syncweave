@@ -171,7 +171,7 @@ public class Attribute extends NodeImpl implements Cloneable, Element {
 	 * this field will be set by the Entry when all of its first level children
 	 * are deserialized.
 	 */
-	transient Entry doc;
+	public transient Entry doc;
 
 	/**
 	 * Initialize this attribute with no name, no values and the operation code

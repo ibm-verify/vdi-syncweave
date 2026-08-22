@@ -71,6 +71,10 @@ public class ResourceBundleL10N extends L10N {
 			}
 		} catch (MissingResourceException ex) {
 			;
+		} catch (NullPointerException ex) {
+			// ResourceBundle.getBundle can throw NPE in Java 17+ when the
+			// resource properties file cannot be found via the classloader.
+			;
 		}
 		return new ResourceBundle() {
 

@@ -18,8 +18,8 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomFeed;
+import com.ibm.di.web.common.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomFeed;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -65,7 +65,8 @@ public class TPInstFeedTest extends UnitTestTPClientContext {
 
 		conn.verifyMockCalls();
 
-		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), Constants.CAT_TOUCHPOINT);
+		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(),
+				com.ibm.di.test.utils.atom.AtomUtils.winkCatToInternal(Constants.CAT_TOUCHPOINT));
 		containsRelations(feed.getLinks(), Constants.REL_SELF, Constants.REL_RESOURCE_TYPE);
 		assertThat(feed.getEntries().size(), is(0));
 	}

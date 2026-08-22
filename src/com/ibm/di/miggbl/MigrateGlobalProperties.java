@@ -2367,7 +2367,7 @@ public class MigrateGlobalProperties {
 	
 		// SDI 72
 		String v72BadHelpHost = v70GoodHelpHost;
-		String v72GoodHelpHost = "com.ibm.di.helpHost=www.ibm.com/docs/en/SSCQGF_10.0.0";
+		String v72GoodHelpHost = "com.ibm.di.helpHost=www.ibm.com/docs/en/vdi/11.0.0";
 
 		startIndex = strbuf.indexOf(v72BadHelpHost);
 		if (startIndex != -1) {

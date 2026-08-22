@@ -13,7 +13,7 @@ The files provided in this example are as follows:
 
 1.  readme.txt -- this file
 
-2.  VirtDir.xml - The SDI 10.0.0.6 config file to be opened by SDI. This contains two assembly lines described below.
+2.  VirtDir.xml - The Syncweave 1.0.0 config file to be opened by SDI. This contains two assembly lines described below.
 
 3.  VirtDir.properties -- The properties file used to configure VirtDir server.
 

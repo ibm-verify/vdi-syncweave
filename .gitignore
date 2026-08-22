@@ -7,7 +7,30 @@ ncscope.out
 build.log
 
 
-# Build-generated _en.properties copies inside autogen NLS directories.
-# These are created by build.xml <copy> tasks from the base .properties files
-# and carry no independent content — do not check in.
-autogen/components/**/NLS/*_en.properties
+# Eclipse PDE headless-build runtime state — regenerated on every build run.
+# These are mutable workspace/OSGi/P2 state files inside the tools tree and
+# must never be committed; they change sequence numbers each run and will
+# cause spurious conflicts.
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.core.runtime/.*
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.core.runtime/.manager/
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.osgi/.manager/
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.osgi/*/
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.osgi/framework.info.*
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.update/history/
+tools/eclipse/eclipse_runtime/**/p2/**/profileRegistry/**/*.profile.gz
+tools/eclipse/eclipse_runtime/**/p2/**/profileRegistry/**/*.profile/
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.osgi/**/
+tools/eclipse/eclipse_runtime/**/configuration/org.eclipse.update/platform.xml
+tools/eclipse/eclipse_runtime/**/p2/**/profileRegistry/**/.data/
+tools/eclipse/eclipse_runtime/**/p2/**/profileRegistry/**/state.properties
+tools/eclipse/eclipse_runtime/**/plugins/com.ibm.di.bundle_*.jar
+tools/eclipse/eclipse_runtime/**/plugins/com.ibm.di.component_*.jar
+tools/eclipse/eclipse_runtime/**/plugins/com.ibm.di.config_*.jar
+# Eclipse runtime workspace configuration logs (numeric-timestamp filenames)
+tools/eclipse/eclipse_runtime/**/configuration/*.log
+# Eclipse p2 repository cache (artifacts/content jars and composite XMLs)
+tools/eclipse/eclipse_runtime/**/p2/**/cache/
+# Ivy-downloaded versioned JARs in lib/ivy/ — the version-stripped copies
+# (e.g. axis2-kernel.jar) are tracked; the versioned originals are not.
+lib/ivy/**/*-[0-9]*.jar
+lib/ivy/**/*_[0-9]*.jar

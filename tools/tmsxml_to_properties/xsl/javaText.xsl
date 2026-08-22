@@ -27,42 +27,7 @@
 	<!-- Get copyright statement from file, and output as block comment -->
 	<!--================================================================-->
 	<xsl:template name="commentCopyright">
-		<xsl:if test="$comment_start='*'">
-			<xsl:text>/*</xsl:text>
-		</xsl:if>
-
-		<xsl:if test="string-length($copyright)=0">
-			<xsl:text>&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text> OCO Source Materials&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text>&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text> Licensed Materials - Property of IBM&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text>&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text> . 2000-2009. All Rights Reserved&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-			<xsl:text>&#xa;</xsl:text>
-			<xsl:value-of select="$comment_start" />
-						<xsl:value-of select="$comment_start" />
-						<xsl:value-of select="$comment_start" />
-			<xsl:text>&#xa;</xsl:text>
-		</xsl:if>
-
-		<xsl:if test="string-length($copyright)>0">
-			<xsl:for-each
-				select="str:tokenize(document($copyright),'&#xa;')">
-				<xsl:text>&#xa;</xsl:text>
-				<xsl:value-of select="$comment_start" />
-				<xsl:text></xsl:text>
-				<xsl:value-of select="." />
-			</xsl:for-each>
-		</xsl:if>
-		<xsl:if test="$comment_start='*'">
-			<xsl:text>&#xa;*/</xsl:text>
-		</xsl:if>
+		<xsl:text># Copyright contributors to the SyncWeave project&#xa;</xsl:text>
 	</xsl:template>
 
 

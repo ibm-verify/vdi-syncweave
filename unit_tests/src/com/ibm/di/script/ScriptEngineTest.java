@@ -38,6 +38,19 @@ import static org.junit.Assert.*;
 
 public class ScriptEngineTest {
 
+	/**
+	 * Compares a numeric script result to an expected double value, tolerating
+	 * the difference between Integer and Double returns from the JS engine (Java
+	 * 21 Rhino returns Integer for integer-valued results where older versions
+	 * returned Double).
+	 */
+	private static void assertNumEquals(double expected, Object actual) {
+		assertTrue("Expected a Number but got: " + (actual == null ? "null" : actual.getClass().getName()),
+				actual instanceof Number);
+		assertEquals(expected, ((Number) actual).doubleValue(), 0.0);
+	}
+
+
 	@Test
 	public void test_constructor1() throws Exception {
 		new ScriptEngine("");
@@ -83,14 +96,14 @@ public class ScriptEngineTest {
 	public void test_call_initial_exit_code_status_is_SEC_OK() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.eval("function myfunc() { return result.getStatus(); }");
-		assertEquals((double) ScriptExitCode.SEC_OK, se.call("myfunc", new Object[] {}));
+		assertNumEquals((double) ScriptExitCode.SEC_OK, se.call("myfunc", new Object[] {}));
 	}
 
 	@Test
 	public void test_exec_initial_exit_code_status_is_SEC_OK() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = result.getStatus();");
-		assertEquals((double) ScriptExitCode.SEC_OK, se.eval("i"));
+		assertNumEquals((double) ScriptExitCode.SEC_OK, se.eval("i"));
 	}
 
 	@Test
@@ -314,27 +327,27 @@ public class ScriptEngineTest {
 	public void test_eval_persists_variable_content() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.eval("var i = 123.0;");
-		assertEquals(123.0, se.eval("i"));
+		assertNumEquals(123.0, se.eval("i"));
 	}
 
 	@Test
 	public void test_eval_function_call() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
-		assertEquals(3.0, se.eval("function increm( x ) { return x+1 } increm(2.0)"));
+		assertNumEquals(3.0, se.eval("function increm( x ) { return x+1 } increm(2.0)"));
 	}
 
 	@Test
 	public void test_call_previously_declared_function() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("function increm( x ) { return x+1 }");
-		assertEquals(3.0, se.call("increm", new Object[] { new Double(2.0) }));
+		assertNumEquals(3.0, se.call("increm", new Object[] { new Double(2.0) }));
 	}
 
 	@Test
 	public void test_call_previously_declared_function_2() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("function increm( x ) { return x+1 }");
-		assertEquals(3.0, se.call("increm", new Object[] { new Double(2.0) }, true));
+		assertNumEquals(3.0, se.call("increm", new Object[] { new Double(2.0) }, true));
 	}
 
 	@Test(expected = Exception.class)
@@ -435,7 +448,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_eval_interprets_script() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
-		assertEquals(125.0, se.eval("var i = 123.0; i+=2; i"));
+		assertNumEquals(125.0, se.eval("var i = 123.0; i+=2; i"));
 	}
 
 	@Test
@@ -497,7 +510,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.includeScript(jsFile.getAbsolutePath());
-		assertEquals(3.0, se.eval("i"));
+		assertNumEquals(3.0, se.eval("i"));
 	}
 
 	@Test(expected = Exception.class)
@@ -513,7 +526,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.loadScript(server, "", "myscript", false);
-		assertEquals(3.0, se.eval("i"));
+		assertNumEquals(3.0, se.eval("i"));
 	}
 
 	@Test
@@ -522,7 +535,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.loadScript("", sc, false);
-		assertEquals(3.0, se.eval("i"));
+		assertNumEquals(3.0, se.eval("i"));
 	}
 
 	@Test
@@ -531,7 +544,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.loadScript("", sc, false);
-		assertEquals(2.0, se.eval("i"));
+		assertNumEquals(2.0, se.eval("i"));
 	}
 
 	@Test
@@ -540,7 +553,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.loadScript("", sc, false);
-		assertEquals(3.0, se.eval("i"));
+		assertNumEquals(3.0, se.eval("i"));
 	}
 
 	/**
@@ -555,7 +568,7 @@ public class ScriptEngineTest {
 		se.loadScript("", sc, true);
 		se.loadScript("", sc, true);
 		se.loadScript("", sc, true);
-		assertEquals(3.0, se.eval("i"));
+		assertNumEquals(3.0, se.eval("i"));
 	}
 
 	@Test
@@ -565,7 +578,7 @@ public class ScriptEngineTest {
 		ScriptEngine se = new ScriptEngine("");
 		se.exec("var i = 2.0;");
 		se.loadScript("", sc, true);
-		assertEquals(4.0, se.eval("i"));
+		assertNumEquals(4.0, se.eval("i"));
 	}
 
 	@Test
@@ -580,7 +593,7 @@ public class ScriptEngineTest {
 		MetamergeConfig mc = loadMetamergeConfig(xmlConfig);
 
 		se.includeAllScripts(mc);
-		assertEquals(125.0, se.eval("i"));
+		assertNumEquals(125.0, se.eval("i"));
 	}
 
 	@Test
@@ -595,7 +608,7 @@ public class ScriptEngineTest {
 		MetamergeConfig mc = loadMetamergeConfig(xmlConfig);
 
 		se.includeAllScripts(mc);
-		assertEquals(0.0, se.eval("i"));
+		assertNumEquals(0.0, se.eval("i"));
 	}
 
 	@Test
@@ -619,7 +632,7 @@ public class ScriptEngineTest {
 		MetamergeConfigFactory.registerNamespace(referencedConfigName, mcOther);
 
 		se.includeAllScripts(mc);
-		assertEquals(125.0, se.eval("i"));
+		assertNumEquals(125.0, se.eval("i"));
 
 		// cleanup
 		MetamergeConfigFactory.unregisterNamespace(referencedConfigName);
@@ -658,7 +671,7 @@ public class ScriptEngineTest {
 		MetamergeConfigFactory.registerNamespace(referencedConfigNameOther, mcOther);
 
 		se.includeAllScripts(mc);
-		assertEquals(125.0, se.eval("i"));
+		assertNumEquals(125.0, se.eval("i"));
 
 		// cleanup
 		MetamergeConfigFactory.unregisterNamespace(referencedConfigName);
@@ -696,21 +709,21 @@ public class ScriptEngineTest {
 	public void test_interpret_executes_script() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.interpret("var i = 123.0; ++i;");
-		assertEquals(124.0, se.eval("i"));
+		assertNumEquals(124.0, se.eval("i"));
 	}
 
 	@Test
 	public void test_interpret_executes_script_2() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.interpret("var i = 123.0; ++i;", false);
-		assertEquals(124.0, se.eval("i"));
+		assertNumEquals(124.0, se.eval("i"));
 	}
 
 	@Test
 	public void test_interpret_executes_script_3() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
 		se.interpret("var i = 123.0; ++i;", false, "");
-		assertEquals(124.0, se.eval("i"));
+		assertNumEquals(124.0, se.eval("i"));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -923,7 +936,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_lang_String_length_method() throws Exception {
 		final String script = "var str = \"my string\"; str.length()";
-		assertEquals(9.0, new ScriptEngine("").eval(script));
+		assertNumEquals(9.0, new ScriptEngine("").eval(script));
 	}
 
 	/**
@@ -935,7 +948,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_lang_String_search_regexp_string_with_match() throws Exception {
 		final String script = "var str = \"aaabc\"; str.search(\"ab+c\")";
-		assertEquals(2.0, new ScriptEngine("").eval(script));
+		assertNumEquals(2.0, new ScriptEngine("").eval(script));
 	}
 
 	/**
@@ -947,7 +960,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_lang_String_search_regexp_object_with_match() throws Exception {
 		final String script = "var str = \"AAABC\"; str.search(new RegExp(\"ab+c\", \"i\"))";
-		assertEquals(2.0, new ScriptEngine("").eval(script));
+		assertNumEquals(2.0, new ScriptEngine("").eval(script));
 	}
 
 	/**
@@ -959,7 +972,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_lang_String_search_regexp_string_with_no_match() throws Exception {
 		final String script = "var str = \"aac\"; str.search(\"ab+c\")";
-		assertEquals(-1.0, new ScriptEngine("").eval(script));
+		assertNumEquals(-1.0, new ScriptEngine("").eval(script));
 	}
 
 	/**
@@ -983,7 +996,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_util_List_access_element_using_array_subscript() throws Exception {
 		final String script = "var list = new java.util.ArrayList(); list.add(123.0); list[0]";
-		assertEquals(123.0, new ScriptEngine("").eval(script));
+		assertNumEquals(123.0, new ScriptEngine("").eval(script));
 	}
 
 	/**
@@ -1096,7 +1109,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_on_java_util_List_invoke_size_method() throws Exception {
 		final String script = "var list = new java.util.ArrayList(); list.add(123.0); list.size()";
-		assertEquals(1.0, new ScriptEngine("").eval(script));
+		assertNumEquals(1.0, new ScriptEngine("").eval(script));
 	}
 
 	@Test
@@ -1545,7 +1558,7 @@ public class ScriptEngineTest {
 	public void test_method_takes_precedence_when_name_is_the_same_as_entry_attribute() throws Exception {
 		Entry entry = new Entry();
 		entry.newAttribute("size");
-		assertEquals(1.0, evalExpression(entry, "obj.size()"));
+		assertNumEquals(1.0, evalExpression(entry, "obj.size()"));
 	}
 
 	@Test
@@ -2023,7 +2036,7 @@ public class ScriptEngineTest {
 	@Test
 	public void test_use_non_boolean_expression_as_if_condition() throws Exception {
 		ScriptEngine se = new ScriptEngine("");
-		assertEquals(3.0, se.eval("var x = null; var i = 1.0; if (x) {i = 2.0;} else {i = 3.0;}; i"));
+		assertNumEquals(3.0, se.eval("var x = null; var i = 1.0; if (x) {i = 2.0;} else {i = 3.0;}; i"));
 	}
 
 	@Test

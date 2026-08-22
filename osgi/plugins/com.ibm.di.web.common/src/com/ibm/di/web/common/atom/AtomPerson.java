@@ -5,10 +5,16 @@
  */
 package com.ibm.di.web.common.atom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.w3c.dom.Element;
 
 /**
  * Represents an Atom person construct (used for author, contributor).
@@ -28,7 +34,10 @@ public class AtomPerson {
     
     @XmlElement
     private String email;
-    
+
+    @XmlAnyElement
+    private List<Element> any;
+
     public AtomPerson() {
     }
     
@@ -62,9 +71,11 @@ public class AtomPerson {
     
     /**
      * Get any additional elements (for extensibility).
-     * For compatibility with unit tests - returns empty list.
      */
-    public java.util.List<Object> getAny() {
-        return new java.util.ArrayList<Object>();
+    public List<Element> getAny() {
+        if (any == null) {
+            any = new ArrayList<Element>();
+        }
+        return any;
     }
 }

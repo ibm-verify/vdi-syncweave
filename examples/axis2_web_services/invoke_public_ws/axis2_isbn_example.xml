@@ -206,14 +206,15 @@ work.appendChild(levelOne);]]></parameter>
                     <Script name="PrintResponse">
                         <parameter name="enabled">true</parameter>
                         <parameter name="includeFiles"/>
-                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not. 
-// also displays the actual ISBN and the digit count  
+                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not.
+// also displays the actual ISBN and the digit count
 
-var result = work.IsValidISBN10Response.getChildNodes().item(1);
+var nodes = work.IsValidISBN10Response.getChildNodes();
+var result = nodes.item(nodes.getLength() > 1 ? 1 : 0);
 if("true".equals(result)) {
-	task.logmsg("CORRECT ISBN");
+ task.logmsg("CORRECT ISBN");
 } else {
-	task.logmsg("INCORRECT ISBN");
+ task.logmsg("INCORRECT ISBN");
 }
 task.logmsg("<< ISBN: " + work.ISBN + " | Digit count: " + work.ISBNlength + " >>");
 task.logmsg("");]]></parameter>
@@ -304,14 +305,15 @@ work.appendChild(levelOne);]]></parameter>
                     </Function>
                     <Script name="PrintResponse">
                         <parameter name="includeFiles"/>
-                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not. 
-// also displays the actual ISBN and the digit count  
+                        <parameter name="script"><![CDATA[// prints whether the ISBN is correct or not.
+// also displays the actual ISBN and the digit count
 
-var result = work.IsValidISBN13Response.getChildNodes().item(1);
+var nodes = work.IsValidISBN13Response.getChildNodes();
+var result = nodes.item(nodes.getLength() > 1 ? 1 : 0);
 if("true".equals(result)) {
-	task.logmsg("CORRECT ISBN");
+ task.logmsg("CORRECT ISBN");
 } else {
-	task.logmsg("INCORRECT ISBN");
+ task.logmsg("INCORRECT ISBN");
 }
 task.logmsg("<< ISBN: " + work.ISBN + " | Digit count: " + work.ISBNlength + " >>");
 task.logmsg("");]]></parameter>

@@ -3,7 +3,7 @@ package com.ibm.di.test.utils.func.tp;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 
 import com.ibm.di.test.http.FuncTestHttpClientContext;
 import com.ibm.di.test.http.HttpClientContext;

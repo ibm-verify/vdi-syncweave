@@ -3,13 +3,14 @@ package com.ibm.di.tp.server.handler.base;
 import static com.ibm.di.test.utils.atom.AtomUtils.atomEntryComparator;
 import static com.ibm.di.test.utils.atom.AtomUtils.createNodeEntryFor;
 import static com.ibm.di.test.utils.atom.AtomUtils.createReferenceAtomEntry;
+import static com.ibm.di.test.utils.atom.AtomUtils.deserializeEntry;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.synd.SyndEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 import org.junit.Test;
 
 import com.ibm.di.test.tp.TpAppHelper;
@@ -34,15 +35,8 @@ public class EntryTest {
 
 	private static class TestableEntry extends Entry {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * com.ibm.di.tp.server.handler.base.Entry#expandLinks(org.apache.wink
-		 * .common.model.atom.AtomEntry, javax.ws.rs.core.UriInfo)
-		 */
-		@Override
-		protected void expandLinks(AtomEntry payload, UriInfo uriInfo) {
+		@SuppressWarnings("unchecked")
+		protected void expandLinks(Object payload, UriInfo uriInfo) {
 		}
 
 		/*
@@ -65,10 +59,15 @@ public class EntryTest {
 				.createTdiNodeConfg("0"));
 
 		// set the template of the TestableEntry
-		act.setEntryTemplate(expFull.toSynd(new SyndEntry()));
+		act.setEntryTemplate(null);
 
 		String selfHref = "/link/to/entry";
-		AtomEntry actRef = act.createReferenceEntry(URI.create(selfHref));
+		// createReferenceEntry returns a Wink AtomEntry; bridge to internal via marshal/unmarshal.
+		org.apache.wink.common.model.atom.AtomEntry winkRef =
+				(org.apache.wink.common.model.atom.AtomEntry) act.createReferenceEntry(URI.create(selfHref));
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		org.apache.wink.common.model.atom.AtomEntry.marshal(winkRef, baos);
+		AtomEntry actRef = deserializeEntry(baos.toString("UTF-8"));
 		AtomEntry expRef = createReferenceAtomEntry(expFull, selfHref);
 
 		atomEntryComparator.assertEquals(actRef, expRef, false);

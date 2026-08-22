@@ -8,7 +8,9 @@ import static com.ibm.di.test.utils.atom.AtomUtils.createInstAtomEntry;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeEntry;
 import static com.ibm.di.test.utils.atom.AtomUtils.deserializeFeed;
 import static com.ibm.di.test.utils.atom.AtomUtils.elementComparator;
+import static com.ibm.di.test.utils.atom.AtomUtils.findLinksByRel;
 import static com.ibm.di.test.utils.atom.AtomUtils.serializeEntry;
+import static com.ibm.di.test.utils.atom.AtomUtils.winkCatToInternal;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -38,15 +40,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBException;
 
-import org.apache.wink.common.model.app.AppCategories;
-import org.apache.wink.common.model.app.AppCollection;
-import org.apache.wink.common.model.app.AppService;
-import org.apache.wink.common.model.app.AppWorkspace;
-import org.apache.wink.common.model.atom.AtomCategory;
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomFeed;
-import org.apache.wink.common.model.atom.AtomLink;
-import org.apache.wink.common.model.atom.AtomPerson;
+import com.ibm.di.web.common.atom.app.AppCollection;
+import com.ibm.di.web.common.atom.app.AppService;
+import com.ibm.di.web.common.atom.app.AppWorkspace;
+import com.ibm.di.web.common.atom.AtomCategory;
+import com.ibm.di.web.common.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomFeed;
+import com.ibm.di.web.common.atom.AtomLink;
+import com.ibm.di.web.common.atom.AtomPerson;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.w3c.dom.Attr;
@@ -249,11 +250,11 @@ public class UnitAndFuncSharedTests {
 		String feedUrl = null;
 		lookup: for (AppWorkspace wspace : sd.getWorkspace()) {
 			for (AppCollection col : wspace.getCollection()) {
-				for (AppCategories cat : col.getCategories()) {
-					if (containsInAnyOrder(atomCategoryComparator, false, true, cat.getCategory(), Constants.CAT_CONN_PROVIDER)) {
-						feedUrl = col.getHref();
-						break lookup;
-					}
+				if (col.getCategories() != null
+						&& containsInAnyOrder(atomCategoryComparator, false, true,
+								col.getCategories().getCategory(), winkCatToInternal(Constants.CAT_CONN_PROVIDER))) {
+					feedUrl = col.getHref();
+					break lookup;
 				}
 			}
 		}
@@ -274,7 +275,7 @@ public class UnitAndFuncSharedTests {
 		String contentAsString = response.getContentAsString();
 		AtomFeed feed = deserializeFeed(contentAsString);
 
-		AtomUtils.containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), Constants.CAT_CONN_PROVIDER);
+		AtomUtils.containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), winkCatToInternal(Constants.CAT_CONN_PROVIDER));
 	}
 
 	@Configure_TP_Server_To_Start_With_TDI
@@ -341,7 +342,7 @@ public class UnitAndFuncSharedTests {
 		TpAppHelper.checkSuccess(response);
 		AtomFeed feed = deserializeFeed(response.getContentAsString());
 
-		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), Constants.CAT_TOUCHPOINT);
+		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), winkCatToInternal(Constants.CAT_TOUCHPOINT));
 
 		// ibmdi.SCMP.Test and Custom.SCMP.Test
 		assertThat(feed.getEntries().size(), is(greaterThanOrEqualTo(2)));
@@ -362,7 +363,7 @@ public class UnitAndFuncSharedTests {
 		TpAppHelper.checkSuccess(response);
 
 		AtomEntry typeEntry = deserializeEntry(response.getContentAsString());
-		containsInAnyOrder(atomCategoryComparator, false, false, typeEntry.getCategories(), Constants.CAT_RES_TYPE_ENTRY);
+		containsInAnyOrder(atomCategoryComparator, false, false, typeEntry.getCategories(), winkCatToInternal(Constants.CAT_RES_TYPE_ENTRY));
 		assertContainsLinks(typeEntry, Constants.REL_INSTANCE_FEED);
 	}
 
@@ -379,7 +380,7 @@ public class UnitAndFuncSharedTests {
 		AtomFeed feed = deserializeFeed(response.getContentAsString());
 
 		assertThat(feed.getEntries().size(), is(0));
-		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), Constants.CAT_TOUCHPOINT);
+		containsInAnyOrder(atomCategoryComparator, false, false, feed.getCategories(), winkCatToInternal(Constants.CAT_TOUCHPOINT));
 	}
 
 	@Configure_TP_Server_To_Start_With_TDI
@@ -1217,8 +1218,8 @@ public class UnitAndFuncSharedTests {
 
 	private static void assertContainsLinks(AtomEntry entry, String... linkRelations) {
 		for (String rel : linkRelations) {
-			assertThat("Found links with relation \"" + rel + "\"", com.ibm.di.tp.server.util.AtomUtils
-					.findLinksByLitteralRelValue(entry.getLinks(), rel).size(), is(greaterThan(0)));
+			assertThat("Found links with relation \"" + rel + "\"",
+					findLinksByRel(entry.getLinks(), rel).size(), is(greaterThan(0)));
 		}
 	}
 

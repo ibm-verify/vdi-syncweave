@@ -76,14 +76,14 @@ case `uname -a` in
     *Linux*x86_64*) 
         file_to_check=$src/eclipsece-linux.gtk.x86_64.tar.gz
         ;;
-    *Linux*s390x*) 
+    *Linux*s390x*)
         set +e
-        file_to_check=`ls $src/ibm-semeru-certified-jre_s390x_linux_*.tar.gz 2>/dev/null`
+        file_to_check=`ls $src/ibm-semeru-open-jre_s390x_linux_*.tar.gz 2>/dev/null`
         set -e
         ;;
     *AIX*)
         set +e
-        file_to_check=`ls $src/ibm-semeru-certified-jre_ppc64_aix_*.tar.gz 2>/dev/null`
+        file_to_check=`ls $src/ibm-semeru-open-jre_ppc64_aix_*.tar.gz 2>/dev/null`
         set -e
         ;;
 esac
@@ -186,11 +186,11 @@ Echo extracting_java
 jvm_dir=$dst/jvm
 
 if [ `uname` = "Darwin" ] ; then
-    ln -sf $dst/jdk-17.*-jre/Contents/Home $jvm_dir
+    ln -sf $dst/jdk-21.*-jre/Contents/Home $jvm_dir
 else
     mkdir -p $jvm_dir
 
-    mv $dst/jdk-17.*-jre $jvm_dir/jre
+    mv $dst/jdk-21.*-jre $jvm_dir/jre
 fi
 
 # Fix up the global.properties file.  We use sed for this.  It would be

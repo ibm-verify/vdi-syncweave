@@ -127,12 +127,12 @@ child1.appendChild(work.createTextNode(work.title));
 child2.appendChild(work.createTextNode(work.author));
 attr.appendChild(child1);
 attr.appendChild(child2);
-work.appendChild(attr);
+work.setAttribute(attr);
 
 var header = work.createElement("$soapHeader");
 var requestTime = java.lang.System.currentTimeMillis();
 header.appendChild(work.createTextNode(requestTime));
-work.appendChild(header);
+work.setAttribute(header);
 
 task.logmsg("<<<<<<<<<< Request = " + work.book.toString());]]></parameter>
                 </Script>
@@ -141,6 +141,9 @@ task.logmsg("<<<<<<<<<< Request = " + work.book.toString());]]></parameter>
                     <ConnectorState>Enabled</ConnectorState>
                     <Schema name="Input">
                         <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>book</Name>
+                        </SchemaItem>
                         <SchemaItem>
                             <Name>$soapHeader</Name>
                             <Syntax>String</Syntax>
@@ -179,6 +182,11 @@ task.logmsg("<<<<<<<<<< Request = " + work.book.toString());]]></parameter>
                     <SandboxConfig/>
                     <AttributeMap name="Input">
                         <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>book</Name>
+                            <Type>advanced</Type>
+                            <Script>work.book</Script>
+                        </AttributeMapItem>
                         <AttributeMapItem>
                             <Name>$soapHeader</Name>
                             <Type>advanced</Type>
@@ -559,26 +567,28 @@ task.logmsg(">>>>>>>>>> Request = " + work.book.toString());]]></parameter>
 var user = work.getString("http.remote_user");
 var pass = work.getString("http.remote_pass");
 task.logmsg("User: " + user + " Password: " + pass);
-if(!user.equals("user") || !pass.equals("pass")) {
- 	//work.setAttribute("$authResult", "false");
- 	work.$faultCode = "myCode";
- 	work.$faultReason = "SOAP fault: Error in processing";
+// httpAuth is disabled in the connector config, so credentials are not
+// required.  Only validate them when both are actually present.
+if (user != null && pass != null && (!user.equals("user") || !pass.equals("pass"))) {
+ //work.setAttribute("$authResult", "false");
+ work.$faultCode = "myCode";
+ work.$faultReason = "SOAP fault: Error in processing";
 } else {
-	//work.setAttribute("$authResult", "true");
-	work.$faultCode = null;
- 	work.$faultReason = null;
-	var title = work.book.getFirstChild().getNodeValue().trim();
-	var author = work.book.getLastChild().getNodeValue().trim();
-	var booleanResult = false;
-	var map = work.getAttribute("bookMap").getValue(0);
-	var containedValue = map.get(title);
-	if(containedValue != null && containedValue.equals(author)) {
-		booleanResult = true;
-	}
-	var attr = work.createElementNS("http://www.example.com/library/", "trgnsp:isAvailable");
-	attr.appendChild(work.createTextNode(booleanResult));
-	work.appendChild(attr);
-	task.logmsg("<<<<<<<<<< Assembled Response = " + attr);
+ //work.setAttribute("$authResult", "true");
+ work.$faultCode = null;
+ work.$faultReason = null;
+ var title = work.book.getFirstChild().getNodeValue().trim();
+ var author = work.book.getLastChild().getNodeValue().trim();
+ var booleanResult = false;
+ var map = work.getAttribute("bookMap").getValue(0);
+ var containedValue = map.get(title);
+ if (containedValue != null && containedValue.equals(author)) {
+  booleanResult = true;
+ }
+ var attr = work.createElementNS("http://www.example.com/library/", "trgnsp:isAvailable");
+ attr.appendChild(work.createTextNode(booleanResult));
+ work.setAttribute(attr);
+ task.logmsg("<<<<<<<<<< Assembled Response = " + attr);
 }]]></parameter>
                     </Script>
                     <Script name="CalculateProcessTime">
@@ -586,7 +596,7 @@ if(!user.equals("user") || !pass.equals("pass")) {
                         <parameter name="script"><![CDATA[// calculates the time needed to receive and process the request.
 // this data is sent in the soap header of the response
 
-var currentTime = java.lang.Long.parseLong(java.lang.System.currentTimeMillis());
+var currentTime = java.lang.System.currentTimeMillis();
 var processTime = java.lang.Math.abs(currentTime - java.lang.Long.parseLong(work.$soapHeader));
 
 var header = work.createElement("$soapHeader");

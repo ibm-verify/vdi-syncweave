@@ -933,7 +933,9 @@ public class HTTPParser extends ParserImpl {
 				headerName = "http." + str.substring(0, colonIndex);
 				headerValue.append(str.substring(colonIndex + 1).trim());
 			} else {
-				headerValue.append(" ");
+				if (headerValue.length() > 0) {
+					headerValue.append(" ");
+				}
 				headerValue.append(str.trim());
 			}
 		}
@@ -962,7 +964,12 @@ public class HTTPParser extends ParserImpl {
 			}
 			e.setProperty(headerName, headerValue.toString());
 		} else {
-			e.addAttributeValue(headerName, headerValue.toString());
+			String oldHeaderValue = e.getString(headerName);
+			if (oldHeaderValue != null) {
+				headerValue.insert(0, ", ");
+				headerValue.insert(0, oldHeaderValue);
+			}
+			e.setAttribute(headerName, headerValue.toString());
 		}
 	}
 
@@ -1134,8 +1141,7 @@ public class HTTPParser extends ParserImpl {
 	 */
 	public void httpAuthenticationRequest(String realm) throws IOException {
 		String str = null;
-		String rlm = realm;
-		rlm = "IBM-Directory-Integrator";
+		String rlm = (realm != null) ? realm : "IBM-Directory-Integrator";
 		str = "HTTP/1.1 401 Forbidden\r\n";
 		str += "WWW-Authenticate: Basic realm=\"" + rlm + "\"\r\n";
 		getWriter().write(str);

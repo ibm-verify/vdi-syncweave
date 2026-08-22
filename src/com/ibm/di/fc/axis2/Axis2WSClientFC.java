@@ -32,7 +32,6 @@ import org.apache.axis2.client.OperationClient;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.context.ServiceContext;
 import org.apache.axis2.description.AxisEndpoint;
@@ -172,7 +171,7 @@ public class Axis2WSClientFC extends Function {
 			throw new Exception(resHash
 					.getString("Axis2.WS.FC.Missing.WSDL.URL"));
 		}
-		
+
 		// SSL configuration is now handled by Axis2's built-in SSL support
 		// No need for custom protocol registration with HttpClient 4.x
 
@@ -182,11 +181,25 @@ public class Axis2WSClientFC extends Function {
 					.getString("Axis2.WS.FC.No.Configured.Service"));
 		}
 
+		// Build a clean AxisConfiguration programmatically *before* any WSDL
+		// parsing. Both axis2.xml and axis2_default.xml that are embedded inside
+		// axis2-kernel.jar still reference the removed LocalTransportSender class.
+		// Any code path that lets Axis2 load those files (createDefaultConfigurationContext,
+		// createBasicConfigurationContext, createConfigurationContextFromFileSystem)
+		// will throw ClassNotFoundException → DeploymentException.
+		// By constructing AxisConfiguration ourselves and injecting it into the
+		// WSDL builder via useAxisConfiguration(), and then reusing it for the
+		// ServiceClient's ConfigurationContext, we avoid every such code path.
+		org.apache.axis2.engine.AxisConfiguration safeAxisConfig =
+				buildSafeAxisConfiguration();
+		org.apache.axis2.context.ConfigurationContext configContext =
+				new org.apache.axis2.context.ConfigurationContext(safeAxisConfig);
+
 		Options options = new Options();
 		addProxy(options, wsdl);
 
-		service = WSUtils.createAxisServiceFromWSDLFile(wsdl, serviceName, false, 
-					getHttpAuthUserName(), getHttpAuthPassword());			
+		service = WSUtils.createAxisServiceFromWSDLFile(wsdl, serviceName, false,
+					getHttpAuthUserName(), getHttpAuthPassword(), safeAxisConfig);
 
 		String endpointName = (String) getParam("endpoint");
 		if (endpointName == null || endpointName.trim().length() == 0) {
@@ -208,19 +221,19 @@ public class Axis2WSClientFC extends Function {
 			outonly = true;
 		}
 
-		
-		if (!WSUtils.isWSDL20(getWsdlUrl(wsdl), getHttpAuthUserName(), getHttpAuthPassword())) {
-			// There is a problem in the Axis2 library.
-			// The message elements created from client point of view
-			// are not created in the proper way.
-			element = WSUtils.createAxisServiceFromWSDLFile(wsdl, serviceName,
-						true, getHttpAuthUserName(), getHttpAuthPassword()).
-					getOperation(new QName(operationName)).
-					getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE).
-					getElementQName();
-		} else {
-			element = operation.getMessage(	WSDLConstants.MESSAGE_LABEL_OUT_VALUE).getElementQName();
-		}
+		// In both WSDL 1.1 and WSDL 2.0 the Axis2 library inverts the
+		// In/Out message labels when building a service from client point of
+		// view (isServerSide=false).  For WSDL 1.1 this has been known for a
+		// long time; for WSDL 2.0 the same swap occurs via
+		// WSDL20ToAllAxisServicesBuilder.setServerSide(false).
+		// The safe way to obtain the *request* element QName is always to
+		// re-parse the WSDL with isServerSide=true and read
+		// MESSAGE_LABEL_IN_VALUE from that server-side operation object.
+		element = WSUtils.createAxisServiceFromWSDLFile(wsdl, serviceName,
+					true, getHttpAuthUserName(), getHttpAuthPassword(), safeAxisConfig).
+				getOperation(new QName(operationName)).
+				getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE).
+				getElementQName();
 
 		String username = (String) getParam("username");
 		String password = (String) getParam("password");
@@ -228,7 +241,7 @@ public class Axis2WSClientFC extends Function {
 		if (timeoutVal instanceof Number)
 			timeout = ((Number) timeoutVal).longValue();
 		else if (timeoutVal != null)
-			timeout = Long.parseLong(timeoutVal .toString());
+			timeout = Long.parseLong(timeoutVal.toString());
 
 		EndpointReference epr = new EndpointReference(endpoint.getName());
 		epr.setAddress(endpoint.getEndpointURL());
@@ -236,7 +249,7 @@ public class Axis2WSClientFC extends Function {
 		options.setProperty(
 				"Transfer-Encoding",
 				Boolean.FALSE);
-		
+
 		boolean https = (endpoint.getEndpointURL() != null) && endpoint.getEndpointURL().toLowerCase().startsWith("https");
 
 		options.setTransportInProtocol(https ? Constants.TRANSPORT_HTTPS : Constants.TRANSPORT_HTTP);
@@ -247,8 +260,7 @@ public class Axis2WSClientFC extends Function {
 		options.setProperty("CONNECTION_TIMEOUT", new Integer((int)timeout));
 
 		// set the SOAP version. The Axis2 library handles the default SOAP
-		// version
-		// if it is not set explicitly in the WSDL document
+		// version if it is not set explicitly in the WSDL document
 		options.setSoapVersionURI(endpoint.getBinding().getProperty(
 				WSDL2Constants.ATTR_WSOAP_VERSION).toString());
 
@@ -267,13 +279,41 @@ public class Axis2WSClientFC extends Function {
 			}
 		}
 
-		// create the context using the default axis configuration
-		ConfigurationContext configContext = ConfigurationContextFactory
-				.createDefaultConfigurationContext();
-
 		// create the base for the client which will send the request
 		sender = new ServiceClient(configContext, service);
 		sender.setOptions(options);
+	}
+
+	/**
+	 * Builds an {@link org.apache.axis2.engine.AxisConfiguration} that contains
+	 * only the HTTP/HTTPS transport senders needed by this client, without
+	 * loading any of Axis2's embedded XML configuration files (axis2.xml /
+	 * axis2_default.xml). Those files still reference the removed
+	 * {@code LocalTransportSender} class and will cause a
+	 * {@code ClassNotFoundException} if loaded.
+	 */
+	private org.apache.axis2.engine.AxisConfiguration buildSafeAxisConfiguration()
+			throws Exception {
+		org.apache.axis2.engine.AxisConfiguration axisConfig =
+				new org.apache.axis2.engine.AxisConfiguration();
+
+		// Register HTTP transport sender
+		org.apache.axis2.description.TransportOutDescription httpOut =
+				new org.apache.axis2.description.TransportOutDescription(
+						org.apache.axis2.Constants.TRANSPORT_HTTP);
+		httpOut.setSender(
+				new org.apache.axis2.transport.http.impl.httpclient4.HTTPClient4TransportSender());
+		axisConfig.addTransportOut(httpOut);
+
+		// Register HTTPS transport sender (reuses the same sender class)
+		org.apache.axis2.description.TransportOutDescription httpsOut =
+				new org.apache.axis2.description.TransportOutDescription(
+						org.apache.axis2.Constants.TRANSPORT_HTTPS);
+		httpsOut.setSender(
+				new org.apache.axis2.transport.http.impl.httpclient4.HTTPClient4TransportSender());
+		axisConfig.addTransportOut(httpsOut);
+
+		return axisConfig;
 	}
 
 	private void addProxy(Options options, String wsdl) throws Exception {
@@ -357,8 +397,8 @@ public class Axis2WSClientFC extends Function {
 
 			NodeList children = work.getChildNodes();
 			for (int i = 0; i < children.getLength(); i++) {
-				if (children.item(i).getLocalName().equals(
-						element.getLocalPart())) {
+				if (element.getLocalPart().equals(
+						children.item(i).getLocalName())) {
 					requestAttr = (Attribute) children.item(i);
 					break;
 				}
@@ -378,7 +418,7 @@ public class Axis2WSClientFC extends Function {
 			MessageContext mc = new MessageContext();
 
 			HTTPTransportUtils.initializeMessageContext(mc, operation
-					.getOutputAction(), sender.getOptions().getTo()
+					.getInputAction(), sender.getOptions().getTo()
 					.getAddress(), null);
 
 			// add http headers to the request

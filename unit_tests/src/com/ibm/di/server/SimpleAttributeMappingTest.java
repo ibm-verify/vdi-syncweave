@@ -195,7 +195,7 @@ public class SimpleAttributeMappingTest {
 
 		assertThat(newEntryH.size(), is(1));
 		assertThat(newEntryH.getAttribute(DEST_ATTR_NAME).size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_VAL1));
 	}
 
@@ -205,7 +205,7 @@ public class SimpleAttributeMappingTest {
 		multiMap.mapEntry(src, newEntryH);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_VAL1, SRC_ATTR_VAL2));
 	}
 
@@ -216,7 +216,7 @@ public class SimpleAttributeMappingTest {
 		singleMap.mapEntry(src, newEntryH, true);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_VAL1, SRC_ATTR_VAL2));
 	}
 
@@ -227,7 +227,7 @@ public class SimpleAttributeMappingTest {
 		multiMap.mapEntry(src, newEntryH, true);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_VAL1, SRC_ATTR_VAL2, SRC_ATTR_VAL2));
 	}
 
@@ -294,7 +294,7 @@ public class SimpleAttributeMappingTest {
 		singleMap.mapEntry(src, newEntryH);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_NULL_VAL));
 	}
 
@@ -327,7 +327,7 @@ public class SimpleAttributeMappingTest {
 		singleMap.mapEntry(src, newEntryH, true);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_NULL_VAL));
 	}
 
@@ -362,7 +362,7 @@ public class SimpleAttributeMappingTest {
 		singleMap.mapEntry(src, newEntryH);
 
 		assertThat(newEntryH.size(), is(1));
-		ArrayList<String> list = new ArrayList<String>(newEntry.getAttribute(DEST_ATTR_NAME).getValuesVector());
+		ArrayList<String> list = new ArrayList<String>(newEntryH.getAttribute(DEST_ATTR_NAME).getValuesVector());
 		assertThat(list, containsInAnyOrder(SRC_ATTR_NULL_VAL));
 	}
 

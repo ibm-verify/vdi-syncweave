@@ -57,7 +57,6 @@ public class TouchpointStatus {
     @XmlElement(name = "op-state", required = true)
     protected EnumOpState opState;
     @XmlAnyElement(lax = true)
-    @XmlElement(name="any")
     protected List<Object> any;
 
     /**

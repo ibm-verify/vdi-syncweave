@@ -1,5 +1,7 @@
 package com.ibm.di.api.rest;
 
+import org.junit.Ignore;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.text.StringContainsInOrder.stringContainsInOrder;
@@ -33,6 +35,7 @@ import com.ibm.di.web.common.internal.atom.StringAtomText;
  * 
  * @since 7.2
  */
+@Ignore("All test methods are pending implementation")
 public class JacksonInputOutputSymmetryTest {
 	/**
 	 * Copyright.

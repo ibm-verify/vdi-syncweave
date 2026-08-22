@@ -17,7 +17,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.wink.common.model.atom.AtomEntry;
+import com.ibm.di.web.common.atom.AtomEntry;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.w3c.dom.Element;
 

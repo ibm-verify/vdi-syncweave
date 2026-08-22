@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Dictionary;
 
 import org.eclipse.equinox.http.jetty.JettyCustomizer;
-import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.HttpConfiguration;
 //import org.mortbay.jetty.servlet.Context;
 

@@ -39,7 +39,7 @@ import com.ibm.di.server.TaskCallBlock;
 @Path("")
 public class ALHandler {
 	
-	public final static String API_VERSION = "10.0.0.6";
+	public final static String API_VERSION = "1.0.0";
 	
 	private final static ALCache cache = new ALCache();
 	
