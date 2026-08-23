@@ -7,9 +7,12 @@ package com.ibm.di.parser;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -224,22 +227,32 @@ public class XMLParser extends ParserImpl implements ErrorHandler {
 	@Override
 	public void flush() throws Exception {
 		Trace.entrymin(this, "flush");
-		if (getWriter() != null && outputDoc != null) {
+		if (outputDoc != null && (getWriter() != null || getOutputStream() != null)) {
 			String charSet = getParam("characterSet");
 			if (charSet == null || charSet.equals(""))
 				charSet = "UTF-8";
-			OutputFormat format = new OutputFormat("xml", charSet, indentOutput); // Serialize
-			// DOM
-			format.setOmitXMLDeclaration(getOmitXMLDeclaration());
-			XMLSerializer serial;
-			if (getOutputStream() != null)
-				serial = new XMLSerializer(getOutputStream(), format);
-			else
-				serial = new XMLSerializer(getWriter(), format);
-			serial.asDOMSerializer(); // As a DOM Serializer
-			serial.serialize(outputDoc.getDocumentElement());
 
-			getWriter().flush();
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, charSet);
+			transformer.setOutputProperty(OutputKeys.INDENT, indentOutput ? "yes" : "no");
+			if (getOmitXMLDeclaration()) {
+				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			} else {
+				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			}
+
+			DOMSource source = new DOMSource(outputDoc);
+			StreamResult result;
+			if (getOutputStream() != null)
+				result = new StreamResult(getOutputStream());
+			else
+				result = new StreamResult(getWriter());
+
+			transformer.transform(source, result);
+
+			if (getWriter() != null)
+				getWriter().flush();
 		}
 		Trace.entrymin(this, "flush");
 	}
@@ -416,14 +429,23 @@ public class XMLParser extends ParserImpl implements ErrorHandler {
 		Element child;
 
 		String[] names = entry.getAttributeNames();
+		if (names == null) {
+			names = new String[0];
+		}
 		for (int i = 0; i < names.length; i++) {
+			if (names[i] == null || names[i].isEmpty()) {
+				continue;
+			}
 			Attribute a = entry.getAttribute(names[i]);
+			if (a == null) {
+				continue;
+			}
 			child = outputDoc.createElement(names[i]);
 			if (a.size() > 1) {
 				for (int j = 0; j < a.size(); j++) {
 					Element value = outputDoc.createElement(valuetag);
 					child.appendChild(value);
-					String val = a.getValue(j).toString();
+					String val = a.getValue(j) != null ? a.getValue(j).toString() : "";
 					if (val.indexOf("\n") != -1 && useCData)
 						value.appendChild(outputDoc.createCDATASection(val));
 					else
@@ -434,10 +456,10 @@ public class XMLParser extends ParserImpl implements ErrorHandler {
 			if (a.size() == 1) {
 
 				String val = a.getValue();
-				if (val.indexOf("\n") != -1 && useCData)
+				if (val != null && val.indexOf("\n") != -1 && useCData)
 					child.appendChild(outputDoc.createCDATASection(val));
 				else
-					child.appendChild(outputDoc.createTextNode(val));
+					child.appendChild(outputDoc.createTextNode(val != null ? val : ""));
 
 			}
 			rec.appendChild(child);

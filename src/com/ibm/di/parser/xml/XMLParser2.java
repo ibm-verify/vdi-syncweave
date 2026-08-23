@@ -1210,8 +1210,8 @@ public class XMLParser2 extends ParserImpl implements ParserInterface {
 				writeStaticEndTag(i);
 			}
 
-			writer.writeEndDocument();
 			newLine();
+			writer.writeEndDocument();
 		}
 	}
 
