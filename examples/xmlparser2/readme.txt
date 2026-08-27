@@ -9,7 +9,7 @@ This example demonstrates how SyncWeave is able to work with various XML documen
 
 	AdvancedXML-filtering - Shows how the XML Parser could be configured to filter unneeded entries. The XML Parser is configured to wrap neither Entry nor Value Tags. When the AL is executed the XML Parser will select all the available Entry elements and then will output those in a different XML structure.
 
-	AdvancedXML-symmetric - Shows the correspondence between the configuration parameters of the XML Parser in input and output mode. The XML Parser is configured to wrap/unwrap neither Entry nor Value Tags. When executed the AL will produce an XML which is identical to the one provided as input.
+	AdvancedXML-symmetric - Shows the correspondence between the configuration parameters of the XML Parser in input and output mode. The XML Parser is configured to wrap/unwrap neither Entry nor Value Tags. When executed the AL will produce an XML with equivalent structure to the one provided as input. Note: namespace declarations are omitted from the output as bare namespace URI strings (e.g. "defaultNS") are not valid XML namespace URIs and are rejected by the StAX writer.
 
 	AdvancedXML-scripting - Shows how to create hierarchical entry structure in a script and feed it to the XML Parser. The XML Parser is configured to wrap neither Entry nor Value Tags. When executed the AL will use the FormEntryConnector to provide a simple feed of information. That information is used to create a hierarchy which is then provided to a XML Parser that interprets that hierarchical Entry and outputs a XML.
 
