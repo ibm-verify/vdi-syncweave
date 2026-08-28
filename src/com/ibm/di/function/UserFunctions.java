@@ -82,7 +82,6 @@ import com.ibm.di.fc.FunctionInterface;
 import com.ibm.di.loader.IDILoader;
 import com.ibm.di.parser.LDIFParser;
 import com.ibm.di.parser.ParserInterface;
-import com.ibm.di.plugin.security.pki.IDIPasswordCrypto;
 import com.ibm.di.queue.MemBufferQ;
 import com.ibm.di.queue.MemBufferQFactory;
 import com.ibm.di.script.ScriptEngineOptions;
@@ -2505,59 +2504,6 @@ public class UserFunctions {
 		}
 
 		return list;
-	}
-
-	/**
-	 * getRsaEncrypted: Obtain encrypted (and ascii-encoded) value for plain
-	 * text specified, null strings are not processed and will be returned as
-	 * null.
-	 * 
-	 * @param plainText
-	 *            String representing value to be encrypted using public key
-	 * @param ksPath
-	 *            String representing file path to jks file
-	 * @param ksPassword
-	 *            String representing password for jks file as specified by path
-	 * @param certificateAlias
-	 *            String naming the alias of certificate in keystore file
-	 * @return String representing encrypted format, null is returned if a null
-	 *         is passed in.
-	 * @throws java.lang.Exception
-	 *             when underlying function fails
-	 * @throws Exception
-	 */
-	public String getRsaEncrypted(String plainText, String ksPath, String ksPassword, String certificateAlias)
-			throws java.lang.Exception {
-		return IDIPasswordCrypto.encrypt(plainText, ksPath, ksPassword, certificateAlias);
-
-	}
-
-	/**
-	 * getRsaDecrypted: Obtain plain ascii text for encrypted ciphertext
-	 * specified. Null strings are not processed and will be returned as
-	 * received. Empty strings will be encoded/encrypted.
-	 * 
-	 * @param cipherText
-	 *            String representing value to be decrypted using private key
-	 * @param ksPath
-	 *            String representing file path to jks file
-	 * @param ksPassword
-	 *            String representing password for jks file as specified by path
-	 * @param certificateAlias
-	 *            String naming the alias of certificate in keystore file
-	 * @param certificatePassword
-	 *            String representing password certificate
-	 * @return String representing the decrypted format of the received string.
-	 *         Null is returned when a null is received.
-	 * @throws java.lang.Exception
-	 *             when underlying function fails
-	 * @throws Exception
-	 */
-	public String getRsaDecrypted(String cipherText, String ksPath, String ksPassword, String certificateAlias,
-			String certificatePassword) throws java.lang.Exception {
-
-		return IDIPasswordCrypto.decrypt(cipherText, ksPath, ksPassword, certificateAlias, certificatePassword);
-
 	}
 
 	/**

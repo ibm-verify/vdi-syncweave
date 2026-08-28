@@ -115,10 +115,7 @@ If (result = -1) then
 	If objFso.FolderExists(dst + "\properties") Then 
 		objFso.CopyFolder dst + "\properties", p_path + "\properties"
 	End If	
-	If objFso.FolderExists(dst + "\pwd_plugins") Then 
-		objFso.MoveFolder dst + "\pwd_plugins", p_path + "\pwd_plugins"
-	End If	
-	If objFso.FolderExists(dst + "\SCIM") Then 
+	If objFso.FolderExists(dst + "\SCIM") Then
 		objFso.CopyFolder dst + "\SCIM", p_path + "\SCIM"
 	End If	
 	If objFso.FolderExists(dst + "\serverapi") Then 
@@ -337,20 +334,6 @@ Sub fixJavaPath(dst)
             objFso.MoveFolder oFile, dst + "\jvm\jre"
         End If
     Next
-End Sub
-
-'===========================================================================
-' The following function is used to correct the entries found within the
-' pwsync.props file
-
-Sub fixPwdPluginProperties(dst)
-
-    dstPath = Replace(dst, "\", "/")
-
-    call findAndReplace(dst + "\pwd_plugins\sun\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\tds\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\windows\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\windows\registerpwsync.reg", "$change$", Replace(dst, "\", "\\"))
 End Sub
 
 '===========================================================================

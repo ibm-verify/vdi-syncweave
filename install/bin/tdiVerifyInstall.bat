@@ -157,21 +157,6 @@ if not exist "%TDI_HOME_DIR%\ce\update_site\plugins"											goto :fail
 
 :checkPlugin
 
-set PLUGFIND=0
-FOR /F "tokens=1 delims=\n" %%A IN ('FINDSTR "<PLUGINS>" "%TDI_HOME_DIR%\.registry"') DO IF "%%A"=="<PLUGINS>" set PLUGFIND=1
-
-if %PLUGFIND%==1 goto :Plugins
-if %PLUGFIND%==0 goto :last
-
-:Plugins
-if not exist "%TDI_HOME_DIR%\pwd_plugins\jars\proxy.jar"							goto :fail
-if not exist "%TDI_HOME_DIR%\pwd_plugins\bin\encryptPasswd.bat"						goto :fail
-if not exist "%TDI_HOME_DIR%\pwd_plugins\bin\startProxy.bat"						goto :fail
-if "%ARCH%"=="x86" (
-	if not exist "%TDI_HOME_DIR%\pwd_plugins\windows\pwsync_admin.exe"				goto :fail
-) else (
-	if not exist "%TDI_HOME_DIR%\pwd_plugins\windows\pwsync_admin_64.exe"			goto :fail
-)
 :last
 
 :Success

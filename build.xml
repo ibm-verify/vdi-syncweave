@@ -583,7 +583,7 @@
   </description>
   <target name="package"
           description="Perform intermediate packaging of components."
-          depends="package_IDILoader,package-diserverapi,package-diserverapirmi,miserver,JARS,build-osgi,ldapsync,package_ce_rcp,fixPluginShares,updateCCMDBConnector,updateDPAConnector" />
+          depends="package_IDILoader,package-diserverapi,package-diserverapirmi,miserver,JARS,build-osgi,ldapsync,package_ce_rcp,updateCCMDBConnector,updateDPAConnector" />
 
   <description>
     =========================================================================
@@ -1089,27 +1089,6 @@
      <arg line='"${project.root.export.chkpii}\*.*" -s /O "${project.root.export.logs}/CHKPII.SUM"'/>
    </exec>
 
-  </target>
-
-  <description>
-    =========================================================================
-       Target:  fixPluginShares
-      Purpose:  Copies the shared properties files.
-    =========================================================================
-  </description>
-  <target name="fixPluginShares"
-          description="Perform intermediate packaging of components."
-          depends="miserver,plugins/proxy,shared">
-	<jar jarfile="${dist}/plugins/proxy.jar"
-	     update="true">
-		<fileset dir="${project.root.tmsxml_props.export}/shared">
-			<include name="basemig*.properties" />
-		</fileset>
-		<fileset dir="${project.root.tmsxml_props.export}/miserver">
-			<include name="jmsdriver*.properties" />
-			<include name="security*.properties" />
-		</fileset>
-	</jar>
   </target>
 
   <description>
@@ -6100,151 +6079,6 @@
   </jar>
 </target>
 
-<!-- Targets for plugins/proxy.jar -->
-<target depends="init" name="compile-plugins/proxy">
-  <javac srcdir="${source}" destdir="${build}" debug="${root.javac_dbg}" includeantruntime="false" source="${root.javac_src.vers}" target="${root.javac_tgt.vers}">
-    <classpath refid="project.class.path" />
-    <include name="com/ibm/di/plugin/log/*.java" />
-    <include name="com/ibm/di/plugin/proxy/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/itim/policy/impl/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/itim/policy/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/itim/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/jms/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/jms/driver/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/ldap/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/log/*.java" />
-    <include name="com/ibm/di/plugin/pwstore/*.java" />
-    <include name="com/ibm/di/plugin/security/*.java" />
-    <include name="com/ibm/di/plugin/security/pki/*.java" />
-    <include name="com/ibm/di/plugin/security/authentication/*.java" />
-    <include name="com/ibm/di/plugin/domino/*.java" />
-    <include name="com/ibm/di/plugin/domino/agents/admin/*.java" />
-    <include name="com/ibm/di/plugin/domino/agents/client/*.java" />
-    <include name="com/ibm/di/plugin/domino/agents/common/*.java" />
-    <include name="com/ibm/di/plugin/domino/agents/web/*.java" />
-    <include name="com/ibm/di/plugin/CopyRight.java" />
-    <include name="com/ibm/di/systemqueue/driver/*.java" />
-    <include name="com/ibm/di/security/pkcs7/*.java" />
-    <include name="com/ibm/di/server/CopyRight.java" />
-    <include name="com/ibm/di/server/ResourceHash.java" />
-    <include name="com/ibm/di/util/ResourceLocator.java" />
-    <include name="com/ibm/di/function/ErrorListenerImpl.java" />
-    <include name="com/ibm/di/function/UserFunctions.java" />
-    <include name="com/ibm/di/migration/*.java" />
-    <include name="com/ibm/di/migration/plugin/*.java" />
-    <exclude name="com/ibm/di/systemqueue/driver/APIEngineLogger.java" />
-    <exclude name="com/ibm/di/systemqueue/driver/JMSScriptDriver.java" />
-    <exclude name="com/ibm/di/systemqueue/driver/JMSDriverFactory.java" />
-    <exclude name="com/ibm/di/plugin/domino/agents/admin/IDIPWSyncAdminRequestAgent.java" />
-    <exclude name="com/ibm/di/plugin/domino/agents/client/IDIPWSyncClientAgent.java" />
-    <exclude name="com/ibm/di/plugin/domino/agents/web/IDIPWSyncWebAgent.java" />
-  </javac>
-  <mkdir dir="${project.root.tmsxml_props.export}/plugins/proxy/"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/es/jmspwstore_es.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_es.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/es/proxy_es.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_es.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/es/domino_es.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_es.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/es/ldappwstore_es.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_es.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/es/logpwstore_es.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_es.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_TW/jmspwstore_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_zh_TW.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_TW/proxy_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_zh_TW.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_TW/domino_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_zh_TW.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_TW/ldappwstore_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_zh_TW.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_TW/logpwstore_zh_TW.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_zh_TW.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ja/jmspwstore_ja.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_ja.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ja/proxy_ja.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_ja.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ja/domino_ja.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_ja.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ja/ldappwstore_ja.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_ja.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ja/logpwstore_ja.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_ja.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ko/jmspwstore_ko.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_ko.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ko/proxy_ko.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_ko.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ko/domino_ko.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_ko.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ko/ldappwstore_ko.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_ko.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/ko/logpwstore_ko.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_ko.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/de/jmspwstore_de.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_de.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/de/proxy_de.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_de.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/de/domino_de.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_de.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/de/ldappwstore_de.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_de.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/de/logpwstore_de.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_de.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_CN/jmspwstore_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_zh_CN.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_CN/proxy_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_zh_CN.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_CN/domino_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_zh_CN.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_CN/ldappwstore_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_zh_CN.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/zh_CN/logpwstore_zh_CN.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_zh_CN.properties"/>
-  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/plugins/proxy/tmsfiles/en/jmspwstore.xml" propsfile.loc="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_en.properties" logfile.log="${project.root.tmsxml.log}"/>
-  <copy file="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_en.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore.properties"/>
-  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/plugins/proxy/tmsfiles/en/proxy.xml" propsfile.loc="${project.root.tmsxml_props.export}/plugins/proxy/proxy_en.properties" logfile.log="${project.root.tmsxml.log}"/>
-  <copy file="${project.root.tmsxml_props.export}/plugins/proxy/proxy_en.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy.properties"/>
-  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/plugins/proxy/tmsfiles/en/domino.xml" propsfile.loc="${project.root.tmsxml_props.export}/plugins/proxy/domino_en.properties" logfile.log="${project.root.tmsxml.log}"/>
-  <copy file="${project.root.tmsxml_props.export}/plugins/proxy/domino_en.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino.properties"/>
-  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/plugins/proxy/tmsfiles/en/ldappwstore.xml" propsfile.loc="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_en.properties" logfile.log="${project.root.tmsxml.log}"/>
-  <copy file="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_en.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore.properties"/>
-  <convertTMSXMLToProperties tmsxmlfile.loc="${project.root.autogen.comp}/plugins/proxy/tmsfiles/en/logpwstore.xml" propsfile.loc="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_en.properties" logfile.log="${project.root.tmsxml.log}"/>
-  <copy file="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_en.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/it/jmspwstore_it.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_it.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/it/proxy_it.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_it.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/it/domino_it.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_it.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/it/ldappwstore_it.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_it.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/it/logpwstore_it.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_it.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/pt_BR/jmspwstore_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_pt_BR.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/pt_BR/proxy_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_pt_BR.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/pt_BR/domino_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_pt_BR.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/pt_BR/ldappwstore_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_pt_BR.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/pt_BR/logpwstore_pt_BR.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_pt_BR.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/fr/jmspwstore_fr.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/jmspwstore_fr.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/fr/proxy_fr.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/proxy_fr.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/fr/domino_fr.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/domino_fr.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/fr/ldappwstore_fr.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/ldappwstore_fr.properties"/>
-  <copy file="${project.root.autogen.comp}/plugins/proxy/tmsfiles/fr/logpwstore_fr.properties" tofile="${project.root.tmsxml_props.export}/plugins/proxy/logpwstore_fr.properties"/>
-</target>
-
-<target name="plugins/proxy" depends="compile-plugins/proxy">
-  <jar jarfile="${dist}/plugins/proxy.jar">
-    <fileset dir="${build}">
-      <include name="com/ibm/di/plugin/log/*.class" />
-      <include name="com/ibm/di/plugin/proxy/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/itim/policy/impl/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/itim/policy/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/itim/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/jms/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/jms/driver/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/ldap/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/log/*.class" />
-      <include name="com/ibm/di/plugin/pwstore/*.class" />
-      <include name="com/ibm/di/plugin/security/*.class" />
-      <include name="com/ibm/di/plugin/security/pki/*.class" />
-      <include name="com/ibm/di/plugin/security/authentication/*.class" />
-      <include name="com/ibm/di/plugin/domino/*.class" />
-      <include name="com/ibm/di/plugin/domino/agents/admin/*.class" />
-      <include name="com/ibm/di/plugin/domino/agents/client/*.class" />
-      <include name="com/ibm/di/plugin/domino/agents/common/*.class" />
-      <include name="com/ibm/di/plugin/domino/agents/web/*.class" />
-      <include name="com/ibm/di/plugin/CopyRight.class" />
-      <include name="com/ibm/di/systemqueue/driver/*.class" />
-      <include name="com/ibm/di/security/pkcs7/*.class" />
-      <include name="com/ibm/di/server/CopyRight.class" />
-      <include name="com/ibm/di/server/ResourceHash.class" />
-      <include name="com/ibm/di/util/ResourceLocator.class" />
-      <include name="com/ibm/di/function/ErrorListenerImpl.class" />
-      <include name="com/ibm/di/function/UserFunctions.class" />
-      <include name="com/ibm/di/migration/*.class" />
-      <include name="com/ibm/di/migration/plugin/*.class" />
-      <exclude name="com/ibm/di/systemqueue/driver/APIEngineLogger.class" />
-      <exclude name="com/ibm/di/systemqueue/driver/JMSScriptDriver.class" />
-      <exclude name="com/ibm/di/systemqueue/driver/JMSDriverFactory.class" />
-      <exclude name="com/ibm/di/plugin/domino/agents/admin/IDIPWSyncAdminRequestAgent.class" />
-      <exclude name="com/ibm/di/plugin/domino/agents/client/IDIPWSyncClientAgent.class" />
-      <exclude name="com/ibm/di/plugin/domino/agents/web/IDIPWSyncWebAgent.class" />
-    </fileset>
-    <fileset dir="${project.root.autogen.comp}/plugins/proxy">
-      <include name="tdi.xml" />
-      <include name="NLS/**.properties" />
-    </fileset>
-    <fileset dir="${project.root.tmsxml_props.export}/plugins/proxy">
-      <include name="**.properties" />
-    </fileset>
-  </jar>
-</target>
-
 <!-- Targets for UpdateInstaller.jar -->
 <target depends="init" name="compile-UpdateInstaller">
   <javac srcdir="${source}" destdir="${build}" debug="${root.javac_dbg}" includeantruntime="false" source="${root.javac_src.vers}" target="${root.javac_tgt.vers}">
@@ -6298,6 +6132,6 @@
 </target>
 
 <!-- ALL JARS TARGET -->
-<target name="JARS" depends="CastorUtil,EmfUtil,UpdateInstaller,WebServiceUtil,cdm,cli,connectors/ADChangeDetectionConnector,connectors/ADChangelogConnector,connectors/ALConnector,connectors/Axis2WSServerConnector,connectors/AxisEasyWSServerConnector,connectors/CCMDBConnector,connectors/CommandLineConnector,connectors/DBChangelogConnector,connectors/DISBConnector,connectors/DPAConnector,connectors/DSMLv2SOAPConnector,connectors/DSMLv2SOAPServerConnector,connectors/Database,connectors/DominoAdminPConnector,connectors/DominoChangeDetectionConnector,connectors/DominoUsersConnector,connectors/EIFConnector,connectors/FTPClientConnector,connectors/FileManagementConnector,connectors/FileSystemConnector,connectors/FormEntryConnector,connectors/GLAConnector,connectors/HTTPClientConnector,connectors/HTTPServerConnector,connectors/IBMMQConnector,connectors/IDSChangelogConnector,connectors/ISAMConnector,connectors/ITIMAgentConnector,connectors/ITRegistryCiAndRelationshipConnector,connectors/IdMLCiAndRelationshipConnector,connectors/JDBCConnector,connectors/JMSConnector,connectors/JMSPasswordStoreConnector,connectors/JMXConnector,connectors/JNDIConnector,connectors/LDAPConnector,connectors/LDAPGroupConnector,connectors/LDAPServerConnector,connectors/LogConnector,connectors/MSOutlookConnector,connectors/MailboxConnector,connectors/MemQConnector,connectors/MemoryStreamConnector,connectors/NotesConnector,connectors/PropertiesConnector,connectors/QRadarConnector,connectors/RACConnector,connectors/SCIMConnector,connectors/SNMPConnector,connectors/SNMPServerConnector,connectors/SapALEIDocConnector,connectors/SapALEIDocConnectorV3,connectors/SapR3BorConnector,connectors/SapR3UserRegConnector,connectors/ScriptConnector,connectors/ServerNotificationsConnector,connectors/SimpleTpaeIFConnector,connectors/SunDirectoryCDConnector,connectors/SyslogServerConnector,connectors/SystemQueueConnector,connectors/SystemStoreConnector,connectors/TAMConnector,connectors/TCPConnector,connectors/TCPServerConnector,connectors/TIMDSMLv2Connector,connectors/TimerConnector,connectors/TpaeIFCDConnector,connectors/TpaeIFConnector,connectors/URLConnector,connectors/WSReceiverServerConnector,connectors/WindowsUsersGroupsConnector,connectors/zOSChangelogConnector,functions/AssemblyLineFC,functions/Axis2WSClientFC,functions/AxisEasyInvokeSoapWSFC,functions/AxisJavaToSoapFC,functions/AxisSoapToJavaFC,functions/CBEGeneratorFC,functions/CastorJavaToXMLFC,functions/CastorXMLToJavaFC,functions/CloseIdMLFC,functions/ComplexTypesGeneratorFC,functions/DataCleanserFC,functions/DeltaFC,functions/EmfSdoToXmlFC,functions/EmfXmlToSdoFC,functions/FileTransferFC,functions/InitITRegistryFC,functions/InvokeSoapWSFC,functions/JavaClassFC,functions/MemBufferQFC,functions/OpenIdMLFC,functions/ParserFC,functions/RemoteCmdLineFC,functions/RollingIdMLFC,functions/SapR3RfcFC,functions/SapR3RfcFCV3,functions/ScriptedFC,functions/SendEMailFC,functions/WrapSoapFC,functions/zOSTSOCommandLineFC,miconfig,migam,miggbl,miserver,mmconfig,parsers/CBEParser,parsers/CSVParser,parsers/DSMLParser,parsers/FixedParser,parsers/HTTPParser,parsers/IdMLParser,parsers/JSONParser,parsers/LDIFParser,parsers/LineReaderParser,parsers/SOAPParser,parsers/SPMLv2Parser,parsers/ScriptParser,parsers/SimpleParser,parsers/SimpleXMLParser,parsers/XMLParser,parsers/XMLSaxParser,parsers/XSLbasedXMLParser,plugins/proxy,report,OIDCUtil,tdiauth,tdiresource,shared" />
+<target name="JARS" depends="CastorUtil,EmfUtil,UpdateInstaller,WebServiceUtil,cdm,cli,connectors/ADChangeDetectionConnector,connectors/ADChangelogConnector,connectors/ALConnector,connectors/Axis2WSServerConnector,connectors/AxisEasyWSServerConnector,connectors/CCMDBConnector,connectors/CommandLineConnector,connectors/DBChangelogConnector,connectors/DISBConnector,connectors/DPAConnector,connectors/DSMLv2SOAPConnector,connectors/DSMLv2SOAPServerConnector,connectors/Database,connectors/DominoAdminPConnector,connectors/DominoChangeDetectionConnector,connectors/DominoUsersConnector,connectors/EIFConnector,connectors/FTPClientConnector,connectors/FileManagementConnector,connectors/FileSystemConnector,connectors/FormEntryConnector,connectors/GLAConnector,connectors/HTTPClientConnector,connectors/HTTPServerConnector,connectors/IBMMQConnector,connectors/IDSChangelogConnector,connectors/ISAMConnector,connectors/ITIMAgentConnector,connectors/ITRegistryCiAndRelationshipConnector,connectors/IdMLCiAndRelationshipConnector,connectors/JDBCConnector,connectors/JMSConnector,connectors/JMSPasswordStoreConnector,connectors/JMXConnector,connectors/JNDIConnector,connectors/LDAPConnector,connectors/LDAPGroupConnector,connectors/LDAPServerConnector,connectors/LogConnector,connectors/MSOutlookConnector,connectors/MailboxConnector,connectors/MemQConnector,connectors/MemoryStreamConnector,connectors/NotesConnector,connectors/PropertiesConnector,connectors/QRadarConnector,connectors/RACConnector,connectors/SCIMConnector,connectors/SNMPConnector,connectors/SNMPServerConnector,connectors/SapALEIDocConnector,connectors/SapALEIDocConnectorV3,connectors/SapR3BorConnector,connectors/SapR3UserRegConnector,connectors/ScriptConnector,connectors/ServerNotificationsConnector,connectors/SimpleTpaeIFConnector,connectors/SunDirectoryCDConnector,connectors/SyslogServerConnector,connectors/SystemQueueConnector,connectors/SystemStoreConnector,connectors/TAMConnector,connectors/TCPConnector,connectors/TCPServerConnector,connectors/TIMDSMLv2Connector,connectors/TimerConnector,connectors/TpaeIFCDConnector,connectors/TpaeIFConnector,connectors/URLConnector,connectors/WSReceiverServerConnector,connectors/WindowsUsersGroupsConnector,connectors/zOSChangelogConnector,functions/AssemblyLineFC,functions/Axis2WSClientFC,functions/AxisEasyInvokeSoapWSFC,functions/AxisJavaToSoapFC,functions/AxisSoapToJavaFC,functions/CBEGeneratorFC,functions/CastorJavaToXMLFC,functions/CastorXMLToJavaFC,functions/CloseIdMLFC,functions/ComplexTypesGeneratorFC,functions/DataCleanserFC,functions/DeltaFC,functions/EmfSdoToXmlFC,functions/EmfXmlToSdoFC,functions/FileTransferFC,functions/InitITRegistryFC,functions/InvokeSoapWSFC,functions/JavaClassFC,functions/MemBufferQFC,functions/OpenIdMLFC,functions/ParserFC,functions/RemoteCmdLineFC,functions/RollingIdMLFC,functions/SapR3RfcFC,functions/SapR3RfcFCV3,functions/ScriptedFC,functions/SendEMailFC,functions/WrapSoapFC,functions/zOSTSOCommandLineFC,miconfig,migam,miggbl,miserver,mmconfig,parsers/CBEParser,parsers/CSVParser,parsers/DSMLParser,parsers/FixedParser,parsers/HTTPParser,parsers/IdMLParser,parsers/JSONParser,parsers/LDIFParser,parsers/LineReaderParser,parsers/SOAPParser,parsers/SPMLv2Parser,parsers/ScriptParser,parsers/SimpleParser,parsers/SimpleXMLParser,parsers/XMLParser,parsers/XMLSaxParser,parsers/XSLbasedXMLParser,report,OIDCUtil,tdiauth,tdiresource,shared" />
 
 </project>

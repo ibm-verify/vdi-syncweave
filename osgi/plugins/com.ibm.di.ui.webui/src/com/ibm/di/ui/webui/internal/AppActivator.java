@@ -50,7 +50,7 @@ public class AppActivator {
 	private synchronized void activate(ComponentContext cc) throws ServletException, NamespaceException {
 
 		HttpContext ctx = getHttpContext();
-		boolean enabled = Boolean.valueOf(System.getProperty("dashboard.on", "true"));
+		boolean enabled = Boolean.valueOf(System.getProperty("dashboard.on", "false"));
 		if(enabled) {
 			// create this servlet because it will automatically send an
 			// initialization request, otherwise use the RestServlet instead.
