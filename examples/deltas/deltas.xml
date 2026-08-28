@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<MetamergeConfig IDIversion="Created by TDI7.0 - 2008-02-20" created="Tue Mar 04 17:57:33 EET 2008" createdBy="lilia.milanova" modified="Wed Mar 05 12:56:40 EET 2008" modifiedBy="lilia.milanova" version="7.0">
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by SDI1.0.0 - 2026-08-18" created="Wed Aug 26 09:29:08 CDT 2026" createdBy="JasonWilliams" modified="Thu Aug 27 16:32:41 CDT 2026" modifiedBy="JasonWilliams" version="7.1.1">
     <Folder name="AssemblyLines">
         <AssemblyLine name="Deltas">
+            <ModTime>1787866359003</ModTime>
             <LogEnabled>true</LogEnabled>
             <Settings>
                 <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
@@ -23,16 +23,18 @@
                     <Component name="ReadTextFile" state="Enabled"/>
                 </SimulationStates>
                 <ProxySettings/>
-                <Hooks/>
             </SimulationConfig>
             <LogConfig/>
             <ContainerEF name="EntryFeedContainer">
+                <ModTime>1787866359003</ModTime>
                 <Connector name="ReadTextFile">
                     <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ModTime>1787866359003</ModTime>
                     <ConnectorMode>Iterator</ConnectorMode>
                     <ConnectorState>Enabled</ConnectorState>
                     <Configuration>
                         <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1787866359003</ModTime>
                         <parameter name="debug">false</parameter>
                         <parameter name="fileAppend">false</parameter>
                         <parameter name="fileMode">input</parameter>
@@ -46,12 +48,6 @@
                         <InheritFrom>system:/Parsers/ibmdi.Simple</InheritFrom>
                         <parameter name="characterSet"/>
                         <parameter name="debug">false</parameter>
-                        <Schema name="Input">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
-                        <Schema name="Output">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
                     </Parser>
                     <AttributeMap name="Input">
                         <AttributeMapItem>
@@ -81,6 +77,7 @@
                     </AttributeMap>
                     <AttributeMap name="Output"/>
                     <DeltaSettings>
+                        <ModTime>1787754611876</ModTime>
                         <Enabled>true</Enabled>
                         <UniqueAttribute>id</UniqueAttribute>
                         <FilePath>Users_DeltaDB</FilePath>
@@ -88,6 +85,8 @@
                         <RemoveDeleted>true</RemoveDeleted>
                         <WhenToCommit>After every database operation</WhenToCommit>
                         <Driver>BTree</Driver>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
                     </DeltaSettings>
                     <Schema name="Input">
                         <InheritFrom>[parent]</InheritFrom>
@@ -120,31 +119,31 @@
                         <MatchAny>false</MatchAny>
                         <AdvancedLinkMode>false</AdvancedLinkMode>
                     </LinkCriteria>
-                    <Hooks name="after_getnext">
-                        <Hook>
+                    <Hooks>
+                        <Hook name="after_getnext">
                             <Name>after_getnext</Name>
                             <Script/>
                             <Enabled>false</Enabled>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_getnext">
                             <Name>before_getnext</Name>
                             <Script/>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="override_delete">
                             <Name>override_delete</Name>
                             <Script>system.logmsg("DELETE");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="override_modify">
                             <Name>override_modify</Name>
                             <Script>system.logmsg("MODIFY");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="override_update">
                             <Name>override_update</Name>
                             <Script>system.logmsg("UPDATE");</Script>
                             <Enabled>false</Enabled>
@@ -155,9 +154,6 @@
                     <SandboxConfig/>
                     <Reconnect>
                         <InheritFrom>[parent]</InheritFrom>
-                        <parameter name="initreconnect">false</parameter>
-                        <parameter name="numberOfRetries">1</parameter>
-                        <parameter name="retryDelay">10</parameter>
                         <parameter name="skipForwardAfterReconnect">true</parameter>
                         <ReconnectRules/>
                     </Reconnect>
@@ -170,21 +166,24 @@
                         <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
                     </PoolInstance>
                     <InitializeOption>0</InitializeOption>
-                    <BranchType>0</BranchType>
-                    <ChildComponents/>
                 </Connector>
             </ContainerEF>
             <ContainerDF name="DataFlowContainer">
+                <ModTime>1787754989295</ModTime>
                 <Connector name="DB_INSERT">
                     <InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+                    <ModTime>1787754989295</ModTime>
                     <ConnectorMode>AddOnly</ConnectorMode>
                     <ConnectorState>Enabled</ConnectorState>
                     <Configuration>
                         <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1787754989295</ModTime>
                         <parameter name="debug">false</parameter>
+                        <parameter name="jdbcAutoCreateTable">true</parameter>
+                        <parameter name="jdbcDriver">org.apache.derby.jdbc.ClientDriver</parameter>
                         <parameter name="jdbcInsert"/>
                         <parameter name="jdbcSelect">SELECT * FROM T_USER	</parameter>
-                        <parameter name="jdbcSource">jdbc:odbc:Deltas</parameter>
+                        <parameter name="jdbcSource">jdbc:derby://localhost:1527/DELTAS;create=true</parameter>
                         <parameter name="jdbcTable">T_USER</parameter>
                     </Configuration>
                     <ComputeChanges>true</ComputeChanges>
@@ -192,12 +191,6 @@
                     <DeltaStrict>true</DeltaStrict>
                     <Parser>
                         <InheritFrom>[parent]</InheritFrom>
-                        <Schema name="Input">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
-                        <Schema name="Output">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
                     </Parser>
                     <AttributeMap name="Input"/>
                     <AttributeMap name="Output">
@@ -266,14 +259,14 @@
                         <MatchAny>false</MatchAny>
                         <AdvancedLinkMode>false</AdvancedLinkMode>
                     </LinkCriteria>
-                    <Hooks name="after_update">
-                        <Hook>
+                    <Hooks>
+                        <Hook name="after_update">
                             <Name>after_update</Name>
                             <Script>main.logmsg("After update");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_add">
                             <Name>before_add</Name>
                             <Script><![CDATA[// Ignores entries not for ADD operation.
 
@@ -287,32 +280,32 @@ else {
                             <Enabled>true</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_modify">
                             <Name>before_modify</Name>
                             <Script>main.logmsg("Before Modify:");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_update">
                             <Name>before_update</Name>
                             <Script><![CDATA[main.logmsg("Before Update:");
 system.dumpEntry(work);]]></Script>
                             <Enabled>true</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="override_delete">
                             <Name>override_delete</Name>
                             <Script>system.logmsg("OVERRIDEN DELETE");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="update_fail">
                             <Name>update_fail</Name>
                             <Script>main.logmsg("Update fail:");</Script>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="update_ok">
                             <Name>update_ok</Name>
                             <Script>main.logmsg("Update OK:");</Script>
                             <Enabled>true</Enabled>
@@ -323,9 +316,6 @@ system.dumpEntry(work);]]></Script>
                     <SandboxConfig/>
                     <Reconnect>
                         <InheritFrom>[parent]</InheritFrom>
-                        <parameter name="initreconnect">false</parameter>
-                        <parameter name="numberOfRetries">1</parameter>
-                        <parameter name="retryDelay">10</parameter>
                         <ReconnectRules/>
                     </Reconnect>
                     <Operations/>
@@ -337,18 +327,19 @@ system.dumpEntry(work);]]></Script>
                         <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
                     </PoolInstance>
                     <InitializeOption>0</InitializeOption>
-                    <BranchType>0</BranchType>
-                    <ChildComponents/>
                 </Connector>
                 <Connector name="DB_UPDATE">
                     <InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+                    <ModTime>1787754917323</ModTime>
                     <ConnectorMode>Update</ConnectorMode>
                     <ConnectorState>Enabled</ConnectorState>
                     <Configuration>
                         <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1787754917323</ModTime>
                         <parameter name="debug">false</parameter>
+                        <parameter name="jdbcDriver">org.apache.derby.jdbc.ClientDriver</parameter>
                         <parameter name="jdbcSelect">SELECT * FROM T_USER			</parameter>
-                        <parameter name="jdbcSource">jdbc:odbc:Deltas</parameter>
+                        <parameter name="jdbcSource">jdbc:derby://localhost:1527/DELTAS;create=true</parameter>
                         <parameter name="jdbcTable">T_USER</parameter>
                     </Configuration>
                     <ComputeChanges>true</ComputeChanges>
@@ -356,12 +347,6 @@ system.dumpEntry(work);]]></Script>
                     <DeltaStrict>true</DeltaStrict>
                     <Parser>
                         <InheritFrom>[parent]</InheritFrom>
-                        <Schema name="Input">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
-                        <Schema name="Output">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
                     </Parser>
                     <AttributeMap name="Input"/>
                     <AttributeMap name="Output">
@@ -411,8 +396,8 @@ system.dumpEntry(work);]]></Script>
                             <Value>$id</Value>
                         </LinkCriteriaItem>
                     </LinkCriteria>
-                    <Hooks name="before_add">
-                        <Hook>
+                    <Hooks>
+                        <Hook name="before_add">
                             <Name>before_add</Name>
                             <Script><![CDATA[// The "Add" operation is performed in 
 // the "DB_INSERT" Connector
@@ -421,13 +406,13 @@ system.ignoreEntry();]]></Script>
                             <Enabled>true</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_modify">
                             <Name>before_modify</Name>
                             <Script/>
                             <Enabled>false</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="before_update">
                             <Name>before_update</Name>
                             <Script><![CDATA[// Ignores entries not for MODIFY operation 
 
@@ -442,7 +427,7 @@ else {
                             <Enabled>true</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="update_multiple">
                             <Name>update_multiple</Name>
                             <Script>system.skipEntry("No Entries Found");</Script>
                             <Enabled>true</Enabled>
@@ -453,9 +438,6 @@ else {
                     <SandboxConfig/>
                     <Reconnect>
                         <InheritFrom>[parent]</InheritFrom>
-                        <parameter name="initreconnect">false</parameter>
-                        <parameter name="numberOfRetries">1</parameter>
-                        <parameter name="retryDelay">10</parameter>
                         <ReconnectRules/>
                     </Reconnect>
                     <Operations/>
@@ -467,18 +449,19 @@ else {
                         <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
                     </PoolInstance>
                     <InitializeOption>0</InitializeOption>
-                    <BranchType>0</BranchType>
-                    <ChildComponents/>
                 </Connector>
                 <Connector name="DB_DELETE">
                     <InheritFrom>system:/Connectors/ibmdi.JDBC</InheritFrom>
+                    <ModTime>1787754920248</ModTime>
                     <ConnectorMode>Delete</ConnectorMode>
                     <ConnectorState>Enabled</ConnectorState>
                     <Configuration>
                         <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1787754920248</ModTime>
                         <parameter name="debug">false</parameter>
+                        <parameter name="jdbcDriver">org.apache.derby.jdbc.ClientDriver</parameter>
                         <parameter name="jdbcSelect">SELECT * FROM T_USER</parameter>
-                        <parameter name="jdbcSource">jdbc:odbc:Deltas</parameter>
+                        <parameter name="jdbcSource">jdbc:derby://localhost:1527/DELTAS;create=true</parameter>
                         <parameter name="jdbcTable">T_USER</parameter>
                     </Configuration>
                     <ComputeChanges>true</ComputeChanges>
@@ -486,12 +469,6 @@ else {
                     <DeltaStrict>true</DeltaStrict>
                     <Parser>
                         <InheritFrom>[parent]</InheritFrom>
-                        <Schema name="Input">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
-                        <Schema name="Output">
-                            <InheritFrom>[parent]</InheritFrom>
-                        </Schema>
                     </Parser>
                     <AttributeMap name="Input">
                         <AttributeMapItem>
@@ -541,8 +518,8 @@ else {
                             <Value>$id</Value>
                         </LinkCriteriaItem>
                     </LinkCriteria>
-                    <Hooks name="before_delete">
-                        <Hook>
+                    <Hooks>
+                        <Hook name="before_delete">
                             <Name>before_delete</Name>
                             <Script><![CDATA[// Ignores entries not for DELETE operation 
 
@@ -557,7 +534,7 @@ else {
                             <Enabled>true</Enabled>
                             <DebugBreak>false</DebugBreak>
                         </Hook>
-                        <Hook>
+                        <Hook name="delete_nomatch">
                             <Name>delete_nomatch</Name>
                             <Script>system.ignoreEntry("No Entries Found");</Script>
                             <Enabled>true</Enabled>
@@ -568,9 +545,6 @@ else {
                     <SandboxConfig/>
                     <Reconnect>
                         <InheritFrom>[parent]</InheritFrom>
-                        <parameter name="initreconnect">false</parameter>
-                        <parameter name="numberOfRetries">1</parameter>
-                        <parameter name="retryDelay">10</parameter>
                         <ReconnectRules/>
                     </Reconnect>
                     <Operations/>
@@ -582,8 +556,6 @@ else {
                         <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
                     </PoolInstance>
                     <InitializeOption>0</InitializeOption>
-                    <BranchType>0</BranchType>
-                    <ChildComponents/>
                 </Connector>
             </ContainerDF>
             <ThreadOptions/>
@@ -603,7 +575,6 @@ else {
     </Folder>
     <Folder name="Connectors"/>
     <Folder name="Parsers"/>
-    <Folder name="EventHandlers"/>
     <Folder name="Scripts"/>
     <JavaLibraries/>
     <JavaProperties/>
@@ -614,21 +585,18 @@ else {
             <AutoStart/>
         </InstanceProperties>
         <TombstonesConfig name="Tombstones"/>
-        <SolutionInterface name="SolutionInterface"/>
+        <SolutionInterface name="SolutionInterface">
+            <ModTime>1787847197038</ModTime>
+            <InstanceID>Deltas</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
     </Folder>
     <Folder name="Functions"/>
     <Folder name="AttributeMaps"/>
     <Properties name="Properties">
         <Stores>
             <PropertyStore name="Solution-Properties">
-                <Parser>
-                    <Schema name="Input">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                    <Schema name="Output">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                </Parser>
+                <Parser/>
                 <RawConnector>
                     <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
                     <parameter name="collectionType">Solution-Properties</parameter>
@@ -640,14 +608,7 @@ else {
                 <CacheTimeout>0</CacheTimeout>
             </PropertyStore>
             <PropertyStore name="Global-Properties">
-                <Parser>
-                    <Schema name="Input">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                    <Schema name="Output">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                </Parser>
+                <Parser/>
                 <RawConnector>
                     <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
                     <parameter name="collectionType">Global-Properties</parameter>
@@ -658,34 +619,8 @@ else {
                 <InitialLoad>true</InitialLoad>
                 <CacheTimeout>0</CacheTimeout>
             </PropertyStore>
-            <PropertyStore name="Java-Properties">
-                <Parser>
-                    <Schema name="Input">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                    <Schema name="Output">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                </Parser>
-                <RawConnector>
-                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
-                    <parameter name="collectionType">Java-Properties</parameter>
-                </RawConnector>
-                <Key>key</Key>
-                <Value>value</Value>
-                <ReadOnly>false</ReadOnly>
-                <InitialLoad>true</InitialLoad>
-                <CacheTimeout>0</CacheTimeout>
-            </PropertyStore>
             <PropertyStore name="System-Properties">
-                <Parser>
-                    <Schema name="Input">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                    <Schema name="Output">
-                        <InheritFrom>[parent]</InheritFrom>
-                    </Schema>
-                </Parser>
+                <Parser/>
                 <RawConnector>
                     <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
                     <parameter name="collectionType">System-Properties</parameter>
@@ -696,6 +631,34 @@ else {
                 <InitialLoad>true</InitialLoad>
                 <CacheTimeout>0</CacheTimeout>
             </PropertyStore>
+            <PropertyStore name="Deltas">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/Deltas.properties</parameter>
+                    <parameter name="collectionType">Deltas</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Java-Properties">
+                <Parser/>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/Deltas.properties</parameter>
+                    <parameter name="collectionType">Java-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
         </Stores>
     </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
 </MetamergeConfig>
