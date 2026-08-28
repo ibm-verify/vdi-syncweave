@@ -1,6 +1,6 @@
 # SyncWeave — Host Build with Java 21
 
-**Host:** `sunrhel1.fyre.ibm.com` (RHEL 9, x86_64)
+**Host:** `xxx.ibm.com` (RHEL 9, x86_64)
 
 **Java:** IBM Semeru OpenJDK 21.0.12 (`<PROJECT_HOME>/adks/ibm/jdk/jdk-21.0.12+8`)
 
@@ -21,9 +21,10 @@ git clone git@github.ibm.com:sec-di/SyncWeave.git <PROJECT_HOME>/SyncWeave
 cd <PROJECT_HOME>/SyncWeave
 ```
 
-### 2. Verify Java 21 is available
+### 2. Download JDK/JREs and verify Java 21 is available
 
 ```bash
+<PROJECT_HOME>/SyncWeave/setup-jdk.sh
 <PROJECT_HOME>/SyncWeave/adks/ibm/jdk/jdk-21.0.12+8/bin/java -version
 ```
 
