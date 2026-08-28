@@ -1210,7 +1210,10 @@ public class XMLParser2 extends ParserImpl implements ParserInterface {
 				writeStaticEndTag(i);
 			}
 
-			newLine();
+			// newLine() must not be called after the last writeEndElement —
+			// Woodstox nulls its internal write buffer at that point and
+			// writeCharacters("\n") throws NullPointerException when indent
+			// output is enabled. writeEndDocument() finalises the document.
 			writer.writeEndDocument();
 		}
 	}
