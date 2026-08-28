@@ -64,6 +64,16 @@ local git repository using the following command:
 ```
 git commit -s
 ```
+## Code review process
+
+Once your pull request is submitted, a Project maintainer should be assigned to review your changes.
+
+The code review should cover:
+
+Contributors are expected to respond to feedback from reviewers in a constructive manner.
+Reviewers are expected to respond to new submissions in a timely fashion, with clear language if changes are requested.
+
+Once the pull request is approved, the maintainer will decide the schedule to merge.
 
 ## Additional Resources
 
