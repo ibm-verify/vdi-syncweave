@@ -1,6 +1,6 @@
 # SyncWeave — Host Build with Java 21
 
-**Host:** `xxx.ibm.com` (RHEL 9, x86_64)
+**Host:** `xxx.myhost.com` (RHEL 9, x86_64)
 
 **Java:** IBM Semeru OpenJDK 21.0.12 (`<PROJECT_HOME>/adks/ibm/jdk/jdk-21.0.12+8`)
 
@@ -17,7 +17,7 @@
 ### 1. Clone the SyncWeave repository
 
 ```bash
-git clone git@github.ibm.com:sec-di/SyncWeave.git <PROJECT_HOME>/SyncWeave
+git clone git@github.com:ibm-verify/vdi-syncweave.git <PROJECT_HOME>/SyncWeave
 cd <PROJECT_HOME>/SyncWeave
 ```
 
