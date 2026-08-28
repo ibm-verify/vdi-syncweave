@@ -306,16 +306,6 @@ $dst/bin/tdiSetJavaHome.sh $dst/jvm
 $dst/bin/setDefaultSolDir.sh $dst
 $dst/bin/tdiSetBackupDir.sh default
 
-# Update the pwsync.props files.
-for dir in sun tds pam; do
-    pwsync=$dst/pwd_plugins/$dir/pwsync.props
-
-    if [ -f $pwsync ] ; then
-        sed "s|\\\$change\\$|$dst|g" $pwsync > $pwsync.tmp
-        mv $pwsync.tmp $pwsync
-    fi
-done
-
 # We also want to protect the properties within the global.properties file.
 export PATH="$dst/serverapi:$PATH"
 

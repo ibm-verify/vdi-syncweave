@@ -389,24 +389,6 @@ if [ "$CEUPDATE" = "<CE UPDATE>" ]; then
 	exit 1
 	fi
 fi
-###Plugins###
-PLUGIN=`cat $TDI_HOME_DIR/.registry | grep "<PLUGINS>"`
-
-if [ "$PLUGIN" = "<PLUGINS>" ]; then
-
-		if [ ! -f $TDI_HOME_DIR/pwd_plugins/jars/proxy.jar ]; then
-	echo 1
-	exit 1
-	fi
-		if [ ! -f $TDI_HOME_DIR/pwd_plugins/bin/encryptPasswd.sh ]; then
-	echo 1
-	exit 1
-	fi
-		if [ ! -f $TDI_HOME_DIR/pwd_plugins/bin/startProxy.sh ]; then
-	echo 1
-	exit 1
-	fi
-fi
 ##Here all are fine.##
 echo 0
 exit 0

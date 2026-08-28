@@ -93,13 +93,6 @@ If Err.Number <> 0 Then
     call displayMessageAndExit("services_setup_failed", Err.Description)
 End If
 
-' Correct the pwd plugin properties file
-call fixPwdPluginProperties(dst)
-
-If Err.Number <> 0 Then
-    call displayMessageAndExit("pwdsync_properties_setup_failed", Err.Description)
-End If
-
 ' Configure SDI.
 call configureSDI(dst)
 
@@ -252,20 +245,6 @@ Sub fixJavaPath(dst)
             objFso.MoveFolder oFile, dst + "\jvm\jre"
         End If
     Next
-End Sub
-
-'===========================================================================
-' The following function is used to correct the entries found within the
-' pwsync.props file
-
-Sub fixPwdPluginProperties(dst)
-
-    dstPath = Replace(dst, "\", "/")
-
-    call findAndReplace(dst + "\pwd_plugins\sun\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\tds\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\windows\pwsync.props", "$change$", dstPath)
-    call findAndReplace(dst + "\pwd_plugins\windows\registerpwsync.reg", "$change$", Replace(dst, "\", "\\"))
 End Sub
 
 '===========================================================================

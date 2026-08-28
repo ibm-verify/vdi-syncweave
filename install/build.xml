@@ -149,13 +149,11 @@
             <!-- Stage the archives which are common to all platforms. -->
             <stageFile file="${project.root.img.zips_bundles}/CDMWebsite.zip" 
                         tofile="${stage.dir}/CDMWebsite.zip" to.tar="@{to.tar}"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_Base.zip" 
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Base.zip"
                         tofile="${stage.dir}/TDI_Base.zip" to.tar="@{to.tar}"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_Docs.zip" 
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Docs.zip"
                         tofile="${stage.dir}/TDI_Docs.zip" to.tar="@{to.tar}"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_Base.zip" 
-                        tofile="${stage.dir}/TDI_Plugins_Base.zip" to.tar="@{to.tar}"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_Server.zip" 
+            <stageFile file="${project.root.img.zips_bundles}/TDI_Server.zip"
                         tofile="${stage.dir}/TDI_Server.zip" to.tar="@{to.tar}"/>
             <stageFile file="${project.root.img.zips_bundles}/TDI_ServerIdentity.zip" 
                         tofile="${stage.dir}/TDI_ServerIdentity.zip" to.tar="@{to.tar}"/>
@@ -170,11 +168,9 @@
             </copy>
 
             <!-- Stage the files which are common to all UNIX platforms. -->
-            <stageFile file="${project.root.img.zips_bundles}/TDI_BaseUNIX.zip" 
+            <stageFile file="${project.root.img.zips_bundles}/TDI_BaseUNIX.zip"
                         tofile="${stage.dir}/TDI_BaseUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_BaseUNIX.zip" 
-                        tofile="${stage.dir}/TDI_Plugins_BaseUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
-            <stageFile file="${project.root.img.zips_bundles}/TDI_ServerUNIX.zip" 
+            <stageFile file="${project.root.img.zips_bundles}/TDI_ServerUNIX.zip"
                         tofile="${stage.dir}/TDI_ServerUNIX.zip" to.tar="@{to.tar}" if:set="isUNIX"/>
 
             <!-- Stage the files which are common to all CE UNIX platforms. -->
@@ -272,9 +268,7 @@
                     eclipse.file="" to.tar="true"/>
 
         <!-- Stage any addition AIX files. -->
-        <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_aix_ppc.zip" 
-            tofile="${stage.dir}/TDI_Plugins_aix_ppc.zip" to.tar="true"/>
-        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerAixPPC.zip" 
+        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerAixPPC.zip"
             tofile="${stage.dir}/TDI_ServerAixPPC.zip" to.tar="true"/>
 
         <create-archive platform="aix-ppc64" is.tar="True"/>
@@ -297,7 +291,6 @@
         <!-- Stage any addition Windows files. -->
         <copy todir="${stage.dir}">
             <fileset dir="${project.root.img.zips_bundles}">
-                <include name="TDI_Plugins_win_x86_64.zip"/>
                 <include name="*Win*.zip"/>
             </fileset>
         </copy>
@@ -390,9 +383,7 @@
                 eclipse.file="eclipsece-linux.gtk.x86_64.zip" to.tar="true"/>
 
         <!-- Stage any addition xLinux files. -->
-        <stageFile file="${project.root.img.zips_bundles}/TDI_Plugins_linux_x86_64.zip" 
-            tofile="${stage.dir}/TDI_Plugins_linux_x86_64.zip" to.tar="true"/>
-        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerLinuxX86_64.zip" 
+        <stageFile file="${project.root.img.zips_bundles}/TDI_ServerLinuxX86_64.zip"
             tofile="${stage.dir}/TDI_ServerLinuxX86_64.zip" to.tar="true"/>
 
         <create-archive platform="linux-x86_64" is.tar="True"/>
