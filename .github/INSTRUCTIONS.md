@@ -6,23 +6,44 @@ applyTo: '**'
 
 This file contains team standards for GitHub operations including PR workflows, branch management, commit conventions, and issue tracking.
 
+## 0. Engineering Principles
+
+- We design and operate with 12 Factor Application principles.
+- We prefer simple, elegant, DRY implementations that are easy to change.
+- We apply Gang of Four design patterns when they improve clarity and maintainability.
+- We use BDD with Gherkin examples from unit tests through end-to-end tests.
+- We document implementation intent in `CHANGE.md` before making code or file changes.
+- We capture lasting decisions and direction in `LESSONS.md`.
+- We document code and files in first person plural and explain a journey that junior contributors can follow.
+- We keep our written tone informal, practical, and lightly humorous.
+
 ## 1. Branch Management
 
 ### Branch Naming Conventions
 
-- **Feature branches**: `feature/ISSUE-XXX-description` or `feature/short-description`
-- **Bug fix branches**: `fix/ISSUE-XXX-description` or `bugfix/short-description`
-- **Hotfix branches**: `hotfix/critical-issue-description`
-- **Release branches**: `release/X.Y.Z`
-- **Documentation**: `docs/ISSUE-XXX-description`
+- **Feature branches** (from `develop`): `feature/ISSUE-XXX-description`
+- **Bug fix branches** (from `develop`): `fix/ISSUE-XXX-description` or `bugfix/ISSUE-XXX-description`
+- **Release branches** (from `develop`): `release/X.Y.Z`
+- **Hotfix branches** (from `main`): `hotfix/ISSUE-XXX-description`
+- **Documentation branches** (from `develop`): `docs/ISSUE-XXX-description`
 
 **Example**: `feature/SYNC-1234-add-cosmos-db-support`
+
+### Git Flow Rules
+
+- We follow Git Flow.
+- We do not commit directly to `main` or `develop`.
+- All changes are made on topic branches and merged by pull request.
+- Features and fixes merge into `develop`.
+- Releases merge into `main` and are back-merged into `develop`.
+- Hotfixes start from `main`, merge into `main`, and are back-merged into `develop`.
 
 ### Branch Protection Rules
 
 - Main branches (`main`, `master`, `develop`) should have:
   - Require pull request reviews before merging
   - Require status checks to pass
+   - Restrict direct pushes
   - Dismiss stale pull request approvals
   - Require branches to be up to date before merging
 
@@ -72,6 +93,7 @@ Steps to verify the changes work as expected
 2. **Review Focus**:
    - Code correctness and logic
    - Test coverage (aim for 80%+)
+   - BDD coverage using Gherkin scenarios across test layers
    - Performance implications
    - Security considerations
    - Documentation clarity
@@ -160,7 +182,8 @@ Clear, concise explanation of the issue
 ### Expected Checks
 
 - Code build succeeds
-- Unit tests pass (with coverage reports)
+- Unit, integration, and end-to-end tests pass (with coverage reports)
+- Gherkin scenarios are validated in CI where applicable
 - Linting passes (ESLint, Checkstyle, etc.)
 - Security scanning completes (SAST/DAST)
 - Documentation builds successfully
@@ -214,6 +237,26 @@ This allows:
 - Environment-specific procedures
 
 **Note**: Local overrides should NOT contradict this file; they enhance it.
+
+## 9. Documentation Style
+
+- We write in first person plural (we, our).
+- We explain decisions and implementation as a journey junior contributors can follow.
+- We prefer concise, practical explanations with a light touch of humor.
+- We avoid unexplained jargon and include short examples for non-obvious behavior.
+
+## 10. Design and Testing Expectations
+
+- We align implementation and operations with 12 Factor Application guidance.
+- We favor proven Gang of Four patterns when they reduce complexity.
+- We define behavior with BDD examples and keep test language aligned from unit tests to end-to-end tests.
+- We treat simplicity and DRY as merge-blocking quality signals, not optional polish.
+
+## 11. Decision and Change Logging
+
+- Before implementation, we add a short planned entry to `CHANGE.md`.
+- After implementation, we update `CHANGE.md` with the completed result.
+- We capture durable technical decisions in `LESSONS.md` so future contributors can understand intent quickly.
 
 ---
 

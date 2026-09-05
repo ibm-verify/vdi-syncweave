@@ -2,6 +2,17 @@
 
 This directory contains standardized GitHub workflow guidelines for the vdi-syncweave project.
 
+## Team Baseline
+
+- We follow 12 Factor Application principles.
+- We use Gang of Four design patterns when they make code easier to evolve.
+- We use BDD (Gherkin) from unit testing through end-to-end testing.
+- We follow Git Flow and do not commit directly to `main` or `develop`.
+- We favor elegant, simple, DRY changes.
+- We write planned changes to `CHANGE.md` before implementation.
+- We store decisions and direction in `LESSONS.md`.
+- We document in first person plural, as a journey junior contributors can follow, with an informal tone and light humor.
+
 ## Files Overview
 
 ### Tracked Files (Committed to Repository)
@@ -43,16 +54,21 @@ This directory contains standardized GitHub workflow guidelines for the vdi-sync
 ### For Individual Contributors
 
 1. **Before creating a PR**:
+   - Add a short planned entry to `CHANGE.md` before making changes
    - Read `.github/INSTRUCTIONS.md` for naming/format standards
-   - Use branch naming convention: `feature/SYNC-XXXX-description`
+   - Create a Git Flow branch from the correct base (feature/fix from `develop`, hotfix from `main`)
    - Check issue labels and templates
 
 2. **When reviewing PRs**:
    - Refer to the Code Review Standards section
    - Use the PR description template provided
-   - Verify all checks pass before approval
+   - Verify all checks pass before approval, including BDD-oriented test coverage where applicable
 
-3. **For local customizations**:
+3. **After implementation**:
+   - Update `CHANGE.md` with completed outcomes
+   - Record durable decisions in `LESSONS.md`
+
+4. **For local customizations**:
    - Edit `.github/local.instructions.md` for team-specific workflow notes
    - This file is gitignored and won't be committed
 
@@ -101,9 +117,9 @@ The following are blocked from version control:
 ### Creating a Feature Branch
 
 ```bash
-# Start from main
-git checkout main
-git pull origin main
+# Start from develop (Git Flow)
+git checkout develop
+git pull origin develop
 
 # Create feature branch following convention
 git checkout -b feature/SYNC-1234-add-cosmos-query-optimization
@@ -120,15 +136,16 @@ Closes #1234"
 ### Opening a PR
 
 1. Push feature branch: `git push origin feature/SYNC-1234-add-cosmos-query-optimization`
-2. Open PR on GitHub with title: `[feat] SYNC-1234: Add Cosmos query optimization`
+2. Open PR to `develop` on GitHub with title: `[feat] SYNC-1234: Add Cosmos query optimization`
 3. Fill PR description using template from `.github/INSTRUCTIONS.md`
 4. Request reviewers (minimum 1-2 approvals)
 5. Ensure all status checks pass
 
 ### Merging PR
 
-- Use **squash merge** for single-feature PRs
-- Use **create merge commit** for complex changes
+- Merge feature and fix branches into `develop`
+- Merge release branches into `main`, then back-merge into `develop`
+- Merge hotfix branches into `main`, then back-merge into `develop`
 - Delete branch after merge
 
 ## Local Customization Example
