@@ -26,6 +26,37 @@ This directory contains standardized GitHub workflow guidelines for the vdi-sync
   - Release management procedures
   - **Never edit locally without pushing changes**
 
+- **`.github/CODE_STYLE.md`**
+   - Language-specific coding conventions
+   - DRY and simplicity checks for pull requests
+   - BDD-oriented test naming and style rules
+
+- **`.github/ARCHITECTURE.md`**
+   - 12 Factor alignment guidance
+   - Gang of Four pattern usage guidance
+   - Reliability, concurrency, and behavior traceability expectations
+
+- **`.github/TESTING.md`**
+   - BDD (Gherkin) test strategy from unit through end-to-end
+   - Coverage expectations and reliability test focus
+   - CI testing expectations and manual verification checklist
+
+- **`.github/TOOLING_RECOMMENDATIONS.md`**
+   - Lightweight linting, formatting, testing, and static analysis stack
+   - CI quality gate recommendations aligned to our languages and build model
+
+- **`.github/DEPLOYMENT.md`**
+   - Git Flow-aware release, promotion, rollback, and post-deploy verification guidance
+
+- **`.github/SECURITY_GUIDELINES.md`**
+   - Baseline security controls, dependency hygiene, and secure review expectations
+
+- **`.github/COPILOT_GUIDANCE.md`**
+   - Team-level standards for AI-assisted development and review
+
+- **`.github/ENFORCEMENT.md`**
+   - Lightweight automation and policy enforcement model
+
 - **`.github/CODEOWNERS`** (if present)
   - Designates code owners for review routing
   - Ensures proper approval from domain experts
@@ -45,8 +76,8 @@ This directory contains standardized GitHub workflow guidelines for the vdi-sync
   - Edit freely for local use
 
 - **`.vscode/copilot-instructions.md`** (gitignored)
-  - AI assistant guidance for GitHub operations
-  - Project-specific context and conventions
+   - Local AI assistant guidance aligned to team standards
+   - Project-specific context and machine-specific workflow preferences
   - Copilot behavior customization
 
 ## Usage Guide
@@ -56,6 +87,9 @@ This directory contains standardized GitHub workflow guidelines for the vdi-sync
 1. **Before creating a PR**:
    - Add a short planned entry to `CHANGE.md` before making changes
    - Read `.github/INSTRUCTIONS.md` for naming/format standards
+   - Read `.github/CODE_STYLE.md` and `.github/ARCHITECTURE.md` for implementation rules
+   - Read `.github/TESTING.md` for BDD and verification expectations
+   - Read `.github/SECURITY_GUIDELINES.md` for security review expectations
    - Create a Git Flow branch from the correct base (feature/fix from `develop`, hotfix from `main`)
    - Check issue labels and templates
 

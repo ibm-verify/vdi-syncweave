@@ -1,0 +1,49 @@
+name: Policy Checks
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+  required-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required policy files
+        run: |
+          set -euo pipefail
+          required_files=(
+            CHANGE.md
+            LESSONS.md
+            .github/INSTRUCTIONS.md
+            .github/CODE_STYLE.md
+            .github/ARCHITECTURE.md
+            .github/TESTING.md
+            .github/TOOLING_RECOMMENDATIONS.md
+            .github/DEPLOYMENT.md
+            .github/SECURITY_GUIDELINES.md
+            .github/COPILOT_GUIDANCE.md
+          )
+
+          for file in "${required_files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+      - name: Validate README links to policy guides
+        run: |
+          set -euo pipefail
+          grep -q "CODE_STYLE.md" .github/README.md
+          grep -q "ARCHITECTURE.md" .github/README.md
+          grep -q "TESTING.md" .github/README.md
+          grep -q "TOOLING_RECOMMENDATIONS.md" .github/README.md
+          grep -q "DEPLOYMENT.md" .github/README.md
+          grep -q "SECURITY_GUIDELINES.md" .github/README.md
+          grep -q "COPILOT_GUIDANCE.md" .github/README.md
